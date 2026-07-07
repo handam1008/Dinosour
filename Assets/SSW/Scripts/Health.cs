@@ -3,6 +3,7 @@ using UnityEngine;
 public class Health : MonoBehaviour, IDamageable
 {
     public float maxHealth = 100f;
+    public event System.Action OnDamaged;
 
     float current;
 
@@ -18,6 +19,7 @@ public class Health : MonoBehaviour, IDamageable
     {
         if (amount <= 0f) return;
         current = Mathf.Max(current - amount, 0f);
+        OnDamaged?.Invoke();
         if (current <= 0f) Die();
     }
 
