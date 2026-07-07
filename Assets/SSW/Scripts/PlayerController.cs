@@ -6,10 +6,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _moveSpeed = 7f;
     [SerializeField] float _jumpForce = 12f;
     [SerializeField] LayerMask _whatIsGround;
+    [SerializeField] Transform _visual;
 
     Rigidbody2D _rb;
     Collider2D _col;
     Camera _cam;
+    Animator _animator;
     Vector2 _move;
 
     void Awake()
@@ -17,6 +19,8 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _col = GetComponent<Collider2D>();
         _cam = Camera.main;
+        _animator = _visual.GetComponent<Animator>();
+        GetComponent<Health>().OnDamaged += () => _animator.SetTrigger("GetDamage");
     }
 
     void OnMove(InputValue value)
@@ -33,15 +37,17 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         _rb.linearVelocity = new Vector2(_move.x * _moveSpeed, _rb.linearVelocity.y);
+        _animator.SetFloat("Speed", Mathf.Abs(_move.x));
+        _animator.SetBool("IsGrounded", IsGrounded());
         FaceMouse();
     }
 
     void FaceMouse()
     {
         Vector3 world = _cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        Vector3 scale = transform.localScale;
+        Vector3 scale = _visual.localScale;
         scale.x = world.x < transform.position.x ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);
-        transform.localScale = scale;
+        _visual.localScale = scale;
     }
 
     bool IsGrounded()
