@@ -14,8 +14,11 @@ namespace NKY.Scripts
         
         private Rigidbody2D _rb;
 
-        public void Init(float damage,  float speed, LayerMask whatIsTarget, float destroyTime)
+        private TestJump _giver;
+
+        public void Init(TestJump giver, float damage,  float speed, LayerMask whatIsTarget, float destroyTime)
         {
+            _giver = giver;
             _damage = damage;
             _speed = speed;
             _whatIsTarget = whatIsTarget;
@@ -54,7 +57,7 @@ namespace NKY.Scripts
                 }
             }
             
-            if (other.TryGetComponent(out IDamageable damageable))
+            if (other.gameObject != _giver.gameObject && other.TryGetComponent(out IDamageable damageable))
             {
                 damageable.TakeDamage(_damage);
             }

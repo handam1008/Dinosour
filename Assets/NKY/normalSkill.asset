@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.Skill.AssassinNormalSkillSo
   <SkillCooldown>k__BackingField: 3
   <IsReUse>k__BackingField: 1
+  cooldown: -99
   <Damage>k__BackingField: 30
   <ThrowSpeed>k__BackingField: 25
   <WhatIsTarget>k__BackingField:
