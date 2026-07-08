@@ -18,7 +18,7 @@ public class SuitSelector : MonoBehaviour
 
     int _index;
     int _baseIndex;
-    readonly int[] _roleGen = new int[3];
+    readonly int[] _slotGen = new int[4];
 
     public Suit CurrentSuit => (Suit)_index;
 
@@ -26,7 +26,7 @@ public class SuitSelector : MonoBehaviour
     {
         _index = 0;
         _baseIndex = 0;
-        for (int r = 0; r < 3; r++) _roleGen[r] = 0;
+        for (int s = 0; s < 4; s++) _slotGen[s] = 0;
 
         int count = _suitSprites.Length;
         for (int i = 0; i < 4; i++)
@@ -55,6 +55,8 @@ public class SuitSelector : MonoBehaviour
             anchor.DOKill();
             anchor.DOLocalMoveX(RolePositions[role], _slideDuration).SetEase(Ease.OutCubic);
             anchor.DOScale(RoleScale(role), _slideDuration).SetEase(Ease.OutCubic);
+
+            if (role == 3) ForceHide(slot);
         }
 
         RevealRole(0, _sideAlpha, _sideVisibleDuration);
@@ -69,17 +71,18 @@ public class SuitSelector : MonoBehaviour
 
     void RevealRole(int role, float target, float holdDuration)
     {
-        _roleGen[role]++;
-        int gen = _roleGen[role];
+        int slot = (_baseIndex + role) % 4;
+        _slotGen[slot]++;
+        int gen = _slotGen[slot];
 
-        SpriteRenderer renderer = RendererFor(role);
+        SpriteRenderer renderer = _slotRenderers[slot];
         renderer.DOKill();
         renderer.DOFade(target, _fadeDuration);
 
         DOVirtual.DelayedCall(holdDuration, () =>
         {
-            if (gen != _roleGen[role]) return;
-            SpriteRenderer current = RendererFor(role);
+            if (gen != _slotGen[slot]) return;
+            SpriteRenderer current = _slotRenderers[slot];
             current.DOKill();
             current.DOFade(0f, _fadeDuration);
         });
@@ -87,7 +90,13 @@ public class SuitSelector : MonoBehaviour
 
     float RoleScale(int role) => role == 1 ? 1f : _sideScale;
 
-    SpriteRenderer RendererFor(int role) => _slotRenderers[(_baseIndex + role) % 4];
+    void ForceHide(int slot)
+    {
+        _slotGen[slot]++;
+        SpriteRenderer renderer = _slotRenderers[slot];
+        renderer.DOKill();
+        SetAlphaInstant(renderer, 0f);
+    }
 
     static void SetAlphaInstant(SpriteRenderer sr, float alpha)
     {
