@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,73 +7,91 @@ public class RandomPotion : MonoBehaviour
     [SerializeField] private List<AbstractPotion> potions = new List<AbstractPotion>();
     [SerializeField] private Transform Hand;
     [SerializeField] private Transform PlayerUp;
-    [SerializeField] private float cycleTime = 3f;
-    [SerializeField] private float throwPower = 10f;
+    [SerializeField] private float potionSpeed = 12f;
+    private int currentIndex = 0;
 
-    private GameObject headPotion;
-    private GameObject handPotion;
-    private float timer;
+
+    private Queue<GameObject> currentPotions = new Queue<GameObject>();
+
+    [SerializeField] private bool canCreate = false;
+    [SerializeField] private bool canHand = false;
 
     private void Start()
     {
-        headPotion = SpawnAtHead();
-        Advance();
+        canCreate = true;
+        canHand = true;
     }
 
     private void Update()
     {
+        
         if (Input.GetMouseButtonDown(0))
         {
-            Throw();
-            timer = 0f;
-        }
-
-        timer += Time.deltaTime;
-        if (timer >= cycleTime)
-        {
-            timer = 0f;
-            AutoCycle();
-        }
-    }
-
-    private void AutoCycle()
-    {
-        if (handPotion != null) Destroy(handPotion);
-        Advance();
-    }
-
-    private void Throw()
-    {
-        if (handPotion == null) return;
-
-        handPotion.transform.SetParent(null);
-
-        Rigidbody2D rb = handPotion.GetComponent<Rigidbody2D>();
-        if (rb != null)
-        {
+            if(currentPotions.Count > 0) return;
+            
             Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 dir = ((Vector2)(mouseWorld - Hand.position)).normalized;
-            rb.linearVelocity = dir * throwPower;
+            Vector2 dir = ((Vector2)mouseWorld - (Vector2)Hand.position).normalized;
+            Shoot(dir);
+        }
+        
+        if (currentPotions.Count > 2)
+        {
+            GameObject potion = currentPotions.Dequeue();
+            Destroy(potion);
+            canHand = true;
         }
 
-        handPotion = null;
-        Advance();
+        if (canCreate)
+        {
+            CreatePotion();
+            StartCoroutine(WaitCo());
+        }
+
+        if (canHand)
+        { 
+            if (currentPotions.Count <= 0) return;
+
+            GameObject potion = currentPotions.Peek();
+            potion.transform.SetParent(Hand,false);
+            canHand = false;
+        }
+        
     }
 
-    private void Advance()
+    private void Shoot(Vector2 dir)
     {
-        handPotion = headPotion;
-        handPotion.transform.SetParent(Hand, false);
-        handPotion.transform.localPosition = Vector3.zero;
-
-        headPotion = SpawnAtHead();
+        GameObject potion = currentPotions.Dequeue();
+        potion.transform.SetParent(null); 
+        Rigidbody2D rb = potion.GetComponent<Rigidbody2D>();
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        rb.gravityScale = 2;
+        rb.AddForce(dir *  potionSpeed, ForceMode2D.Impulse);
+        canHand = true;
+        Debug.Log("슛");
     }
 
-    private GameObject SpawnAtHead()
+    private void CreatePotion()
     {
-        int i = Random.Range(0, potions.Count);
-        GameObject clone = Instantiate(potions[i].PotionPrefab, PlayerUp);
-        clone.transform.localPosition = Vector3.zero;
-        return clone;
+        RandomValue();
+        GameObject potion = potions[currentIndex].PotionPrefab;
+        potion = Instantiate(potion, PlayerUp);
+        currentPotions.Enqueue(potion);
+        Debug.Log($"큐 개수: {currentPotions.Count}");
+
     }
+
+    public int RandomValue()
+    {
+        currentIndex = Random.Range(0, potions.Count);
+        return currentIndex;
+    }
+
+    public IEnumerator WaitCo()
+    {
+        canCreate = false;
+        yield return new WaitForSeconds(3f);
+        canCreate = true;
+    }
+    
+    
 }
