@@ -10,7 +10,7 @@ public class KHG_Dash : MonoBehaviour
 
     Rigidbody2D _rb;
     Transform _visual;
-    PlayerController _playerController; // 기존 이동 스크립트 참조
+    PlayerController _playerController;
 
     bool _canDash = true;
     bool _isDashing;
