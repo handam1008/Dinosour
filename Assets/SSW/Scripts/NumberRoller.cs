@@ -115,7 +115,7 @@ public class NumberRoller : MonoBehaviour
         if (cards == null || rankIndex >= cards.Length) return;
 
         GameObject go = new GameObject("FlyingCard");
-        go.transform.position = _anchor.position;
+        go.transform.position = transform.position;
         go.transform.localScale = Vector3.one * _flyScale;
 
         SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
