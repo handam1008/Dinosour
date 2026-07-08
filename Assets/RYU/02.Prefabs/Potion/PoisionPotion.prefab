@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 4427762754257808164}
   - component: {fileID: 2812196849419936597}
   - component: {fileID: 3646422529335642449}
+  - component: {fileID: 3001484743057872737}
+  - component: {fileID: -5014528080924493740}
+  - component: {fileID: 7900865021397601338}
   m_Layer: 9
   m_Name: PoisionPotion
   m_TagString: Untagged
@@ -158,3 +161,41 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &3001484743057872737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3868240166698955079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 213e80cc53e64275925f28ab8b4501c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.Potion.Potion
+  _feedBackPlayer: {fileID: 0}
+--- !u!114 &-5014528080924493740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3868240166698955079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fb574552f404763af55f5daddccf785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.FeedBack.FeedBackPlayer
+--- !u!114 &7900865021397601338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3868240166698955079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8e0919e1f6c49f1b005b0f4c6495460, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.FeedBack.GlassEffect
+  _glassEffect: {fileID: 2845722860683462427, guid: 2f0fbf709f4330043b8c27d28272b203, type: 3}
