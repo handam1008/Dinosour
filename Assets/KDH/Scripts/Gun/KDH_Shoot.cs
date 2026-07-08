@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class KDH_Shoot : MonoBehaviour
 {
-    [SerializeField] private GameObject _bullet;
-
     public Action PlayerShoot;
 
     private void Start()
@@ -12,8 +10,15 @@ public class KDH_Shoot : MonoBehaviour
         PlayerShoot += Shoot;
     }
 
+    private void OnAttack()
+    {
+        PlayerShoot?.Invoke();
+    }
+
     private void Shoot()
     {
-        _bullet.SetActive(true);
+        GameObject bullet = KDH_PoolManager.instance.bullets.Pop();
+        bullet.transform.position = KDH_GameManager.instanec.player.GetComponentInChildren<KDH_Gun>().gunPos.position;
+        bullet.SetActive(true);
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class KDH_Gun : MonoBehaviour
 {
     [SerializeField] private PlayerInput playerInput;
+    public Transform gunPos;
     private InputAction lookAction;
 
     private void Awake()
@@ -16,32 +17,14 @@ public class KDH_Gun : MonoBehaviour
     private void Update()
     {
         FindMousePosition();
-        Flip(FindMousePosition());
     }
 
-    private void Flip(Vector3 direction)
+    public Vector3 FindMousePosition()
     {
-        if (direction.x > 0)
-            transform.localScale = new Vector3(1, 1, 1);
-        else
-            transform.localScale = new Vector3(1, -1, 1);
-    }
-
-    private Vector3 FindMousePosition()
-    {
-        Vector2 mouseScreenPos = Vector2.zero;
-        if (lookAction != null)
-        {
-            mouseScreenPos = lookAction.ReadValue<Vector2>();
-        }
-
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
-        mouseWorldPos.z = 0;
-
-        Vector3 direction = mouseWorldPos - transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        Vector3 world = _cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        Vector3 scale = _visual.localScale;
+        scale.x = world.x < transform.position.x ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);
+        _visual.localScale = scale;
 
         return direction;
     }
