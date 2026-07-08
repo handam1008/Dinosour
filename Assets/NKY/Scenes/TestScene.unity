@@ -969,6 +969,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 4377336744295426211, guid: 276f99118da0fd041ab963bb49709186, type: 3}
+      propertyPath: skillData
+      value: 
+      objectReference: {fileID: 11400000, guid: 0bc71b0e7d474cb479cfe611af884a7f, type: 2}
+    - target: {fileID: 4377336744295426211, guid: 276f99118da0fd041ab963bb49709186, type: 3}
       propertyPath: skillPrefab
       value: 
       objectReference: {fileID: 7068701863174184891, guid: a5a927da0f002a844b0cef8daeb56e72, type: 3}
