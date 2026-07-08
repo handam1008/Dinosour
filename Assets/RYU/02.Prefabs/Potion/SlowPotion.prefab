@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 766473271999868816}
   - component: {fileID: 8780102468818868569}
   m_Layer: 0
-  m_Name: HealthPotion
+  m_Name: SlowPotion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 16
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 5056543726569808329, guid: 06b0c489b3f4f8e49811e8c69dbdae4a, type: 3}
+  m_Sprite: {fileID: -3968430189855176871, guid: 42b9e8a45ea2d0e46a86940e50abd97d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
