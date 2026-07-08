@@ -13,9 +13,13 @@ public class KDH_Bullet : MonoBehaviour
         gun = KDH_GameManager.instanec.player.GetComponentInChildren<KDH_Gun>();
     }
 
-    private void FixedUpdate()
+    private void Start()
     {
         _moveDir = (Vector2)gun.FindMousePosition();
+    }
+
+    private void FixedUpdate()
+    {
         _rigid.linearVelocity = _moveDir * _speed;
     }
 }
