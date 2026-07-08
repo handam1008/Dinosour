@@ -26,7 +26,7 @@ namespace NKY.Scripts.Skill
             
             direction.Normalize();
             _skill = Instantiate(skillPrefab, player.transform.position, Quaternion.identity);
-            _skill.Init(Damage, ThrowSpeed, WhatIsTarget, DestroyTime);
+            _skill.Init(player, Damage, ThrowSpeed, WhatIsTarget, DestroyTime);
             _skill.transform.up = direction;
             
             yield break;
