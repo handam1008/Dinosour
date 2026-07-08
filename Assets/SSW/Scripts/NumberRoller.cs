@@ -17,8 +17,14 @@ public class NumberRoller : MonoBehaviour
     bool _rolling;
     float _tickTimer;
     int _gen;
+    InputAction _attackAction;
 
     public bool IsRolling => _rolling;
+
+    void Awake()
+    {
+        _attackAction = GetComponent<PlayerInput>().actions.FindAction("Attack");
+    }
 
     void OnEnable()
     {
@@ -70,6 +76,11 @@ public class NumberRoller : MonoBehaviour
     void Update()
     {
         if (!_rolling) return;
+        if (_attackAction != null && !_attackAction.IsPressed())
+        {
+            EndRoll();
+            return;
+        }
         _tickTimer -= Time.deltaTime;
         if (_tickTimer <= 0f)
         {

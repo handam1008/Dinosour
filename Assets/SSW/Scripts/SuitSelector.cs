@@ -18,9 +18,15 @@ public class SuitSelector : MonoBehaviour
     bool _rolling;
     float _tickTimer;
     int _gen;
+    InputAction _cycleAction;
 
     public Suit CurrentSuit => (Suit)_index;
     public bool IsRolling => _rolling;
+
+    void Awake()
+    {
+        _cycleAction = GetComponent<PlayerInput>().actions.FindAction("CycleSuit");
+    }
 
     void OnEnable()
     {
@@ -67,6 +73,11 @@ public class SuitSelector : MonoBehaviour
     void Update()
     {
         if (!_rolling) return;
+        if (_cycleAction != null && !_cycleAction.IsPressed())
+        {
+            EndRoll();
+            return;
+        }
         _tickTimer -= Time.deltaTime;
         if (_tickTimer <= 0f)
         {
