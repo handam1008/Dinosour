@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42a3fc139b654d5b9f900f4849337e77, type: 3}
+  m_Name: RegenPotion
+  m_EditorClassIdentifier: Assembly-CSharp::RegenPotion
+  Potionname: RegenPotion
+  PotionPrefab: {fileID: 455808472028410950, guid: f5a265c1687448b40a4d243b40fe0abd, type: 3}
+  Heal: 0
+  sprite: {fileID: -8684254520017794392, guid: 06b0c489b3f4f8e49811e8c69dbdae4a, type: 3}
+  Damage: 0
