@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace SSW
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, ISlowable
     {
         [SerializeField] float _moveSpeed = 7f;
         [SerializeField] float _jumpForce = 12f;
@@ -15,6 +15,8 @@ namespace SSW
         Camera _cam;
         Animator _animator;
         Vector2 _move;
+        float _slowMultiplier = 1f;
+        float _slowEndTime;
 
         void Awake()
         {
@@ -26,6 +28,12 @@ namespace SSW
         }
 
         public float FacingSign => Mathf.Sign(_visual.localScale.x);
+
+        public void ApplySlow(float amount, float duration)
+        {
+            _slowMultiplier = Mathf.Clamp01(1f - amount);
+            _slowEndTime = Time.time + duration;
+        }
 
         void OnMove(InputValue value)
         {
@@ -40,7 +48,8 @@ namespace SSW
 
         void Update()
         {
-            _rb.linearVelocity = new Vector2(_move.x * _moveSpeed, _rb.linearVelocity.y);
+            if (Time.time >= _slowEndTime) _slowMultiplier = 1f;
+            _rb.linearVelocity = new Vector2(_move.x * _moveSpeed * _slowMultiplier, _rb.linearVelocity.y);
             _animator.SetFloat("Speed", Mathf.Abs(_move.x));
             _animator.SetBool("IsGrounded", IsGrounded());
             FaceMouse();
