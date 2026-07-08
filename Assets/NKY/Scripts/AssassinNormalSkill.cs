@@ -1,18 +1,29 @@
 ﻿using UnityEngine;
 
+using SSW;
 namespace NKY.Scripts
 {
     public class AssassinNormalSkill : MonoBehaviour
-    {
-        [SerializeField] private float damage;
-        [SerializeField] private float speed;
-        [SerializeField] private LayerMask whatIsTarget;
-        [SerializeField] private float destroyTime;
-
-        private bool _isThrow;
+    { 
+        private float _damage;
+        private float _speed;
+        private LayerMask _whatIsTarget;
+        private float _destroyTime;
+        
         private float _curTime;
         
         private Rigidbody2D _rb;
+
+        private TestJump _giver;
+
+        public void Init(TestJump giver, float damage,  float speed, LayerMask whatIsTarget, float destroyTime)
+        {
+            _giver = giver;
+            _damage = damage;
+            _speed = speed;
+            _whatIsTarget = whatIsTarget;
+            _destroyTime = destroyTime;
+        }
 
         private void Awake()
         {
@@ -21,17 +32,16 @@ namespace NKY.Scripts
 
         private void Start()
         {
-            _isThrow = true;
             if (_rb != null)
             {
-                _rb.linearVelocity = transform.up * speed;
+                _rb.linearVelocity = transform.up * _speed;
             }
         }
 
         private void FixedUpdate()
         {
             _curTime += Time.fixedDeltaTime;
-            if (_curTime >= destroyTime)
+            if (_curTime >= _destroyTime)
             {
                 Destroy(this.gameObject);
             }
@@ -39,19 +49,17 @@ namespace NKY.Scripts
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if ((whatIsTarget.value & (1 << other.gameObject.layer)) != 0)
+            if ((_whatIsTarget.value & (1 << other.gameObject.layer)) != 0)
             {
                 if (_rb != null)
                 {
                     _rb.linearVelocity = Vector2.zero;
                 }
+            }
             
-                _isThrow = false;
-
-                if (other.TryGetComponent(out IDamageable damageable))
-                {
-                    damageable.TakeDamage(damage);
-                }
+            if (other.gameObject != _giver.gameObject && other.TryGetComponent(out IDamageable damageable))
+            {
+                damageable.TakeDamage(_damage);
             }
         }
     }

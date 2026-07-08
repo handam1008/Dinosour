@@ -3,18 +3,19 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Obstacle
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Floor
+  - Player
   - Water
   - UI
   - 
   - 
   - Ground
-  - 
+  - Potion
   - 
   - 
   - 

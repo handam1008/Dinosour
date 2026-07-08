@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.AssassinNormalSkill
   damage: 50
-  speed: 10
+  speed: 25
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 256

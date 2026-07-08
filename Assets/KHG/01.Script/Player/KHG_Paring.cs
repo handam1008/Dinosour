@@ -1,22 +1,16 @@
-using System;
-using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class KHG_Paring : MonoBehaviour
 {
-    private Rigidbody2D _rb;
+    private float parrying = 0.5f;
+    private bool isParrying = false;
 
     private void Update()
     {
-        if (Mouse.current.rightButton.isPressed)
+        if (Input.GetMouseButtonDown(1) && !isParrying)
         {
-            StartCoroutine(OnParing());
+            
         }
-    }
-
-    private IEnumerator OnParing()
-    {
-        yield return new WaitForSeconds(1f);
     }
 }

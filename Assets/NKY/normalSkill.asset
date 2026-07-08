@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cadc1dbfb7304bbb914ae938f75ba7a1, type: 3}
+  m_Name: normalSkill
+  m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.Skill.AssassinNormalSkillSo
+  <SkillCooldown>k__BackingField: 3
+  <IsReUse>k__BackingField: 1
+  cooldown: -99
+  <Damage>k__BackingField: 30
+  <ThrowSpeed>k__BackingField: 25
+  <WhatIsTarget>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 256
+  <DestroyTime>k__BackingField: 2
+  skillPrefab: {fileID: 7068701863174184891, guid: a5a927da0f002a844b0cef8daeb56e72, type: 3}
