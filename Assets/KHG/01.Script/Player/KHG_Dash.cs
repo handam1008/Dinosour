@@ -27,12 +27,10 @@ public class KHG_Dash : MonoBehaviour
         }
     }
 
-    void OnDash(InputValue value)
+    void OnCycleSuit(InputValue value)
     {
-        if (value.isPressed && _canDash && !_isDashing)
-        {
+        
             StartCoroutine(DashRoutine());
-        }
     }
 
     IEnumerator DashRoutine()
