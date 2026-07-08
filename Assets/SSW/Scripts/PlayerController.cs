@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
         GetComponent<Health>().OnDamaged += () => _animator.SetTrigger("GetDamage");
     }
 
+    public float FacingSign => Mathf.Sign(_visual.localScale.x);
+
     void OnMove(InputValue value)
     {
         _move = value.Get<Vector2>();
