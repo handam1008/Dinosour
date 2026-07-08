@@ -289,6 +289,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &183306259 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5450423497124711831, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+  m_PrefabInstance: {fileID: 963598946}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &566945642
 GameObject:
   m_ObjectHideFlags: 0
@@ -751,6 +756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH_Gun
   playerInput: {fileID: 963598947}
+  _visual: {fileID: 183306259}
   gunPos: {fileID: 71499344}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

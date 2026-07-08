@@ -4,14 +4,13 @@ using UnityEngine.InputSystem;
 public class KDH_Gun : MonoBehaviour
 {
     [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private Transform _visual;
     public Transform gunPos;
-    private InputAction lookAction;
+    Camera _cam;
 
     private void Awake()
     {
-        if (playerInput == null) playerInput = GetComponent<PlayerInput>();
-
-        if (playerInput != null) lookAction = playerInput.actions["Look"];
+        _cam = Camera.main;
     }
 
     private void Update()
@@ -26,6 +25,6 @@ public class KDH_Gun : MonoBehaviour
         scale.x = world.x < transform.position.x ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);
         _visual.localScale = scale;
 
-        return direction;
+        return world;
     }
 }
