@@ -545,6 +545,7 @@ MonoBehaviour:
   _nextRenderer: {fileID: 5859734637322942795}
   _numberRoller: {fileID: 3219435567956902308}
   _tickInterval: 0.15
+  _sideTickInterval: 0.3
   _visibleDuration: 1.4
   _fadeDuration: 0.15
   _popScale: 1.1
@@ -640,6 +641,7 @@ MonoBehaviour:
   _popScale: 1.1
   _lockedOffset: 0.22
   _flyScale: 0.3
-  _flyDistance: 3
+  _flySpeed: 12
+  _flyGravityScale: 0.1
   _flySpin: 420
-  _flyDuration: 0.6
+  _flyMaxLifetime: 3
