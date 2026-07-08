@@ -1,94 +1,98 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using DG.Tweening;
 
 public class SuitSelector : MonoBehaviour
 {
     [SerializeField] Sprite[] _suitSprites;
-    [SerializeField] Transform _strip;
-    [SerializeField] SpriteRenderer _prev;
-    [SerializeField] SpriteRenderer _current;
-    [SerializeField] SpriteRenderer _next;
-    [SerializeField] float _slideDuration = 0.2f;
-    [SerializeField] float _slideOffset = 0.45f;
+    [SerializeField] Transform[] _slotAnchors;
+    [SerializeField] SpriteRenderer[] _slotRenderers;
+    [SerializeField] float _slideDuration = 0.25f;
     [SerializeField] float _fadeDuration = 0.15f;
     [SerializeField] float _sideVisibleDuration = 0.9f;
     [SerializeField] float _centerVisibleDuration = 1.4f;
     [SerializeField] float _sideAlpha = 0.35f;
+    [SerializeField] float _sideScale = 0.6f;
+
+    static readonly float[] RolePositions = { -0.6f, 0f, 0.6f, 1.2f };
 
     int _index;
-    float _slideT = 1f;
-
-    float _prevShownAt = -999f, _prevHideAt = -999f;
-    float _currentShownAt = -999f, _currentHideAt = -999f;
-    float _nextShownAt = -999f, _nextHideAt = -999f;
+    int _baseIndex;
+    readonly int[] _roleGen = new int[3];
 
     public Suit CurrentSuit => (Suit)_index;
 
     void OnEnable()
     {
         _index = 0;
-        _slideT = 1f;
-        _strip.localPosition = Vector3.zero;
-        Refresh();
+        _baseIndex = 0;
+        for (int r = 0; r < 3; r++) _roleGen[r] = 0;
+
+        int count = _suitSprites.Length;
+        for (int i = 0; i < 4; i++)
+        {
+            _slotAnchors[i].DOKill();
+            _slotRenderers[i].DOKill();
+            _slotRenderers[i].sprite = _suitSprites[((i - 1) % count + count) % count];
+            _slotAnchors[i].localPosition = new Vector3(RolePositions[i], 0f, 0f);
+            _slotAnchors[i].localScale = Vector3.one * RoleScale(i);
+            SetAlphaInstant(_slotRenderers[i], 0f);
+        }
     }
 
     void OnCycleSuit(InputValue value)
     {
-        if (!value.isPressed || _slideT < 1f) return;
-        _index = (_index + 1) % _suitSprites.Length;
-        _slideT = 0f;
+        if (!value.isPressed) return;
 
-        float now = Time.time;
-        _prevShownAt = now;
-        _prevHideAt = now + _sideVisibleDuration;
-        _nextShownAt = now;
-        _nextHideAt = now + _sideVisibleDuration;
-        _currentShownAt = now;
-        _currentHideAt = now + _centerVisibleDuration;
+        int count = _suitSprites.Length;
+        _index = (_index + 1) % count;
+        _baseIndex = (_baseIndex + 1) % 4;
+
+        for (int slot = 0; slot < 4; slot++)
+        {
+            int role = ((slot - _baseIndex) % 4 + 4) % 4;
+            Transform anchor = _slotAnchors[slot];
+            anchor.DOKill();
+            anchor.DOLocalMoveX(RolePositions[role], _slideDuration).SetEase(Ease.OutCubic);
+            anchor.DOScale(RoleScale(role), _slideDuration).SetEase(Ease.OutCubic);
+        }
+
+        RevealRole(0, _sideAlpha, _sideVisibleDuration);
+        RevealRole(1, 1f, _centerVisibleDuration);
+        RevealRole(2, _sideAlpha, _sideVisibleDuration);
     }
 
     public void FlashCurrent()
     {
-        float now = Time.time;
-        _currentShownAt = now;
-        _currentHideAt = now + _centerVisibleDuration;
+        RevealRole(1, 1f, _centerVisibleDuration);
     }
 
-    void Update()
+    void RevealRole(int role, float target, float holdDuration)
     {
-        if (_slideT < 1f)
+        _roleGen[role]++;
+        int gen = _roleGen[role];
+
+        SpriteRenderer renderer = RendererFor(role);
+        renderer.DOKill();
+        renderer.DOFade(target, _fadeDuration);
+
+        DOVirtual.DelayedCall(holdDuration, () =>
         {
-            _slideT = Mathf.Min(_slideT + Time.deltaTime / _slideDuration, 1f);
-            float e = Mathf.SmoothStep(0f, 1f, _slideT);
-            _strip.localPosition = new Vector3(Mathf.Lerp(0f, -_slideOffset, e), 0f, 0f);
-            if (_slideT >= 1f)
-            {
-                _strip.localPosition = Vector3.zero;
-                Refresh();
-            }
-        }
-
-        SetAlpha(_prev, _prevShownAt, _prevHideAt, _sideAlpha);
-        SetAlpha(_current, _currentShownAt, _currentHideAt, 1f);
-        SetAlpha(_next, _nextShownAt, _nextHideAt, _sideAlpha);
+            if (gen != _roleGen[role]) return;
+            SpriteRenderer current = RendererFor(role);
+            current.DOKill();
+            current.DOFade(0f, _fadeDuration);
+        });
     }
 
-    void SetAlpha(SpriteRenderer sr, float shownAt, float hideAt, float target)
+    float RoleScale(int role) => role == 1 ? 1f : _sideScale;
+
+    SpriteRenderer RendererFor(int role) => _slotRenderers[(_baseIndex + role) % 4];
+
+    static void SetAlphaInstant(SpriteRenderer sr, float alpha)
     {
-        float t = Time.time;
-        float fadeIn = Mathf.Clamp01((t - shownAt) / _fadeDuration);
-        float fadeOut = Mathf.Clamp01((hideAt - t) / _fadeDuration);
         Color c = sr.color;
-        c.a = target * Mathf.Min(fadeIn, fadeOut);
+        c.a = alpha;
         sr.color = c;
-    }
-
-    void Refresh()
-    {
-        int prevIndex = (_index - 1 + _suitSprites.Length) % _suitSprites.Length;
-        int nextIndex = (_index + 1) % _suitSprites.Length;
-        _prev.sprite = _suitSprites[prevIndex];
-        _current.sprite = _suitSprites[_index];
-        _next.sprite = _suitSprites[nextIndex];
     }
 }
