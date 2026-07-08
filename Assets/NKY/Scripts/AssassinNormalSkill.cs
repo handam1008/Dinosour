@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+using SSW;
 namespace NKY.Scripts
 {
     public class AssassinNormalSkill : MonoBehaviour

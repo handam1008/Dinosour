@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
+using SSW;
 namespace NKY.Scripts
 {
     public class TestJump : MonoBehaviour
