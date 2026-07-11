@@ -101,7 +101,8 @@ MonoBehaviour:
   _text: {fileID: 3168287921769135096}
   _riseDistance: 0.6
   _duration: 0.8
-  _horizontalJitter: 0.2
+  _horizontalJitter: 0.4
+  _verticalJitter: 0.25
   _normalColor: {r: 1, g: 1, b: 1, a: 1}
   _criticalColor: {r: 1, g: 0.15, b: 0.15, a: 1}
   _criticalScale: 1.4

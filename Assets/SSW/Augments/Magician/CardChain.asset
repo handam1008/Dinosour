@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d8601bc193093240b55946e6b58a38a, type: 3}
+  m_Name: CardChain
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.MagicianAugment
+  displayName: "\uCE74\uB4DC \uC5F0\uACC4"
+  description: "\uAC19\uC740 \uBB34\uB2AC\uC758 \uCE74\uB4DC\uB97C 2\uBC88 \uC5F0\uC18D\uC73C\uB85C
+    \uC801\uC911\uC2DC\uD0A4\uBA74 \uB2E4\uC74C \uAC19\uC740 \uBB34\uB2AC \uCE74\uB4DC\uC758
+    \uD6A8\uACFC\uAC00 50% \uC99D\uAC00\uD55C\uB2E4. \uB2E4\uB978 \uBB34\uB2AC\uB97C
+    \uC0AC\uC6A9\uD558\uAC70\uB098 \uBE57\uB9DE\uD788\uBA74 \uC5F0\uACC4\uAC00 \uCD08\uAE30\uD654\uB41C\uB2E4."
+  icon: {fileID: 1465692134675969643, guid: f77889298077caa4a9edbfae62b91091, type: 3}
+  type: 7
