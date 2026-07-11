@@ -58,7 +58,6 @@ namespace SSW
         Augment[] RollChoices(int count)
         {
             List<Augment> candidates = Candidates(_commonPool);
-            candidates.AddRange(Candidates(_jobPool));
 
             Augment[] choices = new Augment[count];
             for (int i = 0; i < count && candidates.Count > 0; i++)
