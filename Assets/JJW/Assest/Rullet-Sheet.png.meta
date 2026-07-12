@@ -1,0 +1,1147 @@
+fileFormatVersion: 2
+guid: 8d826b881fe696b4292c14f39b6229a1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3969477506091746965
+    second: Rullet-Sheet_0
+  - first:
+      213: 6545589863934794896
+    second: Rullet-Sheet_1
+  - first:
+      213: 7369514709830066667
+    second: Rullet-Sheet_2
+  - first:
+      213: 420345425132441492
+    second: Rullet-Sheet_3
+  - first:
+      213: 1684844255784155505
+    second: Rullet-Sheet_4
+  - first:
+      213: 4217976121811706037
+    second: Rullet-Sheet_5
+  - first:
+      213: -5437506732671454763
+    second: Rullet-Sheet_6
+  - first:
+      213: -2528807886797143844
+    second: Rullet-Sheet_7
+  - first:
+      213: 3744245411313119921
+    second: Rullet-Sheet_8
+  - first:
+      213: 5321141658204447187
+    second: Rullet-Sheet_9
+  - first:
+      213: 7400761550491269360
+    second: Rullet-Sheet_10
+  - first:
+      213: -1491742352298524267
+    second: Rullet-Sheet_11
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 400
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Rullet-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1500
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5968086b2ca661730800000000000000
+      internalID: 3969477506091746965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 1500
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09c1b3d1d4b96da50800000000000000
+      internalID: 6545589863934794896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 1040
+        y: 1500
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be1ef6e4596c54660800000000000000
+      internalID: 7369514709830066667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 1562
+        y: 1500
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 49fcaf3efed55d500800000000000000
+      internalID: 420345425132441492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 2080
+        y: 1500
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1793fd78ce4c16710800000000000000
+      internalID: 1684844255784155505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 2600
+        y: 1500
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b0aaab5fe2498a30800000000000000
+      internalID: 4217976121811706037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 3120
+        y: 1500
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d1b25f8f681a84b0800000000000000
+      internalID: -5437506732671454763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1200
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd0004a00aed7ecd0800000000000000
+      internalID: -2528807886797143844
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 1200
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b2743d1d5b36f330800000000000000
+      internalID: 3744245411313119921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 1040
+        y: 1200
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d12fc0452e78d940800000000000000
+      internalID: 5321141658204447187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 1560
+        y: 1200
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f8b6645b69c4b660800000000000000
+      internalID: 7400761550491269360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 2080
+        y: 1200
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59147d2fb344c4be0800000000000000
+      internalID: -1491742352298524267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_12
+      rect:
+        serializedVersion: 2
+        x: 2600
+        y: 1200
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6cf39233277deff45a0906fef8faf303
+      internalID: 256613850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_13
+      rect:
+        serializedVersion: 2
+        x: 3120
+        y: 1200
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4811d1ca9e5e4f64194025bd65d8fe8f
+      internalID: -1406058018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 900
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3d1e693982e0aa4795767eb566b7cf2
+      internalID: -457225090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_15
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 900
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24d55cad8dff6e148ac476fec13fb521
+      internalID: -1968857706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_16
+      rect:
+        serializedVersion: 2
+        x: 1040
+        y: 900
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aac264864488ef4429a8a2062e353233
+      internalID: -970911250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_17
+      rect:
+        serializedVersion: 2
+        x: 1560
+        y: 900
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8dec7a1c66cf2bc468a9f73be05858e7
+      internalID: 43725966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_18
+      rect:
+        serializedVersion: 2
+        x: 2080
+        y: 900
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00f3640b317f5ad49a371b880b809614
+      internalID: 693689078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_19
+      rect:
+        serializedVersion: 2
+        x: 2600
+        y: 900
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48178e2744a922442bd1afc5fb6ac0dc
+      internalID: 1953259813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_20
+      rect:
+        serializedVersion: 2
+        x: 3120
+        y: 900
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54d113ae604181e469e26c51e423feae
+      internalID: 525191463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 600
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f144fdae54068b4398a6ad0561ff85c
+      internalID: -274758943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_22
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 600
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11873442a09b336408ff3be717edb4df
+      internalID: -1687987810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_23
+      rect:
+        serializedVersion: 2
+        x: 1040
+        y: 600
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a81e9ad09cadc384bb43b5c2a7d8456e
+      internalID: 1620905886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_24
+      rect:
+        serializedVersion: 2
+        x: 1560
+        y: 600
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23d1ca44eb315e240af70a502aed948c
+      internalID: -782757226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_25
+      rect:
+        serializedVersion: 2
+        x: 2080
+        y: 600
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5604ad0b2427c94b97b56cdc0240826
+      internalID: -1962145857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_26
+      rect:
+        serializedVersion: 2
+        x: 2600
+        y: 600
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b1b45dd9c525e543ba1e5c22e1bb653
+      internalID: 565313737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_27
+      rect:
+        serializedVersion: 2
+        x: 3120
+        y: 600
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5db847c67372b114aacabedd953693a7
+      internalID: -319965203
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 300
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1bd685c99d2e8d42aced8391cfbba0d
+      internalID: -2023397688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_29
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 300
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b95f53becce45cd41a7cee4edb5f4526
+      internalID: 1246914531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_30
+      rect:
+        serializedVersion: 2
+        x: 1040
+        y: 300
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70b2e31d32e98af43aadd8f3e783d556
+      internalID: -1396789247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_31
+      rect:
+        serializedVersion: 2
+        x: 1560
+        y: 300
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 156f688f64356bf409aff393f9b6c41b
+      internalID: 1038888924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_32
+      rect:
+        serializedVersion: 2
+        x: 2080
+        y: 300
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90ccb7918a9068a449960d652d2d2e58
+      internalID: 959382427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_33
+      rect:
+        serializedVersion: 2
+        x: 2600
+        y: 300
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7e21dbcc410d2049b10ef59c644a13f
+      internalID: 346773242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_34
+      rect:
+        serializedVersion: 2
+        x: 3120
+        y: 300
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72e8586062111444294f18e0201b05ad
+      internalID: -575889107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_35
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3362acd0dabc2545bcc0f5103a1ce5e
+      internalID: -1876934027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_36
+      rect:
+        serializedVersion: 2
+        x: 520
+        y: 0
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 178685ffb4d438d4e97442d2116bdec5
+      internalID: 1207566833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_37
+      rect:
+        serializedVersion: 2
+        x: 1040
+        y: 0
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e387ddedd21e184faf8c710eb47fe56
+      internalID: -921479769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_38
+      rect:
+        serializedVersion: 2
+        x: 1560
+        y: 0
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d225d3792887cc4ba406f236dcaccc4
+      internalID: 2125589535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_39
+      rect:
+        serializedVersion: 2
+        x: 2080
+        y: 0
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0465d452ddcda0a478ce1d1f368650b4
+      internalID: 1104470405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_40
+      rect:
+        serializedVersion: 2
+        x: 2600
+        y: 0
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2f95a7dcbc078d4eb9e6daf65c913c4
+      internalID: -105338886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Rullet-Sheet_41
+      rect:
+        serializedVersion: 2
+        x: 3120
+        y: 0
+        width: 520
+        height: 300
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95b1ba73e75cb3047a0397f14e348325
+      internalID: 143041756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 28780231b0e2a2e44a664bbf062868c2
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":7.0,"y":6.0},"gridSpriteSize":{"x":520.0,"y":300.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      Rullet-Sheet_0: 3969477506091746965
+      Rullet-Sheet_1: 6545589863934794896
+      Rullet-Sheet_10: 7400761550491269360
+      Rullet-Sheet_11: -1491742352298524267
+      Rullet-Sheet_12: 256613850
+      Rullet-Sheet_13: -1406058018
+      Rullet-Sheet_14: -457225090
+      Rullet-Sheet_15: -1968857706
+      Rullet-Sheet_16: -970911250
+      Rullet-Sheet_17: 43725966
+      Rullet-Sheet_18: 693689078
+      Rullet-Sheet_19: 1953259813
+      Rullet-Sheet_2: 7369514709830066667
+      Rullet-Sheet_20: 525191463
+      Rullet-Sheet_21: -274758943
+      Rullet-Sheet_22: -1687987810
+      Rullet-Sheet_23: 1620905886
+      Rullet-Sheet_24: -782757226
+      Rullet-Sheet_25: -1962145857
+      Rullet-Sheet_26: 565313737
+      Rullet-Sheet_27: -319965203
+      Rullet-Sheet_28: -2023397688
+      Rullet-Sheet_29: 1246914531
+      Rullet-Sheet_3: 420345425132441492
+      Rullet-Sheet_30: -1396789247
+      Rullet-Sheet_31: 1038888924
+      Rullet-Sheet_32: 959382427
+      Rullet-Sheet_33: 346773242
+      Rullet-Sheet_34: -575889107
+      Rullet-Sheet_35: -1876934027
+      Rullet-Sheet_36: 1207566833
+      Rullet-Sheet_37: -921479769
+      Rullet-Sheet_38: 2125589535
+      Rullet-Sheet_39: 1104470405
+      Rullet-Sheet_4: 1684844255784155505
+      Rullet-Sheet_40: -105338886
+      Rullet-Sheet_41: 143041756
+      Rullet-Sheet_5: 4217976121811706037
+      Rullet-Sheet_6: -5437506732671454763
+      Rullet-Sheet_7: -2528807886797143844
+      Rullet-Sheet_8: 3744245411313119921
+      Rullet-Sheet_9: 5321141658204447187
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

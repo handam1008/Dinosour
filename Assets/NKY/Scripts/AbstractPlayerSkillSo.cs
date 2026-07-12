@@ -9,7 +9,7 @@ namespace NKY.Scripts
         
         [field: SerializeField] public bool IsReUse {get; protected set;}
         
-        private float _cooldown;
+        [SerializeField] private float cooldown;
         private bool _skillReUse;
         
 
@@ -25,17 +25,20 @@ namespace NKY.Scripts
 
         public void StartSkill(TestJump player)
         {
-            Debug.Log("Starting skill");
             if (IsReUse && _skillReUse)
             {
+                _skillReUse = false;
                 ReUseSkill(player);
                 return;
             }
-            if (Time.time - _cooldown >= SkillCooldown)
+
+            if (Time.time - cooldown >= SkillCooldown)
             {
                 UseSkill(player);
+                if (IsReUse)
+                    _skillReUse = true;
+                cooldown = Time.time;
             }
-            _cooldown = Time.time;
         }
 
         protected abstract IEnumerator SkillCoroutine(TestJump player);

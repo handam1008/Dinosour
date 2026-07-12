@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d8601bc193093240b55946e6b58a38a, type: 3}
+  m_Name: MirrorCard
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.MagicianAugment
+  displayName: "\uBBF8\uB7EC \uCE74\uB4DC"
+  description: "\uCE74\uB4DC\uAC00 \uC801\uC5D0\uAC8C \uBA85\uC911\uD558\uBA74 0.3\uCD08
+    \uB4A4 \uAC19\uC740 \uBC29\uD5A5\uC73C\uB85C \uC791\uC740 \uBCF5\uC81C \uCE74\uB4DC\uAC00
+    \uD55C \uC7A5 \uB354 \uBC1C\uC0AC\uB41C\uB2E4. \uBCF5\uC81C \uCE74\uB4DC\uB294
+    \uC6D0\uB798 \uCE74\uB4DC \uD53C\uD574\uC640 \uD6A8\uACFC\uC758 35%\uB9CC \uC801\uC6A9\uB41C\uB2E4.
+    \uCFE8\uD0C0\uC784 8\uCD08."
+  icon: {fileID: 1465692134675969643, guid: f77889298077caa4a9edbfae62b91091, type: 3}
+  type: 8

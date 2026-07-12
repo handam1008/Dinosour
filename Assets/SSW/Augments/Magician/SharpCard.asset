@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d8601bc193093240b55946e6b58a38a, type: 3}
+  m_Name: SharpCard
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.MagicianAugment
+  displayName: "\uB0A0\uCE74\uB85C\uC6B4 \uCE74\uB4DC"
+  description: "\uC2A4\uD398\uC774\uB4DC \uCE74\uB4DC\uAC00 \uBA85\uC911\uD588\uC744
+    \uB54C \uCD94\uAC00 \uD53C\uD574\uAC00 \uB4E4\uC5B4\uAC04 \uB4A4, 1\uCD08 \uB4A4\uC5D0
+    \uCD94\uAC00\uB85C 3\uC758 \uACE0\uC815 \uD53C\uD574\uB97C \uD55C \uBC88 \uB354
+    \uC785\uD78C\uB2E4."
+  icon: {fileID: 3478636342769844489, guid: 4633555da651bc44d8fd5b9fbd5528cb, type: 3}
+  type: 1

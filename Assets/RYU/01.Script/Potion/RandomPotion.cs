@@ -7,7 +7,8 @@ public class RandomPotion : MonoBehaviour
     [SerializeField] private List<AbstractPotion> potions = new List<AbstractPotion>();
     [SerializeField] private Transform Hand;
     [SerializeField] private Transform PlayerUp;
-    [SerializeField] private float potionSpeed = 12f;
+    [SerializeField] private float potionSpeed = 15f;
+    [SerializeField] private float Angle = 15f;
     private int currentIndex = 0;
 
 
@@ -27,7 +28,7 @@ public class RandomPotion : MonoBehaviour
         
         if (Input.GetMouseButtonDown(0))
         {
-            if(currentPotions.Count > 0) return;
+            if(currentPotions.Count <= 0) return;
             
             Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 dir = ((Vector2)mouseWorld - (Vector2)Hand.position).normalized;
@@ -64,8 +65,8 @@ public class RandomPotion : MonoBehaviour
         potion.transform.SetParent(null); 
         Rigidbody2D rb = potion.GetComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Dynamic;
-        rb.gravityScale = 2;
-        rb.AddForce(dir *  potionSpeed, ForceMode2D.Impulse);
+        rb.gravityScale = 3;
+        rb.linearVelocity = (dir + Vector2.up * Angle) * potionSpeed;
         canHand = true;
         Debug.Log("슛");
     }
