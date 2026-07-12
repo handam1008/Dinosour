@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,5 +13,10 @@ public class KHG_Paring : MonoBehaviour
         {
             
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        
     }
 }
