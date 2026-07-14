@@ -13,13 +13,17 @@ public class KDH_Bullet : MonoBehaviour
         gun = KDH_GameManager.instanec.player.GetComponentInChildren<KDH_Gun>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        _moveDir = (Vector2)gun.FindMousePosition();
+        Vector3 mousePos = gun.FindMousePosition();
+        _moveDir = (mousePos - gun.gunPos.position).normalized;
+
+        _rigid.linearVelocity = _moveDir * _speed;
     }
 
     private void FixedUpdate()
     {
-        _rigid.linearVelocity = _moveDir * _speed;
+        float angle = Mathf.Atan2(_rigid.linearVelocity.y, _rigid.linearVelocity.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);
     }
 }

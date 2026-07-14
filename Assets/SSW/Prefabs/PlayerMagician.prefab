@@ -770,10 +770,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4861530811025970792, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      propertyPath: _job
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7686893401743090280, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       propertyPath: m_Name
       value: PlayerMagician
       objectReference: {fileID: 0}
+    - target: {fileID: 8266417094143573563, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      propertyPath: _jobPool
+      value: 
+      objectReference: {fileID: 11400000, guid: c0cfd218939fc44408b50c384415f5f2, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -790,6 +798,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7686893401743090280, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3219435567956902308}
+    - targetCorrespondingSourceObject: {fileID: 7686893401743090280, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5778504436296790408}
   m_SourcePrefab: {fileID: 100100000, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
 --- !u!4 &147562990663470886 stripped
 Transform:
@@ -920,6 +931,7 @@ MonoBehaviour:
   - {fileID: -8363061713338708631, guid: 933b9bb8a0cda2446932781d001bfbd5, type: 3}
   - {fileID: -5689699134445560485, guid: 7bd13da8894ca404292e3fef0d22601d, type: 3}
   - {fileID: -4339990451483798757, guid: 2596ce0b219581c438e3c6ddf5238d1b, type: 3}
+  _jokerSprite: {fileID: -3399332981392296477, guid: c70cdd490eed5854ba76be0111dabd4a, type: 3}
   _anchor: {fileID: 2864261550160011405}
   _renderer: {fileID: 887481726339417736}
   _suitSelector: {fileID: 6163778109499660571}
@@ -936,4 +948,37 @@ MonoBehaviour:
   _flySpin: 420
   _flyMaxLifetime: 3
   _cooldownDuration: 1.5
+  _mirrorScaleMultiplier: 0.6
   _cooldownUI: {fileID: 3836270235600775339}
+--- !u!114 &5778504436296790408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8665040242661233106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75f3a199f5ee4b54c874a66fdd1fa6e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.MagicianAugmentController
+  _numberRoller: {fileID: 3219435567956902308}
+  _quickShuffleTickMultiplier: 1.15
+  _quickShuffleFireDelay: 0.1
+  _sharpCardBonusDamage: 3
+  _sharpCardDelay: 1
+  _emergencyHealBonus: 3
+  _emergencyCooldown: 3
+  _diamondRadiusMultiplier: 1.15
+  _diamondSlowAmount: 0.2
+  _diamondSlowDuration: 0.5
+  _cloverWeakenAmount: 0.1
+  _cloverWeakenDuration: 0.5
+  _returnDelay: 0.5
+  _returnDamageMultiplier: 0.4
+  _chainRequiredHits: 2
+  _chainBonusMultiplier: 1.5
+  _mirrorDelay: 0.3
+  _mirrorEffectMultiplier: 0.35
+  _mirrorCooldown: 8
+  _jokerInterval: 15

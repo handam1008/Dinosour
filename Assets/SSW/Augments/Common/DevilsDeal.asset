@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15639e63881de9b4a82609b01e29ee74, type: 3}
+  m_Name: DevilsDeal
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.CommonAugment
+  displayName: "\uC545\uB9C8\uC640\uC758 \uAC70\uB798"
+  description: "\uCCB4\uB825\uC774 \uC870\uAE08\uC529 \uACC4\uC18D \uAE4E\uC774\uC9C0\uB9CC
+    \uC7A5\uC560\uBB3C\uACFC \uC9C0\uD615 \uD53C\uD574\uB97C \uC785\uC9C0 \uC54A\uACE0
+    \uD53C\uD574 \uD761\uD608\uC744 \uC5BB\uB294\uB2E4."
+  icon: {fileID: 0}
+  type: 15
+  category: 2

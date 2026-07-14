@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1b1c7f2e8c0c19489c3007e00f1da35, type: 3}
+  m_Script: {fileID: 11500000, guid: 15639e63881de9b4a82609b01e29ee74, type: 3}
   m_Name: Giant
-  m_EditorClassIdentifier: Assembly-CSharp::Giant
-  _augmentName: Giant
-  description: Bigger
-  _sizeUp: 1.5
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.CommonAugment
+  displayName: "\uAC70\uC778"
+  description: "\u3148\u3134 \uCEE4\uC9D0"
+  icon: {fileID: 0}
+  type: 0
+  category: 0

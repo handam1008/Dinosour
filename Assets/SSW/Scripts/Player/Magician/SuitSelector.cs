@@ -27,13 +27,17 @@ namespace SSW
         float _sideTickTimer;
         int _gen;
         InputAction _cycleAction;
+        MagicianAugmentController _augments;
 
         public Suit CurrentSuit => (Suit)_index;
         public bool IsRolling => _rolling;
 
+        float TickMultiplier => _augments != null ? _augments.TickIntervalMultiplier : 1f;
+
         void Awake()
         {
             _cycleAction = GetComponent<PlayerInput>().actions.FindAction("CycleSuit");
+            _augments = GetComponent<MagicianAugmentController>();
         }
 
         void OnEnable()
@@ -103,7 +107,7 @@ namespace SSW
             _tickTimer -= Time.deltaTime;
             if (_tickTimer <= 0f)
             {
-                _tickTimer = _tickInterval;
+                _tickTimer = _tickInterval * TickMultiplier;
                 _index = Random.Range(0, _suitSprites.Length);
                 _renderer.sprite = _suitSprites[_index];
             }
@@ -111,7 +115,7 @@ namespace SSW
             _sideTickTimer -= Time.deltaTime;
             if (_sideTickTimer <= 0f)
             {
-                _sideTickTimer = _sideTickInterval;
+                _sideTickTimer = _sideTickInterval * TickMultiplier;
                 _prevRenderer.sprite = _suitSprites[Random.Range(0, _suitSprites.Length)];
                 _nextRenderer.sprite = _suitSprites[Random.Range(0, _suitSprites.Length)];
             }

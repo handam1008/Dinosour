@@ -9,7 +9,8 @@ namespace SSW
         [SerializeField] Text _text;
         [SerializeField] float _riseDistance = 0.6f;
         [SerializeField] float _duration = 0.8f;
-        [SerializeField] float _horizontalJitter = 0.2f;
+        [SerializeField] float _horizontalJitter = 0.4f;
+        [SerializeField] float _verticalJitter = 0.25f;
         [SerializeField] Color _normalColor = Color.white;
         [SerializeField] Color _criticalColor = new Color(1f, 0.15f, 0.15f);
         [SerializeField] float _criticalScale = 1.4f;
@@ -21,7 +22,7 @@ namespace SSW
             transform.localScale *= isCritical ? _criticalScale : 1f;
             Vector3 baseScale = transform.localScale;
 
-            Vector3 start = transform.position + new Vector3(Random.Range(-_horizontalJitter, _horizontalJitter), 0f, 0f);
+            Vector3 start = transform.position + new Vector3(Random.Range(-_horizontalJitter, _horizontalJitter), Random.Range(-_verticalJitter, _verticalJitter), 0f);
             transform.position = start;
 
             transform.DOMoveY(start.y + _riseDistance, _duration).SetEase(Ease.OutCubic);

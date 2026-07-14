@@ -129,6 +129,8 @@ GameObject:
   - component: {fileID: 5537716756059987560}
   - component: {fileID: 9183996978747195668}
   - component: {fileID: 8282172878884832645}
+  - component: {fileID: 8266417094143573563}
+  - component: {fileID: 4861530811025970792}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -249,6 +251,7 @@ MonoBehaviour:
   maxHealth: 100
   _disableOnDeath: 1
   _healthBarResourceName: HealthBarUI
+  _damageNumberResourceName: DamageNumberUI
   _healthBarPadding: 0.15
 --- !u!114 &8282172878884832645
 MonoBehaviour:
@@ -280,3 +283,32 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &8266417094143573563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7686893401743090280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecb938aeaa34e954a94953995b1bb85d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.AugmentDrafter
+  _commonPool: {fileID: 11400000, guid: f396daccee22bc54c96a46fbe2596d2a, type: 2}
+  _jobPool: {fileID: 0}
+  _choiceCount: 3
+  _draftUIResourceName: AugmentDraftUIDino
+--- !u!114 &4861530811025970792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7686893401743090280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85ee14632bcfda545876ba795ef52512, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.PlayerIdentity
+  _job: 0
