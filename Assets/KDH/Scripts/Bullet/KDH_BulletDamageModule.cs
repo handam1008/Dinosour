@@ -1,3 +1,4 @@
+using SSW;
 using UnityEngine;
 
 public class KDH_BulletDamageModule : MonoBehaviour
