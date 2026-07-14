@@ -54,6 +54,7 @@ namespace NKY.Scripts
                 if (_rb != null)
                 {
                     _rb.linearVelocity = Vector2.zero;
+                    Debug.Log(other.gameObject.name);
                 }
             }
             
