@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,7 +7,7 @@ namespace SSW
     public class PlayerController : MonoBehaviour, ISlowable
     {
         [SerializeField] float _moveSpeed = 7f;
-        [SerializeField] float _jumpForce = 12f;
+        [SerializeField] float _jumpForce = 13f;
         [SerializeField] LayerMask _whatIsGround;
         [SerializeField] Transform _visual;
 
@@ -17,6 +18,8 @@ namespace SSW
         Vector2 _move;
         float _slowMultiplier = 1f;
         float _slowEndTime;
+        Coroutine _dropThroughRoutine;
+        Collider2D _ignoredPlatform;
 
         void Awake()
         {
@@ -42,8 +45,44 @@ namespace SSW
 
         void OnJump(InputValue value)
         {
-            if (value.isPressed && IsGrounded())
-                _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _jumpForce);
+            if (!value.isPressed) return;
+
+            Collider2D ground = GetGroundCollider();
+            if (ground == null) return;
+
+            if (_move.y < -0.5f && ground.GetComponent<PlatformEffector2D>() != null)
+            {
+                if (_dropThroughRoutine == null)
+                    _dropThroughRoutine = StartCoroutine(DropThroughPlatform(ground));
+                return;
+            }
+
+            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, _jumpForce);
+        }
+
+        IEnumerator DropThroughPlatform(Collider2D platform)
+        {
+            _ignoredPlatform = platform;
+            Physics2D.IgnoreCollision(_col, platform, true);
+            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, -2f);
+
+            float timeout = Time.time + 0.5f;
+            while (Time.time < timeout && _col.bounds.max.y > platform.bounds.min.y)
+                yield return new WaitForFixedUpdate();
+
+            Physics2D.IgnoreCollision(_col, platform, false);
+            _ignoredPlatform = null;
+            _dropThroughRoutine = null;
+        }
+
+        void OnDisable()
+        {
+            if (_dropThroughRoutine != null)
+                StopCoroutine(_dropThroughRoutine);
+            if (_ignoredPlatform != null)
+                Physics2D.IgnoreCollision(_col, _ignoredPlatform, false);
+            _ignoredPlatform = null;
+            _dropThroughRoutine = null;
         }
 
         void Update()
@@ -64,6 +103,11 @@ namespace SSW
         }
 
         bool IsGrounded()
+        {
+            return GetGroundCollider() != null;
+        }
+
+        Collider2D GetGroundCollider()
         {
             Bounds b = _col.bounds;
             return Physics2D.OverlapCircle(new Vector2(b.center.x, b.min.y), 0.12f, _whatIsGround);
