@@ -17,6 +17,8 @@ public class KDH_Shoot : MonoBehaviour
 
     private void Shoot()
     {
+        if (KDH_PoolManager.instance.bullets.Count == 0) return;
+        
         GameObject bullet = KDH_PoolManager.instance.bullets.Pop();
         bullet.transform.position = KDH_GameManager.instanec.player.GetComponentInChildren<KDH_Gun>().gunPos.position;
         bullet.SetActive(true);

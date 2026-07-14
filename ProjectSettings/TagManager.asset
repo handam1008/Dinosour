@@ -4,23 +4,24 @@
 TagManager:
   serializedVersion: 3
   tags:
+  - Obstacle
   - Bullet
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Floor
+  - Player
   - Water
   - UI
-  - Bullet
+  - 
   - 
   - Ground
+  - Potion
   - 
   - 
   - 
   - 
-  - 
-  - 
+  - Bullet
   - 
   - 
   - 

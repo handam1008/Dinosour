@@ -12,8 +12,7 @@ GameObject:
   - component: {fileID: 3846719383115730629}
   - component: {fileID: 1187776565867057462}
   - component: {fileID: 9086097530624814000}
-  - component: {fileID: 1253947958375487356}
-  m_Layer: 6
+  m_Layer: 14
   m_Name: Bullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -32,7 +31,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6654778118030300354}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3846719383115730629
@@ -135,13 +135,46 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!70 &1253947958375487356
+--- !u!1 &4360487381508425331
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6654778118030300354}
+  - component: {fileID: 5822085973580938868}
+  - component: {fileID: 2440779524008370736}
+  m_Layer: 14
+  m_Name: DamageModule
+  m_TagString: Bullet
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6654778118030300354
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4360487381508425331}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2268785500431400888}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &5822085973580938868
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3615541465566521677}
+  m_GameObject: {fileID: 4360487381508425331}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -170,5 +203,18 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 0.375}
+  m_Size: {x: 0.4, y: 0.25}
   m_Direction: 1
+--- !u!114 &2440779524008370736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4360487381508425331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: addc998ebff8740469fc56672fe25fb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KDH_BulletDamageModule
+  damage: 15
