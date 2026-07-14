@@ -893,6 +893,7 @@ GameObject:
   - component: {fileID: 5537716757065576363}
   - component: {fileID: 9183996977737429207}
   - component: {fileID: 8282172879894623302}
+  - component: {fileID: 9183996977737429208}
   m_Layer: 3
   m_Name: Player (1)
   m_TagString: Player
@@ -947,6 +948,19 @@ MonoBehaviour:
   _healthBarResourceName: HealthBarUI
   _damageNumberResourceName: DamageNumberUI
   _healthBarPadding: 0.15
+--- !u!114 &9183996977737429208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7686893400599090091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85ee14632bcfda545876ba795ef52512, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.PlayerIdentity
+  _job: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
