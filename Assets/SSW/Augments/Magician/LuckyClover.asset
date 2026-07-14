@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d8601bc193093240b55946e6b58a38a, type: 3}
+  m_Name: LuckyClover
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.MagicianAugment
+  displayName: "\uD589\uC6B4\uC758 \uD074\uB85C\uBC84"
+  description: "\uD074\uB85C\uBC84 \uCE74\uB4DC\uC5D0 \uB9DE\uC740 \uC801\uC740 \uB454\uD654
+    \uD6A8\uACFC\uAC00 \uB05D\uB09C \uB4A4\uC5D0\uB3C4 0.5\uCD08 \uB3D9\uC548 \uACF5\uACA9\uB825\uC774
+    10% \uAC10\uC18C\uD55C\uB2E4."
+  icon: {fileID: -6640089022996641885, guid: 0b3bc756b2d277c43befede61913fe07, type: 3}
+  type: 4

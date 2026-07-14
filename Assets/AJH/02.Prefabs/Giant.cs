@@ -4,6 +4,7 @@ using UnityEngine;
 public class Giant : Augment
 {
     [SerializeField] private float _sizeUp = 1.5f;
+    [SerializeField] private float _hpUP = 80;
 
     public override void Apply(GameObject player)
     {

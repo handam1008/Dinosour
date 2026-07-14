@@ -12,6 +12,7 @@ namespace SSW
         [SerializeField] Sprite[] _heartCards;
         [SerializeField] Sprite[] _diamondCards;
         [SerializeField] Sprite[] _cloverCards;
+        [SerializeField] Sprite _jokerSprite;
         [SerializeField] Transform _anchor;
         [SerializeField] SpriteRenderer _renderer;
         [SerializeField] SuitSelector _suitSelector;
@@ -28,6 +29,7 @@ namespace SSW
         [SerializeField] float _flySpin = 720f;
         [SerializeField] float _flyMaxLifetime = 3f;
         [SerializeField] float _cooldownDuration = 3f;
+        [SerializeField] float _mirrorScaleMultiplier = 0.6f;
         [SerializeField] CooldownCursorUI _cooldownUI;
 
         bool _rolling;
@@ -35,13 +37,17 @@ namespace SSW
         float _cooldownTimer;
         int _gen;
         int _rankIndex;
+        int _rankIndexB;
         InputAction _attackAction;
+        MagicianAugmentController _augments;
+        SpriteRenderer _secondRenderer;
 
         public bool IsRolling => _rolling;
 
         void Awake()
         {
             _attackAction = GetComponent<PlayerInput>().actions.FindAction("Attack");
+            _augments = GetComponent<MagicianAugmentController>();
         }
 
         void OnEnable()
@@ -53,7 +59,12 @@ namespace SSW
             _anchor.localPosition = new Vector3(0.4f, 0f, 0f);
             _anchor.localScale = Vector3.one;
             SetAlphaInstant(_renderer, 0f);
+            if (_secondRenderer != null) SetAlphaInstant(_secondRenderer, 0f);
         }
+
+        float TickInterval => _tickInterval * (_augments != null ? _augments.TickIntervalMultiplier : 1f);
+
+        bool DoubleDraw => _augments != null && _augments.Has(MagicianAugmentType.DoubleDraw);
 
         void OnAttack(InputValue value)
         {
@@ -74,6 +85,11 @@ namespace SSW
             _anchor.DOKill();
             _renderer.DOKill();
             _renderer.DOFade(0f, _fadeDuration);
+            if (_secondRenderer != null)
+            {
+                _secondRenderer.DOKill();
+                _secondRenderer.DOFade(0f, _fadeDuration);
+            }
         }
 
         void BeginRoll()
@@ -87,11 +103,32 @@ namespace SSW
             _suitSelector.ShiftForRoll();
             _renderer.DOKill();
             _renderer.DOFade(1f, _fadeDuration);
+
+            if (DoubleDraw)
+            {
+                EnsureSecondRenderer();
+                _secondRenderer.DOKill();
+                _secondRenderer.DOFade(1f, _fadeDuration);
+            }
+            else if (_secondRenderer != null)
+            {
+                _secondRenderer.DOKill();
+                _secondRenderer.DOFade(0f, _fadeDuration);
+            }
         }
 
         void EndRoll()
         {
             _rolling = false;
+
+            if (DoubleDraw && _secondRenderer != null)
+            {
+                Sprite[] ranks = IsRedSuit(_suitSelector.CurrentSuit) ? _redRanks : _blackRanks;
+                if (_rankIndexB > _rankIndex) _rankIndex = _rankIndexB;
+                if (_rankIndex < ranks.Length) _renderer.sprite = ranks[_rankIndex];
+                _secondRenderer.DOKill();
+                _secondRenderer.DOFade(0f, _fadeDuration);
+            }
 
             _anchor.DOKill();
             _anchor.localScale = Vector3.one;
@@ -107,7 +144,14 @@ namespace SSW
                 _renderer.DOFade(0f, _fadeDuration);
             });
 
-            SpawnFlyingCard(_suitSelector.CurrentSuit, _rankIndex);
+            Suit suit = _suitSelector.CurrentSuit;
+            int rankIndex = _rankIndex;
+            float fireDelay = _augments != null ? _augments.FireDelay : 0f;
+            if (fireDelay > 0f)
+                DOVirtual.DelayedCall(fireDelay, () => SpawnFlyingCard(suit, rankIndex), false);
+            else
+                SpawnFlyingCard(suit, rankIndex);
+
             _suitSelector.NotifyNumberRollEnded();
 
             _cooldownTimer = _cooldownDuration;
@@ -130,36 +174,76 @@ namespace SSW
             _tickTimer -= Time.deltaTime;
             if (_tickTimer <= 0f)
             {
-                _tickTimer = _tickInterval;
+                _tickTimer = TickInterval;
                 Sprite[] ranks = IsRedSuit(_suitSelector.CurrentSuit) ? _redRanks : _blackRanks;
                 _rankIndex = Random.Range(0, ranks.Length);
                 _renderer.sprite = ranks[_rankIndex];
+
+                if (DoubleDraw && _secondRenderer != null)
+                {
+                    _rankIndexB = Random.Range(0, ranks.Length);
+                    _secondRenderer.sprite = ranks[_rankIndexB];
+                }
             }
+        }
+
+        void EnsureSecondRenderer()
+        {
+            if (_secondRenderer != null) return;
+
+            GameObject clone = Instantiate(_renderer.gameObject, _renderer.transform.parent);
+            clone.name = "NumberDisplayB";
+            clone.transform.localPosition = _renderer.transform.localPosition + new Vector3(0.55f, 0.3f, 0f);
+            clone.transform.localScale = _renderer.transform.localScale * 0.8f;
+            _secondRenderer = clone.GetComponent<SpriteRenderer>();
+            SetAlphaInstant(_secondRenderer, 0f);
         }
 
         void SpawnFlyingCard(Suit suit, int rankIndex)
         {
             Sprite[] cards = CardsFor(suit);
-            if (cards == null || rankIndex >= cards.Length) return;
+            if (cards == null || cards.Length == 0) return;
 
-            GameObject go = new GameObject("FlyingCard");
-            go.transform.position = transform.position;
-            go.transform.localScale = Vector3.one * _flyScale;
+            bool isJoker = _augments != null && _augments.ConsumeJoker();
+            if (isJoker) rankIndex = Mathf.Min(9, cards.Length - 1);
+            if (rankIndex >= cards.Length) return;
 
-            SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
-            sr.sprite = cards[rankIndex];
-            sr.sortingOrder = 15;
-            if (_flyingCardMaterial != null) sr.sharedMaterial = _flyingCardMaterial;
+            Sprite sprite = isJoker && _jokerSprite != null ? _jokerSprite : cards[rankIndex];
 
             Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-            mouseWorld.z = go.transform.position.z;
-            Vector3 dir = (mouseWorld - go.transform.position).normalized;
+            mouseWorld.z = transform.position.z;
+            Vector3 dir = (mouseWorld - transform.position).normalized;
+
+            FlyingCard card = CreateCard(sprite, suit, rankIndex + 1, dir, _flyScale);
+            if (isJoker) card.MarkJoker();
+        }
+
+        public void SpawnMirrorCard(Suit suit, int rankIndex, Vector2 dir, float effectMultiplier)
+        {
+            Sprite[] cards = CardsFor(suit);
+            if (cards == null || rankIndex < 0 || rankIndex >= cards.Length) return;
+
+            FlyingCard card = CreateCard(cards[rankIndex], suit, rankIndex + 1, dir, _flyScale * _mirrorScaleMultiplier);
+            card.MarkMirror();
+            card.SetEffectMultiplier(effectMultiplier);
+        }
+
+        FlyingCard CreateCard(Sprite sprite, Suit suit, int number, Vector2 dir, float scale)
+        {
+            GameObject go = new GameObject("FlyingCard");
+            go.transform.position = transform.position;
+            go.transform.localScale = Vector3.one * scale;
+
+            SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
+            sr.sprite = sprite;
+            sr.sortingOrder = 15;
+            if (_flyingCardMaterial != null) sr.sharedMaterial = _flyingCardMaterial;
 
             float facing = _playerController != null ? _playerController.FacingSign : 1f;
 
             Rigidbody2D rb = go.AddComponent<Rigidbody2D>();
             rb.gravityScale = _flyGravityScale;
-            rb.linearVelocity = dir * _flySpeed;
+            rb.linearVelocity = dir.normalized * _flySpeed;
             rb.angularVelocity = _flySpin * facing;
 
             CircleCollider2D col = go.AddComponent<CircleCollider2D>();
@@ -169,10 +253,11 @@ namespace SSW
             Collider2D ownCollider = GetComponent<Collider2D>();
             if (ownCollider != null) Physics2D.IgnoreCollision(col, ownCollider);
 
-            FlyingCard flyingCard = go.AddComponent<FlyingCard>();
-            flyingCard.Configure(suit, rankIndex + 1, GetComponent<Health>());
-
-            Object.Destroy(go, _flyMaxLifetime);
+            FlyingCard card = go.AddComponent<FlyingCard>();
+            card.Configure(suit, number, GetComponent<Health>());
+            card.SetAugments(_augments, transform);
+            card.SetLifetime(_flyMaxLifetime);
+            return card;
         }
 
         Sprite[] CardsFor(Suit suit)

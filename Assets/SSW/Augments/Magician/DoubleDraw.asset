@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d8601bc193093240b55946e6b58a38a, type: 3}
+  m_Name: DoubleDraw
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.MagicianAugment
+  displayName: "\uB354\uBE14 \uB4DC\uB85C\uC6B0"
+  description: "\uACF5\uACA9 \uC804 \uCE74\uB4DC\uAC00 2\uC7A5 \uD45C\uC2DC\uB41C\uB2E4.
+    \uACF5\uACA9 \uBC84\uD2BC\uC744 \uB5BC\uBA74 \uB450 \uCE74\uB4DC \uC911 \uB354
+    \uB192\uC740 \uC22B\uC790\uC758 \uCE74\uB4DC\uAC00 \uC790\uB3D9\uC73C\uB85C \uBC1C\uC0AC\uB41C\uB2E4.
+    \uBB34\uB2AC\uB294 \uC120\uD0DD\uB41C \uCE74\uB4DC\uC758 \uBB34\uB2AC\uB97C \uB530\uB978\uB2E4."
+  icon: {fileID: 1465692134675969643, guid: f77889298077caa4a9edbfae62b91091, type: 3}
+  type: 6
