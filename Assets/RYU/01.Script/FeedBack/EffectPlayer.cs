@@ -12,15 +12,9 @@ namespace RYU._01.Script.FeedBack
             GameObject effectGo = Instantiate(_glassEffect , pos, Quaternion.identity);
             ParticleSystem effect = effectGo.GetComponent<ParticleSystem>();
             effect.Play();
-            StartCoroutine(WaitAndStopEffect(effect));
         }
 
-        private IEnumerator WaitAndStopEffect(ParticleSystem effect)
-        {
-            yield return new WaitForSeconds(effect.main.duration);
-            effect.Stop();
-            Destroy(effect.gameObject);
-        }
+        
 
         public override void StopFeedBack()
         {
