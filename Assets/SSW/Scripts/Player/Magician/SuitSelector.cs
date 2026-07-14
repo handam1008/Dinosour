@@ -28,16 +28,27 @@ namespace SSW
         int _gen;
         InputAction _cycleAction;
         MagicianAugmentController _augments;
+        PlayerIdentity _identity;
+        bool _nonMagicianUIHidden;
 
         public Suit CurrentSuit => (Suit)_index;
         public bool IsRolling => _rolling;
 
         float TickMultiplier => _augments != null ? _augments.TickIntervalMultiplier : 1f;
+        bool IsMagician
+        {
+            get
+            {
+                if (_identity == null) _identity = GetComponent<PlayerIdentity>();
+                return _identity != null && _identity.Job == PlayerJob.Magician;
+            }
+        }
 
         void Awake()
         {
             _cycleAction = GetComponent<PlayerInput>().actions.FindAction("CycleSuit");
             _augments = GetComponent<MagicianAugmentController>();
+            _identity = GetComponent<PlayerIdentity>();
         }
 
         void OnEnable()
@@ -45,6 +56,7 @@ namespace SSW
             _index = 0;
             _rolling = false;
             _gen = 0;
+            _nonMagicianUIHidden = false;
             _anchor.DOKill();
             _renderer.DOKill();
             _anchor.localPosition = Vector3.zero;
@@ -53,10 +65,17 @@ namespace SSW
             SetAlphaInstant(_renderer, 0f);
             SetAlphaInstant(_prevRenderer, 0f);
             SetAlphaInstant(_nextRenderer, 0f);
+            if (!IsMagician) HideForNonMagician();
         }
 
         void OnCycleSuit(InputValue value)
         {
+            if (!IsMagician)
+            {
+                HideForNonMagician();
+                return;
+            }
+
             if (value.isPressed)
             {
                 if (_numberRoller != null && _numberRoller.IsRolling) return;
@@ -98,6 +117,12 @@ namespace SSW
 
         void Update()
         {
+            if (!IsMagician)
+            {
+                HideForNonMagician();
+                return;
+            }
+
             if (!_rolling) return;
             if (_cycleAction != null && !_cycleAction.IsPressed())
             {
@@ -181,6 +206,21 @@ namespace SSW
             Color c = sr.color;
             c.a = alpha;
             sr.color = c;
+        }
+
+        void HideForNonMagician()
+        {
+            if (_nonMagicianUIHidden) return;
+            _nonMagicianUIHidden = true;
+            _rolling = false;
+            _gen++;
+            _anchor.DOKill();
+            _renderer.DOKill();
+            _prevRenderer.DOKill();
+            _nextRenderer.DOKill();
+            SetAlphaInstant(_renderer, 0f);
+            SetAlphaInstant(_prevRenderer, 0f);
+            SetAlphaInstant(_nextRenderer, 0f);
         }
     }
 }

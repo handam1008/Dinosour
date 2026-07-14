@@ -35,6 +35,16 @@ namespace SSW
         Suit _lastHitSuit;
         int _chainCount;
         bool _chainStarted;
+        PlayerIdentity _identity;
+
+        bool IsMagician
+        {
+            get
+            {
+                if (_identity == null) _identity = GetComponent<PlayerIdentity>();
+                return _identity != null && _identity.Job == PlayerJob.Magician;
+            }
+        }
 
         public float SharpCardBonusDamage => _sharpCardBonusDamage;
         public float SharpCardDelay => _sharpCardDelay;
@@ -50,6 +60,7 @@ namespace SSW
 
         void Awake()
         {
+            _identity = GetComponent<PlayerIdentity>();
             GetComponent<AugmentDrafter>().OnAugmentSelected += HandleAugmentGained;
         }
 
@@ -62,13 +73,14 @@ namespace SSW
 
         void HandleAugmentGained(Augment augment)
         {
+            if (!IsMagician) return;
             MagicianAugment magicianAugment = augment as MagicianAugment;
             if (magicianAugment != null) _acquired.Add(magicianAugment.type);
         }
 
         public bool Has(MagicianAugmentType type)
         {
-            return _acquired.Contains(type);
+            return IsMagician && _acquired.Contains(type);
         }
 
         public float ConsumeEmergencyHealBonus()
@@ -81,6 +93,7 @@ namespace SSW
 
         public bool ConsumeJoker()
         {
+            if (!IsMagician) return false;
             if (!_jokerArmed) return false;
             _jokerArmed = false;
             _jokerTimer = 0f;
@@ -96,6 +109,7 @@ namespace SSW
 
         public void RegisterHit(Suit suit)
         {
+            if (!IsMagician) return;
             if (_chainStarted && suit == _lastHitSuit)
             {
                 _chainCount++;
@@ -110,6 +124,7 @@ namespace SSW
 
         public void RegisterMiss()
         {
+            if (!IsMagician) return;
             _chainStarted = false;
             _chainCount = 0;
         }

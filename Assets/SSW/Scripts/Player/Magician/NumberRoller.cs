@@ -41,25 +41,38 @@ namespace SSW
         InputAction _attackAction;
         MagicianAugmentController _augments;
         SpriteRenderer _secondRenderer;
+        PlayerIdentity _identity;
+        bool _nonMagicianUIHidden;
 
         public bool IsRolling => _rolling;
+        bool IsMagician
+        {
+            get
+            {
+                if (_identity == null) _identity = GetComponent<PlayerIdentity>();
+                return _identity != null && _identity.Job == PlayerJob.Magician;
+            }
+        }
 
         void Awake()
         {
             _attackAction = GetComponent<PlayerInput>().actions.FindAction("Attack");
             _augments = GetComponent<MagicianAugmentController>();
+            _identity = GetComponent<PlayerIdentity>();
         }
 
         void OnEnable()
         {
             _rolling = false;
             _gen = 0;
+            _nonMagicianUIHidden = false;
             _anchor.DOKill();
             _renderer.DOKill();
             _anchor.localPosition = new Vector3(0.4f, 0f, 0f);
             _anchor.localScale = Vector3.one;
             SetAlphaInstant(_renderer, 0f);
             if (_secondRenderer != null) SetAlphaInstant(_secondRenderer, 0f);
+            if (!IsMagician) HideForNonMagician();
         }
 
         float TickInterval => _tickInterval * (_augments != null ? _augments.TickIntervalMultiplier : 1f);
@@ -68,6 +81,12 @@ namespace SSW
 
         void OnAttack(InputValue value)
         {
+            if (!IsMagician)
+            {
+                HideForNonMagician();
+                return;
+            }
+
             if (value.isPressed)
             {
                 if (_cooldownTimer > 0f) return;
@@ -159,6 +178,12 @@ namespace SSW
 
         void Update()
         {
+            if (!IsMagician)
+            {
+                HideForNonMagician();
+                return;
+            }
+
             if (_cooldownTimer > 0f)
             {
                 _cooldownTimer = Mathf.Max(_cooldownTimer - Time.deltaTime, 0f);
@@ -201,6 +226,7 @@ namespace SSW
 
         void SpawnFlyingCard(Suit suit, int rankIndex)
         {
+            if (!IsMagician) return;
             Sprite[] cards = CardsFor(suit);
             if (cards == null || cards.Length == 0) return;
 
@@ -220,6 +246,7 @@ namespace SSW
 
         public void SpawnMirrorCard(Suit suit, int rankIndex, Vector2 dir, float effectMultiplier)
         {
+            if (!IsMagician) return;
             Sprite[] cards = CardsFor(suit);
             if (cards == null || rankIndex < 0 || rankIndex >= cards.Length) return;
 
@@ -278,6 +305,23 @@ namespace SSW
             Color c = sr.color;
             c.a = alpha;
             sr.color = c;
+        }
+
+        void HideForNonMagician()
+        {
+            if (_nonMagicianUIHidden) return;
+            _nonMagicianUIHidden = true;
+            _rolling = false;
+            _gen++;
+            _anchor.DOKill();
+            _renderer.DOKill();
+            SetAlphaInstant(_renderer, 0f);
+            if (_secondRenderer != null)
+            {
+                _secondRenderer.DOKill();
+                SetAlphaInstant(_secondRenderer, 0f);
+            }
+            if (_cooldownUI != null) _cooldownUI.gameObject.SetActive(false);
         }
     }
 }

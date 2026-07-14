@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5098851d647c4ec78555515fc1440a04, type: 3}
+  m_Name: JobCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.JobCatalog
+  _definitions:
+  - _job: 5
+    _koreanName: "\uCD1D"
+    _accent: {r: 0.72, g: 0.5, b: 0.32, a: 1}
+    _hatSprite: {fileID: 21300000, guid: fd8e240e16a892447835deeb68c3ebd3, type: 3}
+    _previewOffset: {x: 2, y: -12}
+    _previewScale: 0.36
+    _worldOffset: {x: 0.01, y: 0.07}
+    _worldScale: 0.09
+  - _job: 6
+    _koreanName: "\uB9C8\uB140"
+    _accent: {r: 0.53, g: 0.43, b: 0.66, a: 1}
+    _hatSprite: {fileID: 21300000, guid: fd6ac132dd1ed60438d7300f5e355123, type: 3}
+    _previewOffset: {x: -3, y: -8}
+    _previewScale: 0.37
+    _worldOffset: {x: -0.02, y: 0.07}
+    _worldScale: 0.09
+  - _job: 1
+    _koreanName: "\uB9C8\uC220\uC0AC"
+    _accent: {r: 0.38, g: 0.55, b: 0.7, a: 1}
+    _hatSprite: {fileID: 21300000, guid: da931dd9562242947a441f0affa87fb8, type: 3}
+    _previewOffset: {x: 1, y: -20}
+    _previewScale: 0.34
+    _worldOffset: {x: 0.01, y: 0.08}
+    _worldScale: 0.08
+  - _job: 4
+    _koreanName: "\uB3C4\uBC15\uC0AC"
+    _accent: {r: 0.66, g: 0.38, b: 0.42, a: 1}
+    _hatSprite: {fileID: 21300000, guid: 248da13cc2668aa48936dbee27701425, type: 3}
+    _previewOffset: {x: 2, y: -10}
+    _previewScale: 0.37
+    _worldOffset: {x: 0.01, y: 0.07}
+    _worldScale: 0.095
+  - _job: 3
+    _koreanName: "\uC554\uC0B4\uC790"
+    _accent: {r: 0.36, g: 0.41, b: 0.48, a: 1}
+    _hatSprite: {fileID: 21300000, guid: bebb0b2a849e89c4eb133f4e13f63caf, type: 3}
+    _previewOffset: {x: -4, y: -12}
+    _previewScale: 0.31
+    _worldOffset: {x: -0.03, y: 0.07}
+    _worldScale: 0.08
+  - _job: 2
+    _koreanName: "\uCE7C\uC7BD\uC774"
+    _accent: {r: 0.4, g: 0.62, b: 0.52, a: 1}
+    _hatSprite: {fileID: 21300000, guid: d82f344484c10f240a75174a5e840bc2, type: 3}
+    _previewOffset: {x: 3, y: -8}
+    _previewScale: 0.44
+    _worldOffset: {x: 0.02, y: 0.08}
+    _worldScale: 0.11

@@ -9,6 +9,8 @@ namespace SSW
     {
         [SerializeField] CanvasGroup _mainPanel;
         [SerializeField] CanvasGroup _playPanel;
+        [SerializeField] CanvasGroup _jobPanel;
+        [SerializeField] JobSettingsPanel _jobSettingsPanel;
         [SerializeField] CanvasGroup _settingsPanel;
         [SerializeField] RectTransform _title;
         [SerializeField] Text _statusText;
@@ -20,10 +22,21 @@ namespace SSW
 
         CanvasGroup _current;
 
+        void OnEnable()
+        {
+            if (_jobSettingsPanel != null) _jobSettingsPanel.BackRequested += ShowMain;
+        }
+
+        void OnDisable()
+        {
+            if (_jobSettingsPanel != null) _jobSettingsPanel.BackRequested -= ShowMain;
+        }
+
         void Start()
         {
             _mainPanel.gameObject.SetActive(false);
             _playPanel.gameObject.SetActive(false);
+            _jobPanel.gameObject.SetActive(false);
             _settingsPanel.gameObject.SetActive(false);
             ShowMain();
             PlayTitleIntro();
@@ -48,6 +61,12 @@ namespace SSW
             ShowPanel(_playPanel);
         }
 
+        public void ShowJobs()
+        {
+            ShowPanel(_jobPanel);
+            _jobSettingsPanel.Open();
+        }
+
         public void ShowSettings()
         {
             ShowPanel(_settingsPanel);
@@ -56,6 +75,8 @@ namespace SSW
         void ShowPanel(CanvasGroup target)
         {
             if (_current == target) return;
+
+            if (_title != null) _title.gameObject.SetActive(target != _jobPanel);
 
             if (_current != null)
             {

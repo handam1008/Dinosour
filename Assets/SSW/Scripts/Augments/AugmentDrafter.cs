@@ -15,11 +15,26 @@ namespace SSW
 
         readonly List<Augment> _owned = new List<Augment>();
         AugmentDraftUIBase _openDraft;
+        PlayerIdentity _identity;
 
         public IReadOnlyList<Augment> Owned => _owned;
+        bool IsMagician
+        {
+            get
+            {
+                if (_identity == null) _identity = GetComponent<PlayerIdentity>();
+                return _identity != null && _identity.Job == PlayerJob.Magician;
+            }
+        }
+
+        void Awake()
+        {
+            _identity = GetComponent<PlayerIdentity>();
+        }
 
         void Update()
         {
+            if (!IsMagician) return;
             if (_openDraft != null) return;
             if (Keyboard.current == null) return;
             if (Keyboard.current.pKey.wasPressedThisFrame) OpenCommonDraft();
@@ -28,16 +43,19 @@ namespace SSW
 
         public void OpenCommonDraft()
         {
+            if (!IsMagician) return;
             OpenDraft(false);
         }
 
         public void OpenCommonAndJobDraft()
         {
+            if (!IsMagician) return;
             OpenDraft(true);
         }
 
         void OpenDraft(bool includeJobReward)
         {
+            if (!IsMagician) return;
             if (_openDraft != null) return;
 
             GameObject prefab = Resources.Load<GameObject>(_draftUIResourceName);
@@ -90,6 +108,7 @@ namespace SSW
 
         void Grant(Augment augment)
         {
+            if (!IsMagician) return;
             if (augment == null) return;
             _owned.Add(augment);
             OnAugmentSelected?.Invoke(augment);
