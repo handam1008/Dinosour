@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15639e63881de9b4a82609b01e29ee74, type: 3}
+  m_Name: NomNom
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.CommonAugment
+  displayName: "\uB0E0\uB0E0"
+  description: "\uD50C\uB808\uC774\uC5B4 \uC8FC\uBCC0 \uBC94\uC704 \uC548\uC5D0 \uC788\uB294
+    \uC801\uC758 \uCCB4\uB825\uC744 \uBE7C\uC557\uB294\uB2E4."
+  icon: {fileID: 0}
+  type: 29
+  category: 4
