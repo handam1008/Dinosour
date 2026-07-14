@@ -16,7 +16,12 @@ public class KDH_Bullet : MonoBehaviour
     private void OnEnable()
     {
         Vector3 mousePos = gun.FindMousePosition();
-        _moveDir = (mousePos - gun.gunPos.position).normalized;
+        mousePos.z = 0f;
+
+        Vector3 gunPos3D = gun.gunPos.position;
+        gunPos3D.z = 0f;
+
+        _moveDir = ((Vector2)(mousePos - gunPos3D)).normalized;
 
         _rigid.linearVelocity = _moveDir * _speed;
     }

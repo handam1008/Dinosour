@@ -6,8 +6,12 @@ public class KDH_DeadZone : MonoBehaviour
     {
         if (collision.CompareTag("Bullet"))
         {
-            collision.gameObject.SetActive(false);
-            KDH_PoolManager.instance.bullets.Push(collision.gameObject);
+            GameObject bulletRoot = collision.attachedRigidbody.gameObject;
+        
+            if (!bulletRoot.activeSelf) return;
+
+            bulletRoot.SetActive(false);
+            KDH_PoolManager.instance.bullets.Push(bulletRoot);
         }
         else if (collision.CompareTag("Player"))
         {
