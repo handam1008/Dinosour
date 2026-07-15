@@ -11,7 +11,7 @@ namespace NKY.Scripts
         private float _speed;
         private LayerMask _whatIsTarget;
         private float _destroyTime;
-        private UniTask 
+        //private UniTask 
         
         private float _curTime;
         
