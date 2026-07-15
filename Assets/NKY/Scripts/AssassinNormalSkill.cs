@@ -1,7 +1,7 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 using SSW;
-using UnityEditor.VersionControl;
 
 namespace NKY.Scripts
 {
@@ -11,7 +11,7 @@ namespace NKY.Scripts
         private float _speed;
         private LayerMask _whatIsTarget;
         private float _destroyTime;
-        private Task
+        private UniTask 
         
         private float _curTime;
         
