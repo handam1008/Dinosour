@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 using SSW;
+
 namespace NKY.Scripts
 {
     public class AssassinNormalSkill : MonoBehaviour
@@ -9,6 +11,7 @@ namespace NKY.Scripts
         private float _speed;
         private LayerMask _whatIsTarget;
         private float _destroyTime;
+        //private UniTask 
         
         private float _curTime;
         
@@ -41,6 +44,8 @@ namespace NKY.Scripts
         private void FixedUpdate()
         {
             _curTime += Time.fixedDeltaTime;
+            if(_rb.linearVelocity.magnitude > 0)
+                transform.up = _rb.linearVelocity;
             if (_curTime >= _destroyTime)
             {
                 Destroy(this.gameObject);
@@ -54,6 +59,7 @@ namespace NKY.Scripts
                 if (_rb != null)
                 {
                     _rb.linearVelocity = Vector2.zero;
+                    _rb.gravityScale = 0;
                 }
             }
             
