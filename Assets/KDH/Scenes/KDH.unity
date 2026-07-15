@@ -650,16 +650,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d854d61708fa7e642bce389319592258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH_Tanchang
-  ammoPrefabs:
-  - {fileID: 1185907187}
-  - {fileID: 1451056491}
-  - {fileID: 553184373}
-  - {fileID: 1755473990}
-  - {fileID: 1532447369}
-  - {fileID: 558165486}
-  - {fileID: 715497614}
-  - {fileID: 493814320}
-  - {fileID: 1274673531}
+  playerShoot: {fileID: 1660525053}
   maxAmmo: 9
   attackSpeed: 1
   reloadSpeed: 5
