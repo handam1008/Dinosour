@@ -1,19 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KDH_PoolManager : MonoBehaviour
+public class KDH_SpawnBullet : MonoBehaviour
 {
-    public static KDH_PoolManager instance;
-
     [SerializeField] private GameObject bulletPrefab;
+    private KDH_Gun _gun;
     public Stack<GameObject> bullets = new Stack<GameObject>();
     private int bulletCount = 10;
 
-    private void Awake()
-    {
-        instance = this;
-    }
-
+    private void Awake() => _gun = GetComponent<KDH_Gun>();
+    
     private void Start()
     {
         CreateBullet();
@@ -23,7 +19,7 @@ public class KDH_PoolManager : MonoBehaviour
     {
         for (int i = 0; i < bulletCount; i++)
         {
-            GameObject bullet = Instantiate(bulletPrefab);
+            GameObject bullet = Instantiate(bulletPrefab, _gun.gunPos.position, transform.rotation);
             bullet.SetActive(false);
             bullets.Push(bullet);
         }

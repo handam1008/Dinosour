@@ -128,7 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 11053038}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: 'GagePivot '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 71499344}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: FirePos
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -192,7 +192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 83225513}
   - component: {fileID: 83225514}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Gage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -423,7 +423,7 @@ GameObject:
   m_Component:
   - component: {fileID: 257800319}
   - component: {fileID: 257800320}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Gage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -515,7 +515,7 @@ GameObject:
   m_Component:
   - component: {fileID: 265143214}
   - component: {fileID: 265143215}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Gage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -607,7 +607,7 @@ GameObject:
   m_Component:
   - component: {fileID: 303505105}
   - component: {fileID: 303505106}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: _Tanchang
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -674,7 +674,7 @@ GameObject:
   m_Component:
   - component: {fileID: 327272957}
   - component: {fileID: 327272958}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Gage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -766,7 +766,7 @@ GameObject:
   m_Component:
   - component: {fileID: 402576574}
   - component: {fileID: 402576575}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Gage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -859,7 +859,7 @@ GameObject:
   - component: {fileID: 493814321}
   - component: {fileID: 493814322}
   - component: {fileID: 493814323}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ammo 8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -965,7 +965,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 518006487}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: GagePivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -999,7 +999,7 @@ GameObject:
   - component: {fileID: 553184374}
   - component: {fileID: 553184375}
   - component: {fileID: 553184376}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ammo 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1107,7 +1107,7 @@ GameObject:
   - component: {fileID: 558165487}
   - component: {fileID: 558165488}
   - component: {fileID: 558165489}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ammo 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1352,7 +1352,7 @@ GameObject:
   - component: {fileID: 715497615}
   - component: {fileID: 715497616}
   - component: {fileID: 715497617}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ammo 7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1575,6 +1575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21d235f5aa9e3d94dab7368010333239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH_DeadZone
+  spawnBullet: {fileID: 1971414238}
 --- !u!1001 &963598946
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1744,6 +1745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21d235f5aa9e3d94dab7368010333239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH_DeadZone
+  spawnBullet: {fileID: 1971414238}
 --- !u!1 &1035414997
 GameObject:
   m_ObjectHideFlags: 0
@@ -1754,7 +1756,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1035414998}
   - component: {fileID: 1035414999}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Gage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1846,7 +1848,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1066928918}
   - component: {fileID: 1066928919}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Gage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1937,7 +1939,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1087675973}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: 'GagePivot '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1971,7 +1973,7 @@ GameObject:
   - component: {fileID: 1185907188}
   - component: {fileID: 1185907189}
   - component: {fileID: 1185907190}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ammo 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2079,7 +2081,7 @@ GameObject:
   - component: {fileID: 1274673532}
   - component: {fileID: 1274673533}
   - component: {fileID: 1274673534}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ammo 9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2244,7 +2246,7 @@ GameObject:
   - component: {fileID: 1451056492}
   - component: {fileID: 1451056493}
   - component: {fileID: 1451056494}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ammo 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2352,7 +2354,7 @@ GameObject:
   - component: {fileID: 1532447370}
   - component: {fileID: 1532447371}
   - component: {fileID: 1532447372}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ammo 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2458,7 +2460,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1532658717}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: 'GagePivot '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2491,7 +2493,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1560768908}
   - component: {fileID: 1560768909}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Gage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2582,7 +2584,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1579312977}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: GagePivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2615,7 +2617,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1583961007}
   - component: {fileID: 1583961008}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: GunImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2708,7 +2710,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1658835608}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: GagePivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2762,7 +2764,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1660697409}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: GagePivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2795,7 +2797,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1683109031}
   - component: {fileID: 1683109032}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Gage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2888,7 +2890,7 @@ GameObject:
   - component: {fileID: 1755473991}
   - component: {fileID: 1755473992}
   - component: {fileID: 1755473993}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Ammo 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2985,51 +2987,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KDH_Ammo
   tanchang: {fileID: 303505106}
   ammoPivot: {fileID: 1893914069}
---- !u!1 &1846111254
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1846111255}
-  - component: {fileID: 1846111256}
-  m_Layer: 0
-  m_Name: KDH_PoolManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1846111255
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1846111254}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1846111256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1846111254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79f72d74bfd16554badfcd1625ac38d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH_PoolManager
-  bulletPrefab: {fileID: 3615541465566521677, guid: 01264460ff6dec44586aee8ece285f10, type: 3}
 --- !u!1 &1853719147
 GameObject:
   m_ObjectHideFlags: 0
@@ -3121,6 +3078,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21d235f5aa9e3d94dab7368010333239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH_DeadZone
+  spawnBullet: {fileID: 1971414238}
 --- !u!1 &1893914068
 GameObject:
   m_ObjectHideFlags: 0
@@ -3130,7 +3088,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1893914069}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: GagePivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3162,7 +3120,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1913957684}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: 'GagePivot '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3185,51 +3143,6 @@ Transform:
   - {fileID: 1683109031}
   m_Father: {fileID: 1274673532}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1915666930
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1915666932}
-  - component: {fileID: 1915666931}
-  m_Layer: 0
-  m_Name: KDH_GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1915666931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1915666930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14c0963d3c51501478c1842ee668f991, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH_GameManager
-  player: {fileID: 1660525048}
---- !u!4 &1915666932
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1915666930}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1971414235
 GameObject:
   m_ObjectHideFlags: 0
@@ -3240,6 +3153,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1971414236}
   - component: {fileID: 1971414237}
+  - component: {fileID: 1971414238}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
@@ -3278,6 +3192,19 @@ MonoBehaviour:
   playerInput: {fileID: 963598947}
   _visual: {fileID: 1583961007}
   gunPos: {fileID: 71499344}
+--- !u!114 &1971414238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971414235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fbe05b27979f8d41a1eff3696df1377, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KDH_SpawnBullet
+  bulletPrefab: {fileID: 3615541465566521677, guid: 01264460ff6dec44586aee8ece285f10, type: 3}
 --- !u!1 &2058396192
 GameObject:
   m_ObjectHideFlags: 0
@@ -3369,14 +3296,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21d235f5aa9e3d94dab7368010333239, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH_DeadZone
+  spawnBullet: {fileID: 1971414238}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 566945645}
   - {fileID: 149492161}
-  - {fileID: 1846111255}
-  - {fileID: 1915666932}
   - {fileID: 963598946}
   - {fileID: 759172911}
   - {fileID: 1417168713}

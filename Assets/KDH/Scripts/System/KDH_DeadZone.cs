@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class KDH_DeadZone : MonoBehaviour
 {
+    [SerializeField] private KDH_SpawnBullet spawnBullet;
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Bullet"))
@@ -11,7 +13,7 @@ public class KDH_DeadZone : MonoBehaviour
             if (!bulletRoot.activeSelf) return;
 
             bulletRoot.SetActive(false);
-            KDH_PoolManager.instance.bullets.Push(bulletRoot);
+            spawnBullet.bullets.Push(bulletRoot);
         }
         else if (collision.CompareTag("Player"))
         {

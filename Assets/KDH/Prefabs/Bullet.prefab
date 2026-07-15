@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5111780213863351364}
   - component: {fileID: 8143845724427990202}
-  m_Layer: 14
+  m_Layer: 12
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 3846719383115730629}
   - component: {fileID: 1187776565867057462}
   - component: {fileID: 9086097530624814000}
-  m_Layer: 14
+  m_Layer: 12
   m_Name: Bullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -298,7 +298,7 @@ GameObject:
   - component: {fileID: 6654778118030300354}
   - component: {fileID: 5822085973580938868}
   - component: {fileID: 2440779524008370736}
-  m_Layer: 14
+  m_Layer: 12
   m_Name: DamageModule
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -379,7 +379,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5881808550262724083}
-  m_Layer: 14
+  m_Layer: 12
   m_Name: FireEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
