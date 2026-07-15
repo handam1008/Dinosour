@@ -246,7 +246,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -275,7 +275,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1976470144}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &200475911
 MonoBehaviour:
@@ -321,6 +321,63 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1001 &272152301
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2839131585592196339, guid: b89645d7b3c954847a11576c13269860, type: 3}
+      propertyPath: m_Name
+      value: Dummy
+      objectReference: {fileID: 0}
+    - target: {fileID: 3017196835076093405, guid: b89645d7b3c954847a11576c13269860, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 3017196835076093405, guid: b89645d7b3c954847a11576c13269860, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 3017196835076093405, guid: b89645d7b3c954847a11576c13269860, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3017196835076093405, guid: b89645d7b3c954847a11576c13269860, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3017196835076093405, guid: b89645d7b3c954847a11576c13269860, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3017196835076093405, guid: b89645d7b3c954847a11576c13269860, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3017196835076093405, guid: b89645d7b3c954847a11576c13269860, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3017196835076093405, guid: b89645d7b3c954847a11576c13269860, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3017196835076093405, guid: b89645d7b3c954847a11576c13269860, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3017196835076093405, guid: b89645d7b3c954847a11576c13269860, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b89645d7b3c954847a11576c13269860, type: 3}
 --- !u!1 &393281057
 GameObject:
   m_ObjectHideFlags: 0
@@ -711,7 +768,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 623dcb9525cf9644285d5649f88e77f3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.041999873
+      value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 623dcb9525cf9644285d5649f88e77f3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1093,7 +1150,7 @@ Transform:
   m_GameObject: {fileID: 1599279040}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.42000002, y: 0.2999998, z: 0}
+  m_LocalPosition: {x: 0.42000002, y: 0.43, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1147,10 +1204,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.AssassinMeleeAttack
   targetMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 9
   offset: {x: 0.91, y: 0.1}
   hitboxSize: {x: 1.39, y: 1}
   damage: 15
+  attackCooldown: 1.2
 --- !u!1 &1766399862
 GameObject:
   m_ObjectHideFlags: 0
@@ -1864,9 +1922,6 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6672743312566370646, guid: 276f99118da0fd041ab963bb49709186, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 200475910}
-    - targetCorrespondingSourceObject: {fileID: 6672743312566370646, guid: 276f99118da0fd041ab963bb49709186, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1663926781}
     - targetCorrespondingSourceObject: {fileID: 565361027440095325, guid: 276f99118da0fd041ab963bb49709186, type: 3}
       insertIndex: -1
@@ -1888,3 +1943,5 @@ SceneRoots:
   - {fileID: 1334817663}
   - {fileID: 5797512593808901721}
   - {fileID: 2100122346}
+  - {fileID: 272152301}
+  - {fileID: 200475910}

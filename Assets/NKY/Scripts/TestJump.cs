@@ -102,6 +102,7 @@ namespace NKY.Scripts
         Vector3 world = _cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         Vector3 scale = _visual.localScale;
         scale.x = world.x < transform.position.x ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);
+        _attack.FaceAttack(world.x > transform.position.x);
         _visual.localScale = scale;
     }
     }

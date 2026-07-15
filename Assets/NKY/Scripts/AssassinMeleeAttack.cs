@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using SSW;
 using UnityEngine;
 
@@ -11,6 +10,11 @@ namespace NKY.Scripts
         [SerializeField] private Vector2 offset;
         [SerializeField] private Vector2 hitboxSize;
         [SerializeField] private float damage;
+        [SerializeField] private float attackCooldown;
+
+        private Vector2 _currentOffset;
+        
+        private float _currentCooldown = -99f;
 
         private Animator _attackAnim;
         private Animator _effectAnim;
@@ -22,6 +26,14 @@ namespace NKY.Scripts
             
             _attackAnim.gameObject.SetActive(false);
             _effectAnim.gameObject.SetActive(false);
+
+            _currentOffset = offset;
+        }
+
+        public void FaceAttack(bool isRight)
+        {
+            _currentOffset = isRight ? offset : new Vector2(-offset.x, offset.y);
+            transform.rotation = isRight ? Quaternion.Euler(transform.rotation.x, 0f, transform.rotation.z) : Quaternion.Euler(transform.rotation.x, 180f, transform.rotation.z);
         }
 
         private IEnumerator AttackCoroutine()
@@ -37,6 +49,9 @@ namespace NKY.Scripts
 
         public void AssassinAttack()
         {
+            if(Time.time - _currentCooldown < attackCooldown) return;
+            
+            _currentCooldown = Time.time;
             StartCoroutine(AttackCoroutine());
             AttackScan();
         }
@@ -44,11 +59,11 @@ namespace NKY.Scripts
         private void AttackScan()
         {
             Collider2D[] hits;
-            hits = Physics2D.OverlapBoxAll((Vector2)transform.position + offset, hitboxSize, 0, targetMask);
+            hits = Physics2D.OverlapBoxAll((Vector2)transform.position + _currentOffset, hitboxSize, 0, targetMask);
 
             foreach (Collider2D hit in hits)
             {
-                if(hit.gameObject == gameObject) return;
+                if(hit.transform.root == transform.root) continue;
                 
                 if (hit.TryGetComponent(out IDamageable damageable))
                 {
@@ -61,7 +76,7 @@ namespace NKY.Scripts
         {
             Gizmos.color = Color.red;
             
-            Gizmos.DrawWireCube((Vector2)transform.position + offset, hitboxSize);
+            Gizmos.DrawWireCube((Vector2)transform.position + _currentOffset, hitboxSize);
         }
     }
 }
