@@ -17,29 +17,33 @@ namespace NKY.Scripts.Skill
         private AssassinNormalSkill _skill;
         protected override IEnumerator SkillCoroutine(TestJump player)
         {
-            Debug.Log("use");
-            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            if (Camera.main != null)
+            {
+                Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             
-            mouseWorldPos.z = 0; 
+                mouseWorldPos.z = 0; 
             
-            Vector3 direction = mouseWorldPos - player.transform.position;
+                Vector3 direction = mouseWorldPos - player.transform.position;
             
-            direction.Normalize();
-            _skill = Instantiate(skillPrefab, player.transform.position, Quaternion.identity);
-            _skill.Init(player, Damage, ThrowSpeed, WhatIsTarget, DestroyTime);
-            _skill.transform.up = direction;
-            
+                direction.Normalize();
+                _skill = Instantiate(skillPrefab, player.transform.position, Quaternion.identity);
+                _skill.Init(player, Damage, ThrowSpeed, WhatIsTarget, DestroyTime);
+                _skill.transform.up = direction;
+            }
+
             yield break;
         }
 
         protected override IEnumerator ReUseSkillCoroutine(TestJump player)
         {
-            Debug.Log("reuse");
             if (_skill == null) yield break;
-            Debug.Log("reuse 찐또");
             player.transform.position = _skill.transform.position;
+            Vector3 direction = _skill.transform.up.normalized;
+            player.Rb.AddForce(_skill.Rb.linearVelocity.magnitude * direction, ForceMode2D.Impulse);
             Destroy(_skill.gameObject);
             _skill = null;
         }
+        
+        
     }
 }
