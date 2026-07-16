@@ -1,13 +1,11 @@
-using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class KHG_Paring : MonoBehaviour
 {
     public bool isParrying = false;
-    public float parryTime = 0.2f;
+    public float parryTime = 3f;
     public float reflectSpeed = 20f;
 
     void Update()
@@ -34,7 +32,7 @@ public class KHG_Paring : MonoBehaviour
         isParrying = false;
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (!isParrying) return;
 
@@ -46,9 +44,13 @@ public class KHG_Paring : MonoBehaviour
 
         if (rb == null) return;
 
-        rb.linearVelocity = -rb.linearVelocity;
+        // RaycastHit2D hit = other.GetComponent<RaycastHit2D>();
+        //
+        // Vector2 dir = other.GetComponent<KDH_PlayerMovement>().MoveDir;
+        //
+        // rb.linearVelocity = Vector2.Reflect(dir, hit.normal) * reflectSpeed; 
         
-        rb.linearVelocity = Vector2.right * reflectSpeed; 
+        rb.linearVelocity = -rb.linearVelocity;
     }
 
     
