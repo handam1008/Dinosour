@@ -14,6 +14,7 @@ namespace NKY.Scripts
     	[SerializeField] Transform _visual;
 
         [SerializeField] private AbstractPlayerSkillSo skillData;
+        private AssassinMeleeAttack _attack;
         
     	Camera _cam;
     	Animator _animator;
@@ -54,9 +55,13 @@ namespace NKY.Scripts
             }
         }
 
+        private void OnAttack(InputValue value)
+        {
+            _attack.AssassinAttack();
+        }
+
         private void OnSkill(InputValue value)
         {
-            Debug.Log("Skill");
             skillData.StartSkill(this);
         }
 
@@ -65,7 +70,9 @@ namespace NKY.Scripts
         Rb = GetComponent<Rigidbody2D>();
         _cam = Camera.main;
         _animator = _visual.GetComponent<Animator>();
+        _attack = GetComponentInChildren<AssassinMeleeAttack>();
         GetComponent<Health>().OnDamaged += () => _animator.SetTrigger("GetDamage");
+        skillData.Init();
     }
 
     void OnMove(InputValue value)
@@ -95,6 +102,7 @@ namespace NKY.Scripts
         Vector3 world = _cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         Vector3 scale = _visual.localScale;
         scale.x = world.x < transform.position.x ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);
+        _attack.FaceAttack(world.x > transform.position.x);
         _visual.localScale = scale;
     }
     }

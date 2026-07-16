@@ -1,5 +1,6 @@
 ﻿using System;
 using RYU._01.Script.FeedBack;
+using SSW;
 using UnityEngine;
 
 namespace RYU._01.Script.Potion
@@ -17,6 +18,10 @@ namespace RYU._01.Script.Potion
         {
             Transform hit = collision.transform;
             _feedBackPlayer.PlayAllFeedBacks();
+            if (collision.TryGetComponent(out Health healthCompo))
+            {
+                healthCompo.TakeDamage(20f);
+            }
             Destroy(gameObject);
         }
     }

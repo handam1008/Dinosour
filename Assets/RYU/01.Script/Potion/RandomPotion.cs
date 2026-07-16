@@ -90,7 +90,7 @@ public class RandomPotion : MonoBehaviour
     public IEnumerator WaitCo()
     {
         canCreate = false;
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.5f);
         canCreate = true;
     }
     

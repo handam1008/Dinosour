@@ -8,10 +8,14 @@ namespace NKY.Scripts
         [field: SerializeField] public float SkillCooldown {get; protected set;}
         
         [field: SerializeField] public bool IsReUse {get; protected set;}
-        
-        [SerializeField] private float cooldown;
-        private bool _skillReUse;
-        
+
+        private bool _skillReUse = false;
+        private float _currentCooldown;
+
+        public virtual void Init()
+        {
+            _currentCooldown = -99f;
+        }
 
         private void UseSkill(TestJump player)
         {
@@ -32,12 +36,12 @@ namespace NKY.Scripts
                 return;
             }
 
-            if (Time.time - cooldown >= SkillCooldown)
+            if (Time.time - _currentCooldown >= SkillCooldown)
             {
                 UseSkill(player);
                 if (IsReUse)
                     _skillReUse = true;
-                cooldown = Time.time;
+                _currentCooldown = Time.time;
             }
         }
 

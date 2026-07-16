@@ -173,7 +173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 213e80cc53e64275925f28ab8b4501c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.Potion.Potion
-  _feedBackPlayer: {fileID: 0}
 --- !u!114 &-4426115649117178391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,4 +197,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e0919e1f6c49f1b005b0f4c6495460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.FeedBack.GlassEffect
-  _glassEffect: {fileID: 2845722860683462427, guid: 2f0fbf709f4330043b8c27d28272b203, type: 3}
+  _glassEffect: {fileID: 1572151662134867172, guid: 95bd4b4eeb7666040a43ee698d5dc15e, type: 3}
