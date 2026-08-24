@@ -1,10 +1,19 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class KDH_Shoot : MonoBehaviour
 {
+    private KDH_SpawnBullet SpawnBullet;
+    private KDH_Gun gun;
     public Action PlayerShoot;
 
+    private void Awake()
+    {
+        SpawnBullet = GetComponentInChildren<KDH_SpawnBullet>();
+        gun = GetComponentInChildren<KDH_Gun>();
+    }
+    
     private void Start()
     {
         PlayerShoot += Shoot;
@@ -17,8 +26,14 @@ public class KDH_Shoot : MonoBehaviour
 
     private void Shoot()
     {
-        GameObject bullet = KDH_PoolManager.instance.bullets.Pop();
-        bullet.transform.position = KDH_GameManager.instanec.player.GetComponentInChildren<KDH_Gun>().gunPos.position;
+        if (SpawnBullet.bullets.Count <= 0) return;
+        
+        GameObject bullet = SpawnBullet.bullets.Pop();
+        bullet.transform.position = gun.gunPos.position;
+        
+        KDH_Bullet bulletScript = bullet.GetComponent<KDH_Bullet>();
+        bulletScript.Init(gun.GetFireDirection());
+        
         bullet.SetActive(true);
     }
 }

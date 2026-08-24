@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,20 +6,21 @@ public class KDH_Gun : MonoBehaviour
 {
     [SerializeField] private PlayerInput playerInput;
     [SerializeField] private Transform _visual;
+    private KDH_SpawnBullet _spawnBullet;
     public Transform gunPos;
-    Camera _cam;
+    private Camera _cam;
 
     private void Awake()
     {
         _cam = Camera.main;
+        _spawnBullet = GetComponent<KDH_SpawnBullet>();
     }
 
     private void Update()
     {
-        FindMousePosition();
         FollowMouse();
     }
-
+    
     private void FollowMouse()
     {
         Vector3 mouseWorldPos = FindMousePosition();
@@ -31,11 +33,17 @@ public class KDH_Gun : MonoBehaviour
     public Vector3 FindMousePosition()
     {
         Vector3 world = _cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-
+        
         Vector3 scale = _visual.localScale;
+        
         scale.y = world.x < transform.position.x ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);
         _visual.localScale = scale;
 
         return world;
+    }
+
+    public Vector2 GetFireDirection()
+    {
+        return ((Vector2)(FindMousePosition() - gunPos.position)).normalized;
     }
 }

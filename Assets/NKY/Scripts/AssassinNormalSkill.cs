@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 using SSW;
+
 namespace NKY.Scripts
 {
     public class AssassinNormalSkill : MonoBehaviour
@@ -12,7 +14,7 @@ namespace NKY.Scripts
         
         private float _curTime;
         
-        private Rigidbody2D _rb;
+        public Rigidbody2D Rb { get;  private set; }
 
         private TestJump _giver;
 
@@ -27,20 +29,22 @@ namespace NKY.Scripts
 
         private void Awake()
         {
-            _rb = GetComponent<Rigidbody2D>();
+            Rb = GetComponent<Rigidbody2D>();
         }
 
         private void Start()
         {
-            if (_rb != null)
+            if (Rb != null)
             {
-                _rb.linearVelocity = transform.up * _speed;
+                Rb.linearVelocity = transform.up * _speed;
             }
         }
 
         private void FixedUpdate()
         {
             _curTime += Time.fixedDeltaTime;
+            if(Rb.linearVelocity.magnitude > 0)
+                transform.up = Rb.linearVelocity;
             if (_curTime >= _destroyTime)
             {
                 Destroy(this.gameObject);
@@ -51,9 +55,10 @@ namespace NKY.Scripts
         {
             if ((_whatIsTarget.value & (1 << other.gameObject.layer)) != 0)
             {
-                if (_rb != null)
+                if (Rb != null)
                 {
-                    _rb.linearVelocity = Vector2.zero;
+                    Rb.linearVelocity = Vector2.zero;
+                    Rb.gravityScale = 0;
                 }
             }
             

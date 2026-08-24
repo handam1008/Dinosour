@@ -2,38 +2,44 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using SSW;
+
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(KHG_DashSpeed))]
 
 public class KHG_Dash : MonoBehaviour
 {
-    [SerializeField] float _dashSpeed = 20f;      // 대쉬 속도
-    [SerializeField] float _dashDuration = 0.2f;   // 대쉬 지속 시간
-    [SerializeField] float _dashCooldown = 1f;    // 대쉬 재사용 대기시간
+    [SerializeField] private float _dashSpeed = 20f;      
+    [SerializeField] private float _dashDuration = 0.2f;  
+    [SerializeField] private float _dashCooldown = 1f;    
 
-    Rigidbody2D _rb;
-    Transform _visual;
-    PlayerController _playerController;
+    private Rigidbody2D _rb;
+    private Transform _visual;
+    private PlayerController _playerController;
+    private KHG_DashSpeed _dashSpeedBoost;
 
-    bool _canDash = true;
-    bool _isDashing;
+    private bool _canDash = true;
+    private bool _isDashing;
 
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _playerController = GetComponent<PlayerController>();
-        
-        _visual = transform.Find("Visual"); 
-        if (_visual == null)
+        _dashSpeedBoost = GetComponent<KHG_DashSpeed>();
+
+        _visual = transform.Find("Visual");
+        if (_visual == null && transform.childCount > 0)
         {
-            _visual = transform.GetChild(0); 
+            _visual = transform.GetChild(0);
         }
     }
 
     void OnCycleSuit(InputValue value)
     {
-        
-            StartCoroutine(DashRoutine());
+        if (!_canDash || _isDashing)
+            return;
+
+        StartCoroutine(DashRoutine());
     }
 
     IEnumerator DashRoutine()
@@ -41,33 +47,44 @@ public class KHG_Dash : MonoBehaviour
         _canDash = false;
         _isDashing = true;
 
-        if (_playerController != null) _playerController.enabled = false;
+        if (_playerController != null)
+            _playerController.enabled = false;
 
         float originalGravity = _rb.gravityScale;
         _rb.gravityScale = 0f;
 
         Vector2 moveInput = Vector2.zero;
-        var playerInput = GetComponent<PlayerInput>();
+
+        PlayerInput playerInput = GetComponent<PlayerInput>();
         if (playerInput != null)
         {
-            var moveAction = playerInput.actions.FindAction("Move");
-            if (moveAction != null) moveInput = moveAction.ReadValue<Vector2>();
+            InputAction moveAction = playerInput.actions.FindAction("Move");
+            if (moveAction != null)
+                moveInput = moveAction.ReadValue<Vector2>();
         }
 
-        float dashDirection = moveInput.x != 0 ? Mathf.Sign(moveInput.x) : Mathf.Sign(_visual.localScale.x);
+        float dashDirection =
+            moveInput.x != 0
+            ? Mathf.Sign(moveInput.x)
+            : Mathf.Sign(_visual.localScale.x);
 
         _rb.linearVelocity = new Vector2(dashDirection * _dashSpeed, 0f);
 
         yield return new WaitForSeconds(_dashDuration);
 
         _rb.gravityScale = originalGravity;
-        
-        if (_playerController != null) _playerController.enabled = true;
-        
+
+        if (_playerController != null)
+            _playerController.enabled = true;
+
+        if (_dashSpeedBoost != null)
+        {
+            _dashSpeedBoost.ActivateSpeedBoost();
+        }
+
         _isDashing = false;
 
         yield return new WaitForSeconds(_dashCooldown);
         _canDash = true;
     }
-
 }

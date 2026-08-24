@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 using SSW;
@@ -6,6 +7,8 @@ namespace NKY.Scripts
 {
     public class TestJump : MonoBehaviour
     {
+        [SerializeField] private float groundAccel = 80f;
+        [SerializeField] private float airAccel = 20f;
         [SerializeField] private float jumpForce;
         [SerializeField] private Vector2 checkBoxPosition;
         [SerializeField] private Vector2 boxSize;
@@ -14,6 +17,7 @@ namespace NKY.Scripts
     	[SerializeField] Transform _visual;
 
         [SerializeField] private AbstractPlayerSkillSo skillData;
+        private AssassinMeleeAttack _attack;
         
     	Camera _cam;
     	Animator _animator;
@@ -54,9 +58,13 @@ namespace NKY.Scripts
             }
         }
 
+        private void OnAttack(InputValue value)
+        {
+            _attack.AssassinAttack();
+        }
+
         private void OnSkill(InputValue value)
         {
-            Debug.Log("Skill");
             skillData.StartSkill(this);
         }
 
@@ -65,7 +73,9 @@ namespace NKY.Scripts
         Rb = GetComponent<Rigidbody2D>();
         _cam = Camera.main;
         _animator = _visual.GetComponent<Animator>();
+        _attack = GetComponentInChildren<AssassinMeleeAttack>();
         GetComponent<Health>().OnDamaged += () => _animator.SetTrigger("GetDamage");
+        skillData.Init();
     }
 
     void OnMove(InputValue value)
@@ -73,9 +83,22 @@ namespace NKY.Scripts
         _move = value.Get<Vector2>();
     }
 
+    private void FixedUpdate()
+    {
+        float targetSpeed = _move.x * _moveSpeed;
+
+        float accel = IsGrounded() ? groundAccel : airAccel;
+
+        float newX = Mathf.MoveTowards(
+            Rb.linearVelocity.x,
+            targetSpeed,
+            accel * Time.fixedDeltaTime);
+
+        Rb.linearVelocity = new Vector2(newX, Rb.linearVelocity.y);
+    }
+
     void Update()
     {
-        Rb.linearVelocity = new Vector2(_move.x * _moveSpeed, Rb.linearVelocity.y);
         _animator.SetFloat("Speed", Mathf.Abs(_move.x));
         _animator.SetBool("IsGrounded", IsGrounded());
         FaceMouse();
@@ -92,7 +115,17 @@ namespace NKY.Scripts
 
     void FaceMouse()
     {
-        Vector3 world = _cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        Vector3 mouse = Mouse.current.position.ReadValue();
+        mouse.z = -_cam.transform.position.z;
+
+        Vector3 world = _cam.ScreenToWorldPoint(mouse);
+        world.z = transform.position.z;
+
+        Vector3 diff = world - transform.position;
+        
+        Vector2 dir = diff.normalized;
+
+        _attack.FaceAttack(dir);
         Vector3 scale = _visual.localScale;
         scale.x = world.x < transform.position.x ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);
         _visual.localScale = scale;
