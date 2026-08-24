@@ -4,7 +4,7 @@ using DG.Tweening;
 
 namespace SSW
 {
-    public class NumberRoller : MonoBehaviour
+    public class NumberRoller : JobModuleBehaviour
     {
         [SerializeField] Sprite[] _redRanks;
         [SerializeField] Sprite[] _blackRanks;
@@ -41,38 +41,30 @@ namespace SSW
         InputAction _attackAction;
         MagicianAugmentController _augments;
         SpriteRenderer _secondRenderer;
-        PlayerIdentity _identity;
-        bool _nonMagicianUIHidden;
+        bool _inactiveUIHidden;
 
         public bool IsRolling => _rolling;
-        bool IsMagician
-        {
-            get
-            {
-                if (_identity == null) _identity = GetComponent<PlayerIdentity>();
-                return _identity != null && _identity.Job == PlayerJob.Magician;
-            }
-        }
+        public override PlayerJob Job => PlayerJob.Magician;
 
-        void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _attackAction = GetComponent<PlayerInput>().actions.FindAction("Attack");
             _augments = GetComponent<MagicianAugmentController>();
-            _identity = GetComponent<PlayerIdentity>();
         }
 
-        void OnEnable()
+        protected override void OnEnable()
         {
             _rolling = false;
             _gen = 0;
-            _nonMagicianUIHidden = false;
+            _inactiveUIHidden = false;
             _anchor.DOKill();
             _renderer.DOKill();
             _anchor.localPosition = new Vector3(0.4f, 0f, 0f);
             _anchor.localScale = Vector3.one;
             SetAlphaInstant(_renderer, 0f);
             if (_secondRenderer != null) SetAlphaInstant(_secondRenderer, 0f);
-            if (!IsMagician) HideForNonMagician();
+            base.OnEnable();
         }
 
         float TickInterval => _tickInterval * (_augments != null ? _augments.TickIntervalMultiplier : 1f);
@@ -81,9 +73,9 @@ namespace SSW
 
         void OnAttack(InputValue value)
         {
-            if (!IsMagician)
+            if (!IsJobActive)
             {
-                HideForNonMagician();
+                HideForInactiveJob();
                 return;
             }
 
@@ -138,6 +130,7 @@ namespace SSW
 
         void EndRoll()
         {
+            if (!_rolling) return;
             _rolling = false;
 
             if (DoubleDraw && _secondRenderer != null)
@@ -178,9 +171,9 @@ namespace SSW
 
         void Update()
         {
-            if (!IsMagician)
+            if (!IsJobActive)
             {
-                HideForNonMagician();
+                HideForInactiveJob();
                 return;
             }
 
@@ -226,7 +219,7 @@ namespace SSW
 
         void SpawnFlyingCard(Suit suit, int rankIndex)
         {
-            if (!IsMagician) return;
+            if (!IsJobActive) return;
             Sprite[] cards = CardsFor(suit);
             if (cards == null || cards.Length == 0) return;
 
@@ -236,7 +229,10 @@ namespace SSW
 
             Sprite sprite = isJoker && _jokerSprite != null ? _jokerSprite : cards[rankIndex];
 
-            Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            Camera mainCamera = Camera.main;
+            if (mainCamera == null || Mouse.current == null) return;
+
+            Vector3 mouseWorld = mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             mouseWorld.z = transform.position.z;
             Vector3 dir = (mouseWorld - transform.position).normalized;
 
@@ -246,7 +242,7 @@ namespace SSW
 
         public void SpawnMirrorCard(Suit suit, int rankIndex, Vector2 dir, float effectMultiplier)
         {
-            if (!IsMagician) return;
+            if (!IsJobActive) return;
             Sprite[] cards = CardsFor(suit);
             if (cards == null || rankIndex < 0 || rankIndex >= cards.Length) return;
 
@@ -281,7 +277,7 @@ namespace SSW
             if (ownCollider != null) Physics2D.IgnoreCollision(col, ownCollider);
 
             FlyingCard card = go.AddComponent<FlyingCard>();
-            card.Configure(suit, number, GetComponent<Health>());
+            card.Configure(suit, number, GetComponent<IHealable>());
             card.SetAugments(_augments, transform);
             card.SetLifetime(_flyMaxLifetime);
             return card;
@@ -307,10 +303,25 @@ namespace SSW
             sr.color = c;
         }
 
-        void HideForNonMagician()
+        protected override void OnJobActivated()
         {
-            if (_nonMagicianUIHidden) return;
-            _nonMagicianUIHidden = true;
+            _inactiveUIHidden = false;
+            if (_cooldownUI != null)
+            {
+                float progress = _cooldownDuration > 0f ? _cooldownTimer / _cooldownDuration : 0f;
+                _cooldownUI.SetProgress(progress);
+            }
+        }
+
+        protected override void OnJobDeactivated()
+        {
+            HideForInactiveJob();
+        }
+
+        void HideForInactiveJob()
+        {
+            if (_inactiveUIHidden) return;
+            _inactiveUIHidden = true;
             _rolling = false;
             _gen++;
             _anchor.DOKill();

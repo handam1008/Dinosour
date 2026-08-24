@@ -86,7 +86,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &2171874325506261512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,6 +101,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SSW.HealthBarDisplay
   _fillImage: {fileID: 6450792486050501902}
   _tweenDuration: 0.35
+  _shakeDuration: 0.3
+  _shakeStrength: 0.06
+  _shakeVibrato: 12
 --- !u!1 &4545732616514790607
 GameObject:
   m_ObjectHideFlags: 0

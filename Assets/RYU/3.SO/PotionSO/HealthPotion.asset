@@ -15,5 +15,6 @@ MonoBehaviour:
   Potionname: HealthPotion
   PotionPrefab: {fileID: 574119650135082394, guid: 01534560403df374680cd64a390ab908, type: 3}
   Heal: 20
+  splashRadius: 1.5
   sprite: {fileID: 5056543726569808329, guid: 06b0c489b3f4f8e49811e8c69dbdae4a, type: 3}
   Damage: 0

@@ -4,7 +4,8 @@ using DG.Tweening;
 
 namespace SSW
 {
-    public class MagicianAugmentController : MonoBehaviour
+    [DisallowMultipleComponent]
+    public class MagicianAugmentController : AugmentReceiverBehaviour
     {
         [SerializeField] NumberRoller _numberRoller;
         [SerializeField] float _quickShuffleTickMultiplier = 1.15f;
@@ -35,16 +36,8 @@ namespace SSW
         Suit _lastHitSuit;
         int _chainCount;
         bool _chainStarted;
-        PlayerIdentity _identity;
 
-        bool IsMagician
-        {
-            get
-            {
-                if (_identity == null) _identity = GetComponent<PlayerIdentity>();
-                return _identity != null && _identity.Job == PlayerJob.Magician;
-            }
-        }
+        public override PlayerJob Job => PlayerJob.Magician;
 
         public float SharpCardBonusDamage => _sharpCardBonusDamage;
         public float SharpCardDelay => _sharpCardDelay;
@@ -58,29 +51,28 @@ namespace SSW
         public float TickIntervalMultiplier => Has(MagicianAugmentType.QuickShuffle) ? _quickShuffleTickMultiplier : 1f;
         public float FireDelay => Has(MagicianAugmentType.QuickShuffle) ? _quickShuffleFireDelay : 0f;
 
-        void Awake()
+        public override bool TryReceive(Augment augment)
         {
-            _identity = GetComponent<PlayerIdentity>();
-            GetComponent<AugmentDrafter>().OnAugmentSelected += HandleAugmentGained;
+            if (augment is not MagicianAugment magicianAugment)
+            {
+                return false;
+            }
+
+            _acquired.Add(magicianAugment.type);
+            return true;
         }
 
         void Update()
         {
+            if (!IsJobActive) return;
             if (!Has(MagicianAugmentType.JokerCard) || _jokerArmed) return;
             _jokerTimer += Time.deltaTime;
             if (_jokerTimer >= _jokerInterval) _jokerArmed = true;
         }
 
-        void HandleAugmentGained(Augment augment)
-        {
-            if (!IsMagician) return;
-            MagicianAugment magicianAugment = augment as MagicianAugment;
-            if (magicianAugment != null) _acquired.Add(magicianAugment.type);
-        }
-
         public bool Has(MagicianAugmentType type)
         {
-            return IsMagician && _acquired.Contains(type);
+            return IsJobActive && _acquired.Contains(type);
         }
 
         public float ConsumeEmergencyHealBonus()
@@ -93,7 +85,7 @@ namespace SSW
 
         public bool ConsumeJoker()
         {
-            if (!IsMagician) return false;
+            if (!IsJobActive) return false;
             if (!_jokerArmed) return false;
             _jokerArmed = false;
             _jokerTimer = 0f;
@@ -109,7 +101,7 @@ namespace SSW
 
         public void RegisterHit(Suit suit)
         {
-            if (!IsMagician) return;
+            if (!IsJobActive) return;
             if (_chainStarted && suit == _lastHitSuit)
             {
                 _chainCount++;
@@ -124,7 +116,7 @@ namespace SSW
 
         public void RegisterMiss()
         {
-            if (!IsMagician) return;
+            if (!IsJobActive) return;
             _chainStarted = false;
             _chainCount = 0;
         }
@@ -139,6 +131,14 @@ namespace SSW
             {
                 if (_numberRoller != null) _numberRoller.SpawnMirrorCard(suit, number - 1, direction, _mirrorEffectMultiplier);
             }, false);
+        }
+
+        protected override void OnJobDeactivated()
+        {
+            _chainStarted = false;
+            _chainCount = 0;
+            _jokerArmed = false;
+            _jokerTimer = 0f;
         }
     }
 }
