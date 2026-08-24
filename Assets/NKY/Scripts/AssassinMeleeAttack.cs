@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using SSW;
 using UnityEngine;
 
@@ -20,6 +21,8 @@ namespace NKY.Scripts
         private Animator _effectAnim;
 
         private float _currentAngle;
+        
+        private bool isAttacking = false;
 
         private void Awake()
         {
@@ -32,6 +35,27 @@ namespace NKY.Scripts
             _currentOffset = new Vector2(offset, 0);
         }
 
+        private void Update()
+        {
+            RotateWeapon();
+        }
+
+        private void RotateWeapon()
+        {
+            if(isAttacking) return;
+            float angle = _currentAngle;
+            
+            bool isParentFlipped = transform.parent != null && transform.parent.lossyScale.x < 0;
+            
+            bool isLookingLeft = Mathf.Abs(angle) > 90f;
+            
+            float scaleX = isParentFlipped ? -1f : 1f;
+            float scaleY = isLookingLeft ? -1f : 1f;
+
+            transform.localScale = new Vector3(scaleX, scaleY, 1f);
+            transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        }
+
         public void FaceAttack(Vector2 direction)
         {
             _currentAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -40,6 +64,7 @@ namespace NKY.Scripts
 
         private IEnumerator AttackCoroutine()
         {
+            isAttacking = true;
             _attackAnim.gameObject.SetActive(true);
             _effectAnim.gameObject.SetActive(true);
             _attackAnim.Play("Attack");
@@ -47,6 +72,7 @@ namespace NKY.Scripts
             yield return new WaitForSeconds(_effectAnim.GetCurrentAnimatorStateInfo(0).length);
             _attackAnim.gameObject.SetActive(false);
             _effectAnim.gameObject.SetActive(false);
+            isAttacking = false;
         }
 
         public void AssassinAttack()

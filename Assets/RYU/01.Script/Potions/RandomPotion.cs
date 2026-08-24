@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using RYU._01.Script.Potions;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class RandomPotion : MonoBehaviour
@@ -74,9 +76,10 @@ public class RandomPotion : MonoBehaviour
     private void CreatePotion()
     {
         RandomValue();
-        GameObject potion = potions[currentIndex].PotionPrefab;
-        potion = Instantiate(potion, PlayerUp);
-        currentPotions.Enqueue(potion);
+        AbstractPotion data = potions[currentIndex];
+        GameObject clone = Instantiate(data.PotionPrefab, PlayerUp);
+        clone.GetComponent<Potion>().Init(data, 1); 
+        currentPotions.Enqueue(clone);
         Debug.Log($"큐 개수: {currentPotions.Count}");
 
     }
