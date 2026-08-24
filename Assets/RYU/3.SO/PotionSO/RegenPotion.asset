@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RegenPotion
   Potionname: RegenPotion
   PotionPrefab: {fileID: 455808472028410950, guid: f5a265c1687448b40a4d243b40fe0abd, type: 3}
-  Heal: 0
-  splashRadius: 1.5
   sprite: {fileID: -8684254520017794392, guid: 06b0c489b3f4f8e49811e8c69dbdae4a, type: 3}
-  Damage: 10
+  amount: 5
+  healCount: 3
+  healTime: 1

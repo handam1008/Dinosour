@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SlowPotion
   Potionname: SlowPotion
   PotionPrefab: {fileID: 574119650135082394, guid: 7f99f18a2f4f40e40975f4b42fd02c69, type: 3}
-  Heal: 0
-  splashRadius: 1.5
   sprite: {fileID: -3968430189855176871, guid: 42b9e8a45ea2d0e46a86940e50abd97d, type: 3}
-  Damage: 10
+  amount: 9.5
+  duration: 2

@@ -14,7 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DamagePotion
   Potionname: DamagePotion
   PotionPrefab: {fileID: 5617757613819936409, guid: 6447838a99eeed2418391bdad12485c2, type: 3}
-  Heal: 0
-  splashRadius: 1.5
   sprite: {fileID: -7854629474860912292, guid: 5d3b0348f05bbb7458728fd2414dfe94, type: 3}
-  Damage: 20
+  amount: 20

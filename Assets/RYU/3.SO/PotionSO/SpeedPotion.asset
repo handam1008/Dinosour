@@ -14,7 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpeedPotion
   Potionname: SpeedPotion
   PotionPrefab: {fileID: 5007759917758215647, guid: bee6eddd0fa821845bc114413d6f2234, type: 3}
-  Heal: 0
-  splashRadius: 1.5
   sprite: {fileID: 3100166976267082864, guid: 06b0c489b3f4f8e49811e8c69dbdae4a, type: 3}
-  Damage: 5
+  amount: 10
