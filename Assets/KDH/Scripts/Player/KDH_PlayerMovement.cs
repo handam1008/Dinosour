@@ -8,7 +8,7 @@ public class KDH_PlayerMovement : MonoBehaviour
     [SerializeField] private float _jumpForce;
     [SerializeField] private float _range;
     [SerializeField] private LayerMask _whatIsFloor;
-    private Vector2 _moveDir;
+    public Vector2 MoveDir {get ; private set;}
     private Rigidbody2D _rigid;
 
     private void Awake()
@@ -23,12 +23,12 @@ public class KDH_PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _rigid.linearVelocityX = _moveDir.x * _speed;
+        _rigid.linearVelocityX = MoveDir.x * _speed;
     }
 
     private void OnMove(InputValue value)
     {
-        _moveDir = value.Get<Vector2>();
+        MoveDir = value.Get<Vector2>();
     }
 
     private void OnJump()
