@@ -9,9 +9,9 @@ using SSW;
 
 public class KHG_Dash : MonoBehaviour
 {
-    [SerializeField] private float _dashSpeed = 20f;      
-    [SerializeField] private float _dashDuration = 0.2f;  
-    [SerializeField] private float _dashCooldown = 1f;    
+    [SerializeField] public float _dashSpeed = 20f;      
+    [SerializeField] public float _dashDuration = 0.2f;  
+    [SerializeField] public float _dashCooldown = 1f;    
 
     private Rigidbody2D _rb;
     private Transform _visual;
