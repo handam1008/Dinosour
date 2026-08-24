@@ -22,9 +22,6 @@ public class Defance : MonoBehaviour
     {
         if (Mouse.current.rightButton.wasPressedThisFrame && _checkCoolTime)
         {
-            _barrier.SetActive(true);
-            _checkCoolTime = false;
-
             OnBarrierUsed?.Invoke();
 
             StartCoroutine(BarrierCoolTime());
@@ -33,8 +30,12 @@ public class Defance : MonoBehaviour
 
     IEnumerator BarrierCoolTime()
     {
+        _barrier.SetActive(true);
+        _checkCoolTime = false;
+        
         yield return new WaitForSeconds(_barrierContinue);
         _barrier.SetActive(false);
+        
         StartCoroutine(CoolTime());
     }
 
