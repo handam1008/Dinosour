@@ -1,49 +1,96 @@
-using UnityEditor;
+using System;
+using KDH.Scripts.Ammo;
+using KDH.Scripts.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class KDH_Gun : MonoBehaviour
+namespace KDH.Scripts.Gun
 {
-    [SerializeField] private PlayerInput playerInput;
-    [SerializeField] private Transform _visual;
-    private KDH_SpawnBullet _spawnBullet;
-    public Transform gunPos;
-    private Camera _cam;
-
-    private void Awake()
+    public class KDH_Gun : MonoBehaviour
     {
-        _cam = Camera.main;
-        _spawnBullet = GetComponent<KDH_SpawnBullet>();
-    }
+        public event Action PlayerShoot;
 
-    private void Update()
-    {
-        FollowMouse();
-    }
-    
-    private void FollowMouse()
-    {
-        Vector3 mouseWorldPos = FindMousePosition();
-        Vector3 dir = (mouseWorldPos - transform.position).normalized;
+        [Header("Others")]
+        [field: SerializeField] public PlayerInput PlayerInput { get; private set; }    
+        [field: SerializeField] public Camera Cam { get; private set; }
 
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-    }
-
-    public Vector3 FindMousePosition()
-    {
-        Vector3 world = _cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        [Header("Gun Parts")]
+        [field: SerializeField] public Transform Visual { get; private set; }
+        [field: SerializeField] public KDH_SpawnBullet SpawnBullet { get; private set; }
+        [field: SerializeField] public Transform GunPos { get; private set; }
         
-        Vector3 scale = _visual.localScale;
+        [Header("Bullet Info Controls")]
+        [field: SerializeField] public GameObject BulletPrefab { get; private set; }
+        [field: SerializeField] public GameObject[]  AmmoPrefabs { get; private set; }
+        [field: SerializeField] public int MaxAmmo { get; private set; }
+        [field: SerializeField] public float AttackSpeed { get; private set; }
+        [field: SerializeField] public float ReloadSpeed { get; private set; } // 한 번에 모든 Ammo를 장정하는 형식
+        [field: SerializeField] public float ChargeSpeed { get; private set; }
+        public KDH_Ammo[] Ammos {get; set;}
         
-        scale.y = world.x < transform.position.x ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);
-        _visual.localScale = scale;
+        [Header("Modules")]
+        [SerializeField] private KDH_PlayerAttackModule playerAttackModule;
+        [field: SerializeField] public KDH_Tanchang Tanchang {get; private set;}
 
-        return world;
-    }
+        [field: SerializeField] public int CurrentAmmo { get; set; } = 0;
+        [field: SerializeField] public float ChargeTimer { get; set; } = 0f;
 
-    public Vector2 GetFireDirection()
-    {
-        return ((Vector2)(FindMousePosition() - gunPos.position)).normalized;
+        private void Awake()
+        {
+            Cam = Camera.main;
+        }
+
+        private void Start()
+        {
+            Tanchang.Init(this);
+            SpawnBullet.CreateBullet(BulletPrefab, this);
+        }
+        
+        private void OnEnable()
+        {
+            PlayerShoot += HandleShoot;
+            PlayerShoot += HandleChangeAmmo;
+        }
+
+
+        private void OnDisable()
+        {
+            PlayerShoot -= HandleShoot;
+            PlayerShoot -= HandleChangeAmmo;
+        }
+
+        private void Update()
+        {
+            playerAttackModule.FollowMouse(Cam, Visual);
+
+            ChargeAmmo();
+        }
+
+        private void ChargeAmmo()
+        {
+            ChargeTimer += Time.deltaTime;
+
+            if (ChargeTimer >= ChargeSpeed && CurrentAmmo < Ammos.Length)
+            {
+                AmmoPrefabs[CurrentAmmo].SetActive(true);
+                CurrentAmmo++;
+                ChargeTimer = 0f;
+            }
+        }
+        
+        public void OnAttack()
+        {
+            PlayerShoot?.Invoke();
+        }
+
+        private void HandleShoot()
+        {
+            playerAttackModule.Shoot(SpawnBullet, this, Cam, Visual, GunPos);
+        }
+        
+        private void HandleChangeAmmo()
+        {
+            Tanchang.UseAmmo(this);
+        }
     }
-}
+}   

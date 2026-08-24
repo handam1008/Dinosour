@@ -1,55 +1,25 @@
-using System;
+using KDH.Scripts.Gun;
 using UnityEngine;
 
-public class KDH_Tanchang : MonoBehaviour
+namespace KDH.Scripts.Ammo
 {
-    public GameObject[] ammoPrefabs { get; private set; }
-    [SerializeField] private KDH_Shoot playerShoot;
-    [SerializeField] private int maxAmmo;
-    [SerializeField] private float attackSpeed;
-    [SerializeField] private float reloadSpeed; // 한 번에 모든 Ammo를 장정하는 형식
-    [SerializeField] private float chargeSpeed;
-    private KDH_Ammo[] _ammos;
-    private int currentAmmo = 0;
-    private float _timer = 0f;
-
-    private void Awake()
+    public class KDH_Tanchang : MonoBehaviour
     {
-        for(int i = 0; i < ammoPrefabs.Length; i++)
-            ammoPrefabs[i].GetComponent<KDH_Ammo>();
-    }
-
-    private void OnEnable()
-    {
-        playerShoot.PlayerShoot += UseAmmo;
-    }
-
-    private void OnDisable()
-    {
-        playerShoot.PlayerShoot -= UseAmmo;
-    }
-
-    private void Start()
-    {
-        _ammos = new KDH_Ammo[maxAmmo];
-    }
-
-    private void Update()
-    {
-        _timer += Time.deltaTime;
-
-        if (_timer >= chargeSpeed)
+        public void Init(KDH_Gun gun)
         {
-            ammoPrefabs[currentAmmo].SetActive(true);
-            _timer = 0f;
+            gun.Ammos = new KDH_Ammo[gun.MaxAmmo];
+            
+            for (int i = 0; i < gun.AmmoPrefabs.Length; i++)
+                gun.Ammos[i] = gun.Tanchang.gameObject.transform.GetChild(i).GetComponent<KDH_Ammo>();
         }
-    }
 
-    private void UseAmmo()
-    {
-        ammoPrefabs[maxAmmo - currentAmmo - 1].SetActive(false);
-        KDH_Ammo ammoScript =  ammoPrefabs[currentAmmo].GetComponent<KDH_Ammo>();
-        
-        currentAmmo++;
+        public void UseAmmo(KDH_Gun gun)
+        {
+            if (gun.CurrentAmmo < 0) return;
+            
+            gun.AmmoPrefabs[gun.CurrentAmmo - 1].gameObject.SetActive(false);
+            
+            gun.CurrentAmmo--;
+        }
     }
 }
