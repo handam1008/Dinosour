@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace SSW
 {
-    public class PlayerController : MonoBehaviour, ISlowable
+    public class PlayerController : MonoBehaviour, ISlowable, IWeakenable, IOutgoingDamageModifier
     {
         [SerializeField] float _moveSpeed = 7f;
         [SerializeField] float _jumpForce = 13f;
@@ -18,6 +18,8 @@ namespace SSW
         Vector2 _move;
         float _slowMultiplier = 1f;
         float _slowEndTime;
+        float _outgoingDamageMultiplier = 1f;
+        float _attackWeakenEndTime;
         Coroutine _dropThroughRoutine;
         Collider2D _ignoredPlatform;
 
@@ -31,11 +33,32 @@ namespace SSW
         }
 
         public float FacingSign => Mathf.Sign(_visual.localScale.x);
+        public float CurrentMoveSpeedMultiplier => Time.time < _slowEndTime ? _slowMultiplier : 1f;
+        public float CurrentOutgoingDamageMultiplier => Time.time < _attackWeakenEndTime ? _outgoingDamageMultiplier : 1f;
 
         public void ApplySlow(float amount, float duration)
         {
             _slowMultiplier = Mathf.Clamp01(1f - amount);
             _slowEndTime = Time.time + duration;
+        }
+
+        public void ApplyAttackWeaken(float amount, float duration)
+        {
+            float multiplier = Mathf.Clamp01(1f - amount);
+            if (Time.time >= _attackWeakenEndTime)
+                _outgoingDamageMultiplier = multiplier;
+            else
+                _outgoingDamageMultiplier = Mathf.Min(_outgoingDamageMultiplier, multiplier);
+
+            _attackWeakenEndTime = Mathf.Max(_attackWeakenEndTime, Time.time + duration);
+        }
+
+        public float ModifyOutgoingDamage(float amount)
+        {
+            if (Time.time >= _attackWeakenEndTime)
+                _outgoingDamageMultiplier = 1f;
+
+            return Mathf.Max(0f, amount) * _outgoingDamageMultiplier;
         }
 
         void OnMove(InputValue value)
@@ -88,6 +111,7 @@ namespace SSW
         void Update()
         {
             if (Time.time >= _slowEndTime) _slowMultiplier = 1f;
+            if (Time.time >= _attackWeakenEndTime) _outgoingDamageMultiplier = 1f;
             _rb.linearVelocity = new Vector2(_move.x * _moveSpeed * _slowMultiplier, _rb.linearVelocity.y);
             _animator.SetFloat("Speed", Mathf.Abs(_move.x));
             _animator.SetBool("IsGrounded", IsGrounded());
