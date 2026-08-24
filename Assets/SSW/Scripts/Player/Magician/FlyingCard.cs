@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
@@ -20,7 +21,7 @@ namespace SSW
 
         Suit _suit;
         int _number;
-        Health _casterHealth;
+        IHealable _casterHealth;
         MagicianAugmentController _augments;
         Transform _caster;
         Rigidbody2D _rb;
@@ -32,7 +33,7 @@ namespace SSW
         bool _returning;
         bool _consumed;
 
-        public void Configure(Suit suit, int number, Health casterHealth)
+        public void Configure(Suit suit, int number, IHealable casterHealth)
         {
             _suit = suit;
             _number = number;
@@ -90,7 +91,7 @@ namespace SSW
         {
             if (_consumed) return;
 
-            IDamageable damageable = other.GetComponent<IDamageable>();
+            IDamageable damageable = other.GetComponentInParent<IDamageable>();
             if (damageable == null)
             {
                 if (_returning) return;
@@ -98,7 +99,7 @@ namespace SSW
                 return;
             }
 
-            if ((Object)damageable == _casterHealth) return;
+            if (IsCaster(damageable)) return;
 
             HitTarget(other, damageable);
         }
@@ -149,13 +150,13 @@ namespace SSW
             float effectMul = _effectMultiplier * chainMultiplier;
             float damageScale = _returning && _augments != null ? _augments.ReturnDamageMultiplier : 1f;
 
-            float damage = _baseDamage * _effectMultiplier * damageScale;
+            float damage = _baseDamage * effectMul * damageScale;
             if (_suit == Suit.Spade)
             {
                 damage += _number * _spadeDamagePerNumber * effectMul * damageScale;
                 QueueSharpCardBonus(damageable);
             }
-            damageable.TakeDamage(damage);
+            DealDamage(damageable, damage);
 
             if (_suit != Suit.Spade) ApplySuitEffect(_suit, other, damageable, effectMul, damageScale);
             if (_isJoker) ApplySuitEffect(RandomOtherSuit(_suit), other, damageable, effectMul, damageScale);
@@ -167,9 +168,9 @@ namespace SSW
                     _augments.TryQueueMirror(_suit, _number, _rb.linearVelocity.normalized);
             }
 
-            Rigidbody2D targetRb = other.attachedRigidbody;
-            if (targetRb != null && _rb != null)
-                targetRb.AddForce(_rb.linearVelocity.normalized * _knockbackForce, ForceMode2D.Impulse);
+            IForceReceiver forceReceiver = other.GetComponentInParent<IForceReceiver>();
+            if (forceReceiver != null && _rb != null)
+                forceReceiver.ApplyForce(_rb.linearVelocity.normalized * _knockbackForce, ForceMode2D.Impulse);
 
             Destroy(gameObject);
         }
@@ -179,7 +180,7 @@ namespace SSW
             switch (suit)
             {
                 case Suit.Spade:
-                    damageable.TakeDamage(_number * _spadeDamagePerNumber * effectMul * damageScale);
+                    DealDamage(damageable, _number * _spadeDamagePerNumber * effectMul * damageScale);
                     QueueSharpCardBonus(damageable);
                     break;
 
@@ -197,16 +198,18 @@ namespace SSW
                     float radius = _diamondRadius * (_augments != null ? _augments.DiamondRadiusMultiplier : 1f);
                     float damage = _number * _diamondDamagePerNumber * effectMul * damageScale;
                     Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, radius);
+                    HashSet<IDamageable> damagedTargets = new HashSet<IDamageable>();
                     foreach (Collider2D hit in hits)
                     {
-                        IDamageable hitDamageable = hit.GetComponent<IDamageable>();
-                        if (hitDamageable == null || (Object)hitDamageable == _casterHealth) continue;
+                        IDamageable hitDamageable = hit.GetComponentInParent<IDamageable>();
+                        if (hitDamageable == null || IsCaster(hitDamageable) || !damagedTargets.Add(hitDamageable))
+                            continue;
 
-                        hitDamageable.TakeDamage(damage);
+                        DealDamage(hitDamageable, damage);
 
                         if (_augments != null && _augments.Has(MagicianAugmentType.SparklingDiamond))
                         {
-                            ISlowable hitSlowable = hit.GetComponent<ISlowable>();
+                            ISlowable hitSlowable = hit.GetComponentInParent<ISlowable>();
                             if (hitSlowable != null) hitSlowable.ApplySlow(_augments.DiamondSlowAmount, _augments.DiamondSlowDuration);
                         }
                     }
@@ -214,18 +217,18 @@ namespace SSW
                 }
 
                 case Suit.Clover:
-                    ISlowable slowable = target.GetComponent<ISlowable>();
+                    ISlowable slowable = target.GetComponentInParent<ISlowable>();
                     if (slowable != null) slowable.ApplySlow(_number * _cloverSlowPerNumber * effectMul, _cloverSlowDuration);
 
                     if (_augments != null && _augments.Has(MagicianAugmentType.LuckyClover))
                     {
-                        Component targetComp = target;
+                        Component targetComp = damageable as Component;
                         float weakenAmount = _augments.CloverWeakenAmount;
                         float weakenDuration = _augments.CloverWeakenDuration;
                         DOVirtual.DelayedCall(_cloverSlowDuration, () =>
                         {
                             if (targetComp == null) return;
-                            IWeakenable weakenable = targetComp.GetComponent<IWeakenable>();
+                            IWeakenable weakenable = targetComp.GetComponentInParent<IWeakenable>();
                             if (weakenable != null) weakenable.ApplyAttackWeaken(weakenAmount, weakenDuration);
                         }, false);
                     }
@@ -239,12 +242,27 @@ namespace SSW
 
             Component targetComp = damageable as Component;
             float bonusDamage = _augments.SharpCardBonusDamage;
+            Transform damageSource = _caster;
             DOVirtual.DelayedCall(_augments.SharpCardDelay, () =>
             {
-                if (targetComp == null) return;
+                if (targetComp == null || damageSource == null) return;
                 IDamageable late = targetComp as IDamageable;
-                if (late != null) late.TakeDamage(bonusDamage);
+                if (late != null)
+                    CombatDamage.Deal(damageSource, late, bonusDamage, DamageTag.JobSkill | DamageTag.Projectile);
             }, false);
+        }
+
+        void DealDamage(IDamageable target, float amount)
+        {
+            CombatDamage.Deal(_caster, target, amount, DamageTag.JobSkill | DamageTag.Projectile);
+        }
+
+        bool IsCaster(IDamageable target)
+        {
+            Component targetComponent = target as Component;
+            return targetComponent != null
+                && _caster != null
+                && targetComponent.transform.root == _caster.root;
         }
 
         static Suit RandomOtherSuit(Suit current)

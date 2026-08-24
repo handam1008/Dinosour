@@ -4,7 +4,9 @@ using UnityEngine.InputSystem;
 
 namespace SSW
 {
-    public class AugmentDrafter : MonoBehaviour
+    [DisallowMultipleComponent]
+    [RequireComponent(typeof(PlayerIdentity))]
+    public class AugmentDrafter : MonoBehaviour, IAugmentSource
     {
         [SerializeField] AugmentPool _commonPool;
         [SerializeField] AugmentPool _jobPool;
@@ -12,20 +14,13 @@ namespace SSW
         [SerializeField] string _draftUIResourceName = "AugmentDraftUIDino";
 
         public event System.Action<Augment> OnAugmentSelected;
+        public event System.Action<Augment> AugmentGranted;
 
         readonly List<Augment> _owned = new List<Augment>();
         AugmentDraftUIBase _openDraft;
         PlayerIdentity _identity;
 
         public IReadOnlyList<Augment> Owned => _owned;
-        bool IsMagician
-        {
-            get
-            {
-                if (_identity == null) _identity = GetComponent<PlayerIdentity>();
-                return _identity != null && _identity.Job == PlayerJob.Magician;
-            }
-        }
 
         void Awake()
         {
@@ -34,7 +29,6 @@ namespace SSW
 
         void Update()
         {
-            if (!IsMagician) return;
             if (_openDraft != null) return;
             if (Keyboard.current == null) return;
             if (Keyboard.current.pKey.wasPressedThisFrame) OpenCommonDraft();
@@ -43,19 +37,21 @@ namespace SSW
 
         public void OpenCommonDraft()
         {
-            if (!IsMagician) return;
             OpenDraft(false);
         }
 
         public void OpenCommonAndJobDraft()
         {
-            if (!IsMagician) return;
             OpenDraft(true);
+        }
+
+        public void SetJobPool(AugmentPool pool)
+        {
+            _jobPool = pool;
         }
 
         void OpenDraft(bool includeJobReward)
         {
-            if (!IsMagician) return;
             if (_openDraft != null) return;
 
             GameObject prefab = Resources.Load<GameObject>(_draftUIResourceName);
@@ -65,7 +61,7 @@ namespace SSW
             if (includeJobReward)
             {
                 jobAugment = RollOne(_jobPool);
-                Grant(jobAugment);
+                TryGrant(jobAugment);
             }
 
             _openDraft = Instantiate(prefab).GetComponent<AugmentDraftUIBase>();
@@ -101,23 +97,35 @@ namespace SSW
 
             foreach (Augment augment in pool.augments)
             {
-                if (augment != null && !_owned.Contains(augment)) list.Add(augment);
+                if (augment != null && !_owned.Contains(augment) && IsEligible(augment))
+                    list.Add(augment);
             }
             return list;
         }
 
-        void Grant(Augment augment)
+        public bool TryGrant(Augment augment)
         {
-            if (!IsMagician) return;
-            if (augment == null) return;
+            if (augment == null || _owned.Contains(augment) || !IsEligible(augment))
+                return false;
+
             _owned.Add(augment);
+            AugmentGranted?.Invoke(augment);
             OnAugmentSelected?.Invoke(augment);
+            return true;
         }
 
         void HandleSelected(Augment augment)
         {
             _openDraft = null;
-            Grant(augment);
+            TryGrant(augment);
+        }
+
+        bool IsEligible(Augment augment)
+        {
+            if (augment is not IJobRestrictedAugment restricted)
+                return true;
+
+            return _identity != null && _identity.Job == restricted.RequiredJob;
         }
     }
 }

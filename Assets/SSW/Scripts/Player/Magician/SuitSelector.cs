@@ -4,7 +4,7 @@ using DG.Tweening;
 
 namespace SSW
 {
-    public class SuitSelector : MonoBehaviour
+    public class SuitSelector : JobModuleBehaviour
     {
         [SerializeField] Sprite[] _suitSprites;
         [SerializeField] Transform _anchor;
@@ -28,35 +28,27 @@ namespace SSW
         int _gen;
         InputAction _cycleAction;
         MagicianAugmentController _augments;
-        PlayerIdentity _identity;
-        bool _nonMagicianUIHidden;
+        bool _inactiveUIHidden;
 
         public Suit CurrentSuit => (Suit)_index;
         public bool IsRolling => _rolling;
+        public override PlayerJob Job => PlayerJob.Magician;
 
         float TickMultiplier => _augments != null ? _augments.TickIntervalMultiplier : 1f;
-        bool IsMagician
-        {
-            get
-            {
-                if (_identity == null) _identity = GetComponent<PlayerIdentity>();
-                return _identity != null && _identity.Job == PlayerJob.Magician;
-            }
-        }
 
-        void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _cycleAction = GetComponent<PlayerInput>().actions.FindAction("CycleSuit");
             _augments = GetComponent<MagicianAugmentController>();
-            _identity = GetComponent<PlayerIdentity>();
         }
 
-        void OnEnable()
+        protected override void OnEnable()
         {
             _index = 0;
             _rolling = false;
             _gen = 0;
-            _nonMagicianUIHidden = false;
+            _inactiveUIHidden = false;
             _anchor.DOKill();
             _renderer.DOKill();
             _anchor.localPosition = Vector3.zero;
@@ -65,14 +57,14 @@ namespace SSW
             SetAlphaInstant(_renderer, 0f);
             SetAlphaInstant(_prevRenderer, 0f);
             SetAlphaInstant(_nextRenderer, 0f);
-            if (!IsMagician) HideForNonMagician();
+            base.OnEnable();
         }
 
         void OnCycleSuit(InputValue value)
         {
-            if (!IsMagician)
+            if (!IsJobActive)
             {
-                HideForNonMagician();
+                HideForInactiveJob();
                 return;
             }
 
@@ -112,14 +104,14 @@ namespace SSW
             _nextRenderer.DOKill();
             _nextRenderer.DOFade(0f, _fadeDuration);
             if (_numberRoller != null && _numberRoller.IsRolling) return;
-            Finalize();
+            FinishSelection();
         }
 
         void Update()
         {
-            if (!IsMagician)
+            if (!IsJobActive)
             {
-                HideForNonMagician();
+                HideForInactiveJob();
                 return;
             }
 
@@ -167,15 +159,15 @@ namespace SSW
         public void NotifyNumberRollEnded()
         {
             if (_rolling) return;
-            Finalize(-_lockedOffset);
+            FinishSelection(-_lockedOffset);
         }
 
-        void Finalize()
+        void FinishSelection()
         {
-            Finalize(0f);
+            FinishSelection(0f);
         }
 
-        void Finalize(float targetX)
+        void FinishSelection(float targetX)
         {
             _anchor.DOKill();
             _anchor.DOLocalMoveX(targetX, _fadeDuration);
@@ -208,10 +200,20 @@ namespace SSW
             sr.color = c;
         }
 
-        void HideForNonMagician()
+        protected override void OnJobActivated()
         {
-            if (_nonMagicianUIHidden) return;
-            _nonMagicianUIHidden = true;
+            _inactiveUIHidden = false;
+        }
+
+        protected override void OnJobDeactivated()
+        {
+            HideForInactiveJob();
+        }
+
+        void HideForInactiveJob()
+        {
+            if (_inactiveUIHidden) return;
+            _inactiveUIHidden = true;
             _rolling = false;
             _gen++;
             _anchor.DOKill();

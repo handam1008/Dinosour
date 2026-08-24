@@ -473,6 +473,10 @@ PrefabInstance:
       propertyPath: _moveSpeed
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 7419846881195244053, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      propertyPath: _catalog
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7686893401743090280, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       propertyPath: m_Name
       value: Player (2)
@@ -481,6 +485,10 @@ PrefabInstance:
       propertyPath: _jobPool
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8266417094143573563, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      propertyPath: _commonPool
+      value: 
+      objectReference: {fileID: 11400000, guid: f396daccee22bc54c96a46fbe2596d2a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
