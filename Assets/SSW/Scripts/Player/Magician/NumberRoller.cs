@@ -277,7 +277,7 @@ namespace SSW
             if (ownCollider != null) Physics2D.IgnoreCollision(col, ownCollider);
 
             FlyingCard card = go.AddComponent<FlyingCard>();
-            card.Configure(suit, number, GetComponent<Health>());
+            card.Configure(suit, number, GetComponent<IHealable>());
             card.SetAugments(_augments, transform);
             card.SetLifetime(_flyMaxLifetime);
             return card;

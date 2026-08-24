@@ -21,7 +21,7 @@ namespace SSW
 
         Suit _suit;
         int _number;
-        Health _casterHealth;
+        IHealable _casterHealth;
         MagicianAugmentController _augments;
         Transform _caster;
         Rigidbody2D _rb;
@@ -33,7 +33,7 @@ namespace SSW
         bool _returning;
         bool _consumed;
 
-        public void Configure(Suit suit, int number, Health casterHealth)
+        public void Configure(Suit suit, int number, IHealable casterHealth)
         {
             _suit = suit;
             _number = number;
@@ -168,9 +168,9 @@ namespace SSW
                     _augments.TryQueueMirror(_suit, _number, _rb.linearVelocity.normalized);
             }
 
-            Rigidbody2D targetRb = other.attachedRigidbody;
-            if (targetRb != null && _rb != null)
-                targetRb.AddForce(_rb.linearVelocity.normalized * _knockbackForce, ForceMode2D.Impulse);
+            IForceReceiver forceReceiver = other.GetComponentInParent<IForceReceiver>();
+            if (forceReceiver != null && _rb != null)
+                forceReceiver.ApplyForce(_rb.linearVelocity.normalized * _knockbackForce, ForceMode2D.Impulse);
 
             Destroy(gameObject);
         }
@@ -247,13 +247,14 @@ namespace SSW
             {
                 if (targetComp == null || damageSource == null) return;
                 IDamageable late = targetComp as IDamageable;
-                if (late != null) CombatDamage.TryDeal(damageSource, late, bonusDamage);
+                if (late != null)
+                    CombatDamage.Deal(damageSource, late, bonusDamage, DamageTag.JobSkill | DamageTag.Projectile);
             }, false);
         }
 
         void DealDamage(IDamageable target, float amount)
         {
-            CombatDamage.TryDeal(_caster, target, amount);
+            CombatDamage.Deal(_caster, target, amount, DamageTag.JobSkill | DamageTag.Projectile);
         }
 
         bool IsCaster(IDamageable target)
