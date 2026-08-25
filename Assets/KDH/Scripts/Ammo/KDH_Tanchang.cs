@@ -1,24 +1,25 @@
+using KDH.Scripts.Gun;
 using UnityEngine;
 
-public class KDH_Tanchang : MonoBehaviour
+namespace KDH.Scripts.Ammo
 {
-    [SerializeField] private GameObject[] ammoPrefabs;
-    [SerializeField] private int maxAmmo;
-    [SerializeField] private float attackSpeed;
-    [SerializeField] private float reloadSpeed; // 한 번에 모든 Ammo를 장정하는 형식
-    [SerializeField] private float chargeSpeed;
-    private KDH_Ammo[] _ammos;
-
-    private void Awake()
+    public class KDH_Tanchang : MonoBehaviour
     {
-        for (int i = 0; i < ammoPrefabs.Length; i++)
+        public void Init(KDH_Gun gun)
         {
-            ammoPrefabs[i].GetComponent<KDH_Ammo>();
+            gun.Ammos = new KDH_Ammo[gun.MaxAmmo];
+            
+            for (int i = 0; i < gun.AmmoPrefabs.Length; i++)
+                gun.Ammos[i] = gun.Tanchang.gameObject.transform.GetChild(i).GetComponent<KDH_Ammo>();
         }
-    }
 
-    private void Start()
-    {
-        _ammos = new KDH_Ammo[maxAmmo];
+        public void UseAmmo(KDH_Gun gun)
+        {
+            if (gun.CurrentAmmo < 0) return;
+            
+            gun.AmmoPrefabs[gun.CurrentAmmo - 1].gameObject.SetActive(false);
+            
+            gun.CurrentAmmo--;
+        }
     }
 }

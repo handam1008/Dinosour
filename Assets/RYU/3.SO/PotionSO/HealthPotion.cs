@@ -4,11 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "HealthPotion", menuName = "SO/Potion/HealthPotion")]
 public class HealthPotion : AbstractPotion
 {
-    public override void Use(GameObject target)
-    {
-        if (target.TryGetComponent(out IDamageable d))
-        {
-            d.Heal(amount);
-        }
+    public override void Use(GameObject target, Component source)
+    { 
+        target.GetComponentInParent<IHealable>()?.Heal(amount);
     }
 }

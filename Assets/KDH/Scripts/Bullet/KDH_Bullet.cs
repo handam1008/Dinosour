@@ -1,30 +1,36 @@
-using System;
 using UnityEngine;
 
-public class KDH_Bullet : MonoBehaviour
+namespace KDH.Scripts.Bullet
 {
-    [SerializeField] private float _speed;
-    private Vector2 _moveDir;
-    private Rigidbody2D _rigid;
-
-    private void Awake()
+    public class KDH_Bullet : MonoBehaviour
     {
-        _rigid = GetComponent<Rigidbody2D>();
-    }
+        [Header("Bullet Modules")]
+        [field: SerializeField] public KDH_BulletMovement MoveComp { get; private set; }
+        
+        [Header("Bullet Settings")]
+        [field: SerializeField] public float Speed { get; private set; } = 20f;
+        
+        public Vector2 MoveDir { get; private set; }
+        public Rigidbody2D Rigid { get; private set; }
 
-    private void OnEnable()
-    {
-        _rigid.linearVelocity = _moveDir * _speed;
-    }
+        private void Awake()
+        {
+            Rigid = GetComponent<Rigidbody2D>();
+        }
 
-    private void FixedUpdate()
-    {
-        float angle = Mathf.Atan2(_rigid.linearVelocity.y, _rigid.linearVelocity.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-    }
+        private void OnEnable()
+        {
+            Rigid.linearVelocity = MoveDir * Speed;
+        }
 
-    public void Init(Vector2 moveDir)
-    {
-        _moveDir = moveDir;
+        private void FixedUpdate()
+        {
+            MoveComp.Movement(Rigid);
+        }
+
+        public void Init(Vector2 moveDir)
+        {
+            MoveDir = moveDir;
+        }
     }
 }
