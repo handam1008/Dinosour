@@ -33,7 +33,7 @@ namespace KDH.Scripts.Player
             return ((Vector2)(FindMousePosition(cam, visual) - gunPos.position)).normalized;
         }
         
-        public void Shoot(KDH_SpawnBullet spawnBullet, KDH_Gun gun, Camera cam, Transform visual, Transform gunPos)
+        public void Shoot(KDH_SpawnBullet spawnBullet, KDH_Gun gun, Camera cam, Transform visual, Transform gunPos, bool  isUpgraded)
         {
             if (spawnBullet.bullets.Count <= 0) return;
         
@@ -41,8 +41,9 @@ namespace KDH.Scripts.Player
             bullet.transform.position = gun.GunPos.position;
         
             KDH_Bullet bulletScript = bullet.GetComponent<KDH_Bullet>();
+            bulletScript.IsUpgraded = isUpgraded;
             bulletScript.Init(GetFireDirection(cam, visual, gunPos));
-        
+            
             bullet.SetActive(true);
         }
     }
