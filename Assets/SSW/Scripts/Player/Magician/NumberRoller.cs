@@ -18,6 +18,7 @@ namespace SSW
         [SerializeField] SuitSelector _suitSelector;
         [SerializeField] PlayerController _playerController;
         [SerializeField] Material _flyingCardMaterial;
+        [SerializeField] MagicianCardFeedbackSettings _cardFeedback = new MagicianCardFeedbackSettings();
         [SerializeField] float _tickInterval = 0.15f;
         [SerializeField] float _visibleDuration = 1.4f;
         [SerializeField] float _fadeDuration = 0.15f;
@@ -236,8 +237,7 @@ namespace SSW
             mouseWorld.z = transform.position.z;
             Vector3 dir = (mouseWorld - transform.position).normalized;
 
-            FlyingCard card = CreateCard(sprite, suit, rankIndex + 1, dir, _flyScale);
-            if (isJoker) card.MarkJoker();
+            CreateCard(sprite, suit, rankIndex + 1, dir, _flyScale, 1f, isJoker, false);
         }
 
         public void SpawnMirrorCard(Suit suit, int rankIndex, Vector2 dir, float effectMultiplier)
@@ -246,12 +246,26 @@ namespace SSW
             Sprite[] cards = CardsFor(suit);
             if (cards == null || rankIndex < 0 || rankIndex >= cards.Length) return;
 
-            FlyingCard card = CreateCard(cards[rankIndex], suit, rankIndex + 1, dir, _flyScale * _mirrorScaleMultiplier);
-            card.MarkMirror();
-            card.SetEffectMultiplier(effectMultiplier);
+            CreateCard(
+                cards[rankIndex],
+                suit,
+                rankIndex + 1,
+                dir,
+                _flyScale * _mirrorScaleMultiplier,
+                effectMultiplier,
+                false,
+                true);
         }
 
-        FlyingCard CreateCard(Sprite sprite, Suit suit, int number, Vector2 dir, float scale)
+        FlyingCard CreateCard(
+            Sprite sprite,
+            Suit suit,
+            int number,
+            Vector2 dir,
+            float scale,
+            float effectMultiplier,
+            bool isJoker,
+            bool isMirror)
         {
             GameObject go = new GameObject("FlyingCard");
             go.transform.position = transform.position;
@@ -276,10 +290,17 @@ namespace SSW
             Collider2D ownCollider = GetComponent<Collider2D>();
             if (ownCollider != null) Physics2D.IgnoreCollision(col, ownCollider);
 
+            MagicianCardFeedback feedback = go.AddComponent<MagicianCardFeedback>();
+            feedback.Configure(_cardFeedback, suit, number, _flyingCardMaterial);
+
             FlyingCard card = go.AddComponent<FlyingCard>();
             card.Configure(suit, number, GetComponent<IHealable>());
             card.SetAugments(_augments, transform);
             card.SetLifetime(_flyMaxLifetime);
+            card.SetEffectMultiplier(effectMultiplier);
+            if (isJoker) card.MarkJoker();
+            if (isMirror) card.MarkMirror();
+            feedback.PlayLaunch();
             return card;
         }
 

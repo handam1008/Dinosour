@@ -25,6 +25,7 @@ namespace SSW
         MagicianAugmentController _augments;
         Transform _caster;
         Rigidbody2D _rb;
+        MagicianCardFeedback _feedback;
         float _effectMultiplier = 1f;
         float _lifetime = 3f;
         float _age;
@@ -54,11 +55,13 @@ namespace SSW
         public void SetEffectMultiplier(float multiplier)
         {
             _effectMultiplier = multiplier;
+            if (_feedback != null) _feedback.SetIntensityMultiplier(multiplier);
         }
 
         public void MarkJoker()
         {
             _isJoker = true;
+            if (_feedback != null) _feedback.MarkJoker();
         }
 
         public void MarkMirror()
@@ -69,6 +72,7 @@ namespace SSW
         void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+            _feedback = GetComponent<MagicianCardFeedback>();
         }
 
         void Update()
@@ -80,7 +84,7 @@ namespace SSW
             if (_returning && _caster != null && Vector2.Distance(transform.position, _caster.position) < 0.35f)
             {
                 _consumed = true;
-                Destroy(gameObject);
+                DestroyCard();
                 return;
             }
 
@@ -116,7 +120,7 @@ namespace SSW
 
             _consumed = true;
             if (_augments != null && !_isMirror) _augments.RegisterMiss();
-            Destroy(gameObject);
+            DestroyCard();
         }
 
         void BeginReturn()
@@ -145,6 +149,8 @@ namespace SSW
         void HitTarget(Collider2D other, IDamageable damageable)
         {
             _consumed = true;
+            Component targetComponent = damageable as Component;
+            if (_feedback != null) _feedback.PlayTargetFlash(targetComponent);
 
             float chainMultiplier = _augments != null ? _augments.GetChainMultiplier(_suit) : 1f;
             float effectMul = _effectMultiplier * chainMultiplier;
@@ -172,6 +178,18 @@ namespace SSW
             if (forceReceiver != null && _rb != null)
                 forceReceiver.ApplyForce(_rb.linearVelocity.normalized * _knockbackForce, ForceMode2D.Impulse);
 
+            if (_feedback != null)
+            {
+                Vector2 impactPoint = other.ClosestPoint(transform.position);
+                _feedback.PlayImpact(impactPoint);
+            }
+
+            DestroyCard();
+        }
+
+        void DestroyCard()
+        {
+            if (_feedback != null) _feedback.ReleaseTrail();
             Destroy(gameObject);
         }
 
