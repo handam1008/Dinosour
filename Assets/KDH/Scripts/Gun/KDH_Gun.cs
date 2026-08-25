@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using KDH.Scripts.Ammo;
+using KDH.Scripts.Bullet;
 using KDH.Scripts.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -35,6 +37,8 @@ namespace KDH.Scripts.Gun
         [field: SerializeField] public int CurrentAmmo { get; set; } = 0;
         [field: SerializeField] public float ChargeTimer { get; set; } = 0f;
 
+        [field: SerializeField] public bool CanAttack { get; private set; }
+        
         private void Awake()
         {
             Cam = Camera.main;
@@ -64,6 +68,7 @@ namespace KDH.Scripts.Gun
             playerAttackModule.FollowMouse(Cam, Visual);
 
             ChargeAmmo();
+            CheckCanAttack();
         }
 
         private void ChargeAmmo()
@@ -77,6 +82,11 @@ namespace KDH.Scripts.Gun
                 ChargeTimer = 0f;
             }
         }
+
+        private void CheckCanAttack()
+        {
+            CanAttack = CurrentAmmo > 0;
+        }
         
         public void OnAttack()
         {
@@ -85,12 +95,17 @@ namespace KDH.Scripts.Gun
 
         private void HandleShoot()
         {
-            playerAttackModule.Shoot(SpawnBullet, this, Cam, Visual, GunPos);
+            if (CanAttack)
+            {
+                bool isUpgraded = Ammos[CurrentAmmo - 1].WasUpgraded; 
+                playerAttackModule.Shoot(SpawnBullet, this, Cam, Visual, GunPos, isUpgraded);
+            }
         }
-        
+
         private void HandleChangeAmmo()
         {
-            Tanchang.UseAmmo(this);
+            if (CanAttack)
+                Tanchang.UseAmmo(this);
         }
     }
 }   
