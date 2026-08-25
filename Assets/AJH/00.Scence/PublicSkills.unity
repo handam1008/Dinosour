@@ -554,6 +554,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3219435567956902308, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4477001750110815972, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6660233079418509801, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7897379110350336686, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      propertyPath: maxHealth
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 8665040242661233106, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
       propertyPath: m_Name
       value: PlayerMagician
@@ -574,6 +590,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8665040242661233106, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1967997180}
+    - targetCorrespondingSourceObject: {fileID: 8665040242661233106, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1967997193}
   m_SourcePrefab: {fileID: 100100000, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
 --- !u!1 &1967997145 stripped
 GameObject:
@@ -592,9 +611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 972ba37be842ca741b5d6e4c0d0ff547, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SSW.Giant
-  _scaleBonus: 0.5
-  _healthBonus: 0.8
-  _count: 3
+  _count: 0
 --- !u!114 &1967997158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -628,7 +645,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SSW.Blink
   _blinkDistance: 5
-  _blinkDuration: 0.1
+  _blinkTime: 0
+--- !u!114 &1967997193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967997145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 441c5772348f68e4e949fad37e272a74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LifeStil
 --- !u!1001 &800591851615601148
 PrefabInstance:
   m_ObjectHideFlags: 0
