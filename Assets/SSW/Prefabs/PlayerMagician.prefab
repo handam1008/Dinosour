@@ -772,7 +772,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4861530811025970792, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       propertyPath: _job
-      value: 1
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9183996978747195668, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      propertyPath: maxHealth
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 7686893401743090280, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       propertyPath: m_Name

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d7576bc84d14bfc9afb07b7b940fb89, type: 3}
+  m_Name: SlowPotion
+  m_EditorClassIdentifier: Assembly-CSharp::SlowPotion
+  Potionname: SlowPotion
+  PotionPrefab: {fileID: 574119650135082394, guid: 7f99f18a2f4f40e40975f4b42fd02c69, type: 3}
+  sprite: {fileID: -3968430189855176871, guid: 42b9e8a45ea2d0e46a86940e50abd97d, type: 3}
+  amount: 9.5
+  duration: 2

@@ -271,7 +271,7 @@ Transform:
   m_GameObject: {fileID: 200475907}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: -3.47, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1041,6 +1041,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!1 &1563697417
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1563697418}
+  - component: {fileID: 1563697419}
+  m_Layer: 3
+  m_Name: Job
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1563697418
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563697417}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1976470144}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1563697419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563697417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 717dcb4f01094c7b84c8eb5585d2371c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.PlayerJobModule
+  <Data>k__BackingField: {fileID: 0}
 --- !u!1 &1599279040
 GameObject:
   m_ObjectHideFlags: 0
@@ -1782,22 +1827,52 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4377336744295426211, guid: 276f99118da0fd041ab963bb49709186, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6672743312566370646, guid: 276f99118da0fd041ab963bb49709186, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1663926781}
+    - targetCorrespondingSourceObject: {fileID: 6672743312566370646, guid: 276f99118da0fd041ab963bb49709186, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1563697418}
     - targetCorrespondingSourceObject: {fileID: 565361027440095325, guid: 276f99118da0fd041ab963bb49709186, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1816883833}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2798440996794654626, guid: 276f99118da0fd041ab963bb49709186, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 5797512593808901724}
   m_SourcePrefab: {fileID: 100100000, guid: 276f99118da0fd041ab963bb49709186, type: 3}
 --- !u!4 &5797512593808901722 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 565361027440095325, guid: 276f99118da0fd041ab963bb49709186, type: 3}
   m_PrefabInstance: {fileID: 5797512593808901721}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5797512593808901723 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2798440996794654626, guid: 276f99118da0fd041ab963bb49709186, type: 3}
+  m_PrefabInstance: {fileID: 5797512593808901721}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5797512593808901724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5797512593808901723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94ee24a9995b34a4e8492b99226c0811, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.PlayerController
+  _moveSpeed: 7
+  _jumpForce: 13
+  _whatIsGround:
+    serializedVersion: 2
+    m_Bits: 256
+  _visual: {fileID: 5797512593808901722}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

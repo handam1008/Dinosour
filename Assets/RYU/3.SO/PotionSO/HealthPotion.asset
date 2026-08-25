@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97697af9ba254ce9af9b1f1f1fe0e75e, type: 3}
+  m_Name: HealthPotion
+  m_EditorClassIdentifier: Assembly-CSharp::HealthPotion
+  Potionname: HealthPotion
+  PotionPrefab: {fileID: 574119650135082394, guid: 01534560403df374680cd64a390ab908, type: 3}
+  sprite: {fileID: 5056543726569808329, guid: 06b0c489b3f4f8e49811e8c69dbdae4a, type: 3}
+  amount: 5

@@ -4,10 +4,11 @@ using UnityEngine.InputSystem;
 
 namespace SSW
 {
-    public class PlayerController : MonoBehaviour, ISlowable
+    public class PlayerController : MonoBehaviour, ISlowable, ISpeedable, IWeakenable, IOutgoingDamageModifier, IForceReceiver
     {
         [SerializeField] float _moveSpeed = 7f;
         [SerializeField] float _jumpForce = 13f;
+        [SerializeField] float _externalVelocityDecay = 12f;
         [SerializeField] LayerMask _whatIsGround;
         [SerializeField] Transform _visual;
 
@@ -18,6 +19,11 @@ namespace SSW
         Vector2 _move;
         float _slowMultiplier = 1f;
         float _slowEndTime;
+        float _speedMultiplier = 1f;
+        float _speedEndTime;
+        float _outgoingDamageMultiplier = 1f;
+        float _attackWeakenEndTime;
+        float _externalVelocityX;
         Coroutine _dropThroughRoutine;
         Collider2D _ignoredPlatform;
 
@@ -31,11 +37,57 @@ namespace SSW
         }
 
         public float FacingSign => Mathf.Sign(_visual.localScale.x);
+        public float CurrentMoveSpeedMultiplier
+        {
+            get
+            {
+                float slow = Time.time < _slowEndTime ? _slowMultiplier : 1f;
+                float speed = Time.time < _speedEndTime ? _speedMultiplier : 1f;
+                return slow * speed;
+            }
+        }
+        public float CurrentOutgoingDamageMultiplier => Time.time < _attackWeakenEndTime ? _outgoingDamageMultiplier : 1f;
+        public int Priority => 0;
 
         public void ApplySlow(float amount, float duration)
         {
             _slowMultiplier = Mathf.Clamp01(1f - amount);
             _slowEndTime = Time.time + duration;
+        }
+
+        public void ApplySpeed(float amount, float duration)
+        {
+            _speedMultiplier = 1f + Mathf.Max(0f, amount);
+            _speedEndTime = Time.time + Mathf.Max(0f, duration);
+        }
+
+        public void ApplyAttackWeaken(float amount, float duration)
+        {
+            float multiplier = Mathf.Clamp01(1f - amount);
+            if (Time.time >= _attackWeakenEndTime)
+                _outgoingDamageMultiplier = multiplier;
+            else
+                _outgoingDamageMultiplier = Mathf.Min(_outgoingDamageMultiplier, multiplier);
+
+            _attackWeakenEndTime = Mathf.Max(_attackWeakenEndTime, Time.time + duration);
+        }
+
+        public float ModifyOutgoingDamage(float amount)
+        {
+            if (Time.time >= _attackWeakenEndTime)
+                _outgoingDamageMultiplier = 1f;
+
+            return Mathf.Max(0f, amount) * _outgoingDamageMultiplier;
+        }
+
+        public void ApplyForce(Vector2 force, ForceMode2D mode)
+        {
+            if (_rb == null) return;
+
+            _rb.AddForce(force, mode);
+            float mass = Mathf.Max(0.0001f, _rb.mass);
+            float timeStep = mode == ForceMode2D.Impulse ? 1f : Time.fixedDeltaTime;
+            _externalVelocityX += force.x / mass * timeStep;
         }
 
         void OnMove(InputValue value)
@@ -83,12 +135,20 @@ namespace SSW
                 Physics2D.IgnoreCollision(_col, _ignoredPlatform, false);
             _ignoredPlatform = null;
             _dropThroughRoutine = null;
+            _externalVelocityX = 0f;
         }
 
         void Update()
         {
             if (Time.time >= _slowEndTime) _slowMultiplier = 1f;
-            _rb.linearVelocity = new Vector2(_move.x * _moveSpeed * _slowMultiplier, _rb.linearVelocity.y);
+            if (Time.time >= _speedEndTime) _speedMultiplier = 1f;
+            if (Time.time >= _attackWeakenEndTime) _outgoingDamageMultiplier = 1f;
+            float controlledVelocity = _move.x * _moveSpeed * CurrentMoveSpeedMultiplier;
+            _rb.linearVelocity = new Vector2(controlledVelocity + _externalVelocityX, _rb.linearVelocity.y);
+            _externalVelocityX = Mathf.MoveTowards(
+                _externalVelocityX,
+                0f,
+                _externalVelocityDecay * Time.deltaTime);
             _animator.SetFloat("Speed", Mathf.Abs(_move.x));
             _animator.SetBool("IsGrounded", IsGrounded());
             FaceMouse();

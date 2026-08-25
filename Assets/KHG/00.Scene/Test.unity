@@ -469,9 +469,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4861530811025970792, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      propertyPath: _job
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5537716756059987560, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       propertyPath: _moveSpeed
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7419846881195244053, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      propertyPath: _catalog
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7686893401743090280, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       propertyPath: m_Name
@@ -480,6 +488,14 @@ PrefabInstance:
     - target: {fileID: 8266417094143573563, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       propertyPath: _jobPool
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8266417094143573563, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      propertyPath: _commonPool
+      value: 
+      objectReference: {fileID: 11400000, guid: f396daccee22bc54c96a46fbe2596d2a, type: 2}
+    - target: {fileID: 9183996978747195668, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      propertyPath: maxHealth
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -493,7 +509,7 @@ PrefabInstance:
       addedObject: {fileID: 950063046}
     - targetCorrespondingSourceObject: {fileID: 7686893401743090280, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 950063047}
+      addedObject: {fileID: 950063058}
   m_SourcePrefab: {fileID: 100100000, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
 --- !u!1 &950063044 stripped
 GameObject:
@@ -515,7 +531,7 @@ MonoBehaviour:
   _dashSpeed: 20
   _dashDuration: 0.2
   _dashCooldown: 4
---- !u!114 &950063047
+--- !u!114 &950063058
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -527,7 +543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af1fc1d82428e41418234b53d73722d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KHG_DashSpeed
-  speedIncrease: 20
+  speedIncrease: 0.5
   duration: 3
 --- !u!1 &1028768279
 GameObject:
@@ -1234,6 +1250,7 @@ GameObject:
   - component: {fileID: 2015783037}
   - component: {fileID: 2015783038}
   - component: {fileID: 2015783039}
+  - component: {fileID: 2015783040}
   m_Layer: 0
   m_Name: stormy_0
   m_TagString: Obstacle
@@ -1249,13 +1266,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2015783035}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.31797144, y: 0.94810027, z: -0, w: 0}
-  m_LocalPosition: {x: 0.92, y: 0.61, z: 0}
+  m_LocalRotation: {x: 0.008116947, y: 0.9999671, z: -0, w: 0}
+  m_LocalPosition: {x: 0.42, y: 0.81, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 572380483}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 37.081}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0.93}
 --- !u!212 &2015783037
 SpriteRenderer:
   serializedVersion: 3
@@ -1374,9 +1391,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d30c12342d4c9342b12e2a43b4c33f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KHG_Paring
-  isParrying: 0
-  parryTime: 0.2
+  isParrying: 1
+  parryTime: 4
   reflectSpeed: 20
+--- !u!114 &2015783040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015783035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c45c9f5e4f1dbcd4cbd109b6bec67962, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KHG_ParringHeal
+  healAmount: 10
+  healableComponent: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

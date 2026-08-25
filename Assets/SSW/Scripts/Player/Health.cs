@@ -1,8 +1,10 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SSW
 {
-    public class Health : MonoBehaviour, IDamageable
+    public class Health : MonoBehaviour, IDamageable, IHealable, IDamageReceiver
     {
         public float maxHealth = 100f;
         [SerializeField] bool _disableOnDeath = true;
@@ -31,13 +33,39 @@ namespace SSW
 
         public void TakeDamage(float amount, bool isCritical)
         {
-            if (amount <= 0f) return;
-            current = Mathf.Max(current - amount, 0f);
+            ReceiveDamage(new DamageRequest(null, amount, DamageTag.None, isCritical));
+        }
+
+        public DamageResult ReceiveDamage(DamageRequest request)
+        {
+            float requestedAmount = Mathf.Max(0f, request.Amount);
+            if (requestedAmount <= 0f)
+                return new DamageResult(requestedAmount, 0f, false);
+            if (current <= 0f)
+                return new DamageResult(requestedAmount, 0f, false);
+
+            float finalAmount = ResolveIncomingDamage(request, requestedAmount);
+            if (finalAmount <= 0f)
+            {
+                DamageResult blocked = new DamageResult(requestedAmount, 0f, false);
+                NotifyDamageReceived(request, blocked);
+                return blocked;
+            }
+
+            float previous = current;
+            current = Mathf.Max(current - finalAmount, 0f);
+            float appliedAmount = previous - current;
+            bool wasLethal = previous > 0f && current <= 0f;
+
             OnDamaged?.Invoke();
             OnHealthChanged?.Invoke(current, maxHealth);
-            OnDamageDealt?.Invoke(amount, isCritical);
-            SpawnDamageNumber(amount, isCritical);
-            if (current <= 0f) Die();
+            OnDamageDealt?.Invoke(finalAmount, request.IsCritical);
+            SpawnDamageNumber(finalAmount, request.IsCritical);
+
+            DamageResult result = new DamageResult(requestedAmount, appliedAmount, wasLethal);
+            NotifyDamageReceived(request, result);
+            if (wasLethal) Die();
+            return result;
         }
 
         public void Heal(float amount)
@@ -45,6 +73,41 @@ namespace SSW
             if (amount <= 0f) return;
             current = Mathf.Min(current + amount, maxHealth);
             OnHealthChanged?.Invoke(current, maxHealth);
+        }
+
+        float ResolveIncomingDamage(DamageRequest request, float amount)
+        {
+            MonoBehaviour[] behaviours = GetComponentsInParent<MonoBehaviour>(true);
+            List<IIncomingDamageModifier> modifiers = new List<IIncomingDamageModifier>();
+            foreach (MonoBehaviour behaviour in behaviours)
+            {
+                if (behaviour.isActiveAndEnabled && behaviour is IIncomingDamageModifier modifier)
+                    modifiers.Add(modifier);
+            }
+
+            modifiers.Sort(CompareModifiers);
+            foreach (IIncomingDamageModifier modifier in modifiers)
+                amount = Mathf.Max(0f, modifier.ModifyIncomingDamage(request, amount));
+
+            return amount;
+        }
+
+        static int CompareModifiers(IIncomingDamageModifier left, IIncomingDamageModifier right)
+        {
+            int priority = left.Priority.CompareTo(right.Priority);
+            return priority != 0
+                ? priority
+                : string.Compare(left.GetType().FullName, right.GetType().FullName, StringComparison.Ordinal);
+        }
+
+        void NotifyDamageReceived(DamageRequest request, DamageResult result)
+        {
+            MonoBehaviour[] behaviours = GetComponentsInParent<MonoBehaviour>(true);
+            foreach (MonoBehaviour behaviour in behaviours)
+            {
+                if (behaviour.isActiveAndEnabled && behaviour is IDamageReceivedListener listener)
+                    listener.OnDamageReceived(request, result);
+            }
         }
 
         void Die()
