@@ -12,6 +12,8 @@ public class KHG_Paring : MonoBehaviour
 
     public Action OnParrySuccess;
 
+    private Coroutine parryCoroutine;
+
     void Update()
     {
         if (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
@@ -24,44 +26,51 @@ public class KHG_Paring : MonoBehaviour
     {
         if (!isParrying)
         {
-            StartCoroutine(ParryRoutine());
+            if (parryCoroutine != null) StopCoroutine(parryCoroutine);
+            parryCoroutine = StartCoroutine(ParryRoutine());
         }
     }
 
     IEnumerator ParryRoutine()
     {
         isParrying = true;
-
-        Debug.Log("패링 시작!");
+        Debug.Log("[KHG_Paring] 패링 판정 시작 (E키 입력됨)");
 
         yield return new WaitForSeconds(parryTime);
 
         isParrying = false;
-
-        Debug.Log("패링 종료!");
+        Debug.Log("[KHG_Paring] 패링 판정 종료 (시간 초과)");
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!isParrying)
+        {
+            Debug.Log($"[KHG_Paring] {other.name}과 충돌했지만 패링 중이 아님 (!isParrying)");
             return;
+        }
 
         if (!other.CompareTag("Bullet"))
+        {
+            Debug.Log($"[KHG_Paring] 충돌한 {other.name}의 태그가 'Bullet'이 아님 (현재 태그: {other.tag})");
             return;
+        }
 
-        Debug.Log("패링 성공!");
+        Debug.Log("[KHG_Paring] ★ 패링 성공! ★");
 
         OnParrySuccess?.Invoke();
 
-        Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
+        if (parryCoroutine != null) StopCoroutine(parryCoroutine);
+        isParrying = false;
 
+        Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
         if (rb == null)
+        {
+            Debug.LogWarning("[KHG_Paring] 총알에 Rigidbody2D가 없습니다.");
             return;
+        }
 
         rb.linearVelocity = -rb.linearVelocity;
-
         rb.linearVelocity = rb.linearVelocity.normalized * reflectSpeed;
-
-        isParrying = false;
     }
 }
