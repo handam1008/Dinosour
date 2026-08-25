@@ -1,23 +1,27 @@
+using KDH.Scripts.Gun;
 using UnityEngine;
 
-public class KDH_DeadZone : MonoBehaviour
+namespace KDH.Scripts.System
 {
-    [SerializeField] private KDH_SpawnBullet spawnBullet;
-    
-    private void OnTriggerEnter2D(Collider2D collision)
+    public class KDH_DeadZone : MonoBehaviour
     {
-        if (collision.CompareTag("Bullet"))
+        [SerializeField] private KDH_SpawnBullet spawnBullet;
+    
+        private void OnTriggerEnter2D(Collider2D collision)
         {
-            GameObject bulletRoot = collision.attachedRigidbody.gameObject;
+            if (collision.CompareTag("Bullet"))
+            {
+                GameObject bulletRoot = collision.attachedRigidbody.gameObject;
         
-            if (!bulletRoot.activeSelf) return;
+                if (!bulletRoot.activeSelf) return;
 
-            bulletRoot.SetActive(false);
-            spawnBullet.bullets.Push(bulletRoot);
-        }
-        else if (collision.CompareTag("Player"))
-        {
-            collision.gameObject.transform.position = Vector3.zero;
+                bulletRoot.SetActive(false);
+                spawnBullet.bullets.Push(bulletRoot);
+            }
+            else if (collision.CompareTag("Player"))
+            {
+                collision.gameObject.transform.position = Vector3.zero;
+            }
         }
     }
 }
