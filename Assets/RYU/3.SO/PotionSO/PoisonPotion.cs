@@ -1,10 +1,17 @@
+using RYU._01.Script.Potions;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PoisonPotion", menuName = "SO/Potion/PoisonPotion")]
-public class PoisonPotion : AbstractPotion
+namespace RYU._3.SO.PotionSO
 {
-    public override void Use(GameObject target)
+    [CreateAssetMenu(fileName = "PoisonPotion", menuName = "SO/Potion/PoisonPotion")]
+    public class PoisonPotion : AbstractPotion
     {
-        
+        [SerializeField] private int damageCount = 2;
+        [SerializeField] private float damageTime = 0.7f;
+        public override void Use(GameObject target)
+        {
+           if(target.TryGetComponent(out OverTimeRunner runner))
+               runner.Run(new DamageTick(amount), damageCount, damageTime);
+        }
     }
 }
