@@ -1569,13 +1569,13 @@ MonoBehaviour:
   - {fileID: 1011247309}
   - {fileID: 1810219832}
   <MaxAmmo>k__BackingField: 9
-  <AttackSpeed>k__BackingField: 0.75
+  <AttackSpeed>k__BackingField: 1.5
   <ReloadSpeed>k__BackingField: 3
   <ChargeSpeed>k__BackingField: 2.5
   playerAttackModule: {fileID: 1583961009}
   <Tanchang>k__BackingField: {fileID: 303505106}
-  currentAmmo: 0
-  _timer: 0
+  <CurrentAmmo>k__BackingField: 0
+  <ChargeTimer>k__BackingField: 0
 --- !u!1 &1790785745 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2803553717990733954, guid: 07fa33aa87bdfd34db94896f6973d56d, type: 3}
