@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using KDH.Scripts.Ammo;
-using KDH.Scripts.Bullet;
 using KDH.Scripts.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;

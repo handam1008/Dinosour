@@ -1,14 +1,19 @@
+using System;
+using KDH.Scripts.Upgrade;
 using UnityEngine;
 
 namespace KDH.Scripts.Bullet
 {
     public class KDH_Bullet : MonoBehaviour
     {
-        [Header("Bullet Modules")] // 여기서 증강으로 먹은 속성의 능력을 모듈로 추가해서 적용
+        [Header("Bullet Modules")]
         [field: SerializeField] public KDH_BulletMovement MoveComp { get; private set; }
+        [field: SerializeField] public KDH_DamageCaster DamageCasterCompo { get; private set; }
         
+        [field: SerializeField] public KDH_BulletUpgrade BulletUpgrade { get; private set; }
         [Header("Bullet Settings")]
         [field: SerializeField] public float Speed { get; private set; } = 20f;
+        [field: SerializeField] public float Damage { get; private set; } = 15f;
         
         public Vector2 MoveDir { get; private set; }
         public Rigidbody2D Rigid { get; private set; }
@@ -22,7 +27,9 @@ namespace KDH.Scripts.Bullet
 
         private void OnEnable()
         {
-            Rigid.linearVelocity = MoveDir * Speed;
+            DamageCasterCompo.Init(this);
+
+            InitDirection();
         }
 
         private void FixedUpdate()
@@ -30,6 +37,11 @@ namespace KDH.Scripts.Bullet
             MoveComp.Movement(Rigid);
         }
 
+        private void InitDirection()
+        {
+            Rigid.linearVelocity = MoveDir * Speed;
+        }
+        
         public void Init(Vector2 moveDir)
         {
             MoveDir = moveDir;
