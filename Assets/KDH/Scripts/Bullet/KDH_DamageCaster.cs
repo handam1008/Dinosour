@@ -23,7 +23,7 @@ namespace KDH.Scripts.Bullet
             if (collision.TryGetComponent<IDamageable>(out var dmg))
                 dmg.TakeDamage(damage);
             
-            bullet.BulletUpgrade.HitBullet(collision);
+            bullet.PlayerGun.UpgradeList.ApplyBulletAbility(collision); // 증강에 적용된 총알들의 능력을 모두 적용
         }
     }
 }

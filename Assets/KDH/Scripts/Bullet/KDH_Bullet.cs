@@ -1,5 +1,4 @@
-using System;
-using KDH.Scripts.Upgrade;
+using KDH.Scripts.Gun;
 using UnityEngine;
 
 namespace KDH.Scripts.Bullet
@@ -9,8 +8,6 @@ namespace KDH.Scripts.Bullet
         [Header("Bullet Modules")]
         [field: SerializeField] public KDH_BulletMovement MoveComp { get; private set; }
         [field: SerializeField] public KDH_DamageCaster DamageCasterCompo { get; private set; }
-        
-        [field: SerializeField] public KDH_BulletUpgrade BulletUpgrade { get; private set; }
         [Header("Bullet Settings")]
         [field: SerializeField] public float Speed { get; private set; } = 20f;
         [field: SerializeField] public float Damage { get; private set; } = 15f;
@@ -19,12 +16,20 @@ namespace KDH.Scripts.Bullet
         public Rigidbody2D Rigid { get; private set; }
 
         public bool IsUpgraded { get; set; }
+
+        public KDH_Gun PlayerGun {get; private set;}
         
         private void Awake()
         {
             Rigid = GetComponent<Rigidbody2D>();
         }
 
+        private void Start()
+        {
+            if (PlayerGun == null)
+                PlayerGun = FindAnyObjectByType<KDH_Gun>();
+        }
+        
         private void OnEnable()
         {
             DamageCasterCompo.Init(this);

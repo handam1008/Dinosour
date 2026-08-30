@@ -1,6 +1,7 @@
 using System;
 using KDH.Scripts.Ammo;
 using KDH.Scripts.Player;
+using KDH.Scripts.Upgrade;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -31,6 +32,7 @@ namespace KDH.Scripts.Gun
         [Header("Modules")]
         [SerializeField] private KDH_PlayerAttackModule playerAttackModule;
         [field: SerializeField] public KDH_Tanchang Tanchang {get; private set;}
+        [field: SerializeField] public KDH_UpgradeList  UpgradeList {get; private set;}
 
         [field: SerializeField] public int CurrentAmmo { get; set; } = 0;
         [field: SerializeField] public float ChargeTimer { get; set; } = 0f;

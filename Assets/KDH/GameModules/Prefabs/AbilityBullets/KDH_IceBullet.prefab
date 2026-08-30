@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6421783451949948362}
   - component: {fileID: 8102312236854764184}
   m_Layer: 0
-  m_Name: IceBullet
+  m_Name: KDH_IceBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,8 +41,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1891358268744537669}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35b0979ad53f4a3f9e3f44076124d7a4, type: 3}
+  m_Script: {fileID: 11500000, guid: f97e6152e89e41e5ac3d4275dcc7c9c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Upgrade.KDH_IceBullet
-  applySlow: 0.2
-  durationTime: 1.5
+  slowAmount: 0.2
+  slowDuration: 1.5
