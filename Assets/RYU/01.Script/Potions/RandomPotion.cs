@@ -78,7 +78,7 @@ public class RandomPotion : MonoBehaviour
         RandomValue();
         AbstractPotion data = potions[currentIndex];
         GameObject clone = Instantiate(data.PotionPrefab, PlayerUp);
-        clone.GetComponent<Potion>().Init(data, 1); 
+        clone.GetComponent<Potion>().Init(data, 1f ,this); 
         currentPotions.Enqueue(clone);
         Debug.Log($"큐 개수: {currentPotions.Count}");
 

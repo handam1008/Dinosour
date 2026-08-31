@@ -12,16 +12,19 @@ namespace RYU._01.Script.Potions
          [SerializeField] private float splashRadious = 1.5f;
 
          private float _radiusMultiplier;
+         
+         private Component _owner;
 
         private void Awake()
         {
             _feedBackPlayer = GetComponent<FeedBackPlayer>();
         }
 
-        public void Init(AbstractPotion data, float radiusMultiplier)
+        public void Init(AbstractPotion data, float radiusMultiplier, Component owner)
         {
             _data = data;
             _radiusMultiplier = radiusMultiplier;
+            _owner = owner;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -32,7 +35,7 @@ namespace RYU._01.Script.Potions
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, radious);
             foreach (Collider2D hit in hits)
             {
-                _data.Use(hit.gameObject);
+                _data.Use(hit.gameObject, _owner);
             }
             
             Destroy(gameObject);

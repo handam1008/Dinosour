@@ -11,10 +11,10 @@ namespace RYU._3.SO.PotionSO
         [SerializeField] private int healCount = 2;
         [SerializeField] private float healTime = 0.7f;
    
-        public override void Use(GameObject target)
+        public override void Use(GameObject target, Component source)
         {
-            if(target.TryGetComponent(out OverTimeRunner runner))
-                runner.Run(new HealTick(amount), healCount,healTime);
+            OverTimeRunner runner = target.GetComponentInParent<OverTimeRunner>();
+            if (runner != null) runner.Run(new HealTick(amount, source), healCount, healTime);
         }
     }
 }

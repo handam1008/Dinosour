@@ -1,30 +1,55 @@
-using System;
+using KDH.Scripts.Gun;
 using UnityEngine;
 
-public class KDH_Bullet : MonoBehaviour
+namespace KDH.Scripts.Bullet
 {
-    [SerializeField] private float _speed;
-    private Vector2 _moveDir;
-    private Rigidbody2D _rigid;
-
-    private void Awake()
+    public class KDH_Bullet : MonoBehaviour
     {
-        _rigid = GetComponent<Rigidbody2D>();
-    }
+        [Header("Bullet Modules")]
+        [field: SerializeField] public KDH_BulletMovement MoveComp { get; private set; }
+        [field: SerializeField] public KDH_DamageCaster DamageCasterCompo { get; private set; }
+        [Header("Bullet Settings")]
+        [field: SerializeField] public float Speed { get; private set; } = 20f;
+        [field: SerializeField] public float Damage { get; private set; } = 15f;
+        
+        public Vector2 MoveDir { get; private set; }
+        public Rigidbody2D Rigid { get; private set; }
 
-    private void OnEnable()
-    {
-        _rigid.linearVelocity = _moveDir * _speed;
-    }
+        public bool IsUpgraded { get; set; }
 
-    private void FixedUpdate()
-    {
-        float angle = Mathf.Atan2(_rigid.linearVelocity.y, _rigid.linearVelocity.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);
-    }
+        public KDH_Gun PlayerGun {get; private set;}
+        
+        private void Awake()
+        {
+            Rigid = GetComponent<Rigidbody2D>();
+        }
 
-    public void Init(Vector2 moveDir)
-    {
-        _moveDir = moveDir;
+        private void Start()
+        {
+            if (PlayerGun == null)
+                PlayerGun = FindAnyObjectByType<KDH_Gun>();
+        }
+        
+        private void OnEnable()
+        {
+            DamageCasterCompo.Init(this);
+
+            InitDirection();
+        }
+
+        private void FixedUpdate()
+        {
+            MoveComp.Movement(Rigid);
+        }
+
+        private void InitDirection()
+        {
+            Rigid.linearVelocity = MoveDir * Speed;
+        }
+        
+        public void Init(Vector2 moveDir)
+        {
+            MoveDir = moveDir;
+        }
     }
 }

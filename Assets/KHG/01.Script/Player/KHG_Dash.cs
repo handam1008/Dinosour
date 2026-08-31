@@ -21,6 +21,7 @@ public class KHG_Dash : MonoBehaviour
     private bool _canDash = true;
     private bool _isDashing;
 
+
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -41,7 +42,6 @@ public class KHG_Dash : MonoBehaviour
 
         StartCoroutine(DashRoutine());
     }
-
     IEnumerator DashRoutine()
     {
         _canDash = false;
