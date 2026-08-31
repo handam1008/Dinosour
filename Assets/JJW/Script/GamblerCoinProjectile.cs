@@ -1,18 +1,20 @@
+using System;
 using UnityEngine;
 
 public class GamblerCoinProjectile : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private Rigidbody2D body;
-
-    [Header("Movement")]
+  
+    [SerializeField]
+    private Rigidbody2D body;
+    
     [Min(0f)]
     [SerializeField] private float speed = 15f;
-    [Min(0.01f)]
-    [SerializeField] private float lifetime = 3f;
+    [Min(0.01f)] [SerializeField] private float lifetime = 3f;
 
-    [Header("Collision")]
-    [SerializeField] private LayerMask destroyOnLayers;
+    private Action<GamblerCoinProjectile> releaseToPool;
+
+    private float releaseTime;
+    private bool isFlying;
 
     private void Reset()
     {
@@ -24,43 +26,74 @@ public class GamblerCoinProjectile : MonoBehaviour
         if (body == null)
         {
             body = GetComponent<Rigidbody2D>();
+                
         }
     }
 
-    public void Initialize(Vector2 direction)
+    private void Update()
+    {
+        if (isFlying && Time.time >= releaseTime)
+        {
+            ReturnToPool();
+        }
+    }
+
+    public void Initialize(Vector2 direction, Action<GamblerCoinProjectile> releaseAction)
+        
     {
         if (direction.sqrMagnitude < 0.0001f)
         {
-            Debug.LogError("GamblerCoinProjectile received an empty direction.", this);
-            Destroy(gameObject);
+            Debug.LogError("GamblerCoinProjectile received an empty direction.",this);
+
+            if (releaseAction != null)
+            {
+                releaseAction.Invoke(this);
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
+
             return;
         }
+
+        releaseToPool = releaseAction;
+        releaseTime = Time.time + lifetime;
+        isFlying = true;
 
 #if UNITY_6000_0_OR_NEWER
         body.linearVelocity = direction.normalized * speed;
 #else
         body.velocity = direction.normalized * speed;
 #endif
-
-        Destroy(gameObject, lifetime);
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void ReturnToPool()
     {
-        TryDestroyOnLayer(other.gameObject.layer);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        TryDestroyOnLayer(collision.gameObject.layer);
-    }
-
-    private void TryDestroyOnLayer(int otherLayer)
-    {
-        int otherLayerMask = 1 << otherLayer;
-        if ((destroyOnLayers.value & otherLayerMask) != 0)
+        if (!isFlying)
         {
-            Destroy(gameObject);
+            return;
+        }
+
+        isFlying = false;
+
+#if UNITY_6000_0_OR_NEWER
+        body.linearVelocity = Vector2.zero;
+#else
+        body.velocity = Vector2.zero;
+#endif
+
+        Action<GamblerCoinProjectile>releaseAction = releaseToPool;
+
+        releaseToPool = null;
+
+        if (releaseAction != null)
+        {
+            releaseAction.Invoke(this);
+        }
+        else
+        {
+            gameObject.SetActive(false);
         }
     }
 }

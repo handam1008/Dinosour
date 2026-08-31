@@ -5,24 +5,29 @@ namespace JJW.Script
 {
     public class GamblerCoinFireInput : MonoBehaviour
     {
-        [SerializeField] private GamblerCoinShooter coinShooter;
+        [SerializeField]
+        private GamblerCoinShooter coinShooter;
 
         private void Awake()
         {
             if (coinShooter == null)
             {
-                coinShooter = GetComponent<GamblerCoinShooter>();
+                coinShooter =
+                    GetComponent<GamblerCoinShooter>();
             }
         }
 
         private void Update()
         {
-            if (coinShooter == null || Mouse.current == null)
+            if (coinShooter == null ||
+                Mouse.current == null)
             {
                 return;
             }
 
-            if (Mouse.current.leftButton.wasPressedThisFrame)
+            if (Mouse.current
+                .leftButton
+                .wasPressedThisFrame)
             {
                 coinShooter.TryFire();
             }

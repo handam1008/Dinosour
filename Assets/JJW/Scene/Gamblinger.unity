@@ -572,6 +572,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b89645d7b3c954847a11576c13269860, type: 3}
+--- !u!1001 &1831356144
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4863835723881085068, guid: 589b0fbf1a8854e48aee0125eed9b1e4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -4.52195
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863835723881085068, guid: 589b0fbf1a8854e48aee0125eed9b1e4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.50613
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863835723881085068, guid: 589b0fbf1a8854e48aee0125eed9b1e4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863835723881085068, guid: 589b0fbf1a8854e48aee0125eed9b1e4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863835723881085068, guid: 589b0fbf1a8854e48aee0125eed9b1e4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863835723881085068, guid: 589b0fbf1a8854e48aee0125eed9b1e4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863835723881085068, guid: 589b0fbf1a8854e48aee0125eed9b1e4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863835723881085068, guid: 589b0fbf1a8854e48aee0125eed9b1e4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863835723881085068, guid: 589b0fbf1a8854e48aee0125eed9b1e4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863835723881085068, guid: 589b0fbf1a8854e48aee0125eed9b1e4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8595286371908887837, guid: 589b0fbf1a8854e48aee0125eed9b1e4, type: 3}
+      propertyPath: m_Name
+      value: SilverCoin
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 589b0fbf1a8854e48aee0125eed9b1e4, type: 3}
 --- !u!1 &2016847334
 GameObject:
   m_ObjectHideFlags: 0
@@ -585,6 +642,7 @@ GameObject:
   - component: {fileID: 2016847339}
   - component: {fileID: 2016847338}
   - component: {fileID: 2016847337}
+  - component: {fileID: 2016847340}
   m_Layer: 3
   m_Name: Gun
   m_TagString: Untagged
@@ -680,8 +738,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GamblerMouseAim
   worldCamera: {fileID: 1028768281}
-  weaponPivot: {fileID: 2016847335}
-  weaponSprite: {fileID: 2016847336}
+  playerCenter: {fileID: 337175680}
+  gunSprite: {fileID: 2016847336}
+  distanceFromPlayer: 0.8
 --- !u!114 &2016847338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -695,8 +754,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GamblerCoinShooter
   mouseAim: {fileID: 2016847337}
-  muzzle: {fileID: 2016847335}
-  coinPrefab: {fileID: -2401784603823651733, guid: 589b0fbf1a8854e48aee0125eed9b1e4, type: 3}
+  coinPool: {fileID: 0}
   fireCooldown: 0.2
 --- !u!114 &2016847339
 MonoBehaviour:
@@ -711,6 +769,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JJW.Script.GamblerCoinFireInput
   coinShooter: {fileID: 2016847338}
+--- !u!114 &2016847340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2016847334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0156174e6358e96419b25e52d7dca95c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GamblerCoinPool
+  coinPrefab: {fileID: -2401784603823651733, guid: 589b0fbf1a8854e48aee0125eed9b1e4, type: 3}
+  initialSize: 10
+  poolRoot: {fileID: 0}
 --- !u!1001 &7261052234574551643
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -802,3 +875,4 @@ SceneRoots:
   - {fileID: 130420747}
   - {fileID: 7261052234574551643}
   - {fileID: 1317705741}
+  - {fileID: 1831356144}

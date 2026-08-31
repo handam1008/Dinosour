@@ -2,10 +2,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class GamblerMouseAim : MonoBehaviour
 {
-    [Header("References")]
     [SerializeField] private Camera worldCamera;
-    [SerializeField] private Transform weaponPivot;
-    [SerializeField] private SpriteRenderer weaponSprite;
+    [SerializeField] private Transform playerCenter;
+    [SerializeField] private SpriteRenderer gunSprite;
+
+    [Header("총 위치")]
+    [Min(0f)]
+    [SerializeField] private float distanceFromPlayer = 0.8f;
 
     public Vector2 AimDirection { get; private set; } = Vector2.right;
     public Vector3 MouseWorldPosition { get; private set; }
@@ -17,59 +20,81 @@ public class GamblerMouseAim : MonoBehaviour
             worldCamera = Camera.main;
         }
 
-        if (weaponPivot == null)
+        if (gunSprite == null)
         {
-            weaponPivot = transform;
+            gunSprite = GetComponent<SpriteRenderer>();
+        }
+
+        if (playerCenter == null && transform.parent != null)
+        {
+            playerCenter = transform.parent;
         }
     }
 
     private void Update()
     {
-        if (!TryReadMouseWorldPosition(out Vector3 mouseWorldPosition))
-        {
-            return;
-        }
-
-        MouseWorldPosition = mouseWorldPosition;
-
-        Vector2 pivotToMouse = mouseWorldPosition - weaponPivot.position;
-        if (pivotToMouse.sqrMagnitude < 0.0001f)
-        {
-            return;
-        }
-
-        AimDirection = pivotToMouse.normalized;
-
-        float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
-        weaponPivot.rotation = Quaternion.Euler(0f, 0f, angle);
-
-        // The weapon sprite is expected to face right at rotation Z = 0.
-        if (weaponSprite != null)
-        {
-            weaponSprite.flipY = AimDirection.x < 0f;
-        }
+        TryRefreshAim();
     }
 
-    public bool TryGetDirectionFrom(Vector3 origin, out Vector2 direction)
+    public bool TryGetFireDirection(out Vector2 direction)
     {
         direction = AimDirection;
 
-        // Read the mouse again at the exact moment of firing.
-        // This prevents a one-frame-old aim direction from being used.
+        if (!TryRefreshAim())
+        {
+            return false;
+        }
+
+        Vector2 gunToMouse = MouseWorldPosition - transform.position;
+
+        if (gunToMouse.sqrMagnitude < 0.0001f)
+        {
+            return false;
+        }
+
+        direction = gunToMouse.normalized;
+        return true;
+    }
+
+    private bool TryRefreshAim()
+    {
+        if (playerCenter == null)
+        {
+            Debug.LogError("GamblerMouseAim needs a Player Center reference.", this);
+
+            return false;
+        }
+
         if (!TryReadMouseWorldPosition(out Vector3 mouseWorldPosition))
         {
             return false;
         }
 
         MouseWorldPosition = mouseWorldPosition;
-        Vector2 originToMouse = mouseWorldPosition - origin;
 
-        if (originToMouse.sqrMagnitude < 0.0001f)
+        Vector2 playerToMouse = mouseWorldPosition - playerCenter.position;
+
+        if (playerToMouse.sqrMagnitude < 0.0001f)
         {
             return false;
         }
 
-        direction = originToMouse.normalized;
+        AimDirection = playerToMouse.normalized;
+
+        Vector3 gunPosition = playerCenter.position + (Vector3)(AimDirection * distanceFromPlayer);
+
+        gunPosition.z = transform.position.z;
+        transform.position = gunPosition;
+
+        float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
+
+        transform.rotation = Quaternion.Euler(0f, 0f, angle);
+
+        if (gunSprite != null)
+        {
+            gunSprite.flipY = AimDirection.x < 0f;
+        }
+
         return true;
     }
 
@@ -79,7 +104,9 @@ public class GamblerMouseAim : MonoBehaviour
 
         if (worldCamera == null)
         {
-            Debug.LogError("GamblerMouseAim needs a Camera reference.", this);
+            Debug.LogError(
+                "GamblerMouseAim needs a Camera reference.",this);
+
             return false;
         }
 
@@ -90,13 +117,12 @@ public class GamblerMouseAim : MonoBehaviour
 
         Vector3 mouseScreenPosition = Mouse.current.position.ReadValue();
 
-        // ScreenToWorldPoint uses Z as distance from the camera.
-        // In this 2D setup, the target plane is the weapon pivot's Z plane.
-        mouseScreenPosition.z = Mathf.Abs(
-            worldCamera.transform.position.z - weaponPivot.position.z);
+        mouseScreenPosition.z = Mathf.Abs(worldCamera.transform.position.z - transform.position.z);
 
         mouseWorldPosition = worldCamera.ScreenToWorldPoint(mouseScreenPosition);
-        mouseWorldPosition.z = weaponPivot.position.z;
+
+        mouseWorldPosition.z = transform.position.z;
+
         return true;
     }
 }

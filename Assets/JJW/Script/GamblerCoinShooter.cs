@@ -4,18 +4,34 @@ using UnityEngine;
 public class GamblerCoinShooter : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private GamblerMouseAim mouseAim;
-    [SerializeField] private Transform muzzle;
-    [SerializeField] private GamblerCoinProjectile coinPrefab;
+    [SerializeField]
+    private GamblerMouseAim mouseAim;
+
+    [SerializeField]
+    private GamblerCoinPool coinPool;
 
     [Header("Fire Settings")]
     [Min(0f)]
-    [SerializeField] private float fireCooldown = 0.2f;
+    [SerializeField]
+    private float fireCooldown = 0.2f;
 
     private float nextFireTime;
 
-    // Sound, VFX, magazine UI, and roulette can subscribe later.
-    public event Action<GamblerCoinProjectile> CoinFired;
+    public event Action<GamblerCoinProjectile>
+        CoinFired;
+
+    private void Awake()
+    {
+        if (mouseAim == null)
+        {
+            mouseAim = GetComponent<GamblerMouseAim>();
+        }
+
+        if (coinPool == null)
+        {
+            coinPool = GetComponent<GamblerCoinPool>();
+        }
+    }
 
     public bool TryFire()
     {
@@ -24,27 +40,35 @@ public class GamblerCoinShooter : MonoBehaviour
             return false;
         }
 
-        if (mouseAim == null || muzzle == null || coinPrefab == null)
+        if (mouseAim == null ||
+            coinPool == null)
         {
             Debug.LogError("GamblerCoinShooter references are not fully assigned.", this);
+
             return false;
         }
 
-        if (!mouseAim.TryGetDirectionFrom(muzzle.position, out Vector2 direction))
+        if (!mouseAim.TryGetFireDirection(out Vector2 direction))
         {
             return false;
         }
 
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        GamblerCoinProjectile coin = Instantiate(
-            coinPrefab,
-            muzzle.position,
-            Quaternion.Euler(0f, 0f, angle));
+        float angle =
+            Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        coin.Initialize(direction);
+        GamblerCoinProjectile coin = coinPool.Get(transform.position, Quaternion.Euler(0f, 0f, angle-90));
+
+        if (coin == null)
+        {
+            return false;
+        }
+
+        coin.Initialize(direction, coinPool.Release);
 
         nextFireTime = Time.time + fireCooldown;
+
         CoinFired?.Invoke(coin);
+
         return true;
     }
 }
