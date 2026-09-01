@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using KDH.Scripts.Bullet;
+using UnityEngine;
 
 namespace KDH.Scripts.Upgrade
 {
     public abstract class KDH_AbstractBulletAbility : MonoBehaviour
     {
-        public abstract void BulletAbility(Collider2D collision);
+        public abstract void BulletAbility(Collider2D collision, KDH_Bullet bullet);
     }
 }

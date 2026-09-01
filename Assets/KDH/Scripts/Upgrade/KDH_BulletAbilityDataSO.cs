@@ -9,5 +9,7 @@ namespace KDH.Scripts.Upgrade
         [TextArea] public string abilityDescription;
         
         public GameObject BulletAbilityPrefab;
+        public GameObject BulletNormalEffectPrefab;
+        public GameObject BulletUpgradedEffectPrefab;
     }
 }
