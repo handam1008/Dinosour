@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using KDH.Scripts.Bullet;
 using UnityEngine;
 
 namespace KDH.Scripts.Upgrade
@@ -7,23 +8,24 @@ namespace KDH.Scripts.Upgrade
     {
         [SerializeField] private List<KDH_BulletAbilityDataSO> bulletAbilityLibrary = new();
         [field: SerializeField] public List<KDH_AbstractBulletAbility> bulletAbiliytList = new();
-
-        public void ApplyBulletAbility(Collider2D collision)
+        
+        public void ApplyBulletAbility(Collider2D collision, KDH_Bullet bullet)
         {
             foreach (var ability in bulletAbiliytList)
             {
-                ability.BulletAbility(collision);
+                ability.BulletAbility(collision, bullet);
             }
         }
         
         public void AddBulletAbility(KDH_BulletAbilityDataSO ability)
-        {
-            bulletAbiliytList.Add(ability.BulletAbilityPrefab.GetComponent<KDH_AbstractBulletAbility>());
+        {    
+            GameObject instance = Instantiate(ability.BulletAbilityPrefab, transform);
+            bulletAbiliytList.Add(instance.GetComponent<KDH_AbstractBulletAbility>());
         }
 
-        public void RemoveBulletAbility(KDH_BulletAbilityDataSO ability)
+        public void RemoveBulletAbility(GameObject ability)
         {
-            bulletAbiliytList.Remove(ability.BulletAbilityPrefab.GetComponent<KDH_AbstractBulletAbility>());
+            bulletAbiliytList.Remove(ability.GetComponent<KDH_AbstractBulletAbility>());
         }
     }
 }
