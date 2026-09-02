@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27ee8cfb61a9b99468ae6680b10ea49e, type: 3}
-  m_Name: "\uC9C4\uD55C \uB18D\uB3C4"
-  m_EditorClassIdentifier: Assembly-CSharp::SSW.Augment
+  m_Script: {fileID: 11500000, guid: f81b7168db024026b1180d9ec7f58c4a, type: 3}
+  m_Name: ThickBrew
+  m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.Argument.WitchAugment
   displayName: "\uC9C4\uD55C \uB18D\uB3C4"
   description: "\uBAA8\uB4E0 \uD3EC\uC158 \uC9C0\uC18D\uC2DC\uAC04 +25% (\uB3C5\xB7\uC7AC\uC0DD\xB7\uAD6C\uC18D
     \uAC19\uC740 \uC2DC\uAC04\uD615 \uD6A8\uACFC\uAC00 \uC624\uB798\uAC10)"
-  icon: {fileID: 0}
+  icon: {fileID: -5802712060323769536, guid: 06b0c489b3f4f8e49811e8c69dbdae4a, type: 3}
+  type: 1

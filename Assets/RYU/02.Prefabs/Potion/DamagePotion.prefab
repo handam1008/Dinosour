@@ -159,7 +159,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &4147620876846462658
 MonoBehaviour:
@@ -173,6 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 213e80cc53e64275925f28ab8b4501c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.Potion.Potion
+  splashRadious: 1.5
 --- !u!114 &7871436567604284983
 MonoBehaviour:
   m_ObjectHideFlags: 0

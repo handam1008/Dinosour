@@ -1,4 +1,5 @@
-﻿using KDH.Scripts.Bullet;
+﻿using System.Collections;
+using KDH.Scripts.Bullet;
 using SSW;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,6 +13,8 @@ namespace KDH.Scripts.Upgrade.Instances
 
         [SerializeField] private UnityEvent onHitPlayer;
         
+        [field: SerializeField] public KDH_BulletAbilityDataSO BulletAbilityData { get; private set; }
+        
         public Transform HitPoint { get; private set; }
 
         public KDH_Bullet Bullet { get; private set; }
@@ -19,25 +22,39 @@ namespace KDH.Scripts.Upgrade.Instances
         public override void BulletAbility(Collider2D collision,  KDH_Bullet bullet)
         {
             if(!collision.TryGetComponent(out ISlowable slowable)) return;
-
+            if (!collision.TryGetComponent(out IDamageable _)) return;
+            
             if (bullet.IsUpgraded)
             {
                 slowable.ApplySlow(slowAmount * bullet.UpgradValue, slowDuration * bullet.UpgradValue);
+                StartCoroutine(TakeDamageDelay(collision, 1 * bullet.UpgradValue, slowDuration * bullet.UpgradValue));
                 HitPoint = collision.transform;
                 Bullet = bullet;
                 
                 onHitPlayer?.Invoke();
-                Debug.Log("Upgraded: " + slowable);
                 return;
             }
             
-            slowable.ApplySlow(slowAmount * bullet.UpgradValue, slowDuration * bullet.UpgradValue);
+            StartCoroutine(TakeDamageDelay(collision, 1, slowDuration));
+            slowable.ApplySlow(slowAmount, slowDuration);
             HitPoint = collision.transform;
             Bullet = bullet;
             
             onHitPlayer?.Invoke();
-            
-            Debug.Log(slowable);
+        }
+
+        private IEnumerator TakeDamageDelay(Collider2D collision, float damage, float duration)
+        {
+            int count = BulletAbilityData.damage;
+
+            for (int i = 0; i < count; i++)
+            {
+                yield return new WaitForSeconds(duration / count);
+                if (collision.TryGetComponent(out IDamageable damageable))
+                {
+                    damageable.TakeDamage(damage);
+                }
+            }
         }
     }
 }

@@ -32,7 +32,7 @@ namespace KDH.Scripts.Gun
         [Header("Modules")]
         [SerializeField] private KDH_PlayerAttackModule playerAttackModule;
         [field: SerializeField] public KDH_Tanchang Tanchang {get; private set;}
-        [field: SerializeField] public KDH_UpgradeList  UpgradeList {get; private set;}
+        [field: SerializeField] public KDH_UpgradeList UpgradeList {get; private set;}
 
         [field: SerializeField] public int CurrentAmmo { get; set; } = 0;
         [field: SerializeField] public float ChargeTimer { get; set; } = 0f;
@@ -48,6 +48,7 @@ namespace KDH.Scripts.Gun
         {
             Tanchang.Init(this);
             SpawnBullet.CreateBullet(BulletPrefab, this);
+            UpgradeList.GetGun(this);
         }
         
         private void OnEnable()

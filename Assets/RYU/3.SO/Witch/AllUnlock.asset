@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81b7168db024026b1180d9ec7f58c4a, type: 3}
+  m_Name: AllUnlock
+  m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.Argument.WitchAugment
+  displayName: "\uB9CC\uB2A5 \uC870\uC81C"
+  description: "\uD3EC\uC158\uC774 \uAD50\uCCB4\uB418\uC9C0 \uC54A\uACE0\_\uD604\uC7AC
+    3\uC885\uC744 \uD55C \uBC88\uC5D0 \uC11E\uC5B4\_\uB358\uC9D1\uB2C8\uB2E4. (\uD68C\uBCF5+\uD53C\uD574+\uC0C1\uD0DC\uC774\uC0C1\uC774
+    \uB3D9\uC2DC\uC5D0 \uD130\uC9D0)"
+  icon: {fileID: -5802712060323769536, guid: 06b0c489b3f4f8e49811e8c69dbdae4a, type: 3}
+  type: 8

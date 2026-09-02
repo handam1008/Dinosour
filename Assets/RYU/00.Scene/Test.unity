@@ -173,7 +173,7 @@ MonoBehaviour:
   Hand: {fileID: 340620726}
   PlayerUp: {fileID: 1141280781}
   potionSpeed: 15
-  Angle: 0.45
+  Angle: 0.3
   canCreate: 0
   canHand: 0
 --- !u!4 &340620726 stripped
@@ -527,6 +527,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2685563200406346000, guid: e54ec2723d3f63a488156219bf284104, type: 3}
+      propertyPath: _job
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5530121758100847790, guid: e54ec2723d3f63a488156219bf284104, type: 3}
+      propertyPath: _jobPool
+      value: 
+      objectReference: {fileID: 11400000, guid: c84db2ff94f5a8a4d92221b3c4aec4c1, type: 2}
+    - target: {fileID: 5530121758100847790, guid: e54ec2723d3f63a488156219bf284104, type: 3}
+      propertyPath: _commonPool
+      value: 
+      objectReference: {fileID: 11400000, guid: f396daccee22bc54c96a46fbe2596d2a, type: 2}
     - target: {fileID: 8344356039665309093, guid: e54ec2723d3f63a488156219bf284104, type: 3}
       propertyPath: m_Name
       value: Witch

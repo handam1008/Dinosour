@@ -10,11 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fc08250a3d9e144b9b48d06d74782e3, type: 3}
-  m_Name: WitchAugmentPool
+  m_Name: GunnerArgumentPool
   m_EditorClassIdentifier: Assembly-CSharp::SSW.AugmentPool
   augments:
-  - {fileID: 11400000, guid: 0b82865f5860bb042a175595828fbc8f, type: 2}
-  - {fileID: 11400000, guid: 5d1ebc3c64fe2cb47af50e9322102002, type: 2}
-  - {fileID: 11400000, guid: 805f8baa84cb72048a489cede5b704c9, type: 2}
-  - {fileID: 11400000, guid: 9fe8a2dda707d664cae23070ab3026ea, type: 2}
-  - {fileID: 11400000, guid: 0b82865f5860bb042a175595828fbc8f, type: 2}
+  - {fileID: 11400000, guid: 55b7bbda490fc6c4ea85ea4daa0711ab, type: 2}
+  - {fileID: 11400000, guid: 1a9e98f6c1b43c6429e0026701a43a65, type: 2}
+  - {fileID: 11400000, guid: 66dfef1de4c9f6d4f8aa0c6baf452cf9, type: 2}
