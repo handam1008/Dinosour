@@ -3,10 +3,6 @@ using UnityEngine;
 
 namespace SSW
 {
-    /// <summary>
-    /// Handles augment-source discovery, event lifetime, and replay for job modules.
-    /// Receivers may live on the player root or any child object.
-    /// </summary>
     public abstract class AugmentReceiverBehaviour : JobModuleBehaviour, IAugmentReceiver
     {
         IAugmentSource _source;

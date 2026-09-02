@@ -18,7 +18,7 @@ namespace RYU._01.Script.Potions
         {
             IDamageable hit = target.GetComponentInParent<IDamageable>();
             if (hit != null)
-                CombatDamage.Deal(_source, hit, _amount, DamageTag.DamageOverTime);
+                CombatDamage.Deal(_source, hit, _amount, DamageTag.JobSkill | DamageTag.DamageOverTime);
         }
     }
 }

@@ -4,9 +4,6 @@ using UnityEngine;
 
 namespace SSW
 {
-    /// <summary>
-    /// Shared outgoing-damage entry point. Job attacks remain independent from status implementations.
-    /// </summary>
     public static class CombatDamage
     {
         public static bool TryDeal(Component source, IDamageable target, float baseAmount)

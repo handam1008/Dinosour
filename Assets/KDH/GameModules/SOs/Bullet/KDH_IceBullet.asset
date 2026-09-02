@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8a05fe156834b90963d51b25dc8ee47, type: 3}
+  m_Name: KDH_IceBullet
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Upgrade.KDH_BulletAbilityDataSO
+  abilityName: "\uC5BC\uC74C\uD0C4"
+  abilityDescription: "\uCD1D\uC54C\uC774 \uC801\uC911 \uC2DC \uC801\uC744 \uB290\uB9AC\uAC8C
+    \uD558\uB294 \uD6A8\uACFC\uB97C \uBD80\uC5EC\uD569\uB2C8\uB2E4."
+  damage: 5
+  bulletAbilityPrefab: {fileID: 1891358268744537669, guid: 6b4345aad6f120346afa786ffc5a34a4, type: 3}
+  bulletNormalEffectPrefab: {fileID: 9106091713923166320, guid: ea582729a6c443640aac6eaeb7f806e6, type: 3}
+  bulletUpgradedEffectPrefab: {fileID: 9106091713923166320, guid: b035e0e3a6a62f943928aa8393978b66, type: 3}
+  bulletTrailEffectPrefab: {fileID: 8914320711568083332, guid: 9eb786f6ceaddaa4ca79ea46301dbda9, type: 3}

@@ -14,11 +14,13 @@ namespace SSW
         [SerializeField] CanvasGroup _settingsPanel;
         [SerializeField] RectTransform _title;
         [SerializeField] Text _statusText;
+        [SerializeField] MultiplayerMenuUI _multiplayerMenuPrefab;
         [SerializeField] string _sandboxSceneName = "SuperUltraLegendScene";
         [SerializeField] float _fadeDuration = 0.22f;
         [SerializeField] float _buttonStagger = 0.07f;
 
         CanvasGroup _mapPanel;
+        MultiplayerMenuUI _multiplayerMenu;
 
         CanvasGroup _current;
 
@@ -188,17 +190,47 @@ namespace SSW
 
         public void CreateRoom()
         {
-            SetStatus("방 만들기 - UGS 연동 준비 중입니다");
+            MultiplayerMenuUI menu = GetMultiplayerMenu();
+            if (menu == null) return;
+            menu.ShowCreate();
+            ShowPanel(menu.Group);
         }
 
         public void JoinRoom()
         {
-            SetStatus("방 들어가기 - UGS 연동 준비 중입니다");
+            MultiplayerMenuUI menu = GetMultiplayerMenu();
+            if (menu == null) return;
+            menu.ShowBrowse();
+            ShowPanel(menu.Group);
         }
 
         public void StartMatchmaking()
         {
-            SetStatus("매치메이킹 - UGS 연동 준비 중입니다");
+            MultiplayerMenuUI menu = GetMultiplayerMenu();
+            if (menu == null) return;
+            menu.ShowQuickPlay();
+            ShowPanel(menu.Group);
+        }
+
+        MultiplayerMenuUI GetMultiplayerMenu()
+        {
+            if (_multiplayerMenu == null)
+            {
+                if (_multiplayerMenuPrefab == null)
+                    _multiplayerMenuPrefab = Resources.Load<MultiplayerMenuUI>("UI/MultiplayerMenu");
+                if (_multiplayerMenuPrefab == null)
+                {
+                    SetStatus("멀티플레이 화면을 불러오지 못했습니다");
+                    return null;
+                }
+
+                RectTransform parent = _mainPanel.transform.parent as RectTransform;
+                _multiplayerMenu = Instantiate(_multiplayerMenuPrefab, parent, false);
+                _multiplayerMenu.Initialize(this, _sandboxSceneName);
+                _multiplayerMenu.gameObject.SetActive(false);
+            }
+
+            return _multiplayerMenu;
         }
 
         public void SetMasterVolume(float value)

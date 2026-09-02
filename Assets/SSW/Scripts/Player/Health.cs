@@ -44,6 +44,10 @@ namespace SSW
             if (current <= 0f)
                 return new DamageResult(requestedAmount, 0f, false);
 
+            IHealthNetworkBridge networkBridge = GetComponent<IHealthNetworkBridge>();
+            if (networkBridge != null && networkBridge.TryForwardDamage(request, out DamageResult pendingResult))
+                return pendingResult;
+
             float finalAmount = ResolveIncomingDamage(request, requestedAmount);
             if (finalAmount <= 0f)
             {
@@ -71,8 +75,30 @@ namespace SSW
         public void Heal(float amount)
         {
             if (amount <= 0f) return;
+
+            IHealthNetworkBridge networkBridge = GetComponent<IHealthNetworkBridge>();
+            if (networkBridge != null && networkBridge.TryForwardHeal(amount)) return;
+
             current = Mathf.Min(current + amount, maxHealth);
             OnHealthChanged?.Invoke(current, maxHealth);
+        }
+
+        internal void ApplyNetworkState(float value)
+        {
+            float previous = current;
+            current = Mathf.Clamp(value, 0f, maxHealth);
+            if (Mathf.Approximately(previous, current)) return;
+
+            if (current < previous)
+            {
+                float damage = previous - current;
+                OnDamaged?.Invoke();
+                OnDamageDealt?.Invoke(damage, false);
+                SpawnDamageNumber(damage, false);
+            }
+
+            OnHealthChanged?.Invoke(current, maxHealth);
+            if (previous > 0f && current <= 0f) Die();
         }
 
         float ResolveIncomingDamage(DamageRequest request, float amount)
