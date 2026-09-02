@@ -22,4 +22,13 @@ namespace SSW
     {
         PlayerJob RequiredJob { get; }
     }
+
+    /// <summary>
+    /// Lets UI read an augment cooldown without knowing which job owns the augment.
+    /// Remaining and duration are expressed in seconds.
+    /// </summary>
+    public interface IAugmentCooldownProvider
+    {
+        bool TryGetCooldown(Augment augment, out float remaining, out float duration);
+    }
 }

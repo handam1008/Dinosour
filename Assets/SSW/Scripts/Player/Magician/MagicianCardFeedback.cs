@@ -71,9 +71,10 @@ namespace SSW
         int _number;
         float _intensityMultiplier = 1f;
         bool _isJoker;
-        Material _effectMaterial;
         GameObject _trailObject;
         TrailRenderer _trail;
+        GameObject _coreTrailObject;
+        TrailRenderer _coreTrail;
 
         float Rank01 => Mathf.InverseLerp(1f, 10f, Mathf.Clamp(_number, 1, 10));
         float Intensity => Mathf.Lerp(0.75f, 1.35f, Rank01) * _intensityMultiplier;
@@ -88,9 +89,9 @@ namespace SSW
             _settings = settings;
             _suit = suit;
             _number = number;
-            _effectMaterial = trailMaterial;
 
             if (_settings == null || !_settings.enabled) return;
+            MagicianBloomRuntime.Ensure();
             CreateTrail(trailMaterial);
         }
 
@@ -109,6 +110,12 @@ namespace SSW
         public void PlayLaunch()
         {
             if (_settings == null || !_settings.enabled) return;
+            MagicianImpactVfx.SpawnLaunch(
+                transform.position,
+                _suit,
+                EffectColor,
+                Mathf.Max(0.1f, Intensity),
+                _isJoker);
             PlayClip(_settings.launchClip, transform.position, _settings.volume * Mathf.Clamp01(Intensity));
         }
 
@@ -120,12 +127,18 @@ namespace SSW
             HitFlashFeedback.Play(target, flashColor, _settings.flashDuration);
         }
 
-        public void PlayImpact(Vector3 position)
+        public void PlayImpact(Vector3 position, float effectRadius = 0f)
         {
             if (_settings == null || !_settings.enabled) return;
 
             float intensity = Mathf.Max(0.1f, Intensity);
-            SpawnImpactParticles(position, EffectColor, intensity);
+            MagicianImpactVfx.SpawnImpact(
+                position,
+                _suit,
+                EffectColor,
+                intensity,
+                _isJoker,
+                effectRadius);
 
             float shake = Mathf.Lerp(_settings.minimumShake, _settings.maximumShake, Rank01) * intensity;
             CameraShakeFeedback.Play(shake, _settings.shakeDuration);
@@ -134,23 +147,26 @@ namespace SSW
             PlayClip(clip, position, _settings.volume * Mathf.Clamp01(intensity));
         }
 
+        public void PlayEnvironmentImpact(Vector3 position)
+        {
+            if (_settings == null || !_settings.enabled) return;
+
+            float intensity = Mathf.Max(0.1f, Intensity * 0.72f);
+            MagicianImpactVfx.SpawnSurfaceImpact(
+                position,
+                _suit,
+                EffectColor,
+                intensity,
+                _isJoker);
+
+            AudioClip clip = _settings.ImpactClipFor(_suit);
+            PlayClip(clip, position, _settings.volume * 0.35f * Mathf.Clamp01(intensity));
+        }
+
         public void ReleaseTrail()
         {
-            if (_trailObject == null) return;
-
-            _trailObject.transform.SetParent(null, true);
-            if (_trail != null)
-            {
-                _trail.emitting = false;
-                Destroy(_trailObject, Mathf.Max(0.05f, _trail.time + 0.05f));
-            }
-            else
-            {
-                Destroy(_trailObject);
-            }
-
-            _trailObject = null;
-            _trail = null;
+            ReleaseTrailRenderer(ref _trailObject, ref _trail);
+            ReleaseTrailRenderer(ref _coreTrailObject, ref _coreTrail);
         }
 
         void OnDisable()
@@ -162,103 +178,92 @@ namespace SSW
         {
             _trailObject = new GameObject("CardTrail");
             _trailObject.transform.SetParent(transform, false);
+            _trail = CreateTrailRenderer(
+                _trailObject,
+                MagicianVfxMaterials.Get(MagicianGlowShape.Stripe, 2.8f),
+                trailMaterial,
+                13);
 
-            _trail = _trailObject.AddComponent<TrailRenderer>();
-            _trail.time = _settings.trailTime;
-            _trail.minVertexDistance = 0.035f;
-            _trail.numCornerVertices = 2;
-            _trail.numCapVertices = 2;
-            _trail.alignment = LineAlignment.View;
-            _trail.textureMode = LineTextureMode.Stretch;
-            _trail.sortingOrder = 14;
-            if (trailMaterial != null)
-                _trail.sharedMaterial = trailMaterial;
+            _coreTrailObject = new GameObject("CardTrailCore");
+            _coreTrailObject.transform.SetParent(transform, false);
+            _coreTrail = CreateTrailRenderer(
+                _coreTrailObject,
+                MagicianVfxMaterials.Get(MagicianGlowShape.Stripe, 4.8f),
+                trailMaterial,
+                14);
+            _coreTrail.minVertexDistance = 0.02f;
 
-            _trail.widthCurve = new AnimationCurve(
-                new Keyframe(0f, 1f),
-                new Keyframe(1f, 0f));
             UpdateTrailStyle();
         }
 
         void UpdateTrailStyle()
         {
-            if (_trail == null || _settings == null) return;
+            if (_settings == null) return;
 
             Color color = EffectColor;
-            Color transparent = color;
-            transparent.a = 0f;
-            _trail.startColor = color;
-            _trail.endColor = transparent;
-            _trail.widthMultiplier = _settings.trailWidth * Mathf.Max(0.2f, Intensity);
+            Color outerStart = color;
+            outerStart.a = 0.8f;
+            Color outerEnd = color;
+            outerEnd.a = 0f;
+
+            if (_trail != null)
+            {
+                _trail.startColor = outerStart;
+                _trail.endColor = outerEnd;
+                _trail.widthMultiplier = _settings.trailWidth * 1.55f * Mathf.Max(0.2f, Intensity);
+            }
+
+            if (_coreTrail != null)
+            {
+                Color coreStart = Color.Lerp(color, Color.white, 0.82f);
+                coreStart.a = 0.95f;
+                Color coreEnd = coreStart;
+                coreEnd.a = 0f;
+                _coreTrail.startColor = coreStart;
+                _coreTrail.endColor = coreEnd;
+                _coreTrail.widthMultiplier = _settings.trailWidth * 0.42f * Mathf.Max(0.2f, Intensity);
+            }
         }
 
-        void SpawnImpactParticles(Vector3 position, Color color, float intensity)
+        TrailRenderer CreateTrailRenderer(
+            GameObject trailObject,
+            Material glowMaterial,
+            Material fallbackMaterial,
+            int sortingOrder)
         {
-            GameObject effect = new GameObject("MagicianCardImpact");
-            effect.transform.position = position;
+            TrailRenderer trail = trailObject.AddComponent<TrailRenderer>();
+            trail.time = _settings.trailTime * 1.15f;
+            trail.minVertexDistance = 0.035f;
+            trail.numCornerVertices = 4;
+            trail.numCapVertices = 4;
+            trail.alignment = LineAlignment.View;
+            trail.textureMode = LineTextureMode.Stretch;
+            trail.sortingOrder = sortingOrder;
+            trail.sharedMaterial = glowMaterial != null ? glowMaterial : fallbackMaterial;
+            trail.widthCurve = new AnimationCurve(
+                new Keyframe(0f, 1f),
+                new Keyframe(0.72f, 0.72f),
+                new Keyframe(1f, 0f));
+            return trail;
+        }
 
-            ParticleSystem particles = effect.AddComponent<ParticleSystem>();
-            particles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-            ParticleSystem.MainModule main = particles.main;
-            main.duration = 0.28f;
-            main.loop = false;
-            main.playOnAwake = false;
-            main.simulationSpace = ParticleSystemSimulationSpace.World;
-            main.startLifetime = new ParticleSystem.MinMaxCurve(0.16f, 0.34f);
-            main.startSpeed = new ParticleSystem.MinMaxCurve(1.4f * intensity, 3.2f * intensity);
-            main.startSize = new ParticleSystem.MinMaxCurve(0.05f * intensity, 0.13f * intensity);
-            main.startColor = new ParticleSystem.MinMaxGradient(color, Color.white);
-            main.maxParticles = Mathf.Max(32, _settings.maximumParticles * 2);
-            main.stopAction = ParticleSystemStopAction.Destroy;
+        void ReleaseTrailRenderer(ref GameObject trailObject, ref TrailRenderer trail)
+        {
+            if (trailObject == null) return;
 
-            ParticleSystem.EmissionModule emission = particles.emission;
-            emission.enabled = false;
+            trailObject.transform.SetParent(null, true);
+            if (trail != null)
+            {
+                trail.emitting = false;
+                Destroy(trailObject, Mathf.Max(0.05f, trail.time + 0.05f));
+            }
+            else
+            {
+                Destroy(trailObject);
+            }
 
-            ParticleSystem.ShapeModule shape = particles.shape;
-            shape.enabled = true;
-            shape.shapeType = ParticleSystemShapeType.Circle;
-            shape.radius = 0.08f * intensity;
-            shape.radiusThickness = 1f;
-
-            ParticleSystem.ColorOverLifetimeModule colorOverLifetime = particles.colorOverLifetime;
-            colorOverLifetime.enabled = true;
-            Gradient fade = new Gradient();
-            fade.SetKeys(
-                new[]
-                {
-                    new GradientColorKey(Color.white, 0f),
-                    new GradientColorKey(color, 0.25f),
-                    new GradientColorKey(color, 1f)
-                },
-                new[]
-                {
-                    new GradientAlphaKey(1f, 0f),
-                    new GradientAlphaKey(0f, 1f)
-                });
-            colorOverLifetime.color = fade;
-
-            ParticleSystem.SizeOverLifetimeModule sizeOverLifetime = particles.sizeOverLifetime;
-            sizeOverLifetime.enabled = true;
-            sizeOverLifetime.size = new ParticleSystem.MinMaxCurve(
-                1f,
-                new AnimationCurve(
-                    new Keyframe(0f, 0.35f),
-                    new Keyframe(0.18f, 1f),
-                    new Keyframe(1f, 0f)));
-
-            ParticleSystemRenderer renderer = particles.GetComponent<ParticleSystemRenderer>();
-            renderer.renderMode = ParticleSystemRenderMode.Billboard;
-            renderer.sortingOrder = 20;
-            if (_effectMaterial != null)
-                renderer.sharedMaterial = _effectMaterial;
-
-            int count = Mathf.RoundToInt(
-                Mathf.Lerp(_settings.minimumParticles, _settings.maximumParticles, Rank01) * intensity);
-            count = Mathf.Clamp(count, 2, 64);
-
-            particles.Play();
-            particles.Emit(count);
-            Destroy(effect, 1f);
+            trailObject = null;
+            trail = null;
         }
 
         static void PlayClip(AudioClip clip, Vector3 position, float volume)

@@ -99,6 +99,13 @@ namespace SSW
             if (damageable == null)
             {
                 if (_returning) return;
+
+                if (_feedback != null)
+                {
+                    Vector2 impactPoint = other.ClosestPoint(transform.position);
+                    _feedback.PlayEnvironmentImpact(impactPoint);
+                }
+
                 HandleMiss();
                 return;
             }
@@ -165,7 +172,13 @@ namespace SSW
             DealDamage(damageable, damage);
 
             if (_suit != Suit.Spade) ApplySuitEffect(_suit, other, damageable, effectMul, damageScale);
-            if (_isJoker) ApplySuitEffect(RandomOtherSuit(_suit), other, damageable, effectMul, damageScale);
+
+            Suit? jokerBonusSuit = null;
+            if (_isJoker)
+            {
+                jokerBonusSuit = RandomOtherSuit(_suit);
+                ApplySuitEffect(jokerBonusSuit.Value, other, damageable, effectMul, damageScale);
+            }
 
             if (_augments != null && !_isMirror)
             {
@@ -181,7 +194,8 @@ namespace SSW
             if (_feedback != null)
             {
                 Vector2 impactPoint = other.ClosestPoint(transform.position);
-                _feedback.PlayImpact(impactPoint);
+                bool hasDiamondExplosion = _suit == Suit.Diamond || jokerBonusSuit == Suit.Diamond;
+                _feedback.PlayImpact(impactPoint, hasDiamondExplosion ? GetDiamondRadius() : 0f);
             }
 
             DestroyCard();
@@ -213,7 +227,7 @@ namespace SSW
 
                 case Suit.Diamond:
                 {
-                    float radius = _diamondRadius * (_augments != null ? _augments.DiamondRadiusMultiplier : 1f);
+                    float radius = GetDiamondRadius();
                     float damage = _number * _diamondDamagePerNumber * effectMul * damageScale;
                     Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, radius);
                     HashSet<IDamageable> damagedTargets = new HashSet<IDamageable>();
@@ -273,6 +287,11 @@ namespace SSW
         void DealDamage(IDamageable target, float amount)
         {
             CombatDamage.Deal(_caster, target, amount, DamageTag.JobSkill | DamageTag.Projectile);
+        }
+
+        float GetDiamondRadius()
+        {
+            return _diamondRadius * (_augments != null ? _augments.DiamondRadiusMultiplier : 1f);
         }
 
         bool IsCaster(IDamageable target)
