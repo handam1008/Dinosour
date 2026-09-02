@@ -36,16 +36,17 @@ public class LifeStil : MonoBehaviour, IDamageDealtListener
         if (augment is not CommonAugment common) return;
         if (common.type != CommonAugmentType.Vampire) return;
         _count++;
+        Debug.Log($"[LifeStil] Vampire 스택 증가: {_count}");
     }
 
     public void OnDamageDealt(DamageRequest request, DamageResult result)
     {
+        Debug.Log($"[LifeStil] OnDamageDealt 호출됨. count={_count}, WasApplied={result.WasApplied}, AppliedAmount={result.AppliedAmount}");
         if (_count == 0) return;
         if (!result.WasApplied) return;
 
         int level = Mathf.Min(_count, _healRatePercent.Count);
         int rate = _healRatePercent[level];
-
         _owner?.Heal(result.AppliedAmount * (rate / 100f));
     }
 }
