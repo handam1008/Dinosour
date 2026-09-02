@@ -10,8 +10,8 @@ namespace RYU._3.SO.PotionSO
         [SerializeField] private float damageTime = 0.7f;
         public override void Use(GameObject target, Component source)
         {
-           if(target.TryGetComponent(out OverTimeRunner runner))
-               runner.Run(new DamageTick(amount, source), damageCount, damageTime);
+            OverTimeRunner runner = target.GetComponentInParent<OverTimeRunner>();
+            if (runner != null) runner.Run(new DamageTick(amount, source), damageCount, damageTime);
         }
     }
 }

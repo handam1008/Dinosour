@@ -14,7 +14,7 @@ public class DamagePotion : AbstractPotion
                 source,
                 hit,
                 amount,
-                DamageTag.Projectile);
+                DamageTag.JobSkill | DamageTag.Projectile);
         }
     }
 }
