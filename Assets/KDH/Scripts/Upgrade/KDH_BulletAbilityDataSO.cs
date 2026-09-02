@@ -8,8 +8,11 @@ namespace KDH.Scripts.Upgrade
         public string abilityName;
         [TextArea] public string abilityDescription;
         
-        public GameObject BulletAbilityPrefab;
-        public GameObject BulletNormalEffectPrefab;
-        public GameObject BulletUpgradedEffectPrefab;
+        public int damage;
+        
+        public GameObject bulletAbilityPrefab;
+        public GameObject bulletNormalEffectPrefab;
+        public GameObject bulletUpgradedEffectPrefab;
+        public GameObject bulletTrailEffectPrefab;
     }
 }
