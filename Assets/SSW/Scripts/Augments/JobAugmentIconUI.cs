@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 namespace SSW
 {
-    /// <summary>Displays one owned job augment and its optional cooldown.</summary>
     public sealed class JobAugmentIconUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         static readonly Color NormalColor = new Color(0.035f, 0.038f, 0.045f, 0.96f);

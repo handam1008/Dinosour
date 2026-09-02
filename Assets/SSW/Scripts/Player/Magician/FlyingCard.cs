@@ -33,6 +33,7 @@ namespace SSW
         bool _isMirror;
         bool _returning;
         bool _consumed;
+        bool _visualOnly;
 
         public void Configure(Suit suit, int number, IHealable casterHealth)
         {
@@ -67,6 +68,11 @@ namespace SSW
         public void MarkMirror()
         {
             _isMirror = true;
+        }
+
+        public void MarkVisualOnly()
+        {
+            _visualOnly = true;
         }
 
         void Awake()
@@ -112,12 +118,32 @@ namespace SSW
 
             if (IsCaster(damageable)) return;
 
+            if (_visualOnly)
+            {
+                _consumed = true;
+                Component targetComponent = damageable as Component;
+                if (_feedback != null)
+                {
+                    _feedback.PlayTargetFlash(targetComponent);
+                    _feedback.PlayImpact(other.ClosestPoint(transform.position), 0f);
+                }
+                DestroyCard();
+                return;
+            }
+
             HitTarget(other, damageable);
         }
 
         void HandleMiss()
         {
             if (_consumed) return;
+
+            if (_visualOnly)
+            {
+                _consumed = true;
+                DestroyCard();
+                return;
+            }
 
             if (!_returning && !_isMirror && _caster != null && _augments != null && _augments.Has(MagicianAugmentType.ReturnCard))
             {

@@ -62,7 +62,6 @@ namespace SSW
         }
     }
 
-    /// <summary>Owns visual and audio feedback for one runtime-created magician card.</summary>
     [DisallowMultipleComponent]
     public sealed class MagicianCardFeedback : MonoBehaviour
     {

@@ -4,10 +4,6 @@ using UnityEngine;
 
 namespace SSW
 {
-    /// <summary>
-    /// Briefly tints visible child sprites and always restores their original colors.
-    /// The component is added lazily to a hit target and can be reused by other attacks.
-    /// </summary>
     [DisallowMultipleComponent]
     public sealed class HitFlashFeedback : MonoBehaviour
     {

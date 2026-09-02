@@ -2,11 +2,6 @@ using UnityEngine;
 
 namespace SSW
 {
-    /// <summary>
-    /// Runtime-only neon feedback for the magician's cards.
-    /// Every effect owns its own short-lived GameObject, so cards do not need to
-    /// keep particle prefabs or clean up particles after they are destroyed.
-    /// </summary>
     internal static class MagicianImpactVfx
     {
         const int EffectSortingOrder = 42;
@@ -78,9 +73,6 @@ namespace SSW
                     break;
             }
 
-            // A joker may trigger Diamond as its bonus suit while keeping another
-            // suit as its main color. effectRadius makes those extra shards travel
-            // far enough to communicate that an area hit really happened.
             if (suit != Suit.Diamond && effectRadius > 0f)
                 CreateDiamondImpact(root.transform, JokerCyan, scale, effectRadius);
 
@@ -160,8 +152,6 @@ namespace SSW
             float radius = Mathf.Clamp(effectRadius, 0.35f, 4.5f);
             int shardCount = Mathf.Clamp(Mathf.RoundToInt(10f * scale + radius * 3f), 10, 24);
 
-            // The gameplay radius still controls how far the burst travels, but
-            // scattered streaks keep it from becoming one huge screen-covering ring.
             CreateSparks(
                 parent,
                 Color.Lerp(color, Color.white, 0.38f),

@@ -228,7 +228,6 @@ namespace SSW
 
             _dinoSeq = DOTween.Sequence().SetUpdate(true);
 
-            // 움츠렸다가 위로 튀어 오른 뒤, 카드 쪽으로 몸을 꺾는다.
             _dinoSeq.Append(_dino.DOScale(new Vector3(_facing * 1.18f, 0.72f, 1f), _rewardAnticipationDuration)
                 .SetEase(Ease.InQuad));
             _dinoSeq.Join(_dino.DOLocalRotate(new Vector3(0f, 0f, _facing * 5f), _rewardAnticipationDuration));
@@ -240,7 +239,6 @@ namespace SSW
             _dinoSeq.Join(_dino.DOLocalRotate(new Vector3(0f, 0f, forwardAngle), _rewardDiveDuration)
                 .SetEase(Ease.InBack));
 
-            // 입 프레임으로 콱 문 다음, 카드의 커지는 왼쪽 끝을 계속 따라간다.
             _dinoSeq.AppendCallback(() =>
             {
                 if (!IsCurrentRewardMotion(version)) return;

@@ -4,7 +4,6 @@ using UnityEngine.Rendering.Universal;
 
 namespace SSW
 {
-    /// <summary>Ensures HDR glow has an URP Bloom pass without replacing a scene-owned Bloom volume.</summary>
     internal static class MagicianBloomRuntime
     {
         const string RuntimeVolumeName = "Magician Runtime Bloom";
@@ -23,7 +22,7 @@ namespace SSW
 
         static void EnablePostProcessingOnActiveCameras()
         {
-            Camera[] cameras = Object.FindObjectsByType<Camera>(FindObjectsSortMode.None);
+            Camera[] cameras = Object.FindObjectsByType<Camera>();
             foreach (Camera camera in cameras)
             {
                 if (!camera.isActiveAndEnabled)
@@ -38,8 +37,6 @@ namespace SSW
 
         static bool HasActiveGlobalBloom()
         {
-            // Resources also sees our HideAndDontSave volume after a script reload.
-            // Reusing it prevents duplicate fallback volumes while testing in Play Mode.
             Volume[] volumes = Resources.FindObjectsOfTypeAll<Volume>();
             foreach (Volume volume in volumes)
             {

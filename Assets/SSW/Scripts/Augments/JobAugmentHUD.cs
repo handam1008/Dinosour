@@ -6,10 +6,6 @@ using UnityEngine.UI;
 
 namespace SSW
 {
-    /// <summary>
-    /// Creates a small list for owned job augments in the top-right corner.
-    /// The HUD only handles presentation; each job provides its own cooldown state.
-    /// </summary>
     [DisallowMultipleComponent]
     public sealed class JobAugmentHUD : MonoBehaviour
     {

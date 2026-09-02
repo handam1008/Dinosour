@@ -41,6 +41,7 @@ namespace SSW
         int _rankIndexB;
         InputAction _attackAction;
         MagicianAugmentController _augments;
+        NetworkCardRelay _networkRelay;
         SpriteRenderer _secondRenderer;
         bool _inactiveUIHidden;
 
@@ -52,6 +53,7 @@ namespace SSW
             base.Awake();
             _attackAction = GetComponent<PlayerInput>().actions.FindAction("Attack");
             _augments = GetComponent<MagicianAugmentController>();
+            _networkRelay = GetComponent<NetworkCardRelay>();
         }
 
         protected override void OnEnable()
@@ -265,10 +267,12 @@ namespace SSW
             float scale,
             float effectMultiplier,
             bool isJoker,
-            bool isMirror)
+            bool isMirror,
+            bool shareNetwork = true,
+            Vector3? spawnPosition = null)
         {
             GameObject go = new GameObject("FlyingCard");
-            go.transform.position = transform.position;
+            go.transform.position = spawnPosition ?? transform.position;
             go.transform.localScale = Vector3.one * scale;
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
@@ -301,7 +305,50 @@ namespace SSW
             if (isJoker) card.MarkJoker();
             if (isMirror) card.MarkMirror();
             feedback.PlayLaunch();
+
+            if (shareNetwork && _networkRelay != null)
+            {
+                _networkRelay.ShareCard(
+                    suit,
+                    number,
+                    go.transform.position,
+                    dir.normalized,
+                    scale,
+                    effectMultiplier,
+                    isJoker,
+                    isMirror);
+            }
+
             return card;
+        }
+
+        public void SpawnNetworkCard(
+            Suit suit,
+            int number,
+            Vector2 position,
+            Vector2 direction,
+            float scale,
+            float effectMultiplier,
+            bool isJoker,
+            bool isMirror)
+        {
+            Sprite[] cards = CardsFor(suit);
+            int rankIndex = number - 1;
+            if (cards == null || rankIndex < 0 || rankIndex >= cards.Length) return;
+
+            Sprite sprite = isJoker && _jokerSprite != null ? _jokerSprite : cards[rankIndex];
+            FlyingCard card = CreateCard(
+                sprite,
+                suit,
+                number,
+                direction,
+                scale,
+                effectMultiplier,
+                isJoker,
+                isMirror,
+                false,
+                position);
+            card.MarkVisualOnly();
         }
 
         Sprite[] CardsFor(Suit suit)

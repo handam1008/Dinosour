@@ -2,16 +2,11 @@ using UnityEngine;
 
 namespace SSW
 {
-    /// <summary>Receives a small camera-only shake without changing Time.timeScale.</summary>
     public interface ICameraShakeReceiver
     {
         void Shake(float strength, float duration);
     }
 
-    /// <summary>
-    /// Fallback shake receiver for cameras without their own follow implementation.
-    /// It runs late so ordinary camera movement is already finished for the frame.
-    /// </summary>
     [DefaultExecutionOrder(10000)]
     [DisallowMultipleComponent]
     public sealed class CameraShakeFeedback : MonoBehaviour, ICameraShakeReceiver

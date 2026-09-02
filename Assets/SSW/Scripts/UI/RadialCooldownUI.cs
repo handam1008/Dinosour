@@ -3,10 +3,6 @@ using UnityEngine.UI;
 
 namespace SSW
 {
-    /// <summary>
-    /// Draws a shared radial cooldown overlay for augments, skills, or items.
-    /// It only knows ICooldownSource and does not depend on any gameplay class.
-    /// </summary>
     [DisallowMultipleComponent]
     public sealed class RadialCooldownUI : MonoBehaviour
     {
@@ -29,7 +25,6 @@ namespace SSW
             _overlay.type = Image.Type.Filled;
             _overlay.fillMethod = Image.FillMethod.Radial360;
             _overlay.fillOrigin = (int)Image.Origin360.Top;
-            // Remaining time counts down from 1 to 0, so the disappearing edge moves counter-clockwise.
             _overlay.fillClockwise = true;
             _overlay.raycastTarget = false;
             Refresh();

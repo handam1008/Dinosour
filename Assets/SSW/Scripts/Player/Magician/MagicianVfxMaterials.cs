@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SSW
 {
-    /// <summary>Creates the small shared material set used by runtime magician effects.</summary>
     internal static class MagicianVfxMaterials
     {
         const string ShaderResourcePath = "Shaders/MagicianGlow";
@@ -31,7 +30,6 @@ namespace SSW
                 enableInstancing = true
             };
 
-            // The shader multiplies this material by SpriteRenderer/TrailRenderer vertex colors.
             material.SetFloat(ShapeId, (float)shape);
             material.SetFloat(GlowId, Mathf.Max(0f, glow));
 
