@@ -1,4 +1,5 @@
 using System;
+using SSW;
 using UnityEngine;
 
 public class GamblerCoinProjectile : MonoBehaviour
@@ -10,6 +11,8 @@ public class GamblerCoinProjectile : MonoBehaviour
     [Min(0f)]
     [SerializeField] private float speed = 15f;
     [Min(0.01f)] [SerializeField] private float lifetime = 3f;
+    private float _coinDamage = 10f;
+    public float CoinDamage {get => _coinDamage; private set => _coinDamage = value;}
 
     private Action<GamblerCoinProjectile> releaseToPool;
 
@@ -94,6 +97,20 @@ public class GamblerCoinProjectile : MonoBehaviour
         else
         {
             gameObject.SetActive(false);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.TryGetComponent<IDamageable>(out var damage))
+        {
+            damage.TakeDamage(CoinDamage);
+            ReturnToPool();
+        }
+
+        if (other.CompareTag("Ground"))
+        {
+            ReturnToPool();
         }
     }
 }

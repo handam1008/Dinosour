@@ -14,6 +14,10 @@ public class CoinGravity : MonoBehaviour
    private void Update()
    {
        timeInAir += Time.deltaTime;
+   }
+
+   private void FixedUpdate()
+   {
        OnGravity();
    }
 

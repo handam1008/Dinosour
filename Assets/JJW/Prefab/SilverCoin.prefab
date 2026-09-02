@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GamblerCoinProjectile
   body: {fileID: -6135472757594836578}
-  speed: 25
+  speed: 20
   lifetime: 5
 --- !u!58 &5292981747097128063
 CircleCollider2D:
@@ -209,5 +209,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c646cdb261a9e0246a3302ccbebba3ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CoinGravity
-  gravityDelay: 0.2
-  extraGravity: 10
+  gravityDelay: 0.15
+  extraGravity: 30
