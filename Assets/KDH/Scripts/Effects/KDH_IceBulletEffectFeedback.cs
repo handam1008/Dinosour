@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace KDH.Scripts.Effects
 {
-    public class KDH_IceEffectFeedback : KDH_AbstractFeedback
+    public class KDH_IceBulletEffectFeedback : KDH_AbstractFeedback
     {
         private Transform _target;
 
@@ -33,6 +33,7 @@ namespace KDH.Scripts.Effects
             {
                 GameObject effect = Instantiate(_parent.BulletAbilityData.bulletNormalEffectPrefab, _target.position,
                     Quaternion.identity);
+                
                 Destroy(effect, 1.5f);
             }
         }

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8a05fe156834b90963d51b25dc8ee47, type: 3}
+  m_Name: KDH_PoisonBullet
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Upgrade.KDH_BulletAbilityDataSO
+  abilityName: 
+  abilityDescription: 
+  damage: 0
+  bulletAbilityPrefab: {fileID: 0}
+  bulletNormalEffectPrefab: {fileID: 0}
+  bulletUpgradedEffectPrefab: {fileID: 0}
+  bulletTrailEffectPrefab: {fileID: 0}
