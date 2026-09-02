@@ -15,11 +15,10 @@ namespace KDH.Scripts.Ammo
 
         public void UseAmmo(KDH_Gun gun)
         {
-            if (gun.CurrentAmmo < 0) return;
-            
-            gun.AmmoPrefabs[gun.CurrentAmmo - 1].gameObject.SetActive(false);
-            
+            if (gun.CurrentAmmo <= 0) return;
+
             gun.CurrentAmmo--;
+            gun.AmmoPrefabs[gun.CurrentAmmo].gameObject.SetActive(false);
         }
     }
 }

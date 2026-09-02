@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using RYU._01.Script.Potions;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class RandomPotion : MonoBehaviour
 {
@@ -28,11 +29,11 @@ public class RandomPotion : MonoBehaviour
     private void Update()
     {
         
-        if (Input.GetMouseButtonDown(0))
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             if(currentPotions.Count <= 0) return;
             
-            Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             Vector2 dir = ((Vector2)mouseWorld - (Vector2)Hand.position).normalized;
             Shoot(dir);
         }
@@ -65,6 +66,7 @@ public class RandomPotion : MonoBehaviour
     {
         GameObject potion = currentPotions.Dequeue();
         potion.transform.SetParent(null); 
+        potion.GetComponent<Potion>().Release();
         Rigidbody2D rb = potion.GetComponent<Rigidbody2D>();
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.gravityScale = 3;
@@ -78,7 +80,7 @@ public class RandomPotion : MonoBehaviour
         RandomValue();
         AbstractPotion data = potions[currentIndex];
         GameObject clone = Instantiate(data.PotionPrefab, PlayerUp);
-        clone.GetComponent<Potion>().Init(data, 1); 
+        clone.GetComponent<Potion>().Init(data, 1f ,this); 
         currentPotions.Enqueue(clone);
         Debug.Log($"큐 개수: {currentPotions.Count}");
 

@@ -8,6 +8,6 @@ public abstract class AbstractPotion : ScriptableObject
     public Sprite sprite; 
     public float amount;
 
-    public abstract void Use(GameObject target);
+    public abstract void Use(GameObject target, Component source);
 
 }

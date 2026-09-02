@@ -7,9 +7,8 @@ public class SlowPotion : AbstractPotion
 {
     [SerializeField] private float duration = 2f;
     
-    public override void Use(GameObject target)
+    public override void Use(GameObject target, Component source)
     {
-        if(target.TryGetComponent(out ISlowable slow))
-        slow.ApplySlow(amount, duration);
+        target.GetComponentInParent<ISlowable>()?.ApplySlow(amount, duration);
     }
 }
