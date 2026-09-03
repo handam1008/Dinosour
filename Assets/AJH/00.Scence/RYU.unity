@@ -538,7 +538,7 @@ PrefabInstance:
     - target: {fileID: 5530121758100847790, guid: e54ec2723d3f63a488156219bf284104, type: 3}
       propertyPath: _commonPool
       value: 
-      objectReference: {fileID: 11400000, guid: f396daccee22bc54c96a46fbe2596d2a, type: 2}
+      objectReference: {fileID: 11400000, guid: a36165d4945635447aae0272a99be66a, type: 2}
     - target: {fileID: 8344356039665309093, guid: e54ec2723d3f63a488156219bf284104, type: 3}
       propertyPath: m_Name
       value: Witch
@@ -584,7 +584,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.Argument.WitchAugmentController
   _wideSpray: 1.5
   _thickBrew: 1.25
-  _precisionPower: 0.5
+  _precisionPower: 0.7
   _precisionCount: 3
   _bounceCount: 1
   _cycleSpeedUp: 0.6
