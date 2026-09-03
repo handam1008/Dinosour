@@ -15,9 +15,9 @@ namespace NKY.Scripts
         
         public Rigidbody2D Rb { get;  private set; }
 
-        private TestJump _giver;
+        private PlayerController _giver;
 
-        public void Init(TestJump giver, float damage,  float speed, LayerMask whatIsTarget, float destroyTime)
+        public void Init(PlayerController giver, float damage,  float speed, LayerMask whatIsTarget, float destroyTime)
         {
             _giver = giver;
             _damage = damage;

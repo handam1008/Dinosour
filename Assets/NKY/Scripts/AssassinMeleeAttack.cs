@@ -6,10 +6,9 @@ namespace NKY.Scripts
 {
     public class AssassinMeleeAttack : AbstractMeleeWeapon
     {
-
-
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             _attackAnim = transform.Find("Visual").GetComponent<Animator>();
             _effectAnim = transform.Find("SlashEffect").GetComponent<Animator>();
             
@@ -19,9 +18,15 @@ namespace NKY.Scripts
             _currentOffset = new Vector2(offset, 0);
         }
 
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
             RotateWeapon();
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                Attack();
+            }
         }
 
         private void RotateWeapon()
@@ -55,30 +60,13 @@ namespace NKY.Scripts
             isAttacking = false;
         }
 
-        public void AssassinAttack()
+        public override void Attack()
         {
             if(Time.time - _currentCooldown < attackCooldown) return;
             
             _currentCooldown = Time.time;
             StartCoroutine(AttackCoroutine());
             AttackScan();
-        }
-        
-        private void AttackScan()
-        {
-            Collider2D[] hits;
-            
-            hits = Physics2D.OverlapBoxAll((Vector2)transform.position + _currentOffset, hitboxSize, _currentAngle, targetMask);
-            
-            foreach (Collider2D hit in hits)
-            {
-                if(hit.transform.root == transform.root) continue;
-                
-                if (hit.TryGetComponent(out IDamageable damageable))
-                {
-                    damageable.TakeDamage(damage);
-                }
-            }
         }
 
         private void OnDrawGizmos()
