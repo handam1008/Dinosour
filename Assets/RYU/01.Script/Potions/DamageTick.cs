@@ -16,6 +16,7 @@ namespace RYU._01.Script.Potions
         
         public void Tick(GameObject target)
         {
+            
             IDamageable hit = target.GetComponentInParent<IDamageable>();
             if (hit != null)
                 CombatDamage.Deal(_source, hit, _amount, DamageTag.JobSkill | DamageTag.DamageOverTime);
