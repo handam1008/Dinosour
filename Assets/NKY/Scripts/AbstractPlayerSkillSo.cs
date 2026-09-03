@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SSW;
 
 namespace NKY.Scripts
 {
@@ -12,22 +13,35 @@ namespace NKY.Scripts
         private bool _skillReUse = false;
         private float _currentCooldown;
 
-        public virtual void Init()
+        public float CurrentCooldown
         {
-            _currentCooldown = -99f;
+            get
+            {
+                return _currentCooldown;
+            }
+
+            private set
+            {
+                _currentCooldown = value;
+            }
         }
 
-        private void UseSkill(TestJump player)
+        public virtual void Init()
+        {
+            CurrentCooldown = -99f;
+        }
+
+        private void UseSkill(PlayerController player)
         {
             player.StartCoroutine(SkillCoroutine(player));
         }
 
-        private void ReUseSkill(TestJump player)
+        private void ReUseSkill(PlayerController player)
         {
             player.StartCoroutine(ReUseSkillCoroutine(player));
         }
 
-        public void StartSkill(TestJump player)
+        public void StartSkill(PlayerController player)
         {
             if (IsReUse && _skillReUse)
             {
@@ -35,19 +49,19 @@ namespace NKY.Scripts
                 ReUseSkill(player);
                 return;
             }
-
-            if (Time.time - _currentCooldown >= SkillCooldown)
+            
+            if (Time.time - CurrentCooldown >= SkillCooldown)
             {
                 UseSkill(player);
                 if (IsReUse)
                     _skillReUse = true;
-                _currentCooldown = Time.time;
+                CurrentCooldown = Time.time;
             }
         }
 
-        protected abstract IEnumerator SkillCoroutine(TestJump player);
+        protected abstract IEnumerator SkillCoroutine(PlayerController player);
 
-        protected virtual IEnumerator ReUseSkillCoroutine(TestJump player)
+        protected virtual IEnumerator ReUseSkillCoroutine(PlayerController player)
         {
             yield break;
         }

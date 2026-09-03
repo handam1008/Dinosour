@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using RYU._01.Script.FeedBack;
+using SSW;
 using UnityEngine;
 
 namespace RYU._01.Script.Potions
@@ -71,10 +72,11 @@ namespace RYU._01.Script.Potions
             if (_exploded) return;
             _exploded = true;
 
-            Explode();
+            // 깨진 유리병: 스플래시로라도 적을 맞췄으면 그대로 깨지고,
+            // 아무도 못 맞췄을 때만 벽·바닥에 튕긴다
+            bool hitTarget = Explode();
 
-            // 깨진 유리병: 남은 횟수가 있으면 죽지 않고 튕겨서 한 번 더 터진다
-            if (_bounceLeft > 0)
+            if (_bounceLeft > 0 && !hitTarget)
             {
                 _bounceLeft--;
                 Bounce(collision);
@@ -87,20 +89,29 @@ namespace RYU._01.Script.Potions
             Destroy(gameObject);
         }
 
-        private void Explode()
+        // 스플래시 범위 안의 대상들에게 효과를 적용한다.
+        // 반환값: 시전자 포함, '체력 있는 대상'을 하나라도 맞췄는지
+        private bool Explode()
         {
             if (_feedBackPlayer != null) _feedBackPlayer.PlayAllFeedBacks(_mods.Splash);
-            if (_data == null) return;
+            if (_data == null) return false;
+
+            bool hitTarget = false;
 
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, Radius);
             foreach (Collider2D hit in hits)
             {
                 // 대상의 자식 콜라이더가 여러 개 잡혀도 한 번만 적용
                 if (!_appliedRoots.Add(hit.transform.root)) continue;
+
+                // 누구든 체력 있는 대상을 맞췄으면 더 튕기지 않는다 (자기 자신 포함)
+                if (hit.GetComponentInParent<IDamageable>() != null) hitTarget = true;
+
                 _data.Use(hit.gameObject, _owner, _mods);
             }
 
             if (_mods.LeaveZone) SpawnZone();
+            return hitTarget;
         }
 
         // 잔류형 포션: 터진 자리에 장판을 남긴다

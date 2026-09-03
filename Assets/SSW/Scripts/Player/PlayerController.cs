@@ -16,7 +16,6 @@ namespace SSW
         Rigidbody2D _rb;
         Collider2D _col;
         Camera _cam;
-        Animator _animator;
         Vector2 _move;
         float _slowMultiplier = 1f;
         float _slowEndTime;
@@ -33,11 +32,10 @@ namespace SSW
             _rb = GetComponent<Rigidbody2D>();
             _col = GetComponent<Collider2D>();
             _cam = Camera.main;
-            _animator = _visual.GetComponent<Animator>();
-            GetComponent<Health>().OnDamaged += () => _animator.SetTrigger("GetDamage");
         }
 
         public float FacingSign => Mathf.Sign(_visual.localScale.x);
+        public bool IsGrounded => GetGroundCollider() != null;
         public float CurrentMoveSpeedMultiplier
         {
             get
@@ -190,8 +188,6 @@ namespace SSW
 
             float controlledVelocity = _move.x * _moveSpeed * CurrentMoveSpeedMultiplier;
             _rb.linearVelocity = new Vector2(controlledVelocity + _externalVelocityX, _rb.linearVelocity.y);
-            _animator.SetFloat("Speed", Mathf.Abs(_move.x));
-            _animator.SetBool("IsGrounded", IsGrounded());
             FaceMouse();
         }
 
@@ -201,11 +197,6 @@ namespace SSW
             Vector3 scale = _visual.localScale;
             scale.x = world.x < transform.position.x ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);
             _visual.localScale = scale;
-        }
-
-        bool IsGrounded()
-        {
-            return GetGroundCollider() != null;
         }
 
         Collider2D GetGroundCollider()

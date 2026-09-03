@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace NKY.Scripts
 {
@@ -16,9 +17,39 @@ namespace NKY.Scripts
         protected float _currentAngle;
         
         protected bool isAttacking = false;
-        public virtual void FaceAttack(Vector2 direction)
+        
+        protected Vector2 currentDirection;
+        
+        protected Camera _cam;
+
+        protected virtual void Awake()
         {
-            _currentAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            _cam = Camera.main;
+        }
+
+        protected virtual void Update()
+        {
+            FaceAttack();
+        }
+
+        public virtual void FaceAttack()
+        {
+            Vector3 mouse = Mouse.current.position.ReadValue();
+            mouse.z = -_cam.transform.position.z;
+
+            Vector3 world = _cam.ScreenToWorldPoint(mouse);
+            world.z = transform.position.z;
+
+            Vector3 diff = world - transform.position;
+        
+            currentDirection = diff.normalized;
+            
+            _currentAngle = Mathf.Atan2(currentDirection.y, currentDirection.x) * Mathf.Rad2Deg;
+        }
+        
+        public virtual void Attack()
+        {
+            
         }
     }
 }
