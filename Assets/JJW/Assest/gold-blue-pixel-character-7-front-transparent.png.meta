@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c0e6f9d785c1ec94691bc9aa6bedba69
+guid: 20a0b39bd00be1f4cb9aa2251b73f841
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8245809212308616508
-    second: DinoSprites_vita_0
+      213: -3963850652708873401
+    second: gold-blue-pixel-character-7-front-transparent_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: DinoSprites_vita_0
+      name: gold-blue-pixel-character-7-front-transparent_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 2
-        width: 17
-        height: 19
+        x: 143
+        y: 80
+        width: 1002
+        height: 1111
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4ca83b6a530019d80800000000000000
-      internalID: -8245809212308616508
+      spriteID: 74b569e25d29df8c0800000000000000
+      internalID: -3963850652708873401
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      DinoSprites_vita_0: -8245809212308616508
+      gold-blue-pixel-character-7-front-transparent_0: -3963850652708873401
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

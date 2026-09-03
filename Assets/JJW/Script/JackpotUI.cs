@@ -1,33 +1,47 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
-
-
+public enum JackpotImpactStrength
+{
+    Medium,
+    Strong
+}
 public class JackpotUI : MonoBehaviour
 {
-    [Header("Images")] [SerializeField] private RectTransform leftImage;
+    [Header("Images")]
+    [SerializeField] private RectTransform leftImage;
     [SerializeField] private RectTransform middleImage;
     [SerializeField] private RectTransform rightImage;
 
-    [Header("Drop Movement")] [Min(0f)] [SerializeField]
-    private float startHeight = 700f;
+    [Header("Drop Movement")]
+    [Min(0f)]
+    [SerializeField] private float startHeight = 700f;
 
-    [Min(0f)] [SerializeField] private float overshootDistance = 100f;
+    [Min(0f)]
+    [SerializeField] private float overshootDistance = 100f;
 
-    [Min(0f)] [SerializeField] private float reboundHeight = 30f;
+    [Min(0f)]
+    [SerializeField] private float reboundHeight = 30f;
 
-    [Min(0.01f)] [SerializeField] private float dropDuration = 0.16f;
+    [Min(0.01f)]
+    [SerializeField] private float dropDuration = 0.16f;
 
-    [Min(0.01f)] [SerializeField] private float reboundDuration = 0.1f;
+    [Min(0.01f)]
+    [SerializeField] private float reboundDuration = 0.1f;
 
-    [Min(0.01f)] [SerializeField] private float settleDuration = 0.08f;
+    [Min(0.01f)]
+    [SerializeField] private float settleDuration = 0.08f;
 
-    [Min(0f)] [SerializeField] private float imageDelay = 0.15f;
+    [Min(0f)]
+    [SerializeField] private float imageDelay = 0.15f;
 
-    [Header("Finish")] [Min(0f)] [SerializeField]
-    private float holdDuration = 0.8f;
+    [Header("Finish")]
+    [Min(0f)]
+    [SerializeField] private float holdDuration = 0.55f;
 
-    [Min(0.01f)] [SerializeField] private float fadeDuration = 0.6f;
+    [Min(0.01f)]
+    [SerializeField] private float fadeDuration = 0.28f;
 
     private CanvasGroup canvasGroup;
     private Sequence jackpotSequence;
@@ -35,6 +49,9 @@ public class JackpotUI : MonoBehaviour
     private Vector2 leftFinalPosition;
     private Vector2 middleFinalPosition;
     private Vector2 rightFinalPosition;
+
+    // 숫자가 착지했음을 외부에 알리는 이벤트
+    public event Action<JackpotImpactStrength> Impacted;
 
     private void Awake()
     {
@@ -53,39 +70,35 @@ public class JackpotUI : MonoBehaviour
             middleImage == null ||
             rightImage == null)
         {
-            Debug.LogError("Jackpot777UI에 이미지가 연결되지 않았습니다.", this);
+            Debug.LogError("JackpotUI에 이미지가 연결되지 않았습니다.", this);
 
             return;
         }
 
-        // 기존 애니메이션이 실행 중이라면 정지한다.
         jackpotSequence?.Kill();
 
         ResetImagePositions();
-
         canvasGroup.alpha = 1f;
 
         jackpotSequence = DOTween.Sequence();
 
-        // 영상의 등장 순서: 왼쪽 → 오른쪽 → 가운데
-        AddDropAnimation(leftImage, leftFinalPosition.y, 0f);
+        // 왼쪽: 중간 충격
+        AddDropAnimation(leftImage, leftFinalPosition.y, 0f, JackpotImpactStrength.Medium);
 
-        AddDropAnimation(rightImage, rightFinalPosition.y, imageDelay);
+        // 오른쪽: 중간 충격
+        AddDropAnimation(rightImage, rightFinalPosition.y, imageDelay, JackpotImpactStrength.Medium);
 
-        AddDropAnimation(middleImage, middleFinalPosition.y, imageDelay * 2f);
+        // 가운데: 강한 충격
+        AddDropAnimation(middleImage, middleFinalPosition.y, imageDelay * 2f, JackpotImpactStrength.Strong);
 
         float oneDropDuration = dropDuration + reboundDuration + settleDuration;
 
         float allDropsFinishedTime = imageDelay * 2f + oneDropDuration;
 
-        // 777을 잠깐 보여준 다음 전체를 사라지게 한다.
-        jackpotSequence.Insert(allDropsFinishedTime + holdDuration,
-            canvasGroup.DOFade(0f, fadeDuration).SetEase(Ease.Linear));
+        jackpotSequence.Insert(allDropsFinishedTime + holdDuration,canvasGroup.DOFade(0f, fadeDuration).SetEase(Ease.Linear));
 
-        // 게임의 시간이 느려지거나 멈춰도 이 UI는 재생된다.
         jackpotSequence.SetUpdate(true);
 
-        // JackpotEffect가 삭제되면 Tween도 함께 제거된다.
         jackpotSequence.SetLink(gameObject, LinkBehaviour.KillOnDestroy);
 
         jackpotSequence.OnComplete(() =>
@@ -95,22 +108,32 @@ public class JackpotUI : MonoBehaviour
         });
     }
 
-    private void AddDropAnimation(RectTransform image, float finalY, float startTime)
+    private void AddDropAnimation(
+        RectTransform image,
+        float finalY,
+        float startTime,
+        JackpotImpactStrength impactStrength)
     {
-        // 이미지를 최종 위치보다 위쪽으로 올려 놓는다.
         Vector2 startPosition = image.anchoredPosition;
         startPosition.y = finalY + startHeight;
         image.anchoredPosition = startPosition;
 
         Sequence dropSequence = DOTween.Sequence();
 
-        // 1. 최종 위치보다 아래까지 빠르게 떨어진다.
+        // 최종 위치보다 아래까지 떨어진다.
         dropSequence.Append(image.DOAnchorPosY(finalY - overshootDistance, dropDuration).SetEase(Ease.InCubic));
 
-        // 2. 위로 살짝 튕긴다.
-        dropSequence.Append(image.DOAnchorPosY(finalY + reboundHeight, reboundDuration).SetEase(Ease.OutQuad));
+        // 가장 아래까지 내려온 바로 이 순간에 착지 이벤트 발생
+        dropSequence.AppendCallback(() =>
+        {
+            Impacted?.Invoke(impactStrength);
+        });
 
-        // 3. 원래 위치에 정착한다.
+        // 위로 살짝 튕긴다.
+        dropSequence.Append(
+            image.DOAnchorPosY(finalY + reboundHeight, reboundDuration).SetEase(Ease.OutQuad));
+
+        // 원래 위치에 정착한다.
         dropSequence.Append(image.DOAnchorPosY(finalY, settleDuration).SetEase(Ease.InOutQuad));
 
         jackpotSequence.Insert(startTime, dropSequence);
