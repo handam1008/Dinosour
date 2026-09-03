@@ -5,10 +5,7 @@ namespace SSW
 {
     [RequireComponent(typeof(Health))]
     [RequireComponent(typeof(AugmentDrafter))]
-    public class HealthAugmentController : MonoBehaviour,
-        IIncomingDamageModifier,
-        IDamageDealtListener,
-        IDamageReceivedListener
+    public class HealthAugmentController : MonoBehaviour, IIncomingDamageModifier, IDamageDealtListener, IDamageReceivedListener, IOutgoingDamageModifier
     {
         [Header("거인")]
         [SerializeField] float _giantHpBonus = 0.55f;
@@ -55,6 +52,10 @@ namespace SSW
         float _phoenixInvulnTimer;
 
         public int Priority => 0;
+        public float ModifyOutgoingDamage(float amount)
+        {
+            return amount * GlassCannonDamageMultiplier * BerserkerDamageMultiplier;
+        }
 
         public bool BerserkerActive { get; private set; }
         public float BerserkerDamageMultiplier => BerserkerActive ? 1f + _berserkerDamageBonus : 1f;

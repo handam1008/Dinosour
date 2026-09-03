@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 0181be0e9be59e94cb3a16a64db9d2d9
+guid: 8a683a61a7ecd794282594c62eeaab06
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 768539965427458729
-    second: image-removebg-preview (4)_0
+      213: 6328287059064481984
+    second: overlay-green_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -51,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: image-removebg-preview (4)_0
+      name: overlay-green_0
       rect:
         serializedVersion: 2
-        x: 17
-        y: 16
-        width: 433
-        height: 455
+        x: 0
+        y: 0
+        width: 640
+        height: 480
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9a2aef2d6076aaa00800000000000000
-      internalID: 768539965427458729
+      spriteID: 0c86d303d8792d750800000000000000
+      internalID: 6328287059064481984
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      image-removebg-preview (4)_0: 768539965427458729
+      overlay-green_0: 6328287059064481984
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

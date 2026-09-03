@@ -1,16 +1,33 @@
+using KDH.Scripts.Bullet;
+using KDH.Scripts.Upgrade;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class KDH_PoisonBullet : MonoBehaviour
+public class KDH_PoisonBullet : KDH_AbstractBulletAbility
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private float dotDamage = 7f;
+    [field: SerializeField] public int DotCount { get; private set; } = 8;
+    [field: SerializeField] public float PoisonDuration { get; private set; } = 4f;
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField] private UnityEvent onHitPlayer;
+
+    [field: SerializeField] public KDH_BulletAbilityDataSO BulletAbilityData { get; private set; }
+
+    public Transform HitPoint { get; private set; }
+    public KDH_Bullet Bullet { get; private set; }
+
+    public override void BulletAbility(Collider2D collision, KDH_Bullet bullet)
     {
-        
+        float finalDamage = bullet.IsUpgraded ? dotDamage * bullet.UpgradValue : dotDamage;
+
+        if (!collision.TryGetComponent(out KDH_PoisonStatus status))
+            status = collision.gameObject.AddComponent<KDH_PoisonStatus>();
+
+        status.ApplyPoison(DotCount, PoisonDuration, finalDamage);
+
+        HitPoint = collision.transform;
+        Bullet = bullet;
+
+        onHitPlayer?.Invoke();
     }
 }

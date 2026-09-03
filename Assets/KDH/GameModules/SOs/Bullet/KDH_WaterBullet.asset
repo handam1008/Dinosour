@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8a05fe156834b90963d51b25dc8ee47, type: 3}
+  m_Name: KDH_WaterBullet
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Upgrade.KDH_BulletAbilityDataSO
+  abilityName: "\uBB3C\uD3ED\uD0C4"
+  abilityDescription: "\uAC70\uB9AC\uC758 \uBE44\uB840\uD574 \uB370\uBBF8\uC9C0\uB97C
+    \uC90C (\uCD5C\uB300 \uC0AC\uAC70\uB9AC \uAE30\uC900 3\uBC30\uC758 \uB370\uBBF8\uC9C0)"
+  bulletAbilityPrefab: {fileID: 1891358268744537669, guid: f89f8beb0db4cc142af52cdfc9607310, type: 3}
+  bulletNormalEffectPrefab: {fileID: 9106091713923166320, guid: 1393e76dca5093d42a02c966d7d06b91, type: 3}
+  bulletUpgradedEffectPrefab: {fileID: 9106091713923166320, guid: 7a7f226ec32090b4ab08950539c54d61, type: 3}
+  bulletTrailEffectPrefab: {fileID: 8914320711568083332, guid: 721eece6c02e203498d301f31b046e5a, type: 3}

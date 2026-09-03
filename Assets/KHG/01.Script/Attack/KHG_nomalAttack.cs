@@ -1,4 +1,5 @@
 using SSW;
+using System.Collections;
 using UnityEngine;
 
 public class KHG_nomalAttack : MonoBehaviour
@@ -7,12 +8,18 @@ public class KHG_nomalAttack : MonoBehaviour
 
     private float Damage = 30f;
 
-    [SerializeField] private float attackDelay = 0.5f;
+    [SerializeField] private float attackDelay = 0.3f;
     private float lastAttackTime = -999f;
 
     private void Start()
     {
         attackCollider.enabled = false;
+        StartCoroutine(Attackroutine());
+    }
+
+    private IEnumerator Attackroutine()
+    {
+        yield return new WaitForSeconds(attackDelay);
     }
 
     private void Update()
