@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using SSW;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,7 +16,8 @@ namespace NKY.Scripts.Skill
 
 
         private AssassinNormalSkill _skill;
-        protected override IEnumerator SkillCoroutine(TestJump player)
+        
+        protected override IEnumerator SkillCoroutine(PlayerController player)
         {
             if (Camera.main != null)
             {
@@ -34,12 +36,13 @@ namespace NKY.Scripts.Skill
             yield break;
         }
 
-        protected override IEnumerator ReUseSkillCoroutine(TestJump player)
+        protected override IEnumerator ReUseSkillCoroutine(PlayerController player)
         {
             if (_skill == null) yield break;
             player.transform.position = _skill.transform.position;
             Vector3 direction = _skill.transform.up.normalized;
-            player.Rb.AddForce(_skill.Rb.linearVelocity.magnitude * direction, ForceMode2D.Impulse);
+            IForceReceiver forceReceiver = player.GetComponent<IForceReceiver>();
+            forceReceiver.ApplyForce(_skill.Rb.linearVelocity.magnitude * direction, ForceMode2D.Impulse);
             Destroy(_skill.gameObject);
             _skill = null;
         }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,10 +9,12 @@ namespace SSW
     {
         public float maxHealth = 100f;
         [SerializeField] bool _disableOnDeath = true;
+        [SerializeField] float _deathDisableDelay;
         [SerializeField] string _healthBarResourceName = "HealthBarUI";
         [SerializeField] string _damageNumberResourceName = "DamageNumberUI";
         [SerializeField] float _healthBarPadding = 0.15f;
         public event System.Action OnDamaged;
+        public event System.Action OnDied;
         public event System.Action<float, float> OnHealthChanged;
         public event System.Action<float, bool> OnDamageDealt;
 
@@ -138,7 +141,21 @@ namespace SSW
 
         void Die()
         {
-            if (_disableOnDeath) gameObject.SetActive(false);
+            OnDied?.Invoke();
+            if (!_disableOnDeath) return;
+            if (_deathDisableDelay <= 0f)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+
+            StartCoroutine(DisableAfterDeath());
+        }
+
+        IEnumerator DisableAfterDeath()
+        {
+            yield return new WaitForSeconds(_deathDisableDelay);
+            gameObject.SetActive(false);
         }
 
         void SpawnHealthBar()
