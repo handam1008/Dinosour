@@ -16,4 +16,5 @@ MonoBehaviour:
   PotionPrefab: {fileID: 5007759917758215647, guid: bee6eddd0fa821845bc114413d6f2234, type: 3}
   sprite: {fileID: 3100166976267082864, guid: 06b0c489b3f4f8e49811e8c69dbdae4a, type: 3}
   amount: 0.5
+  potionColor: {r: 0.4862745, g: 0.6862745, b: 0.7764706, a: 1}
   duration: 2
