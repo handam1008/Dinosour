@@ -25,6 +25,7 @@ namespace SSW
         MagicianAugmentController _augments;
         Transform _caster;
         Rigidbody2D _rb;
+        MagicianCardFeedback _feedback;
         float _effectMultiplier = 1f;
         float _lifetime = 3f;
         float _age;
@@ -32,6 +33,7 @@ namespace SSW
         bool _isMirror;
         bool _returning;
         bool _consumed;
+        bool _visualOnly;
 
         public void Configure(Suit suit, int number, IHealable casterHealth)
         {
@@ -54,11 +56,13 @@ namespace SSW
         public void SetEffectMultiplier(float multiplier)
         {
             _effectMultiplier = multiplier;
+            if (_feedback != null) _feedback.SetIntensityMultiplier(multiplier);
         }
 
         public void MarkJoker()
         {
             _isJoker = true;
+            if (_feedback != null) _feedback.MarkJoker();
         }
 
         public void MarkMirror()
@@ -66,9 +70,15 @@ namespace SSW
             _isMirror = true;
         }
 
+        public void MarkVisualOnly()
+        {
+            _visualOnly = true;
+        }
+
         void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
+            _feedback = GetComponent<MagicianCardFeedback>();
         }
 
         void Update()
@@ -80,7 +90,7 @@ namespace SSW
             if (_returning && _caster != null && Vector2.Distance(transform.position, _caster.position) < 0.35f)
             {
                 _consumed = true;
-                Destroy(gameObject);
+                DestroyCard();
                 return;
             }
 
@@ -95,11 +105,31 @@ namespace SSW
             if (damageable == null)
             {
                 if (_returning) return;
+
+                if (_feedback != null)
+                {
+                    Vector2 impactPoint = other.ClosestPoint(transform.position);
+                    _feedback.PlayEnvironmentImpact(impactPoint);
+                }
+
                 HandleMiss();
                 return;
             }
 
             if (IsCaster(damageable)) return;
+
+            if (_visualOnly)
+            {
+                _consumed = true;
+                Component targetComponent = damageable as Component;
+                if (_feedback != null)
+                {
+                    _feedback.PlayTargetFlash(targetComponent);
+                    _feedback.PlayImpact(other.ClosestPoint(transform.position), 0f);
+                }
+                DestroyCard();
+                return;
+            }
 
             HitTarget(other, damageable);
         }
@@ -107,6 +137,13 @@ namespace SSW
         void HandleMiss()
         {
             if (_consumed) return;
+
+            if (_visualOnly)
+            {
+                _consumed = true;
+                DestroyCard();
+                return;
+            }
 
             if (!_returning && !_isMirror && _caster != null && _augments != null && _augments.Has(MagicianAugmentType.ReturnCard))
             {
@@ -116,7 +153,7 @@ namespace SSW
 
             _consumed = true;
             if (_augments != null && !_isMirror) _augments.RegisterMiss();
-            Destroy(gameObject);
+            DestroyCard();
         }
 
         void BeginReturn()
@@ -145,6 +182,8 @@ namespace SSW
         void HitTarget(Collider2D other, IDamageable damageable)
         {
             _consumed = true;
+            Component targetComponent = damageable as Component;
+            if (_feedback != null) _feedback.PlayTargetFlash(targetComponent);
 
             float chainMultiplier = _augments != null ? _augments.GetChainMultiplier(_suit) : 1f;
             float effectMul = _effectMultiplier * chainMultiplier;
@@ -159,7 +198,13 @@ namespace SSW
             DealDamage(damageable, damage);
 
             if (_suit != Suit.Spade) ApplySuitEffect(_suit, other, damageable, effectMul, damageScale);
-            if (_isJoker) ApplySuitEffect(RandomOtherSuit(_suit), other, damageable, effectMul, damageScale);
+
+            Suit? jokerBonusSuit = null;
+            if (_isJoker)
+            {
+                jokerBonusSuit = RandomOtherSuit(_suit);
+                ApplySuitEffect(jokerBonusSuit.Value, other, damageable, effectMul, damageScale);
+            }
 
             if (_augments != null && !_isMirror)
             {
@@ -172,6 +217,19 @@ namespace SSW
             if (forceReceiver != null && _rb != null)
                 forceReceiver.ApplyForce(_rb.linearVelocity.normalized * _knockbackForce, ForceMode2D.Impulse);
 
+            if (_feedback != null)
+            {
+                Vector2 impactPoint = other.ClosestPoint(transform.position);
+                bool hasDiamondExplosion = _suit == Suit.Diamond || jokerBonusSuit == Suit.Diamond;
+                _feedback.PlayImpact(impactPoint, hasDiamondExplosion ? GetDiamondRadius() : 0f);
+            }
+
+            DestroyCard();
+        }
+
+        void DestroyCard()
+        {
+            if (_feedback != null) _feedback.ReleaseTrail();
             Destroy(gameObject);
         }
 
@@ -195,7 +253,7 @@ namespace SSW
 
                 case Suit.Diamond:
                 {
-                    float radius = _diamondRadius * (_augments != null ? _augments.DiamondRadiusMultiplier : 1f);
+                    float radius = GetDiamondRadius();
                     float damage = _number * _diamondDamagePerNumber * effectMul * damageScale;
                     Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, radius);
                     HashSet<IDamageable> damagedTargets = new HashSet<IDamageable>();
@@ -255,6 +313,11 @@ namespace SSW
         void DealDamage(IDamageable target, float amount)
         {
             CombatDamage.Deal(_caster, target, amount, DamageTag.JobSkill | DamageTag.Projectile);
+        }
+
+        float GetDiamondRadius()
+        {
+            return _diamondRadius * (_augments != null ? _augments.DiamondRadiusMultiplier : 1f);
         }
 
         bool IsCaster(IDamageable target)

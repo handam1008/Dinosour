@@ -21,39 +21,23 @@ namespace KDH.Scripts.Upgrade.Instances
         
         public override void BulletAbility(Collider2D collision,  KDH_Bullet bullet)
         {
-            if(!collision.TryGetComponent(out ISlowable slowable)) return;
-            if (!collision.TryGetComponent(out IDamageable _)) return;
-            
-            if (bullet.IsUpgraded)
+            if(collision.TryGetComponent(out ISlowable slowable))
             {
-                slowable.ApplySlow(slowAmount * bullet.UpgradValue, slowDuration * bullet.UpgradValue);
-                StartCoroutine(TakeDamageDelay(collision, 1 * bullet.UpgradValue, slowDuration * bullet.UpgradValue));
+                if (bullet.IsUpgraded)
+                {
+                    slowable.ApplySlow(slowAmount * bullet.UpgradValue, slowDuration * bullet.UpgradValue);
+                    HitPoint = collision.transform;
+                    Bullet = bullet;
+                    
+                    onHitPlayer?.Invoke();
+                    return;
+                }
+                
+                slowable.ApplySlow(slowAmount, slowDuration);
                 HitPoint = collision.transform;
                 Bullet = bullet;
                 
                 onHitPlayer?.Invoke();
-                return;
-            }
-            
-            StartCoroutine(TakeDamageDelay(collision, 1, slowDuration));
-            slowable.ApplySlow(slowAmount, slowDuration);
-            HitPoint = collision.transform;
-            Bullet = bullet;
-            
-            onHitPlayer?.Invoke();
-        }
-
-        private IEnumerator TakeDamageDelay(Collider2D collision, float damage, float duration)
-        {
-            int count = BulletAbilityData.damage;
-
-            for (int i = 0; i < count; i++)
-            {
-                yield return new WaitForSeconds(duration / count);
-                if (collision.TryGetComponent(out IDamageable damageable))
-                {
-                    damageable.TakeDamage(damage);
-                }
             }
         }
     }

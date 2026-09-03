@@ -9,13 +9,13 @@ namespace SSW
         [SerializeField] float _moveSpeed = 7f;
         [SerializeField] float _jumpForce = 13f;
         [SerializeField] float _externalVelocityDecay = 12f;
+        [SerializeField] float _counterMoveBrake = 30f;
         [SerializeField] LayerMask _whatIsGround;
         [SerializeField] Transform _visual;
 
         Rigidbody2D _rb;
         Collider2D _col;
         Camera _cam;
-        Animator _animator;
         Vector2 _move;
         float _slowMultiplier = 1f;
         float _slowEndTime;
@@ -32,11 +32,10 @@ namespace SSW
             _rb = GetComponent<Rigidbody2D>();
             _col = GetComponent<Collider2D>();
             _cam = Camera.main;
-            _animator = _visual.GetComponent<Animator>();
-            GetComponent<Health>().OnDamaged += () => _animator.SetTrigger("GetDamage");
         }
 
         public float FacingSign => Mathf.Sign(_visual.localScale.x);
+        public bool IsGrounded => GetGroundCollider() != null;
         public float CurrentMoveSpeedMultiplier
         {
             get
@@ -84,10 +83,40 @@ namespace SSW
         {
             if (_rb == null) return;
 
-            _rb.AddForce(force, mode);
             float mass = Mathf.Max(0.0001f, _rb.mass);
             float timeStep = mode == ForceMode2D.Impulse ? 1f : Time.fixedDeltaTime;
-            _externalVelocityX += force.x / mass * timeStep;
+            float pushedVelocity = force.x / mass * timeStep;
+            if (!Mathf.Approximately(pushedVelocity, 0f))
+                _externalVelocityX = pushedVelocity;
+
+            if (!Mathf.Approximately(force.y, 0f))
+                _rb.AddForce(Vector2.up * force.y, mode);
+        }
+
+        void OnCollisionEnter2D(Collision2D collision)
+        {
+            StopKnockbackAtWall(collision);
+        }
+
+        void OnCollisionStay2D(Collision2D collision)
+        {
+            StopKnockbackAtWall(collision);
+        }
+
+        void StopKnockbackAtWall(Collision2D collision)
+        {
+            if (Mathf.Approximately(_externalVelocityX, 0f)) return;
+
+            for (int i = 0; i < collision.contactCount; i++)
+            {
+                float normalX = collision.GetContact(i).normal.x;
+                if (Mathf.Abs(normalX) < 0.55f) continue;
+                if (Mathf.Sign(_externalVelocityX) == -Mathf.Sign(normalX))
+                {
+                    _externalVelocityX = 0f;
+                    return;
+                }
+            }
         }
 
         void OnMove(InputValue value)
@@ -143,14 +172,22 @@ namespace SSW
             if (Time.time >= _slowEndTime) _slowMultiplier = 1f;
             if (Time.time >= _speedEndTime) _speedMultiplier = 1f;
             if (Time.time >= _attackWeakenEndTime) _outgoingDamageMultiplier = 1f;
-            float controlledVelocity = _move.x * _moveSpeed * CurrentMoveSpeedMultiplier;
-            _rb.linearVelocity = new Vector2(controlledVelocity + _externalVelocityX, _rb.linearVelocity.y);
+
+            float brake = _externalVelocityDecay;
+            if (!Mathf.Approximately(_externalVelocityX, 0f)
+                && Mathf.Abs(_move.x) > 0.01f
+                && Mathf.Sign(_move.x) != Mathf.Sign(_externalVelocityX))
+            {
+                brake += _counterMoveBrake * Mathf.Abs(_move.x);
+            }
+
             _externalVelocityX = Mathf.MoveTowards(
                 _externalVelocityX,
                 0f,
-                _externalVelocityDecay * Time.deltaTime);
-            _animator.SetFloat("Speed", Mathf.Abs(_move.x));
-            _animator.SetBool("IsGrounded", IsGrounded());
+                brake * Time.deltaTime);
+
+            float controlledVelocity = _move.x * _moveSpeed * CurrentMoveSpeedMultiplier;
+            _rb.linearVelocity = new Vector2(controlledVelocity + _externalVelocityX, _rb.linearVelocity.y);
             FaceMouse();
         }
 
@@ -160,11 +197,6 @@ namespace SSW
             Vector3 scale = _visual.localScale;
             scale.x = world.x < transform.position.x ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);
             _visual.localScale = scale;
-        }
-
-        bool IsGrounded()
-        {
-            return GetGroundCollider() != null;
         }
 
         Collider2D GetGroundCollider()

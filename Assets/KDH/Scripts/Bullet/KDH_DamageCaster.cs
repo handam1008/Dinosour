@@ -19,19 +19,22 @@ namespace KDH.Scripts.Bullet
             damage = bulletScript.Damage;
             upgradValue =  bulletScript.UpgradValue;
         }
-        
+
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (bullet.IsUpgraded)
+            if (collision.TryGetComponent(out IDamageable _))
             {
-                if (collision.TryGetComponent<IDamageable>(out var damageable))
-                    damageable.TakeDamage(damage * upgradValue);
+                if (bullet.IsUpgraded)
+                {
+                    if (collision.TryGetComponent<IDamageable>(out var damageable))
+                        damageable.TakeDamage(damage * upgradValue);
+                }
+
+                if (collision.TryGetComponent<IDamageable>(out var dmg))
+                    dmg.TakeDamage(damage);
+
+                bullet.PlayerGun.UpgradeList.ApplyBulletAbility(collision, bullet); // 증강에 적용된 총알들의 능력을 모두 적용
             }
-            
-            if (collision.TryGetComponent<IDamageable>(out var dmg))
-                dmg.TakeDamage(damage);
-                
-            bullet.PlayerGun.UpgradeList.ApplyBulletAbility(collision, bullet); // 증강에 적용된 총알들의 능력을 모두 적용
         }
     }
 }

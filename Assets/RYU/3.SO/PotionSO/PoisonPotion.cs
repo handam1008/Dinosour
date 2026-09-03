@@ -8,10 +8,15 @@ namespace RYU._3.SO.PotionSO
     {
         [SerializeField] private int damageCount = 2;
         [SerializeField] private float damageTime = 0.7f;
-        public override void Use(GameObject target, Component source)
+
+        public override void Use(GameObject target, Component source, PotionModifiers mods)
         {
             OverTimeRunner runner = target.GetComponentInParent<OverTimeRunner>();
-            if (runner != null) runner.Run(new DamageTick(amount, source), damageCount, damageTime);
+            if (runner == null) return;
+
+            // 진한 농도: 틱 간격은 그대로 두고 횟수를 늘린다
+            int count = Mathf.Max(1, Mathf.RoundToInt(damageCount * mods.TickCount));
+            runner.Run(new DamageTick(amount * mods.Power, source), count, damageTime);
         }
     }
 }

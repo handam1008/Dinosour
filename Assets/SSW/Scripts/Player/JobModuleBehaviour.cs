@@ -2,9 +2,6 @@ using UnityEngine;
 
 namespace SSW
 {
-    /// <summary>
-    /// Keeps job activation in one place. Derived modules only implement their own behaviour.
-    /// </summary>
     public abstract class JobModuleBehaviour : MonoBehaviour, IJobModule
     {
         PlayerIdentity _identity;

@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81b7168db024026b1180d9ec7f58c4a, type: 3}
   m_Name: AllUnlock
   m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.Argument.WitchAugment
-  displayName: "\uB9CC\uB2A5 \uC870\uC81C"
-  description: "\uD3EC\uC158\uC774 \uAD50\uCCB4\uB418\uC9C0 \uC54A\uACE0\_\uD604\uC7AC
-    3\uC885\uC744 \uD55C \uBC88\uC5D0 \uC11E\uC5B4\_\uB358\uC9D1\uB2C8\uB2E4. (\uD68C\uBCF5+\uD53C\uD574+\uC0C1\uD0DC\uC774\uC0C1\uC774
-    \uB3D9\uC2DC\uC5D0 \uD130\uC9D0)"
+  displayName: "\uC5EC\uB7EC \uD3EC\uC158\uC744 \uD574\uAE08\uD569\uB2C8\uB2E4"
+  description: "\uC544\uC9C1 \uC548 \uB098\uC628 \uB098\uBA38\uC9C0 \uD3EC\uC158\uC744
+    \uD574\uAE08\uD558\uACE0, \uAD50\uCCB4 \uC8FC\uAE30\uAC00 \uBE68\uB77C\uC9D1\uB2C8\uB2E4."
   icon: {fileID: -5802712060323769536, guid: 06b0c489b3f4f8e49811e8c69dbdae4a, type: 3}
   type: 8
+  unlockPotions:
+  - {fileID: 11400000, guid: ddc2279767a763b4ba8315bb0759968a, type: 2}
+  - {fileID: 11400000, guid: ed59b73987670fe479b4cc85e75f9ece, type: 2}

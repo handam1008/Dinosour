@@ -6,9 +6,10 @@ using UnityEngine;
 public class SlowPotion : AbstractPotion
 {
     [SerializeField] private float duration = 2f;
-    
-    public override void Use(GameObject target, Component source)
+
+    public override void Use(GameObject target, Component source, PotionModifiers mods)
     {
-        target.GetComponentInParent<ISlowable>()?.ApplySlow(amount, duration);
+        // 구속은 틱이 없으므로 진한 농도를 지속시간에 적용한다
+        target.GetComponentInParent<ISlowable>()?.ApplySlow(amount * mods.Power, duration * mods.TickCount);
     }
 }
