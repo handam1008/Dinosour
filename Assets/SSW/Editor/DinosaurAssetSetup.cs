@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEditor.U2D.Animation;
 using UnityEditor.U2D.Sprites;
 using UnityEngine;
@@ -15,10 +16,13 @@ namespace SSW.Editor
         const string DownloadRoot = "Assets/0.Asset/download";
         const string OriginalRoot = "Assets/0.Asset/dinoCharactersVersion1.1/sheets";
         const string LibraryRoot = "Assets/SSW/Dinosaurs/Libraries";
+        const string AnimationRoot = "Assets/SSW/Dinosaurs/Animations";
+        const string ControllerPath = AnimationRoot + "/Dinosaur.controller";
         const string PlayerPrefab = "Assets/SSW/Prefabs/Player.prefab";
         const int TileSize = 24;
+        const float FramesPerSecond = 12f;
 
-        static readonly string[] States = { "Idle", "Move", "Hurt", "Dead", "Jump" };
+        static readonly string[] States = { "Idle", "Move", "Hurt", "Dead" };
         static readonly string[] EggStates = { "EggMove", "EggCrack", "EggHatch" };
         static readonly HashSet<string> OriginalMales = new HashSet<string>
         {
@@ -30,6 +34,7 @@ namespace SSW.Editor
         {
             ConfigureTextures();
             CreateLibraries();
+            CreateAnimations();
             ConfigurePlayerPrefab();
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
@@ -181,6 +186,207 @@ namespace SSW.Editor
             categories.Add(new SpriteLibraryCategory(name, labels));
         }
 
+        static void CreateAnimations()
+        {
+            EnsureFolder(AnimationRoot);
+
+            Dictionary<string, AnimationClip> clips = new Dictionary<string, AnimationClip>
+            {
+                ["Idle"] = CreateResolverClip("Idle", "Idle", GetCommonFrameCount("Idle"), GetCommonFrameCount("Idle") / FramesPerSecond, true, false),
+                ["Move"] = CreateResolverClip("Move", "Move", GetCommonFrameCount("Move"), GetCommonFrameCount("Move") / FramesPerSecond, true, false),
+                ["Hurt"] = CreateResolverClip("Hurt", "Hurt", GetCommonFrameCount("Hurt"), 0.35f, false, false),
+                ["Dead"] = CreateResolverClip("Dead", "Dead", GetCommonFrameCount("Dead"), 0.8f, false, false),
+                ["AirborneIdle"] = CreateResolverClip("AirborneIdle", "Idle", 1, 1f, false, false),
+                ["EggMove"] = CreateResolverClip("EggMove", "EggMove", GetCommonFrameCount("EggMove"), 1.2f, false, true),
+                ["EggCrack"] = CreateResolverClip("EggCrack", "EggCrack", GetCommonFrameCount("EggCrack"), 0.8f, false, false),
+                ["EggHatch"] = CreateResolverClip("EggHatch", "EggHatch", GetCommonFrameCount("EggHatch"), 1f, false, false)
+            };
+
+            AddEggMotion(clips["EggMove"], 1.2f);
+            CreateAnimatorController(clips);
+        }
+
+        static AnimationClip CreateResolverClip(
+            string clipName,
+            string category,
+            int frameCount,
+            float duration,
+            bool loop,
+            bool repeatFrames)
+        {
+            string path = AnimationRoot + "/" + clipName + ".anim";
+            AnimationClip clip = AssetDatabase.LoadAssetAtPath<AnimationClip>(path);
+            if (clip == null)
+            {
+                clip = new AnimationClip { name = clipName };
+                AssetDatabase.CreateAsset(clip, path);
+            }
+
+            clip.ClearCurves();
+            clip.frameRate = FramesPerSecond;
+
+            int sampleCount = repeatFrames
+                ? Mathf.Max(frameCount, Mathf.CeilToInt(duration * FramesPerSecond))
+                : frameCount;
+            float step = repeatFrames ? 1f / FramesPerSecond : duration / Mathf.Max(1, frameCount);
+            Keyframe[] keys = new Keyframe[sampleCount];
+
+            for (int i = 0; i < sampleCount; i++)
+            {
+                int frame = repeatFrames ? i % frameCount : Mathf.Min(i, frameCount - 1);
+                int hash = Animator.StringToHash(category + "_" + frame) & 0x3FFFFFFF;
+                keys[i] = new Keyframe(
+                    i * step,
+                    BitConverter.ToSingle(BitConverter.GetBytes(hash), 0),
+                    float.PositiveInfinity,
+                    float.PositiveInfinity);
+            }
+
+            EditorCurveBinding spriteBinding = EditorCurveBinding.DiscreteCurve(
+                string.Empty,
+                typeof(SpriteResolver),
+                "m_SpriteHash");
+            AnimationUtility.SetEditorCurve(clip, spriteBinding, new AnimationCurve(keys));
+            SetRestTransform(clip, duration);
+            SetClipSettings(clip, duration, loop);
+            EditorUtility.SetDirty(clip);
+            return clip;
+        }
+
+        static void SetRestTransform(AnimationClip clip, float duration)
+        {
+            AnimationCurve position = AnimationCurve.Linear(0f, 0f, duration, 0f);
+            AnimationCurve rotation = AnimationCurve.Linear(0f, 0f, duration, 0f);
+            AnimationUtility.SetEditorCurve(
+                clip,
+                EditorCurveBinding.FloatCurve(string.Empty, typeof(Transform), "m_LocalPosition.y"),
+                position);
+            AnimationUtility.SetEditorCurve(
+                clip,
+                EditorCurveBinding.FloatCurve(string.Empty, typeof(Transform), "localEulerAnglesRaw.z"),
+                rotation);
+        }
+
+        static void AddEggMotion(AnimationClip clip, float duration)
+        {
+            const int keyCount = 25;
+            Keyframe[] positionKeys = new Keyframe[keyCount];
+            Keyframe[] rotationKeys = new Keyframe[keyCount];
+
+            for (int i = 0; i < keyCount; i++)
+            {
+                float normalized = i / (keyCount - 1f);
+                float time = duration * normalized;
+                float wave = Mathf.Sin(normalized * Mathf.PI * 6f);
+                positionKeys[i] = new Keyframe(time, Mathf.Abs(wave) * 0.08f);
+                rotationKeys[i] = new Keyframe(time, wave * 7f);
+            }
+
+            AnimationCurve position = new AnimationCurve(positionKeys);
+            AnimationCurve rotation = new AnimationCurve(rotationKeys);
+            for (int i = 0; i < keyCount; i++)
+            {
+                position.SmoothTangents(i, 0f);
+                rotation.SmoothTangents(i, 0f);
+            }
+
+            AnimationUtility.SetEditorCurve(
+                clip,
+                EditorCurveBinding.FloatCurve(string.Empty, typeof(Transform), "m_LocalPosition.y"),
+                position);
+            AnimationUtility.SetEditorCurve(
+                clip,
+                EditorCurveBinding.FloatCurve(string.Empty, typeof(Transform), "localEulerAnglesRaw.z"),
+                rotation);
+            EditorUtility.SetDirty(clip);
+        }
+
+        static void SetClipSettings(AnimationClip clip, float duration, bool loop)
+        {
+            SerializedObject serializedClip = new SerializedObject(clip);
+            SerializedProperty settings = serializedClip.FindProperty("m_AnimationClipSettings");
+            if (settings != null)
+            {
+                SerializedProperty loopTime = settings.FindPropertyRelative("m_LoopTime");
+                SerializedProperty startTime = settings.FindPropertyRelative("m_StartTime");
+                SerializedProperty stopTime = settings.FindPropertyRelative("m_StopTime");
+                if (loopTime != null) loopTime.boolValue = loop;
+                if (startTime != null) startTime.floatValue = 0f;
+                if (stopTime != null) stopTime.floatValue = duration;
+            }
+
+            serializedClip.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        static int GetCommonFrameCount(string category)
+        {
+            SpriteLibraryAsset[] libraries = AssetDatabase.FindAssets("t:SpriteLibraryAsset", new[] { LibraryRoot })
+                .Select(AssetDatabase.GUIDToAssetPath)
+                .Select(AssetDatabase.LoadAssetAtPath<SpriteLibraryAsset>)
+                .Where(asset => asset != null)
+                .ToArray();
+
+            int count = libraries
+                .Select(asset => asset.GetCategoryLabelNames(category).Count())
+                .DefaultIfEmpty(0)
+                .Min();
+            if (count <= 0)
+                throw new InvalidOperationException("Sprite Library category is empty: " + category);
+            return count;
+        }
+
+        static void CreateAnimatorController(IReadOnlyDictionary<string, AnimationClip> clips)
+        {
+            AnimatorController controller = AssetDatabase.LoadAssetAtPath<AnimatorController>(ControllerPath);
+            if (controller == null)
+                controller = AnimatorController.CreateAnimatorControllerAtPath(ControllerPath);
+
+            controller.parameters = Array.Empty<AnimatorControllerParameter>();
+            AnimatorStateMachine stateMachine = controller.layers[0].stateMachine;
+            foreach (ChildAnimatorState child in stateMachine.states.ToArray())
+                stateMachine.RemoveState(child.state);
+            foreach (AnimatorStateTransition transition in stateMachine.anyStateTransitions.ToArray())
+                stateMachine.RemoveAnyStateTransition(transition);
+
+            AnimatorState idle = AddState(stateMachine, "Idle", clips["Idle"], 360f, 220f);
+            AddState(stateMachine, "Move", clips["Move"], 560f, 220f);
+            AddState(stateMachine, "Hurt", clips["Hurt"], 560f, 80f);
+            AddState(stateMachine, "Dead", clips["Dead"], 760f, 80f);
+            AddState(stateMachine, "AirborneIdle", clips["AirborneIdle"], 360f, 80f);
+            AnimatorState eggMove = AddState(stateMachine, "EggMove", clips["EggMove"], 0f, 360f);
+            AnimatorState eggCrack = AddState(stateMachine, "EggCrack", clips["EggCrack"], 220f, 360f);
+            AnimatorState eggHatch = AddState(stateMachine, "EggHatch", clips["EggHatch"], 440f, 360f);
+
+            AddExitTransition(eggMove, eggCrack);
+            AddExitTransition(eggCrack, eggHatch);
+            AddExitTransition(eggHatch, idle);
+            stateMachine.defaultState = idle;
+            EditorUtility.SetDirty(controller);
+        }
+
+        static AnimatorState AddState(
+            AnimatorStateMachine stateMachine,
+            string stateName,
+            AnimationClip clip,
+            float x,
+            float y)
+        {
+            AnimatorState state = stateMachine.AddState(stateName, new Vector3(x, y));
+            state.motion = clip;
+            state.writeDefaultValues = true;
+            return state;
+        }
+
+        static void AddExitTransition(AnimatorState from, AnimatorState to)
+        {
+            AnimatorStateTransition transition = from.AddTransition(to);
+            transition.hasExitTime = true;
+            transition.exitTime = 1f;
+            transition.hasFixedDuration = true;
+            transition.duration = 0f;
+            transition.canTransitionToSelf = false;
+        }
+
         static void ConfigurePlayerPrefab()
         {
             GameObject root = PrefabUtility.LoadPrefabContents(PlayerPrefab);
@@ -202,7 +408,9 @@ namespace SSW.Editor
                 if (controller == null) visual.gameObject.AddComponent<DinosaurVisualController>();
 
                 Animator animator = visual.GetComponent<Animator>();
-                if (animator != null) animator.enabled = false;
+                if (animator == null) animator = visual.gameObject.AddComponent<Animator>();
+                animator.runtimeAnimatorController = AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(ControllerPath);
+                animator.enabled = true;
 
                 Health health = root.GetComponent<Health>();
                 if (health != null)

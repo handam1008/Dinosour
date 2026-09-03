@@ -127,32 +127,6 @@ MonoBehaviour:
       m_SpriteOverride: {fileID: -2436804021803932963, guid: 3bed1797d9597294db79e7750f0dbf71, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 0
-  - m_Name: Jump
-    m_Hash: 125937960
-    m_CategoryList: []
-    m_OverrideEntries:
-    - m_Name: 0
-      m_Hash: 886824737
-      m_Sprite: {fileID: 0}
-      m_FromMain: 0
-      m_SpriteOverride: {fileID: 4281637774074219296, guid: e9e99bc74a4ce5c4fa279fd81bbc02aa, type: 3}
-    - m_Name: 1
-      m_Hash: 64810935
-      m_Sprite: {fileID: 0}
-      m_FromMain: 0
-      m_SpriteOverride: {fileID: -7862396843884538191, guid: e9e99bc74a4ce5c4fa279fd81bbc02aa, type: 3}
-    - m_Name: 2
-      m_Hash: 450215437
-      m_Sprite: {fileID: 0}
-      m_FromMain: 0
-      m_SpriteOverride: {fileID: 8276514422256456541, guid: e9e99bc74a4ce5c4fa279fd81bbc02aa, type: 3}
-    - m_Name: 3
-      m_Hash: 768773787
-      m_Sprite: {fileID: 0}
-      m_FromMain: 0
-      m_SpriteOverride: {fileID: -3697937850672776721, guid: e9e99bc74a4ce5c4fa279fd81bbc02aa, type: 3}
-    m_FromMain: 0
-    m_EntryOverrideCount: 0
   - m_Name: EggMove
     m_Hash: 468997701
     m_CategoryList: []
@@ -232,5 +206,5 @@ MonoBehaviour:
     m_FromMain: 0
     m_EntryOverrideCount: 0
   m_PrimaryLibraryGUID: 
-  m_ModificationHash: 639240532330915654
+  m_ModificationHash: 639240572040462131
   m_Version: 1

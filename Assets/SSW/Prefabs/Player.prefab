@@ -105,9 +105,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 55817655766109941}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 31bf987943861b040bd4ce89020e91e2, type: 2}
+  m_Controller: {fileID: 9100000, guid: c6e36a1a6ff08784e927f3d76a47ae00, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -163,10 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SSW.DinosaurVisualController
   _playHatchOnStart: 1
   _hatchDuration: 3
-  _framesPerSecond: 12
   _hurtDuration: 0.35
-  _eggLift: 0.08
-  _eggTilt: 7
 --- !u!1 &1526564145528884567
 GameObject:
   m_ObjectHideFlags: 0

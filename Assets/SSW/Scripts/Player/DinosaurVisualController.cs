@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,38 +9,32 @@ namespace SSW
     [DisallowMultipleComponent]
     [RequireComponent(typeof(SpriteRenderer))]
     [RequireComponent(typeof(SpriteResolver))]
+    [RequireComponent(typeof(Animator))]
     public sealed class DinosaurVisualController : MonoBehaviour, ISpriteLibraryReceiver
     {
         const string Idle = "Idle";
         const string Move = "Move";
         const string Hurt = "Hurt";
         const string Dead = "Dead";
-        const string Jump = "Jump";
+        const string AirborneIdle = "AirborneIdle";
         const string EggMove = "EggMove";
-        const string EggCrack = "EggCrack";
-        const string EggHatch = "EggHatch";
 
         [SerializeField] bool _playHatchOnStart = true;
         [SerializeField, Min(0.1f)] float _hatchDuration = 3f;
-        [SerializeField, Min(1f)] float _framesPerSecond = 12f;
         [SerializeField, Min(0.05f)] float _hurtDuration = 0.35f;
-        [SerializeField] float _eggLift = 0.08f;
-        [SerializeField] float _eggTilt = 7f;
-
-        readonly Dictionary<string, int> _frameCounts = new Dictionary<string, int>();
 
         SpriteLibrary _spriteLibrary;
         SpriteResolver _resolver;
+        Animator _animator;
         Rigidbody2D _body;
         PlayerController _player;
         PlayerInput _input;
         Health _health;
         SpriteRenderer[] _accessories;
         Coroutine _hatchRoutine;
-        string _state;
-        int _frame;
-        float _frameTimer;
+        string _animation;
         float _hurtUntil;
+        float _normalAnimatorSpeed;
         bool _dead;
         bool _hatching;
         Vector3 _restPosition;
@@ -56,6 +49,7 @@ namespace SSW
         {
             _spriteLibrary = GetComponentInParent<SpriteLibrary>();
             _resolver = GetComponent<SpriteResolver>();
+            _animator = GetComponent<Animator>();
             _body = GetComponentInParent<Rigidbody2D>();
             _player = GetComponentInParent<PlayerController>();
             _input = GetComponentInParent<PlayerInput>();
@@ -64,10 +58,10 @@ namespace SSW
             _accessories = GetComponentsInChildren<SpriteRenderer>(true)
                 .Where(renderer => renderer != mainRenderer)
                 .ToArray();
+            _normalAnimatorSpeed = _animator.speed;
             _restPosition = transform.localPosition;
             _restRotation = transform.localRotation;
             _restScale = transform.localScale;
-            CacheFrameCounts();
         }
 
         void OnEnable()
@@ -81,13 +75,13 @@ namespace SSW
 
         IEnumerator Start()
         {
-            if (_playHatchOnStart && HasState(EggMove) && HasState(EggCrack) && HasState(EggHatch))
+            if (_playHatchOnStart && HasAnimation(EggMove))
             {
                 _hatchRoutine = StartCoroutine(PlayHatch());
                 yield break;
             }
 
-            SetState(Idle);
+            PlayAnimation(Idle, true);
         }
 
         void Update()
@@ -97,22 +91,17 @@ namespace SSW
                 SetAccessoriesVisible(false);
                 return;
             }
-            if (_dead)
-            {
-                AdvanceFrame(Time.deltaTime, false);
-                return;
-            }
+
+            if (_dead) return;
 
             if (Time.time < _hurtUntil)
-                SetState(Hurt);
+                PlayAnimation(Hurt);
             else if (_player != null && !_player.IsGrounded)
-                SetState(Jump);
+                PlayAnimation(AirborneIdle);
             else if (_body != null && Mathf.Abs(_body.linearVelocity.x) > 0.08f)
-                SetState(Move);
+                PlayAnimation(Move);
             else
-                SetState(Idle);
-
-            AdvanceFrame(Time.deltaTime, _state == Idle || _state == Move || _state == Hurt);
+                PlayAnimation(Idle);
         }
 
         void OnDisable()
@@ -126,6 +115,9 @@ namespace SSW
             if (_hatchRoutine != null)
                 StopCoroutine(_hatchRoutine);
 
+            if (_animator != null)
+                _animator.speed = _normalAnimatorSpeed;
+
             RestoreTransform();
             _hatchRoutine = null;
             _hatching = false;
@@ -138,17 +130,14 @@ namespace SSW
             if (_spriteLibrary == null) return;
 
             _spriteLibrary.spriteLibraryAsset = library;
-            CacheFrameCounts();
-            string nextState = HasState(_state) ? _state : Idle;
-            _state = null;
-            SetState(nextState);
+            _resolver?.ResolveSpriteToSpriteRenderer();
         }
 
         public void PlayHurt()
         {
             if (_dead || _hatching) return;
             _hurtUntil = Time.time + _hurtDuration;
-            SetState(Hurt);
+            PlayAnimation(Hurt, true);
         }
 
         public void PlayDead()
@@ -160,9 +149,12 @@ namespace SSW
                 StopCoroutine(_hatchRoutine);
                 _hatchRoutine = null;
             }
+
             _hatching = false;
+            if (_animator != null)
+                _animator.speed = _normalAnimatorSpeed;
             RestoreTransform();
-            SetState(Dead);
+            PlayAnimation(Dead, true);
         }
 
         IEnumerator PlayHatch()
@@ -174,106 +166,37 @@ namespace SSW
             if (_body != null)
                 _body.linearVelocity = new Vector2(0f, _body.linearVelocity.y);
 
-            float moveDuration = _hatchDuration * 0.4f;
-            float crackDuration = _hatchDuration * 0.27f;
-            float hatchDuration = Mathf.Max(0.05f, _hatchDuration - moveDuration - crackDuration);
+            _animator.speed = _normalAnimatorSpeed * (3f / _hatchDuration);
+            PlayAnimation(EggMove, true);
+            yield return new WaitForSeconds(_hatchDuration);
 
-            yield return PlayEggMove(moveDuration);
-            yield return PlaySequence(EggCrack, crackDuration);
-            yield return PlaySequence(EggHatch, hatchDuration);
-
+            _animator.speed = _normalAnimatorSpeed;
             RestoreTransform();
             _hatching = false;
             _hatchRoutine = null;
-            SetState(Idle);
+            PlayAnimation(Idle, true);
             SetAccessoriesVisible(true);
             if (restoreInput && _input != null && _input.enabled)
                 _input.ActivateInput();
         }
 
-        IEnumerator PlayEggMove(float duration)
+        void PlayAnimation(string animationName, bool restart = false)
         {
-            SetState(EggMove);
-            float elapsed = 0f;
-            while (elapsed < duration && !_dead)
-            {
-                elapsed += Time.deltaTime;
-                float wave = Mathf.Sin(elapsed * Mathf.PI * 4f);
-                transform.localPosition = _restPosition + Vector3.up * (Mathf.Abs(wave) * _eggLift);
-                transform.localRotation = _restRotation * Quaternion.Euler(0f, 0f, wave * _eggTilt);
-                AdvanceFrame(Time.deltaTime, true);
-                yield return null;
-            }
+            if (_animator == null || _animator.runtimeAnimatorController == null) return;
+            if (!restart && _animation == animationName) return;
+
+            int stateHash = Animator.StringToHash(animationName);
+            if (!_animator.HasState(0, stateHash)) return;
+
+            _animation = animationName;
+            _animator.Play(stateHash, 0, 0f);
         }
 
-        IEnumerator PlaySequence(string state, float duration)
+        bool HasAnimation(string animationName)
         {
-            SetState(state);
-            int count = GetFrameCount(state);
-            float step = duration / Mathf.Max(1, count);
-            for (int i = 0; i < count && !_dead; i++)
-            {
-                ShowFrame(i);
-                yield return new WaitForSeconds(step);
-            }
-        }
-
-        void SetState(string state)
-        {
-            if (string.IsNullOrEmpty(state) || _state == state) return;
-            if (!HasState(state)) state = Idle;
-            if (!HasState(state)) return;
-
-            _state = state;
-            _frame = 0;
-            _frameTimer = 0f;
-            ShowFrame(0);
-        }
-
-        void AdvanceFrame(float deltaTime, bool loop)
-        {
-            int count = GetFrameCount(_state);
-            if (count <= 1) return;
-
-            _frameTimer += deltaTime;
-            float frameDuration = 1f / _framesPerSecond;
-            while (_frameTimer >= frameDuration)
-            {
-                _frameTimer -= frameDuration;
-                if (_frame + 1 < count)
-                    _frame++;
-                else if (loop)
-                    _frame = 0;
-                ShowFrame(_frame);
-            }
-        }
-
-        void ShowFrame(int frame)
-        {
-            if (_resolver == null || string.IsNullOrEmpty(_state)) return;
-            _resolver.SetCategoryAndLabel(_state, frame.ToString());
-        }
-
-        void CacheFrameCounts()
-        {
-            _frameCounts.Clear();
-            SpriteLibraryAsset asset = CurrentSpriteLibrary;
-            if (asset == null) return;
-
-            foreach (string category in asset.GetCategoryNames())
-                _frameCounts[category] = asset.GetCategoryLabelNames(category).Count();
-        }
-
-        bool HasState(string state)
-        {
-            return !string.IsNullOrEmpty(state) && GetFrameCount(state) > 0;
-        }
-
-        int GetFrameCount(string state)
-        {
-            return !string.IsNullOrEmpty(state) && _frameCounts.TryGetValue(state, out int count)
-                ? count
-                : 0;
+            return _animator != null
+                && _animator.runtimeAnimatorController != null
+                && _animator.HasState(0, Animator.StringToHash(animationName));
         }
 
         void RestoreTransform()
