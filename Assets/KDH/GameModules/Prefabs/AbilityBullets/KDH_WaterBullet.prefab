@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6421783451949948362}
-  - component: {fileID: -1062821823386351943}
+  - component: {fileID: 553183413610602490}
   m_Layer: 0
-  m_Name: KDH_FireBullet
+  m_Name: KDH_WaterBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 591181081187748449}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-1062821823386351943
+--- !u!114 &553183413610602490
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,12 +42,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1891358268744537669}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81fae416815339846a031808d15c0026, type: 3}
+  m_Script: {fileID: 11500000, guid: 98b23b2bcc8442b78a2ac17c5a44a349, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH_FireBullet
-  dotDamage: 3
-  dotDamageCount: 6
-  <FireireDuration>k__BackingField: 3
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Upgrade.Instances.KDH_WaterBullet
   onHitPlayer:
     m_PersistentCalls:
       m_Calls:
@@ -64,7 +61,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  <BulletAbilityData>k__BackingField: {fileID: 11400000, guid: 373e97670dfd69142b4f943e121d9933, type: 2}
+  damage: 3
+  standardDistance: 10
 --- !u!1 &5708697399241599853
 GameObject:
   m_ObjectHideFlags: 0
@@ -75,7 +73,6 @@ GameObject:
   m_Component:
   - component: {fileID: 591181081187748449}
   - component: {fileID: 6519177347704296310}
-  - component: {fileID: 3553051641727006743}
   m_Layer: 0
   m_Name: Feedback
   m_TagString: Untagged
@@ -110,15 +107,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67594bf69cf4434ab4dff1d4f8158830, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.System.FeedbackSystem.KDH_FeedbackPlayer
---- !u!114 &3553051641727006743
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5708697399241599853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e33be57fda5c8bd4b8d4788600ec9d98, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH_FireBulletEffectFeedback
