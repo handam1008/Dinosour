@@ -1,4 +1,5 @@
 using SSW;
+using System.Collections;
 using UnityEngine;
 
 public class KHG_nomalAttack : MonoBehaviour
@@ -13,6 +14,12 @@ public class KHG_nomalAttack : MonoBehaviour
     private void Start()
     {
         attackCollider.enabled = false;
+        StartCoroutine(Attackroutine());
+    }
+
+    private IEnumerator Attackroutine()
+    {
+        yield return new WaitForSeconds(attackDelay);
     }
 
     private void Update()

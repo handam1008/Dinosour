@@ -20,13 +20,11 @@ public class KHG_SwordAttack : MonoBehaviour
 
     private void Start()
     {
-        // 대기 상태의 회전값 저장
         initialRotation = transform.localRotation;
     }
 
     private void Update()
     {
-        // 마우스 좌클릭(0) 시에만 공격
         if (Input.GetMouseButtonDown(0) && !isAttacking)
         {
             StartCoroutine(SwingRoutine());
@@ -40,7 +38,6 @@ public class KHG_SwordAttack : MonoBehaviour
         Quaternion windupRotation = initialRotation * Quaternion.Euler(0, 0, windupAngle);
         Quaternion targetRotation = initialRotation * Quaternion.Euler(0, 0, swingAngle);
 
-        // 1단계: 선패기 (칼을 살짝 뒤로 뺌)
         float elapsedTime = 0f;
         while (elapsedTime < windupTime)
         {
@@ -50,7 +47,6 @@ public class KHG_SwordAttack : MonoBehaviour
             yield return null;
         }
 
-        // 2단계: 빠른 베기
         elapsedTime = 0f;
         while (elapsedTime < swingTime)
         {
@@ -61,7 +57,6 @@ public class KHG_SwordAttack : MonoBehaviour
             yield return null;
         }
 
-        // 3단계: 원위치 복귀
         elapsedTime = 0f;
         while (elapsedTime < returnTime)
         {

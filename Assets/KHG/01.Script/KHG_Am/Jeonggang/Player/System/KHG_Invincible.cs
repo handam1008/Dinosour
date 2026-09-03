@@ -49,6 +49,7 @@ public class KHG_Invincible : MonoBehaviour
         );
 
         invincibleCoroutine = null;
+        Debug.Log("성공");
     }
 
     private void OnDisable()
