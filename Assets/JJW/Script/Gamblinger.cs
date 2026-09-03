@@ -1,13 +1,13 @@
 using System;
+using NKY.Lib.EventChannel;
 using UnityEngine;
 
 public class Gamblinger : MonoBehaviour
 {
-    //[SerializeField] private 
+    [SerializeField] private VoidEventChannelSO _OnJackpot;
+    [SerializeField] private VoidEventChannelSO _OnJackpotEnd;
     public bool Isjackpot { get; private set; }
-    public event Action OnJackpot;
-    public event Action OnJackpotEnd;
-    
-    public void JackPot() => OnJackpot?.Invoke();
-    public void JackPotEnd() => OnJackpotEnd?.Invoke();
+
+    public void JackPot() => _OnJackpot?.Raise();
+    public void JackPotEnd() => _OnJackpotEnd?.Raise();
 }
