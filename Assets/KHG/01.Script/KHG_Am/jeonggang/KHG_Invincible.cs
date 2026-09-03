@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class KHG_Invincible : MonoBehaviour
 {
-    private KHG_Dash dash;
+    [SerializeField] private float postDashInvincibleTime = 1f; 
 
+    private KHG_Dash dash;
     private int playerLayer;
     private int bulletLayer;
 
     private Coroutine invincibleCoroutine;
+    private bool wasDashing = false;
 
     private void Awake()
     {
@@ -20,13 +22,18 @@ public class KHG_Invincible : MonoBehaviour
 
     private void Update()
     {
-        if (dash != null && dash.IsDashing)
+        if (dash == null) return;
+
+        if (dash.IsDashing && !wasDashing)
         {
-            if (invincibleCoroutine == null)
+            if (invincibleCoroutine != null)
             {
-                invincibleCoroutine = StartCoroutine(InvincibleRoutine());
+                StopCoroutine(invincibleCoroutine);
             }
+            invincibleCoroutine = StartCoroutine(InvincibleRoutine());
         }
+
+        wasDashing = dash.IsDashing;
     }
 
     private IEnumerator InvincibleRoutine()
@@ -34,6 +41,8 @@ public class KHG_Invincible : MonoBehaviour
         Physics2D.IgnoreLayerCollision(playerLayer, bulletLayer, true);
 
         yield return new WaitUntil(() => !dash.IsDashing);
+
+        yield return new WaitForSeconds(postDashInvincibleTime);
 
         Physics2D.IgnoreLayerCollision(playerLayer, bulletLayer, false);
 
@@ -44,5 +53,6 @@ public class KHG_Invincible : MonoBehaviour
     {
         Physics2D.IgnoreLayerCollision(playerLayer, bulletLayer, false);
         invincibleCoroutine = null;
+        wasDashing = false;
     }
 }

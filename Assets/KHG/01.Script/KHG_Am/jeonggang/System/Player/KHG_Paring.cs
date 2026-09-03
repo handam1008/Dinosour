@@ -53,11 +53,9 @@ public class KHG_Paring : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // 패링 중이 아니면 무시
         if (!isParrying)
             return;
 
-        // Bullet 태그가 아니면 무시
         if (!other.CompareTag("Bullet"))
             return;
 
@@ -69,20 +67,16 @@ public class KHG_Paring : MonoBehaviour
             return;
         }
 
-        // 현재 총알의 이동 방향
         Vector2 incomingDirection = bulletRb.linearVelocity.normalized;
 
-        // 총알이 움직이고 있지 않다면 무시
         if (incomingDirection == Vector2.zero)
         {
             Debug.LogWarning("총알의 속도가 0이라 패링할 수 없습니다.");
             return;
         }
 
-        // 총알이 오던 방향의 정반대
         Vector2 reflectDirection = -incomingDirection;
 
-        // 반대 방향으로 발사
         bulletRb.linearVelocity = reflectDirection * reflectSpeed;
 
         Debug.Log(
@@ -91,7 +85,6 @@ public class KHG_Paring : MonoBehaviour
             " / 반사 방향 = " + reflectDirection
         );
 
-        // 패링 성공 이벤트 실행
         OnParrySuccess?.Invoke();
     }
 }
