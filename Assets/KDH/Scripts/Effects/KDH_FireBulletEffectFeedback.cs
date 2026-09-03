@@ -5,12 +5,9 @@ using UnityEngine;
 
 public class KDH_FireBulletEffectFeedback : KDH_AbstractFeedback
 {
-    private Transform _target;
-
-    private KDH_FireBullet _parent;
-
     private GameObject effect;
-
+    private Transform _target;
+    private KDH_FireBullet _parent;
     private KDH_FollowPlayerEffect followModule;
     
     private void Awake()
@@ -26,6 +23,8 @@ public class KDH_FireBulletEffectFeedback : KDH_AbstractFeedback
 
     public override void CreateFeedBack()
     {
+        followModule = effect.GetComponent<KDH_FollowPlayerEffect>();
+        followModule.Init(_target);
         _target = _parent.HitPoint;
             
         if (_target == null)
@@ -35,21 +34,12 @@ public class KDH_FireBulletEffectFeedback : KDH_AbstractFeedback
         {
             effect = Instantiate(_parent.BulletAbilityData.bulletUpgradedEffectPrefab, _target.position,
                 Quaternion.identity);
-                
-            followModule = effect.GetComponent<KDH_FollowPlayerEffect>();
-            followModule.Init(_target);
-
-            
             Destroy(effect, _parent.FireireDuration);
         }
         else
         {
             effect = Instantiate(_parent.BulletAbilityData.bulletNormalEffectPrefab, _target.position,
                 Quaternion.identity);
-                
-            followModule = effect.GetComponent<KDH_FollowPlayerEffect>();
-            followModule.Init(_target);
-            
             Destroy(effect, _parent.FireireDuration);
         }
     }

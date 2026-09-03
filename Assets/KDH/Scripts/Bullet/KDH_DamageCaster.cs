@@ -22,18 +22,21 @@ namespace KDH.Scripts.Bullet
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
+            
             if (collision.TryGetComponent(out IDamageable _))
             {
+                bullet.PlayerGun.UpgradeList.ApplyBulletAbility(collision, bullet); // 증강에 적용된 총알들의 능력을 모두 적용
+                
+                if (bullet.PlayerGun.UpgradeList.bulletAbiliytList.Count != 0) return; 
                 if (bullet.IsUpgraded)
                 {
                     if (collision.TryGetComponent<IDamageable>(out var damageable))
                         damageable.TakeDamage(damage * upgradValue);
                 }
-
+                
                 if (collision.TryGetComponent<IDamageable>(out var dmg))
                     dmg.TakeDamage(damage);
 
-                bullet.PlayerGun.UpgradeList.ApplyBulletAbility(collision, bullet); // 증강에 적용된 총알들의 능력을 모두 적용
             }
         }
     }

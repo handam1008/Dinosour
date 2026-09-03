@@ -16,10 +16,14 @@ namespace KDH.Scripts.Upgrade.Instances
         private Transform _startPos;
         private Transform _endPos;
         
+        [field: SerializeField] public KDH_BulletAbilityDataSO BulletAbilityData { get; private set; }
+        
+        public Transform HitPoint { get; private set; }
+        
         public override void BulletAbility(Collider2D collision, KDH_Bullet bullet)
         {
             Bullet = bullet;
-
+            HitPoint = collision.transform;
             _startPos = Bullet.PlayerGun.transform;
             
             _endPos = collision.gameObject.transform;
@@ -37,7 +41,7 @@ namespace KDH.Scripts.Upgrade.Instances
             float distance = direction.magnitude;
             
             if (collision.TryGetComponent(out IDamageable damageable))
-                damageable.TakeDamage(damage * distance);
+                damageable.TakeDamage(damage * distance + Bullet.Damage);
         }
     }
 }
