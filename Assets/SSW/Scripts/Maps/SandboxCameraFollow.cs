@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SSW
 {
-    public class SandboxCameraFollow : MonoBehaviour
+    public class SandboxCameraFollow : MonoBehaviour, ICameraShakeReceiver
     {
         [SerializeField] Transform _player;
         [SerializeField] Transform _opponent;
@@ -17,6 +17,11 @@ namespace SSW
         Vector3 _velocity;
         float _sizeVelocity;
         float _introStartedAt;
+        float _shakeRemaining;
+        float _shakeDuration;
+        float _shakeStrength;
+        float _shakeSeed;
+        Vector3 _shakeOffset;
 
         public void SetTargets(Transform player, Transform opponent)
         {
@@ -33,7 +38,30 @@ namespace SSW
 
         void LateUpdate()
         {
-            if (_player == null) return;
+            RemoveShakeOffset();
+
+            if (_player != null)
+                UpdateFollowPosition();
+
+            ApplyShake();
+        }
+
+        public void Shake(float strength, float duration)
+        {
+            strength = Mathf.Max(0f, strength);
+            duration = Mathf.Max(0f, duration);
+            if (strength <= 0f || duration <= 0f) return;
+
+            if (_shakeRemaining <= 0f)
+                _shakeSeed = Random.Range(0f, 1000f);
+
+            _shakeStrength = Mathf.Max(_shakeStrength, strength);
+            _shakeDuration = Mathf.Max(_shakeDuration, duration);
+            _shakeRemaining = Mathf.Max(_shakeRemaining, duration);
+        }
+
+        void UpdateFollowPosition()
+        {
 
             Vector3 opponentPosition = _opponent != null ? _opponent.position : _player.position;
             Vector3 focus = (_player.position + opponentPosition) * 0.5f;
@@ -54,6 +82,40 @@ namespace SSW
             float easedProgress = 1f - Mathf.Pow(1f - introProgress, 3f);
             float desiredSize = Mathf.Lerp(_introSize, combatSize, easedProgress);
             camera.orthographicSize = Mathf.SmoothDamp(camera.orthographicSize, desiredSize, ref _sizeVelocity, 0.16f, Mathf.Infinity, Time.unscaledDeltaTime);
+        }
+
+        void ApplyShake()
+        {
+            if (_shakeRemaining <= 0f) return;
+
+            _shakeOffset = CameraShakeFeedback.SampleOffset(
+                _shakeSeed,
+                _shakeRemaining,
+                _shakeDuration,
+                _shakeStrength);
+            transform.position += _shakeOffset;
+
+            _shakeRemaining = Mathf.Max(0f, _shakeRemaining - Time.unscaledDeltaTime);
+            if (_shakeRemaining <= 0f)
+            {
+                _shakeDuration = 0f;
+                _shakeStrength = 0f;
+            }
+        }
+
+        void OnDisable()
+        {
+            RemoveShakeOffset();
+            _shakeRemaining = 0f;
+            _shakeDuration = 0f;
+            _shakeStrength = 0f;
+        }
+
+        void RemoveShakeOffset()
+        {
+            if (_shakeOffset == Vector3.zero) return;
+            transform.position -= _shakeOffset;
+            _shakeOffset = Vector3.zero;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace SSW
         AugmentDrafter _augmentDrafter;
         Defance _defance;
 
-        private bool _lock;
+        private bool _lock;//개그지같이 짰네
         private bool _blinking;
 
         private void Awake()
