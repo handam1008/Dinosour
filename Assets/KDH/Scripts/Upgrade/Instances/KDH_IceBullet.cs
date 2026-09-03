@@ -26,7 +26,6 @@ namespace KDH.Scripts.Upgrade.Instances
                 if (bullet.IsUpgraded)
                 {
                     slowable.ApplySlow(slowAmount * bullet.UpgradValue, slowDuration * bullet.UpgradValue);
-                    StartCoroutine(TakeDamageDelay(collision, 1 * bullet.UpgradValue, slowDuration * bullet.UpgradValue));
                     HitPoint = collision.transform;
                     Bullet = bullet;
                     
@@ -34,26 +33,11 @@ namespace KDH.Scripts.Upgrade.Instances
                     return;
                 }
                 
-                StartCoroutine(TakeDamageDelay(collision, 1, slowDuration));
                 slowable.ApplySlow(slowAmount, slowDuration);
                 HitPoint = collision.transform;
                 Bullet = bullet;
                 
                 onHitPlayer?.Invoke();
-            }
-        }
-
-        private IEnumerator TakeDamageDelay(Collider2D collision, float damage, float duration) // 나중에 뺄 거임
-        {
-            int count = BulletAbilityData.damage;
-
-            for (int i = 0; i < count; i++)
-            {
-                yield return new WaitForSeconds(duration / count);
-                if (collision.TryGetComponent(out IDamageable damageable))
-                {
-                    damageable.TakeDamage(damage);
-                }
             }
         }
     }

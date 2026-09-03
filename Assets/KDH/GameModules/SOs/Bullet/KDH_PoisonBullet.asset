@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8a05fe156834b90963d51b25dc8ee47, type: 3}
   m_Name: KDH_PoisonBullet
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Upgrade.KDH_BulletAbilityDataSO
-  abilityName: 
-  abilityDescription: 
-  damage: 0
-  bulletAbilityPrefab: {fileID: 0}
-  bulletNormalEffectPrefab: {fileID: 0}
-  bulletUpgradedEffectPrefab: {fileID: 0}
-  bulletTrailEffectPrefab: {fileID: 0}
+  abilityName: "\uB3C5\uADF9\uD0C4"
+  abilityDescription: "\uCD1D\uC54C\uC774 \uC801\uC911 \uC2DC \uC0C1\uB300\uC5D0\uAC8C
+    \uB3C5 \uC0C1\uD0DC\uB97C \uC801\uC6A9\uD558\uBA70 \uC9C0\uC18D\uC801\uC778 \uB370\uBBF8\uC9C0\uB97C
+    \uC785\uD798."
+  bulletAbilityPrefab: {fileID: 1891358268744537669, guid: d698b34cd309160489bfd8300ce61fda, type: 3}
+  bulletNormalEffectPrefab: {fileID: 9106091713923166320, guid: 1393e76dca5093d42a02c966d7d06b91, type: 3}
+  bulletUpgradedEffectPrefab: {fileID: 9106091713923166320, guid: 7a7f226ec32090b4ab08950539c54d61, type: 3}
+  bulletTrailEffectPrefab: {fileID: 8914320711568083332, guid: 721eece6c02e203498d301f31b046e5a, type: 3}

@@ -16,7 +16,7 @@ MonoBehaviour:
   abilityDescription: "\uCD1D\uC54C\uC774 \uC801\uC911 \uC2DC \uC0C1\uB300\uC5D0\uAC8C
     \uD654\uC0C1 \uC0C1\uD0DC\uB97C \uC801\uC6A9\uD558\uBA70 \uD654\uC0C1 \uC0C1\uD0DC\uAC00
     \uB418\uBA74 \uC9C0\uC18D\uC801\uC778 \uB370\uBBF8\uC9C0\uB97C \uC785\uC2B5\uB2C8\uB2E4."
-  damage: 20
+  damage: 30
   bulletAbilityPrefab: {fileID: 1891358268744537669, guid: 3584e567c87c89e45994d6c4c992f72a, type: 3}
   bulletNormalEffectPrefab: {fileID: 9106091713923166320, guid: e92af01f7abf9b8479005c43a08f5642, type: 3}
   bulletUpgradedEffectPrefab: {fileID: 9106091713923166320, guid: 527c7f4545297874c906168c2846b58d, type: 3}
