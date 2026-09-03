@@ -144,12 +144,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 161808976}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.47615, y: -1.626, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.70615, y: 1.4739999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 225520120250033084}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &161808978
 MonoBehaviour:
@@ -166,14 +166,14 @@ MonoBehaviour:
   potions:
   - {fileID: 11400000, guid: e09cecff22f50914ba053ab69b73bc1a, type: 2}
   - {fileID: 11400000, guid: 8b3a8e363b55d5248885f75f5219e656, type: 2}
-  - {fileID: 11400000, guid: ddc2279767a763b4ba8315bb0759968a, type: 2}
-  - {fileID: 11400000, guid: ed59b73987670fe479b4cc85e75f9ece, type: 2}
   - {fileID: 11400000, guid: 2e90569caf8abe941b62c496a77d9b3a, type: 2}
   - {fileID: 11400000, guid: 351ce3079f8377a4580c55fa790136fa, type: 2}
   Hand: {fileID: 340620726}
   PlayerUp: {fileID: 1141280781}
   potionSpeed: 15
   Angle: 0.3
+  cycleTime: 1.5
+  spreadAngle: 24
   canCreate: 0
   canHand: 0
 --- !u!4 &340620726 stripped
@@ -545,9 +545,89 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2135737490050164936, guid: e54ec2723d3f63a488156219bf284104, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 161808977}
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8344356039665309093, guid: e54ec2723d3f63a488156219bf284104, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 225520120250033093}
+    - targetCorrespondingSourceObject: {fileID: 8344356039665309093, guid: e54ec2723d3f63a488156219bf284104, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 225520120250033094}
+    - targetCorrespondingSourceObject: {fileID: 8344356039665309093, guid: e54ec2723d3f63a488156219bf284104, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 225520120250033103}
   m_SourcePrefab: {fileID: 100100000, guid: e54ec2723d3f63a488156219bf284104, type: 3}
+--- !u!1 &225520120250033082 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8344356039665309093, guid: e54ec2723d3f63a488156219bf284104, type: 3}
+  m_PrefabInstance: {fileID: 225520120250033081}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &225520120250033084 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2135737490050164936, guid: e54ec2723d3f63a488156219bf284104, type: 3}
+  m_PrefabInstance: {fileID: 225520120250033081}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &225520120250033093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225520120250033082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4276e4316744938b93cb904dd03788e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.Argument.WitchAugmentController
+  _wideSpray: 1.5
+  _thickBrew: 1.25
+  _precisionPower: 0.5
+  _precisionCount: 3
+  _bounceCount: 1
+  _cycleSpeedUp: 0.6
+--- !u!114 &225520120250033094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225520120250033082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63a0e5797e5244548bf0f5924577b25e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.Argument.WitchLifesteal
+  _healRate: 0.15
+--- !u!114 &225520120250033103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225520120250033082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5b4fbb7365141758dcb3f233f981c42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.HealthAugmentController
+  _giantHpBonus: 0.55
+  _giantScaleBonus: 0.1
+  _glassCannonHpPenalty: 0.3
+  _glassCannonDamageBonus: 1.8
+  _glassCannonScalePenalty: 0.1
+  _phoenixHpPenalty: 0.25
+  _phoenixInvulnTime: 0.5
+  _phoenixScalePenalty: 0.08
+  _vampireHealRate: 0.55
+  _confidenceSpeedBonus: 0.3
+  _confidenceDuration: 2
+  _berserkerHpRatio: 0.75
+  _berserkerAtkSpeedBonus: 0.45
+  _berserkerDamageBonus: 0.6
+  _deathWaltzSpreadTime: 5
 --- !u!1 &2839131585212751470
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,5 +845,4 @@ SceneRoots:
   - {fileID: 1007378575}
   - {fileID: 225520120250033081}
   - {fileID: 1391914335}
-  - {fileID: 161808977}
   - {fileID: 3017196835522893632}

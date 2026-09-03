@@ -11,6 +11,9 @@ GameObject:
   - component: {fileID: 5450423497124711831}
   - component: {fileID: 3969228556489866662}
   - component: {fileID: 3063295263566936514}
+  - component: {fileID: 7975647304814705573}
+  - component: {fileID: 805594027675723003}
+  - component: {fileID: 7743406423415689413}
   m_Layer: 0
   m_Name: Visual
   m_TagString: Untagged
@@ -104,7 +107,7 @@ Animator:
   m_GameObject: {fileID: 55817655766109941}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 31bf987943861b040bd4ce89020e91e2, type: 2}
+  m_Controller: {fileID: 9100000, guid: c6e36a1a6ff08784e927f3d76a47ae00, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -116,6 +119,51 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7975647304814705573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 55817655766109941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 98641e8b64336974aa4795b72c861a16, type: 3}
+--- !u!114 &805594027675723003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 55817655766109941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
+  m_CategoryHash: 0.009161512
+  m_labelHash: 0.00000040954276
+  m_SpriteKey: 0
+  m_SpriteHash: 288431053
+--- !u!114 &7743406423415689413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 55817655766109941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d00d2b94fe4cf7941aedbaed0fc24a2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.DinosaurVisualController
+  _playHatchOnStart: 1
+  _hatchDuration: 3
+  _hurtDuration: 0.35
 --- !u!1 &1526564145528884567
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,6 +407,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _moveSpeed: 7
   _jumpForce: 12
+  _externalVelocityDecay: 12
+  _counterMoveBrake: 30
   _whatIsGround:
     serializedVersion: 2
     m_Bits: 256
@@ -377,6 +427,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 100
   _disableOnDeath: 1
+  _deathDisableDelay: 0.8
   _healthBarResourceName: HealthBarUI
   _damageNumberResourceName: DamageNumberUI
   _healthBarPadding: 0.15

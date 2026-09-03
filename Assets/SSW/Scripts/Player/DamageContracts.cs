@@ -15,7 +15,6 @@ namespace SSW
         IgnoreDefense = 1 << 5
     }
 
-    /// <summary>Everything a receiver needs to decide how damage is handled.</summary>
     public readonly struct DamageRequest
     {
         public DamageRequest(
@@ -41,7 +40,6 @@ namespace SSW
         }
     }
 
-    /// <summary>Actual outcome after defense and health clamping.</summary>
     public readonly struct DamageResult
     {
         public DamageResult(float requestedAmount, float appliedAmount, bool wasLethal)
@@ -63,20 +61,17 @@ namespace SSW
         DamageResult ReceiveDamage(DamageRequest request);
     }
 
-    /// <summary>Defense, invulnerability, delayed damage, and similar receive-side rules.</summary>
     public interface IIncomingDamageModifier
     {
         int Priority { get; }
         float ModifyIncomingDamage(DamageRequest request, float currentAmount);
     }
 
-    /// <summary>Attach to an attacker to react to the resolved result (lifesteal, quests, marks).</summary>
     public interface IDamageDealtListener
     {
         void OnDamageDealt(DamageRequest request, DamageResult result);
     }
 
-    /// <summary>Attach to a target to react after damage is resolved (escape speed, retaliation).</summary>
     public interface IDamageReceivedListener
     {
         void OnDamageReceived(DamageRequest request, DamageResult result);

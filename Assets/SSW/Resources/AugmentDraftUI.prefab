@@ -322,9 +322,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SSW.JobRewardPanelUI
   _icon: {fileID: 2673729251891025318}
   _nameText: {fileID: 976934738980926421}
+  _descriptionText: {fileID: 0}
   _slideDistance: 420
   _showDelay: 1.1
   _duration: 0.4
+  _expandedSize: {x: 520, y: 260}
+  _expandedScale: 1.04
+  _biteDuration: 0.08
+  _expandDuration: 0.22
+  _settleDuration: 0.09
+  _collapseDuration: 0.16
+  _biteHeight: 0.68
+  _expandedColor: {r: 0.07, g: 0.07, b: 0.1, a: 0.99}
 --- !u!1 &1607963517694919303
 GameObject:
   m_ObjectHideFlags: 0

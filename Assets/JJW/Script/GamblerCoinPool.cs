@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GamblerCoinPool : MonoBehaviour
 {
-    [Header("Pool Settings")]
+        [Header("Pool Settings")]
         [SerializeField] private GamblerCoinProjectile coinPrefab;
         [Min(0)]
         [SerializeField] private int initialSize = 10;

@@ -1,5 +1,3 @@
-﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace RYU._01.Script.FeedBack
@@ -7,23 +5,23 @@ namespace RYU._01.Script.FeedBack
     public class EffectPlayer : AbstractFeedBack
     {
         [SerializeField] private GameObject _glassEffect;
-        public override void CreateFeedBack(Vector3 pos)
-        {
-            GameObject effectGo = Instantiate(_glassEffect , pos, Quaternion.identity);
-            ParticleSystem effect = effectGo.GetComponent<ParticleSystem>();
-            effect.Play();
-        }
 
-        
+        public override void CreateFeedBack(Vector3 pos, float scale)
+        {
+            if (_glassEffect == null) return;
+
+            GameObject effectGo = Instantiate(_glassEffect, pos, Quaternion.identity);
+
+            // 넓은 살포면 이펙트도 같이 커진다.
+            // 파티클 Main > Scaling Mode 가 Local 또는 Hierarchy 여야 적용된다.
+            effectGo.transform.localScale *= scale;
+
+            ParticleSystem effect = effectGo.GetComponent<ParticleSystem>();
+            if (effect != null) effect.Play();
+        }
 
         public override void StopFeedBack()
         {
-            
-        }
-
-        public void hit(Transform hit)
-        {
-            
         }
     }
 }

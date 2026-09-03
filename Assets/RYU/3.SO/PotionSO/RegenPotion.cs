@@ -1,6 +1,4 @@
-using System.Collections;
 using RYU._01.Script.Potions;
-using SSW;
 using UnityEngine;
 
 namespace RYU._3.SO.PotionSO
@@ -10,11 +8,15 @@ namespace RYU._3.SO.PotionSO
     {
         [SerializeField] private int healCount = 2;
         [SerializeField] private float healTime = 0.7f;
-   
-        public override void Use(GameObject target, Component source)
+
+        public override void Use(GameObject target, Component source, PotionModifiers mods)
         {
             OverTimeRunner runner = target.GetComponentInParent<OverTimeRunner>();
-            if (runner != null) runner.Run(new HealTick(amount, source), healCount, healTime);
+            if (runner == null) return;
+
+            // 진한 농도: 틱 간격은 그대로 두고 횟수를 늘린다
+            int count = Mathf.Max(1, Mathf.RoundToInt(healCount * mods.TickCount));
+            runner.Run(new HealTick(amount * mods.Power, source), count, healTime);
         }
     }
 }

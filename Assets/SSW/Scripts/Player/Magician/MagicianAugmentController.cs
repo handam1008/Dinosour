@@ -5,7 +5,7 @@ using DG.Tweening;
 namespace SSW
 {
     [DisallowMultipleComponent]
-    public class MagicianAugmentController : AugmentReceiverBehaviour
+    public class MagicianAugmentController : AugmentReceiverBehaviour, IAugmentCooldownProvider
     {
         [SerializeField] NumberRoller _numberRoller;
         [SerializeField] float _quickShuffleTickMultiplier = 1.15f;
@@ -36,6 +36,7 @@ namespace SSW
         Suit _lastHitSuit;
         int _chainCount;
         bool _chainStarted;
+        JobAugmentHUD _augmentHud;
 
         public override PlayerJob Job => PlayerJob.Magician;
 
@@ -58,7 +59,12 @@ namespace SSW
                 return false;
             }
 
-            _acquired.Add(magicianAugment.type);
+            if (_acquired.Add(magicianAugment.type))
+            {
+                EnsureAugmentHud();
+                _augmentHud.AddAugment(magicianAugment);
+            }
+
             return true;
         }
 
@@ -73,6 +79,39 @@ namespace SSW
         public bool Has(MagicianAugmentType type)
         {
             return IsJobActive && _acquired.Contains(type);
+        }
+
+        public bool TryGetCooldown(Augment augment, out float remaining, out float duration)
+        {
+            remaining = 0f;
+            duration = 0f;
+
+            if (augment is not MagicianAugment magicianAugment
+                || !_acquired.Contains(magicianAugment.type))
+            {
+                return false;
+            }
+
+            switch (magicianAugment.type)
+            {
+                case MagicianAugmentType.EmergencyMagic:
+                    duration = _emergencyCooldown;
+                    remaining = Mathf.Max(_emergencyReadyTime - Time.time, 0f);
+                    return true;
+
+                case MagicianAugmentType.MirrorCard:
+                    duration = _mirrorCooldown;
+                    remaining = Mathf.Max(_mirrorReadyTime - Time.time, 0f);
+                    return true;
+
+                case MagicianAugmentType.JokerCard:
+                    duration = _jokerInterval;
+                    remaining = _jokerArmed ? 0f : Mathf.Max(_jokerInterval - _jokerTimer, 0f);
+                    return true;
+
+                default:
+                    return false;
+            }
         }
 
         public float ConsumeEmergencyHealBonus()
@@ -139,6 +178,27 @@ namespace SSW
             _chainCount = 0;
             _jokerArmed = false;
             _jokerTimer = 0f;
+            if (_augmentHud != null) _augmentHud.SetJobVisible(false);
+        }
+
+        protected override void OnJobActivated()
+        {
+            if (_augmentHud != null) _augmentHud.SetJobVisible(true);
+        }
+
+        void EnsureAugmentHud()
+        {
+            if (_augmentHud == null)
+            {
+                PlayerIdentity owner = GetComponentInParent<PlayerIdentity>();
+                GameObject hudOwner = owner != null ? owner.gameObject : gameObject;
+                _augmentHud = hudOwner.GetComponent<JobAugmentHUD>();
+                if (_augmentHud == null)
+                    _augmentHud = hudOwner.AddComponent<JobAugmentHUD>();
+            }
+
+            _augmentHud.Configure(this);
+            _augmentHud.SetJobVisible(IsJobActive);
         }
     }
 }
