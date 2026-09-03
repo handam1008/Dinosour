@@ -888,6 +888,10 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3969228556489866662, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 8793639957104055765, guid: 7890a4cec8822834ab06e4ee84b366fd, type: 3}
     - target: {fileID: 4861530811025970792, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       propertyPath: _job
       value: 3
@@ -904,6 +908,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 7975647304814705573, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      propertyPath: m_SpriteLibraryAsset
+      value: 
+      objectReference: {fileID: 7108339969198208228, guid: cd9ad8ecabae9824e8fb222d59df9fdb, type: 3}
     - target: {fileID: 8266417094143573563, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       propertyPath: _jobPool
       value: 
@@ -936,6 +944,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7686893401743090280, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 950063080}
+    - targetCorrespondingSourceObject: {fileID: 7686893401743090280, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 950063081}
   m_SourcePrefab: {fileID: 100100000, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
 --- !u!1 &950063044 stripped
 GameObject:
@@ -954,6 +965,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20f55a213b3d3c74eb0018f348afe6e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KHG_Dash
+  _dashSpeed: 20
+  _dashDuration: 0.2
+  _dashCooldown: 1
+  damage: 5
+  enemyLayer:
+    m_Bits: 0
 --- !u!114 &950063058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -980,7 +997,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b12f3212e9c33646b811e74c07baddf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KHG_Invincible
-  invincibleDuration: 0.2
 --- !u!114 &950063080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1000,6 +1016,21 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
+--- !u!114 &950063081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950063044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 212e652f9a5ff7643ade73c68ee303d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KHG_DashAttackUp
+  paringScript: {fileID: 2015783039}
+  dashScript: {fileID: 950063080}
+  damageMultiplier: 30
 --- !u!1 &1028768279
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,7 +1305,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7686893401743090280, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8266417094143573563, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       propertyPath: _jobPool
@@ -2250,7 +2281,7 @@ Transform:
   m_GameObject: {fileID: 2015783035}
   serializedVersion: 2
   m_LocalRotation: {x: 0.26086256, y: 0.96537596, z: -0, w: 0}
-  m_LocalPosition: {x: 1.549, y: 1.453, z: 0}
+  m_LocalPosition: {x: -0.2, y: 0.95, z: 0}
   m_LocalScale: {x: 1.2301002, y: 1.1360472, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

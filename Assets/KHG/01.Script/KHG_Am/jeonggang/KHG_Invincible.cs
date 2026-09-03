@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class KHG_Invincible : MonoBehaviour
 {
-    [Header("대쉬 무적 설정")]
-    [SerializeField] private float invincibleDuration = 0.2f;
-
     private KHG_Dash dash;
 
     private int playerLayer;
@@ -34,30 +31,18 @@ public class KHG_Invincible : MonoBehaviour
 
     private IEnumerator InvincibleRoutine()
     {
-        Physics2D.IgnoreLayerCollision(
-            playerLayer,
-            bulletLayer,
-            true
-        );
+        Physics2D.IgnoreLayerCollision(playerLayer, bulletLayer, true);
 
-        yield return new WaitForSeconds(invincibleDuration);
+        yield return new WaitUntil(() => !dash.IsDashing);
 
-        Physics2D.IgnoreLayerCollision(
-            playerLayer,
-            bulletLayer,
-            false
-        );
+        Physics2D.IgnoreLayerCollision(playerLayer, bulletLayer, false);
 
         invincibleCoroutine = null;
-        Debug.Log("성공");
     }
 
     private void OnDisable()
     {
-        Physics2D.IgnoreLayerCollision(
-            playerLayer,
-            bulletLayer,
-            false
-        );
+        Physics2D.IgnoreLayerCollision(playerLayer, bulletLayer, false);
+        invincibleCoroutine = null;
     }
 }

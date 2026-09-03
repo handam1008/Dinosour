@@ -11,8 +11,8 @@ public class KHG_SwordAttack : MonoBehaviour
     [SerializeField] private float windupAngle = 20f;
 
     [Header("속도 설정 (초 단위)")]
-    [SerializeField] private float windupTime = 0.05f;  // 준비 동작 시간
-    [SerializeField] private float swingTime = 0.08f;   // 베기 동작 시간
+    [SerializeField] private float windupTime = 0.3f;  // 준비 동작 시간
+    [SerializeField] private float swingTime = 0.3f;   // 베기 동작 시간
     [SerializeField] private float returnTime = 0.15f;  // 복귀 시간
 
     private Quaternion initialRotation;

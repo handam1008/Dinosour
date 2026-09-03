@@ -4,9 +4,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using SSW;
 
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(PlayerController))]
-[RequireComponent(typeof(KHG_DashSpeed))]
 public class KHG_Dash : MonoBehaviour
 {
     [Header("대쉬 설정")]
@@ -17,6 +14,9 @@ public class KHG_Dash : MonoBehaviour
     [Header("대쉬 데미지 설정")]
     [SerializeField] private float damage = 5f;
     [SerializeField] private LayerMask enemyLayer;
+
+    // 추가: 패링 등으로 데미지를 증폭하기 위한 배율 변수 (기본 1배)
+    private float _damageMultiplier = 1f;
 
     private Rigidbody2D _rb;
     private Transform _visual;
@@ -43,6 +43,12 @@ public class KHG_Dash : MonoBehaviour
         {
             _visual = transform.GetChild(0);
         }
+    }
+
+    // 추가: 외부(매니저 등)에서 데미지 배율을 변경할 때 호출하는 메서드
+    public void SetDamageMultiplier(float multiplier)
+    {
+        _damageMultiplier = multiplier;
     }
 
     void OnCycleSuit(InputValue value)
@@ -103,6 +109,8 @@ public class KHG_Dash : MonoBehaviour
 
         _isDashing = false;
 
+        _damageMultiplier = 1f;
+
         yield return new WaitForSeconds(_dashCooldown);
         _canDash = true;
     }
@@ -117,7 +125,7 @@ public class KHG_Dash : MonoBehaviour
             {
                 if (!_hitEnemies.Contains(damageable))
                 {
-                    damageable.TakeDamage(damage);
+                    damageable.TakeDamage(damage * _damageMultiplier);
                     _hitEnemies.Add(damageable);
                 }
             }
@@ -134,7 +142,7 @@ public class KHG_Dash : MonoBehaviour
             {
                 if (!_hitEnemies.Contains(damageable))
                 {
-                    damageable.TakeDamage(damage);
+                    damageable.TakeDamage(damage * _damageMultiplier);
                     _hitEnemies.Add(damageable);
                 }
             }

@@ -8,7 +8,7 @@ public class KHG_nomalAttack : MonoBehaviour
 
     private float Damage = 30f;
 
-    [SerializeField] private float attackDelay = 0.5f;
+    [SerializeField] private float attackDelay = 0.3f;
     private float lastAttackTime = -999f;
 
     private void Start()
