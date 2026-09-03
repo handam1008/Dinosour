@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class KHG_nomalAttack : MonoBehaviour
 {
-    [SerializeField] private Animator animator;
     [SerializeField] private Collider2D attackCollider;
 
     private float Damage = 30f;
@@ -24,8 +23,6 @@ public class KHG_nomalAttack : MonoBehaviour
                 return;
 
             lastAttackTime = Time.time;
-
-            animator.SetTrigger("SwordAttack");
 
             attackCollider.enabled = true;
 
