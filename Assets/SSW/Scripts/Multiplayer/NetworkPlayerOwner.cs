@@ -14,15 +14,27 @@ namespace SSW
             NetworkVariableReadPermission.Everyone,
             NetworkVariableWritePermission.Owner);
 
+        readonly NetworkVariable<PlayerJob> _job = new NetworkVariable<PlayerJob>(
+            PlayerJob.Magician,
+            NetworkVariableReadPermission.Everyone,
+            NetworkVariableWritePermission.Owner);
+
         Transform _visual;
+        PlayerIdentity _identity;
 
         public override void OnNetworkSpawn()
         {
             Animator animator = GetComponentInChildren<Animator>(true);
             _visual = animator != null ? animator.transform : null;
+            _identity = GetComponent<PlayerIdentity>();
 
             _facingLeft.OnValueChanged += HandleFacingChanged;
+            _job.OnValueChanged += HandleJobChanged;
             SetLocalControl(IsOwner);
+            if (IsOwner)
+                _job.Value = PlayerJobStorage.Load();
+
+            ApplyJob(_job.Value);
             ApplyFacing(_facingLeft.Value);
             StartCoroutine(RefreshCameraNextFrame());
         }
@@ -56,6 +68,17 @@ namespace SSW
         void HandleFacingChanged(bool previous, bool current)
         {
             ApplyFacing(current);
+        }
+
+        void HandleJobChanged(PlayerJob previous, PlayerJob current)
+        {
+            ApplyJob(current);
+        }
+
+        void ApplyJob(PlayerJob job)
+        {
+            if (_identity == null) return;
+            _identity.SetJob(PlayerJobStorage.IsSelectable(job) ? job : PlayerJob.Magician);
         }
 
         void ApplyFacing(bool facingLeft)
@@ -96,6 +119,7 @@ namespace SSW
         public override void OnNetworkDespawn()
         {
             _facingLeft.OnValueChanged -= HandleFacingChanged;
+            _job.OnValueChanged -= HandleJobChanged;
             RefreshCameraTargets();
         }
     }
