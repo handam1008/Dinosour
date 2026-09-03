@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -13,9 +13,9 @@ namespace RYU._01.Script.FeedBack
             _feedBacks = GetComponents<AbstractFeedBack>().ToList();
         }
 
-        public void PlayAllFeedBacks()
+        public void PlayAllFeedBacks(float scale = 1f)
         {
-            _feedBacks.ForEach(x => x.CreateFeedBack(transform.position));
+            _feedBacks.ForEach(x => x.CreateFeedBack(transform.position, scale));
         }
 
         public void StopAllFeedBacks()

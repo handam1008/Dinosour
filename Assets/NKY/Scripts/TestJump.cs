@@ -59,12 +59,12 @@ namespace NKY.Scripts
 
         private void OnAttack(InputValue value)
         {
-            _attack.AssassinAttack();
+            _attack.Attack();
         }
 
         private void OnSkill(InputValue value)
         {
-            skillData.StartSkill(this);
+            //skillData.StartSkill(this);
         }
 
     void Awake()
@@ -124,7 +124,7 @@ namespace NKY.Scripts
         
         Vector2 dir = diff.normalized;
 
-        _attack.FaceAttack(dir);
+        _attack.FaceAttack();
         Vector3 scale = _visual.localScale;
         scale.x = world.x < transform.position.x ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);
         _visual.localScale = scale;

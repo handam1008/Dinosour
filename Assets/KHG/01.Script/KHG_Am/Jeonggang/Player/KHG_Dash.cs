@@ -21,6 +21,7 @@ public class KHG_Dash : MonoBehaviour
     private bool _canDash = true;
     private bool _isDashing;
 
+    public bool IsDashing => _isDashing;
 
     void Awake()
     {
