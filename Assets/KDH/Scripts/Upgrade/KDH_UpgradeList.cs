@@ -7,7 +7,6 @@ namespace KDH.Scripts.Upgrade
 {
     public class KDH_UpgradeList : MonoBehaviour
     {
-        [SerializeField] private List<KDH_BulletAbilityDataSO> bulletAbilityLibrary = new();
         [field: SerializeField] public List<KDH_AbstractBulletAbility> bulletAbiliytList = new();
 
         private KDH_Gun _gun;

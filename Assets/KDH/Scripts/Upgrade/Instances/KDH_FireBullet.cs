@@ -21,28 +21,30 @@ public class KDH_FireBullet : KDH_AbstractBulletAbility
         
     public override void BulletAbility(Collider2D collision,  KDH_Bullet bullet)
     {
-            if (bullet.IsUpgraded)
-            {
-                StartCoroutine(TakeDamageDelay(collision, dotDamage * bullet.UpgradValue, FireireDuration * bullet.UpgradValue));
-                HitPoint = collision.transform;
-                Bullet = bullet;
-                    
-                onHitPlayer?.Invoke();
-                return;
-            }
-                
-            StartCoroutine(TakeDamageDelay(collision, 1, FireireDuration));
+        if (!collision.CompareTag("Player")) return;
+
+        if (bullet.IsUpgraded)
+        {
+            StartCoroutine(TakeDamageDelay(collision, dotDamage * bullet.UpgradValue, FireireDuration * bullet.UpgradValue));
             HitPoint = collision.transform;
             Bullet = bullet;
                 
             onHitPlayer?.Invoke();
+            return;
+        }
+            
+        StartCoroutine(TakeDamageDelay(collision, dotDamage, FireireDuration));
+        HitPoint = collision.transform;
+        Bullet = bullet;
+            
+        onHitPlayer?.Invoke();
     }
 
     private IEnumerator TakeDamageDelay(Collider2D collision, float damage, float duration)
     {
         for (int i = 0; i < dotDamageCount; i++)
         {
-            yield return new WaitForSeconds(dotDamageCount / FireireDuration);
+            yield return new WaitForSeconds(FireireDuration / dotDamageCount);
             if (collision.TryGetComponent(out IDamageable damageable))
             {
                 damageable.TakeDamage(damage);
