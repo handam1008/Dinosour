@@ -1,21 +1,13 @@
 ﻿using UnityEngine;
 
-namespace KDH.Scripts.Effects
+namespace KDH.Scripts.Effects.Bullets
 {
-    [RequireComponent(typeof(Rigidbody2D))]
     public class KDH_FollowPlayerEffect : MonoBehaviour
     {
         public bool MoveEffect { get; set; }
-
-        private Rigidbody2D _rigid;
         private Transform _target;
 
-        private void Awake()
-        {
-            _rigid = GetComponent<Rigidbody2D>();
-        }
-        
-        private void FixedUpdate()
+        private void Update()
         {
             if (MoveEffect)
                 Move();
@@ -28,7 +20,7 @@ namespace KDH.Scripts.Effects
         
         private void Move()
         {
-            _rigid.MovePosition(_target.position);
+            transform.position = _target.position;
         }
     }
 }

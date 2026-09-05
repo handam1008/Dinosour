@@ -3,20 +3,19 @@ using SSW;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace KDH.Scripts.Upgrade.Instances
+namespace KDH.Scripts.Upgrade.Instances.Bullets
 {
-    public class KDH_WaterBullet : KDH_AbstractBulletAbility
+    public class KDH_ShurikenBullet : KDH_AbstractBulletAbility
     {
-        [SerializeField] private UnityEvent onHitPlayer;
-        
+        [Header("Bullet Settings")]
         [SerializeField] private float damage = 10f;
         [SerializeField] private float standardDistance = 1f;
+        [field: SerializeField] public KDH_BulletAbilityDataSO BulletAbilityData { get; private set; }
+        
         public KDH_Bullet Bullet { get; private set; }
-
         private Transform _startPos;
         private Transform _endPos;
-        
-        [field: SerializeField] public KDH_BulletAbilityDataSO BulletAbilityData { get; private set; }
+        [SerializeField] private UnityEvent onHitPlayer;
         
         public Transform HitPoint { get; private set; }
         
@@ -41,7 +40,7 @@ namespace KDH.Scripts.Upgrade.Instances
             float distance = direction.magnitude;
             
             if (collision.TryGetComponent(out IDamageable damageable))
-                damageable.TakeDamage(damage * distance + Bullet.Damage);
+                damageable.TakeDamage(damage * distance);
         }
     }
 }

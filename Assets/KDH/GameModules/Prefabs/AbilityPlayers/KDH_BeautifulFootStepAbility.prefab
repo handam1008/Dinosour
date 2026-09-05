@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1891358268744537669
+--- !u!1 &6116050001988636380
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,50 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6421783451949948362}
-  - component: {fileID: 553183413610602490}
+  - component: {fileID: 9190195430684190897}
+  - component: {fileID: 4499410951151800023}
   m_Layer: 0
-  m_Name: KDH_WaterBullet
+  m_Name: KDH_BeautifulFootStepAbility
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6421783451949948362
+--- !u!4 &9190195430684190897
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1891358268744537669}
+  m_GameObject: {fileID: 6116050001988636380}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.74, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 591181081187748449}
+  - {fileID: 7808723228953723469}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &553183413610602490
+--- !u!114 &4499410951151800023
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1891358268744537669}
+  m_GameObject: {fileID: 6116050001988636380}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98b23b2bcc8442b78a2ac17c5a44a349, type: 3}
+  m_Script: {fileID: 11500000, guid: e21547846beb46868fa05b93a08d3af9, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Upgrade.Instances.KDH_WaterBullet
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Upgrade.Instances.Players.KDH_BeautifulFootStep
+  <PlayerAbilityData>k__BackingField: {fileID: 11400000, guid: e718f326599159d4dbf7928becd8294f, type: 2}
+  <Duration>k__BackingField: 1
+  speedAmount: 0.5
   onHitPlayer:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6519177347704296310}
+      - m_Target: {fileID: 6468753829484014477}
         m_TargetAssemblyTypeName: KDH.Scripts.System.FeedbackSystem.KDH_FeedbackPlayer,
           Assembly-CSharp
         m_MethodName: PlayAllFeedback
@@ -61,10 +64,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  damage: 3
-  standardDistance: 10
-  <BulletAbilityData>k__BackingField: {fileID: 11400000, guid: b13c63cba68fc264fb71406e594ce613, type: 2}
---- !u!1 &5708697399241599853
+--- !u!1 &9210710803348125447
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -72,9 +72,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 591181081187748449}
-  - component: {fileID: 6519177347704296310}
-  - component: {fileID: 5294151419276475118}
+  - component: {fileID: 7808723228953723469}
+  - component: {fileID: 6468753829484014477}
+  - component: {fileID: 7219623016679756207}
   m_Layer: 0
   m_Name: Feedback
   m_TagString: Untagged
@@ -82,42 +82,44 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &591181081187748449
+--- !u!4 &7808723228953723469
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5708697399241599853}
+  m_GameObject: {fileID: 9210710803348125447}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6421783451949948362}
+  m_Father: {fileID: 9190195430684190897}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6519177347704296310
+--- !u!114 &6468753829484014477
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5708697399241599853}
+  m_GameObject: {fileID: 9210710803348125447}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67594bf69cf4434ab4dff1d4f8158830, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.System.FeedbackSystem.KDH_FeedbackPlayer
---- !u!114 &5294151419276475118
+--- !u!114 &7219623016679756207
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5708697399241599853}
+  m_GameObject: {fileID: 9210710803348125447}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59ee805c538d6374ab8e0fe637a81c3a, type: 3}
+  m_Script: {fileID: 11500000, guid: c7d114470d1144acae1f586ef9bc235b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH_WaterBulletEffect
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Effects.KDH_AfterimageEffect
+  _spawnInterval: 0.1
+  _afterimageColor: {r: 1, g: 1, b: 1, a: 0.2}
