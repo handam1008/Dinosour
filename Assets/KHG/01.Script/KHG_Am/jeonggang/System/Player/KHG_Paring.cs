@@ -6,15 +6,16 @@ using UnityEngine.InputSystem;
 public class KHG_Paring : MonoBehaviour
 {
     [Header("패링 설정")]
-    [SerializeField] private float parryTime = 0.2f;
+    [SerializeField] private float parryTime = 3f;
     [SerializeField] private float reflectSpeed = 20f;
+    [SerializeField] private float parryCooldown = 12f; // 쿨타임 시간(초)
 
     [Header("패링 콜라이더")]
     [SerializeField] private Collider2D parryCollider;
 
     public bool isParrying = false;
+    private bool isCooldown = false; 
 
-    // 패링 성공했을 때 다른 스크립트에서 사용할 이벤트
     public event Action OnParrySuccess;
 
     private void Awake()
@@ -28,7 +29,8 @@ public class KHG_Paring : MonoBehaviour
     private void Update()
     {
         if (Keyboard.current != null &&
-            Keyboard.current.eKey.wasPressedThisFrame)
+            Keyboard.current.eKey.wasPressedThisFrame &&
+            !isCooldown && !isParrying)
         {
             StartCoroutine(ParryRoutine());
         }
@@ -36,11 +38,8 @@ public class KHG_Paring : MonoBehaviour
 
     private IEnumerator ParryRoutine()
     {
-        // 이미 패링 중이면 무시
-        if (isParrying)
-            yield break;
-
         isParrying = true;
+        isCooldown = true; // 쿨타임 시작
 
         Debug.Log("패링 시작");
 
@@ -48,7 +47,16 @@ public class KHG_Paring : MonoBehaviour
 
         isParrying = false;
 
-        Debug.Log("패링 종료");
+        Debug.Log("패링 판정 종료 (쿨타임 시작)");
+
+        float remainingCooldown = parryCooldown - parryTime;
+        if (remainingCooldown > 0f)
+        {
+            yield return new WaitForSeconds(remainingCooldown);
+        }
+
+        isCooldown = false; 
+        Debug.Log("패링 쿨타임 완료");
     }
 
     private void OnTriggerEnter2D(Collider2D other)

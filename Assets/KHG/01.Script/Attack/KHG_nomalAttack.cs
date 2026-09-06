@@ -8,12 +8,22 @@ public class KHG_nomalAttack : MonoBehaviour
 
     private float Damage = 30f;
 
-    [SerializeField] private float attackDelay = 0.3f;
+    [SerializeField] private float attackDelay = 0.3f; // KHG_SwordAttack의 공속과 연결됨
+
     private float lastAttackTime = -999f;
+    private KHG_SwordAttack attackMotion;
+
+    private bool _canAttack;
+
+    private void Awake()
+    {
+        attackMotion = GetComponentInParent<KHG_SwordAttack>();
+        attackDelay = attackMotion.SwingTime + attackMotion.ReturnTime;
+    }
 
     private void Start()
     {
-        attackCollider.enabled = false;
+        //attackCollider.enabled = false;
         StartCoroutine(Attackroutine());
     }
 
@@ -28,23 +38,25 @@ public class KHG_nomalAttack : MonoBehaviour
         {
             if (Time.time < lastAttackTime + attackDelay)
                 return;
+            _canAttack = true;
 
             lastAttackTime = Time.time;
 
-            attackCollider.enabled = true;
+            //attackCollider.enabled = true;
 
-            Invoke(nameof(DisableAttackCollider), 0.15f);
+            Invoke(nameof(DisableAttackCollider), 0.3f);
         }
     }
 
     private void DisableAttackCollider()
     {
-        attackCollider.enabled = false;
+        _canAttack = false;
+        //attackCollider.enabled = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent<IDamageable>(out var damageable))
+        if (collision.TryGetComponent<IDamageable>(out var damageable) && _canAttack)
         {
             damageable.TakeDamage(Damage);
         }

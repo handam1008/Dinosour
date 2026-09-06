@@ -17,6 +17,9 @@ public class KHG_Dash : MonoBehaviour
 
     private float _damageMultiplier = 1f;
 
+    [Header("대쉬 쿨타임 실시간 관리")]
+    private float _currentCooldown = 0f;
+
     private Rigidbody2D _rb;
     private Transform _visual;
     private PlayerController _playerController;
@@ -28,12 +31,11 @@ public class KHG_Dash : MonoBehaviour
 
     private HashSet<IDamageable> _hitEnemies = new HashSet<IDamageable>();
 
-    // 외부 증강(DashDotAugment) 스크립트에서 감지할 명중 이벤트
     public System.Action<GameObject> OnDashHitEnemy;
 
     public bool IsDashing => _isDashing;
 
-    void Awake()
+    private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
         _playerController = GetComponent<PlayerController>();
@@ -41,6 +43,7 @@ public class KHG_Dash : MonoBehaviour
         _playerCollider = GetComponent<Collider2D>();
 
         _visual = transform.Find("Visual");
+
         if (_visual == null && transform.childCount > 0)
         {
             _visual = transform.GetChild(0);
@@ -52,7 +55,7 @@ public class KHG_Dash : MonoBehaviour
         _damageMultiplier = multiplier;
     }
 
-    void OnCycleSuit(InputValue value)
+    private void OnCycleSuit(InputValue value)
     {
         if (!_canDash || _isDashing)
             return;
@@ -60,7 +63,7 @@ public class KHG_Dash : MonoBehaviour
         StartCoroutine(DashRoutine());
     }
 
-    IEnumerator DashRoutine()
+    private IEnumerator DashRoutine()
     {
         _canDash = false;
         _isDashing = true;
@@ -73,6 +76,7 @@ public class KHG_Dash : MonoBehaviour
         _rb.gravityScale = 0f;
 
         bool originalIsTrigger = false;
+
         if (_playerCollider != null)
         {
             originalIsTrigger = _playerCollider.isTrigger;
@@ -80,16 +84,35 @@ public class KHG_Dash : MonoBehaviour
         }
 
         Vector2 moveInput = Vector2.zero;
+
         PlayerInput playerInput = GetComponent<PlayerInput>();
+
         if (playerInput != null)
         {
-            InputAction moveAction = playerInput.actions.FindAction("Move");
+            InputAction moveAction =
+                playerInput.actions.FindAction("Move");
+
             if (moveAction != null)
+            {
                 moveInput = moveAction.ReadValue<Vector2>();
+            }
         }
 
-        float dashDirection = moveInput.x != 0 ? Mathf.Sign(moveInput.x) : Mathf.Sign(_visual.localScale.x);
-        _rb.linearVelocity = new Vector2(dashDirection * _dashSpeed, 0f);
+        float dashDirection;
+
+        if (moveInput.x != 0)
+        {
+            dashDirection = Mathf.Sign(moveInput.x);
+        }
+        else
+        {
+            dashDirection = Mathf.Sign(_visual.localScale.x);
+        }
+
+        _rb.linearVelocity = new Vector2(
+            dashDirection * _dashSpeed,
+            0f
+        );
 
         yield return new WaitForSeconds(_dashDuration);
 
@@ -111,13 +134,21 @@ public class KHG_Dash : MonoBehaviour
         _isDashing = false;
         _damageMultiplier = 1f;
 
-        yield return new WaitForSeconds(_dashCooldown);
+        _currentCooldown = _dashCooldown;
+
+        while (_currentCooldown > 0f)
+        {
+            _currentCooldown -= Time.deltaTime;
+            yield return null;
+        }
+
         _canDash = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!_isDashing) return;
+        if (!_isDashing)
+            return;
 
         if (((1 << collision.gameObject.layer) & enemyLayer) != 0)
         {
@@ -127,7 +158,8 @@ public class KHG_Dash : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!_isDashing) return;
+        if (!_isDashing)
+            return;
 
         if (((1 << collision.gameObject.layer) & enemyLayer) != 0)
         {
@@ -143,10 +175,35 @@ public class KHG_Dash : MonoBehaviour
             {
                 _hitEnemies.Add(damageable);
 
-                damageable.TakeDamage(damage * _damageMultiplier);
+                damageable.TakeDamage(
+                    damage * _damageMultiplier
+                );
 
                 OnDashHitEnemy?.Invoke(target);
             }
         }
+    }
+
+    public void ReduceCooldown(float seconds)
+    {
+        if (!_canDash)
+        {
+            _currentCooldown = Mathf.Max(
+                0f,
+                _currentCooldown - seconds
+            );
+        }
+    }
+
+    public void ResetDashState()
+    {
+        _isDashing = false;
+        _canDash = true;
+
+        if (_playerController != null)
+            _playerController.enabled = true;
+
+        if (_playerCollider != null)
+            _playerCollider.isTrigger = false;
     }
 }

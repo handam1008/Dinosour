@@ -453,8 +453,8 @@ MonoBehaviour:
   swingAngle: -30
   windupAngle: 20
   windupTime: 0.05
-  swingTime: 0.08
-  returnTime: 0.15
+  SwingTime: 0.4
+  ReturnTime: 0.2
 --- !u!1001 &551104355
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1158,6 +1158,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7686893401743090280, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 950063081}
+    - targetCorrespondingSourceObject: {fileID: 7686893401743090280, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 950063082}
+    - targetCorrespondingSourceObject: {fileID: 7686893401743090280, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 950063093}
   m_SourcePrefab: {fileID: 100100000, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
 --- !u!1 &950063044 stripped
 GameObject:
@@ -1190,7 +1196,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b12f3212e9c33646b811e74c07baddf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KHG_Invincible
-  postDashInvincibleTime: 1
 --- !u!114 &950063080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1205,7 +1210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KHG_Dash
   _dashSpeed: 20
   _dashDuration: 0.2
-  _dashCooldown: 1
+  _dashCooldown: 4
   damage: 5
   enemyLayer:
     serializedVersion: 2
@@ -1225,6 +1230,35 @@ MonoBehaviour:
   paringScript: {fileID: 2015783039}
   dashScript: {fileID: 950063080}
   damageMultiplier: 2
+--- !u!114 &950063082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950063044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e15bd74c3c6595c4a8b6486e320ad7a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KHG_DashCooldown
+  paringComponent: {fileID: 2015783039}
+  dashComponent: {fileID: 950063080}
+  cooldownReduction: 3
+--- !u!114 &950063093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950063044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 403374a2f9f4ef54fa91b9e3ee63601c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KHG_DashStun
+  stunDuration: 0.5
+  movementScript: {fileID: 1417312394}
 --- !u!1 &1026680740
 GameObject:
   m_ObjectHideFlags: 0
@@ -1254,8 +1288,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1530df0bffdf499b9ac1c3d300e2d783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Upgrade.KDH_UpgradeList
-  bulletAbilityLibrary:
-  - {fileID: 11400000, guid: 9be95c4a54f705c4a940f8fb516956be, type: 2}
   bulletAbiliytList: []
 --- !u!4 &1026680742
 Transform:
@@ -1821,6 +1853,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7686893401743090280, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1417312387}
+    - targetCorrespondingSourceObject: {fileID: 7686893401743090280, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1417312397}
   m_SourcePrefab: {fileID: 100100000, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
 --- !u!1 &1417312384 stripped
 GameObject:
@@ -1894,6 +1929,32 @@ MonoBehaviour:
   <CurrentAmmo>k__BackingField: 0
   <ChargeTimer>k__BackingField: 0
   <CanAttack>k__BackingField: 0
+--- !u!114 &1417312394 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5537716756059987560, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+  m_PrefabInstance: {fileID: 1417312383}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417312384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94ee24a9995b34a4e8492b99226c0811, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+--- !u!114 &1417312397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1417312384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a3635b3fd3671946afe87d3c35d848b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KHG_StandingHeal
+  healAmount: 1
+  healInterval: 0.5
+  standTime: 1
 --- !u!1 &1542921059
 GameObject:
   m_ObjectHideFlags: 0
@@ -2260,6 +2321,7 @@ GameObject:
   - component: {fileID: 2015783039}
   - component: {fileID: 2015783040}
   - component: {fileID: 2015783041}
+  - component: {fileID: 2015783042}
   m_Layer: 3
   m_Name: stormy_0
   m_TagString: Obstacle
@@ -2376,7 +2438,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.07238731, y: -0.0074875355}
+  m_Offset: {x: -0.07238731, y: -0.17987859}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2386,7 +2448,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.29257837, y: 2.0143461}
+  m_Size: {x: 0.29257837, y: 2.3591273}
   m_EdgeRadius: 0
 --- !u!114 &2015783039
 MonoBehaviour:
@@ -2402,6 +2464,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KHG_Paring
   parryTime: 4
   reflectSpeed: 20
+  parryCooldown: 12
   parryCollider: {fileID: 0}
   isParrying: 0
 --- !u!114 &2015783040
@@ -2433,6 +2496,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KHG_nomalAttack
   attackCollider: {fileID: 2015783038}
   attackDelay: 0.5
+--- !u!114 &2015783042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015783035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd1f461f9646d814094fa5a5421b92f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KHG_Swordglow
+  growthPerSecond: 0.1
+  maxScale: 3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
