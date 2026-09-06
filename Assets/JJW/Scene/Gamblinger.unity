@@ -558,7 +558,7 @@ MonoBehaviour:
     DissipationMode: 2
     DissipationDistance: 100
     PropagationSpeed: 343
-  DefaultVelocity: {x: 0.45, y: 0.3, z: 0}
+  DefaultVelocity: {x: 4, y: 3, z: 0}
 --- !u!4 &337175680 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8821414762111665215, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
@@ -770,7 +770,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &717076731
 Transform:
   m_ObjectHideFlags: 0
@@ -1177,7 +1177,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &969543698
 Transform:
   m_ObjectHideFlags: 0
@@ -1794,11 +1794,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2acd990f9a3fd04f8ba96a6beb0f024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JackpotOverlay
-  jackpotOverlay: {fileID: 1312568702}
-  gamblinger: {fileID: 1312568705}
-  minOverlayAlpha: 0.45
-  maxOverlayAlpha: 0.75
-  fadeDuration: 0.6
 --- !u!114 &1312568705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1811,6 +1806,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90aaf0134a6694d40a176eadaa7bd0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gamblinger
+  _OnJackpot: {fileID: 0}
+  _OnJackpotEnd: {fileID: 0}
 --- !u!1001 &1317705741
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1967,7 +1964,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1812636237
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2093,7 +2090,7 @@ MonoBehaviour:
     DissipationMode: 2
     DissipationDistance: 100
     PropagationSpeed: 343
-  DefaultVelocity: {x: 0.5, y: 0.8, z: 0}
+  DefaultVelocity: {x: 3, y: 2, z: 0}
 --- !u!114 &1812636242
 MonoBehaviour:
   m_ObjectHideFlags: 0
