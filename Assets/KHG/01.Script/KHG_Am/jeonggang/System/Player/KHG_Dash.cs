@@ -15,7 +15,6 @@ public class KHG_Dash : MonoBehaviour
     [SerializeField] private float damage = 5f;
     [SerializeField] private LayerMask enemyLayer;
 
-    // 추가: 패링 등으로 데미지를 증폭하기 위한 배율 변수 (기본 1배)
     private float _damageMultiplier = 1f;
 
     private Rigidbody2D _rb;
@@ -28,6 +27,9 @@ public class KHG_Dash : MonoBehaviour
     private bool _isDashing;
 
     private HashSet<IDamageable> _hitEnemies = new HashSet<IDamageable>();
+
+    // 외부 증강(DashDotAugment) 스크립트에서 감지할 명중 이벤트
+    public System.Action<GameObject> OnDashHitEnemy;
 
     public bool IsDashing => _isDashing;
 
@@ -45,7 +47,6 @@ public class KHG_Dash : MonoBehaviour
         }
     }
 
-    // 추가: 외부(매니저 등)에서 데미지 배율을 변경할 때 호출하는 메서드
     public void SetDamageMultiplier(float multiplier)
     {
         _damageMultiplier = multiplier;
@@ -108,7 +109,6 @@ public class KHG_Dash : MonoBehaviour
         }
 
         _isDashing = false;
-
         _damageMultiplier = 1f;
 
         yield return new WaitForSeconds(_dashCooldown);
@@ -121,14 +121,7 @@ public class KHG_Dash : MonoBehaviour
 
         if (((1 << collision.gameObject.layer) & enemyLayer) != 0)
         {
-            if (collision.TryGetComponent<IDamageable>(out var damageable))
-            {
-                if (!_hitEnemies.Contains(damageable))
-                {
-                    damageable.TakeDamage(damage * _damageMultiplier);
-                    _hitEnemies.Add(damageable);
-                }
-            }
+            ApplyDashDamage(collision.gameObject);
         }
     }
 
@@ -138,13 +131,21 @@ public class KHG_Dash : MonoBehaviour
 
         if (((1 << collision.gameObject.layer) & enemyLayer) != 0)
         {
-            if (collision.gameObject.TryGetComponent<IDamageable>(out var damageable))
+            ApplyDashDamage(collision.gameObject);
+        }
+    }
+
+    private void ApplyDashDamage(GameObject target)
+    {
+        if (target.TryGetComponent<IDamageable>(out var damageable))
+        {
+            if (!_hitEnemies.Contains(damageable))
             {
-                if (!_hitEnemies.Contains(damageable))
-                {
-                    damageable.TakeDamage(damage * _damageMultiplier);
-                    _hitEnemies.Add(damageable);
-                }
+                _hitEnemies.Add(damageable);
+
+                damageable.TakeDamage(damage * _damageMultiplier);
+
+                OnDashHitEnemy?.Invoke(target);
             }
         }
     }

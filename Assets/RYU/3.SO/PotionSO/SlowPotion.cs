@@ -10,6 +10,9 @@ public class SlowPotion : AbstractPotion
     public override void Use(GameObject target, Component source, PotionModifiers mods)
     {
         // 구속은 틱이 없으므로 진한 농도를 지속시간에 적용한다
-        target.GetComponentInParent<ISlowable>()?.ApplySlow(amount * mods.Power, duration * mods.TickCount);
+        float time = duration * mods.TickCount;
+
+        target.GetComponentInParent<ISlowable>()?.ApplySlow(amount * mods.Power, time);
+        PotionEffectVisual.Find(target)?.Show(potionColor, time);
     }
 }

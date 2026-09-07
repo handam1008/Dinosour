@@ -3,28 +3,54 @@ using Unity.Cinemachine;
 
 public class CameraShake : MonoBehaviour
 {
-    [Header("Cinemachine")]
+    [Header("Impulse Sources")]
     [SerializeField]
-    private CinemachineImpulseSource impulseSource;
+    private CinemachineImpulseSource mediumImpulseSource;
 
-    private void Awake()
+    [SerializeField]
+    private CinemachineImpulseSource strongImpulseSource;
+
+    [Header("Force")]
+    [Min(0f)]
+    [SerializeField] private float mediumForce = 1f;
+
+    [Min(0f)]
+    [SerializeField] private float strongForce = 1.2f;
+
+    public void Shake(JackpotImpactStrength impactStrength)
     {
-        if (impulseSource == null)
+        if (impactStrength == JackpotImpactStrength.Strong)
         {
-            impulseSource =
-                GetComponent<CinemachineImpulseSource>();
+            PlayStrongShake();
+            return;
         }
+
+        PlayMediumShake();
     }
 
-    public void Shake()
+    private void PlayMediumShake()
     {
-        if (impulseSource == null)
+        if (mediumImpulseSource == null)
         {
-            Debug.LogError("시네머신 Impulse Source 연결안됨", this);
+            Debug.LogError("중간 Impulse Source가 연결되지 않았습니다.", this);
 
             return;
         }
 
-        impulseSource.GenerateImpulse();
+        mediumImpulseSource.GenerateImpulseWithForce(
+            mediumForce);
+    }
+
+    private void PlayStrongShake()
+    {
+        if (strongImpulseSource == null)
+        {
+            Debug.LogError("강한 Impulse Source가 연결되지 않았습니다.", this);
+
+            return;
+        }
+
+        strongImpulseSource.GenerateImpulseWithForce(
+            strongForce);
     }
 }
