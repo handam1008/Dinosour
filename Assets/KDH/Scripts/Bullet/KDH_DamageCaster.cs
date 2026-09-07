@@ -33,6 +33,7 @@ namespace KDH.Scripts.Bullet
                 {
                     if (collision.TryGetComponent<IDamageable>(out var damageable))
                         damageable.TakeDamage(_damage * _upgradValue);
+                    return;
                 }
                 
                 if (collision.TryGetComponent<IDamageable>(out var dmg))

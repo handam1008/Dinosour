@@ -15,7 +15,7 @@ namespace KDH.Scripts.Gun
         [Header("Others")]
         [field: SerializeField] public PlayerInput PlayerInput { get; private set; }    
         [field: SerializeField] public Camera Cam { get; private set; }
-
+        
         [Header("Gun Parts")]
         [field: SerializeField] public Transform Visual { get; private set; }
         [field: SerializeField] public KDH_SpawnBullet SpawnBullet { get; private set; }
@@ -27,7 +27,7 @@ namespace KDH.Scripts.Gun
         [field: SerializeField] public int MaxAmmo { get; private set; }
         [field: SerializeField] public float AttackSpeed { get; private set; }
         [field: SerializeField] public float ReloadSpeed { get; private set; } // 한 번에 모든 Ammo를 장정하는 형식
-        [field: SerializeField] public float ChargeSpeed { get; private set; }
+        [field: SerializeField] public float ChargeSpeed { get; set; }
         public KDH_Ammo[] Ammos {get; set;}
         
         [Header("Modules")]
