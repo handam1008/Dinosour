@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64ce338ed1de4be1add5105a51fcbee2, type: 3}
+  m_Name: KDH_ShrinkingDevice
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Upgrade.KDH_PlayerAbilitySO
+  abilityName: "\uCD95\uC18C \uC7A5\uCE58"
+  abilityDescription: "\uC5D0\uBAA8\uB97C \uC18C\uBE44\uD560 \uB54C \uB9C8\uB2E4
+    1\uCD08 \uB3D9\uC548 \uD50C\uB808\uC774\uC5B4\uC758 \uC774\uB3D9\uC18D\uB3C4\uB97C
+    \uC99D\uAC00\uC2DC\uD0A4\uACE0 \uB2E4\uC2DC \uC6D0\uB798\uB300\uB85C \uB3CC\uC544
+    \uC635\uB2C8\uB2E4."
+  playerAbilityPrefab: {fileID: 6116050001988636380, guid: 2c2049c249637f24bb468e61014787f2, type: 3}
