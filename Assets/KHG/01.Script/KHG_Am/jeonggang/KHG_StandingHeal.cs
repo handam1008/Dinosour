@@ -8,7 +8,7 @@ public class KHG_StandingHeal : MonoBehaviour
     [SerializeField] private float healInterval = 0.5f;   // 회복 간격
 
     [Header("가만히 있어야 하는 시간")]
-    [SerializeField] private float standTime = 1f;        // 1초 가만히 있어야 회복 시작
+    [SerializeField] private float standTime = 1f;       
 
     private IHealable healable;
     private Rigidbody2D rb;
