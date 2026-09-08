@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: KDH_ShrinkingDevice
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Upgrade.KDH_PlayerAbilitySO
   abilityName: "\uCD95\uC18C \uC7A5\uCE58"
-  abilityDescription: "\uC5D0\uBAA8\uB97C \uC18C\uBE44\uD560 \uB54C \uB9C8\uB2E4
-    1\uCD08 \uB3D9\uC548 \uD50C\uB808\uC774\uC5B4\uC758 \uC774\uB3D9\uC18D\uB3C4\uB97C
-    \uC99D\uAC00\uC2DC\uD0A4\uACE0 \uB2E4\uC2DC \uC6D0\uB798\uB300\uB85C \uB3CC\uC544
-    \uC635\uB2C8\uB2E4."
-  playerAbilityPrefab: {fileID: 6116050001988636380, guid: 2c2049c249637f24bb468e61014787f2, type: 3}
+  abilityDescription: "\uCD1D\uC54C\uC774 \uC801\uC911 \uC2DC \uD50C\uB808\uC774\uC5B4\uC758
+    \uD06C\uAE30\uAC00 50% \uCD95\uC18C\uB429\uB2C8\uB2E4. 2\uCD08 \uD6C4 \uC6D0\uC0C1\uBCF5\uAD6C
+    \uB429\uB2C8\uB2E4."
+  playerAbilityPrefab: {fileID: 6116050001988636380, guid: e9670deffbe5e8a4aa588270b5ff1f0e, type: 3}

@@ -35,13 +35,13 @@ namespace KDH.Scripts.Effects.Bullets
             StartCoroutine(ReleaseAfter(prefab, _effect, effectDuration));
         }
         
-        private IEnumerator ReleaseAfter(GameObject prefab, GameObject effect, float duration)
-        {
-            yield return new WaitForSeconds(duration);
+            private IEnumerator ReleaseAfter(GameObject prefab, GameObject effect, float duration)
+            {
+                yield return new WaitForSeconds(duration);
 
-            if (effect != null)
-                KDH_EffectPoolManager.Instance.Release(prefab, effect);
-        }
+                if (effect != null)
+                    KDH_EffectPoolManager.Instance.Release(prefab, effect);
+            }
         
         public override void StopFeedBack()
         {

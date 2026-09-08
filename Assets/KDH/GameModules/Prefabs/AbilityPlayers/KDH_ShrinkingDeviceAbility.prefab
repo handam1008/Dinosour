@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9190195430684190897}
+  - component: {fileID: 3678454030856529752}
   m_Layer: 0
   m_Name: KDH_ShrinkingDeviceAbility
   m_TagString: Untagged
@@ -32,6 +33,36 @@ Transform:
   - {fileID: 7808723228953723469}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3678454030856529752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6116050001988636380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56872a964f0bbfb4fab929d8b0b99ed4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KDH_ShrinkingDevice
+  <ShrinkingDeviceAbility>k__BackingField: {fileID: 11400000, guid: 08f7eacf5c99b9b419413f5f725d12f1, type: 2}
+  <Duration>k__BackingField: 2
+  onHitPlayer:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6468753829484014477}
+        m_TargetAssemblyTypeName: KDH.Scripts.System.FeedbackSystem.KDH_FeedbackPlayer,
+          Assembly-CSharp
+        m_MethodName: PlayAllFeedback
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &9210710803348125447
 GameObject:
   m_ObjectHideFlags: 0
@@ -42,7 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7808723228953723469}
   - component: {fileID: 6468753829484014477}
-  - component: {fileID: 7219623016679756207}
+  - component: {fileID: 2222076496069785674}
   m_Layer: 0
   m_Name: Feedback
   m_TagString: Untagged
@@ -77,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67594bf69cf4434ab4dff1d4f8158830, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.System.FeedbackSystem.KDH_FeedbackPlayer
---- !u!114 &7219623016679756207
+--- !u!114 &2222076496069785674
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,8 +117,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9210710803348125447}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7d114470d1144acae1f586ef9bc235b, type: 3}
+  m_Script: {fileID: 11500000, guid: 52e0a19294869fc49bec58d5e009a35c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Effects.KDH_AfterimageEffect
-  _spawnInterval: 0.1
-  _afterimageColor: {r: 1, g: 1, b: 1, a: 0.2}
+  m_EditorClassIdentifier: Assembly-CSharp::KDH_ShrinkingDeviceEffectFeedback
+  effectPrefab: {fileID: 2424241017936201032, guid: 47ca713f6eb342445997d961d88b2b3d, type: 3}
