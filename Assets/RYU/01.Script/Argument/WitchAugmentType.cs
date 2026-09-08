@@ -11,6 +11,6 @@
         PrecisionDispensing, // 정밀 조제
         brokenGlass, //꺠진 유리병
         AllUnlock, // 여러 포션을 해금합니다
-        
+        Pocket, // 주머니 (포션 하나를 보관했다 꺼내 씀)
     }
 }
