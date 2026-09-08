@@ -3,68 +3,126 @@ using UnityEngine;
 
 public class GamblerCoinPool : MonoBehaviour
 {
-        [Header("Pool Settings")]
-        [SerializeField] private GamblerCoinProjectile coinPrefab;
-        [Min(0)]
-        [SerializeField] private int initialSize = 10;
-        [SerializeField] private Transform poolRoot;
-    
-        private readonly Queue<GamblerCoinProjectile> availableCoins =
-            new Queue<GamblerCoinProjectile>();
-    
-        private void Awake()
+       [Header("Prefabs")]
+    [SerializeField] private GamblerCoinProjectile normalCoinPrefab;
+    [SerializeField] private GamblerCoinProjectile rouletteCoinPrefab;
+
+    [Header("Pool Settings")]
+    [SerializeField, Min(0)] private int normalInitialSize = 10;
+    [SerializeField, Min(0)] private int rouletteInitialSize = 3;
+    [SerializeField] private Transform poolRoot;
+
+    private readonly Queue<GamblerCoinProjectile> normalCoins = new Queue<GamblerCoinProjectile>();
+    private readonly Queue<GamblerCoinProjectile> rouletteCoins = new Queue<GamblerCoinProjectile>();
+
+    private void Awake()
+    {
+        if (poolRoot == null)
         {
-            if (poolRoot == null)
+            poolRoot = transform;
+        }
+
+        FillPool(normalCoinPrefab, normalInitialSize, GamblerCoinType.Normal, normalCoins);
+        FillPool(rouletteCoinPrefab, rouletteInitialSize, GamblerCoinType.Roulette, rouletteCoins);
+    }
+
+    public GamblerCoinProjectile Get(GamblerCoinType coinType, Vector3 position, Quaternion rotation)
+    {
+        Queue<GamblerCoinProjectile> selectedPool = GetPool(coinType);
+        GamblerCoinProjectile selectedPrefab = GetPrefab(coinType);
+
+        if (selectedPrefab == null)
+        {
+            return null;
+        }
+
+        GamblerCoinProjectile coin;
+
+        if (selectedPool.Count > 0)
+        {
+            coin = selectedPool.Dequeue();
+        }
+        else
+        {
+            coin = CreateCoin(selectedPrefab, coinType);
+        }
+
+        if (coin == null)
+        {
+            return null;
+        }
+
+        coin.SetCoinType(coinType);
+        coin.transform.SetParent(null, true);
+        coin.transform.SetPositionAndRotation(position, rotation);
+        coin.gameObject.SetActive(true);
+
+        return coin;
+    }
+
+    public void Release(GamblerCoinProjectile coin)
+    {
+        if (coin == null || !coin.gameObject.activeSelf)
+        {
+            return;
+        }
+
+        coin.gameObject.SetActive(false);
+        coin.transform.SetParent(poolRoot, false);
+
+        Queue<GamblerCoinProjectile> selectedPool = GetPool(coin.CoinType);
+        selectedPool.Enqueue(coin);
+    }
+
+    private void FillPool(GamblerCoinProjectile prefab, int amount, GamblerCoinType coinType, Queue<GamblerCoinProjectile> targetPool)
+    {
+        if (prefab == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < amount; i++)
+        {
+            GamblerCoinProjectile coin = CreateCoin(prefab, coinType);
+
+            if (coin != null)
             {
-                poolRoot = transform;
-            }
-    
-            if (coinPrefab == null)
-            {
-                Debug.LogError("GamblerCoinPool needs a Coin Prefab reference.", this);
-                return;
-            }
-    
-            for (int i = 0; i < initialSize; i++)
-            {
-                GamblerCoinProjectile coin = CreateCoin();
-                availableCoins.Enqueue(coin);
+                targetPool.Enqueue(coin);
             }
         }
-    
-        public GamblerCoinProjectile Get(Vector3 position, Quaternion rotation)
+    }
+
+    private GamblerCoinProjectile CreateCoin(GamblerCoinProjectile prefab, GamblerCoinType coinType)
+    {
+        if (prefab == null)
         {
-            if (coinPrefab == null)
-            {
-                return null;
-            }
-    
-            GamblerCoinProjectile coin = availableCoins.Count > 0
-                ? availableCoins.Dequeue()
-                : CreateCoin();
-    
-            coin.transform.SetParent(null, true);
-            coin.transform.SetPositionAndRotation(position, rotation);
-            coin.gameObject.SetActive(true);
-            return coin;
+            return null;
         }
-    
-        public void Release(GamblerCoinProjectile coin)
+
+        GamblerCoinProjectile coin = Instantiate(prefab, poolRoot);
+        coin.SetCoinType(coinType);
+        coin.gameObject.SetActive(false);
+
+        return coin;
+    }
+
+    private Queue<GamblerCoinProjectile> GetPool(GamblerCoinType coinType)
+    {
+        if (coinType == GamblerCoinType.Roulette)
         {
-            if (coin == null || !coin.gameObject.activeSelf)
-            {
-                return;
-            }
-    
-            coin.gameObject.SetActive(false);
-            coin.transform.SetParent(poolRoot, false);
-            availableCoins.Enqueue(coin);
+            return rouletteCoins;
         }
-    
-        private GamblerCoinProjectile CreateCoin()
+
+        return normalCoins;
+    }
+
+    private GamblerCoinProjectile GetPrefab(GamblerCoinType coinType)
+    {
+        if (coinType == GamblerCoinType.Roulette)
         {
-            GamblerCoinProjectile coin = Instantiate(coinPrefab, poolRoot);
-            coin.gameObject.SetActive(false);
-            return coin;
+            return rouletteCoinPrefab;
         }
+
+        return normalCoinPrefab;
+    }
 }
