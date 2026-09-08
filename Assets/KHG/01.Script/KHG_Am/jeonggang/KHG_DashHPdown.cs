@@ -1,9 +1,10 @@
 using RYU._01.Script.Potions;
+using SSW;
 using UnityEngine;
 
 public class KHG_DashHPdown : MonoBehaviour
 {
-    [Header("지속 데미지(DOT) 설정")]
+    [Header("지속 데미지 (DOT) 설정")]
     [SerializeField] private float _dotDamage = 3f;
     [SerializeField] private int _tickCount = 2;
     [SerializeField] private float _tickInterval = 0.7f;
@@ -18,24 +19,47 @@ public class KHG_DashHPdown : MonoBehaviour
     private void OnEnable()
     {
         if (_dashScript != null)
+        {
             _dashScript.OnDashHitEnemy += ApplyDotDamage;
+        }
     }
 
     private void OnDisable()
     {
-        // 스크립트가 꺼지면 연결 해제
         if (_dashScript != null)
+        {
             _dashScript.OnDashHitEnemy -= ApplyDotDamage;
+        }
     }
 
-    private void ApplyDotDamage(GameObject target)
+    private void ApplyDotDamage(GameObject target, float dashDamage)
     {
-        if (!target.TryGetComponent(out OverTimeRunner runner))
-        {
-            runner = target.AddComponent<OverTimeRunner>();
-        }
+        if (target == null)
+            return;
 
-        Component sourceComponent = transform;
-        runner.Run(new DamageTick(_dotDamage, sourceComponent), _tickCount, _tickInterval);
+
+        StartCoroutine(ApplyDamageOverTime(target));
+    }
+
+    private System.Collections.IEnumerator ApplyDamageOverTime(GameObject target)
+    {
+        for (int i = 0; i < _tickCount; i++)
+        {
+            if (target == null)
+                yield break;
+
+            IDamageable damageable =
+                target.GetComponentInParent<IDamageable>();
+
+            if (damageable == null)
+            {
+                yield break;
+            }
+
+            damageable.TakeDamage(_dotDamage);
+
+
+            yield return new WaitForSeconds(_tickInterval);
+        }
     }
 }

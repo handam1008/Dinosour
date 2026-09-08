@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Upgrade.KDH_IceBullet
   slowAmount: 0.2
   slowDuration: 1.5
+  <BulletAbilityData>k__BackingField: {fileID: 11400000, guid: 9be95c4a54f705c4a940f8fb516956be, type: 2}
   onHitPlayer:
     m_PersistentCalls:
       m_Calls:
@@ -63,7 +64,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  <BulletAbilityData>k__BackingField: {fileID: 11400000, guid: 9be95c4a54f705c4a940f8fb516956be, type: 2}
 --- !u!1 &5708697399241599853
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,4 +121,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88ad8ac6b5c4449abe2ceda9717695ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Effects.KDH_IceEffect
-  iceEffect: {fileID: 11400000, guid: 9be95c4a54f705c4a940f8fb516956be, type: 2}

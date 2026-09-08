@@ -12,8 +12,8 @@ public class KHG_SwordAttack : MonoBehaviour
 
     [Header("속도 설정 (초 단위)")]
     [SerializeField] private float windupTime = 0.3f;  // 준비 동작 시간
-    [SerializeField] private float swingTime = 0.3f;   // 베기 동작 시간
-    [SerializeField] private float returnTime = 0.15f;  // 복귀 시간
+    [field: SerializeField] public float SwingTime = 0.4f;   // 베기 동작 시간
+    [field: SerializeField] public float ReturnTime = 0.2f;  // 복귀 시간
 
     private Quaternion initialRotation;
     private bool isAttacking = false;
@@ -48,20 +48,20 @@ public class KHG_SwordAttack : MonoBehaviour
         }
 
         elapsedTime = 0f;
-        while (elapsedTime < swingTime)
+        while (elapsedTime < SwingTime)
         {
             elapsedTime += Time.deltaTime;
-            float t = elapsedTime / swingTime;
+            float t = elapsedTime / SwingTime;
             float smoothT = Mathf.Sin(t * Mathf.PI * 0.5f);
             transform.localRotation = Quaternion.Slerp(windupRotation, targetRotation, smoothT);
             yield return null;
         }
 
         elapsedTime = 0f;
-        while (elapsedTime < returnTime)
+        while (elapsedTime < ReturnTime)
         {
             elapsedTime += Time.deltaTime;
-            float t = elapsedTime / returnTime;
+            float t = elapsedTime / ReturnTime;
             transform.localRotation = Quaternion.Slerp(targetRotation, initialRotation, t);
             yield return null;
         }
