@@ -4,21 +4,19 @@ using UnityEngine;
 public class GamblerCoinShooter : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField]
-    private GamblerMouseAim mouseAim;
-
-    [SerializeField]
-    private GamblerCoinPool coinPool;
+    [SerializeField] private GamblerMouseAim mouseAim;
+    [SerializeField] private GamblerCoinPool coinPool;
+    [SerializeField] private GamblerMagazine magazine;
+    [SerializeField] private Transform owner;
 
     [Header("Fire Settings")]
-    [Min(0f)]
-    [SerializeField]
-    private float fireCooldown = 0.2f;
+    [SerializeField, Min(0f)] private float fireCooldown = 0.2f;
+    [SerializeField, Min(0f)] private float spawnOffset = 0.15f;
 
     private float nextFireTime;
 
-    public event Action<GamblerCoinProjectile>
-        CoinFired;
+    public event Action<GamblerCoinProjectile> CoinFired;
+    public event Action RouletteCoinFired;
 
     private void Awake()
     {
@@ -31,6 +29,23 @@ public class GamblerCoinShooter : MonoBehaviour
         {
             coinPool = GetComponent<GamblerCoinPool>();
         }
+
+        if (magazine == null)
+        {
+            magazine = GetComponent<GamblerMagazine>();
+        }
+
+        if (owner == null)
+        {
+            if (transform.parent != null)
+            {
+                owner = transform.parent;
+            }
+            else
+            {
+                owner = transform;
+            }
+        }
     }
 
     public bool TryFire()
@@ -40,11 +55,13 @@ public class GamblerCoinShooter : MonoBehaviour
             return false;
         }
 
-        if (mouseAim == null ||
-            coinPool == null)
+        if (mouseAim == null || coinPool == null || magazine == null)
         {
-            Debug.LogError("GamblerCoinShooter references are not fully assigned.", this);
+            return false;
+        }
 
+        if (!magazine.TryPeekNext(out GamblerCoinType nextCoinType))
+        {
             return false;
         }
 
@@ -53,21 +70,36 @@ public class GamblerCoinShooter : MonoBehaviour
             return false;
         }
 
-        float angle =
-            Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Vector3 spawnPosition = transform.position + (Vector3)(direction * spawnOffset);
 
-        GamblerCoinProjectile coin = coinPool.Get(transform.position, Quaternion.Euler(0f, 0f, angle-90));
+        GamblerCoinProjectile coin = coinPool.Get(
+            nextCoinType,
+            spawnPosition,
+            Quaternion.Euler(0f, 0f, angle - 90f)
+        );
 
         if (coin == null)
         {
             return false;
         }
 
-        coin.Initialize(direction, coinPool.Release);
+        if (!magazine.TryTakeNext(out GamblerCoinType firedCoinType))
+        {
+            coinPool.Release(coin);
+            return false;
+        }
+
+        coin.Initialize(direction, owner, coinPool.Release);
 
         nextFireTime = Time.time + fireCooldown;
 
         CoinFired?.Invoke(coin);
+
+        if (firedCoinType == GamblerCoinType.Roulette)
+        {
+            RouletteCoinFired?.Invoke();
+        }
 
         return true;
     }

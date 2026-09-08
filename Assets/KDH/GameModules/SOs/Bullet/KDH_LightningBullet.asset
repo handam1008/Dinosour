@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8a05fe156834b90963d51b25dc8ee47, type: 3}
+  m_Name: KDH_LightningBullet
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Upgrade.KDH_BulletAbilityDataSO
+  abilityName: "\uBC88\uAC1C\uD0C4"
+  abilityDescription: "\uC801\uC911 \uC2DC \uD45C\uC2DD\uC774 \uC0DD\uAE41\uB2C8\uB2E4.
+    \uD45C\uC2DD\uC774 \uC0DD\uAE34 \uC801\uC744 \uACF5\uACA9\uC2DC \uD45C\uC2DC\uC774
+    \uCC44\uC6CC\uC9C0\uBA70 \uB2E4 \uCC44\uC6CC\uC9C0\uBA74 \uBC88\uAC1C\uAC00 \uB5A8\uC5B4\uC838
+    \uB370\uBBF8\uC9C0\uB97C \uC785\uD799\uB2C8\uB2E4."
+  bulletAbilityPrefab: {fileID: 1891358268744537669, guid: 645d4dee452034b4a9992fbff6bdf1e1, type: 3}
+  bulletNormalEffectPrefab: {fileID: 9106091713923166320, guid: d888b35b4505581458c857bb755deb8a, type: 3}
+  bulletUpgradedEffectPrefab: {fileID: 9106091713923166320, guid: 024f96984555c6b4090e455d6b3223c3, type: 3}
+  bulletTrailEffectPrefab: {fileID: 8914320711568083332, guid: ccdc045df5c302440b846fe488a44cf5, type: 3}

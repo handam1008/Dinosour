@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8a05fe156834b90963d51b25dc8ee47, type: 3}
+  m_Name: KDH_GravityBullet
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Upgrade.KDH_BulletAbilityDataSO
+  abilityName: "\uC911\uB825\uD0C4"
+  abilityDescription: "\uC801\uC911 \uC2DC \uC801\uB4E4\uC744 \uBC00\uCCD0\uB0C5\uB2C8\uB2E4."
+  bulletAbilityPrefab: {fileID: 1891358268744537669, guid: 8c6d38ddcd12af54d978f95bcd97b052, type: 3}
+  bulletNormalEffectPrefab: {fileID: 9106091713923166320, guid: 5eb7f159a7d29c54ca4039e9d4d0fee1, type: 3}
+  bulletUpgradedEffectPrefab: {fileID: 9106091713923166320, guid: aa4b5da99cd99284db1438b204cb4642, type: 3}
+  bulletTrailEffectPrefab: {fileID: 8914320711568083332, guid: 1f6784c3d7f06aa489033889e681e2cd, type: 3}

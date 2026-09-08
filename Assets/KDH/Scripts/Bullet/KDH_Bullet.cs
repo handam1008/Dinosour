@@ -10,7 +10,7 @@ namespace KDH.Scripts.Bullet
         [field: SerializeField] public KDH_DamageCaster DamageCasterCompo { get; private set; }
         [Header("Bullet Settings")]
         [field: SerializeField] public float Speed { get; private set; } = 20f;
-        [field: SerializeField] public float Damage { get; private set; } = 15f;
+        [field: SerializeField] public float Damage { get; set; } = 15f;
         [field: SerializeField] public float UpgradValue { get; private set; } = 2f;
         
         public Vector2 MoveDir { get; private set; }
