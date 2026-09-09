@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DG.Tweening;
 
@@ -15,12 +14,13 @@ namespace SSW
         [SerializeField] RectTransform _title;
         [SerializeField] Text _statusText;
         [SerializeField] MultiplayerMenuUI _multiplayerMenuPrefab;
+        [SerializeField] SandboxMapMenuUI _sandboxMapMenuPrefab;
         [SerializeField] string _sandboxSceneName = "SuperUltraLegendScene";
         [SerializeField] float _fadeDuration = 0.22f;
         [SerializeField] float _buttonStagger = 0.07f;
 
-        CanvasGroup _mapPanel;
         MultiplayerMenuUI _multiplayerMenu;
+        SandboxMapMenuUI _sandboxMapMenu;
 
         CanvasGroup _current;
 
@@ -114,78 +114,8 @@ namespace SSW
 
         void ShowSandboxMaps()
         {
-            if (_mapPanel == null) _mapPanel = CreateMapPanel();
-            ShowPanel(_mapPanel);
-        }
-
-        CanvasGroup CreateMapPanel()
-        {
-            GameObject panelObject = new GameObject("SandboxMapPanel", typeof(RectTransform), typeof(CanvasGroup), typeof(Image));
-            panelObject.transform.SetParent(_mainPanel.transform.parent, false);
-
-            RectTransform panel = panelObject.GetComponent<RectTransform>();
-            panel.anchorMin = Vector2.zero;
-            panel.anchorMax = Vector2.one;
-            panel.offsetMin = Vector2.zero;
-            panel.offsetMax = Vector2.zero;
-            panelObject.GetComponent<Image>().color = new Color(0.025f, 0.035f, 0.09f, 0.97f);
-
-            CreateLabel(panel, "SANDBOX MAPS", new Vector2(0f, 250f), 48, new Color(0.45f, 0.95f, 1f));
-            CreateLabel(panel, "맵을 선택하세요", new Vector2(0f, 202f), 22, new Color(0.75f, 0.8f, 0.95f));
-
-            CreateMapCard(panel, "NEON TEST ARENA", "넓은 이동 · 더미 테스트 · 점프 구역", new Vector2(0f, 40f), _sandboxSceneName);
-            CreateMapCard(panel, "COMING SOON", "새로운 샌드박스 구역 준비 중", new Vector2(0f, -105f), string.Empty);
-            CreateBackButton(panel);
-            return panelObject.GetComponent<CanvasGroup>();
-        }
-
-        void CreateMapCard(RectTransform parent, string title, string subtitle, Vector2 position, string sceneName)
-        {
-            GameObject cardObject = new GameObject(title, typeof(RectTransform), typeof(Image), typeof(Button), typeof(Outline));
-            cardObject.transform.SetParent(parent, false);
-            RectTransform card = cardObject.GetComponent<RectTransform>();
-            card.sizeDelta = new Vector2(620f, 118f);
-            card.anchoredPosition = position;
-            cardObject.GetComponent<Image>().color = string.IsNullOrEmpty(sceneName)
-                ? new Color(0.09f, 0.1f, 0.18f, 0.72f)
-                : new Color(0.08f, 0.18f, 0.3f, 0.96f);
-            Outline outline = cardObject.GetComponent<Outline>();
-            outline.effectColor = string.IsNullOrEmpty(sceneName) ? new Color(0.3f, 0.35f, 0.5f) : new Color(0.2f, 0.9f, 1f);
-            outline.effectDistance = new Vector2(3f, -3f);
-
-            CreateLabel(card, title, new Vector2(0f, 20f), 28, Color.white);
-            CreateLabel(card, subtitle, new Vector2(0f, -23f), 17, new Color(0.62f, 0.8f, 0.95f));
-
-            Button button = cardObject.GetComponent<Button>();
-            button.interactable = !string.IsNullOrEmpty(sceneName);
-            if (button.interactable) button.onClick.AddListener(() => SceneManager.LoadScene(sceneName));
-        }
-
-        void CreateBackButton(RectTransform parent)
-        {
-            GameObject buttonObject = new GameObject("Back", typeof(RectTransform), typeof(Image), typeof(Button));
-            buttonObject.transform.SetParent(parent, false);
-            RectTransform rect = buttonObject.GetComponent<RectTransform>();
-            rect.sizeDelta = new Vector2(180f, 54f);
-            rect.anchoredPosition = new Vector2(0f, -245f);
-            buttonObject.GetComponent<Image>().color = new Color(0.16f, 0.12f, 0.28f, 0.95f);
-            buttonObject.GetComponent<Button>().onClick.AddListener(ShowPlay);
-            CreateLabel(rect, "뒤로", Vector2.zero, 21, Color.white);
-        }
-
-        static void CreateLabel(RectTransform parent, string text, Vector2 position, int size, Color color)
-        {
-            GameObject labelObject = new GameObject(text, typeof(RectTransform), typeof(Text));
-            labelObject.transform.SetParent(parent, false);
-            RectTransform rect = labelObject.GetComponent<RectTransform>();
-            rect.sizeDelta = new Vector2(580f, 48f);
-            rect.anchoredPosition = position;
-            Text label = labelObject.GetComponent<Text>();
-            label.text = text;
-            label.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            label.fontSize = size;
-            label.alignment = TextAnchor.MiddleCenter;
-            label.color = color;
+            SandboxMapMenuUI menu = GetSandboxMapMenu();
+            if (menu != null) ShowPanel(menu.Group);
         }
 
         public void CreateRoom()
@@ -231,6 +161,27 @@ namespace SSW
             }
 
             return _multiplayerMenu;
+        }
+
+        SandboxMapMenuUI GetSandboxMapMenu()
+        {
+            if (_sandboxMapMenu == null)
+            {
+                if (_sandboxMapMenuPrefab == null)
+                    _sandboxMapMenuPrefab = Resources.Load<SandboxMapMenuUI>("UI/SandboxMapMenu");
+                if (_sandboxMapMenuPrefab == null)
+                {
+                    SetStatus("샌드박스 화면을 불러오지 못했습니다");
+                    return null;
+                }
+
+                RectTransform parent = _mainPanel.transform.parent as RectTransform;
+                _sandboxMapMenu = Instantiate(_sandboxMapMenuPrefab, parent, false);
+                _sandboxMapMenu.Initialize(this, _sandboxSceneName);
+                _sandboxMapMenu.gameObject.SetActive(false);
+            }
+
+            return _sandboxMapMenu;
         }
 
         public void SetMasterVolume(float value)

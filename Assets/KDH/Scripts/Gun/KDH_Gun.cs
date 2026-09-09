@@ -1,6 +1,7 @@
 using System;
 using KDH.Scripts.Ammo;
 using KDH.Scripts.Player;
+using KDH.Scripts.System;
 using KDH.Scripts.Upgrade;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,7 +15,7 @@ namespace KDH.Scripts.Gun
         [Header("Others")]
         [field: SerializeField] public PlayerInput PlayerInput { get; private set; }    
         [field: SerializeField] public Camera Cam { get; private set; }
-
+        
         [Header("Gun Parts")]
         [field: SerializeField] public Transform Visual { get; private set; }
         [field: SerializeField] public KDH_SpawnBullet SpawnBullet { get; private set; }
@@ -26,14 +27,14 @@ namespace KDH.Scripts.Gun
         [field: SerializeField] public int MaxAmmo { get; private set; }
         [field: SerializeField] public float AttackSpeed { get; private set; }
         [field: SerializeField] public float ReloadSpeed { get; private set; } // 한 번에 모든 Ammo를 장정하는 형식
-        [field: SerializeField] public float ChargeSpeed { get; private set; }
+        [field: SerializeField] public float ChargeSpeed { get; set; }
         public KDH_Ammo[] Ammos {get; set;}
         
         [Header("Modules")]
         [SerializeField] private KDH_PlayerAttackModule playerAttackModule;
         [field: SerializeField] public KDH_Tanchang Tanchang {get; private set;}
         [field: SerializeField] public KDH_UpgradeList UpgradeList {get; private set;}
-
+        [field: SerializeField] public KDH_EffectPoolManager  EffectPoolList {get; private set;}
         [field: SerializeField] public int CurrentAmmo { get; set; } = 0;
         [field: SerializeField] public float ChargeTimer { get; set; } = 0f;
 

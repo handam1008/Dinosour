@@ -41,8 +41,17 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BackGroundVFX
+    uniqueID: 3209590549
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: VFX
+    uniqueID: 3230274349
+    locked: 0
+  - name: KDH_MapVFX
+    uniqueID: 3845497497
     locked: 0
   m_RenderingLayers:
   - Default

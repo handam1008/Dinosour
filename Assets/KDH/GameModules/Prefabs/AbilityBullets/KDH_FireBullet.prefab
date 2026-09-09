@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81fae416815339846a031808d15c0026, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH_FireBullet
-  dotDamage: 5
+  dotDamage: 3
   dotDamageCount: 6
   <FireireDuration>k__BackingField: 3
   onHitPlayer:

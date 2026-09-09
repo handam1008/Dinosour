@@ -2,13 +2,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class GamblerMouseAim : MonoBehaviour
 {
-    [SerializeField] private Camera worldCamera;
+     [SerializeField] private Camera worldCamera;
     [SerializeField] private Transform playerCenter;
     [SerializeField] private SpriteRenderer gunSprite;
 
-    [Header("총 위치")]
-    [Min(0f)]
-    [SerializeField] private float distanceFromPlayer = 0.8f;
+    [Header("Gun Position")]
+    [SerializeField, Min(0f)] private float distanceFromPlayer = 0.8f;
 
     public Vector2 AimDirection { get; private set; } = Vector2.right;
     public Vector3 MouseWorldPosition { get; private set; }
@@ -45,23 +44,14 @@ public class GamblerMouseAim : MonoBehaviour
             return false;
         }
 
-        Vector2 gunToMouse = MouseWorldPosition - transform.position;
-
-        if (gunToMouse.sqrMagnitude < 0.0001f)
-        {
-            return false;
-        }
-
-        direction = gunToMouse.normalized;
-        return true;
+        direction = AimDirection;
+        return direction.sqrMagnitude > 0.0001f;
     }
 
     private bool TryRefreshAim()
     {
         if (playerCenter == null)
         {
-            Debug.LogError("GamblerMouseAim needs a Player Center reference.", this);
-
             return false;
         }
 
@@ -82,12 +72,10 @@ public class GamblerMouseAim : MonoBehaviour
         AimDirection = playerToMouse.normalized;
 
         Vector3 gunPosition = playerCenter.position + (Vector3)(AimDirection * distanceFromPlayer);
-
         gunPosition.z = transform.position.z;
         transform.position = gunPosition;
 
         float angle = Mathf.Atan2(AimDirection.y, AimDirection.x) * Mathf.Rad2Deg;
-
         transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
         if (gunSprite != null)
@@ -102,25 +90,15 @@ public class GamblerMouseAim : MonoBehaviour
     {
         mouseWorldPosition = default;
 
-        if (worldCamera == null)
-        {
-            Debug.LogError(
-                "GamblerMouseAim needs a Camera reference.",this);
-
-            return false;
-        }
-
-        if (Mouse.current == null)
+        if (worldCamera == null || Mouse.current == null)
         {
             return false;
         }
 
         Vector3 mouseScreenPosition = Mouse.current.position.ReadValue();
-
         mouseScreenPosition.z = Mathf.Abs(worldCamera.transform.position.z - transform.position.z);
 
         mouseWorldPosition = worldCamera.ScreenToWorldPoint(mouseScreenPosition);
-
         mouseWorldPosition.z = transform.position.z;
 
         return true;
