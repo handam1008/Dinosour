@@ -7310,7 +7310,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &717076731
 Transform:
   m_ObjectHideFlags: 0
@@ -7660,7 +7660,7 @@ Transform:
   m_GameObject: {fileID: 798520468}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 80, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8040,6 +8040,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1611136039949d42baa53619e8b9957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageUpjackpot
+  damageUpCooldwon: 10
 --- !u!1 &933345699
 GameObject:
   m_ObjectHideFlags: 0
@@ -8255,7 +8256,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &969543698
 Transform:
   m_ObjectHideFlags: 0
@@ -8806,7 +8807,7 @@ Transform:
   m_GameObject: {fileID: 1028768279}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 80, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17287,6 +17288,8 @@ MonoBehaviour:
   owner: {fileID: 337175680}
   fireCooldown: 0.2
   spawnOffset: 0.15
+  coinDamage: 10
+  damageMultiplier: 1
 --- !u!114 &2016847339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22305,11 +22308,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8821414762111665215, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 66.7
       objectReference: {fileID: 0}
     - target: {fileID: 8821414762111665215, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 8821414762111665215, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
       propertyPath: m_LocalPosition.z
