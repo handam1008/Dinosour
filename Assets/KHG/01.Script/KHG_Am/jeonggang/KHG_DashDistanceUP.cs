@@ -34,7 +34,6 @@ public class KHG_DashDistanceUP : MonoBehaviour
 
     private void Start()
     {
-        // 대쉬 거리 증가
         if (dash != null)
         {
             dash._dashDuration *= (1f + dashDistance);

@@ -63,7 +63,7 @@ public class KHG_ParringHeal : MonoBehaviour
     private IEnumerator HealOverTimeRoutine()
     {
         float timer = 0f;
-        float healRate = totalHealAmount / healDuration; // 초당 회복 속도
+        float healRate = totalHealAmount / healDuration;
         float logTimer = 0f;
 
         Debug.Log($"★ 패링 성공! 지속 회복 시작 (목표: {healDuration}초 동안 총 {totalHealAmount} 회복)");
