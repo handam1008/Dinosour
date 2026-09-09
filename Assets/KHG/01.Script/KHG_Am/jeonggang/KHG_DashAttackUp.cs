@@ -4,7 +4,7 @@ public class KHG_DashAttackUp : MonoBehaviour
 {
     [Header("연결할 스크립트 참조")]
     [SerializeField] private KHG_Paring paringScript;
-    [SerializeField] private KHG_Dash dashScript; // 기존 대시 스크립트 타입으로 변경
+    [SerializeField] private KHG_Dash dashScript;
 
     [Header("버프 설정")]
     [SerializeField] private float damageMultiplier = 2f;
