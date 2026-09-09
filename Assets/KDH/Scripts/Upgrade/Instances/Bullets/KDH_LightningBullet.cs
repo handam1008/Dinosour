@@ -77,11 +77,11 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
 
         public override void BulletAbility(Collider2D collision, KDH_Bullet bullet)
         {
-            if (_onCooldown) return;
+            if (_onCooldown || _skillReady) return;
 
             HitPoint = collision.transform;
             Bullet = bullet;
-            
+
             if (CountHit < requiredHits)
             {
                 CountHit++;

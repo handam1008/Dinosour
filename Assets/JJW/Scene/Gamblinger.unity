@@ -1404,6 +1404,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JJW.Script.Jackpot.JackpotDivision
   coinShooter: {fileID: 2016847338}
+--- !u!114 &904079590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904079570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f63f73c20703d6479fba4adb25ce843, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Speedjackpot
+--- !u!114 &904079591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904079570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1611136039949d42baa53619e8b9957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamageUpjackpot
 --- !u!1 &969543697
 GameObject:
   m_ObjectHideFlags: 0
@@ -2926,6 +2950,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 11155713228905163, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 904079580}
+    - targetCorrespondingSourceObject: {fileID: 11155713228905163, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 904079590}
+    - targetCorrespondingSourceObject: {fileID: 11155713228905163, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 904079591}
   m_SourcePrefab: {fileID: 100100000, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -10,7 +10,9 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
         [Header("Bullet Settings")] 
         [SerializeField] private float flyPower = 2f;
         private bool _canUseSkill;
+        private bool _initPrefab;
         private PlayerController _targetController;
+        private Rigidbody2D _targetRbCompo;
         [field: SerializeField] public KDH_BulletAbilityDataSO BulletAbilityData { get; private set; }
     
         public Transform HitPoint { get; private set; }
@@ -25,21 +27,28 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
         
         public override void BulletAbility(Collider2D collision, KDH_Bullet bullet)
         {
-            _targetController = collision.gameObject.GetComponent<PlayerController>();
+            if (!_initPrefab)
+            {
+                _targetController = collision.gameObject.GetComponent<PlayerController>();
+                _targetRbCompo = _targetController.GetComponent<Rigidbody2D>();
+                _initPrefab = true;
+            }
+
+            _targetRbCompo.linearVelocityY = 0;
             
             if (bullet.IsUpgraded)
             {
-                Airborne(collision, flyPower * Bullet.UpgradValue);
-                HitPoint = collision.transform;
                 Bullet = bullet;
+                HitPoint = collision.transform;
+                Airborne(collision, flyPower * Bullet.UpgradValue);
 
                 onHitPlayer?.Invoke();
                 return;
             }
 
-            Airborne(collision, flyPower);
-            HitPoint = collision.transform;
             Bullet = bullet;
+            HitPoint = collision.transform;
+            Airborne(collision, flyPower);
             
             onHitPlayer?.Invoke();
         }
@@ -51,9 +60,6 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
             if (collision.TryGetComponent(out IForceReceiver receiver))
             {
                 receiver.ApplyForce(new Vector2(0, power), ForceMode2D.Impulse);
-                #if UNITY_EDITOR
-                Debug.Log("공중에 뜸 상태에서 더 띄우기");
-                #endif
             }
         }
     }
