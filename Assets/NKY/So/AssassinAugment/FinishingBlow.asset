@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76b22dbd7d564c77aa4369bad8843a3d, type: 3}
+  m_Script: {fileID: 11500000, guid: 82e98497c43d4a9b8740563ecb52d185, type: 3}
   m_Name: FinishingBlow
-  m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.Job.AssassinAugment
+  m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.Job.AugmentSO.FinishingBlowSO
   displayName: "\uD655\uC2E4\uD55C \uCC98\uB9AC"
   description: "\uB2A5\uB825 \uC0AC\uC6A9\uC2DC \uB2E4\uC74C \uAE30\uBCF8\uACF5\uACA9
-    \uB370\uBBF8\uC9C0 1.15x"
-  icon: {fileID: -1493577732303177066, guid: 623dcb9525cf9644285d5649f88e77f3, type: 3}
+    \uB370\uBBF8\uC9C0 1.3x"
+  icon: {fileID: 1540027712993040515, guid: 2a53aca84775b5a4dad85d6789eae691, type: 3}
   type: 0
+  damageMultiplier: 1.3
