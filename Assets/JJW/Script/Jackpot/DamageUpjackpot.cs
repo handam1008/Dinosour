@@ -1,22 +1,21 @@
-using SSW;
+using System;
+using JJW.Script.Jackpot;
 using UnityEngine;
 
-public class DamageUpjackpot : MonoBehaviour, IDamageable
+public class DamageUpjackpot : MonoBehaviour
 {
-    public float Current { get; }
-    public float Max { get; }
-    public void TakeDamage(float amount)
+    private GamblerCoinProjectile coinProjectile;
+    private JackpotDivision division;
+    
+
+    private void Awake()
     {
-        throw new System.NotImplementedException();
+        coinProjectile = GetComponent<GamblerCoinProjectile>();
+        division.DamageJackpot += OnCoinDamageUp;
     }
 
-    public void TakeDamage(float amount, bool isCritical)
+    private void OnCoinDamageUp(float damage)
     {
-        throw new System.NotImplementedException();
-    }
-
-    public void Heal(float amount)
-    {
-        throw new System.NotImplementedException();
+        coinProjectile.CoinDamageUp(damage);
     }
 }

@@ -2,7 +2,7 @@ using System;
 using SSW;
 using UnityEngine;
 
-public class GamblerCoinProjectile : MonoBehaviour
+public class GamblerCoinProjectile : MonoBehaviour, ICoinDamageUp
 {
     [SerializeField] private Rigidbody2D body;
     [SerializeField] private Animator animator;
@@ -20,6 +20,8 @@ public class GamblerCoinProjectile : MonoBehaviour
 
     public float CoinDamage => coinDamage;
     public GamblerCoinType CoinType { get; private set; }
+    
+    private float damageMultiplier = 1f;
 
     private void Reset()
     {
@@ -129,7 +131,7 @@ public class GamblerCoinProjectile : MonoBehaviour
 
         if (other.TryGetComponent<IDamageable>(out var damage))
         {
-            damage.TakeDamage(CoinDamage);
+            damage.TakeDamage(CoinDamage * damageMultiplier);
             ReturnToPool();
             return;
         }
@@ -138,5 +140,10 @@ public class GamblerCoinProjectile : MonoBehaviour
         {
             ReturnToPool();
         }
+    }
+
+    public void CoinDamageUp(float amount)
+    {
+        damageMultiplier = amount;//슈터으르 대미지업으로 보내주서 . 함수로 해준다
     }
 }
