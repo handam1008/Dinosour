@@ -18,7 +18,15 @@ public class RandomPotion : MonoBehaviour
 
     private WitchAugmentController _augment;
 
-    private Queue<GameObject> currentPotions = new Queue<GameObject>();
+    // 앞(0번)이 손에 든 것, 뒤가 머리 위에서 대기 중인 것
+    private readonly List<GameObject> currentPotions = new List<GameObject>();
+
+    // 주머니 증강: 보관 중인 포션과 이번 포션에 이미 교환했는지
+    private AbstractPotion _pocket;
+    private bool _pocketUsed;
+
+    // UI가 읽어간다
+    public AbstractPotion Pocket => _pocket;
 
     [SerializeField] private bool canCreate = false;
     [SerializeField] private bool canHand = false;
@@ -32,10 +40,20 @@ public class RandomPotion : MonoBehaviour
     {
         canCreate = true;
         canHand = true;
+        ResetPocket(); // 라운드가 시작될 때 주머니는 비어 있다
+    }
+
+    // 라운드가 끝나면 호출해서 주머니를 비운다
+    public void ResetPocket()
+    {
+        _pocket = null;
+        _pocketUsed = false;
     }
 
     private void Update()
     {
+        if (ShiftPressed()) SwapPocket();
+
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             if (currentPotions.Count <= 0) return;
@@ -47,7 +65,8 @@ public class RandomPotion : MonoBehaviour
 
         if (currentPotions.Count > 2)
         {
-            GameObject potion = currentPotions.Dequeue();
+            GameObject potion = currentPotions[0];
+            currentPotions.RemoveAt(0);
             Destroy(potion);
             canHand = true;
         }
@@ -62,15 +81,55 @@ public class RandomPotion : MonoBehaviour
         {
             if (currentPotions.Count <= 0) return;
 
-            GameObject potion = currentPotions.Peek();
-            potion.transform.SetParent(Hand, false);
+            currentPotions[0].transform.SetParent(Hand, false);
             canHand = false;
         }
     }
 
+    private bool ShiftPressed()
+    {
+        if (Keyboard.current == null) return false;
+        return Keyboard.current.leftShiftKey.wasPressedThisFrame
+            || Keyboard.current.rightShiftKey.wasPressedThisFrame;
+    }
+
+    // 주머니 증강: 손에 든 포션과 주머니 속 포션을 교환한다
+    private void SwapPocket()
+    {
+        if (_augment == null || !_augment.Has(WitchAugmentType.Pocket)) return;
+        if (_pocketUsed) return; // 던지기 전까지 1회만
+
+        AbstractPotion heldData = null;
+
+        // 손에 뭔가 들려 있으면 꺼내서 주머니로 보낼 준비
+        if (currentPotions.Count > 0)
+        {
+            GameObject held = currentPotions[0];
+            Potion potion = held.GetComponent<Potion>();
+            heldData = potion != null ? potion.Data : null;
+
+            currentPotions.RemoveAt(0);
+            Destroy(held);
+        }
+
+        // 주머니에 있던 걸 손 자리에 장전한다
+        if (_pocket != null)
+        {
+            GameObject taken = SpawnPotion(_pocket, Hand);
+            if (taken != null) currentPotions.Insert(0, taken);
+        }
+
+        _pocket = heldData;   // 손에 있던 게 주머니로 (없었으면 비워짐)
+        _pocketUsed = true;
+
+        canHand = true;       // 손이 비었으면 다음 포션이 내려오도록
+    }
+
     private void Shoot(Vector2 dir)
     {
-        GameObject held = currentPotions.Dequeue();
+        GameObject held = currentPotions[0];
+        currentPotions.RemoveAt(0);
+
         Potion heldPotion = held.GetComponent<Potion>();
         AbstractPotion data = heldPotion != null ? heldPotion.Data : null;
 
@@ -91,16 +150,16 @@ public class RandomPotion : MonoBehaviour
             // 첫 발은 손에 든 것, 나머지는 같은 포션으로 복제한다
             if (i > 0)
             {
-                if (data == null || data.PotionPrefab == null) break;
+                if (data == null) break;
 
-                go = Instantiate(data.PotionPrefab, Hand);
-                go.transform.localPosition = Vector3.zero;
-                go.GetComponent<Potion>().Init(data, mods, this);
+                go = SpawnPotion(data, Hand);
+                if (go == null) break;
             }
 
             Launch(go, velocity);
         }
 
+        _pocketUsed = false; // 던졌으니 다시 교환할 수 있다
         canHand = true;
     }
 
@@ -117,12 +176,18 @@ public class RandomPotion : MonoBehaviour
 
     private void CreatePotion()
     {
-        AbstractPotion data = PickPotion();
-        if (data == null || data.PotionPrefab == null) return;
+        GameObject clone = SpawnPotion(PickPotion(), PlayerUp);
+        if (clone != null) currentPotions.Add(clone);
+    }
 
-        GameObject clone = Instantiate(data.PotionPrefab, PlayerUp);
+    // 포션 하나를 만들어 지정한 자리에 붙인다
+    private GameObject SpawnPotion(AbstractPotion data, Transform parent)
+    {
+        if (data == null || data.PotionPrefab == null) return null;
+
+        GameObject clone = Instantiate(data.PotionPrefab, parent);
         clone.GetComponent<Potion>().Init(data, BuildMods(), this);
-        currentPotions.Enqueue(clone);
+        return clone;
     }
 
     // 기본 포션 + 해금으로 추가된 포션을 합쳐서 하나 뽑는다

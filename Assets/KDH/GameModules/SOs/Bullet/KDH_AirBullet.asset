@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8a05fe156834b90963d51b25dc8ee47, type: 3}
+  m_Name: KDH_AirBullet
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Upgrade.KDH_BulletAbilityDataSO
+  abilityName: "\uACF5\uC911\uD0C4"
+  abilityDescription: "\uC801\uC774 \uACF5\uC911\uC5D0 \uB72C \uC0C1\uD0DC\uC5D0\uC11C
+    \uC801\uC911 \uC2DC \uC0C1\uB300\uB97C \uB354\uC6B1 \uACF5\uC911\uC5D0 \uB744\uC6B0\uAC8C
+    \uB9CC\uB4ED\uB2C8\uB2E4."
+  bulletAbilityPrefab: {fileID: 1891358268744537669, guid: 1b9f7ef1d68526c4fb4a97592ea20b9a, type: 3}
+  bulletNormalEffectPrefab: {fileID: 9106091713923166320, guid: 56e0e2538b96a734e8cbb50274e29cf3, type: 3}
+  bulletUpgradedEffectPrefab: {fileID: 9106091713923166320, guid: 83b7af23c28b72b479ad04aea361018a, type: 3}
+  bulletTrailEffectPrefab: {fileID: 8914320711568083332, guid: ff2ab118cca27694193b33fd2c0b9811, type: 3}
