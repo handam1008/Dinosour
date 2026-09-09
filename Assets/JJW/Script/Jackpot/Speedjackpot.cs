@@ -11,11 +11,8 @@ public class Speedjackpot : MonoBehaviour
         division.SpeedJackpot += ApplySpeed;
     }
 
-    public void ApplySpeed(float amount, float duration)
+    public void ApplySpeed(PlayerController playerController, float amount, float duration)
     {
-        if (TryGetComponent(out ISpeedable speedable))
-        {
-            speedable.ApplySpeed(amount, duration);
-        }
+        playerController.ApplySpeed(amount, duration);
     }
 }

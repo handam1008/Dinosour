@@ -1,4 +1,5 @@
 using System;
+using SSW;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,8 +8,8 @@ namespace JJW.Script.Jackpot
     public class JackpotDivision : MonoBehaviour
     {
         public event Action<float> DamageJackpot;
-        public event Action HealJackpot;
-        public event Action<float, float> SpeedJackpot;
+        public event Action<PlayerController,float> HealJackpot;
+        public event Action<PlayerController, float, float> SpeedJackpot;
         public event Action Jackpot777;
         public event Action Jackpot444;
         public event Action StarJackpot;
@@ -32,7 +33,7 @@ namespace JJW.Script.Jackpot
             coinShooter.RouletteCoinFired -= Roulette;
         }
 
-        private void Roulette()
+        private void Roulette(PlayerController playerController)
         {
             int boll = Random.Range(0, 100);
             Debug.Log("룰렛 돌아감!!");
@@ -40,12 +41,12 @@ namespace JJW.Script.Jackpot
              if (0 <= boll && boll < 7)
             {
                 Debug.Log("공격력 증가");
-                DamageJackpot?.Invoke(1.2f);
+                DamageJackpot?.Invoke(1.3f);
             }
             else if (7 <= boll && boll < 14)
             {
                 Debug.Log("체력 회복");
-                HealJackpot?.Invoke();
+                HealJackpot?.Invoke(playerController,50f);
             }
             else if (14 <= boll && boll < 21)
             {
@@ -55,7 +56,7 @@ namespace JJW.Script.Jackpot
             else if (21 <= boll && boll < 28)
             {
                 Debug.Log("스피드 증가");
-                SpeedJackpot?.Invoke(1.523f,7.4f);
+                SpeedJackpot?.Invoke(playerController, 1.523f,7.4f);
             }
             else if (boll == 28)
             {
