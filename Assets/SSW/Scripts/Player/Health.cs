@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using NKY.Lib.EventChannel;
+using NKY.Lib.EventChannel.EventChannelAsset; // ¹Ù²Þ
 using UnityEngine;
 
 namespace SSW
@@ -24,7 +26,12 @@ namespace SSW
         {
             current = maxHealth;
             SpawnHealthBar();
+            OnHealthChanged += testChannel.ChangeTupleRaise; // ¹Ù²Þ
+            OnDamaged += hitChannel.Raise; //¹Ù²Þ
         }
+
+        [SerializeField] private DoubleFloatEventChannelSO testChannel;//¹Ù²Þ
+        [SerializeField] private VoidEventChannelSO hitChannel;//¹Ù²Þ
 
         public void TakeDamage(float amount)
         {
@@ -71,6 +78,7 @@ namespace SSW
             if (wasLethal) Die();
             return result;
         }
+        
 
         public void Heal(float amount)
         {

@@ -1,4 +1,5 @@
-﻿using SSW;
+﻿using NKY.Lib.EventChannel.EventChannelAsset;
+using SSW;
 using UnityEngine;
 
 namespace NKY.Scripts
@@ -28,7 +29,7 @@ namespace NKY.Scripts
                 
                 if (hit.TryGetComponent(out IDamageable damageable))
                 {
-                    damageable.TakeDamage(damage);
+                    CalcDamage(damageable, hit.gameObject);
                 }
             }
         }
