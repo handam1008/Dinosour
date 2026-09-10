@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 120de1c0a6af4da3b2dc1adca816229d, type: 3}
+  m_Name: BackStab
+  m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.Job.AugmentSO.BackStabSO
+  displayName: "\uBC31\uC2A4\uD0ED"
+  description: "\uB4A4\uC5D0\uC11C \uACF5\uACA9\uC2DC 1.4x \uB370\uBBF8\uC9C0"
+  icon: {fileID: 21300000, guid: fc9975c7c31dde746aba848425b1fda1, type: 3}
+  type: 7
+  backStabAngle: 140
+  attackMultiplier: 1.4

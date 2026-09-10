@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using NKY.Scripts.Job;
 using SSW;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,43 +9,44 @@ namespace NKY.Scripts.Skill
     [CreateAssetMenu(fileName = "skillData", menuName = "SKill/Assassin/normal", order = 0)]
     public class AssassinNormalSkillSo : AbstractPlayerSkillSo
     {
-        [field: SerializeField] public float Damage {get; private set;}
-        [field: SerializeField] public float ThrowSpeed {get; private set;}
-        [field: SerializeField] public LayerMask WhatIsTarget {get; private set;}
-        [field: SerializeField] public float DestroyTime {get; private set;}
-        [SerializeField] private AssassinNormalSkill skillPrefab;
-
-
-        private AssassinNormalSkill _skill;
+        [field: SerializeField] public float Damage { get; private set; }
+        [field: SerializeField] public float ThrowSpeed { get; private set; }
+        [field: SerializeField] public LayerMask WhatIsTarget { get; private set; }
+        [field: SerializeField] public float DestroyTime { get; private set; }
+        [SerializeField] private AssassinNormalSkill _skillPrefab;
         
-        protected override IEnumerator SkillCoroutine(PlayerController player)
+        public override GameObject ExecuteSkill(PlayerController player, Vector3 aimDirection)
         {
-            if (Camera.main != null)
+            AssassinNormalSkill projectile = Instantiate(_skillPrefab, player.transform.position, Quaternion.identity);
+            projectile.Init(player, Damage, ThrowSpeed, WhatIsTarget, DestroyTime);
+            projectile.transform.up = aimDirection;
+            
+            var augmentController = player.GetComponentInChildren<AssassinAugmentController>();
+            if (augmentController != null)
             {
-                Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-            
-                mouseWorldPos.z = 0; 
-            
-                Vector3 direction = mouseWorldPos - player.transform.position;
-            
-                direction.Normalize();
-                _skill = Instantiate(skillPrefab, player.transform.position, Quaternion.identity);
-                _skill.Init(player, Damage, ThrowSpeed, WhatIsTarget, DestroyTime);
-                _skill.transform.up = direction;
+                augmentController.NotifySpawnProjectile(projectile.gameObject);
             }
 
-            yield break;
+            return projectile.gameObject;
         }
 
-        protected override IEnumerator ReUseSkillCoroutine(PlayerController player)
+        public override void ExecuteReUseSkill(PlayerController player, GameObject activeSkillInstance)
         {
-            if (_skill == null) yield break;
-            player.transform.position = _skill.transform.position;
-            Vector3 direction = _skill.transform.up.normalized;
-            IForceReceiver forceReceiver = player.GetComponent<IForceReceiver>();
-            forceReceiver.ApplyForce(_skill.Rb.linearVelocity.magnitude * direction, ForceMode2D.Impulse);
-            Destroy(_skill.gameObject);
-            _skill = null;
+            if (activeSkillInstance == null) return;
+
+            if (activeSkillInstance.TryGetComponent<AssassinNormalSkill>(out var skillProjectile))
+            {
+                // 위치 이동 및 밀쳐내기
+                player.transform.position = skillProjectile.transform.position;
+                
+                Vector3 direction = skillProjectile.transform.up.normalized;
+                if (player.TryGetComponent<IForceReceiver>(out var forceReceiver))
+                {
+                    forceReceiver.ApplyForce(skillProjectile.Rb.linearVelocity.magnitude * direction, ForceMode2D.Impulse);
+                }
+
+                Destroy(skillProjectile.gameObject);
+            }
         }
         
         

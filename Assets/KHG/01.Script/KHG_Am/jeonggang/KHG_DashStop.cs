@@ -37,7 +37,6 @@ public class KHG_DashStop : MonoBehaviour
 
     private void OnDashHit(GameObject target, float damage)
     {
-        // 쿨타임 중이면 무시
         if (Time.time < nextRootTime)
         {
             return;

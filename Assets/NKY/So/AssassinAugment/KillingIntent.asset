@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3a18ff600c04d408f5ba18477163110, type: 3}
+  m_Name: KillingIntent
+  m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.Job.AugmentSO.KillingIntentSO
+  displayName: "\uC0B4\uAE30"
+  description: "\uB2A5\uB825 \uC0AC\uC6A9 \uC2DC 6\uCD08 \uB3D9\uC548 \uBC18\uACBD
+    3m\uC5D0 \uC544\uC6B0\uB77C\uB97C \uC0DD\uC131\uD569\uB2C8\uB2E4. \uC544\uC6B0\uB77C
+    \uC548\uC5D0 \uC788\uB294 \uC0C1\uB300\uB294 \uC774\uB3D9\uC18D\uB3C4\uC640 \uACF5\uACA9\uB825\uC774
+    \uC9C0\uC18D\uC801\uC73C\uB85C \uAC10\uC18C\uD558\uBA70, 3\uCD08 \uB3D9\uC548
+    \uCD5C\uB300 30%\uAE4C\uC9C0 \uAC10\uC18C\uD569\uB2C8\uB2E4."
+  icon: {fileID: 21300000, guid: e85241f307b381742b43cae089b29c09, type: 3}
+  type: 9
+  _duration: 6
+  _radius: 3
+  _maxSpeedDebuffRatio: 0.3
+  _maxDamageDebuffRatio: 0.3
+  _speedRampUpTime: 3
+  _damageRampUpTime: 3
+  _enemyLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  _auraVfxPrefab: {fileID: 1254833378905584041, guid: 47919c35b456dbb4d9b70153ac6ce5c2, type: 3}
+  auraCoolTime: 7

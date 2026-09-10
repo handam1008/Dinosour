@@ -1,3 +1,4 @@
+using System;
 using JJW.Script.Jackpot;
 using SSW;
 using UnityEngine;
@@ -8,10 +9,19 @@ public class Speedjackpot : MonoBehaviour
     private void Awake()
     {
         division = GetComponent<JackpotDivision>();
+    }
+
+    private void OnEnable()
+    {
         division.SpeedJackpot += ApplySpeed;
     }
 
-    public void ApplySpeed(float amount, float duration)
+    private void OnDisable()
+    {
+        division.SpeedJackpot -= ApplySpeed;
+    }
+
+    public void ApplySpeed( float amount, float duration)
     {
         if (TryGetComponent(out ISpeedable speedable))
         {

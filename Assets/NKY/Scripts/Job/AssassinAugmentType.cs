@@ -7,7 +7,8 @@
         Escape,             // 도망
         Lure,               // 방심 유도
         NoEscape,            // 탈출 불가
-        Hunt,               // 사냥
+        TacticalShift,       // 작전 변경
+        OnTacticalShift,     // 작전변경 적용중
         Backstab,            // 후두부 가격
         Blackout,            // 암전
         KillingIntent,       // 살기

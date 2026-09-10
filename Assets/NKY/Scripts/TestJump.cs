@@ -74,7 +74,7 @@ namespace NKY.Scripts
         _animator = _visual.GetComponent<Animator>();
         _attack = GetComponentInChildren<AssassinMeleeAttack>();
         GetComponent<Health>().OnDamaged += () => _animator.SetTrigger("GetDamage");
-        skillData.Init();
+        //skillData.Init();
     }
 
     void OnMove(InputValue value)

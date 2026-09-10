@@ -1,7 +1,8 @@
 using System;
+using SSW;
 using UnityEngine;
 
-public class GamblerCoinShooter : MonoBehaviour
+public class GamblerCoinShooter : MonoBehaviour, ICoinDamageUp
 {
     [Header("References")]
     [SerializeField] private GamblerMouseAim mouseAim;
@@ -12,6 +13,11 @@ public class GamblerCoinShooter : MonoBehaviour
     [Header("Fire Settings")]
     [SerializeField, Min(0f)] private float fireCooldown = 0.2f;
     [SerializeField, Min(0f)] private float spawnOffset = 0.15f;
+    [SerializeField] private float coinDamage = 10f;
+    [SerializeField] private float damageMultiplier = 1f;
+    
+    public float DamageMultiplier => damageMultiplier;
+    
 
     private float nextFireTime;
 
@@ -83,6 +89,8 @@ public class GamblerCoinShooter : MonoBehaviour
         {
             return false;
         }
+        
+        coin.Init(coinDamage, damageMultiplier);
 
         if (!magazine.TryTakeNext(out GamblerCoinType firedCoinType))
         {
@@ -102,5 +110,10 @@ public class GamblerCoinShooter : MonoBehaviour
         }
 
         return true;
+    }
+    
+    public void CoinDamageUp(float amount)
+    {
+        damageMultiplier = amount;//슈터으르 대미지업으로 보내주서 . 함수로 해준다
     }
 }
