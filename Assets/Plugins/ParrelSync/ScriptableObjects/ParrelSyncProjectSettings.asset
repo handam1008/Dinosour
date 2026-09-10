@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fc08250a3d9e144b9b48d06d74782e3, type: 3}
-  m_Name: AssassinAugmentPool
-  m_EditorClassIdentifier: Assembly-CSharp::SSW.AugmentPool
-  augments:
-  - {fileID: 11400000, guid: 79efdf8bb0dc38842b0b84c1f4116392, type: 2}
+  m_Script: {fileID: 11500000, guid: c0011418c9d75434988a06b6df93b283, type: 3}
+  m_Name: ParrelSyncProjectSettings
+  m_EditorClassIdentifier: ParrelSync::ParrelSync.ParrelSyncProjectSettings
+  m_OptionalSymbolicLinkFolders: []
