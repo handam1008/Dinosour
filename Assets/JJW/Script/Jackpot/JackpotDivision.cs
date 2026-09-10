@@ -11,7 +11,7 @@ namespace JJW.Script.Jackpot
         public event Action<float> HealJackpot;
         public event Action<float, float> SpeedJackpot;
         public event Action Jackpot777;
-        public event Action Jackpot444;
+        public event Action<float> Jackpot444;
         public event Action StarJackpot;
         
         [SerializeField] private GamblerCoinShooter coinShooter;
@@ -43,7 +43,7 @@ namespace JJW.Script.Jackpot
                 Debug.Log("공격력 증가");
                 DamageJackpot?.Invoke(1.3f);
             }
-            else if (0 <= boll && boll < 100)
+            else if (7 <= boll && boll < 14)
             {
                 Debug.Log("체력 회복");
                 HealJackpot?.Invoke(50f);
@@ -61,7 +61,7 @@ namespace JJW.Script.Jackpot
             else if (boll == 28)
             {
                 Debug.Log("즉사");
-                Jackpot444?.Invoke();
+                Jackpot444?.Invoke(100000000f);
             }
             else if (29 <= boll && boll < 34)
             {
