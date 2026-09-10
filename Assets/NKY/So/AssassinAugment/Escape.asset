@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9db75a028cd5498d97416afe41819a64, type: 3}
+  m_Name: Escape
+  m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.Job.AugmentSO.EscapeSO
+  displayName: "\uB3C4\uB9DD"
+  description: "\uD53C\uACA9\uC2DC 2\uCD08 \uB3D9\uC548 \uC774\uC18D\uC774 60% \uC99D\uAC00\uD569\uB2C8\uB2E4"
+  icon: {fileID: 2879993343053011667, guid: 062d68e8af287f34b9e163891b0970bb, type: 3}
+  type: 2
+  speedMultiplier: 5
+  duration: 2
+  cooldown: 3

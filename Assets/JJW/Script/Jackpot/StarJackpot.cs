@@ -1,16 +1,24 @@
+using System;
+using JJW.Script.Jackpot;
 using UnityEngine;
 
 public class StarJackpot : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+   private JackpotDivision division;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   private void Awake()
+   {
+      division = GetComponent<JackpotDivision>();
+   }
+
+   private void OnEnable()
+   {
+      //division.StarJackpot += 
+   }
+
+   private void OnDisable()
+   {
+      //division.StarJackpot -=
+   }
+   
 }

@@ -5,16 +5,16 @@ namespace SSW
 {
     [RequireComponent(typeof(Health))]
     [RequireComponent(typeof(AugmentDrafter))]
-    public class HealthAugmentController : MonoBehaviour, IIncomingDamageModifier, IDamageDealtListener, IDamageReceivedListener, IOutgoingDamageModifier
+    public class HealthAugmentController : MonoBehaviour, IIncomingDamageModifier, IDamageDealtListener, IOutgoingDamageModifier
     {
         [Header("거인")]
-        [SerializeField] float _giantHpBonus = 0.55f;
-        [SerializeField] float _giantScaleBonus = 0.10f;
+        [SerializeField] float _giantHpBonus = 0.55f;//HP증가 %
+        [SerializeField] float _giantScaleBonus = 0.10f;// 크기 증가 %
 
         [Header("유리대포")]
-        [SerializeField] float _glassCannonHpPenalty = 0.30f;
-        [SerializeField] float _glassCannonDamageBonus = 1.80f;
-        [SerializeField] float _glassCannonScalePenalty = 0.10f; 
+        [SerializeField] float _glassCannonHpPenalty = 0.30f;//Hp감소 %
+        [SerializeField] float _glassCannonDamageBonus = 1.80f;//데미지 증가 %
+        [SerializeField] float _glassCannonScalePenalty = 0.10f;//크기 감소 %
 
         [Header("불사조")]
         [SerializeField] float _phoenixHpPenalty = 0.25f;
@@ -42,14 +42,14 @@ namespace SSW
         AugmentDrafter _drafter;
         Health _health;
         Vector3 _baseScale;
-        float _baseMaxHealth;
         float _scaleMultiplier = 1f;
 
-        float _confidenceTimer;
         float _deathWaltzTickTimer;
         bool _phoenixUsed;
         bool _phoenixInvulnActive;
         float _phoenixInvulnTimer;
+        
+        ISpeedable _speedable;
 
         public int Priority => 0;
         public float ModifyOutgoingDamage(float amount)
@@ -60,17 +60,20 @@ namespace SSW
         public bool BerserkerActive { get; private set; }
         public float BerserkerDamageMultiplier => BerserkerActive ? 1f + _berserkerDamageBonus : 1f;
         public float BerserkerAttackSpeedMultiplier => BerserkerActive ? 1f + _berserkerAtkSpeedBonus : 1f;
-        public float ConfidenceSpeedMultiplier => _confidenceTimer > 0f ? 1f + _confidenceSpeedBonus : 1f;
         public float GlassCannonDamageMultiplier => Has(CommonAugmentType.GlassCannon) ? _glassCannonDamageBonus : 1f;
 
         public bool Has(CommonAugmentType type) => _acquired.Contains(type);
+
+        private DinosaurVisualController _visual;
 
         void Awake()
         {
             _drafter = GetComponent<AugmentDrafter>();
             _health = GetComponent<Health>();
             _baseScale = transform.localScale;
-            _baseMaxHealth = _health.maxHealth;
+            _speedable = GetComponentInParent<ISpeedable>();
+            
+            _visual = GetComponentInChildren<DinosaurVisualController>();
         }
 
         void OnEnable()
@@ -87,9 +90,6 @@ namespace SSW
 
         void Update()
         {
-            if (_confidenceTimer > 0f)
-                _confidenceTimer -= Time.deltaTime;
-
             if (_phoenixInvulnActive)
             {
                 _phoenixInvulnTimer -= Time.deltaTime;
@@ -157,23 +157,17 @@ namespace SSW
 
         public void OnDamageDealt(DamageRequest request, DamageResult result)
         {
-            if (!Has(CommonAugmentType.Vampire)) return;
             if (!result.WasApplied) return;
-            _health.Heal(result.AppliedAmount * _vampireHealRate);
-        }
 
-        public void OnDamageReceived(DamageRequest request, DamageResult result)
-        {
-            if (!Has(CommonAugmentType.Confidence)) return;
-            if (!result.WasApplied) return;
-            _confidenceTimer = _confidenceDuration;
+            if (Has(CommonAugmentType.Vampire))
+                _health.Heal(result.AppliedAmount * _vampireHealRate);
+
+            if (Has(CommonAugmentType.Confidence))
+                _speedable?.ApplySpeed(_confidenceSpeedBonus, _confidenceDuration);
         }
 
         public float ModifyIncomingDamage(DamageRequest request, float currentAmount)
         {
-            if (request.HasTag(DamageTag.IgnoreDefense))
-                return currentAmount;
-
             if (_phoenixInvulnActive)
                 return 0f;
 
@@ -182,9 +176,14 @@ namespace SSW
                 _phoenixUsed = true;
                 _phoenixInvulnActive = true;
                 _phoenixInvulnTimer = _phoenixInvulnTime;
+                _pendingDamage.Clear();         
                 _health.Heal(_health.maxHealth);
+                //_visual?.PlayRevive();
                 return 0f;
             }
+
+            if (request.HasTag(DamageTag.IgnoreDefense))
+                return currentAmount;
 
             if (Has(CommonAugmentType.DeathWaltz) && currentAmount > 0f)
             {
@@ -197,7 +196,7 @@ namespace SSW
         }
 
         void ApplyDeathWaltzTick()
-        {
+        { 
             float tickTotal = 0f;
             for (int i = _pendingDamage.Count - 1; i >= 0; i--)
             {

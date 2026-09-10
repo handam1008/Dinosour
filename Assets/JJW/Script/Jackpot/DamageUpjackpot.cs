@@ -1,21 +1,40 @@
 using System;
 using JJW.Script.Jackpot;
+using System.Collections;
 using UnityEngine;
 
 public class DamageUpjackpot : MonoBehaviour
 {
-    private GamblerCoinProjectile coinProjectile;
+    private GamblerCoinShooter coinShooter;
     private JackpotDivision division;
-    
-
+    [SerializeField] private float damageUpCooldwon = 10f;
     private void Awake()
     {
-        coinProjectile = GetComponent<GamblerCoinProjectile>();
+        coinShooter =  GetComponentInChildren<GamblerCoinShooter>();
+        division = GetComponent<JackpotDivision>();
+    }
+
+    private void OnEnable()
+    {
         division.DamageJackpot += OnCoinDamageUp;
     }
 
-    private void OnCoinDamageUp(float damage)
+    private void OnDisable()
     {
-        coinProjectile.CoinDamageUp(damage);
+        division.DamageJackpot -= OnCoinDamageUp;
+    }
+
+    private void OnCoinDamageUp(float amount)
+    {
+        float currentDamageMultiple = coinShooter.DamageMultiplier;
+        coinShooter.CoinDamageUp(amount);
+        StartCoroutine(DamageUpCooldown(damageUpCooldwon, currentDamageMultiple));
+    }
+
+    private IEnumerator DamageUpCooldown(float cooldown, float amount)
+    {
+        yield return new WaitForSeconds(cooldown);
+        coinShooter.CoinDamageUp(amount);
+        
     }
 }

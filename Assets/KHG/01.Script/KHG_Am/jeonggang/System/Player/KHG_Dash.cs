@@ -31,9 +31,6 @@ public class KHG_Dash : MonoBehaviour
 
     private HashSet<IDamageable> _hitEnemies = new HashSet<IDamageable>();
 
-    // 대쉬 적중 이벤트
-    // GameObject = 맞은 적
-    // float = 실제로 들어간 대미지
     public System.Action<GameObject, float> OnDashHitEnemy;
 
     public bool IsDashing => _isDashing;
@@ -52,8 +49,6 @@ public class KHG_Dash : MonoBehaviour
             _visual = transform.GetChild(0);
         }
     }
-
-    // 대쉬 데미지 배율 설정
     public void SetDamageMultiplier(float multiplier)
     {
         _damageMultiplier = multiplier;
@@ -130,7 +125,6 @@ public class KHG_Dash : MonoBehaviour
         if (_playerController != null)
             _playerController.enabled = true;
 
-        // 기존 대쉬 후 이동속도 증가
         if (_dashSpeedBoost != null)
         {
             _dashSpeedBoost.ActivateSpeedBoost();
@@ -138,7 +132,6 @@ public class KHG_Dash : MonoBehaviour
 
         _isDashing = false;
 
-        // 데미지 배율 초기화
         _damageMultiplier = 1f;
 
         _currentCooldown = _dashCooldown;
