@@ -2586,6 +2586,14 @@ PrefabInstance:
       propertyPath: _commonPool
       value: 
       objectReference: {fileID: 11400000, guid: f396daccee22bc54c96a46fbe2596d2a, type: 2}
+    - target: {fileID: 9183996978747195668, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      propertyPath: hitChannel
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9183996978747195668, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      propertyPath: testChannel
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -5713,6 +5721,8 @@ MonoBehaviour:
   _healthBarResourceName: HealthBarUI
   _damageNumberResourceName: DamageNumberUI
   _healthBarPadding: 0.15
+  testChannel: {fileID: 0}
+  hitChannel: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
