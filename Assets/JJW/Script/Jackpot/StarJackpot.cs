@@ -20,4 +20,5 @@ public class StarJackpot : MonoBehaviour
    {
       //division.StarJackpot -=
    }
+   
 }
