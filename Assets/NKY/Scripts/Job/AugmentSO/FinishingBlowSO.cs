@@ -14,7 +14,7 @@ namespace NKY.Scripts.Job.AugmentSO
             ctx.SetFlag(type, true);
         }
         
-        public override float ModifyDamage(AugmentContext ctx, PlayerController target, float currentDamage, bool isBasicAttack)
+        public override float ModifyDamage(AugmentContext ctx, float currentDamage, bool isBasicAttack)
         {
             // 기본 공격이고 + 스킬을 써서 플래그가 켜진 상태라면
             if (isBasicAttack && ctx.GetFlag(type))

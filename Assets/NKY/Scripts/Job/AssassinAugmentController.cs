@@ -135,12 +135,9 @@ namespace NKY.Scripts.Job
 
         private void HandleDamageCalculate(DamageInfo info)
         {
-            if(!info.Target.TryGetComponent(out PlayerController player))
-                return;
-            
             foreach (var aug in _activeAugments.Values)
             {
-                info.Damage = aug.ModifyDamage(_context, player, info.Damage, info.IsBasicAttack);
+                info.Damage = aug.ModifyDamage(_context, info.Damage, info.IsBasicAttack);
             }
         }
 
