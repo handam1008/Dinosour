@@ -1,0 +1,793 @@
+fileFormatVersion: 2
+guid: 41645eb52741a394d8220c4b5705f5ee
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6068594914282811662
+    second: Playable_Character_Default_Colors_0
+  - first:
+      213: 8777292876534200901
+    second: Playable_Character_Default_Colors_1
+  - first:
+      213: -5762136144029529934
+    second: Playable_Character_Default_Colors_2
+  - first:
+      213: -9218546234080772208
+    second: Playable_Character_Default_Colors_3
+  - first:
+      213: -1726048925527259193
+    second: Playable_Character_Default_Colors_4
+  - first:
+      213: 7287638227103008811
+    second: Playable_Character_Default_Colors_5
+  - first:
+      213: 4306557341476286142
+    second: Playable_Character_Default_Colors_6
+  - first:
+      213: 2143574665429627109
+    second: Playable_Character_Default_Colors_7
+  - first:
+      213: -7743685446886887266
+    second: Playable_Character_Default_Colors_8
+  - first:
+      213: -3774448135216660999
+    second: Playable_Character_Default_Colors_9
+  - first:
+      213: -7498101036232316105
+    second: Playable_Character_Default_Colors_10
+  - first:
+      213: 2806652405441172170
+    second: Playable_Character_Default_Colors_11
+  - first:
+      213: -1956571308791388053
+    second: Playable_Character_Default_Colors_12
+  - first:
+      213: 393318813480327697
+    second: Playable_Character_Default_Colors_13
+  - first:
+      213: -321854648312448563
+    second: Playable_Character_Default_Colors_14
+  - first:
+      213: 811743786031671706
+    second: Playable_Character_Default_Colors_15
+  - first:
+      213: 7460693273687705186
+    second: Playable_Character_Default_Colors_16
+  - first:
+      213: -6137793891665398197
+    second: Playable_Character_Default_Colors_17
+  - first:
+      213: 6667687644505387996
+    second: Playable_Character_Default_Colors_18
+  - first:
+      213: -4644713507697822074
+    second: Playable_Character_Default_Colors_19
+  - first:
+      213: 7780658507088071796
+    second: Playable_Character_Default_Colors_20
+  - first:
+      213: -1064288685744455443
+    second: Playable_Character_Default_Colors_21
+  - first:
+      213: 5852888901108425952
+    second: Playable_Character_Default_Colors_22
+  - first:
+      213: 2488953215234157605
+    second: Playable_Character_Default_Colors_23
+  - first:
+      213: -8515712774952704545
+    second: Playable_Character_Default_Colors_24
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_0
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 7
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fe4e68041508cba0800000000000000
+      internalID: -6068594914282811662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_1
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 7
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54a336bfd553fc970800000000000000
+      internalID: 8777292876534200901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_2
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 7
+        width: 24
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b84ea3c4b7c800b0800000000000000
+      internalID: -5762136144029529934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_3
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 7
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09fb914ca05211080800000000000000
+      internalID: -9218546234080772208
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_4
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 7
+        width: 24
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c7c001b5a7db08e0800000000000000
+      internalID: -1726048925527259193
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_5
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 7
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2848022b54e22560800000000000000
+      internalID: 7287638227103008811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_6
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 7
+        width: 34
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebe6b8fb517f3cb30800000000000000
+      internalID: 4306557341476286142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_7
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 7
+        width: 34
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e0b5721dc18fbd10800000000000000
+      internalID: 2143574665429627109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_8
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 7
+        width: 32
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e90f1f52d17e88490800000000000000
+      internalID: -7743685446886887266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_9
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 7
+        width: 35
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fd764d3b677e9bc0800000000000000
+      internalID: -3774448135216660999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_10
+      rect:
+        serializedVersion: 2
+        x: 486
+        y: 7
+        width: 32
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 73b626d85d461f790800000000000000
+      internalID: -7498101036232316105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_11
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 7
+        width: 32
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac211521e7b33f620800000000000000
+      internalID: 2806652405441172170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_12
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 7
+        width: 22
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b68a4c1d2ccd8d4e0800000000000000
+      internalID: -1956571308791388053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_13
+      rect:
+        serializedVersion: 2
+        x: 630
+        y: 7
+        width: 31
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11a19f08069557500800000000000000
+      internalID: 393318813480327697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_14
+      rect:
+        serializedVersion: 2
+        x: 685
+        y: 7
+        width: 28
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc9370217ea888bf0800000000000000
+      internalID: -321854648312448563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_15
+      rect:
+        serializedVersion: 2
+        x: 727
+        y: 7
+        width: 35
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a996c0f2ca4e34b00800000000000000
+      internalID: 811743786031671706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_16
+      rect:
+        serializedVersion: 2
+        x: 778
+        y: 7
+        width: 30
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2664d440105b98760800000000000000
+      internalID: 7460693273687705186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_17
+      rect:
+        serializedVersion: 2
+        x: 831
+        y: 5
+        width: 20
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b46b8b699fc22daa0800000000000000
+      internalID: -6137793891665398197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_18
+      rect:
+        serializedVersion: 2
+        x: 879
+        y: 5
+        width: 20
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd33104f592688c50800000000000000
+      internalID: 6667687644505387996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_19
+      rect:
+        serializedVersion: 2
+        x: 927
+        y: 8
+        width: 20
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 686763a6ca9aa8fb0800000000000000
+      internalID: -4644713507697822074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_20
+      rect:
+        serializedVersion: 2
+        x: 975
+        y: 5
+        width: 29
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47c0b9140b37afb60800000000000000
+      internalID: 7780658507088071796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_21
+      rect:
+        serializedVersion: 2
+        x: 1014
+        y: 5
+        width: 29
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de00cb34413ea31f0800000000000000
+      internalID: -1064288685744455443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_22
+      rect:
+        serializedVersion: 2
+        x: 1066
+        y: 7
+        width: 30
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e4e4641273a93150800000000000000
+      internalID: 5852888901108425952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_23
+      rect:
+        serializedVersion: 2
+        x: 1119
+        y: 7
+        width: 27
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52c299023c98a8220800000000000000
+      internalID: 2488953215234157605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Default_Colors_24
+      rect:
+        serializedVersion: 2
+        x: 1167
+        y: 7
+        width: 27
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd520bf695c12d980800000000000000
+      internalID: -8515712774952704545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Playable_Character_Default_Colors_0: -6068594914282811662
+      Playable_Character_Default_Colors_1: 8777292876534200901
+      Playable_Character_Default_Colors_10: -7498101036232316105
+      Playable_Character_Default_Colors_11: 2806652405441172170
+      Playable_Character_Default_Colors_12: -1956571308791388053
+      Playable_Character_Default_Colors_13: 393318813480327697
+      Playable_Character_Default_Colors_14: -321854648312448563
+      Playable_Character_Default_Colors_15: 811743786031671706
+      Playable_Character_Default_Colors_16: 7460693273687705186
+      Playable_Character_Default_Colors_17: -6137793891665398197
+      Playable_Character_Default_Colors_18: 6667687644505387996
+      Playable_Character_Default_Colors_19: -4644713507697822074
+      Playable_Character_Default_Colors_2: -5762136144029529934
+      Playable_Character_Default_Colors_20: 7780658507088071796
+      Playable_Character_Default_Colors_21: -1064288685744455443
+      Playable_Character_Default_Colors_22: 5852888901108425952
+      Playable_Character_Default_Colors_23: 2488953215234157605
+      Playable_Character_Default_Colors_24: -8515712774952704545
+      Playable_Character_Default_Colors_3: -9218546234080772208
+      Playable_Character_Default_Colors_4: -1726048925527259193
+      Playable_Character_Default_Colors_5: 7287638227103008811
+      Playable_Character_Default_Colors_6: 4306557341476286142
+      Playable_Character_Default_Colors_7: 2143574665429627109
+      Playable_Character_Default_Colors_8: -7743685446886887266
+      Playable_Character_Default_Colors_9: -3774448135216660999
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
