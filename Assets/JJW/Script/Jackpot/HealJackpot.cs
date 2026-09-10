@@ -10,7 +10,16 @@ public class HealJackpot : MonoBehaviour
    private void Awake()
    {
       division = GetComponent<JackpotDivision>();
+   }
+
+   private void OnEnable()
+   {
       division.HealJackpot += ApplayHeal;
+   }
+
+   private void OnDisable()
+   {
+      division.HealJackpot -= ApplayHeal;
    }
 
    private void ApplayHeal(float amount)

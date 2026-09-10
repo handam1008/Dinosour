@@ -1,3 +1,4 @@
+using System;
 using JJW.Script.Jackpot;
 using System.Collections;
 using UnityEngine;
@@ -11,7 +12,16 @@ public class DamageUpjackpot : MonoBehaviour
     {
         coinShooter =  GetComponentInChildren<GamblerCoinShooter>();
         division = GetComponent<JackpotDivision>();
+    }
+
+    private void OnEnable()
+    {
         division.DamageJackpot += OnCoinDamageUp;
+    }
+
+    private void OnDisable()
+    {
+        division.DamageJackpot -= OnCoinDamageUp;
     }
 
     private void OnCoinDamageUp(float amount)

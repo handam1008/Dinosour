@@ -8053,6 +8053,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93c794cb3d8d15c49b5b14f0b314c403, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealJackpot
+--- !u!114 &904079611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904079570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0abe76d5f9972de4aa37a17a567aca87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StarJackpot
+--- !u!114 &904079612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904079570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5813e8206e4dddc4792253e1d8fcdba3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Jackpot444
+--- !u!114 &904079613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904079570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b568967974652cc40be0bc6eb783dca5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Jackpot777
+  healInterval: 0.2
 --- !u!1 &933345699
 GameObject:
   m_ObjectHideFlags: 0
@@ -22384,6 +22421,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 11155713228905163, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 904079601}
+    - targetCorrespondingSourceObject: {fileID: 11155713228905163, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 904079612}
+    - targetCorrespondingSourceObject: {fileID: 11155713228905163, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 904079611}
+    - targetCorrespondingSourceObject: {fileID: 11155713228905163, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 904079613}
   m_SourcePrefab: {fileID: 100100000, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
 --- !u!1 &7584981224241185858
 GameObject:
