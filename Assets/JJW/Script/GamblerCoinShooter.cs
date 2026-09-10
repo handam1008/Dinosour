@@ -22,7 +22,7 @@ public class GamblerCoinShooter : MonoBehaviour, ICoinDamageUp
     private float nextFireTime;
 
     public event Action<GamblerCoinProjectile> CoinFired;
-    public event Action<PlayerController> RouletteCoinFired;
+    public event Action RouletteCoinFired;
 
     private void Awake()
     {
@@ -106,7 +106,7 @@ public class GamblerCoinShooter : MonoBehaviour, ICoinDamageUp
 
         if (firedCoinType == GamblerCoinType.Roulette)
         {
-            RouletteCoinFired?.Invoke(GetComponentInParent<PlayerController>());
+            RouletteCoinFired?.Invoke();
         }
 
         return true;
