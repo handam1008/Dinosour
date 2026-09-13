@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace NKY.Scripts.Servers
 {
     public class StealthNetwork : NetworkBehaviour
     {
         private SpriteRenderer[] _renderers;
+        private Image[] _images; // UI Image 컴포넌트 수집용
 
-        // 모든 클라이언트가 읽을 수 있고, 서버만 수정 가능한 은신 상태 변수
         private readonly NetworkVariable<bool> _isStealthed = new(
             false,
             NetworkVariableReadPermission.Everyone,
@@ -18,11 +19,11 @@ namespace NKY.Scripts.Servers
         private void Awake()
         {
             _renderers = GetComponentsInChildren<SpriteRenderer>();
+            _images = GetComponentsInChildren<Image>(); // 자식의 모든 Image 컴포넌트 수집
         }
 
         public override void OnNetworkSpawn()
         {
-            // 은신 상태가 변할 때마다 각 클라이언트에서 시각 효과 갱신
             _isStealthed.OnValueChanged += OnStealthStateChanged;
             UpdateVisuals(_isStealthed.Value);
         }
@@ -32,9 +33,6 @@ namespace NKY.Scripts.Servers
             _isStealthed.OnValueChanged -= OnStealthStateChanged;
         }
 
-        /// <summary>
-        /// 은신 발동 함수
-        /// </summary>
         public void TriggerStealth(float duration)
         {
             if (IsServer)
@@ -69,21 +67,24 @@ namespace NKY.Scripts.Servers
         {
             if (!isStealthed)
             {
-                // 은신 해제: 모두에게 100% 선명하게 표시
+                // [은신 해제] 스프라이트 및 UI 이미지 100% 표시
                 SetRenderersState(true, 1.0f);
+                SetImagesState(true, 1.0f);
                 return;
             }
 
-            // 은신 발동 시: 화면 소유권(IsOwner)에 따라 다르게 렌더링
             if (IsOwner)
             {
-                // [내 화면] 스프라이트를 켜두고 알파만 0.5 (반투명)
+                // [내 화면] 캐릭터와 UI 이미지 모두 반투명(0.5f) 처리
+                // 내 체력바는 계속 선명하게(1.0f) 보고 싶다면 SetImagesState(true, 1.0f)로 변경
                 SetRenderersState(true, 0.5f);
+                SetImagesState(true, 0.5f);
             }
             else
             {
-                // [상대 화면] 스프라이트만 완전히 끔 (Collider는 100% 작동)
+                // [상대 화면] 캐릭터 및 UI 이미지 완전히 비활성화
                 SetRenderersState(false, 0.0f);
+                SetImagesState(false, 0.0f);
             }
         }
 
@@ -92,12 +93,24 @@ namespace NKY.Scripts.Servers
             foreach (var sr in _renderers)
             {
                 if (sr == null) continue;
-                
                 sr.enabled = isEnabled;
 
                 Color color = sr.color;
                 color.a = alpha;
                 sr.color = color;
+            }
+        }
+
+        private void SetImagesState(bool isEnabled, float alpha)
+        {
+            foreach (var img in _images)
+            {
+                if (img == null) continue;
+                img.enabled = isEnabled;
+
+                Color color = img.color;
+                color.a = alpha;
+                img.color = color;
             }
         }
     }

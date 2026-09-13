@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1263152948276177924}
   - component: {fileID: 1503426018053841020}
-  - component: {fileID: 6156501256803111648}
   - component: {fileID: 4301268619360732175}
   m_Layer: 10
   m_Name: Barrier
@@ -94,18 +93,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!114 &6156501256803111648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2686785189237132235}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1b4bc5e673117a48ac017831f8cf822, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Barrier
 --- !u!58 &4301268619360732175
 CircleCollider2D:
   m_ObjectHideFlags: 0

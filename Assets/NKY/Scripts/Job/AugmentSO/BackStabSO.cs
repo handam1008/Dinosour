@@ -9,17 +9,26 @@ namespace NKY.Scripts.Job.AugmentSO
         [Header("증강 효과 설정")] 
         [SerializeField] private float backStabAngle = 120f; //후방 120도
         [SerializeField] private float attackMultiplier = 1.4f;
-        public override float ModifyDamage(AugmentContext ctx, PlayerController target, float currentDamage, bool isBasicAttack)
-        {
-            if (!isBasicAttack || target == null) return currentDamage;
 
-            // 내적 값이 thresholdDot보다 작으면 후방 판정 성공
+        public override void OnBasicAttackHit(AugmentContext ctx, PlayerController target)
+        {
+            if (target == null) return;
+            
             if (IsBackAttack(ctx, target))
             {
-                return currentDamage * attackMultiplier;
+                ctx.SetFlag(type, true);
+            }
+        }
+
+        public override float ModifyDamage(AugmentContext ctx, DamageInfo info)
+        {
+            if (ctx.GetFlag(type))
+            {
+                ctx.SetFlag(type, false);
+                return info.Damage * attackMultiplier;
             }
 
-            return currentDamage;
+            return info.Damage;
         }
 
         private bool IsBackAttack(AugmentContext ctx, PlayerController target)

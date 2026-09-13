@@ -15,6 +15,8 @@ namespace SSW
         [SerializeField] string _healthBarResourceName = "HealthBarUI";
         [SerializeField] string _damageNumberResourceName = "DamageNumberUI";
         [SerializeField] float _healthBarPadding = 0.15f;
+        [SerializeField] private DoubleFloatEventChannelSO healthChangeEvent;//¹Ù²Þ NKY
+        [SerializeField] private VoidEventChannelSO hitEvent;//¹Ù²Þ NKY
         public event System.Action OnDamaged;
         public event System.Action OnDied;
         public event System.Action<float, float> OnHealthChanged;
@@ -29,12 +31,15 @@ namespace SSW
         {
             current = maxHealth;
             SpawnHealthBar();
-            OnHealthChanged += testChannel.ChangeTupleRaise; // ¹Ù²Þ
-            OnDamaged += hitChannel.Raise; //¹Ù²Þ
+            if(healthChangeEvent != null) OnHealthChanged += healthChangeEvent.ChangeTupleRaise; // ¹Ù²Þ NKY
+            if(hitEvent != null) OnDamaged += hitEvent.Raise; //¹Ù²Þ NKY
         }
 
-        [SerializeField] private DoubleFloatEventChannelSO testChannel;//¹Ù²Þ
-        [SerializeField] private VoidEventChannelSO hitChannel;//¹Ù²Þ
+        private void OnDestroy() // Ãß°¡ÇÔ NKY
+        {
+            if(healthChangeEvent != null) OnHealthChanged -= healthChangeEvent.ChangeTupleRaise; // ¹Ù²Þ NKY
+            if(hitEvent != null) OnDamaged -= hitEvent.Raise; //¹Ù²Þ NKY
+        }
 
         public void TakeDamage(float amount)
         {

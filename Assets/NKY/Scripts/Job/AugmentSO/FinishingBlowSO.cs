@@ -14,19 +14,18 @@ namespace NKY.Scripts.Job.AugmentSO
             ctx.SetFlag(type, true);
         }
         
-        public override float ModifyDamage(AugmentContext ctx, PlayerController target, float currentDamage, bool isBasicAttack)
+        public override float ModifyDamage(AugmentContext ctx, DamageInfo info)
         {
             // 기본 공격이고 + 스킬을 써서 플래그가 켜진 상태라면
-            if (isBasicAttack && ctx.GetFlag(type))
+            if (info.IsBasicAttack && ctx.GetFlag(type))
             {
                 // 1회성 적용이므로 플래그를 소모(끄기)
                 ctx.SetFlag(type, false);
-
+                
                 // 데미지 1.15배 증폭
-                return currentDamage * damageMultiplier;
+                return info.Damage * damageMultiplier;
             }
-
-            return currentDamage;
+            return info.Damage;
         }
     }
 }
