@@ -2589,11 +2589,11 @@ PrefabInstance:
     - target: {fileID: 9183996978747195668, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       propertyPath: hitChannel
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: ba1b79262c399f14ca5594cd639dfcfd, type: 2}
     - target: {fileID: 9183996978747195668, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       propertyPath: testChannel
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 4bffae8994c8b2440973b7b481cec1f3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -5656,7 +5656,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &8266417094696295401
 MonoBehaviour:
   m_ObjectHideFlags: 0
