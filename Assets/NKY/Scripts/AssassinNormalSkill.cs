@@ -37,10 +37,13 @@ namespace NKY.Scripts
 
         private void Start()
         {
-            if (Rb != null)
-            {
-                Rb.linearVelocity = transform.up * _speed;
-            }
+            Debug.Log($"Before: {Rb.bodyType}");
+
+            Rb.bodyType = RigidbodyType2D.Dynamic;
+
+            Debug.Log($"After: {Rb.bodyType}");
+
+            Rb.linearVelocity = transform.up * _speed;
         }
 
         private void FixedUpdate()

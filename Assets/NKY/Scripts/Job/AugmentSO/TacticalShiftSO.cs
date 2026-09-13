@@ -55,13 +55,13 @@ namespace NKY.Scripts.Job.AugmentSO
             Destroy(vfx, _vfxDisplayTime);
         }
         
-        public override float ModifyDamage(AugmentContext ctx, float currentDamage, bool isBasicAttack)
+        public override float ModifyDamage(AugmentContext ctx, DamageInfo info)
         {
             if (ctx.GetFlag(AssassinAugmentType.OnTacticalShift))
             {
-                return currentDamage * _damageMultiplier;
+                return info.Damage * _damageMultiplier;
             }
-            return currentDamage;
+            return info.Damage;
         }
 
         // 3. 라운드 시작 시 호출되는 훅 (발동 기회 초기화)

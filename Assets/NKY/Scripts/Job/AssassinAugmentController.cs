@@ -76,8 +76,6 @@ namespace NKY.Scripts.Job
 
             return true;
         }
-        
-        public bool Has(AssassinAugmentType t) => _has.Contains(t);
 
         public void HealthChanged((float currentHealth, float maxHealth) info)
         {
@@ -137,7 +135,7 @@ namespace NKY.Scripts.Job
         {
             foreach (var aug in _activeAugments.Values)
             {
-                info.Damage = aug.ModifyDamage(_context, info.Damage, info.IsBasicAttack);
+                info.Damage = aug.ModifyDamage(_context, info);
             }
         }
 

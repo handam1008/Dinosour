@@ -123,7 +123,6 @@ namespace SSW
             List<IIncomingDamageModifier> modifiers = new List<IIncomingDamageModifier>();
             foreach (MonoBehaviour behaviour in behaviours)
             {
-                Debug.Log(modifiers);//Ãß°¡ÇÔ
                 if (behaviour.isActiveAndEnabled && behaviour is IIncomingDamageModifier modifier)
                     modifiers.Add(modifier);
             }

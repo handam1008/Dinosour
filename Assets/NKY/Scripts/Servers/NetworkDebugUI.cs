@@ -7,6 +7,7 @@ namespace NKY.Scripts
     {
         private void OnGUI()
         {
+            if(NetworkManager.Singleton == null) return;
             // 화면 좌측 상단에 디버그용 버튼 영역 배치
             GUILayout.BeginArea(new Rect(10, 10, 200, 200));
 
@@ -22,6 +23,10 @@ namespace NKY.Scripts
                 {
                     NetworkManager.Singleton.StartClient();
                 }
+                if (GUILayout.Button("Shutdown"))
+                {
+                    NetworkManager.Singleton.Shutdown();
+                }
             }
             else
             {
@@ -31,6 +36,15 @@ namespace NKY.Scripts
             }
 
             GUILayout.EndArea();
+        }
+        
+        private void OnDestroy()
+        {
+            if (NetworkManager.Singleton != null &&
+                NetworkManager.Singleton.IsListening)
+            {
+                NetworkManager.Singleton.Shutdown();
+            }
         }
     }
 }

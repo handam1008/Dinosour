@@ -20,15 +20,15 @@ namespace NKY.Scripts.Job.AugmentSO
             }
         }
 
-        public override float ModifyDamage(AugmentContext ctx, float currentDamage, bool isBasicAttack)
+        public override float ModifyDamage(AugmentContext ctx, DamageInfo info)
         {
             if (ctx.GetFlag(type))
             {
                 ctx.SetFlag(type, false);
-                return currentDamage * attackMultiplier;
+                return info.Damage * attackMultiplier;
             }
 
-            return currentDamage;
+            return info.Damage;
         }
 
         private bool IsBackAttack(AugmentContext ctx, PlayerController target)

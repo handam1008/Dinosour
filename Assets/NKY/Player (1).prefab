@@ -210,8 +210,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4452473822072332891}
   - component: {fileID: 888162357656527199}
-  - component: {fileID: 698647607276693787}
-  - component: {fileID: 86947146314046424}
+  - component: {fileID: 3927205650458937823}
   - component: {fileID: 1414502629784116859}
   - component: {fileID: 1737957772504361250}
   - component: {fileID: 5290953194964869685}
@@ -220,9 +219,10 @@ GameObject:
   - component: {fileID: 7494298602443619584}
   - component: {fileID: 6664697291028818978}
   - component: {fileID: 7485206837807663540}
-  - component: {fileID: 6845889443025366291}
   - component: {fileID: 486808112401383523}
   - component: {fileID: -8922028183852778977}
+  - component: {fileID: 4710107690738633307}
+  - component: {fileID: 7152969047324250721}
   m_Layer: 3
   m_Name: Player (1)
   m_TagString: Player
@@ -277,7 +277,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &698647607276693787
+--- !u!114 &3927205650458937823
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -289,7 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 1841420246
+  GlobalObjectIdHash: 0
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -304,23 +304,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &86947146314046424
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1637142997079766566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkRigidbody2D
-  ShowTopMostFoldoutHeaderGroup: 1
-  NetworkRigidbodyBaseExpanded: 0
-  UseRigidBodyForMotion: 0
-  AutoUpdateKinematicState: 1
-  AutoSetKinematicOnDespawn: 1
 --- !u!70 &1414502629784116859
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -484,7 +467,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 759ea70265e4fb848bb8c80e898ecfea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SSW.LocalPlayerLoadoutApplier
---- !u!114 &6845889443025366291
+--- !u!114 &486808112401383523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637142997079766566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 787c06a9a13b422e817bd78d4fa7aa16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.Servers.StealthNetwork
+  ShowTopMostFoldoutHeaderGroup: 1
+--- !u!114 &-8922028183852778977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1637142997079766566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 678e732803b0452594004a86de1bfd03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.Servers.BlackoutNetwork
+  ShowTopMostFoldoutHeaderGroup: 1
+  _blackoutOverlayUI: {fileID: 9066210062518343385}
+--- !u!114 &4710107690738633307
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -530,7 +540,7 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &486808112401383523
+--- !u!114 &7152969047324250721
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -539,24 +549,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1637142997079766566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 787c06a9a13b422e817bd78d4fa7aa16, type: 3}
+  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.Servers.StealthNetwork
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkRigidbody2D
   ShowTopMostFoldoutHeaderGroup: 1
---- !u!114 &-8922028183852778977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1637142997079766566}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 678e732803b0452594004a86de1bfd03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.Servers.BlackoutNetwork
-  ShowTopMostFoldoutHeaderGroup: 1
-  _blackoutOverlayUI: {fileID: 9066210062518343385}
+  NetworkRigidbodyBaseExpanded: 0
+  UseRigidBodyForMotion: 0
+  AutoUpdateKinematicState: 1
+  AutoSetKinematicOnDespawn: 1
 --- !u!1 &3100895900863491697
 GameObject:
   m_ObjectHideFlags: 0
