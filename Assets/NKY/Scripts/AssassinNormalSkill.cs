@@ -39,7 +39,10 @@ namespace NKY.Scripts
         {
             if (Rb != null)
             {
+                Rb.bodyType = RigidbodyType2D.Dynamic;
+                Rb.gravityScale = 1.5f;
                 Rb.linearVelocity = transform.up * _speed;
+                
             }
         }
 
