@@ -92,5 +92,7 @@ namespace NKY.Scripts
             damageCalcEvent?.Raise(info);
             damageable.TakeDamage(info.Damage);
         }
+
+
     }
 }
