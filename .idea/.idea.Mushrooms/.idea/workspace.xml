@@ -12,23 +12,14 @@
   <component name="ChangeListManager">
     <list default="true" id="6fb1d2c4-7096-4d2f-81e7-2333f2fed1f9" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Player (1).prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Player (1).prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Scenes/TestScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Scenes/TestScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Scripts/AbstractMeleeWeapon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Scripts/AbstractMeleeWeapon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Scripts/AbstractWeapon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Scripts/AbstractWeapon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Scripts/AssassinNormalSkill.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Scripts/AssassinNormalSkill.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Scripts/DamageInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Scripts/DamageInfo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Scripts/Job/AbstractAssassinAugmentSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Scripts/Job/AbstractAssassinAugmentSO.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Scripts/Job/AssassinAugmentController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Scripts/Job/AssassinAugmentController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Scripts/Job/AugmentSO/BackStabSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Scripts/Job/AugmentSO/BackStabSO.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Scripts/Job/AugmentSO/ExploitWeaknessSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Scripts/Job/AugmentSO/ExploitWeaknessSO.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Scripts/Job/AugmentSO/FinishingBlowSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Scripts/Job/AugmentSO/FinishingBlowSO.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Scripts/Job/AugmentSO/LureSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Scripts/Job/AugmentSO/LureSO.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Scripts/Job/AugmentSO/TacticalShiftSO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Scripts/Job/AugmentSO/TacticalShiftSO.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Scripts/Servers/NetworkDebugUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Scripts/Servers/NetworkDebugUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Skill.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Skill.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/So/AssassinAugmentPool.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/So/AssassinAugmentPool.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SSW/Scripts/Player/Health.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SSW/Scripts/Player/Health.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/GameModules/Prefabs/AbilityBullets/KDH_AirBullet.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/GameModules/Prefabs/AbilityBullets/KDH_AirBullet.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/GameModules/Prefabs/AbilityBullets/KDH_GravityBullet.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/GameModules/Prefabs/AbilityBullets/KDH_GravityBullet.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map1.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map1.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map2.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map2.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map3.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map3.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map4.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map4.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/KDH_UpgradeList.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/KDH_UpgradeList.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +30,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d44b17e136d09081da1e8fd0e8c83fde60e11818b9f2442d7ed8cb733fae895e/System.Collections.Generic.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_Impulser.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/NKY/Lib/EventChannel/EventChannelAsset/GameObjectEventChannelSO.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/NKY/Lib/EventChannel/EventChannelAsset/IntEventChannelSO.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/NKY/Lib/EventChannel/EventListener.cs" root0="FORCE_HIGHLIGHTING" />
@@ -89,11 +82,69 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@3d1ea40b73ef/Runtime/UGUI/UI/Core/Graphic.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@3d1ea40b73ef/Runtime/UGUI/UI/Core/Image.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ugui@3d1ea40b73ef/Runtime/UGUI/UI/Core/MaskableGraphic.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5bc40c3d370d4c0ba31a7d683af28bc820ce00/03/a1986493/JobType.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5bc40c3d370d4c0ba31a7d683af28bc820ce00/69/1e1ca354/Renderer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5bc40c3d370d4c0ba31a7d683af28bc820ce00/6f/32343056/Component.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5bc40c3d370d4c0ba31a7d683af28bc820ce00/87/f7a8dc28/SpriteRenderer.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d44b17e136d09081da1e8fd0e8c83fde60e11818b9f2442d7ed8cb733fae895e/System.Collections.Generic.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="3.793154334782948E-64" />
+      <entry key="MS500" value="2.0691887222731078E-13" />
+      <entry key="S2" value="6.744504141327425E-4" />
+      <entry key="S5" value="0.0538989134440896" />
+      <entry key="S10" value="0.2321616958927074" />
+      <entry key="S30" value="0.6409993186779829" />
+      <entry key="S60" value="1.2920102915088896" />
+      <entry key="M2" value="3.716600694420845" />
+      <entry key="M5" value="15.252675283168971" />
+      <entry key="M10" value="34.85545602209698" />
+      <entry key="M15" value="48.371218726027294" />
+      <entry key="M30" value="68.78465394566472" />
+      <entry key="H1" value="82.7210278815955" />
+      <entry key="H2" value="90.89392601530542" />
+      <entry key="H4" value="95.32358115572059" />
+      <entry key="D1" value="99.20285630974548" />
+      <entry key="W1" value="99.88567975976041" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="1.0000000000002576" />
+      <entry key="MS500" value="1.0030376701996218" />
+      <entry key="S2" value="1.274556021192378" />
+      <entry key="S5" value="1.863250412569725" />
+      <entry key="S10" value="2.4404547672179513" />
+      <entry key="S30" value="3.279106892403283" />
+      <entry key="S60" value="3.855663652619483" />
+      <entry key="M2" value="5.33143489636997" />
+      <entry key="M5" value="11.236213700279809" />
+      <entry key="M10" value="19.42930344221874" />
+      <entry key="M15" value="24.601136589541344" />
+      <entry key="M30" value="32.06147886383651" />
+      <entry key="H1" value="36.99913277827663" />
+      <entry key="H2" value="39.8520557109292" />
+      <entry key="H4" value="41.387139107946986" />
+      <entry key="D1" value="42.72560854572172" />
+      <entry key="W1" value="42.96066212127192" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="1.135444027901483E-12" />
+      <entry key="MS500" value="0.004706645491708843" />
+      <entry key="S2" value="0.4147702306164776" />
+      <entry key="S5" value="1.216739032049421" />
+      <entry key="S10" value="2.109259103481677" />
+      <entry key="S30" value="3.6226525877684805" />
+      <entry key="S60" value="4.967395007960834" />
+      <entry key="M2" value="8.930241418083837" />
+      <entry key="M5" value="26.411250219179557" />
+      <entry key="M10" value="54.22841866589237" />
+      <entry key="M15" value="72.9278858374936" />
+      <entry key="M30" value="100.81907736454228" />
+      <entry key="H1" value="119.70507351375858" />
+      <entry key="H2" value="130.73799259631733" />
+      <entry key="H4" value="136.7066064782615" />
+      <entry key="D1" value="141.92776195664604" />
+      <entry key="W1" value="142.84624103445717" />
+    </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0,
@@ -110,6 +161,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
@@ -117,12 +169,15 @@
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;NKY&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;KDH&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -186,6 +241,10 @@
       <workItem from="1784212267359" duration="687000" />
       <workItem from="1789053652721" duration="1740000" />
       <workItem from="1789306360538" duration="3282000" />
+      <workItem from="1789343901847" duration="438000" />
+      <workItem from="1789354806115" duration="1167000" />
+      <workItem from="1789381872822" duration="1593000" />
+      <workItem from="1789389146386" duration="1056000" />
     </task>
     <servers />
   </component>

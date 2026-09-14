@@ -4122,7 +4122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6ea3e269b2dd9f42bf70e4e72d27481, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Player.KDH_AugmentController
-  _bulletData: {fileID: 11400000, guid: 9be95c4a54f705c4a940f8fb516956be, type: 2}
 --- !u!1 &1786929127
 GameObject:
   m_ObjectHideFlags: 0
@@ -5630,7 +5629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SSW.PlayerHatView
   _identity: {fileID: 4861530810439955386}
-  _catalog: {fileID: 0}
+  _catalog: {fileID: 11400000, guid: 36bb1906e98e3c8438b9a968aef73d64, type: 2}
   _renderer: {fileID: 4604062200489303841}
 --- !u!1 &7686893400146233274
 GameObject:
@@ -5656,7 +5655,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &8266417094696295401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5721,8 +5720,8 @@ MonoBehaviour:
   _healthBarResourceName: HealthBarUI
   _damageNumberResourceName: DamageNumberUI
   _healthBarPadding: 0.15
-  testChannel: {fileID: 0}
-  hitChannel: {fileID: 0}
+  healthChangeEvent: {fileID: 11400000, guid: 4bffae8994c8b2440973b7b481cec1f3, type: 2}
+  hitEvent: {fileID: 11400000, guid: ba1b79262c399f14ca5594cd639dfcfd, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
