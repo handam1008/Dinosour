@@ -1364,8 +1364,8 @@ MonoBehaviour:
   _healthBarResourceName: HealthBarUI
   _damageNumberResourceName: DamageNumberUI
   _healthBarPadding: 0.15
-  testChannel: {fileID: 0}
-  hitChannel: {fileID: 0}
+  healthChangeEvent: {fileID: 0}
+  hitEvent: {fileID: 0}
 --- !u!70 &338657678
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -8180,6 +8180,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Jackpot777
   healInterval: 0.2
+--- !u!114 &904079614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904079570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27c8db1cc17bd7a4da3fb1884a896c2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JJW.Script.Augments.GamblerAugmentController
 --- !u!1 &933345699
 GameObject:
   m_ObjectHideFlags: 0
@@ -22433,6 +22445,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 1743667460754474648, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
+      propertyPath: _jobPool
+      value: 
+      objectReference: {fileID: 11400000, guid: b20ea40933d908341b3494bd3b272328, type: 2}
     - target: {fileID: 3025669487846797003, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
       propertyPath: _job
       value: 5
@@ -22523,6 +22539,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 11155713228905163, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 904079613}
+    - targetCorrespondingSourceObject: {fileID: 11155713228905163, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 904079614}
   m_SourcePrefab: {fileID: 100100000, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
 --- !u!1 &7584981224241185858
 GameObject:

@@ -48,7 +48,7 @@ namespace JJW.Script.Jackpot
                 Debug.Log("체력 회복");
                 HealJackpot?.Invoke(30f);
             }
-            else if (0 <= boll && boll < 101)//14 21
+            else if (14 <= boll && boll < 21)//14 21
             {
                 Debug.Log("무적");
                 StarJackpot?.Invoke(5f);

@@ -11,11 +11,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6fb1d2c4-7096-4d2f-81e7-2333f2fed1f9" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Scenes/TestScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Scenes/TestScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Scripts/AssassinMeleeAttack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Scripts/AssassinMeleeAttack.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Scripts/AssassinNormalSkill.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Scripts/AssassinNormalSkill.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Scripts/Skill/AssassinNormalSkillSo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Scripts/Skill/AssassinNormalSkillSo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/NKY/Scripts/TestJump.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Scripts/TestJump.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/JJW/Scene/Gamblinger.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Scene/Gamblinger.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/JackpotDivision.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/JackpotDivision.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +24,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/JJW/Script/Augments/GamblerAugment.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/JJW/Script/Augments/GamblerAugmentType.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/NKY/Scripts/AbstractPlayerSkillSo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/NKY/Scripts/AssassinMeleeAttack.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/NKY/Scripts/AssassinNormalSkill.cs" root0="FORCE_HIGHLIGHTING" />
@@ -51,7 +51,7 @@
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;NKY&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;JJW&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -118,6 +118,9 @@
       <workItem from="1784111254950" duration="3422000" />
       <workItem from="1784197625389" duration="3531000" />
       <workItem from="1784212267359" duration="687000" />
+      <workItem from="1789343312017" duration="1068000" />
+      <workItem from="1789344801296" duration="78000" />
+      <workItem from="1789429338673" duration="1717000" />
     </task>
     <servers />
   </component>
