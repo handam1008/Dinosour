@@ -1,0 +1,125 @@
+{
+  "seq": 23,
+  "error": "",
+  "listening": true,
+  "server": true,
+  "connected": true,
+  "peers": 2,
+  "readyToStart": true,
+  "scene": "SuperUltraLegendScene",
+  "menuOpen": true,
+  "canResume": false,
+  "title": "승리",
+  "phase": "Finished",
+  "reason": "Knockout",
+  "winner": 0,
+  "round": 2,
+  "firstWins": 2,
+  "secondWins": 0,
+  "first": 0,
+  "second": 1,
+  "set": 7,
+  "firstSets": 4,
+  "secondSets": 3,
+  "firstMarks": 3,
+  "secondMarks": 0,
+  "timeScale": 1.0,
+  "time": 63.22186279296875,
+  "intro": false,
+  "introClosing": false,
+  "leftName": "",
+  "rightName": "",
+  "players": [
+    {
+      "id": 0,
+      "job": "Witch",
+      "name": "Host",
+      "draftView": false,
+      "hp": 100.79999542236328,
+      "max": 100.79999542236328,
+      "position": {
+        "x": -6.0,
+        "y": -3.151252508163452
+      },
+      "velocity": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "viewport": {
+        "x": 0.28571441769599915,
+        "y": 0.4047614634037018,
+        "z": 10.0
+      },
+      "aim": {
+        "x": 0.8606149554252625,
+        "y": 0.5092561841011047
+      },
+      "side": 1,
+      "labelsFaceView": true,
+      "animation": 2081823275,
+      "owner": true,
+      "ready": true,
+      "offer": {
+        "x": -1,
+        "y": -1,
+        "z": -1
+      },
+      "augments": [
+        16,
+        0,
+        20,
+        4,
+        3,
+        18
+      ],
+      "potion": 1,
+      "rank": 1
+    },
+    {
+      "id": 1,
+      "job": "Magician",
+      "name": "Client",
+      "draftView": false,
+      "hp": 0.0,
+      "max": 56.0,
+      "position": {
+        "x": 6.0,
+        "y": -3.151252508163452
+      },
+      "velocity": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "viewport": {
+        "x": 0.7142856121063232,
+        "y": 0.4047614634037018,
+        "z": 10.0
+      },
+      "aim": {
+        "x": -0.8606150150299072,
+        "y": 0.5092560648918152
+      },
+      "side": -1,
+      "labelsFaceView": true,
+      "animation": 1293411866,
+      "owner": false,
+      "ready": true,
+      "offer": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "augments": [
+        4,
+        2,
+        6,
+        3,
+        16,
+        10
+      ],
+      "potion": -1,
+      "rank": 1
+    }
+  ],
+  "shots": []
+}

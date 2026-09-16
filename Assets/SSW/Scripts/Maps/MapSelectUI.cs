@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using DG.Tweening;
 
 namespace SSW
@@ -13,9 +14,11 @@ namespace SSW
         [SerializeField] RectTransform _container;
         [SerializeField] GameObject _buttonTemplate;
         [SerializeField] float _fadeDuration = 0.15f;
+        [SerializeField] MapCatalog _catalog;
 
         float _previousTimeScale = 1f;
         bool _paused;
+        int _openedFrame;
 
         void Awake()
         {
@@ -29,27 +32,44 @@ namespace SSW
 
         public void Show(MapEntry[] maps)
         {
+            _openedFrame = Time.frameCount;
             _previousTimeScale = Time.timeScale;
             _paused = true;
             Time.timeScale = 0f;
-
             _group.alpha = 0f;
             _group.DOFade(1f, _fadeDuration).SetUpdate(true);
+
+            foreach (MapLayout map in _catalog.Maps)
+            {
+                Button button = AddButton(map.Title);
+                button.interactable = MapTravel.IsLocal;
+                button.onClick.AddListener(() => OpenMap(map));
+            }
 
             if (maps == null) return;
             foreach (MapEntry map in maps)
             {
                 if (map == null || string.IsNullOrEmpty(map.sceneName)) continue;
-
-                GameObject buttonGo = Instantiate(_buttonTemplate, _container);
-                buttonGo.SetActive(true);
-                buttonGo.GetComponentInChildren<Text>().text = map.displayName;
-
                 string sceneName = map.sceneName;
-                buttonGo.GetComponent<Button>().onClick.AddListener(() => LoadMap(sceneName));
+                Button button = AddButton(map.displayName);
+                button.onClick.AddListener(() => LoadMap(sceneName));
             }
         }
 
+        Button AddButton(string title)
+        {
+            GameObject buttonGo = Instantiate(_buttonTemplate, _container);
+            buttonGo.SetActive(true);
+            buttonGo.GetComponentInChildren<Text>().text = title;
+            return buttonGo.GetComponent<Button>();
+        }
+
+        void Update()
+        {
+            if (Time.frameCount == _openedFrame || Keyboard.current == null) return;
+            if (Keyboard.current.escapeKey.wasPressedThisFrame || Keyboard.current.mKey.wasPressedThisFrame)
+                Close();
+        }
         public void Close()
         {
             RestoreTimeScale();
@@ -60,6 +80,12 @@ namespace SSW
         {
             RestoreTimeScale();
             SceneManager.LoadScene(sceneName);
+        }
+
+        void OpenMap(MapLayout map)
+        {
+            RestoreTimeScale();
+            MapTravel.Open(map);
         }
 
         void OnDisable()

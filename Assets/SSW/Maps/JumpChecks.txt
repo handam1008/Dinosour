@@ -1,0 +1,15 @@
+PASS: Player spawns on the first hanging square.
+PASS: Hang1 -> Hang16 (jump), rise=2.10, peak=0.96
+PASS: Hang16 -> Hang17 (jump), rise=2.28, peak=3.59
+PASS: Hang17 -> Hang18 (jump), rise=1.60, peak=5.69
+PASS: Hang18 -> Hang19 (jump), rise=1.61, peak=7.28
+PASS: Hang19 -> Hang20 (descent), rise=-1.69, peak=6.15
+PASS: Hang20 -> Hang22 (descent), rise=-2.01, peak=4.37
+PASS: Hang22 -> Hang21 (jump), rise=-0.50, peak=4.07
+PASS: Hang21 -> Hang16 (jump), rise=-0.94, peak=6.10
+PASS: Hang16 -> Hang1 (descent), rise=-2.10, peak=0.88
+PASS: Hang1 -> Hang2 (jump), rise=-1.09, peak=1.65
+PASS: Hang2 -> Hang3 (jump), rise=0.84, peak=0.17
+PASS: Hang3 -> Hang4 (jump), rise=-0.87, peak=0.84
+PASS: Hang4 -> Hang5 (jump), rise=1.11, peak=0.45
+COMPLETE

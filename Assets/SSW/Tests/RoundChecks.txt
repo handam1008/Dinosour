@@ -1,0 +1,102 @@
+PASS No random job granted at match start
+PASS Three distinct initial common choices on both peers
+PASS Invalid draft slot rejected
+PASS Both players choose one common at start
+PASS Set 1 round 1 retains augments
+PASS Set 1 round 1 starts at full health
+PASS Set 1 round 1 has no old projectiles
+PASS Set 1 round 1 scores synchronized
+PASS Set 1 round 2 retains augments
+PASS Set 1 round 2 starts at full health
+PASS Set 1 round 2 has no old projectiles
+PASS Set 1 round 2 scores synchronized
+PASS Set 1 round 3 retains augments
+PASS Set 1 round 3 starts at full health
+PASS Set 1 round 3 has no old projectiles
+PASS Set 1 round 3 scores synchronized
+PASS Set 1 winner receives no draft
+PASS Set 1 lamps reset for next set
+PASS client loss 1 has three common choices
+PASS client loss 1 waits for separate job choice
+PASS client loss 1 has three job choices
+PASS Personal loss reward client/1 correct
+PASS Set 2 round 1 retains augments
+PASS Set 2 round 1 starts at full health
+PASS Set 2 round 1 has no old projectiles
+PASS Set 2 round 1 scores synchronized
+PASS Set 2 round 2 retains augments
+PASS Set 2 round 2 starts at full health
+PASS Set 2 round 2 has no old projectiles
+PASS Set 2 round 2 scores synchronized
+PASS Set 2 winner receives no draft
+PASS Set 2 lamps reset for next set
+PASS host loss 1 has three common choices
+PASS host loss 1 waits for separate job choice
+PASS host loss 1 has three job choices
+PASS Personal loss reward host/1 correct
+PASS Set 3 round 1 retains augments
+PASS Set 3 round 1 starts at full health
+PASS Set 3 round 1 has no old projectiles
+PASS Set 3 round 1 scores synchronized
+PASS Set 3 round 2 retains augments
+PASS Set 3 round 2 starts at full health
+PASS Set 3 round 2 has no old projectiles
+PASS Set 3 round 2 scores synchronized
+PASS Set 3 winner receives no draft
+PASS Set 3 lamps reset for next set
+PASS client loss 2 has three common choices
+PASS Personal loss reward client/2 correct
+PASS Set 4 round 1 retains augments
+PASS Set 4 round 1 starts at full health
+PASS Set 4 round 1 has no old projectiles
+PASS Set 4 round 1 scores synchronized
+PASS Set 4 round 2 retains augments
+PASS Set 4 round 2 starts at full health
+PASS Set 4 round 2 has no old projectiles
+PASS Set 4 round 2 scores synchronized
+PASS Set 4 winner receives no draft
+PASS Set 4 lamps reset for next set
+PASS host loss 2 has three common choices
+PASS Personal loss reward host/2 correct
+PASS Set 5 round 1 retains augments
+PASS Set 5 round 1 starts at full health
+PASS Set 5 round 1 has no old projectiles
+PASS Set 5 round 1 scores synchronized
+PASS Set 5 round 2 retains augments
+PASS Set 5 round 2 starts at full health
+PASS Set 5 round 2 has no old projectiles
+PASS Set 5 round 2 scores synchronized
+PASS Set 5 winner receives no draft
+PASS Set 5 lamps reset for next set
+PASS client loss 3 has three common choices
+PASS client loss 3 waits for separate job choice
+PASS client loss 3 has three job choices
+PASS Personal loss reward client/3 correct
+PASS Set 6 round 1 retains augments
+PASS Set 6 round 1 starts at full health
+PASS Set 6 round 1 has no old projectiles
+PASS Set 6 round 1 scores synchronized
+PASS Set 6 round 2 retains augments
+PASS Set 6 round 2 starts at full health
+PASS Set 6 round 2 has no old projectiles
+PASS Set 6 round 2 scores synchronized
+PASS Set 6 winner receives no draft
+PASS Set 6 lamps reset for next set
+PASS host loss 3 has three common choices
+PASS host loss 3 waits for separate job choice
+PASS host loss 3 has three job choices
+PASS Personal loss reward host/3 correct
+PASS Set 7 round 1 retains augments
+PASS Set 7 round 1 starts at full health
+PASS Set 7 round 1 has no old projectiles
+PASS Set 7 round 1 scores synchronized
+PASS Set 7 round 2 retains augments
+PASS Set 7 round 2 starts at full health
+PASS Set 7 round 2 has no old projectiles
+PASS Set 7 round 2 scores synchronized
+PASS Final match ends at 4:3 after seven sets
+PASS Opposite final results and no resume
+PASS Editor simultaneous knockout ends in a draw with no score
+PASS Draw restarts the same round with full health
+PASS Common and job card UI clicks grant both augments and resume combat
+PASS Disconnect preserves set scores and disables resume

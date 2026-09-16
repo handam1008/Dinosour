@@ -1,0 +1,13 @@
+PASS actual service matchmaking reaches Intro on both peers 
+PASS each owner is on the left of VS 
+PASS Intro blocks early augment selection and combat 30 sampled states
+PASS both intro completions lead to Draft 
+PASS Intro pose lasts before Draft editor=2.11430358886719s client=1.43480682373048s
+PASS overlay is released and augment choices are present 
+PASS runtime has no errors 
+PASS actual augment UI click followed by both choices enters Playing
+PASS Exit clears overlay and returns both players to MainMenu
+PASS same two clients rematch through service menus, replay VS, and reach Draft without stale views
+PASS magician actual InputSystem mouse hold and release spawns card after VS and Draft in standalone client
+PASS ESC during Intro opens pause above VS and actual Exit button clears it on both peers without late augment grants
+PASS latest Editor compilation, blur shader, prefab references, removed dots and curtains, preview menu exit, and released runtime blur material
