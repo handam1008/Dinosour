@@ -20,6 +20,9 @@ namespace SSW
             _pose.anchoredPosition = new Vector2(watching ? 735f : -735f, -65f);
             _group.alpha = 0.28f;
             _preview.Show(definition);
+            RectTransform hat = _preview.HatImage.rectTransform;
+            Rect sprite = definition.HatSprite.rect;
+            hat.sizeDelta = new Vector2(hat.sizeDelta.x, hat.sizeDelta.x * sprite.height / sprite.width);
             _preview.SetFacing(!watching);
         }
 

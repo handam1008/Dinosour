@@ -21,11 +21,11 @@ namespace SSW
                 return;
             }
             bool first = local == state.First;
-            int left = first ? state.FirstMarks : state.SecondMarks;
-            int right = first ? state.SecondMarks : state.FirstMarks;
+            int left = first ? state.FirstWins : state.SecondWins;
+            int right = first ? state.SecondWins : state.FirstWins;
             bool animate = _shown && _set == state.Set;
-            for (int i = 0; i < _left.Length; i++) _left[i].Set((left & (1 << i)) != 0, animate);
-            for (int i = 0; i < _right.Length; i++) _right[i].Set((right & (1 << i)) != 0, animate);
+            for (int i = 0; i < _left.Length; i++) _left[i].Set(i < left, animate);
+            for (int i = 0; i < _right.Length; i++) _right[i].Set(i < right, animate);
             _leftScore.text = (first ? state.FirstSets : state.SecondSets).ToString();
             _rightScore.text = (first ? state.SecondSets : state.FirstSets).ToString();
             _set = state.Set;

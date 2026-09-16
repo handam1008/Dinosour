@@ -5,16 +5,22 @@ namespace SSW
 {
     public sealed class DraftTrail : UnityEngine.UI.MaskableGraphic
     {
-        struct Spark
+        struct Mark
         {
-            public Vector2 Position;
+            public Vector2 From;
+            public Vector2 To;
             public Vector2 Drift;
             public float Age;
             public float Life;
-            public float Size;
         }
 
-        readonly List<Spark> _sparks = new List<Spark>(180);
+        static readonly Vector2[] Arrow =
+        {
+            new Vector2(0f, 0f), new Vector2(1f, -32f), new Vector2(9f, -25f),
+            new Vector2(16f, -38f), new Vector2(22f, -35f), new Vector2(15f, -22f),
+            new Vector2(28f, -22f)
+        };
+        readonly List<Mark> _marks = new List<Mark>(160);
         Vector2 _target;
         Vector2 _point;
         Vector2 _stamp;
@@ -22,9 +28,8 @@ namespace SSW
         bool _started;
         bool _smooth;
         float _head;
-        uint _seed = 4739;
 
-        public int Particles => _sparks.Count;
+        public int Particles => _marks.Count;
         public Vector2 Point => _point;
 
         public void Move(Vector2 point, bool smooth)
@@ -38,87 +43,89 @@ namespace SSW
         public void Stop()
         {
             _active = false;
-        }
-
-        float Noise()
-        {
-            _seed ^= _seed << 13;
-            _seed ^= _seed >> 17;
-            _seed ^= _seed << 5;
-            return (_seed & 65535) / 65535f;
+            _started = false;
         }
 
         void Update()
         {
+            bool visible = _head > 0f || _marks.Count > 0 || _active;
             float dt = Mathf.Min(Time.unscaledDeltaTime, 0.05f);
-            _head = Mathf.MoveTowards(_head, _active ? 1f : 0f, dt * 7f);
+            _head = Mathf.MoveTowards(_head, _active ? 1f : 0f, dt * 9f);
             if (_active)
             {
                 _point = _smooth ? Vector2.Lerp(_point, _target, 1f - Mathf.Exp(-24f * dt)) : _target;
                 float distance = Vector2.Distance(_stamp, _point);
-                int count = Mathf.Min(18, Mathf.FloorToInt(distance / 7f));
+                int count = Mathf.Min(24, Mathf.FloorToInt(distance / 4f));
+                Vector2 normal = new Vector2(-(_point - _stamp).y, (_point - _stamp).x).normalized;
                 for (int i = 0; i < count; i++)
                 {
-                    if (_sparks.Count >= 180) _sparks.RemoveAt(0);
-                    _sparks.Add(new Spark
+                    if (_marks.Count >= 160) _marks.RemoveAt(0);
+                    Vector2 from = Vector2.Lerp(_stamp, _point, (float)i / count);
+                    _marks.Add(new Mark
                     {
-                        Position = Vector2.Lerp(_stamp, _point, (i + 1f) / count),
-                        Drift = new Vector2((Noise() - 0.5f) * 52f, 18f + Noise() * 42f),
-                        Life = 0.42f + Noise() * 0.35f, Size = 2f + Noise() * 3f
+                        From = from, To = Vector2.Lerp(_stamp, _point, (i + 1f) / count),
+                        Drift = normal * Mathf.Sin(from.x * 0.04f + from.y * 0.03f) * 10f + Vector2.up * 8f,
+                        Life = 0.55f
                     });
                 }
                 if (count > 0) _stamp = _point;
             }
-            for (int i = _sparks.Count - 1; i >= 0; i--)
+            for (int i = _marks.Count - 1; i >= 0; i--)
             {
-                Spark spark = _sparks[i];
-                spark.Age += dt;
-                if (spark.Age >= spark.Life) _sparks.RemoveAt(i);
-                else _sparks[i] = spark;
+                Mark mark = _marks[i];
+                mark.Age += dt;
+                if (mark.Age >= mark.Life) _marks.RemoveAt(i);
+                else _marks[i] = mark;
             }
-            if (_head > 0f || _sparks.Count > 0 || !_active) SetVerticesDirty();
+            if (visible) SetVerticesDirty();
         }
 
         protected override void OnPopulateMesh(UnityEngine.UI.VertexHelper mesh)
         {
             mesh.Clear();
-            foreach (Spark spark in _sparks)
+            foreach (Mark mark in _marks)
             {
-                float age = spark.Age / spark.Life;
-                Vector2 point = spark.Position + spark.Drift * age * age;
-                Color tint = color;
-                tint.a *= (1f - age) * (1f - age);
-                Glow(mesh, point, spark.Size * 2.8f, new Color(tint.r, tint.g, tint.b, tint.a * 0.3f));
-                Diamond(mesh, point, spark.Size * (1f - age * 0.65f), tint);
+                float age = mark.Age / mark.Life;
+                float fade = (1f - age) * (1f - age);
+                Vector2 drift = mark.Drift * age * age;
+                Vector2 from = mark.From + drift;
+                Vector2 to = mark.To + drift;
+                Vector2 normal = new Vector2(-(to - from).y, (to - from).x).normalized;
+                Color tint = new Color(color.r, color.g, color.b, color.a * fade);
+                Line(mesh, from, to, 1.25f * (1f - age * 0.7f), tint);
+                tint.a *= 0.35f;
+                Vector2 offset = normal * (3f + age * 3f);
+                Line(mesh, from + offset, to + offset, 0.55f, tint);
             }
             if (_head <= 0f) return;
-            Glow(mesh, _point, 25f, new Color(color.r, color.g, color.b, _head * 0.55f));
-            Glow(mesh, _point, 11f, new Color(1f, 0.94f, 0.65f, _head * 0.9f));
-            Diamond(mesh, _point, 4f, new Color(1f, 0.99f, 0.9f, _head));
+            Pointer(mesh, _point + new Vector2(2f, -2f), 1.14f, new Color(0f, 0f, 0f, _head * 0.22f));
+            Pointer(mesh, _point, 1.12f, new Color(0.12f, 0.15f, 0.2f, _head * 0.95f));
+            Pointer(mesh, _point, 1f, new Color(0.98f, 0.99f, 1f, _head));
         }
 
-        static void Diamond(UnityEngine.UI.VertexHelper mesh, Vector2 point, float size, Color tint)
+        static void Line(UnityEngine.UI.VertexHelper mesh, Vector2 from, Vector2 to, float width, Color tint)
         {
+            Vector2 side = new Vector2(-(to - from).y, (to - from).x).normalized * width * 0.5f;
             int start = mesh.currentVertCount;
-            mesh.AddVert(point + Vector2.up * size, tint, Vector2.zero);
-            mesh.AddVert(point + Vector2.right * size, tint, Vector2.zero);
-            mesh.AddVert(point + Vector2.down * size, tint, Vector2.zero);
-            mesh.AddVert(point + Vector2.left * size, tint, Vector2.zero);
+            mesh.AddVert(from + side, tint, Vector2.zero);
+            mesh.AddVert(to + side, tint, Vector2.zero);
+            mesh.AddVert(to - side, tint, Vector2.zero);
+            mesh.AddVert(from - side, tint, Vector2.zero);
             mesh.AddTriangle(start, start + 1, start + 2);
             mesh.AddTriangle(start, start + 2, start + 3);
         }
 
-        static void Glow(UnityEngine.UI.VertexHelper mesh, Vector2 point, float radius, Color tint)
+        static void Pointer(UnityEngine.UI.VertexHelper mesh, Vector2 point, float scale, Color tint)
         {
             int start = mesh.currentVertCount;
-            mesh.AddVert(point, tint, Vector2.zero);
-            tint.a = 0f;
-            for (int i = 0; i < 12; i++)
-            {
-                float angle = i * Mathf.PI / 6f;
-                mesh.AddVert(point + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius, tint, Vector2.zero);
-            }
-            for (int i = 0; i < 12; i++) mesh.AddTriangle(start, start + 1 + i, start + 1 + (i + 1) % 12);
+            Vector2 center = new Vector2(10f, -20f);
+            foreach (Vector2 vertex in Arrow)
+                mesh.AddVert(point + center + (vertex - center) * scale, tint, Vector2.zero);
+            mesh.AddTriangle(start, start + 1, start + 2);
+            mesh.AddTriangle(start, start + 2, start + 5);
+            mesh.AddTriangle(start, start + 5, start + 6);
+            mesh.AddTriangle(start + 2, start + 3, start + 4);
+            mesh.AddTriangle(start + 2, start + 4, start + 5);
         }
     }
 }

@@ -17,6 +17,8 @@ namespace SSW
         [SerializeField] DraftTrail _trail;
         [SerializeField] Vector2 _space = new Vector2(1920f, 1080f);
         Action<Augment> _selected;
+        readonly DraftPointer _pointer = new DraftPointer();
+        MatchUI _menu;
         Sequence _motion;
         bool _picking;
         bool _closing;
@@ -32,8 +34,9 @@ namespace SSW
 
         void Awake() => EnsureEventSystem();
 
-        public void SetPlayer(PlayerJob job, bool spectator)
+        public void SetPlayer(PlayerJob job, bool spectator, MatchUI menu)
         {
+            _menu = menu;
             Spectating = spectator;
             _body.blocksRaycasts = !spectator;
             _body.interactable = !spectator;
@@ -52,7 +55,7 @@ namespace SSW
             {
                 _cards[i].Set(choices[i], PickedCard);
                 _cards[i].PlayDeal(0.15f + i * 0.1f);
-                _lights[i].color = new Color(1f, 0.8f, 0.3f, 0f);
+                _lights[i].color = new Color(0.88f, 0.95f, 1f, 0f);
             }
         }
 
@@ -61,14 +64,16 @@ namespace SSW
             if (Spectating || _picking || _closing || Mouse.current == null) return;
             Vector2 pointer = Mouse.current.position.ReadValue();
             RectTransformUtility.ScreenPointToLocalPointInRectangle(_screen, pointer, null, out Vector2 point);
-            if (!_screen.rect.Contains(point))
+            if (!_screen.rect.Contains(point) || _menu.IsOpen)
             {
+                _pointer.Dispose();
                 Cursor = -Vector2.one;
                 _trail.Stop();
                 Highlight(-1);
                 SendPoint();
                 return;
             }
+            if (Application.isFocused) _pointer.Hide();
             Cursor = new Vector2(Mathf.Clamp01(point.x / _space.x + 0.5f), Mathf.Clamp01(point.y / _space.y + 0.5f));
             _trail.Move(Vector2.Scale(Cursor - Vector2.one * 0.5f, _space), false);
             int hover = -1;
@@ -104,7 +109,7 @@ namespace SSW
             {
                 _cards[i].PreviewHover(i == slot);
                 _lights[i].DOKill();
-                _lights[i].DOFade(i == slot ? 0.75f : 0f, 0.15f).SetUpdate(true);
+                _lights[i].DOFade(i == slot ? 0.28f : 0f, 0.15f).SetUpdate(true);
             }
             _portrait.Hover(slot);
         }
@@ -119,6 +124,7 @@ namespace SSW
         void AnimatePick(AugmentCardUI picked)
         {
             _picking = true;
+            _pointer.Dispose();
             _body.blocksRaycasts = false;
             _trail.Stop();
             _portrait.Pick();
@@ -140,6 +146,7 @@ namespace SSW
         {
             if (_closing) return;
             _closing = true;
+            _pointer.Dispose();
             _motion?.Kill();
             _body.DOKill();
             _body.blocksRaycasts = false;
@@ -152,9 +159,17 @@ namespace SSW
 
         void OnDestroy()
         {
+            _pointer.Dispose();
             _motion?.Kill();
             _body.DOKill();
             foreach (UnityEngine.UI.Image light in _lights) light.DOKill();
+        }
+
+        void OnDisable() => _pointer.Dispose();
+
+        void OnApplicationFocus(bool focused)
+        {
+            if (!focused) _pointer.Dispose();
         }
     }
 }

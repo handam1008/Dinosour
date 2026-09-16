@@ -146,7 +146,7 @@ namespace SSW
                 choices[i] = current[i] >= 0 ? _deck.At(current[i]) : null;
             _view = Instantiate(_viewPrefab);
             _view.PausesGame = false;
-            _view.SetPlayer(_player.Job, spectator);
+            _view.SetPlayer(_player.Job, spectator, NetGame.Current.Menu);
             if (spectator)
             {
                 _view.Show(choices, _ => { });
