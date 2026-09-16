@@ -37,6 +37,11 @@ namespace SSW
         }
 
         public float SpeedFactor { get; set; } = 1f;
+        public float MoveSpeed => _moveSpeed * CurrentMoveSpeedMultiplier * SpeedFactor;
+        public float JumpSpeed => _jumpForce;
+        public LayerMask GroundMask => _whatIsGround;
+        public float KnockbackDecay => _externalVelocityDecay;
+        public float CounterBrake => _counterMoveBrake;
         public bool Simulated
         {
             get => _simulated;

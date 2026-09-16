@@ -1,0 +1,161 @@
+{
+  "viewDelay": 0.01471710205078125,
+  "bodyDelay": 0.2657661437988281,
+  "seq": 4,
+  "error": "",
+  "listening": true,
+  "server": false,
+  "connected": true,
+  "peers": 0,
+  "readyToStart": false,
+  "scene": "SuperUltraLegendScene",
+  "menuOpen": false,
+  "canResume": true,
+  "title": "승리",
+  "phase": "Playing",
+  "draftStatus": false,
+  "draftLabel": "상대가 증강을 고르는 중...",
+  "wipe": false,
+  "wipeTitle": "플레이어 1 승리!",
+  "reason": "Knockout",
+  "winner": 0,
+  "round": 1,
+  "firstWins": 0,
+  "secondWins": 0,
+  "first": 0,
+  "second": 1,
+  "set": 1,
+  "firstSets": 0,
+  "secondSets": 0,
+  "firstMarks": 0,
+  "secondMarks": 0,
+  "timeScale": 1.0,
+  "time": 51.89594650268555,
+  "intro": false,
+  "introClosing": false,
+  "leftName": "",
+  "rightName": "",
+  "players": [
+    {
+      "id": 0,
+      "job": "Witch",
+      "name": "Host",
+      "draftView": false,
+      "spectating": false,
+      "portraitRight": false,
+      "hover": -1,
+      "cursor": {
+        "x": -1.0,
+        "y": -1.0
+      },
+      "trail": 0,
+      "watchOffer": {
+        "x": -1,
+        "y": -1,
+        "z": -1
+      },
+      "watchPick": -1,
+      "hp": 80.0,
+      "max": 80.0,
+      "position": {
+        "x": -6.0,
+        "y": -3.151334047317505
+      },
+      "viewPosition": {
+        "x": -6.0,
+        "y": -3.151334047317505
+      },
+      "viewLinked": true,
+      "velocity": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "viewport": {
+        "x": 0.5968096256256104,
+        "y": 0.37945258617401123,
+        "z": 10.0
+      },
+      "aim": {
+        "x": 1.0,
+        "y": 0.0
+      },
+      "side": 1,
+      "labelsFaceView": true,
+      "animation": 937511423,
+      "owner": false,
+      "ready": true,
+      "draftUnlocked": false,
+      "offer": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "augments": [
+        1
+      ],
+      "potion": 2,
+      "rank": 1
+    },
+    {
+      "id": 1,
+      "job": "Magician",
+      "name": "Client",
+      "draftView": false,
+      "spectating": false,
+      "portraitRight": false,
+      "hover": -1,
+      "cursor": {
+        "x": -1.0,
+        "y": -1.0
+      },
+      "trail": 0,
+      "watchOffer": {
+        "x": -1,
+        "y": -1,
+        "z": -1
+      },
+      "watchPick": -1,
+      "hp": 144.0,
+      "max": 144.0,
+      "position": {
+        "x": -1.70756196975708,
+        "y": -3.1512506008148193
+      },
+      "viewPosition": {
+        "x": -1.711597204208374,
+        "y": -3.161552667617798
+      },
+      "viewLinked": true,
+      "velocity": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "viewport": {
+        "x": 0.40209218859672546,
+        "y": 0.37945932149887085,
+        "z": 10.0
+      },
+      "aim": {
+        "x": -0.7795168161392212,
+        "y": -0.6263812184333801
+      },
+      "side": -1,
+      "labelsFaceView": true,
+      "animation": 2081823275,
+      "owner": true,
+      "ready": true,
+      "draftUnlocked": false,
+      "offer": {
+        "x": 0,
+        "y": 4,
+        "z": 16
+      },
+      "augments": [
+        0
+      ],
+      "potion": -1,
+      "rank": 1
+    }
+  ],
+  "shots": []
+}

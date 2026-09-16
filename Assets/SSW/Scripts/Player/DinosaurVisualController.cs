@@ -37,6 +37,9 @@ namespace SSW
         float _normalAnimatorSpeed;
         bool _dead;
         bool _hatching;
+        bool _hasMotionView;
+        Vector2 _viewVelocity;
+        bool _viewGrounded;
         Vector3 _restPosition;
         Quaternion _restRotation;
         Vector3 _restScale;
@@ -96,13 +99,22 @@ namespace SSW
 
             if (Time.time < _hurtUntil)
                 PlayAnimation(Hurt);
-            else if (_player != null && !_player.IsGrounded)
+            else if (_hasMotionView ? !_viewGrounded : _player != null && !_player.IsGrounded)
                 PlayAnimation(AirborneIdle);
-            else if (_body != null && Mathf.Abs(_body.linearVelocity.x) > 0.08f)
+            else if (_hasMotionView ? Mathf.Abs(_viewVelocity.x) > 0.08f : _body != null && Mathf.Abs(_body.linearVelocity.x) > 0.08f)
                 PlayAnimation(Move);
             else
                 PlayAnimation(Idle);
         }
+
+        public void SetMotionView(Vector2 velocity, bool grounded)
+        {
+            _hasMotionView = true;
+            _viewVelocity = velocity;
+            _viewGrounded = grounded;
+        }
+
+        public void ClearMotionView() => _hasMotionView = false;
 
         void OnDisable()
         {
