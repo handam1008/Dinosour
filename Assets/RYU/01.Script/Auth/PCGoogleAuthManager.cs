@@ -153,6 +153,8 @@ namespace RYU._01.Script.Auth
             try
             {
                 await AuthenticationService.Instance.SignInWithGoogleAsync(idToken);
+                loginButton.gameObject.SetActive(false);
+                
                 Debug.Log($"<color=green>[성공] UGS 구글 로그인 완료! Player ID: {AuthenticationService.Instance.PlayerId}</color>");
             }
             catch (AuthenticationException ex)

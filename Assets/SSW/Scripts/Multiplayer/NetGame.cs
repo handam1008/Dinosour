@@ -325,7 +325,7 @@ namespace SSW
             NetPlayer local = Local;
             if (local == null || Arena == null) return;
             NetPlayer opponent = _players.FirstOrDefault(player => !player.IsOwner);
-            Arena.Follow(local.transform, opponent != null ? opponent.transform : local.transform, local.Side);
+            Arena.Follow(local.View, opponent != null ? opponent.View : local.View, local.Side);
         }
 
         void ShowIntro()

@@ -36,6 +36,8 @@ namespace SSW
             public float hp;
             public float max;
             public Vector2 position;
+            public Vector2 viewPosition;
+            public bool viewLinked;
             public Vector2 velocity;
             public Vector3 viewport;
             public Vector2 aim;
@@ -56,12 +58,15 @@ namespace SSW
             public ulong id;
             public string type;
             public Vector2 position;
+
             public int rank;
             public int kind;
         }
 
         [Serializable] sealed class Snapshot
         {
+            public float viewDelay;
+            public float bodyDelay;
             public int seq;
             public string error;
             public bool listening;
@@ -100,6 +105,12 @@ namespace SSW
             public ShotState[] shots;
         }
 
+        float _measureAt;
+        float _viewDelay = -1f;
+        float _bodyDelay = -1f;
+        Vector2 _viewStart;
+        Vector2 _bodyStart;
+        bool _measuring;
         bool _watch;
         bool _captured;
         float _introAt = -1f;
@@ -123,6 +134,13 @@ namespace SSW
 
         void Update()
         {
+            if (_measuring && NetGame.Current.Local != null)
+            {
+                NetPlayer player = NetGame.Current.Local;
+                if (_viewDelay < 0f && Vector2.Distance(player.GetComponentInChildren<DinosaurVisualController>().transform.position, _viewStart) > 0.035f) _viewDelay = Time.unscaledTime - _measureAt;
+                if (_bodyDelay < 0f && Vector2.Distance(player.Body.position, _bodyStart) > 0.035f) _bodyDelay = Time.unscaledTime - _measureAt;
+                if (_viewDelay >= 0f && _bodyDelay >= 0f) _measuring = false;
+            }
             if (_path == null || Time.unscaledTime < _next) return;
             _next = Time.unscaledTime + 0.1f;
             try
@@ -153,6 +171,30 @@ namespace SSW
             switch (command.op)
             {
                 case "watch": _watch = true; _captured = false; _introAt = -1f; break;
+                case "lag":
+                    var transport = (Unity.Netcode.Transports.UTP.UnityTransport)game.Manager.NetworkConfig.NetworkTransport;
+                    Unity.Networking.Transport.NetworkSimulatorParameterExtensions.ModifyNetworkSimulatorParameters(transport.GetNetworkDriver(), new Unity.Networking.Transport.NetworkSimulatorParameter
+                    {
+                        SendDelayMS = (uint)command.value, SendJitterMS = (uint)command.x, SendPacketLossPercent = command.y
+                    });
+                    break;
+                case "measure":
+                    _viewStart = local.GetComponentInChildren<DinosaurVisualController>().transform.position;
+                    _bodyStart = local.Body.position;
+                    _measureAt = Time.unscaledTime;
+                    _viewDelay = _bodyDelay = -1f;
+                    _measuring = true;
+                    if (command.value == 1) local.Jump();
+                    else local.Move(new Vector2(command.x, command.y));
+                    break;
+                case "push":
+                    foreach (NetPlayer player in game.Players)
+                        if (!player.IsOwner) player.GetComponent<PlayerController>().ApplyForce(new Vector2(command.x,command.y),ForceMode2D.Impulse);
+                    break;
+                case "slow":
+                    foreach (NetPlayer player in game.Players)
+                        if (!player.IsOwner) player.GetComponent<PlayerController>().ApplySlow(command.x,command.y);
+                    break;
                 case "move": local.Move(new Vector2(command.x, command.y)); break;
                 case "jump": local.Jump(); break;
                 case "press": local.Cast.Attack(true, new Vector2(command.x, command.y)); break;
@@ -241,7 +283,7 @@ namespace SSW
                     cursor = player.Draft.View != null ? player.Draft.View.Cursor : -Vector2.one,
                     trail = player.Draft.View != null ? player.Draft.View.Particles : 0,
                     watchOffer = player.Draft.WatchPose.Offer, watchPick = player.Draft.WatchPose.Pick,
-                    max = player.Health.Max, position = player.transform.position, velocity = player.Body.linearVelocity,
+                    max = player.Health.Max, position = player.transform.position, viewPosition = player.GetComponentInChildren<DinosaurVisualController>().transform.position, viewLinked = player.GetComponentInChildren<DinosaurVisualController>().transform.IsChildOf(player.View), velocity = player.Body.linearVelocity,
                     viewport = game.Arena.View.WorldToViewportPoint(player.transform.position),
                     aim = player.Aim, side = player.Side, labelsFaceView = LabelsFaceView(player, game.Arena.View),
                     animation = animator.GetCurrentAnimatorStateInfo(0).shortNameHash, owner = player.IsOwner,
@@ -265,7 +307,7 @@ namespace SSW
             MatchState state = game.State;
             Snapshot snapshot = new Snapshot
             {
-                seq = _sequence, error = _error, listening = game.Connected,
+                seq = _sequence, viewDelay = _viewDelay, bodyDelay = _bodyDelay, error = _error, listening = game.Connected,
                 server = game.Connected && game.Manager.IsServer, connected = game.Connected && game.Manager.IsConnectedClient,
                 peers = game.Connected && game.Manager.IsServer ? game.Manager.ConnectedClientsIds.Count : 0,
                 readyToStart = game.Ready, scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name,
