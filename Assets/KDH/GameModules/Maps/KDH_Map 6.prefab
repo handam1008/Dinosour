@@ -57,7 +57,7 @@ Transform:
   m_GameObject: {fileID: 199143639934683333}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -17.5, y: -6.5, z: 0}
+  m_LocalPosition: {x: -17.5, y: -7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -25222,7 +25222,6 @@ GameObject:
   m_Component:
   - component: {fileID: 751445127975052106}
   - component: {fileID: 3618047867851093551}
-  - component: {fileID: 3481230610844293499}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -25305,22 +25304,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!114 &3481230610844293499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7233029599492983992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8581db0a76634714eacc8ccf3ffa0f9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_BackgroundVisual
-  startColor: {r: 0.5294118, g: 0.8078432, b: 0.9803922, a: 1}
-  endColor: {r: 0.4392157, g: 0.5019608, b: 0.5647059, a: 1}
-  transitionTime: 2
-  rotationTime: 2
 --- !u!1 &7343609424741217816
 GameObject:
   m_ObjectHideFlags: 0
@@ -25547,9 +25530,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e45e78169fb75fb4493ca96123d71d0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH_VignetteArea
-  volume: {fileID: 1940771449428820094}
-  targetIntensity: 0.6
-  fadeSpeed: 2
   damage: 1
   slowAmount: 0.2
 --- !u!1 &8629978307841125363

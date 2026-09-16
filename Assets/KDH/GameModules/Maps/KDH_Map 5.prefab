@@ -5479,7 +5479,6 @@ GameObject:
   - component: {fileID: 5257855101476305520}
   - component: {fileID: 901016817388695786}
   - component: {fileID: 8945155932015840739}
-  - component: {fileID: 4052568180469626564}
   - component: {fileID: 589176385075171199}
   m_Layer: 8
   m_Name: Part (6)
@@ -5668,22 +5667,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &4052568180469626564
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2338629573572638757}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e3b5a35cef0e4b40a2195b2c8f3f939, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_Earthquake
-  slowAmount: 0
-  slowDuration: 0
-  shakeDuration: 0
-  shakeAmount: 0
 --- !u!114 &589176385075171199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5712,7 +5695,6 @@ GameObject:
   - component: {fileID: 7806055430222485819}
   - component: {fileID: 6751525985044118819}
   - component: {fileID: 8625044438294183348}
-  - component: {fileID: 5795352041729040497}
   - component: {fileID: 8524893712727741642}
   m_Layer: 8
   m_Name: Part (8)
@@ -5901,22 +5883,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &5795352041729040497
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2519573972527568609}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e3b5a35cef0e4b40a2195b2c8f3f939, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_Earthquake
-  slowAmount: 0
-  slowDuration: 0
-  shakeDuration: 0
-  shakeAmount: 0
 --- !u!114 &8524893712727741642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6054,7 +6020,6 @@ GameObject:
   - component: {fileID: 8333843243942343258}
   - component: {fileID: 4625001166893872288}
   - component: {fileID: 6593729293643477715}
-  - component: {fileID: 4490514843741498603}
   - component: {fileID: 3570605408832456763}
   m_Layer: 8
   m_Name: Part (7)
@@ -6243,22 +6208,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &4490514843741498603
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5327044788873304802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e3b5a35cef0e4b40a2195b2c8f3f939, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_Earthquake
-  slowAmount: 0
-  slowDuration: 0
-  shakeDuration: 0
-  shakeAmount: 0
 --- !u!114 &3570605408832456763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6336,7 +6285,6 @@ GameObject:
   - component: {fileID: 7414120295187221807}
   - component: {fileID: 631960913458954750}
   - component: {fileID: 8790221858780123472}
-  - component: {fileID: 2052170393494785177}
   - component: {fileID: 763588261945615208}
   m_Layer: 8
   m_Name: Part (5)
@@ -6525,22 +6473,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &2052170393494785177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6196107357708453565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e3b5a35cef0e4b40a2195b2c8f3f939, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_Earthquake
-  slowAmount: 0
-  slowDuration: 0
-  shakeDuration: 0
-  shakeAmount: 0
 --- !u!114 &763588261945615208
 MonoBehaviour:
   m_ObjectHideFlags: 0

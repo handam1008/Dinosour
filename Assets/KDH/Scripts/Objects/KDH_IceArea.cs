@@ -1,80 +1,101 @@
-using System.Collections;
+using System.Collections.Generic;
 using SSW;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 
-public class KDH_IceArea : MonoBehaviour
+namespace KDH.Scripts.Objects
 {
-    [SerializeField] private Volume volume;
-    [SerializeField, Range(0f, 1f)] private float targetIntensity = 0.4f;
-    [SerializeField] private float fadeSpeed = 2f;
-
-    [SerializeField] private float damage;
-    [SerializeField] private float slowAmount;
-    
-    private Vignette vignette;
-    private bool playerInside;
-
-    private Collider2D _collider;
-    private float _tick = 1f;
-    private float _timer;
-    
-    void Awake()
+    public class KDH_IceArea : MonoBehaviour
     {
-        volume.profile.TryGet(out vignette);
-        vignette.intensity.value = 0f;
-    }
-    
-    void Update()
-    {
-        float target = playerInside ? targetIntensity : 0f;
-        vignette.intensity.value = Mathf.MoveTowards(
-            vignette.intensity.value, target, fadeSpeed * Time.deltaTime);
-        
-        if (playerInside)
+        [SerializeField] private float damage;
+        [SerializeField] private float slowAmount;
+
+        private const float Tick = 1f;
+
+        private class PlayerState
         {
-            _timer += Time.deltaTime;
+            public bool applyingEffect;
+            public float timer;
+        }
 
-            if (_timer >= _tick)
+        private readonly Dictionary<Collider2D, PlayerState> _players = new();
+        private readonly List<Collider2D> _keyBuffer = new();
+        private readonly List<Collider2D> _toRemove = new();
+
+        void Update()
+        {
+            if (_players.Count == 0) return;
+
+            _keyBuffer.Clear();
+            _keyBuffer.AddRange(_players.Keys);
+
+            foreach (var col in _keyBuffer)
             {
-                if (_collider != null)
+                if (col == null)
                 {
-                    ApplyDamage(_collider, damage);
-                    ApplySlow(_collider, slowAmount);
-                    _timer = 0;
+                    _toRemove.Add(col);
+                    continue;
+                }
+
+                var state = _players[col];
+                if (!state.applyingEffect) continue;
+
+                state.timer += Time.deltaTime;
+
+                if (state.timer >= Tick)
+                {
+                    ApplyDamage(col, damage);
+                    ApplySlow(col, slowAmount);
+                    state.timer = 0f;
                 }
             }
+
+            if (_toRemove.Count > 0)
+            {
+                foreach (var col in _toRemove)
+                    _players.Remove(col);
+                _toRemove.Clear();
+            }
         }
-    }
 
-    private void ApplyDamage(Collider2D player, float damage)
-    {
-        if (player.TryGetComponent(out IDamageable playerController))
-            playerController.TakeDamage(damage);
-    }
-
-    private void ApplySlow(Collider2D player, float slowAmount)
-    {
-        if (player.TryGetComponent(out ISlowable slowable))
-            slowable.ApplySlow(slowAmount, 1f);
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.TryGetComponent(out PlayerController _))
+        private void ApplyDamage(Collider2D player, float dmg)
         {
-            _collider = other;
-            playerInside = false;
+            if (player.TryGetComponent(out IDamageable damageable))
+                damageable.TakeDamage(dmg);
         }
-    }
 
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.TryGetComponent(out PlayerController _))
-        {           
-            _collider = other;
-            playerInside = true;
+        private void ApplySlow(Collider2D player, float amount)
+        {
+            if (player.TryGetComponent(out ISlowable slowable))
+                slowable.ApplySlow(amount, 1f);
+        }
+
+        void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.TryGetComponent(out PlayerController _))
+            {
+                if (!_players.TryGetValue(other, out var state))
+                {
+                    state = new PlayerState();
+                    _players[other] = state;
+                }
+
+                state.applyingEffect = false;
+            }
+        }
+
+        void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.TryGetComponent(out PlayerController _))
+            {
+                if (!_players.TryGetValue(other, out var state))
+                {
+                    state = new PlayerState();
+                    _players[other] = state;
+                }
+
+                state.applyingEffect = true;
+                state.timer = 0f;
+            }
         }
     }
 }
