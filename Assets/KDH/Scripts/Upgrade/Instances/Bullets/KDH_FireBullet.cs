@@ -20,8 +20,6 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
         
         public override void BulletAbility(Collider2D collision,  KDH_Bullet bullet)
         {
-            // if (!collision.CompareTag("Player")) return;
-
             if (bullet.IsUpgraded)
             {
                 StartCoroutine(TakeDamageDelay(collision, dotDamage * bullet.UpgradValue, FireireDuration * bullet.UpgradValue));

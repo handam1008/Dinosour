@@ -42,10 +42,10 @@ namespace SSW
         
         [Header("뉴클리어")]
         [SerializeField] float _nuclearRadius = 10f;
-        [SerializeField] float _nuclearDamageRatio = 0.80f;     // 대상 최대체력의 80%
+        [SerializeField] float _nuclearDamageRatio = 0.20f;
         [SerializeField] float _nuclearCoolPenalty = 1.50f;
-        [SerializeField] LayerMask _nuclearWallMask;            // 폭발을 막는 벽 레이어
-        [SerializeField] GameObject _nuclearExplosionPrefab;    // 폭발 이펙트 (없어도 됨)
+        [SerializeField] LayerMask _nuclearWallMask;   
+        [SerializeField] GameObject _nuclearExplosionPrefab;
 
         readonly HashSet<CommonAugmentType> _acquired = new HashSet<CommonAugmentType>();
 
@@ -62,7 +62,6 @@ namespace SSW
 
         Vector2 _blinkDirection;
         float _blinkTimeLeft;
-        float _blinkGravity;
         bool _isBlinking;
 
         public int Priority => 200;
@@ -96,7 +95,6 @@ namespace SSW
             if (_isBlinking) EndBlink();
         }
 
-        // ---------- 뽑는 순간 : 쿨타임 / 유지시간 조정 ----------
         void HandleSelected(Augment augment)
         {
             if (augment is not CommonAugment common) return;
@@ -125,7 +123,6 @@ namespace SSW
             }
         }
 
-        // ---------- 방어할 때 ----------
         void HandleBarrierUsed()
         {
             TriggerGuardEffects();
@@ -160,12 +157,10 @@ namespace SSW
             if (Has(CommonAugmentType.BestOffense))
                 _empowerUntil = Time.time + _bestOffenseWindow;
 
-            // 점멸은 마지막 — 위 효과들이 방어한 자리 기준으로 먼저 깔리도록
             if (Has(CommonAugmentType.Blink))
                 StartBlink();
         }
 
-        // ---------- 점멸 ----------
         void StartBlink()
         {
             if (_body == null) return;
@@ -180,13 +175,9 @@ namespace SSW
             if (direction.sqrMagnitude < 0.0001f)
                 direction = new Vector2(_player != null ? _player.FacingSign : 1f, 0f);
 
-            if (!_isBlinking)
-                _blinkGravity = _body.gravityScale;
-
             _blinkDirection = direction.normalized;
             _blinkTimeLeft = _blinkDuration;
             _isBlinking = true;
-            _body.gravityScale = 0f;
         }
 
         void FixedUpdate()
@@ -212,11 +203,9 @@ namespace SSW
             _blinkTimeLeft = 0f;
 
             if (_body == null) return;
-            _body.gravityScale = _blinkGravity;
             _body.linearVelocity = Vector2.zero;
         }
 
-        // ---------- 아이스 에이지 ----------
         void CastIceAge(Vector2 center)
         {
             var targets = new HashSet<ISlowable>();
@@ -229,8 +218,12 @@ namespace SSW
 
             if (targets.Count == 0) return;
 
+            // 완전 정지 (공중이면 공중에 그대로 멈춤)
             foreach (ISlowable slowable in targets)
-                slowable.ApplySlow(1f, _iceAgeFreezeTime);
+            {
+                if (slowable is Component component)
+                    FreezeEffect.Apply(component.gameObject, _iceAgeFreezeTime);
+            }
 
             StartCoroutine(IceAgeSlowRoutine(targets));
         }
@@ -246,7 +239,6 @@ namespace SSW
             }
         }
 
-// ---------- 뉴클리어 ----------
         void CastNuclear(Vector2 center)
         {
             if (_nuclearExplosionPrefab != null)
@@ -269,7 +261,6 @@ namespace SSW
                 CombatDamage.Deal(null, target, target.Max * _nuclearDamageRatio);
         }
 
-        // ---------- 일격 필살 ----------
         public float ModifyOutgoingDamage(float amount)
         {
             return IsEmpowered ? amount * (1f + _bestOffenseBonus) : amount;
