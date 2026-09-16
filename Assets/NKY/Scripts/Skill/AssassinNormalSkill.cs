@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+﻿using SSW;
+using Unity.Netcode;
+using UnityEngine;
 
-using SSW;
-
-namespace NKY.Scripts
+namespace NKY.Scripts.Skill
 {
-    public class AssassinNormalSkill : MonoBehaviour
+    public class AssassinNormalSkill : NetworkBehaviour
     { 
         [SerializeField] private int bounceCount = 0;
         private float _damage;
@@ -35,27 +35,27 @@ namespace NKY.Scripts
             currentBounceCount = bounceCount;
         }
 
-        private void Start()
+        public void Launch(Vector2 direction)
         {
-            Debug.Log($"Before: {Rb.bodyType}");
+            if (!IsServer)
+                return;
 
-            Rb.bodyType = RigidbodyType2D.Dynamic;
-
-            Debug.Log($"After: {Rb.bodyType}");
-
-            Rb.linearVelocity = transform.up * _speed;
+            Rb.linearVelocity = direction * _speed;
         }
 
         private void FixedUpdate()
         {
+            if (!IsServer)
+                return;
+
             _curTime += Time.fixedDeltaTime;
-            
+
             if (Rb != null && Rb.linearVelocity.sqrMagnitude > 0.01f)
                 transform.up = Rb.linearVelocity;
 
             if (_curTime >= _destroyTime)
             {
-                Destroy(gameObject);
+                NetworkObject.Despawn();
             }
         }
         
@@ -66,6 +66,9 @@ namespace NKY.Scripts
 
         private void OnTriggerEnter2D(Collider2D other)
         {
+            if (!IsServer)
+                return;
+            
             if ((_whatIsTarget.value & (1 << other.gameObject.layer)) != 0)
             {
                 if (maxBounceCount > currentBounceCount)
