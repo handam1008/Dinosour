@@ -65,10 +65,12 @@ namespace JJW.Script.Jackpot
         public event Action<float> Jackpot444;
         public event Action<float> StarJackpot;
         public event Action<JackpotResultType> ResultDecided;
+        
+        public event Action<JackpotResultType, JackpotResultType> RouletteCompleted;
 
         private void Awake()
         {
-            if (coinShooter == null)
+            if (coinShooter == null)    
             {
                 coinShooter =
                     GetComponentInChildren<GamblerCoinShooter>();
@@ -147,6 +149,7 @@ namespace JJW.Script.Jackpot
             {
                 IncreaseProbabilityShift();
             }
+            RouletteCompleted?.Invoke(mainResult, rolledOldCoin ? oldCoinResult : JackpotResultType.None);
 
             ApplyResult(mainResult);
 
