@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NKY.Lib.EventChannel;
+using NKY.Lib.EventChannel.EventChannelAsset; // ¹Ù²Þ
 using UnityEngine;
 
 namespace SSW
@@ -13,6 +15,8 @@ namespace SSW
         [SerializeField] string _healthBarResourceName = "HealthBarUI";
         [SerializeField] string _damageNumberResourceName = "DamageNumberUI";
         [SerializeField] float _healthBarPadding = 0.15f;
+        [SerializeField] private DoubleFloatEventChannelSO healthChangeEvent;//¹Ù²Þ NKY
+        [SerializeField] private VoidEventChannelSO hitEvent;//¹Ù²Þ NKY
         public event System.Action OnDamaged;
         public event System.Action OnDied;
         public event System.Action<float, float> OnHealthChanged;
@@ -29,6 +33,14 @@ namespace SSW
             _authority = GetComponent<IHealthAuthority>();
             current = maxHealth;
             SpawnHealthBar();
+            if(healthChangeEvent != null) OnHealthChanged += healthChangeEvent.ChangeTupleRaise; // ¹Ù²Þ NKY
+            if(hitEvent != null) OnDamaged += hitEvent.Raise; //¹Ù²Þ NKY
+        }
+
+        private void OnDestroy() // Ãß°¡ÇÔ NKY
+        {
+            if(healthChangeEvent != null) OnHealthChanged -= healthChangeEvent.ChangeTupleRaise; // ¹Ù²Þ NKY
+            if(hitEvent != null) OnDamaged -= hitEvent.Raise; //¹Ù²Þ NKY
         }
 
         public void TakeDamage(float amount)
@@ -73,6 +85,7 @@ namespace SSW
             if (wasLethal) Die();
             return result;
         }
+        
 
         public void Heal(float amount)
         {

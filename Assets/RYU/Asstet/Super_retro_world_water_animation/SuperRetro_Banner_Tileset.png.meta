@@ -1,0 +1,767 @@
+fileFormatVersion: 2
+guid: cc74f53498f9ab743a6662617f8819a1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7482119936778027267
+    second: SuperRetro_Banner_Tileset_0
+  - first:
+      213: -4073653517855048889
+    second: SuperRetro_Banner_Tileset_1
+  - first:
+      213: 2467279582793377455
+    second: SuperRetro_Banner_Tileset_2
+  - first:
+      213: 4667296781265229169
+    second: SuperRetro_Banner_Tileset_3
+  - first:
+      213: 1821924714901428960
+    second: SuperRetro_Banner_Tileset_4
+  - first:
+      213: -7486252904808453220
+    second: SuperRetro_Banner_Tileset_5
+  - first:
+      213: -7877802719441666453
+    second: SuperRetro_Banner_Tileset_6
+  - first:
+      213: -2608759227344167639
+    second: SuperRetro_Banner_Tileset_7
+  - first:
+      213: -8553952779478943919
+    second: SuperRetro_Banner_Tileset_8
+  - first:
+      213: 1532638321533659817
+    second: SuperRetro_Banner_Tileset_9
+  - first:
+      213: -5116785929120503696
+    second: SuperRetro_Banner_Tileset_10
+  - first:
+      213: -1750554822638465067
+    second: SuperRetro_Banner_Tileset_11
+  - first:
+      213: 8129257407798364455
+    second: SuperRetro_Banner_Tileset_12
+  - first:
+      213: 4417687274865075373
+    second: SuperRetro_Banner_Tileset_13
+  - first:
+      213: 3659456798136206826
+    second: SuperRetro_Banner_Tileset_14
+  - first:
+      213: 6592512048174942512
+    second: SuperRetro_Banner_Tileset_15
+  - first:
+      213: 3109440130032551888
+    second: SuperRetro_Banner_Tileset_16
+  - first:
+      213: 4653063390505012244
+    second: SuperRetro_Banner_Tileset_17
+  - first:
+      213: -5695878469506375884
+    second: SuperRetro_Banner_Tileset_18
+  - first:
+      213: 3644749507913032606
+    second: SuperRetro_Banner_Tileset_19
+  - first:
+      213: -4686282092907149883
+    second: SuperRetro_Banner_Tileset_20
+  - first:
+      213: 1420672125757838706
+    second: SuperRetro_Banner_Tileset_21
+  - first:
+      213: -4088448476650507560
+    second: SuperRetro_Banner_Tileset_22
+  - first:
+      213: 6767662900659012746
+    second: SuperRetro_Banner_Tileset_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_0
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 249
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 301c586c074d5d760800000000000000
+      internalID: 7482119936778027267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_1
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 211
+        width: 49
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74bba3a65b97777c0800000000000000
+      internalID: -4073653517855048889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_2
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 207
+        width: 48
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fa629f555b98d3220800000000000000
+      internalID: 2467279582793377455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_3
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 223
+        width: 34
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17553a4b1b195c040800000000000000
+      internalID: 4667296781265229169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 191
+        width: 48
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ea543f00e6c84910800000000000000
+      internalID: 1821924714901428960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 143
+        width: 48
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9be72e95ac7b1890800000000000000
+      internalID: -7486252904808453220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_6
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 159
+        width: 34
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b6eb2114a2c6ca290800000000000000
+      internalID: -7877802719441666453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_7
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 180
+        width: 33
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92dd0a5fd43dbcbd0800000000000000
+      internalID: -2608759227344167639
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_8
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 120
+        width: 48
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15731b194414a4980800000000000000
+      internalID: -8553952779478943919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_9
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 175
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9aa2a24ee66054510800000000000000
+      internalID: 1532638321533659817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_10
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 146
+        width: 30
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0782e0fae468df8b0800000000000000
+      internalID: -5116785929120503696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_11
+      rect:
+        serializedVersion: 2
+        x: 85
+        y: 145
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5df89c4e9a7c4b7e0800000000000000
+      internalID: -1750554822638465067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_12
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 127
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 729c88faa8ce0d070800000000000000
+      internalID: 8129257407798364455
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_13
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 121
+        width: 31
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da4a81bab27ce4d30800000000000000
+      internalID: 4417687274865075373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_14
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 95
+        width: 48
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae50ccbb19009c230800000000000000
+      internalID: 3659456798136206826
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_15
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 111
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03943f877ce4d7b50800000000000000
+      internalID: 6592512048174942512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_16
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 73
+        width: 34
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d74fe0e253f62b20800000000000000
+      internalID: 3109440130032551888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_17
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 0
+        width: 81
+        height: 113
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 41c0d6c2080039040800000000000000
+      internalID: 4653063390505012244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 47
+        width: 48
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43fd645c5bc24f0b0800000000000000
+      internalID: -5695878469506375884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_19
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 31
+        width: 47
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e93af62ed50c49230800000000000000
+      internalID: 3644749507913032606
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_20
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 33
+        width: 13
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c5cef6f34bf6feb0800000000000000
+      internalID: -4686282092907149883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_21
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 81
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 275581675cd37b310800000000000000
+      internalID: 1420672125757838706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_22
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 17
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d272c2a5c9e247c0800000000000000
+      internalID: -4088448476650507560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SuperRetro_Banner_Tileset_23
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 17
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a84ce513d819bed50800000000000000
+      internalID: 6767662900659012746
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      SuperRetro_Banner_Tileset_0: 7482119936778027267
+      SuperRetro_Banner_Tileset_1: -4073653517855048889
+      SuperRetro_Banner_Tileset_10: -5116785929120503696
+      SuperRetro_Banner_Tileset_11: -1750554822638465067
+      SuperRetro_Banner_Tileset_12: 8129257407798364455
+      SuperRetro_Banner_Tileset_13: 4417687274865075373
+      SuperRetro_Banner_Tileset_14: 3659456798136206826
+      SuperRetro_Banner_Tileset_15: 6592512048174942512
+      SuperRetro_Banner_Tileset_16: 3109440130032551888
+      SuperRetro_Banner_Tileset_17: 4653063390505012244
+      SuperRetro_Banner_Tileset_18: -5695878469506375884
+      SuperRetro_Banner_Tileset_19: 3644749507913032606
+      SuperRetro_Banner_Tileset_2: 2467279582793377455
+      SuperRetro_Banner_Tileset_20: -4686282092907149883
+      SuperRetro_Banner_Tileset_21: 1420672125757838706
+      SuperRetro_Banner_Tileset_22: -4088448476650507560
+      SuperRetro_Banner_Tileset_23: 6767662900659012746
+      SuperRetro_Banner_Tileset_3: 4667296781265229169
+      SuperRetro_Banner_Tileset_4: 1821924714901428960
+      SuperRetro_Banner_Tileset_5: -7486252904808453220
+      SuperRetro_Banner_Tileset_6: -7877802719441666453
+      SuperRetro_Banner_Tileset_7: -2608759227344167639
+      SuperRetro_Banner_Tileset_8: -8553952779478943919
+      SuperRetro_Banner_Tileset_9: 1532638321533659817
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

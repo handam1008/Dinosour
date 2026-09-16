@@ -2,8 +2,10 @@
 
 namespace NKY.Scripts.Job
 {
-    public class AbstractAssassinAugment : MonoBehaviour
+    public abstract class AbstractAssassinAugment : MonoBehaviour
     {
-        protected AssassinAugmentController Contoller;
+        [field: SerializeField] public AssassinAugmentType Type {get; private set;}
+        
+        public abstract void ApplyAugment();
     }
 }

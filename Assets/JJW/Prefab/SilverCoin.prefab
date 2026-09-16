@@ -132,8 +132,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GamblerCoinProjectile
   body: {fileID: -6135472757594836578}
+  spriteRenderer: {fileID: 290845943808019721}
+  normalCoinSprite: {fileID: 1488005993, guid: 749930164ce9ee04cbfe4af14bd3a272, type: 3}
+  rouletteCoinSprite: {fileID: 1248068010935324249, guid: 749930164ce9ee04cbfe4af14bd3a272, type: 3}
   speed: 20
   lifetime: 5
+  coinDamage: 10
 --- !u!58 &5292981747097128063
 CircleCollider2D:
   m_ObjectHideFlags: 0

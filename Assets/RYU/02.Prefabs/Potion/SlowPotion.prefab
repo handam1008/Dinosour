@@ -173,6 +173,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 213e80cc53e64275925f28ab8b4501c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.Potion.Potion
+  _explodeOn:
+    serializedVersion: 2
+    m_Bits: 384
   splashRadious: 1.5
   _zonePrefab: {fileID: 6313443829056324801, guid: 51ea129dc26de47419d44264f28736d5, type: 3}
 --- !u!114 &-4426115649117178391
@@ -199,4 +202,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8e0919e1f6c49f1b005b0f4c6495460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.FeedBack.GlassEffect
-  _glassEffect: {fileID: 1572151662134867172, guid: 95bd4b4eeb7666040a43ee698d5dc15e, type: 3}
+  Effect: {fileID: 1572151662134867172, guid: 95bd4b4eeb7666040a43ee698d5dc15e, type: 3}

@@ -7,6 +7,7 @@ namespace RYU._01.Script.Potions
 {
     public class Potion : MonoBehaviour
     {
+        [SerializeField] private LayerMask _explodeOn;
         [SerializeField] private float splashRadious = 1.5f;
         [SerializeField] private GameObject _zonePrefab; // 잔류형 장판 (비어 있으면 장판 없음)
 
@@ -37,6 +38,10 @@ namespace RYU._01.Script.Potions
             _feedBackPlayer = GetComponent<FeedBackPlayer>();
             _collider = GetComponent<Collider2D>();
             _rb = GetComponent<Rigidbody2D>();
+
+            // 손에 들고 있는 동안에는 물·사다리·다른 포션에 반응하면 안 된다.
+            // 던질 때(Release) 다시 켠다.
+            if (_collider != null) _collider.enabled = false;
         }
 
         public void Init(AbstractPotion data, PotionModifiers mods, Component owner)
@@ -56,6 +61,7 @@ namespace RYU._01.Script.Potions
         public void Release()
         {
             _thrown = true;
+            if (_collider != null) _collider.enabled = true;
         }
 
         private void FixedUpdate()
@@ -70,6 +76,7 @@ namespace RYU._01.Script.Potions
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (_exploded) return;
+            if ((_explodeOn.value & (1 << collision.gameObject.layer)) == 0) return;  
             _exploded = true;
 
             // 깨진 유리병: 스플래시로라도 적을 맞췄으면 그대로 깨지고,

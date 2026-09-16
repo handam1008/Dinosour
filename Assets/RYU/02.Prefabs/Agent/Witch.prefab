@@ -62,6 +62,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2135737490050164936}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4208803860770190636
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7608977445023911124}
+  - component: {fileID: 7921221088110877336}
+  m_Layer: 0
+  m_Name: PotionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7608977445023911124
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4208803860770190636}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.70615, y: 1.4739999, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2135737490050164936}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7921221088110877336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4208803860770190636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2afdde99b370fef4699ce57bfa7c6a0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RandomPotion
+  potions:
+  - {fileID: 11400000, guid: e09cecff22f50914ba053ab69b73bc1a, type: 2}
+  - {fileID: 11400000, guid: 8b3a8e363b55d5248885f75f5219e656, type: 2}
+  - {fileID: 11400000, guid: 2e90569caf8abe941b62c496a77d9b3a, type: 2}
+  - {fileID: 11400000, guid: 351ce3079f8377a4580c55fa790136fa, type: 2}
+  Hand: {fileID: 7699342858477751018}
+  PlayerUp: {fileID: 5681549726193008372}
+  potionSpeed: 15
+  Angle: 0.3
+  cycleTime: 1.5
+  spreadAngle: 24
+  canCreate: 0
+  canHand: 0
 --- !u!1 &5068830034246446362
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,6 +228,9 @@ GameObject:
   - component: {fileID: 2685563200406346000}
   - component: {fileID: 2906525342354831566}
   - component: {fileID: 5530121758100847790}
+  - component: {fileID: 5584472989402170578}
+  - component: {fileID: 7894245468821844901}
+  - component: {fileID: 7446115595534520450}
   m_Layer: 3
   m_Name: Witch
   m_TagString: Player
@@ -195,6 +255,7 @@ Transform:
   - {fileID: 7699342858477751018}
   - {fileID: 5681549726193008372}
   - {fileID: 8907189963430700941}
+  - {fileID: 7608977445023911124}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &6982397936833956777
@@ -276,6 +337,7 @@ MonoBehaviour:
   _moveSpeed: 7
   _jumpForce: 12
   _externalVelocityDecay: 12
+  _counterMoveBrake: 30
   _whatIsGround:
     serializedVersion: 2
     m_Bits: 256
@@ -294,6 +356,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 100
   _disableOnDeath: 1
+  _deathDisableDelay: 0
   _healthBarResourceName: HealthBarUI
   _damageNumberResourceName: DamageNumberUI
   _healthBarPadding: 0.15
@@ -339,7 +402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85ee14632bcfda545876ba795ef52512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SSW.PlayerIdentity
-  _job: 2
+  _job: 1
 --- !u!114 &2906525342354831566
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,10 +427,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecb938aeaa34e954a94953995b1bb85d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SSW.AugmentDrafter
-  _commonPool: {fileID: 11400000, guid: a36165d4945635447aae0272a99be66a, type: 2}
-  _jobPool: {fileID: 11400000, guid: 362191813c22af4458afe934905a8729, type: 2}
+  _commonPool: {fileID: 11400000, guid: f396daccee22bc54c96a46fbe2596d2a, type: 2}
+  _jobPool: {fileID: 11400000, guid: c84db2ff94f5a8a4d92221b3c4aec4c1, type: 2}
   _choiceCount: 3
   _draftUIResourceName: AugmentDraftUIDino
+--- !u!114 &5584472989402170578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8344356039665309093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4276e4316744938b93cb904dd03788e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.Argument.WitchAugmentController
+  _wideSpray: 1.5
+  _thickBrew: 1.25
+  _precisionPower: 0.5
+  _precisionCount: 3
+  _bounceCount: 1
+  _cycleSpeedUp: 0.6
+--- !u!114 &7894245468821844901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8344356039665309093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63a0e5797e5244548bf0f5924577b25e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.Argument.WitchLifesteal
+  _healRate: 0.15
+--- !u!114 &7446115595534520450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8344356039665309093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5b4fbb7365141758dcb3f233f981c42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.HealthAugmentController
+  _giantHpBonus: 0.55
+  _giantScaleBonus: 0.1
+  _glassCannonHpPenalty: 0.3
+  _glassCannonDamageBonus: 1.8
+  _glassCannonScalePenalty: 0.1
+  _phoenixHpPenalty: 0.25
+  _phoenixInvulnTime: 0.5
+  _phoenixScalePenalty: 0.08
+  _vampireHealRate: 0.55
+  _confidenceSpeedBonus: 0.3
+  _confidenceDuration: 2
+  _berserkerHpRatio: 0.75
+  _berserkerAtkSpeedBonus: 0.45
+  _berserkerDamageBonus: 0.6
+  _deathWaltzSpreadTime: 5
 --- !u!1 &8387797616486615991
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,6 +500,9 @@ GameObject:
   - component: {fileID: 6416462776148130405}
   - component: {fileID: 7597585060722566641}
   - component: {fileID: 6986718100486390065}
+  - component: {fileID: 6208250516005495368}
+  - component: {fileID: 6011226987426619703}
+  - component: {fileID: 3920014346959086113}
   m_Layer: 3
   m_Name: Visual
   m_TagString: Untagged
@@ -450,7 +574,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -1193820911090328509, guid: 40ab4ed91c0119b41a221aa50fe487ff, type: 3}
+  m_Sprite: {fileID: -3527056022417232336, guid: 7dec1fedb986a4f4faa1de3669df9423, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -471,7 +595,7 @@ Animator:
   m_GameObject: {fileID: 8387797616486615991}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 31bf987943861b040bd4ce89020e91e2, type: 2}
+  m_Controller: {fileID: 9100000, guid: c6e36a1a6ff08784e927f3d76a47ae00, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -483,3 +607,48 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6208250516005495368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8387797616486615991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29cff538c195c249b69c6f2236de67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
+  m_Library: []
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 1854385eaebb5ae45bc529aed18b77fb, type: 3}
+--- !u!114 &6011226987426619703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8387797616486615991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b1ae4e4e52b34ea557c1c11e076fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteResolver
+  m_CategoryHash: 6.93186e-30
+  m_labelHash: 0.00000040954276
+  m_SpriteKey: 0
+  m_SpriteHash: 47505201
+--- !u!114 &3920014346959086113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8387797616486615991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d00d2b94fe4cf7941aedbaed0fc24a2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.DinosaurVisualController
+  _playHatchOnStart: 1
+  _hatchDuration: 3
+  _hurtDuration: 0.35

@@ -99,7 +99,7 @@ namespace SSW
         {
             List<Augment> list = new List<Augment>();
             if (pool == null || pool.augments == null) return list;
-
+            
             foreach (Augment augment in pool.augments)
             {
                 if (augment != null && !_owned.Contains(augment) && IsEligible(augment))
@@ -134,7 +134,7 @@ namespace SSW
         {
             if (augment is not IJobRestrictedAugment restricted)
                 return true;
-
+            
             return _identity != null && _identity.Job == restricted.RequiredJob;
         }
     }

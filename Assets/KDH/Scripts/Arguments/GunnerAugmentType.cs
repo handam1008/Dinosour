@@ -1,6 +1,16 @@
-public enum GunnerAugmentType
+namespace KDH.Scripts.Arguments
 {
-    IceBullet,
-    FireBullet,
-    PoisonBullet
+    public enum GunnerAugmentType
+    {
+        AirBullet,
+        BeautifulFootStepAbility,
+        FireBullet,
+        GravityBullet,
+        IceBullet,
+        LightningBullet,
+        PoisonBullet,
+        Quest_EvolutionAbility,
+        ShrinkingDeviceAbility,
+        ShurikenBullet
+    }
 }

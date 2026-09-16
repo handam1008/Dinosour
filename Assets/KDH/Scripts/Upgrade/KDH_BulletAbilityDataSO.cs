@@ -2,7 +2,7 @@
 
 namespace KDH.Scripts.Upgrade
 {
-    [CreateAssetMenu(fileName = "SO", menuName = "KDH/Ability", order = 0)]
+    [CreateAssetMenu(fileName = "SO", menuName = "KDH/BulletAbility", order = 0)]
     public class KDH_BulletAbilityDataSO : ScriptableObject
     {
         public string abilityName;

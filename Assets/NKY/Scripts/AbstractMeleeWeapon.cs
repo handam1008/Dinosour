@@ -1,4 +1,5 @@
-﻿using SSW;
+﻿using NKY.Lib.EventChannel.EventChannelAsset;
+using SSW;
 using UnityEngine;
 
 namespace NKY.Scripts
@@ -26,9 +27,9 @@ namespace NKY.Scripts
             {
                 if(hit.transform.root == transform.root) continue;
                 
-                if (hit.TryGetComponent(out IDamageable damageable))
+                if (hit.TryGetComponent(out Health health))
                 {
-                    damageable.TakeDamage(damage);
+                    CalcDamage(health, hit.gameObject);
                 }
             }
         }

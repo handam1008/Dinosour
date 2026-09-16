@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using KDH.Scripts.Upgrade;
+using KDH.Scripts.Arguments;
 using SSW;
-using UnityEngine;
 
 namespace KDH.Scripts.Player
 {
@@ -10,14 +9,6 @@ namespace KDH.Scripts.Player
         public override PlayerJob Job => PlayerJob.Gunner;
     
         readonly HashSet<GunnerAugmentType> _has = new();
-        
-        [SerializeField] private KDH_BulletAbilityDataSO _bulletData;
-        private KDH_UpgradeList upgradeList;
-
-        private void Awake()
-        {
-            upgradeList = GetComponentInChildren<KDH_UpgradeList>();
-        }
         
         public override bool TryReceive(Augment augment)
         {

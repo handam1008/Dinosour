@@ -14,8 +14,8 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
-  - 
+  - IceBox
+  - GGround
   - Ground
   - Potion
   - Barrier
@@ -41,8 +41,35 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: KDH_Background
+    uniqueID: 1713088463
+    locked: 0
+  - name: BackGroundVFX
+    uniqueID: 3209590549
+    locked: 0
+  - name: KDH_MapVFX
+    uniqueID: 3845497497
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: VFX
+    uniqueID: 3230274349
+    locked: 0
+  - name: JJW_Map1
+    uniqueID: 1331893927
+    locked: 0
+  - name: JJW_Map2
+    uniqueID: 2456221697
+    locked: 0
+  - name: JJW_Map3
+    uniqueID: 3660831519
+    locked: 0
+  - name: KDH_WaterFall
+    uniqueID: 1526676141
+    locked: 0
+  - name: FrontMap
+    uniqueID: 3393453121
     locked: 0
   m_RenderingLayers:
   - Default

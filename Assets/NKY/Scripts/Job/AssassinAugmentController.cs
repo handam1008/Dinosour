@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NKY.Lib.EventChannel;
+using NKY.Lib.EventChannel.EventChannelAsset;
 using SSW;
 using UnityEngine;
 
@@ -8,26 +10,135 @@ namespace NKY.Scripts.Job
 {
     public class AssassinAugmentController : AugmentReceiverBehaviour
     {
-        readonly HashSet<AssassinAugmentType> _has = new();
+        private readonly HashSet<AssassinAugmentType> _has = new();
+        
+        [Header("SO Database (모든 암살자 증강 SO 등록)")]
+        [SerializeField] private List<AbstractAssassinAugmentSO> _augmentDatabase;
+
+        [Header("Event Channels")]
+        [SerializeField] private VoidEventChannelSO _onSkillUsedChannel;
+        [SerializeField] private VoidEventChannelSO _onHitChannel;
+        [SerializeField] private GameObjectEventChannelSO _onBasicAttackChannel;
+        [SerializeField] private DamageInfoEventChannelSO _onDamageCalculateChannel;
+        [SerializeField] private DoubleFloatEventChannelSO _onHealthChangedChannel;
+        [SerializeField] private VoidEventChannelSO _onRoundStart;
+
+        // 현재 '활성화(보유)'된 증강만 담는 딕셔너리
+        private readonly Dictionary<AssassinAugmentType, AbstractAssassinAugmentSO> _activeAugments = new();
+        
+        // 쿨타임 및 플레이어 상태 전달용 컨텍스트
+        private AugmentContext _context;
+
         public override PlayerJob Job => PlayerJob.Assassin;
-
-        [SerializeField] private List<AbstractAssassinAugment> assassinAugmentList = new();
-
-        private void Start()
+        
+        protected override void OnEnable()
         {
-            assassinAugmentList = GetComponentsInChildren<AbstractAssassinAugment>().ToList();
+            base.OnEnable();
+            // 이벤트 채널 구독
+            if (_onSkillUsedChannel != null) _onSkillUsedChannel.OnEventRaised += HandleSkillUsed;
+            if (_onHitChannel != null) _onHitChannel.OnEventRaised += HandleHit;
+            if (_onBasicAttackChannel != null) _onBasicAttackChannel.OnEventRaised += HandleBasicAttack;
+            if (_onDamageCalculateChannel != null) _onDamageCalculateChannel.OnEventRaised += HandleDamageCalculate;
+            if (_onHealthChangedChannel != null) _onHealthChangedChannel.OnEventRaised += HealthChanged;
+            if (_onRoundStart != null) _onRoundStart.OnEventRaised += HandleRoundStart;
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            // 구독 해제 (메모리 누수 방지)
+            if (_onSkillUsedChannel != null) _onSkillUsedChannel.OnEventRaised -= HandleSkillUsed;
+            if (_onHitChannel != null) _onHitChannel.OnEventRaised -= HandleHit;
+            if (_onBasicAttackChannel != null) _onBasicAttackChannel.OnEventRaised -= HandleBasicAttack;
+            if (_onDamageCalculateChannel != null) _onDamageCalculateChannel.OnEventRaised -= HandleDamageCalculate;
+            if (_onHealthChangedChannel != null) _onHealthChangedChannel.OnEventRaised -= HealthChanged;
+            if (_onRoundStart != null) _onRoundStart.OnEventRaised -= HandleRoundStart;
+        }
+        
+        protected override void Awake()
+        {
+            base.Awake();
+            _context = new AugmentContext(transform.parent.gameObject, this);
         }
 
         public override bool TryReceive(Augment augment)
         {
             if (augment is not AssassinAugment w) return false;
+
             _has.Add(w.type);
+
+            // 데이터베이스에서 해당 타입 SO를 찾아 활성화 목록에 추가
+            var targetSO = _augmentDatabase.Find(so => so.type == w.type);
+            if (targetSO != null && !_activeAugments.ContainsKey(w.type))
+            {
+                _activeAugments.Add(w.type, targetSO);
+            }
+
             return true;
         }
-        
-        public bool Has(AssassinAugmentType t) => _has.Contains(t);
 
-        // 게임 코드가 읽어갈 값. 없으면 1배(= 효과 없음)
-        public float SplashMultiplier => Has(AssassinAugmentType.ConcealedWeapon) ? 1.15f : 1f;
+        public void HealthChanged((float currentHealth, float maxHealth) info)
+        {
+            foreach (var aug in _activeAugments.Values)
+            {
+                aug.OnHealthChanged(_context, info.currentHealth, info.maxHealth);
+            }
+        }
+
+        #region EventHandlers
+
+        public void HandleRoundStart()
+        {
+            foreach (var aug in _activeAugments.Values)
+            {
+                aug.OnRoundStart(_context);
+            }
+        }
+
+        public void HandleHit()
+        {
+            foreach (var aug in _activeAugments.Values)
+            {
+                aug.OnHit(_context);
+            }
+        }
+
+        public void NotifySpawnProjectile(GameObject projectile)
+        {
+            foreach (var aug in _activeAugments.Values)
+            {
+                aug.OnSpawnProjectile(_context, projectile);
+            }
+        }
+        
+        private void HandleSkillUsed()
+        {
+            // '보유 중인' 증강들에만 이벤트 전파
+            foreach (var aug in _activeAugments.Values)
+            {
+                aug.OnSkillUsed(_context);
+            }
+        }
+
+        private void HandleBasicAttack(GameObject target)
+        {
+            if(!target.TryGetComponent(out PlayerController player))
+                return;
+            
+            foreach (var aug in _activeAugments.Values)
+            {
+                aug.OnBasicAttackHit(_context, player);
+            }
+        }
+
+        private void HandleDamageCalculate(DamageInfo info)
+        {
+            foreach (var aug in _activeAugments.Values)
+            {
+                info.Damage = aug.ModifyDamage(_context, info);
+            }
+        }
+
+        #endregion
     }
 }
