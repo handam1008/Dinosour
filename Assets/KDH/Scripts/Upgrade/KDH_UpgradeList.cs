@@ -60,8 +60,6 @@ namespace KDH.Scripts.Upgrade
             if (augment is not GunnerArgument w) return false;
             _has.Add(w.type);
             return true;
-            
-            
         }
     
         public bool Has(GunnerAugmentType t) => _has.Contains(t);
