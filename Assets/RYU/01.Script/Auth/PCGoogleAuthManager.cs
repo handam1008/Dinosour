@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Core.Environments;
@@ -15,6 +16,8 @@ namespace RYU._01.Script.Auth
     {
         [Header("UI Components")]
         [SerializeField] private Button loginButton;
+        [SerializeField] private Button savePlayerNameButton;
+        [SerializeField] private TMP_InputField playerNameIF;
         
         [Header("Google Desktop Credentials")]
         [SerializeField] private GoogleOAuthConfig oauthConfig;
@@ -29,6 +32,9 @@ namespace RYU._01.Script.Auth
 
         private void Start()
         {
+            
+            savePlayerNameButton.gameObject.SetActive(false);
+            playerNameIF.gameObject.SetActive(false);
             if (oauthConfig == null)
             {
                 Debug.LogError("Secrets/GoogleOAuthConfig가 없습니다. 팀장에게 파일을 받으세요.");
@@ -38,9 +44,23 @@ namespace RYU._01.Script.Auth
 
         private void BindingUGSEvents()
         {
-            if (loginButton != null)
+           loginButton.onClick.AddListener(() => OnGoogleLoginButtonClicked());
+           savePlayerNameButton.onClick.AddListener(async () => await SavePlayerName(playerNameIF.text));
+        }
+
+        private async Task SavePlayerName(string playerName)
+        {
+            try
             {
-                loginButton.onClick.AddListener(() => OnGoogleLoginButtonClicked());
+                await AuthenticationService.Instance.UpdatePlayerNameAsync(playerName);
+                
+                var _playerName = await AuthenticationService.Instance.GetPlayerNameAsync();
+                playerNameIF.text = _playerName.Split('#')[0];
+                Debug.Log("플레이어 이름 변경 성공" + AuthenticationService.Instance.PlayerName);
+            }
+            catch (AuthenticationException e)
+            {
+                Debug.Log(e.Message);
             }
         }
 
@@ -154,6 +174,8 @@ namespace RYU._01.Script.Auth
             {
                 await AuthenticationService.Instance.SignInWithGoogleAsync(idToken);
                 loginButton.gameObject.SetActive(false);
+                playerNameIF.gameObject.SetActive(true);
+                savePlayerNameButton.gameObject.SetActive(true);
                 
                 Debug.Log($"<color=green>[성공] UGS 구글 로그인 완료! Player ID: {AuthenticationService.Instance.PlayerId}</color>");
             }

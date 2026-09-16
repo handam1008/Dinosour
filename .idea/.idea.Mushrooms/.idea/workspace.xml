@@ -11,17 +11,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6fb1d2c4-7096-4d2f-81e7-2333f2fed1f9" name="변경" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/RYU/01.Script/Leaderboard.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/RYU/01.Script/Leaderboard/RankUserInfo.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/RYU/01.Script/Leaderboard/RankUserInfo.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/JJW/Cards/GamblerAugmentPool.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Cards/GamblerAugmentPool.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/JJW/Scene/Gamblinger.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Scene/Gamblinger.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/Augments/GamblerAugmentController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/Augments/GamblerAugmentController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/GamblerCoinProjectile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/GamblerCoinProjectile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/GamblerCoinShooter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/GamblerCoinShooter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/GamblerMagazine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/GamblerMagazine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/DamageUpjackpot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/DamageUpjackpot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/Jackpot777.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/Jackpot777.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/JackpotDivision.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/JackpotDivision.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/StarJackpot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/StarJackpot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RYU/00.Scene/Leaderboard.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RYU/00.Scene/Leaderboard.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RYU/00.Scene/Login.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RYU/00.Scene/Login.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/RYU/01.Script/Auth/PCGoogleAuthManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RYU/01.Script/Auth/PCGoogleAuthManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +28,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/401e56ccaaea4e65b158f8a40d849484ce00/b0/aeaa3751/Leaderboard.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d44b17e136d09081da1e8fd0e8c83fde60e11818b9f2442d7ed8cb733fae895e/System.Collections.Generic.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/JJW/Script/Augments/Gambler777AugmentEffects.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/JJW/Script/GamblerCoinUpgradeEffects.cs" root0="FORCE_HIGHLIGHTING" />
@@ -74,6 +71,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/NKY/Scripts/Skill/AssassinNormalSkillSo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/NKY/Scripts/Skill/PlayerSkillModule.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/NKY/Scripts/TestJump.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/RYU/01.Script/Leaderboard/RankUserInfo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/Plugins/PlayerInput/PlayerInputEditor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@cfd429cc91ec/Editor/NetworkObjectEditor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@cfd429cc91ec/Runtime/Connection/NetworkConnectionManager.cs" root0="SKIP_HIGHLIGHTING" />
@@ -174,7 +172,7 @@
     "cidr.known.project.marker": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "JJW",
+    "git-widget-placeholder": "RYU",
     "junie.onboarding.icon.badge.shown": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -257,6 +255,7 @@
       <workItem from="1789462363313" duration="59000" />
       <workItem from="1789478236074" duration="3083000" />
       <workItem from="1789515398248" duration="4247000" />
+      <workItem from="1789568588953" duration="4134000" />
     </task>
     <servers />
   </component>
