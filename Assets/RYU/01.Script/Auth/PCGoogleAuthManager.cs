@@ -17,8 +17,7 @@ namespace RYU._01.Script.Auth
         [SerializeField] private Button loginButton;
         
         [Header("Google Desktop Credentials")]
-        [SerializeField] private string desktopClientId;
-        [SerializeField] private string desktopClientSecret;
+        [SerializeField] private GoogleOAuthConfig oauthConfig;
         
         private const string RedirectUri = "http://localhost:5000/";
 
@@ -26,6 +25,15 @@ namespace RYU._01.Script.Auth
         {
             base.Awake();
             BindingUGSEvents();
+        }
+
+        private void Start()
+        {
+            if (oauthConfig == null)
+            {
+                Debug.LogError("Secrets/GoogleOAuthConfig가 없습니다. 팀장에게 파일을 받으세요.");
+                return;
+            }
         }
 
         private void BindingUGSEvents()
@@ -80,7 +88,7 @@ namespace RYU._01.Script.Auth
 
             // 구글 로그인 브라우저 열기
             string authUrl = $"https://accounts.google.com/o/oauth2/v2/auth?" +
-                             $"client_id={desktopClientId}&" +
+                             $"client_id={oauthConfig.clientId}&" +
                              $"redirect_uri={Uri.EscapeDataString(RedirectUri)}&" +
                              $"response_type=code&" +
                              $"scope=openid%20email%20profile";
@@ -119,8 +127,8 @@ namespace RYU._01.Script.Auth
         {
             WWWForm form = new WWWForm();
             form.AddField("code", code);
-            form.AddField("client_id", desktopClientId);
-            form.AddField("client_secret", desktopClientSecret);
+            form.AddField("client_id", oauthConfig.clientId);
+            form.AddField("client_secret", oauthConfig.clientSecret);
             form.AddField("redirect_uri", RedirectUri);
             form.AddField("grant_type", "authorization_code");
 

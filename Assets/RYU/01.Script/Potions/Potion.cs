@@ -9,7 +9,7 @@ namespace RYU._01.Script.Potions
     {
         [SerializeField] private LayerMask _explodeOn;
         [SerializeField] private float splashRadious = 1.5f;
-        [SerializeField] private GameObject _zonePrefab; // 잔류형 장판 (비어 있으면 장판 없음)
+        [SerializeField] private GameObject _zonePrefab;
 
         private FeedBackPlayer _feedBackPlayer;
         private AbstractPotion _data;
@@ -24,11 +24,9 @@ namespace RYU._01.Script.Potions
 
         private readonly HashSet<Transform> _appliedRoots = new HashSet<Transform>();
 
-        // 들고 있는 동안 시전자 몸에서 터지지 않도록 무시하다가, 몸에서 벗어나면 해제한다.
         private Collider2D _ownerCollider;
         private bool _thrown;
 
-        // 부채꼴로 복제할 때 어떤 포션인지 알아야 해서 열어둔다
         public AbstractPotion Data => _data;
 
         private float Radius => splashRadious * _mods.Splash;
@@ -39,8 +37,6 @@ namespace RYU._01.Script.Potions
             _collider = GetComponent<Collider2D>();
             _rb = GetComponent<Rigidbody2D>();
 
-            // 손에 들고 있는 동안에는 물·사다리·다른 포션에 반응하면 안 된다.
-            // 던질 때(Release) 다시 켠다.
             if (_collider != null) _collider.enabled = false;
         }
 
@@ -76,11 +72,9 @@ namespace RYU._01.Script.Potions
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (_exploded) return;
-            if ((_explodeOn.value & (1 << collision.gameObject.layer)) == 0) return;  
+            if ((_explodeOn.value & (1 << collision.gameObject.layer)) == 0) return;
             _exploded = true;
 
-            // 깨진 유리병: 스플래시로라도 적을 맞췄으면 그대로 깨지고,
-            // 아무도 못 맞췄을 때만 벽·바닥에 튕긴다
             bool hitTarget = Explode();
 
             if (_bounceLeft > 0 && !hitTarget)
@@ -89,15 +83,13 @@ namespace RYU._01.Script.Potions
                 Bounce(collision);
 
                 _exploded = false;
-                _appliedRoots.Clear(); // 다음 폭발에서는 같은 대상도 다시 맞을 수 있다
+                _appliedRoots.Clear();
                 return;
             }
 
             Destroy(gameObject);
         }
 
-        // 스플래시 범위 안의 대상들에게 효과를 적용한다.
-        // 반환값: 시전자 포함, '체력 있는 대상'을 하나라도 맞췄는지
         private bool Explode()
         {
             if (_feedBackPlayer != null) _feedBackPlayer.PlayAllFeedBacks(_mods.Splash);
@@ -108,10 +100,8 @@ namespace RYU._01.Script.Potions
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, Radius);
             foreach (Collider2D hit in hits)
             {
-                // 대상의 자식 콜라이더가 여러 개 잡혀도 한 번만 적용
                 if (!_appliedRoots.Add(hit.transform.root)) continue;
 
-                // 누구든 체력 있는 대상을 맞췄으면 더 튕기지 않는다 (자기 자신 포함)
                 if (hit.GetComponentInParent<IDamageable>() != null) hitTarget = true;
 
                 _data.Use(hit.gameObject, _owner, _mods);
@@ -121,7 +111,6 @@ namespace RYU._01.Script.Potions
             return hitTarget;
         }
 
-        // 잔류형 포션: 터진 자리에 장판을 남긴다
         private void SpawnZone()
         {
             if (_zonePrefab == null) return;
@@ -131,8 +120,6 @@ namespace RYU._01.Script.Potions
             if (zone != null) zone.Init(_data, _mods, _owner, Radius);
         }
 
-        // 트리거라서 물리로는 안 튕긴다. 벽 방향을 구해 속도를 직접 반사시킨다.
-        // 튕기는 방향이 반대로 보이면 -normal 의 부호를 뒤집으면 된다.
         private void Bounce(Collider2D wall)
         {
             if (_rb == null || _collider == null) return;

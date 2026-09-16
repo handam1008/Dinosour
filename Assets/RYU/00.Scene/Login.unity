@@ -364,8 +364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.Auth.PCGoogleAuthManager
   loginButton: {fileID: 17528272}
-  desktopClientId: 439134020484-g7kh1k3tkb528t2sj07hoacu96gqs5b6.apps.googleusercontent.com
-  desktopClientSecret: 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
+  oauthConfig: {fileID: 11400000, guid: 5a48dd2ef091cdf48a7fe0c9025671db, type: 2}
 --- !u!1 &465102670
 GameObject:
   m_ObjectHideFlags: 0
