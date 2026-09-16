@@ -286,7 +286,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1284656254184742071}
   - component: {fileID: 2402446335564034407}
-  - component: {fileID: 1656803469898161270}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -369,22 +368,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!114 &1656803469898161270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2535927399539211136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8581db0a76634714eacc8ccf3ffa0f9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_BackgroundVisual
-  startColor: {r: 0.3886792, g: 0.3886792, b: 0.3886792, a: 1}
-  endColor: {r: 0.23137257, g: 0.23137257, b: 0.23137257, a: 1}
-  transitionTime: 2
-  rotationTime: 3
 --- !u!1 &2547561404536976355
 GameObject:
   m_ObjectHideFlags: 0
@@ -7098,6 +7081,10 @@ PrefabInstance:
     - target: {fileID: 3747495413617401014, guid: c3e0597caf5f1c747ba0166d85f86277, type: 3}
       propertyPath: InitialModule.startColor.minColor.r
       value: 0.90188676
+      objectReference: {fileID: 0}
+    - target: {fileID: 6132999365168105810, guid: c3e0597caf5f1c747ba0166d85f86277, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7584981226051716289, guid: c3e0597caf5f1c747ba0166d85f86277, type: 3}
       propertyPath: m_Name

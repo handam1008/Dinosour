@@ -2,7 +2,6 @@ using System;
 using KDH.Scripts.Ammo;
 using KDH.Scripts.Player;
 using KDH.Scripts.System;
-using KDH.Scripts.Upgrade;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
