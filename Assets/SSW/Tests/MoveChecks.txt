@@ -1,0 +1,54 @@
+PASS Actual dinosaur renderers are attached to presentation transforms
+PASS Client visible movement starts in 5 ms
+PASS Server position still arrives after 256 ms at simulated latency
+PASS Client presentation converges to server position after stopping
+PASS Host movement starts in 18 ms
+PASS Client jump presentation starts in 18 ms
+PASS Jump remains server authoritative under latency
+PASS Jump lands and reconciles without persistent offset
+PASS Server knockback is still received by client
+PASS Prediction reconciles after server knockback
+PASS Prediction stops advancing when server snapshots are lost
+PASS Presentation recovers after packet loss ends
+PASS Predicted character stays within arena walls
+PASS Prediction clears during respawn countdown
+PASS Movement prediction is disabled during card selection
+PASS Respawn preserves the selected augment
+PASS Initial choices are never shown to the opponent
+PASS Initial card offers are not sent through spectator state
+PASS Both players see their own portrait on the left initially
+PASS Initial host choice remains unchanged beyond the old ten-second limit
+PASS Initial client choice also has no automatic grant
+PASS Finishing the initial choice does not reveal the opponent choice
+PASS Opponent initial choice after host has selected remains unchanged beyond the old ten-second limit
+PASS Waiting notice stays visible without a countdown
+PASS client selects with left portrait and host watches right portrait
+PASS host sees exactly the same common cards
+PASS host has no selectable reward
+PASS client common choice remains unchanged beyond the old ten-second limit
+PASS client first card hover is mirrored
+PASS host receives cursor position and white trail
+PASS host cannot select the other player's card
+PASS host cannot move while watching
+PASS host sees the selected common card
+PASS host sees the next job cards
+PASS client job choice remains unchanged beyond the old ten-second limit
+PASS host cursor disappears outside the window and its dust fades away
+PASS client receives exactly one common and one job augment
+PASS client late manual pick is preserved through its animation
+PASS Both draft views close before combat
+PASS host selects with left portrait and client watches right portrait
+PASS client sees exactly the same common cards
+PASS client has no selectable reward
+PASS host common choice remains unchanged beyond the old ten-second limit
+PASS host first card hover is mirrored
+PASS client receives cursor position and white trail
+PASS client cannot select the other player's card
+PASS client cannot move while watching
+PASS client sees the selected common card
+PASS client sees the next job cards
+PASS host job choice remains unchanged beyond the old ten-second limit
+PASS client cursor disappears outside the window and its dust fades away
+PASS host receives exactly one common and one job augment
+PASS host late manual pick is preserved through its animation
+PASS Both draft views close before combat

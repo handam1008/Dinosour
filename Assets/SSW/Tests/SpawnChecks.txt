@@ -1,0 +1,30 @@
+PASS Initial spawn uses scene markers on both peers
+PASS Round restart: both clients use the assigned markers
+PASS Round restart player 0 restores health
+PASS Round restart player 0 keeps augments
+PASS Round restart player 1 restores health
+PASS Round restart player 1 keeps augments
+PASS Round restart player 0 restores health
+PASS Round restart player 0 keeps augments
+PASS Round restart player 1 restores health
+PASS Round restart player 1 keeps augments
+PASS Set restart: both clients use the assigned markers
+PASS Set restart player 0 restores health
+PASS Set restart player 0 keeps augments
+PASS Set restart player 1 restores health
+PASS Set restart player 1 keeps augments
+PASS Set restart player 0 restores health
+PASS Set restart player 0 keeps augments
+PASS Set restart player 1 restores health
+PASS Set restart player 1 keeps augments
+PASS Only set loser selects augments after respawn
+PASS Moved parent restart: both clients use the assigned markers
+PASS Moved parent restart player 0 restores health
+PASS Moved parent restart player 0 keeps augments
+PASS Moved parent restart player 1 restores health
+PASS Moved parent restart player 1 keeps augments
+PASS Moved parent restart player 0 restores health
+PASS Moved parent restart player 0 keeps augments
+PASS Moved parent restart player 1 restores health
+PASS Moved parent restart player 1 keeps augments
+PASS Saved scene retains original spawn positions after runtime tests
