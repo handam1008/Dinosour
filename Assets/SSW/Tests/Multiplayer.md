@@ -132,3 +132,13 @@ WaitChecks.txt에는 제한 시간 없는 선택·관전과 7세트 경기 검�
 발판·배경·맵 오브젝트는 유지했다. 온라인 Draft.prefab에 밝은 카드 면과 얇은 테두리, 공용 카드 아이콘, 짧은 등장·선택 효과와 기존 효과음을 적용했다. 제목과 설명 영역을 분리하고 긴 설명은 영역 안에서 크기를 조절한다. CardSurface·CardMark·CardBurst는 각각 카드 면·아이콘·선택 효과를, DraftFx는 효과음과 선택 효과 호출을 담당한다.
 
 LookChecks.txt는 두 개발 실행 파일의 선택·관전 검사 38개와 온라인 카드 22종의 설명 높이 검사 결과다. LookCards.png·LookWatch.png·LookJob.png는 에디터 호스트와 실행 파일 클라이언트의 실제 선택 화면이다. LookLong.png는 조커·미러·빠른 셔플을 고정 배치한 에디터 표시 검사다. 이 검증은 localhost 직접 접속이며, 기존 시작 시 DOTween 및 deferred spawn 경고는 별도 문제로 남아 있다.
+
+
+## 맵 스폰 지점
+
+온라인 경기 씬 SuperUltraLegendScene의 SandboxMap > Spawns 아래 Spawn1·Spawn2를 이동해 두 플레이어의 시작 위치를 정한다. 좌표는 캐릭터 중심 기준이다. Scene 뷰의 Gizmos를 켜면 위치와 번호를 볼 수 있으며 게임 화면에는 표시하지 않는다. Spawns의 SpawnPoints 컴포넌트에 두 Transform을 연결하고 NetArena의 Spawn Points 필드에 해당 컴포넌트를 연결한다. 새 온라인 맵도 같은 방식으로 지정한다.
+
+최초 등장과 라운드·세트 재시작은 동일한 SpawnPoints에서 현재 월드 좌표를 읽는다. 이동 중이거나 사망한 캐릭터 위치는 스폰 기준으로 사용하지 않는다. 기존 오프라인 MapLayout 맵은 원래 지정된 Spawn·Target 지점을 계속 사용한다.
+
+SpawnChecks.txt는 에디터 호스트와 개발 빌드 클라이언트의 검사 29개다. 기본 지점에서 최초 등장, 지점 이동 뒤 라운드와 세트 재시작, 부모 오브젝트 이동 반영, 양쪽 좌표 동기화, 체력 회복, 증강 유지, 패자만 추가 선택을 확인했다. SpawnState.json은 마지막 라운드 재시작 상태다. Spawn~/Verify.ps1의 위치 변경은 플레이 모드에서만 하며 씬에 저장하지 않는다.
+검증 스크립트는 MainMenu 씬에서 Play 모드에 진입한 뒤 프로젝트 루트에서 실행한다. 매 실행에 새로운 -Run 이름을 사용하고 -Build로 개발 빌드를 지정할 수 있다. 플레이 종료 뒤 원본 스폰 좌표가 보존되는 검사까지 총 30개를 통과했다.
