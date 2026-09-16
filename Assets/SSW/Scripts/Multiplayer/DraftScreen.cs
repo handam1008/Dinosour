@@ -15,6 +15,8 @@ namespace SSW
         [SerializeField] UnityEngine.UI.Image[] _lights;
         [SerializeField] DraftPortrait _portrait;
         [SerializeField] DraftTrail _trail;
+        [SerializeField] CardMark[] _marks;
+        [SerializeField] DraftFx _fx;
         [SerializeField] Vector2 _space = new Vector2(1920f, 1080f);
         Action<Augment> _selected;
         readonly DraftPointer _pointer = new DraftPointer();
@@ -51,9 +53,12 @@ namespace SSW
             _selected = onSelected;
             _body.alpha = 0f;
             _body.DOFade(1f, 0.25f).SetUpdate(true);
+            _fx.Deal();
             for (int i = 0; i < _cards.Length; i++)
             {
                 _cards[i].Set(choices[i], PickedCard);
+                _marks[i].Show(choices[i]);
+                _marks[i].gameObject.SetActive(choices[i] == null || choices[i].icon == null);
                 _cards[i].PlayDeal(0.15f + i * 0.1f);
                 _lights[i].color = new Color(0.88f, 0.95f, 1f, 0f);
             }
@@ -128,6 +133,7 @@ namespace SSW
             _body.blocksRaycasts = false;
             _trail.Stop();
             _portrait.Pick();
+            _fx.Pick((RectTransform)picked.transform);
             foreach (AugmentCardUI card in _cards)
             {
                 card.Lock();

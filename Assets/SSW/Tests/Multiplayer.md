@@ -125,3 +125,10 @@ HatFit.png는 마지막 이미지 비율 보정 후 두 직업을 나란히 렌�
 서버 마감 시간과 시간 초과 자동 선택을 제거했다. MatchMenu.prefab의 초 표시도 삭제하고 선택·대기 안내를 가운데 맞췄다. 과거 FlowChecks.txt·CursorChecks.txt의 타이머 검사는 변경 전 기록이다. 현재 Watch~/Verify.ps1은 최초 선택과 양쪽의 공용·직업 선택을 각각 이전 제한인 10초보다 오래 기다린 뒤 직접 고르고, 관전·입력 차단·다음 전투 진행을 확인한다. Flow~/Verify.ps1도 모든 카드를 직접 고르는 방식으로 갱신했다.
 
 WaitChecks.txt에는 제한 시간 없는 선택·관전과 7세트 경기 검사를 합쳐 171개 통과 결과를 기록했다. WaitState.json은 선택 완료 후 다음 전투 상태다.
+
+
+## 카드 표시와 효과
+
+발판·배경·맵 오브젝트는 유지했다. 온라인 Draft.prefab에 밝은 카드 면과 얇은 테두리, 공용 카드 아이콘, 짧은 등장·선택 효과와 기존 효과음을 적용했다. 제목과 설명 영역을 분리하고 긴 설명은 영역 안에서 크기를 조절한다. CardSurface·CardMark·CardBurst는 각각 카드 면·아이콘·선택 효과를, DraftFx는 효과음과 선택 효과 호출을 담당한다.
+
+LookChecks.txt는 두 개발 실행 파일의 선택·관전 검사 38개와 온라인 카드 22종의 설명 높이 검사 결과다. LookCards.png·LookWatch.png·LookJob.png는 에디터 호스트와 실행 파일 클라이언트의 실제 선택 화면이다. LookLong.png는 조커·미러·빠른 셔플을 고정 배치한 에디터 표시 검사다. 이 검증은 localhost 직접 접속이며, 기존 시작 시 DOTween 및 deferred spawn 경고는 별도 문제로 남아 있다.
