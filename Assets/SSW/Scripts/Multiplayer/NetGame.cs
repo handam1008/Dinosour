@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 
 namespace SSW
 {
-    public sealed class NetGame : MonoBehaviour
+    public sealed class NetGame : MonoBehaviour, IRoundField
     {
         const string JobMessage = "mushrooms.job";
         const string GameScene = "SuperUltraLegendScene";
@@ -281,12 +281,36 @@ namespace SSW
         public void SetMatch(NetMatch match)
         {
             Match = match;
+            match.Bind(this);
             _inMatch = true;
+        }
+
+        public void ResetRound()
+        {
+            if (!_manager.IsServer || (Match.State.Phase != MatchPhase.RoundEnd && Match.State.Phase != MatchPhase.SetEnd)) return;
+            var players = _players.Select(player => new
+            {
+                Id = player.OwnerClientId, player.Job, player.Side, player.Info,
+                Owned = player.Draft.Owned.ToArray()
+            }).ToArray();
+            foreach (NetworkObject item in _manager.SpawnManager.SpawnedObjectsList.ToArray())
+                if (item.TryGetComponent<NetCard>(out _) || item.TryGetComponent<NetPotion>(out _)
+                    || item.TryGetComponent<NetZone>(out _)) item.Despawn();
+            foreach (NetPlayer player in _players.ToArray()) player.NetworkObject.Despawn();
+            foreach (var saved in players)
+            {
+                NetPlayer player = Instantiate(_playerPrefab, Arena.Spawn(saved.Side == 1 ? 0 : 1), Quaternion.identity);
+                player.Init(saved.Job, saved.Side, saved.Info);
+                player.NetworkObject.SpawnAsPlayerObject(saved.Id, true);
+                player.Draft.Restore(saved.Owned);
+            }
+            Physics2D.IgnoreCollision(_players[0].Collider, _players[1].Collider);
         }
 
         public void Register(NetPlayer player)
         {
             _players.Add(player);
+            if (player.IsOwner && _menu != null && _menu.IsOpen) player.Block(true);
             RefreshCamera();
             ShowIntro();
         }
@@ -328,6 +352,7 @@ namespace SSW
 
         public void MatchChanged(MatchState state)
         {
+            if (_menu != null) _menu.ShowRound(state);
             if (state.Phase == MatchPhase.Intro) ShowIntro();
             if (state.Phase == MatchPhase.Draft) CloseIntro(true);
             if (state.Phase != MatchPhase.Finished || _finished) return;
@@ -359,12 +384,10 @@ namespace SSW
 
         void ShowLost()
         {
-            MatchState state = new MatchState
-            {
-                Phase = MatchPhase.Finished,
-                Winner = _localId,
-                Reason = MatchEnd.Left
-            };
+            MatchState state = State;
+            state.Phase = MatchPhase.Finished;
+            state.Winner = _localId;
+            state.Reason = MatchEnd.Left;
             if (_menu != null) MatchChanged(state);
         }
 

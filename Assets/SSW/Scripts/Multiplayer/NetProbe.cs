@@ -68,6 +68,16 @@ namespace SSW
             public string phase;
             public string reason;
             public ulong winner;
+            public byte round;
+            public byte firstWins;
+            public byte secondWins;
+            public ulong first;
+            public ulong second;
+            public byte set;
+            public byte firstSets;
+            public byte secondSets;
+            public byte firstMarks;
+            public byte secondMarks;
             public float timeScale;
             public float time;
             public bool intro;
@@ -233,7 +243,11 @@ namespace SSW
                 introClosing = game.Intro != null && game.Intro.IsClosing,
                 leftName = game.Intro != null ? game.Intro.LeftName : "",
                 rightName = game.Intro != null ? game.Intro.RightName : "",
-                winner = state.Winner, timeScale = Time.timeScale, players = players.ToArray(), shots = shots.ToArray()
+                winner = state.Winner, timeScale = Time.timeScale, players = players.ToArray(), shots = shots.ToArray(),
+                round = state.Round, firstWins = state.FirstWins, secondWins = state.SecondWins,
+                first = state.First, second = state.Second, set = state.Set,
+                firstSets = state.FirstSets, secondSets = state.SecondSets,
+                firstMarks = state.FirstMarks, secondMarks = state.SecondMarks
             };
             File.WriteAllText(_path + ".json", JsonUtility.ToJson(snapshot, true));
         }

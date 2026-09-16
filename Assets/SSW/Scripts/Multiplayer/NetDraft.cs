@@ -15,6 +15,7 @@ namespace SSW
             new Vector3Int(-1, -1, -1), NetworkVariableReadPermission.Owner);
         readonly NetworkVariable<bool> _ready = new NetworkVariable<bool>();
         AugmentDraftUIBase _view;
+        bool _jobPending;
 
         public bool HasView => _view != null;
         public bool Ready => _ready.Value;
@@ -37,27 +38,50 @@ namespace SSW
             Offered(default, _offer.Value);
         }
 
-        public void Deal()
+        public void Deal(bool withJob = false)
         {
             if (!IsServer) return;
-            List<int> job = _deck.Candidates(_player.Job, Owned, false);
-            if (job.Count > 0) Grant(job[Random.Range(0, job.Count)]);
-            List<int> common = _deck.Candidates(_player.Job, Owned, true);
+            _ready.Value = false;
+            _jobPending = withJob;
+            OfferChoices(true);
+        }
+
+        void OfferChoices(bool common)
+        {
+            List<int> candidates = _deck.Candidates(_player.Job, Owned, common);
             Vector3Int offer = new Vector3Int(-1, -1, -1);
-            for (int slot = 0; slot < 3 && common.Count > 0; slot++)
+            for (int slot = 0; slot < 3 && candidates.Count > 0; slot++)
             {
-                int index = Random.Range(0, common.Count);
-                offer[slot] = common[index];
-                common.RemoveAt(index);
+                int index = Random.Range(0, candidates.Count);
+                offer[slot] = candidates[index];
+                candidates.RemoveAt(index);
             }
-            _ready.Value = offer.x < 0;
             _offer.Value = offer;
-            if (_ready.Value) NetGame.Current.Match.Picked();
+            if (offer.x < 0) NextChoice();
+        }
+
+        void NextChoice()
+        {
+            if (_jobPending)
+            {
+                _jobPending = false;
+                OfferChoices(false);
+                return;
+            }
+            _ready.Value = true;
+            NetGame.Current.Match.Picked();
         }
 
         void Grant(int id)
         {
             if (!_owned.Contains(id)) _owned.Add(id);
+        }
+
+        public void Restore(IEnumerable<int> owned)
+        {
+            if (!IsServer) return;
+            foreach (int id in owned) Grant(id);
+            _ready.Value = true;
         }
 
         void Granted(NetworkListEvent<int> change)
@@ -77,12 +101,10 @@ namespace SSW
             _view.PausesGame = false;
             _view.Show(choices, selected =>
             {
+                _view = null;
                 for (int i = 0; i < choices.Length; i++)
                     if (choices[i] == selected) { Choose(i); break; }
-                _view = null;
             });
-            foreach (int id in _owned)
-                if (_deck.At(id) is IJobRestrictedAugment) _view.ShowJobReward(_deck.At(id));
         }
 
         public void Choose(int slot)
@@ -96,8 +118,7 @@ namespace SSW
             if (_ready.Value || NetGame.Current.Match.State.Phase != MatchPhase.Draft) return;
             if (slot < 0 || slot > 2 || _offer.Value[slot] < 0) return;
             Grant(_offer.Value[slot]);
-            _ready.Value = true;
-            NetGame.Current.Match.Picked();
+            NextChoice();
         }
 
         void Selected(bool previous, bool current)

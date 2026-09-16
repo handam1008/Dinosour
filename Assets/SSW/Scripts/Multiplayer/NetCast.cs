@@ -37,6 +37,8 @@ namespace SSW
         public int Held => _held.Value;
         public int Rank => _rank.Value;
         public Suit Suit => (Suit)_suit.Value;
+        public float CooldownScale { get; set; } = 1f;
+        float CardCooldown => _cardCooldown * CooldownScale;
         double Now => NetworkManager.ServerTime.Time;
 
         public override void OnNetworkSpawn()
@@ -100,7 +102,7 @@ namespace SSW
             }
             if (!_rollingRank) return;
             _rollingRank = false;
-            _readyAt.Value = Now + _cardCooldown;
+            _readyAt.Value = Now + CardCooldown;
             _showUntil.Value = Now + 1.4f;
             StartCoroutine(Fire((Suit)_suit.Value, _rank.Value, direction.normalized));
         }
@@ -121,7 +123,7 @@ namespace SSW
             ShowPotion(_hand, _held.Value);
             ShowPotion(_reserve, _next.Value);
             if (IsOwner && magician && Mouse.current != null)
-                _cooldown.SetProgress(Mathf.Clamp01((float)(_readyAt.Value - Now) / _cardCooldown));
+                _cooldown.SetProgress(Mathf.Clamp01((float)(_readyAt.Value - Now) / CardCooldown));
         }
 
         void Tick()
@@ -135,7 +137,7 @@ namespace SSW
             if (_player.Job == PlayerJob.Witch)
             {
                 if (Now < _brewAt) return;
-                _brewAt = Now + _witch.CycleInterval(_cycle);
+                _brewAt = Now + _witch.CycleInterval(_cycle) * CooldownScale;
                 int count = _stock.BaseCount + _witch.Unlocked.Count;
                 int roll = Random.Range(0, count);
                 int kind = roll < _stock.BaseCount

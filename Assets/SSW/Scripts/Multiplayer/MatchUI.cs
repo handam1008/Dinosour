@@ -10,6 +10,7 @@ namespace SSW
         [SerializeField] Text _title;
         [SerializeField] Button _resume;
         [SerializeField] Button _exit;
+        [SerializeField] RoundUI _rounds;
         NetGame _game;
         bool _result;
 
@@ -23,6 +24,12 @@ namespace SSW
             _resume.onClick.AddListener(Resume);
             _exit.onClick.AddListener(Exit);
             _panel.SetActive(false);
+            _rounds.Show(default, game.LocalId);
+        }
+
+        public void ShowRound(MatchState state)
+        {
+            _rounds.Show(state, _game.LocalId);
         }
 
         void Update()
