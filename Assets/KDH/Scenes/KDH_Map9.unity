@@ -268,7 +268,7 @@ GameObject:
   - component: {fileID: 187088478}
   - component: {fileID: 187088477}
   m_Layer: 8
-  m_Name: Particle System
+  m_Name: Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -452,7 +452,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 10
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -1001,7 +1001,7 @@ ParticleSystem:
     serializedVersion: 6
     enabled: 1
     type: 4
-    angle: 25
+    angle: 50
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
@@ -6258,12 +6258,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1979769199}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 7962600058891700317}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2137821704
 GameObject:
@@ -12266,6 +12266,7 @@ Transform:
   - {fileID: 4308865496259072667}
   - {fileID: 2709710435397935913}
   - {fileID: 200877169}
+  - {fileID: 1979769201}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &8047045417555260806
@@ -12309,4 +12310,3 @@ SceneRoots:
   - {fileID: 459068454}
   - {fileID: 647222118}
   - {fileID: 1456696533}
-  - {fileID: 1979769201}
