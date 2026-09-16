@@ -1,0 +1,198 @@
+{
+  "client": {
+    "seq": 6,
+    "error": "",
+    "listening": true,
+    "server": false,
+    "connected": true,
+    "peers": 0,
+    "readyToStart": false,
+    "scene": "SuperUltraLegendScene",
+    "menuOpen": false,
+    "canResume": true,
+    "title": "",
+    "phase": "Playing",
+    "reason": "Knockout",
+    "winner": 0,
+    "timeScale": 1.0,
+    "players": [
+      {
+        "id": 0,
+        "job": "Witch",
+        "hp": 65.0,
+        "max": 80.0,
+        "position": {
+          "x": -6.548029899597168,
+          "y": -3.1516072750091553
+        },
+        "velocity": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "viewport": {
+          "x": 0.7273263931274414,
+          "y": 0.40723854303359985,
+          "z": 10.000000953674316
+        },
+        "aim": {
+          "x": 1.0,
+          "y": 0.0
+        },
+        "side": 1,
+        "labelsFaceView": true,
+        "animation": 2081823275,
+        "owner": false,
+        "ready": true,
+        "offer": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "augments": [
+          15,
+          2
+        ],
+        "potion": 3,
+        "rank": 1
+      },
+      {
+        "id": 2,
+        "job": "Magician",
+        "hp": 96.0,
+        "max": 96.0,
+        "position": {
+          "x": 6.0,
+          "y": -3.1467010974884033
+        },
+        "velocity": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "viewport": {
+          "x": 0.2782192826271057,
+          "y": 0.4075413942337036,
+          "z": 9.999999046325684
+        },
+        "aim": {
+          "x": -0.9999986290931702,
+          "y": -0.0016409347299486399
+        },
+        "side": -1,
+        "labelsFaceView": true,
+        "animation": 2081823275,
+        "owner": true,
+        "ready": true,
+        "offer": {
+          "x": 3,
+          "y": 1,
+          "z": 4
+        },
+        "augments": [
+          8,
+          3
+        ],
+        "potion": -1,
+        "rank": 3
+      }
+    ],
+    "shots": []
+  },
+  "host": {
+    "seq": 4,
+    "error": "",
+    "listening": true,
+    "server": true,
+    "connected": true,
+    "peers": 2,
+    "readyToStart": true,
+    "scene": "SuperUltraLegendScene",
+    "menuOpen": false,
+    "canResume": true,
+    "title": "승리",
+    "phase": "Playing",
+    "reason": "Knockout",
+    "winner": 0,
+    "timeScale": 1.0,
+    "players": [
+      {
+        "id": 0,
+        "job": "Witch",
+        "hp": 65.0,
+        "max": 80.0,
+        "position": {
+          "x": -6.570651531219482,
+          "y": -3.1512506008148193
+        },
+        "velocity": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "viewport": {
+          "x": 0.274372935295105,
+          "y": 0.40771913528442383,
+          "z": 10.0
+        },
+        "aim": {
+          "x": 1.0,
+          "y": 0.0
+        },
+        "side": 1,
+        "labelsFaceView": true,
+        "animation": 2081823275,
+        "owner": true,
+        "ready": true,
+        "offer": {
+          "x": 2,
+          "y": 3,
+          "z": 0
+        },
+        "augments": [
+          15,
+          2
+        ],
+        "potion": 3,
+        "rank": 1
+      },
+      {
+        "id": 2,
+        "job": "Magician",
+        "hp": 96.0,
+        "max": 96.0,
+        "position": {
+          "x": 6.0,
+          "y": -3.1512506008148193
+        },
+        "velocity": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "viewport": {
+          "x": 0.7227881550788879,
+          "y": 0.40771913528442383,
+          "z": 10.0
+        },
+        "aim": {
+          "x": -0.9999986290931702,
+          "y": -0.0016409347299486399
+        },
+        "side": -1,
+        "labelsFaceView": true,
+        "animation": 2081823275,
+        "owner": false,
+        "ready": true,
+        "offer": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "augments": [
+          8,
+          3
+        ],
+        "potion": -1,
+        "rank": 3
+      }
+    ],
+    "shots": []
+  }
+}

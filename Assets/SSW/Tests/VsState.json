@@ -1,0 +1,755 @@
+{
+    "date":  "2026-09-10T20:46:46",
+    "build":  "PASS 2026-09-10T20:36:04",
+    "introEditor":  {
+                        "seq":  2,
+                        "error":  "",
+                        "listening":  true,
+                        "server":  true,
+                        "connected":  true,
+                        "peers":  2,
+                        "readyToStart":  true,
+                        "scene":  "SuperUltraLegendScene",
+                        "menuOpen":  false,
+                        "canResume":  true,
+                        "title":  "승리",
+                        "phase":  "Intro",
+                        "reason":  "Knockout",
+                        "winner":  0,
+                        "timeScale":  1.0,
+                        "time":  106.81644439697266,
+                        "intro":  true,
+                        "introClosing":  false,
+                        "leftName":  "우미",
+                        "rightName":  "한담",
+                        "players":  [
+                                        {
+                                            "id":  0,
+                                            "job":  "Magician",
+                                            "name":  "우미",
+                                            "draftView":  false,
+                                            "hp":  80.0,
+                                            "max":  80.0,
+                                            "position":  {
+                                                             "x":  -6.0,
+                                                             "y":  -2.799999952316284
+                                                         },
+                                            "velocity":  {
+                                                             "x":  0.0,
+                                                             "y":  0.0
+                                                         },
+                                            "viewport":  {
+                                                             "x":  0.4344426691532135,
+                                                             "y":  0.24051392078399659,
+                                                             "z":  10.0
+                                                         },
+                                            "aim":  {
+                                                        "x":  1.0,
+                                                        "y":  0.0
+                                                    },
+                                            "side":  1,
+                                            "labelsFaceView":  true,
+                                            "animation":  2081823275,
+                                            "owner":  true,
+                                            "ready":  false,
+                                            "offer":  {
+                                                          "x":  -1,
+                                                          "y":  -1,
+                                                          "z":  -1
+                                                      },
+                                            "augments":  [
+
+                                                         ],
+                                            "potion":  -1,
+                                            "rank":  1
+                                        },
+                                        {
+                                            "id":  1,
+                                            "job":  "Witch",
+                                            "name":  "한담",
+                                            "draftView":  false,
+                                            "hp":  80.0,
+                                            "max":  80.0,
+                                            "position":  {
+                                                             "x":  6.0,
+                                                             "y":  -2.799999952316284
+                                                         },
+                                            "velocity":  {
+                                                             "x":  0.0,
+                                                             "y":  0.0
+                                                         },
+                                            "viewport":  {
+                                                             "x":  0.6940580606460571,
+                                                             "y":  0.24051392078399659,
+                                                             "z":  10.0
+                                                         },
+                                            "aim":  {
+                                                        "x":  -1.0,
+                                                        "y":  0.0
+                                                    },
+                                            "side":  -1,
+                                            "labelsFaceView":  true,
+                                            "animation":  2081823275,
+                                            "owner":  false,
+                                            "ready":  false,
+                                            "offer":  {
+                                                          "x":  0,
+                                                          "y":  0,
+                                                          "z":  0
+                                                      },
+                                            "augments":  [
+
+                                                         ],
+                                            "potion":  -1,
+                                            "rank":  1
+                                        }
+                                    ],
+                        "shots":  [
+
+                                  ]
+                    },
+    "introClient":  {
+                        "seq":  0,
+                        "error":  "",
+                        "listening":  true,
+                        "server":  false,
+                        "connected":  true,
+                        "peers":  0,
+                        "readyToStart":  false,
+                        "scene":  "SuperUltraLegendScene",
+                        "menuOpen":  false,
+                        "canResume":  true,
+                        "title":  "승리",
+                        "phase":  "Intro",
+                        "reason":  "Knockout",
+                        "winner":  0,
+                        "timeScale":  1.0,
+                        "time":  107.2646255493164,
+                        "intro":  true,
+                        "introClosing":  false,
+                        "leftName":  "한담",
+                        "rightName":  "우미",
+                        "players":  [
+                                        {
+                                            "id":  0,
+                                            "job":  "Magician",
+                                            "name":  "우미",
+                                            "draftView":  false,
+                                            "hp":  80.0,
+                                            "max":  80.0,
+                                            "position":  {
+                                                             "x":  -6.0,
+                                                             "y":  -2.799999952316284
+                                                         },
+                                            "velocity":  {
+                                                             "x":  0.0,
+                                                             "y":  0.0
+                                                         },
+                                            "viewport":  {
+                                                             "x":  0.6717608571052551,
+                                                             "y":  0.42142346501350405,
+                                                             "z":  10.000000953674317
+                                                         },
+                                            "aim":  {
+                                                        "x":  1.0,
+                                                        "y":  0.0
+                                                    },
+                                            "side":  1,
+                                            "labelsFaceView":  true,
+                                            "animation":  2081823275,
+                                            "owner":  false,
+                                            "ready":  false,
+                                            "offer":  {
+                                                          "x":  0,
+                                                          "y":  0,
+                                                          "z":  0
+                                                      },
+                                            "augments":  [
+
+                                                         ],
+                                            "potion":  -1,
+                                            "rank":  1
+                                        },
+                                        {
+                                            "id":  1,
+                                            "job":  "Witch",
+                                            "name":  "한담",
+                                            "draftView":  false,
+                                            "hp":  80.0,
+                                            "max":  80.0,
+                                            "position":  {
+                                                             "x":  6.0,
+                                                             "y":  -2.799999952316284
+                                                         },
+                                            "velocity":  {
+                                                             "x":  0.0,
+                                                             "y":  0.0
+                                                         },
+                                            "viewport":  {
+                                                             "x":  0.3256397843360901,
+                                                             "y":  0.42142346501350405,
+                                                             "z":  9.999999046325684
+                                                         },
+                                            "aim":  {
+                                                        "x":  -1.0,
+                                                        "y":  0.0
+                                                    },
+                                            "side":  -1,
+                                            "labelsFaceView":  true,
+                                            "animation":  2081823275,
+                                            "owner":  true,
+                                            "ready":  false,
+                                            "offer":  {
+                                                          "x":  -1,
+                                                          "y":  -1,
+                                                          "z":  -1
+                                                      },
+                                            "augments":  [
+
+                                                         ],
+                                            "potion":  -1,
+                                            "rank":  1
+                                        }
+                                    ],
+                        "shots":  [
+
+                                  ]
+                    },
+    "draft":  {
+                  "seq":  4,
+                  "error":  "",
+                  "listening":  true,
+                  "server":  true,
+                  "connected":  true,
+                  "peers":  2,
+                  "readyToStart":  true,
+                  "scene":  "SuperUltraLegendScene",
+                  "menuOpen":  false,
+                  "canResume":  true,
+                  "title":  "승리",
+                  "phase":  "Draft",
+                  "reason":  "Knockout",
+                  "winner":  0,
+                  "timeScale":  1.0,
+                  "time":  179.6046905517578,
+                  "intro":  false,
+                  "introClosing":  false,
+                  "leftName":  "",
+                  "rightName":  "",
+                  "players":  [
+                                  {
+                                      "id":  0,
+                                      "job":  "Magician",
+                                      "name":  "우미",
+                                      "draftView":  true,
+                                      "hp":  80.0,
+                                      "max":  80.0,
+                                      "position":  {
+                                                       "x":  -6.0,
+                                                       "y":  -3.1512527465820314
+                                                   },
+                                      "velocity":  {
+                                                       "x":  0.0,
+                                                       "y":  0.0
+                                                   },
+                                      "viewport":  {
+                                                       "x":  0.2857142686843872,
+                                                       "y":  0.4047619104385376,
+                                                       "z":  10.0
+                                                   },
+                                      "aim":  {
+                                                  "x":  0.7944274544715881,
+                                                  "y":  -0.6073590517044067
+                                              },
+                                      "side":  1,
+                                      "labelsFaceView":  true,
+                                      "animation":  2081823275,
+                                      "owner":  true,
+                                      "ready":  false,
+                                      "offer":  {
+                                                    "x":  2,
+                                                    "y":  1,
+                                                    "z":  4
+                                                },
+                                      "augments":  [
+                                                       6
+                                                   ],
+                                      "potion":  -1,
+                                      "rank":  1
+                                  },
+                                  {
+                                      "id":  1,
+                                      "job":  "Witch",
+                                      "name":  "한담",
+                                      "draftView":  false,
+                                      "hp":  80.0,
+                                      "max":  80.0,
+                                      "position":  {
+                                                       "x":  6.0,
+                                                       "y":  -3.1512527465820314
+                                                   },
+                                      "velocity":  {
+                                                       "x":  0.0,
+                                                       "y":  0.0
+                                                   },
+                                      "viewport":  {
+                                                       "x":  0.7142857313156128,
+                                                       "y":  0.4047619104385376,
+                                                       "z":  10.0
+                                                   },
+                                      "aim":  {
+                                                  "x":  -1.0,
+                                                  "y":  0.0
+                                              },
+                                      "side":  -1,
+                                      "labelsFaceView":  true,
+                                      "animation":  2081823275,
+                                      "owner":  false,
+                                      "ready":  false,
+                                      "offer":  {
+                                                    "x":  0,
+                                                    "y":  0,
+                                                    "z":  0
+                                                },
+                                      "augments":  [
+                                                       15
+                                                   ],
+                                      "potion":  -1,
+                                      "rank":  1
+                                  }
+                              ],
+                  "shots":  [
+
+                            ]
+              },
+    "combat":  {
+                   "seq":  7,
+                   "error":  "",
+                   "listening":  true,
+                   "server":  true,
+                   "connected":  true,
+                   "peers":  2,
+                   "readyToStart":  true,
+                   "scene":  "SuperUltraLegendScene",
+                   "menuOpen":  false,
+                   "canResume":  true,
+                   "title":  "승리",
+                   "phase":  "Playing",
+                   "reason":  "Knockout",
+                   "winner":  0,
+                   "timeScale":  1.0,
+                   "time":  370.89569091796877,
+                   "intro":  false,
+                   "introClosing":  false,
+                   "leftName":  "",
+                   "rightName":  "",
+                   "players":  [
+                                   {
+                                       "id":  0,
+                                       "job":  "Magician",
+                                       "name":  "한담",
+                                       "draftView":  false,
+                                       "hp":  80.0,
+                                       "max":  80.0,
+                                       "position":  {
+                                                        "x":  -6.0,
+                                                        "y":  -3.1512508392333986
+                                                    },
+                                       "velocity":  {
+                                                        "x":  0.0,
+                                                        "y":  0.0
+                                                    },
+                                       "viewport":  {
+                                                        "x":  0.28199052810668948,
+                                                        "y":  0.40600329637527468,
+                                                        "z":  10.0
+                                                    },
+                                       "aim":  {
+                                                   "x":  0.9056745767593384,
+                                                   "y":  0.4239734709262848
+                                               },
+                                       "side":  1,
+                                       "labelsFaceView":  true,
+                                       "animation":  2081823275,
+                                       "owner":  true,
+                                       "ready":  true,
+                                       "offer":  {
+                                                     "x":  2,
+                                                     "y":  0,
+                                                     "z":  1
+                                                 },
+                                       "augments":  [
+                                                        8,
+                                                        2
+                                                    ],
+                                       "potion":  -1,
+                                       "rank":  1
+                                   },
+                                   {
+                                       "id":  1,
+                                       "job":  "Witch",
+                                       "name":  "우미",
+                                       "draftView":  false,
+                                       "hp":  80.0,
+                                       "max":  80.0,
+                                       "position":  {
+                                                        "x":  6.0,
+                                                        "y":  -3.1512527465820314
+                                                    },
+                                       "velocity":  {
+                                                        "x":  0.0,
+                                                        "y":  0.0
+                                                    },
+                                       "viewport":  {
+                                                        "x":  0.7180094718933106,
+                                                        "y":  0.4060031771659851,
+                                                        "z":  10.0
+                                                    },
+                                       "aim":  {
+                                                   "x":  -0.7944275140762329,
+                                                   "y":  -0.6073590517044067
+                                               },
+                                       "side":  -1,
+                                       "labelsFaceView":  true,
+                                       "animation":  2081823275,
+                                       "owner":  false,
+                                       "ready":  true,
+                                       "offer":  {
+                                                     "x":  0,
+                                                     "y":  0,
+                                                     "z":  0
+                                                 },
+                                       "augments":  [
+                                                        15,
+                                                        3
+                                                    ],
+                                       "potion":  3,
+                                       "rank":  1
+                                   }
+                               ],
+                   "shots":  [
+                                 {
+                                     "id":  4,
+                                     "type":  "card",
+                                     "position":  {
+                                                      "x":  -5.130552291870117,
+                                                      "y":  -2.748162269592285
+                                                  },
+                                     "rank":  1,
+                                     "kind":  0
+                                 }
+                             ]
+               },
+    "cancel":  {
+                   "pause":  {
+                                 "seq":  10,
+                                 "error":  "",
+                                 "listening":  true,
+                                 "server":  false,
+                                 "connected":  true,
+                                 "peers":  0,
+                                 "readyToStart":  false,
+                                 "scene":  "SuperUltraLegendScene",
+                                 "menuOpen":  true,
+                                 "canResume":  true,
+                                 "title":  "",
+                                 "phase":  "Intro",
+                                 "reason":  "Knockout",
+                                 "winner":  0,
+                                 "timeScale":  1.0,
+                                 "time":  485.80889892578127,
+                                 "intro":  true,
+                                 "introClosing":  false,
+                                 "leftName":  "한담",
+                                 "rightName":  "우미",
+                                 "players":  [
+                                                 {
+                                                     "id":  0,
+                                                     "job":  "Magician",
+                                                     "name":  "우미",
+                                                     "draftView":  false,
+                                                     "hp":  80.0,
+                                                     "max":  80.0,
+                                                     "position":  {
+                                                                      "x":  -6.0,
+                                                                      "y":  -2.9237372875213625
+                                                                  },
+                                                     "velocity":  {
+                                                                      "x":  0.0,
+                                                                      "y":  0.0
+                                                                  },
+                                                     "viewport":  {
+                                                                      "x":  0.634955883026123,
+                                                                      "y":  0.4053552746772766,
+                                                                      "z":  10.000000953674317
+                                                                  },
+                                                     "aim":  {
+                                                                 "x":  1.0,
+                                                                 "y":  0.0
+                                                             },
+                                                     "side":  1,
+                                                     "labelsFaceView":  true,
+                                                     "animation":  2081823275,
+                                                     "owner":  false,
+                                                     "ready":  false,
+                                                     "offer":  {
+                                                                   "x":  0,
+                                                                   "y":  0,
+                                                                   "z":  0
+                                                               },
+                                                     "augments":  [
+
+                                                                  ],
+                                                     "potion":  -1,
+                                                     "rank":  1
+                                                 },
+                                                 {
+                                                     "id":  2,
+                                                     "job":  "Witch",
+                                                     "name":  "한담",
+                                                     "draftView":  false,
+                                                     "hp":  80.0,
+                                                     "max":  80.0,
+                                                     "position":  {
+                                                                      "x":  6.0,
+                                                                      "y":  -2.9237372875213625
+                                                                  },
+                                                     "velocity":  {
+                                                                      "x":  0.0,
+                                                                      "y":  0.0
+                                                                  },
+                                                     "viewport":  {
+                                                                      "x":  0.34644320607185366,
+                                                                      "y":  0.4053552746772766,
+                                                                      "z":  9.999999046325684
+                                                                  },
+                                                     "aim":  {
+                                                                 "x":  -0.8784342408180237,
+                                                                 "y":  0.47786325216293337
+                                                             },
+                                                     "side":  -1,
+                                                     "labelsFaceView":  true,
+                                                     "animation":  2081823275,
+                                                     "owner":  true,
+                                                     "ready":  false,
+                                                     "offer":  {
+                                                                   "x":  -1,
+                                                                   "y":  -1,
+                                                                   "z":  -1
+                                                               },
+                                                     "augments":  [
+
+                                                                  ],
+                                                     "potion":  -1,
+                                                     "rank":  1
+                                                 }
+                                             ],
+                                 "shots":  [
+
+                                           ]
+                             },
+                   "host":  {
+                                "seq":  11,
+                                "error":  "",
+                                "listening":  true,
+                                "server":  true,
+                                "connected":  true,
+                                "peers":  1,
+                                "readyToStart":  false,
+                                "scene":  "SuperUltraLegendScene",
+                                "menuOpen":  true,
+                                "canResume":  false,
+                                "title":  "상대가 나갔습니다",
+                                "phase":  "Finished",
+                                "reason":  "Left",
+                                "winner":  0,
+                                "timeScale":  1.0,
+                                "time":  486.4845275878906,
+                                "intro":  false,
+                                "introClosing":  false,
+                                "leftName":  "",
+                                "rightName":  "",
+                                "players":  [
+                                                {
+                                                    "id":  0,
+                                                    "job":  "Magician",
+                                                    "name":  "우미",
+                                                    "draftView":  false,
+                                                    "hp":  80.0,
+                                                    "max":  80.0,
+                                                    "position":  {
+                                                                     "x":  -6.0,
+                                                                     "y":  -3.1512556076049806
+                                                                 },
+                                                    "velocity":  {
+                                                                     "x":  0.0,
+                                                                     "y":  0.0
+                                                                 },
+                                                    "viewport":  {
+                                                                     "x":  0.37267497181892397,
+                                                                     "y":  0.4044404923915863,
+                                                                     "z":  10.0
+                                                                 },
+                                                    "aim":  {
+                                                                "x":  0.7762966752052307,
+                                                                "y":  -0.6303677558898926
+                                                            },
+                                                    "side":  1,
+                                                    "labelsFaceView":  true,
+                                                    "animation":  2081823275,
+                                                    "owner":  true,
+                                                    "ready":  false,
+                                                    "offer":  {
+                                                                  "x":  -1,
+                                                                  "y":  -1,
+                                                                  "z":  -1
+                                                              },
+                                                    "augments":  [
+
+                                                                 ],
+                                                    "potion":  -1,
+                                                    "rank":  1
+                                                }
+                                            ],
+                                "shots":  [
+
+                                          ]
+                            },
+                   "before":  {
+                                  "seq":  9,
+                                  "error":  "",
+                                  "listening":  true,
+                                  "server":  false,
+                                  "connected":  true,
+                                  "peers":  0,
+                                  "readyToStart":  false,
+                                  "scene":  "SuperUltraLegendScene",
+                                  "menuOpen":  false,
+                                  "canResume":  true,
+                                  "title":  "승리",
+                                  "phase":  "Intro",
+                                  "reason":  "Knockout",
+                                  "winner":  0,
+                                  "timeScale":  1.0,
+                                  "time":  485.5908203125,
+                                  "intro":  true,
+                                  "introClosing":  false,
+                                  "leftName":  "한담",
+                                  "rightName":  "우미",
+                                  "players":  [
+                                                  {
+                                                      "id":  0,
+                                                      "job":  "Magician",
+                                                      "name":  "우미",
+                                                      "draftView":  false,
+                                                      "hp":  80.0,
+                                                      "max":  80.0,
+                                                      "position":  {
+                                                                       "x":  -6.0,
+                                                                       "y":  -2.799999952316284
+                                                                   },
+                                                      "velocity":  {
+                                                                       "x":  0.0,
+                                                                       "y":  0.0
+                                                                   },
+                                                      "viewport":  {
+                                                                       "x":  0.5887344479560852,
+                                                                       "y":  0.30188265442848208,
+                                                                       "z":  10.0
+                                                                   },
+                                                      "aim":  {
+                                                                  "x":  1.0,
+                                                                  "y":  0.0
+                                                              },
+                                                      "side":  1,
+                                                      "labelsFaceView":  true,
+                                                      "animation":  2081823275,
+                                                      "owner":  false,
+                                                      "ready":  false,
+                                                      "offer":  {
+                                                                    "x":  0,
+                                                                    "y":  0,
+                                                                    "z":  0
+                                                                },
+                                                      "augments":  [
+
+                                                                   ],
+                                                      "potion":  -1,
+                                                      "rank":  1
+                                                  },
+                                                  {
+                                                      "id":  2,
+                                                      "job":  "Witch",
+                                                      "name":  "한담",
+                                                      "draftView":  false,
+                                                      "hp":  80.0,
+                                                      "max":  80.0,
+                                                      "position":  {
+                                                                       "x":  6.0,
+                                                                       "y":  -2.799999952316284
+                                                                   },
+                                                      "velocity":  {
+                                                                       "x":  0.0,
+                                                                       "y":  0.0
+                                                                   },
+                                                      "viewport":  {
+                                                                       "x":  0.31934040784835818,
+                                                                       "y":  0.30188265442848208,
+                                                                       "z":  9.999999046325684
+                                                                   },
+                                                      "aim":  {
+                                                                  "x":  -0.8334081768989563,
+                                                                  "y":  0.552657961845398
+                                                              },
+                                                      "side":  -1,
+                                                      "labelsFaceView":  true,
+                                                      "animation":  2081823275,
+                                                      "owner":  true,
+                                                      "ready":  false,
+                                                      "offer":  {
+                                                                    "x":  -1,
+                                                                    "y":  -1,
+                                                                    "z":  -1
+                                                                },
+                                                      "augments":  [
+
+                                                                   ],
+                                                      "potion":  -1,
+                                                      "rank":  1
+                                                  }
+                                              ],
+                                  "shots":  [
+
+                                            ]
+                              },
+                   "client":  {
+                                  "seq":  10,
+                                  "error":  "",
+                                  "listening":  false,
+                                  "server":  false,
+                                  "connected":  false,
+                                  "peers":  0,
+                                  "readyToStart":  false,
+                                  "scene":  "MainMenu",
+                                  "menuOpen":  false,
+                                  "canResume":  false,
+                                  "title":  "",
+                                  "phase":  "Waiting",
+                                  "reason":  "Knockout",
+                                  "winner":  0,
+                                  "timeScale":  1.0,
+                                  "time":  486.1089172363281,
+                                  "intro":  false,
+                                  "introClosing":  false,
+                                  "leftName":  "",
+                                  "rightName":  "",
+                                  "players":  [
+
+                                              ],
+                                  "shots":  [
+
+                                            ]
+                              }
+               },
+    "frames":  "0 0.1394043 Intro\n1 0.3076477 Intro\n2 0.5133362 Intro\n3 0.7677307 Intro\n4 1.057648 Intro\n5 1.365875 Intro\n6 1.569641 Intro\n7 1.762756 Draft\n8 2.210938 Draft\n"
+}

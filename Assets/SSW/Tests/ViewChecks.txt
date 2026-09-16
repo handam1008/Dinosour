@@ -1,0 +1,40 @@
+Unity 6000.5.2f1 / NGO 2.13.2 / Windows x64
+Builds/Local/Game.exe
+PASS 2026-09-10T17:33:09
+
+One-button local launch and per-player left-side view
+PASS duplicate open request kept the same client process (50492)
+PASS mirrored camera pointer conversion returns world direction (-1, 0)
+PASS live client screenshot: own Magician left, opponent Witch right, normal sprites and health bars
+PASS live close-up: card rank and suit display face the client camera
+
+PASS one click from Edit mode enters Play, starts host, connects client and opens draft 
+PASS host sees own player left at spawn 
+PASS client reuses active host and actual transport port 
+PASS both peers see their own spawn on screen left host=0.281990528106689 client=0.285714268684387
+PASS client retains authoritative right spawn with mirrored local view 
+PASS world labels face each local camera 
+PASS both peers select augments and enter combat 
+PASS client screen-right movement moves left in shared world worldX=6 -> 3.56469440460205
+PASS client screen-left movement moves right in shared world 
+PASS jump stays upward in mirrored view after network delivery y=-2.16983461380005
+PASS client shot still uses server authority after view reversal id=4
+PASS standalone client also sees its own spawn on screen left 
+PASS standalone screen-right mouse aim maps to world left {"x":-1.0,"y":0.0}
+PASS screen-right mouse shot reaches server and flies toward opponent id=4
+PASS mirrored mouse shot damages opponent through server collision HP=65
+PASS ESC menu opens normally in mirrored client 
+PASS resume closes menu and keeps match playing 
+PASS camera orientation stays fixed when players cross 
+PASS host screen-right input keeps normal world direction 
+PASS reconnect with reversed jobs still starts both owners on the left 
+PASS witch potion follows mirrored pointer aim after reconnect 
+PASS final standalone host and client have no runtime errors 
+PASS offline sandbox retains normal camera, disabled network labels and 44 swing blocks
+
+Test harness notes:
+An immediate jump snapshot preceded replicated movement; waiting for the network position confirmed the upward jump.
+The unfocused Editor ignored a queued mouse event. Camera conversion was checked in the Editor, and the actual mouse-state-to-aim-to-projectile-to-damage path passed in the standalone client.
+
+Scope: local automatic pairing, two-player draft/combat, per-peer camera/input, reconnect and offline regression.
+Internet opponent discovery, two-PC connectivity and service configuration were not tested here.

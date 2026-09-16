@@ -15,39 +15,39 @@ namespace SSW
         const string SessionType = "mushrooms-1v1-session";
         const string GameProperty = "game";
         const string GamePropertyValue = "mushrooms-1v1-v1";
+        const string ModeProperty = "mode";
         const int PlayerLimit = 2;
-
         static MultiplayerSessionManager _instance;
-
         readonly List<MultiplayerRoomInfo> _rooms = new List<MultiplayerRoomInfo>();
-        MultiplayerNetworkRuntime _network;
+        NetGame _network;
         Task _initializeTask;
+        Task _operation = Task.CompletedTask;
         ISession _session;
         bool _busy;
+        bool _cancelled;
+        bool _matching;
+        bool _starting;
         string _status = string.Empty;
 
-        public static MultiplayerSessionManager GetOrCreate()
-        {
-            if (_instance != null) return _instance;
-
-            _instance = FindAnyObjectByType<MultiplayerSessionManager>();
-            if (_instance != null) return _instance;
-
-            GameObject managerObject = new GameObject("MultiplayerSession");
-            return managerObject.AddComponent<MultiplayerSessionManager>();
-        }
-
+        public static MultiplayerSessionManager Current => _instance;
         public event Action Changed;
-
         public IReadOnlyList<MultiplayerRoomInfo> Rooms => _rooms;
         public bool IsBusy => _busy;
+        public bool IsMatching => _matching;
         public bool IsInSession => _session != null;
         public bool IsHost => _session != null && _session.IsHost;
+        public bool CanStart => IsHost && _network.Ready && !_busy && !_starting;
         public string Status => _status;
         public string RoomName => _session != null ? _session.Name : string.Empty;
         public string JoinCode => _session != null ? _session.Code : string.Empty;
         public int PlayerCount => _session != null ? _session.PlayerCount : 0;
         public bool HasNetworkPlayer => _network != null && _network.HasPlayerPrefab;
+
+        public static MultiplayerSessionManager GetOrCreate()
+        {
+            if (_instance != null) return _instance;
+            return new GameObject("MultiplayerSession").AddComponent<MultiplayerSessionManager>();
+        }
 
         void Awake()
         {
@@ -56,184 +56,239 @@ namespace SSW
                 Destroy(gameObject);
                 return;
             }
-
             _instance = this;
             DontDestroyOnLoad(gameObject);
-            _network = gameObject.AddComponent<MultiplayerNetworkRuntime>();
+            _network = NetGame.GetOrCreate();
+            _network.ConnectionChanged += NotifyChanged;
         }
 
-        public async Task RefreshRoomsAsync()
+        public Task RefreshRoomsAsync()
         {
-            await RunAsync(async () =>
+            return RunAsync(async () =>
             {
-                await EnsureInitializedAsync();
                 SetStatus("방 목록을 불러오는 중...");
-
-                QuerySessionsOptions options = new QuerySessionsOptions
-                {
-                    Count = 30,
-                    FilterOptions = new List<FilterOption>
-                    {
-                        GameFilter(),
-                        new FilterOption(FilterField.IsLocked, "false", FilterOperation.Equal),
-                        new FilterOption(FilterField.AvailableSlots, "0", FilterOperation.Greater)
-                    },
-                    SortOptions = new List<SortOption>
-                    {
-                        new SortOption(SortOrder.Descending, SortField.LastUpdated)
-                    }
-                };
-
-                QuerySessionsResults result = await MultiplayerService.Instance.QuerySessionsAsync(options);
+                await EnsureInitializedAsync();
+                CheckCancel();
+                QuerySessionsResults result = await MultiplayerService.Instance.QuerySessionsAsync(Query("room"));
+                CheckCancel();
                 _rooms.Clear();
                 foreach (ISessionInfo room in result.Sessions)
-                {
-                    _rooms.Add(new MultiplayerRoomInfo(
-                        room.Id,
-                        string.IsNullOrWhiteSpace(room.Name) ? "이름 없는 방" : room.Name,
-                        room.MaxPlayers - room.AvailableSlots,
-                        room.HasPassword));
-                }
-
-                SetStatus(_rooms.Count == 0 ? "현재 참가할 수 있는 방이 없습니다" : $"방 {_rooms.Count}개를 찾았습니다");
+                    _rooms.Add(new MultiplayerRoomInfo(room.Id, room.Name, room.MaxPlayers - room.AvailableSlots, room.HasPassword));
+                SetStatus(_rooms.Count == 0 ? "현재 참가할 수 있는 방이 없습니다" : string.Empty);
             });
         }
 
-        public async Task CreateRoomAsync(MultiplayerRoomRequest request)
+        public Task CreateRoomAsync(MultiplayerRoomRequest request)
         {
-            await RunAsync(async () =>
+            return RunAsync(async () =>
             {
-                await EnsureInitializedAsync();
                 ValidatePassword(request.Password);
-                _network.Prepare();
                 SetStatus("방을 만드는 중...");
-
-                SessionOptions options = CreateOptions(
-                    string.IsNullOrWhiteSpace(request.Name) ? "새로운 방" : request.Name.Trim(),
-                    request.Password,
-                    request.HiddenFromList);
-
-                IHostSession session = await MultiplayerService.Instance.CreateSessionAsync(options);
-                SetSession(session);
-                SetStatus("방을 만들었습니다");
-            });
-        }
-
-        public async Task JoinRoomAsync(string roomId, string password = null)
-        {
-            if (string.IsNullOrWhiteSpace(roomId))
-                throw new ArgumentException("참가할 방을 선택해주세요");
-
-            await RunAsync(async () =>
-            {
                 await EnsureInitializedAsync();
+                CheckCancel();
                 _network.Prepare();
-                SetStatus("방에 참가하는 중...");
-
-                JoinSessionOptions options = new JoinSessionOptions
-                {
-                    Type = SessionType,
-                    Password = EmptyToNull(password)
-                };
-                ISession session = await MultiplayerService.Instance.JoinSessionByIdAsync(roomId, options);
-                SetSession(session);
-                SetStatus("방에 참가했습니다");
-            });
-        }
-
-        public async Task JoinByCodeAsync(string joinCode, string password = null)
-        {
-            if (string.IsNullOrWhiteSpace(joinCode))
-                throw new ArgumentException("참가 코드를 입력해주세요");
-
-            await RunAsync(async () =>
-            {
-                await EnsureInitializedAsync();
-                _network.Prepare();
-                SetStatus("참가 코드로 연결하는 중...");
-
-                JoinSessionOptions options = new JoinSessionOptions
-                {
-                    Type = SessionType,
-                    Password = EmptyToNull(password)
-                };
-                ISession session = await MultiplayerService.Instance.JoinSessionByCodeAsync(
-                    joinCode.Trim().ToUpperInvariant(),
-                    options);
-                SetSession(session);
-                SetStatus("방에 참가했습니다");
-            });
-        }
-
-        public async Task QuickPlayAsync()
-        {
-            await RunAsync(async () =>
-            {
-                await EnsureInitializedAsync();
-                _network.Prepare();
-                SetStatus("같이 플레이할 사람을 찾는 중...");
-
-                QuickJoinOptions quickJoin = new QuickJoinOptions
-                {
-                    Timeout = TimeSpan.FromSeconds(5),
-                    CreateSession = true,
-                    Filters = new List<FilterOption>
-                    {
-                        GameFilter(),
-                        new FilterOption(FilterField.HasPassword, "false", FilterOperation.Equal),
-                        new FilterOption(FilterField.IsLocked, "false", FilterOperation.Equal),
-                        new FilterOption(FilterField.AvailableSlots, "0", FilterOperation.Greater)
-                    }
-                };
-
-                string roomName = $"빠른 대전 {UnityEngine.Random.Range(100, 1000)}";
-                ISession session = await MultiplayerService.Instance.MatchmakeSessionAsync(
-                    quickJoin,
-                    CreateOptions(roomName, null, false));
-                SetSession(session);
-                SetStatus(session.IsHost ? "새 방을 만들고 상대를 기다립니다" : "빠른 대전 방에 참가했습니다");
-            });
-        }
-
-        public async Task LeaveRoomAsync()
-        {
-            if (_session == null) return;
-
-            await RunAsync(async () =>
-            {
-                SetStatus("방에서 나가는 중...");
-                ISession leaving = _session;
-                await leaving.LeaveAsync();
-                SetSession(null);
+                string name = string.IsNullOrWhiteSpace(request.Name) ? "새로운 방" : request.Name.Trim();
+                var session = await MultiplayerService.Instance.CreateSessionAsync(
+                    CreateOptions(name, request.Password, request.HiddenFromList, "room"));
+                await Accept(session);
                 SetStatus(string.Empty);
             });
         }
 
-        public async Task StartGameAsync(string sceneName)
+        public Task JoinRoomAsync(string roomId, string password = null)
         {
-            if (_session == null || !_session.IsHost)
-                throw new InvalidOperationException("방장만 게임을 시작할 수 있습니다");
-            if (string.IsNullOrWhiteSpace(sceneName))
-                throw new ArgumentException("시작할 맵이 없습니다");
-
-            await RunAsync(async () =>
+            return RunAsync(async () =>
             {
+                if (string.IsNullOrWhiteSpace(roomId)) throw new ArgumentException("참가할 방을 선택해주세요");
+                SetStatus("방에 참가하는 중...");
+                await EnsureInitializedAsync();
+                CheckCancel();
+                _network.Prepare();
+                var session = await MultiplayerService.Instance.JoinSessionByIdAsync(roomId, JoinOptions(password));
+                await Accept(session);
+                SetStatus(string.Empty);
+            });
+        }
+
+        public Task JoinByCodeAsync(string joinCode, string password = null)
+        {
+            return RunAsync(async () =>
+            {
+                if (string.IsNullOrWhiteSpace(joinCode)) throw new ArgumentException("참가 코드를 입력해주세요");
+                SetStatus("참가 코드로 연결하는 중...");
+                await EnsureInitializedAsync();
+                CheckCancel();
+                _network.Prepare();
+                var session = await MultiplayerService.Instance.JoinSessionByCodeAsync(
+                    joinCode.Trim().ToUpperInvariant(), JoinOptions(password));
+                await Accept(session);
+                SetStatus(string.Empty);
+            });
+        }
+
+        public Task QuickPlayAsync(string sceneName = "SuperUltraLegendScene")
+        {
+            return RunAsync(async () =>
+            {
+                _matching = true;
+                SetStatus("상대를 찾는 중...");
+                try
+                {
+                    await EnsureInitializedAsync();
+                    double nextSearch = 0;
+                    while (_network.Arena == null)
+                    {
+                        CheckCancel();
+                        if (_session == null) await FindMatch();
+                        if (IsHost && _network.Ready)
+                        {
+                            await BeginGame(sceneName);
+                            return;
+                        }
+                        if (IsHost && PlayerCount == 1 && Time.unscaledTimeAsDouble >= nextSearch)
+                        {
+                            nextSearch = Time.unscaledTimeAsDouble + 2.5;
+                            await MergeMatch();
+                        }
+                        await Task.Delay(100);
+                    }
+                    CheckCancel();
+                }
+                catch
+                {
+                    await Drop();
+                    throw;
+                }
+                finally
+                {
+                    _matching = false;
+                    NotifyChanged();
+                }
+            });
+        }
+
+        async Task FindMatch()
+        {
+            CheckCancel();
+            _network.Prepare();
+            var options = new QuickJoinOptions
+            {
+                CreateSession = true,
+                Filters = Filters("quick")
+            };
+            options.Filters.Add(new FilterOption(FilterField.HasPassword, "false", FilterOperation.Equal));
+            ISession session = await MultiplayerService.Instance.MatchmakeSessionAsync(
+                options, CreateOptions("빠른 대전", null, false, "quick"));
+            await Accept(session);
+        }
+
+        async Task MergeMatch()
+        {
+            ISession waiting = _session;
+            QuerySessionsResults result = await MultiplayerService.Instance.QuerySessionsAsync(Query("quick"));
+            CheckCancel();
+            if (_session != waiting || PlayerCount > 1 || _network.Manager.ConnectedClientsIds.Count > 1) return;
+            ISessionInfo target = result.Sessions
+                .Where(room => string.CompareOrdinal(room.Id, waiting.Id) < 0 && !room.HasPassword)
+                .OrderBy(room => room.Id, StringComparer.Ordinal).FirstOrDefault();
+            if (target == null) return;
+            await Drop();
+            CheckCancel();
+            _network.Prepare();
+            try
+            {
+                await Accept(await MultiplayerService.Instance.JoinSessionByIdAsync(target.Id, JoinOptions(null)));
+            }
+            catch (SessionException exception) when (
+                exception.Error == SessionError.SessionNotFound ||
+                exception.Error == SessionError.SessionDeleted ||
+                exception.Error == SessionError.Forbidden ||
+                exception.Error == SessionError.SessionConflict)
+            {
+                SetStatus("상대를 찾는 중...");
+            }
+        }
+
+        public Task LeaveRoomAsync()
+        {
+            return RunAsync(async () =>
+            {
+                SetStatus("방에서 나가는 중...");
+                await Drop();
+                SetStatus(string.Empty);
+            });
+        }
+
+        public async Task CancelAsync()
+        {
+            _cancelled = true;
+            if (_busy)
+            {
+                SetStatus("취소하는 중...");
+                try { await _operation; }
+                catch (Exception) { }
+            }
+            if (_session != null) await LeaveRoomAsync();
+            SetStatus(string.Empty);
+        }
+
+        public Task StartGameAsync(string sceneName)
+        {
+            return RunAsync(async () =>
+            {
+                if (!IsHost) throw new InvalidOperationException("방장만 게임을 시작할 수 있습니다");
+                if (_starting) return;
+                await BeginGame(sceneName);
+            });
+        }
+
+        async Task BeginGame(string sceneName)
+        {
+            if (string.IsNullOrWhiteSpace(sceneName)) throw new ArgumentException("시작할 맵이 없습니다");
+            if (!_network.Ready) throw new InvalidOperationException("상대의 연결과 직업 선택을 기다려 주세요.");
+            _starting = true;
+            try
+            {
+                SetStatus("대전을 시작하는 중...");
                 IHostSession host = _session.AsHost();
                 host.IsLocked = true;
                 await host.SavePropertiesAsync();
-                SetStatus("게임을 시작합니다");
+                CheckCancel();
                 _network.LoadScene(sceneName);
-            });
+            }
+            catch
+            {
+                _starting = false;
+                throw;
+            }
+        }
+
+        async Task Accept(ISession session)
+        {
+            if (_cancelled)
+            {
+                await session.LeaveAsync();
+                CheckCancel();
+            }
+            SetSession(session);
+            if (_matching) SetStatus("상대를 찾는 중...");
+        }
+
+        async Task Drop()
+        {
+            if (_session == null) return;
+            ISession leaving = _session;
+            await leaving.LeaveAsync();
+            SetSession(null);
         }
 
         async Task EnsureInitializedAsync()
         {
-            if (_initializeTask == null)
-                _initializeTask = InitializeServicesAsync();
-
+            if (_initializeTask == null) _initializeTask = InitializeServicesAsync();
             try
             {
                 await _initializeTask;
+                _network.UseName(AuthenticationService.Instance.PlayerName);
             }
             catch
             {
@@ -245,21 +300,28 @@ namespace SSW
         static async Task InitializeServicesAsync()
         {
             if (UnityServices.State != ServicesInitializationState.Initialized)
-                await UnityServices.InitializeAsync();
-
+                await UnityServices.InitializeAsync(new InitializationOptions().SetProfile(NetLaunch.Profile));
             if (!AuthenticationService.Instance.IsSignedIn)
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
         }
 
-        async Task RunAsync(Func<Task> operation)
+        Task RunAsync(Func<Task> operation)
         {
-            if (_busy) throw new InvalidOperationException("이전 작업이 끝날 때까지 잠시 기다려주세요");
-
+            if (_busy) return Task.FromException(new InvalidOperationException("이전 작업이 끝날 때까지 잠시 기다려주세요"));
             _busy = true;
+            _cancelled = false;
             Changed?.Invoke();
-            try
+            _operation = ExecuteAsync(operation);
+            return _operation;
+        }
+
+        async Task ExecuteAsync(Func<Task> operation)
+        {
+            try { await operation(); }
+            catch (OperationCanceledException)
             {
-                await operation();
+                SetStatus(string.Empty);
+                throw;
             }
             catch (Exception exception)
             {
@@ -273,9 +335,14 @@ namespace SSW
             }
         }
 
-        static SessionOptions CreateOptions(string name, string password, bool isPrivate)
+        void CheckCancel()
         {
-            SessionOptions options = new SessionOptions
+            if (_cancelled) throw new OperationCanceledException();
+        }
+
+        static SessionOptions CreateOptions(string name, string password, bool isPrivate, string mode)
+        {
+            return new SessionOptions
             {
                 Type = SessionType,
                 Name = name,
@@ -284,21 +351,36 @@ namespace SSW
                 IsPrivate = isPrivate,
                 SessionProperties = new Dictionary<string, SessionProperty>
                 {
-                    {
-                        GameProperty,
-                        new SessionProperty(
-                            GamePropertyValue,
-                            VisibilityPropertyOptions.Public,
-                            PropertyIndex.String1)
-                    }
+                    { GameProperty, new SessionProperty(GamePropertyValue, VisibilityPropertyOptions.Public, PropertyIndex.String1) },
+                    { ModeProperty, new SessionProperty(mode, VisibilityPropertyOptions.Public, PropertyIndex.String2) }
                 }
-            };
-            return options.WithRelayNetwork();
+            }.WithRelayNetwork();
         }
 
-        static FilterOption GameFilter()
+        static JoinSessionOptions JoinOptions(string password)
         {
-            return new FilterOption(FilterField.StringIndex1, GamePropertyValue, FilterOperation.Equal);
+            return new JoinSessionOptions { Type = SessionType, Password = EmptyToNull(password) };
+        }
+
+        static List<FilterOption> Filters(string mode)
+        {
+            return new List<FilterOption>
+            {
+                new FilterOption(FilterField.StringIndex1, GamePropertyValue, FilterOperation.Equal),
+                new FilterOption(FilterField.StringIndex2, mode, FilterOperation.Equal),
+                new FilterOption(FilterField.IsLocked, "false", FilterOperation.Equal),
+                new FilterOption(FilterField.AvailableSlots, "0", FilterOperation.Greater)
+            };
+        }
+
+        static QuerySessionsOptions Query(string mode)
+        {
+            return new QuerySessionsOptions
+            {
+                Count = 30,
+                FilterOptions = Filters(mode),
+                SortOptions = new List<SortOption> { new SortOption(SortOrder.Ascending, SortField.CreationTime) }
+            };
         }
 
         void SetSession(ISession session)
@@ -309,16 +391,14 @@ namespace SSW
                 _session.RemovedFromSession -= HandleSessionEnded;
                 _session.Deleted -= HandleSessionEnded;
             }
-
             _session = session;
-
+            _starting = false;
             if (_session != null)
             {
                 _session.Changed += NotifyChanged;
                 _session.RemovedFromSession += HandleSessionEnded;
                 _session.Deleted += HandleSessionEnded;
             }
-
             Changed?.Invoke();
         }
 
@@ -335,7 +415,7 @@ namespace SSW
 
         void SetStatus(string value)
         {
-            _status = value ?? string.Empty;
+            _status = value;
             Changed?.Invoke();
         }
 
@@ -348,8 +428,15 @@ namespace SSW
         {
             if (string.IsNullOrWhiteSpace(password)) return;
             int length = password.Trim().Length;
-            if (length < 8 || length > 64)
-                throw new ArgumentException("비밀번호는 8자 이상 64자 이하로 입력해주세요");
+            if (length < 8 || length > 64) throw new ArgumentException("비밀번호는 8자 이상 64자 이하로 입력해주세요");
+        }
+
+        void OnDestroy()
+        {
+            if (_instance != this) return;
+            _cancelled = true;
+            _network.ConnectionChanged -= NotifyChanged;
+            _instance = null;
         }
 
         public static string ToReadableMessage(Exception exception)
@@ -361,6 +448,8 @@ namespace SSW
             {
                 switch (sessionException.Error)
                 {
+                    case SessionError.Unknown when sessionException.Message.IndexOf("password", StringComparison.OrdinalIgnoreCase) >= 0:
+                        return "비밀번호를 확인해주세요";
                     case SessionError.SessionNotFound:
                     case SessionError.SessionDeleted:
                         return "방이 사라졌거나 이미 게임이 시작되었습니다";

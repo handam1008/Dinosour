@@ -1,0 +1,33 @@
+PASS: Sandbox shows practice and three direct map choices, with the existing back button.
+PASS: Map cards display only 연습장, 다리, 그네, 바람 without descriptions.
+PASS: All four cards share the existing colors, font, size, and hover effect without overlapping.
+PASS: Back returns to the existing play menu.
+PASS: Crate opens directly from its sandbox button with an active map host.
+PASS: Escape opens the pause menu and disables gameplay input.
+PASS: Player physics remain frozen while paused.
+PASS: Map selection cannot open on top of the pause menu.
+PASS: Existing button hover animation works at zero time scale.
+PASS: Continue restores the previous time scale and player input.
+PASS: Escape can reopen the pause menu after continuing.
+PASS: Escape closes the pause menu and resumes play.
+PASS: The existing M map picker still opens normally.
+PASS: Escape closes the map picker without also opening pause.
+PASS: Exit returns to the main menu with time restored.
+PASS: Swing opens directly from its sandbox button with an active map host.
+PASS: The menu loads the same 44-block hanging map and fall recovery setting.
+PASS: The map pauses from its shared pause menu.
+PASS: Continue restores gameplay.
+PASS: Exit returns to the main menu with time restored.
+PASS: Wind opens directly from its sandbox button with an active map host.
+PASS: The map pauses from its shared pause menu.
+PASS: Continue restores gameplay.
+PASS: Exit returns to the main menu with time restored.
+PASS: The basic practice button still opens the original practice map.
+PASS: The map pauses from its shared pause menu.
+PASS: Continue restores gameplay.
+PASS: Exit returns to the main menu with time restored.
+PASS: Sandbox shows practice and three direct map choices, with the existing back button.
+PASS: Map cards display only 연습장, 다리, 그네, 바람 without descriptions.
+PASS: All four cards share the existing colors, font, size, and hover effect without overlapping.
+PASS: Repeated menu and map transitions leave no destroyed-target tween warnings.
+COMPLETE

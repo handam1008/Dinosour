@@ -19,12 +19,14 @@ namespace SSW
         public event System.Action<float, bool> OnDamageDealt;
 
         float current;
+        IHealthAuthority _authority;
 
         public float Current => current;
         public float Max => maxHealth;
 
         void Awake()
         {
+            _authority = GetComponent<IHealthAuthority>();
             current = maxHealth;
             SpawnHealthBar();
         }
@@ -41,15 +43,12 @@ namespace SSW
 
         public DamageResult ReceiveDamage(DamageRequest request)
         {
+            if (!float.IsFinite(request.Amount) || _authority != null && !_authority.CanChange) return default;
             float requestedAmount = Mathf.Max(0f, request.Amount);
             if (requestedAmount <= 0f)
                 return new DamageResult(requestedAmount, 0f, false);
             if (current <= 0f)
                 return new DamageResult(requestedAmount, 0f, false);
-
-            IHealthNetworkBridge networkBridge = GetComponent<IHealthNetworkBridge>();
-            if (networkBridge != null && networkBridge.TryForwardDamage(request, out DamageResult pendingResult))
-                return pendingResult;
 
             float finalAmount = ResolveIncomingDamage(request, requestedAmount);
             if (finalAmount <= 0f)
@@ -77,20 +76,28 @@ namespace SSW
 
         public void Heal(float amount)
         {
-            if (amount <= 0f) return;
-
-            IHealthNetworkBridge networkBridge = GetComponent<IHealthNetworkBridge>();
-            if (networkBridge != null && networkBridge.TryForwardHeal(amount)) return;
+            if (!float.IsFinite(amount) || amount <= 0f) return;
+            if (_authority != null && (current <= 0f || !_authority.CanChange)) return;
 
             current = Mathf.Min(current + amount, maxHealth);
             OnHealthChanged?.Invoke(current, maxHealth);
         }
 
-        internal void ApplyNetworkState(float value)
+        internal void SetMax(float value)
+        {
+            float ratio = current / maxHealth;
+            maxHealth = Mathf.Max(1f, value);
+            current = Mathf.Clamp(ratio * maxHealth, 0f, maxHealth);
+            OnHealthChanged?.Invoke(current, maxHealth);
+        }
+
+        internal void ApplyNetworkState(float value, float maximum)
         {
             float previous = current;
+            float previousMax = maxHealth;
+            maxHealth = maximum;
             current = Mathf.Clamp(value, 0f, maxHealth);
-            if (Mathf.Approximately(previous, current)) return;
+            if (Mathf.Approximately(previous, current) && Mathf.Approximately(previousMax, maximum)) return;
 
             if (current < previous)
             {

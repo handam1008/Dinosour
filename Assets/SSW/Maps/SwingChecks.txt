@@ -1,0 +1,20 @@
+PASS: 44 separate square bodies and shootable pins are present.
+PASS: No fixed floor or base platforms remain.
+PASS: All platforms rotate and swing in Physics2D from fixed pins.
+PASS: Player starts standing on a hanging square.
+PASS: An off-center player landing rotates and swings the block: angle=55.0, shift=1.14
+PASS: The upper pin stays fixed while the lower square moves.
+PASS: Actual D input on the square transfers motion to the platform.
+PASS: A real FlyingCard hitting the large square does not cut its rope.
+PASS: A real FlyingCard hitting the small pin cuts the joint and hides that rope.
+PASS: The other 43 ropes remain attached.
+PASS: The released square falls with gravity and retains its solid collider.
+PASS: R restores every block pose, pin, and rope.
+PASS: All 44 ropes can be cut independently.
+PASS: All 44 falling bodies remain finite during the stress check.
+PASS: Reset immediately restores all 44 bodies after mass destruction.
+PASS: Falling restores the map and respawns the player on a repaired square.
+PASS: Escape pauses the hanging map and disables player input.
+PASS: Continue restores the game and player input.
+PASS: All 2D joints preserve their rope length after recovery.
+COMPLETE

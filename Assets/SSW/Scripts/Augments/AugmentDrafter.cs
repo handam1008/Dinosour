@@ -19,6 +19,9 @@ namespace SSW
         readonly List<Augment> _owned = new List<Augment>();
         AugmentDraftUIBase _openDraft;
         PlayerIdentity _identity;
+        bool _networked;
+
+        public void BindNetwork() => _networked = true;
 
         public IReadOnlyList<Augment> Owned => _owned;
 
@@ -29,6 +32,7 @@ namespace SSW
 
         void Update()
         {
+            if (_networked) return;
             if (_openDraft != null) return;
             if (Keyboard.current == null) return;
             if (Keyboard.current.pKey.wasPressedThisFrame) OpenCommonDraft();
@@ -52,6 +56,7 @@ namespace SSW
 
         void OpenDraft(bool includeJobReward)
         {
+            if (_networked) return;
             if (_openDraft != null) return;
 
             GameObject prefab = Resources.Load<GameObject>(_draftUIResourceName);
@@ -104,6 +109,11 @@ namespace SSW
         }
 
         public bool TryGrant(Augment augment)
+        {
+            return !_networked && ApplyGrant(augment);
+        }
+
+        internal bool ApplyGrant(Augment augment)
         {
             if (augment == null || _owned.Contains(augment) || !IsEligible(augment))
                 return false;

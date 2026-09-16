@@ -30,6 +30,13 @@ namespace SSW
         MagicianAugmentController _augments;
         bool _inactiveUIHidden;
 
+        public void ShowSuit(Suit suit, bool visible)
+        {
+            _renderer.sprite = _suitSprites[(int)suit];
+            SetAlphaInstant(_renderer, visible ? 1f : 0f);
+            _anchor.localPosition = new Vector3(-_lockedOffset, 0f, 0f);
+        }
+
         public Suit CurrentSuit => (Suit)_index;
         public bool IsRolling => _rolling;
         public override PlayerJob Job => PlayerJob.Magician;
@@ -62,6 +69,7 @@ namespace SSW
 
         void OnCycleSuit(InputValue value)
         {
+            if (!enabled) return;
             if (!IsJobActive)
             {
                 HideForInactiveJob();

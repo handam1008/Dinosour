@@ -8,6 +8,8 @@ namespace SSW
     {
         [SerializeField] JobRewardPanelUI _jobRewardPanel;
 
+        public bool PausesGame { get; set; } = true;
+
         protected JobRewardPanelUI JobRewardPanel => _jobRewardPanel;
 
         public abstract void Show(Augment[] choices, System.Action<Augment> onSelected);

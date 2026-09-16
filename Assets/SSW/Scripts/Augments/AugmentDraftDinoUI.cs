@@ -82,7 +82,7 @@ namespace SSW
             _picking = false;
             _rewardHovered = false;
             _dinoReady = false;
-            Time.timeScale = 0f;
+            if (PausesGame) Time.timeScale = 0f;
 
             if (JobRewardPanel != null)
             {
@@ -350,7 +350,7 @@ namespace SSW
             seq.AppendInterval(_closeDuration * 1.7f);
             seq.AppendCallback(() =>
             {
-                Time.timeScale = 1f;
+                if (PausesGame) Time.timeScale = 1f;
                 _onSelected?.Invoke(picked.Augment);
                 Destroy(gameObject);
             });
