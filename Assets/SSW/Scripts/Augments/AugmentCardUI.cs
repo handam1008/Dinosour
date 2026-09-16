@@ -28,6 +28,8 @@ namespace SSW
         bool _slotCaptured;
 
         public Augment Augment => _augment;
+        public bool ReadOnly { get; set; }
+        public bool Locked => _locked;
         public float HoverScale => _hoverScale;
         public float HalfHeight => ((RectTransform)transform).rect.height * 0.5f;
         public event System.Action<AugmentCardUI> HoverEntered;
@@ -138,24 +140,29 @@ namespace SSW
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (_locked) return;
-            transform.DOKill();
-            transform.DOScale(_hoverScale, _hoverDuration).SetUpdate(true);
+            if (_locked || ReadOnly) return;
+            PreviewHover(true);
             HoverEntered?.Invoke(this);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (_locked) return;
-            transform.DOKill();
-            transform.DOScale(1f, _hoverDuration).SetUpdate(true);
+            if (_locked || ReadOnly) return;
+            PreviewHover(false);
             HoverExited?.Invoke(this);
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (_locked) return;
+            if (_locked || ReadOnly) return;
             _onClick?.Invoke(this);
+        }
+
+        public void PreviewHover(bool hovered)
+        {
+            if (_locked) return;
+            transform.DOKill();
+            transform.DOScale(hovered ? _hoverScale : 1f, _hoverDuration).SetUpdate(true);
         }
     }
 }

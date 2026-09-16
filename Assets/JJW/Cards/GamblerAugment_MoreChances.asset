@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f7728e03b5ee3946853972dab511ea2, type: 3}
+  m_Name: GamblerAugment_MoreChances
+  m_EditorClassIdentifier: Assembly-CSharp::JJW.Script.Augments.GamblerAugment
+  displayName: "\uB354 \uB9CE\uC740 \uAE30\uD68C"
+  description: "\uD0C4\uCC3D\uC758 \uBAA8\uB4E0 \uB3D9\uC804\uC774 \uB8F0\uB81B \uB3D9\uC804\uC73C\uB85C
+    \uBC14\uB00C\uC9C0\uB9CC \uC7AD\uD31F \uD655\uB960\uC774 \uB0AE\uC544\uC9D1\uB2C8\uB2E4."
+  icon: {fileID: 0}
+  type: 9

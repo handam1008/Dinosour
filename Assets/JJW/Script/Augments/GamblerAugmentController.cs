@@ -1,15 +1,20 @@
+using System;
 using System.Collections.Generic;
 using SSW;
 using UnityEngine;
 
 namespace JJW.Script.Augments
 {
-     [DisallowMultipleComponent]
-    public class GamblerAugmentController : AugmentReceiverBehaviour, IAugmentCooldownProvider
+    [DisallowMultipleComponent]
+    public class GamblerAugmentController
+        : AugmentReceiverBehaviour, IAugmentCooldownProvider
     {
-        private readonly HashSet<GamblerAugmentType> acquired = new HashSet<GamblerAugmentType>();
+        private readonly HashSet<GamblerAugmentType> acquired
+            = new HashSet<GamblerAugmentType>();
 
         private JobAugmentHUD augmentHud;
+
+        public event Action<GamblerAugmentType> AugmentAcquired;
 
         public override PlayerJob Job => PlayerJob.Gambler;
 
@@ -24,6 +29,7 @@ namespace JJW.Script.Augments
             {
                 EnsureAugmentHud();
                 augmentHud.AddAugment(gamblerAugment);
+                AugmentAcquired?.Invoke(gamblerAugment.type);
             }
 
             return true;
@@ -74,8 +80,8 @@ namespace JJW.Script.Augments
 
                 if (augmentHud == null)
                 {
-                    augmentHud
-                        = hudOwner.AddComponent<JobAugmentHUD>();
+                    augmentHud =
+                        hudOwner.AddComponent<JobAugmentHUD>();
                 }
             }
 

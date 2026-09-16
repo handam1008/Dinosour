@@ -9,6 +9,9 @@ namespace SSW
         [SerializeField] JobRewardPanelUI _jobRewardPanel;
 
         public bool PausesGame { get; set; } = true;
+        public event System.Action<Augment> Picked;
+
+        protected void NotifyPicked(Augment augment) => Picked?.Invoke(augment);
 
         protected JobRewardPanelUI JobRewardPanel => _jobRewardPanel;
 

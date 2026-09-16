@@ -1,27 +1,37 @@
+using System;
 using System.Collections;
 using JJW.Script.Jackpot;
 using SSW;
 using UnityEngine;
 
-public class StarJackpot : MonoBehaviour
+public class StarJackpot
+    : MonoBehaviour, IIncomingDamageModifier
 {
     private JackpotDivision division;
-    private Health health;
-    private Coroutine starCoroutine;
-    private float originalMaxHealth;
-    private bool hasOriginalMaxHealth;
+    private Coroutine invincibleCoroutine;
+
+    public bool IsInvincible { get; private set; }
+
+    public int Priority => 10000;
+
+    public event Action<float> InvincibilityStarted;
+    public event Action InvincibilityEnded;
 
     private void Awake()
     {
         division = GetComponent<JackpotDivision>();
-        health = GetComponent<Health>();
+
+        if (division == null)
+        {
+            division = GetComponentInParent<JackpotDivision>();
+        }
     }
 
     private void OnEnable()
     {
         if (division != null)
         {
-            division.StarJackpot += OnStar;
+            division.StarJackpot += StartInvincibility;
         }
     }
 
@@ -29,58 +39,65 @@ public class StarJackpot : MonoBehaviour
     {
         if (division != null)
         {
-            division.StarJackpot -= OnStar;
+            division.StarJackpot -= StartInvincibility;
         }
 
-        StopStar();
+        StopInvincibility();
     }
 
-    private void OnStar(float cooldown)
+    public float ModifyIncomingDamage(
+        DamageRequest request,
+        float currentAmount)
     {
-        StopStar();
+        if (IsInvincible)
+        {
+            return 0f;
+        }
 
-        if (health == null)
+        return currentAmount;
+    }
+
+    private void StartInvincibility(float duration)
+    {
+        if (invincibleCoroutine != null)
+        {
+            StopCoroutine(invincibleCoroutine);
+        }
+
+        IsInvincible = true;
+        InvincibilityStarted?.Invoke(duration);
+
+        invincibleCoroutine =
+            StartCoroutine(InvincibilityCoroutine(duration));
+    }
+
+    private IEnumerator InvincibilityCoroutine(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        invincibleCoroutine = null;
+        EndInvincibility();
+    }
+
+    private void StopInvincibility()
+    {
+        if (invincibleCoroutine != null)
+        {
+            StopCoroutine(invincibleCoroutine);
+            invincibleCoroutine = null;
+        }
+
+        EndInvincibility();
+    }
+
+    private void EndInvincibility()
+    {
+        if (!IsInvincible)
         {
             return;
         }
 
-        originalMaxHealth = health.maxHealth;
-        hasOriginalMaxHealth = true;
-
-        health.maxHealth = 10000000000000f;
-
-        starCoroutine = StartCoroutine(StarCoroutine(cooldown));
+        IsInvincible = false;
+        InvincibilityEnded?.Invoke();
     }
-
-    private IEnumerator StarCoroutine(float cooldown)
-    {
-        yield return new WaitForSeconds(cooldown);
-
-        RestoreMaxHealth();
-        starCoroutine = null;
-    }
-
-    private void RestoreMaxHealth()
-    {
-        if (!hasOriginalMaxHealth || health == null)
-        {
-            return;
-        }
-
-        health.maxHealth = originalMaxHealth;
-        hasOriginalMaxHealth = false;
-    }
-
-    private void StopStar()
-    {
-        if (starCoroutine != null)
-        {
-            StopCoroutine(starCoroutine);
-            starCoroutine = null;
-        }
-
-        RestoreMaxHealth();
-    }
-    // 셋  엑티브로 샌드백으로 켰다 껐다 핫기
-    
 }

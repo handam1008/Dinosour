@@ -12,8 +12,16 @@
   <component name="ChangeListManager">
     <list default="true" id="6fb1d2c4-7096-4d2f-81e7-2333f2fed1f9" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/JJW/Cards/GamblerAugmentPool.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Cards/GamblerAugmentPool.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/JJW/Scene/Gamblinger.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Scene/Gamblinger.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/Augments/GamblerAugmentController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/Augments/GamblerAugmentController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/GamblerCoinProjectile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/GamblerCoinProjectile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/GamblerCoinShooter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/GamblerCoinShooter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/GamblerMagazine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/GamblerMagazine.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/DamageUpjackpot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/DamageUpjackpot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/Jackpot777.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/Jackpot777.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/JackpotDivision.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/JackpotDivision.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/StarJackpot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/StarJackpot.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +32,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/de1f8ef4975b4eacbeb0accc1b22c9b02a000/0f/145b9a7d/ShortcutExtensions.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d44b17e136d09081da1e8fd0e8c83fde60e11818b9f2442d7ed8cb733fae895e/System.Collections.Generic.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/JJW/Script/Augments/Gambler777AugmentEffects.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/JJW/Script/GamblerCoinUpgradeEffects.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/NKY/Lib/EventChannel/EventChannelAsset/GameObjectEventChannelSO.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/NKY/Lib/EventChannel/EventChannelAsset/IntEventChannelSO.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/NKY/Lib/EventChannel/EventListener.cs" root0="FORCE_HIGHLIGHTING" />
@@ -165,7 +174,7 @@
     "cidr.known.project.marker": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "RYU",
+    "git-widget-placeholder": "JJW",
     "junie.onboarding.icon.badge.shown": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
