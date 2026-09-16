@@ -82,7 +82,7 @@ namespace SSW
             _picking = false;
             _rewardHovered = false;
             _dinoReady = false;
-            Time.timeScale = 0f;
+            if (PausesGame) Time.timeScale = 0f;
 
             if (JobRewardPanel != null)
             {
@@ -304,6 +304,7 @@ namespace SSW
         {
             if (_picking) return;
             _picking = true;
+            NotifyPicked(picked.Augment);
             _rewardHovered = false;
             ++_motionVersion;
 
@@ -326,7 +327,7 @@ namespace SSW
             FaceTowards(landPos.x);
             SetPose(true, false);
 
-            Sequence seq = DOTween.Sequence().SetUpdate(true);
+            Sequence seq = DOTween.Sequence().SetUpdate(true).SetLink(gameObject);
             seq.Append(_dino.DOAnchorPos(new Vector2(landPos.x, landY + _stompRise), _stompDuration * 0.45f).SetEase(Ease.OutQuad));
             seq.Join(_dino.DOScale(new Vector3(_facing * 0.8f, 1.3f, 1f), _stompDuration * 0.45f));
             seq.AppendInterval(0.06f);
@@ -350,7 +351,7 @@ namespace SSW
             seq.AppendInterval(_closeDuration * 1.7f);
             seq.AppendCallback(() =>
             {
-                Time.timeScale = 1f;
+                if (PausesGame) Time.timeScale = 1f;
                 _onSelected?.Invoke(picked.Augment);
                 Destroy(gameObject);
             });
@@ -452,6 +453,8 @@ namespace SSW
         void OnDestroy()
         {
             KillDinoSeq();
+            _group.DOKill();
+            _title.DOKill();
             if (_dino != null) _dino.DOKill();
             if (JobRewardPanel == null) return;
             JobRewardPanel.HoverEntered -= HandleJobRewardHoverEntered;

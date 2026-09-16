@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 namespace SSW
 {
     public static class CombatDamage
     {
+        static bool CanDeal => NetworkManager.Singleton == null || !NetworkManager.Singleton.IsListening
+            || NetworkManager.Singleton.IsServer && NetGame.Current != null && NetGame.Current.CanFight;
+
         public static bool TryDeal(Component source, IDamageable target, float baseAmount)
         {
             return TryDeal(source, target, baseAmount, false);
@@ -13,7 +17,7 @@ namespace SSW
 
         public static bool TryDeal(Component source, IDamageable target, float baseAmount, bool isCritical)
         {
-            if (target == null || baseAmount <= 0f)
+            if (!CanDeal || target == null || !float.IsFinite(baseAmount) || baseAmount <= 0f)
                 return false;
 
             Deal(source, target, baseAmount, DamageTag.None, isCritical);
@@ -27,7 +31,7 @@ namespace SSW
             DamageTag tags = DamageTag.None,
             bool isCritical = false)
         {
-            if (target == null || baseAmount <= 0f)
+            if (!CanDeal || target == null || !float.IsFinite(baseAmount) || baseAmount <= 0f)
                 return new DamageResult(0f, 0f, false);
 
             float amount = Resolve(source, baseAmount);

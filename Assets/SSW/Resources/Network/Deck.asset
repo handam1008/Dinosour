@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e39475aa0671e14eb802d116be40c6a, type: 3}
+  m_Name: Deck
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.NetDeck
+  _augments:
+  - {fileID: 11400000, guid: eb54091e9e89f984a85090d8d59ae8cd, type: 2}
+  - {fileID: 11400000, guid: 8050f048b96b0104ba1e0d1d0846d2e2, type: 2}
+  - {fileID: 11400000, guid: 8dc9a0c55a0e6204b8a30848ffc377cb, type: 2}
+  - {fileID: 11400000, guid: 673ef6ed50ddb144f99017f4f10eb59b, type: 2}
+  - {fileID: 11400000, guid: 9534dd98b3f33b745896c179bfdbc121, type: 2}
+  - {fileID: 11400000, guid: 707f8c281081b8f499ded71e9cfa5d48, type: 2}
+  - {fileID: 11400000, guid: dacefb0b8dbd45841b519ba68fdce53f, type: 2}
+  - {fileID: 11400000, guid: 023d3d3c1bac2ce478a2212497c034ef, type: 2}
+  - {fileID: 11400000, guid: a912b3574c71c0341979b570e8301d67, type: 2}
+  - {fileID: 11400000, guid: ef34dfdf8d28b1e42aaece401a5dfad9, type: 2}
+  - {fileID: 11400000, guid: e16d23c2b6816704bb30002962c7e899, type: 2}
+  - {fileID: 11400000, guid: b54e097dbbaa5f7459bcaaf670aea6d9, type: 2}
+  - {fileID: 11400000, guid: 293094bf47db4514a837fb3cc88e42f8, type: 2}
+  - {fileID: 11400000, guid: 4b3c49eb8b11f354d93242013a3da7d6, type: 2}
+  - {fileID: 11400000, guid: 8698b17fe7a1fe14389b3b86026f312e, type: 2}
+  - {fileID: 11400000, guid: 7e3fae5bcdba1d442b06fe8d96f4c014, type: 2}
+  - {fileID: 11400000, guid: 6a47109ccae724c47b67c963ab446cb1, type: 2}
+  - {fileID: 11400000, guid: 8025a2b15567c684dafbf00f1dacf080, type: 2}
+  - {fileID: 11400000, guid: 38060475b7232d04d9218d253016a4e7, type: 2}
+  - {fileID: 11400000, guid: 383a5d1150a87e047afbb932516580c2, type: 2}
+  - {fileID: 11400000, guid: 0aef6835164235b47b86fc07066dcc5d, type: 2}
+  - {fileID: 11400000, guid: a0dafd1c282d3a041af963e158af5c8a, type: 2}

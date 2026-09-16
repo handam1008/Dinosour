@@ -1,0 +1,22 @@
+PASS: Crate: the registered practice scene loads the selected map.
+PASS: Crate: player spawns on walkable ground.
+PASS: Crate: the real player capsule reaches the first step with the existing jump.
+PASS: Crate: a FlyingCard collision breaks the bridge and removes its collider.
+PASS: Crate: the bridge restores after seven seconds.
+PASS: Crate: a bridge does not rebuild through a player.
+PASS: Crate: reset restores every bridge.
+PASS: Wind: the registered practice scene loads the selected map.
+PASS: Wind: the air current lifts the real player through the upper one-way shelf.
+PASS: Wind: shooting the switch turns the current off.
+PASS: Wind: a disabled current does not lift the player.
+PASS: Wind: reset turns the air current back on.
+PASS: Maps: falling outside the arena returns the player to a safe spawn.
+PASS: Maps: the existing picker lists the three new maps and pauses correctly.
+PASS: Maps: closing the picker restores simulation speed.
+PASS: Crate: the registered practice scene loads the selected map.
+PASS: Projectiles: damageable switches still receive shots after trigger filtering.
+PASS: Wind: the registered practice scene loads the selected map.
+PASS: Projectiles: shots pass through the wind trigger.
+PASS: Projectiles: solid ground still stops missed shots.
+PASS: Crate: the registered practice scene loads the selected map.
+COMPLETE

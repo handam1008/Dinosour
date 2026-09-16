@@ -33,7 +33,7 @@ namespace SSW
         bool _isMirror;
         bool _returning;
         bool _consumed;
-        bool _visualOnly;
+        IShotLife _life;
 
         public void Configure(Suit suit, int number, IHealable casterHealth)
         {
@@ -70,9 +70,9 @@ namespace SSW
             _isMirror = true;
         }
 
-        public void MarkVisualOnly()
+        public void SetLife(IShotLife life)
         {
-            _visualOnly = true;
+            _life = life;
         }
 
         void Awake()
@@ -104,12 +104,13 @@ namespace SSW
             IDamageable damageable = other.GetComponentInParent<IDamageable>();
             if (damageable == null)
             {
-                if (_returning) return;
+                if (_returning || other.isTrigger) return;
 
                 if (_feedback != null)
                 {
                     Vector2 impactPoint = other.ClosestPoint(transform.position);
                     _feedback.PlayEnvironmentImpact(impactPoint);
+                    _life?.Impact(impactPoint, 0f);
                 }
 
                 HandleMiss();
@@ -118,32 +119,12 @@ namespace SSW
 
             if (IsCaster(damageable)) return;
 
-            if (_visualOnly)
-            {
-                _consumed = true;
-                Component targetComponent = damageable as Component;
-                if (_feedback != null)
-                {
-                    _feedback.PlayTargetFlash(targetComponent);
-                    _feedback.PlayImpact(other.ClosestPoint(transform.position), 0f);
-                }
-                DestroyCard();
-                return;
-            }
-
             HitTarget(other, damageable);
         }
 
         void HandleMiss()
         {
             if (_consumed) return;
-
-            if (_visualOnly)
-            {
-                _consumed = true;
-                DestroyCard();
-                return;
-            }
 
             if (!_returning && !_isMirror && _caster != null && _augments != null && _augments.Has(MagicianAugmentType.ReturnCard))
             {
@@ -222,6 +203,7 @@ namespace SSW
                 Vector2 impactPoint = other.ClosestPoint(transform.position);
                 bool hasDiamondExplosion = _suit == Suit.Diamond || jokerBonusSuit == Suit.Diamond;
                 _feedback.PlayImpact(impactPoint, hasDiamondExplosion ? GetDiamondRadius() : 0f);
+                _life?.Impact(impactPoint, hasDiamondExplosion ? GetDiamondRadius() : 0f);
             }
 
             DestroyCard();
@@ -230,7 +212,8 @@ namespace SSW
         void DestroyCard()
         {
             if (_feedback != null) _feedback.ReleaseTrail();
-            Destroy(gameObject);
+            if (_life != null) _life.Finish();
+            else Destroy(gameObject);
         }
 
         void ApplySuitEffect(Suit suit, Collider2D target, IDamageable damageable, float effectMul, float damageScale)

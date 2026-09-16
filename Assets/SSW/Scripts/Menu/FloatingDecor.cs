@@ -16,11 +16,13 @@ namespace SSW
             rt.DOAnchorPosY(rt.anchoredPosition.y + _bobDistance, _bobDuration)
                 .SetLoops(-1, LoopType.Yoyo)
                 .SetEase(Ease.InOutSine)
-                .SetDelay(_startDelay);
+                .SetDelay(_startDelay)
+                .SetLink(gameObject, LinkBehaviour.KillOnDestroy);
             rt.DOLocalRotate(new Vector3(0f, 0f, _tiltAngle), _bobDuration * 1.3f)
                 .SetLoops(-1, LoopType.Yoyo)
                 .SetEase(Ease.InOutSine)
-                .SetDelay(_startDelay * 0.5f);
+                .SetDelay(_startDelay * 0.5f)
+                .SetLink(gameObject, LinkBehaviour.KillOnDestroy);
         }
     }
 }

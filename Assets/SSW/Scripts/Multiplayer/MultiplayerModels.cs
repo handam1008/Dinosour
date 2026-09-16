@@ -39,9 +39,4 @@ namespace SSW
         public bool HiddenFromList { get; }
     }
 
-    public interface IHealthNetworkBridge
-    {
-        bool TryForwardDamage(DamageRequest request, out DamageResult pendingResult);
-        bool TryForwardHeal(float amount);
-    }
 }
