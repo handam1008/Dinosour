@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using JJW.Script.Augments;
 using UnityEngine;
 public enum GamblerCoinType
 {
@@ -10,8 +11,10 @@ public class GamblerMagazine : MonoBehaviour
 {
    [SerializeField, Min(1)] private int magazineSize = 3;
     [SerializeField, Min(0f)] private float reloadTime = 1.5f;
+    [SerializeField] private GamblerAugmentController augmentController;
 
-    private readonly Queue<GamblerCoinType> magazine = new Queue<GamblerCoinType>();
+    private readonly Queue<GamblerCoinType> magazine
+        = new Queue<GamblerCoinType>();
 
     private float reloadFinishTime;
     private bool isWaitingForReload;
@@ -26,7 +29,37 @@ public class GamblerMagazine : MonoBehaviour
     private void Awake()
     {
         magazineSize = Mathf.Max(1, magazineSize);
+
+        if (augmentController == null)
+        {
+            augmentController = GetComponentInParent<GamblerAugmentController>();
+        }
+
         Reload();
+    }
+
+    private void OnEnable()
+    {
+        if (augmentController != null)
+        {
+            augmentController.AugmentAcquired += OnAugmentAcquired;
+        }
+    }
+
+    private void Start()
+    {
+        if (HasMoreChances())
+        {
+            Reload();
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (augmentController != null)
+        {
+            augmentController.AugmentAcquired -= OnAugmentAcquired;
+        }
     }
 
     private void Update()
@@ -83,24 +116,57 @@ public class GamblerMagazine : MonoBehaviour
     {
         magazine.Clear();
 
-        int roulettePosition = UnityEngine.Random.Range(0, magazineSize);
-
-        for (int i = 0; i < magazineSize; i++)
+        if (HasMoreChances())
         {
-            if (i == roulettePosition)
-            {
-                magazine.Enqueue(GamblerCoinType.Roulette);
-            }
-            else
-            {
-                magazine.Enqueue(GamblerCoinType.Normal);
-            }
+            FillWithRouletteCoins();
+        }
+        else
+        {
+            FillNormalMagazine();
         }
 
         isWaitingForReload = false;
 
         AmmoChanged?.Invoke(magazine.Count, magazineSize);
         Reloaded?.Invoke();
+    }
+
+    private void FillWithRouletteCoins()
+    {
+        for (int i = 0; i < magazineSize; i++)
+        {
+            magazine.Enqueue(GamblerCoinType.Roulette);
+        }
+    }
+
+    private void FillNormalMagazine()
+    {
+        int roulettePosition = UnityEngine.Random.Range(
+            0,
+            magazineSize);
+
+        for (int i = 0; i < magazineSize; i++)
+        {
+            GamblerCoinType coinType =
+                i == roulettePosition
+                    ? GamblerCoinType.Roulette
+                    : GamblerCoinType.Normal;
+
+            magazine.Enqueue(coinType);
+        }
+    }
+
+    private bool HasMoreChances()
+    {
+        return augmentController != null && augmentController.Has(GamblerAugmentType.MoreChances);
+    }
+
+    private void OnAugmentAcquired(GamblerAugmentType type)
+    {
+        if (type == GamblerAugmentType.MoreChances)
+        {
+            Reload();
+        }
     }
 
     private void TryCompleteReload()
