@@ -108,3 +108,8 @@ InitTestScene*.unity*
 
 # Local Codex planning and evidence
 /.omo/
+
+
+# Secrets - never commit
+/Assets/RYU/Secrets/
+/Assets/RYU/Secrets.meta

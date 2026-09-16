@@ -6,12 +6,18 @@ namespace SSW
 {
     public sealed class NetMatch : NetworkBehaviour
     {
+        [SerializeField, Min(0.5f)] float _roundPause = 2f;
+        [SerializeField, Min(0.5f)] float _readyPause = 1.5f;
         readonly NetworkVariable<MatchState> _state = new NetworkVariable<MatchState>();
         readonly HashSet<ulong> _shown = new HashSet<ulong>();
         double _introEnd;
         bool _checkDeath;
+        double _nextRound;
+        IRoundField _field;
         public MatchState State => _state.Value;
         public bool Playing => State.Phase == MatchPhase.Playing;
+
+        public void Bind(IRoundField field) => _field = field;
 
         public override void OnNetworkSpawn()
         {
@@ -25,7 +31,12 @@ namespace SSW
             if (!IsServer || State.Phase != MatchPhase.Waiting) return;
             _shown.Clear();
             _introEnd = Time.unscaledTimeAsDouble + NetGame.Current.IntroDuration;
-            _state.Value = new MatchState { Phase = MatchPhase.Intro };
+            _state.Value = new MatchState
+            {
+                Phase = MatchPhase.Intro, Round = 1, Set = 1,
+                First = NetGame.Current.Players[0].OwnerClientId,
+                Second = NetGame.Current.Players[1].OwnerClientId
+            };
         }
 
         public void IntroShown()
@@ -44,9 +55,39 @@ namespace SSW
 
         void Update()
         {
-            if (!IsServer || State.Phase != MatchPhase.Intro || _shown.Count != 2) return;
+            if (!IsServer) return;
+            if (State.Phase == MatchPhase.RoundEnd || State.Phase == MatchPhase.SetEnd)
+            {
+                if (Time.unscaledTimeAsDouble < _nextRound) return;
+                if (Rounds.Complete(State)) Finish(State.Winner, State.Reason);
+                else
+                {
+                    bool setEnded = State.Phase == MatchPhase.SetEnd;
+                    _checkDeath = false;
+                    _field.ResetRound();
+                    if (setEnded)
+                    {
+                        MatchState state = Rounds.NextSet(State);
+                        _state.Value = state;
+                        foreach (NetPlayer player in NetGame.Current.Players)
+                        {
+                            if (player.OwnerClientId == state.Winner) continue;
+                            int losses = player.OwnerClientId == state.First ? state.SecondSets : state.FirstSets;
+                            player.Draft.Deal(Rounds.JobReward(losses));
+                        }
+                    }
+                    else Ready();
+                }
+                return;
+            }
+            if (State.Phase == MatchPhase.Countdown)
+            {
+                if (Time.unscaledTimeAsDouble >= _nextRound) SetPhase(MatchPhase.Playing);
+                return;
+            }
+            if (State.Phase != MatchPhase.Intro || _shown.Count != 2) return;
             if (Time.unscaledTimeAsDouble < _introEnd) return;
-            _state.Value = new MatchState { Phase = MatchPhase.Draft };
+            SetPhase(MatchPhase.Draft);
             foreach (NetPlayer player in NetGame.Current.Players) player.Draft.Deal();
         }
 
@@ -55,7 +96,23 @@ namespace SSW
             if (!IsServer || State.Phase != MatchPhase.Draft) return;
             foreach (NetPlayer player in NetGame.Current.Players)
                 if (!player.Draft.Ready) return;
-            _state.Value = new MatchState { Phase = MatchPhase.Playing };
+            Ready();
+        }
+
+        void Ready()
+        {
+            MatchState state = State;
+            state.Round = (byte)(state.FirstWins + state.SecondWins + 1);
+            state.Phase = MatchPhase.Countdown;
+            _nextRound = Time.unscaledTimeAsDouble + _readyPause;
+            _state.Value = state;
+        }
+
+        void SetPhase(MatchPhase phase)
+        {
+            MatchState state = State;
+            state.Phase = phase;
+            _state.Value = state;
         }
 
         public void CheckDeath()
@@ -79,7 +136,9 @@ namespace SSW
                 alive++;
                 winner = player.OwnerClientId;
             }
-            if (alive < 2) Finish(winner, alive == 0 ? MatchEnd.Draw : MatchEnd.Knockout);
+            if (alive >= 2) return;
+            _nextRound = Time.unscaledTimeAsDouble + _roundPause;
+            _state.Value = Rounds.Award(State, winner, alive == 0);
         }
 
         public void Forfeit(ulong client)
@@ -95,7 +154,11 @@ namespace SSW
 
         void Finish(ulong winner, MatchEnd reason)
         {
-            _state.Value = new MatchState { Phase = MatchPhase.Finished, Winner = winner, Reason = reason };
+            MatchState state = State;
+            state.Phase = MatchPhase.Finished;
+            state.Winner = winner;
+            state.Reason = reason;
+            _state.Value = state;
         }
 
         void Changed(MatchState previous, MatchState current)

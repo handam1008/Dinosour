@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GamblerCoinShooter : MonoBehaviour, ICoinDamageUp
 {
-    [Header("References")]
+     [Header("References")]
     [SerializeField] private GamblerMouseAim mouseAim;
     [SerializeField] private GamblerCoinPool coinPool;
     [SerializeField] private GamblerMagazine magazine;
@@ -15,11 +15,10 @@ public class GamblerCoinShooter : MonoBehaviour, ICoinDamageUp
     [SerializeField, Min(0f)] private float spawnOffset = 0.15f;
     [SerializeField] private float coinDamage = 10f;
     [SerializeField] private float damageMultiplier = 1f;
-    
-    public float DamageMultiplier => damageMultiplier;
-    
 
     private float nextFireTime;
+
+    public float DamageMultiplier => damageMultiplier;
 
     public event Action<GamblerCoinProjectile> CoinFired;
     public event Action RouletteCoinFired;
@@ -43,14 +42,9 @@ public class GamblerCoinShooter : MonoBehaviour, ICoinDamageUp
 
         if (owner == null)
         {
-            if (transform.parent != null)
-            {
-                owner = transform.parent;
-            }
-            else
-            {
-                owner = transform;
-            }
+            owner = transform.parent != null
+                ? transform.parent
+                : transform;
         }
     }
 
@@ -61,44 +55,53 @@ public class GamblerCoinShooter : MonoBehaviour, ICoinDamageUp
             return false;
         }
 
-        if (mouseAim == null || coinPool == null || magazine == null)
+        if (mouseAim == null
+            || coinPool == null
+            || magazine == null)
         {
             return false;
         }
 
-        if (!magazine.TryPeekNext(out GamblerCoinType nextCoinType))
+        if (!magazine.TryPeekNext(
+                out GamblerCoinType nextCoinType))
         {
             return false;
         }
 
-        if (!mouseAim.TryGetFireDirection(out Vector2 direction))
+        if (!mouseAim.TryGetFireDirection(
+                out Vector2 direction))
         {
             return false;
         }
 
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Vector3 spawnPosition = transform.position + (Vector3)(direction * spawnOffset);
+        float angle =
+            Mathf.Atan2(direction.y, direction.x)
+            * Mathf.Rad2Deg;
+
+        Vector3 spawnPosition =
+            transform.position
+            + (Vector3)(direction * spawnOffset);
 
         GamblerCoinProjectile coin = coinPool.Get(
             nextCoinType,
             spawnPosition,
-            Quaternion.Euler(0f, 0f, angle - 90f)
-        );
+            Quaternion.Euler(0f, 0f, angle - 90f));
 
         if (coin == null)
         {
             return false;
         }
-        
+
         coin.Init(coinDamage, damageMultiplier);
 
-        if (!magazine.TryTakeNext(out GamblerCoinType firedCoinType))
+        if (!magazine.TryTakeNext(
+                out GamblerCoinType firedCoinType))
         {
             coinPool.Release(coin);
             return false;
         }
 
-        coin.Initialize(direction, owner, coinPool.Release);
+        coin.Initialize(direction, owner, this, coinPool.Release);
 
         nextFireTime = Time.time + fireCooldown;
 
@@ -111,9 +114,9 @@ public class GamblerCoinShooter : MonoBehaviour, ICoinDamageUp
 
         return true;
     }
-    
+
     public void CoinDamageUp(float amount)
     {
-        damageMultiplier = amount;//슈터으르 대미지업으로 보내주서 . 함수로 해준다
+        damageMultiplier = amount;
     }
 }

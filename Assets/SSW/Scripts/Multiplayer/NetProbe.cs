@@ -26,9 +26,18 @@ namespace SSW
             public string job;
             public string name;
             public bool draftView;
+            public bool spectating;
+            public bool portraitRight;
+            public int hover;
+            public Vector2 cursor;
+            public int trail;
+            public Vector3Int watchOffer;
+            public int watchPick;
             public float hp;
             public float max;
             public Vector2 position;
+            public Vector2 viewPosition;
+            public bool viewLinked;
             public Vector2 velocity;
             public Vector3 viewport;
             public Vector2 aim;
@@ -37,6 +46,7 @@ namespace SSW
             public int animation;
             public bool owner;
             public bool ready;
+            public bool draftUnlocked;
             public Vector3Int offer;
             public int[] augments;
             public int potion;
@@ -48,12 +58,15 @@ namespace SSW
             public ulong id;
             public string type;
             public Vector2 position;
+
             public int rank;
             public int kind;
         }
 
         [Serializable] sealed class Snapshot
         {
+            public float viewDelay;
+            public float bodyDelay;
             public int seq;
             public string error;
             public bool listening;
@@ -66,8 +79,22 @@ namespace SSW
             public bool canResume;
             public string title;
             public string phase;
+            public bool draftStatus;
+            public string draftLabel;
+            public bool wipe;
+            public string wipeTitle;
             public string reason;
             public ulong winner;
+            public byte round;
+            public byte firstWins;
+            public byte secondWins;
+            public ulong first;
+            public ulong second;
+            public byte set;
+            public byte firstSets;
+            public byte secondSets;
+            public byte firstMarks;
+            public byte secondMarks;
             public float timeScale;
             public float time;
             public bool intro;
@@ -78,6 +105,12 @@ namespace SSW
             public ShotState[] shots;
         }
 
+        float _measureAt;
+        float _viewDelay = -1f;
+        float _bodyDelay = -1f;
+        Vector2 _viewStart;
+        Vector2 _bodyStart;
+        bool _measuring;
         bool _watch;
         bool _captured;
         float _introAt = -1f;
@@ -101,6 +134,13 @@ namespace SSW
 
         void Update()
         {
+            if (_measuring && NetGame.Current.Local != null)
+            {
+                NetPlayer player = NetGame.Current.Local;
+                if (_viewDelay < 0f && Vector2.Distance(player.GetComponentInChildren<DinosaurVisualController>().transform.position, _viewStart) > 0.035f) _viewDelay = Time.unscaledTime - _measureAt;
+                if (_bodyDelay < 0f && Vector2.Distance(player.Body.position, _bodyStart) > 0.035f) _bodyDelay = Time.unscaledTime - _measureAt;
+                if (_viewDelay >= 0f && _bodyDelay >= 0f) _measuring = false;
+            }
             if (_path == null || Time.unscaledTime < _next) return;
             _next = Time.unscaledTime + 0.1f;
             try
@@ -131,6 +171,30 @@ namespace SSW
             switch (command.op)
             {
                 case "watch": _watch = true; _captured = false; _introAt = -1f; break;
+                case "lag":
+                    var transport = (Unity.Netcode.Transports.UTP.UnityTransport)game.Manager.NetworkConfig.NetworkTransport;
+                    Unity.Networking.Transport.NetworkSimulatorParameterExtensions.ModifyNetworkSimulatorParameters(transport.GetNetworkDriver(), new Unity.Networking.Transport.NetworkSimulatorParameter
+                    {
+                        SendDelayMS = (uint)command.value, SendJitterMS = (uint)command.x, SendPacketLossPercent = command.y
+                    });
+                    break;
+                case "measure":
+                    _viewStart = local.GetComponentInChildren<DinosaurVisualController>().transform.position;
+                    _bodyStart = local.Body.position;
+                    _measureAt = Time.unscaledTime;
+                    _viewDelay = _bodyDelay = -1f;
+                    _measuring = true;
+                    if (command.value == 1) local.Jump();
+                    else local.Move(new Vector2(command.x, command.y));
+                    break;
+                case "push":
+                    foreach (NetPlayer player in game.Players)
+                        if (!player.IsOwner) player.GetComponent<PlayerController>().ApplyForce(new Vector2(command.x,command.y),ForceMode2D.Impulse);
+                    break;
+                case "slow":
+                    foreach (NetPlayer player in game.Players)
+                        if (!player.IsOwner) player.GetComponent<PlayerController>().ApplySlow(command.x,command.y);
+                    break;
                 case "move": local.Move(new Vector2(command.x, command.y)); break;
                 case "jump": local.Jump(); break;
                 case "press": local.Cast.Attack(true, new Vector2(command.x, command.y)); break;
@@ -151,6 +215,20 @@ namespace SSW
                 case "fire": local.Cast.Attack(command.value > 0, local.Aim); break;
                 case "cycle": local.Cast.Cycle(command.value > 0); break;
                 case "choose": local.Draft.Choose(command.value); break;
+                case "draftclick":
+                    if (local.Draft.View != null)
+                        local.Draft.View.GetComponentsInChildren<AugmentCardUI>(true)[command.value]
+                            .OnPointerClick(new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current));
+                    break;
+                case "watchclick":
+                    foreach (NetPlayer player in game.Players)
+                        if (!player.IsOwner && player.Draft.View != null)
+                        {
+                            player.Draft.View.GetComponentsInChildren<AugmentCardUI>(true)[command.value]
+                                .OnPointerClick(new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current));
+                            player.Draft.Choose(command.value);
+                        }
+                    break;
                 case "damage": local.Health.TakeDamage(command.value); break;
                 case "heal": local.Health.Heal(command.value); break;
                 case "remote":
@@ -199,11 +277,19 @@ namespace SSW
                 {
                     id = player.OwnerClientId, job = player.Job.ToString(), hp = player.Health.Current,
                     name = player.Info.Name.ToString(), draftView = player.Draft.HasView,
-                    max = player.Health.Max, position = player.transform.position, velocity = player.Body.linearVelocity,
+                    spectating = player.Draft.View != null && player.Draft.View.Spectating,
+                    portraitRight = player.Draft.View != null && player.Draft.View.PortraitOnRight,
+                    hover = player.Draft.View != null ? player.Draft.View.Hover : -1,
+                    cursor = player.Draft.View != null ? player.Draft.View.Cursor : -Vector2.one,
+                    trail = player.Draft.View != null ? player.Draft.View.Particles : 0,
+                    watchOffer = player.Draft.WatchPose.Offer, watchPick = player.Draft.WatchPose.Pick,
+                    max = player.Health.Max, position = player.transform.position, viewPosition = player.GetComponentInChildren<DinosaurVisualController>().transform.position, viewLinked = player.GetComponentInChildren<DinosaurVisualController>().transform.IsChildOf(player.View), velocity = player.Body.linearVelocity,
                     viewport = game.Arena.View.WorldToViewportPoint(player.transform.position),
                     aim = player.Aim, side = player.Side, labelsFaceView = LabelsFaceView(player, game.Arena.View),
                     animation = animator.GetCurrentAnimatorStateInfo(0).shortNameHash, owner = player.IsOwner,
-                    ready = player.Draft.Ready, offer = player.IsOwner ? player.Draft.Offer : default,
+                    ready = player.Draft.Ready,
+                    draftUnlocked = player.Draft.View != null && System.Array.TrueForAll(player.Draft.View.GetComponentsInChildren<AugmentCardUI>(true), card => !card.Locked),
+                    offer = player.IsOwner ? player.Draft.Offer : default,
                     augments = owned.ToArray(), potion = player.Cast.Held, rank = player.Cast.Rank
                 });
             }
@@ -221,7 +307,7 @@ namespace SSW
             MatchState state = game.State;
             Snapshot snapshot = new Snapshot
             {
-                seq = _sequence, error = _error, listening = game.Connected,
+                seq = _sequence, viewDelay = _viewDelay, bodyDelay = _bodyDelay, error = _error, listening = game.Connected,
                 server = game.Connected && game.Manager.IsServer, connected = game.Connected && game.Manager.IsConnectedClient,
                 peers = game.Connected && game.Manager.IsServer ? game.Manager.ConnectedClientsIds.Count : 0,
                 readyToStart = game.Ready, scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name,
@@ -229,11 +315,19 @@ namespace SSW
                 canResume = game.Menu != null && game.Menu.CanResume,
                 title = game.Menu != null ? game.Menu.Title : string.Empty,
                 phase = state.Phase.ToString(), reason = state.Reason.ToString(),
+                draftStatus = game.Menu != null && game.Menu.Draft.Visible,
+                draftLabel = game.Menu != null ? game.Menu.Draft.Label : "",
+                wipe = game.Menu != null && game.Menu.Wipe.Visible,
+                wipeTitle = game.Menu != null ? game.Menu.Wipe.Title : "",
                 time = Time.unscaledTime, intro = game.Intro != null,
                 introClosing = game.Intro != null && game.Intro.IsClosing,
                 leftName = game.Intro != null ? game.Intro.LeftName : "",
                 rightName = game.Intro != null ? game.Intro.RightName : "",
-                winner = state.Winner, timeScale = Time.timeScale, players = players.ToArray(), shots = shots.ToArray()
+                winner = state.Winner, timeScale = Time.timeScale, players = players.ToArray(), shots = shots.ToArray(),
+                round = state.Round, firstWins = state.FirstWins, secondWins = state.SecondWins,
+                first = state.First, second = state.Second, set = state.Set,
+                firstSets = state.FirstSets, secondSets = state.SecondSets,
+                firstMarks = state.FirstMarks, secondMarks = state.SecondMarks
             };
             File.WriteAllText(_path + ".json", JsonUtility.ToJson(snapshot, true));
         }

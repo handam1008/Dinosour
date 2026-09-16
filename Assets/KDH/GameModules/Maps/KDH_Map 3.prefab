@@ -15182,7 +15182,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2347409529758002463}
   - component: {fileID: 5121264415258510716}
-  - component: {fileID: 2098504139924757388}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -15265,22 +15264,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!114 &2098504139924757388
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8426535166785623819}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8581db0a76634714eacc8ccf3ffa0f9d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_BackgroundVisual
-  startColor: {r: 0.4264151, g: 0.024941238, b: 0.024941238, a: 1}
-  endColor: {r: 0.12156863, g: 0.13333334, b: 0.15294118, a: 1}
-  transitionTime: 2
-  rotationTime: 3
 --- !u!1001 &14060120685431768
 PrefabInstance:
   m_ObjectHideFlags: 0

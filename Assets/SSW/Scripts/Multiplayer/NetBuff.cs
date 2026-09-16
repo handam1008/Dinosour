@@ -8,6 +8,7 @@ namespace SSW
         [SerializeField] AugmentDrafter _source;
         [SerializeField] NetPlayer _player;
         [SerializeField] PlayerController _motion;
+        [SerializeField, Range(0.1f, 1f)] float _cooldownScale = 0.8f;
         readonly HashSet<CommonAugmentType> _owned = new HashSet<CommonAugmentType>();
         float _baseMax;
         float _confidenceUntil;
@@ -23,6 +24,7 @@ namespace SSW
         void Granted(Augment augment)
         {
             if (augment is not CommonAugment common || !_owned.Add(common.type)) return;
+            if (common.type == CommonAugmentType.CooldownReduction) _player.Cast.CooldownScale = _cooldownScale;
             if (_player.IsServer) RefreshMax();
         }
 

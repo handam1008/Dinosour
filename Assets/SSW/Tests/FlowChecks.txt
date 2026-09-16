@@ -1,0 +1,156 @@
+PASS No random job granted at match start
+PASS Three distinct initial common choices on both peers
+PASS Both initial choices start with ten seconds
+PASS Invalid draft slot rejected
+PASS Choosing peer sees common choice label
+PASS Waiting and choosing peers display the same timer
+PASS Initial timeout selects exactly one common
+PASS Set 1 round 1 retains augments
+PASS Set 1 round 1 enters combat without draft or banner
+PASS Set 1 round 1 starts at full health
+PASS Set 1 round 1 has no old projectiles
+PASS Set 1 round 1 scores synchronized
+PASS Set 1 round 1 shows the same winner banner on both peers
+PASS Set 1 round 2 retains augments
+PASS Set 1 round 2 enters combat without draft or banner
+PASS Set 1 round 2 starts at full health
+PASS Set 1 round 2 has no old projectiles
+PASS Set 1 round 2 scores synchronized
+PASS Set 1 round 2 shows the same winner banner on both peers
+PASS Set 1 round 3 retains augments
+PASS Set 1 round 3 enters combat without draft or banner
+PASS Set 1 round 3 starts at full health
+PASS Set 1 round 3 has no old projectiles
+PASS Set 1 round 3 scores synchronized
+PASS Set 1 round 3 shows the same winner banner on both peers
+PASS Set 1 winner receives no draft
+PASS Set 1 lamps reset for next set
+PASS client loss 1 has three common choices
+PASS client gets ten seconds for common selection
+PASS client loss 1 waits for separate job choice
+PASS client loss 1 has three job choices
+PASS client gets a fresh ten seconds for job selection
+PASS client sees the job choice label
+PASS Personal loss reward client/1 correct
+PASS Set 2 round 1 retains augments
+PASS Set 2 round 1 enters combat without draft or banner
+PASS Set 2 round 1 starts at full health
+PASS Set 2 round 1 has no old projectiles
+PASS Set 2 round 1 scores synchronized
+PASS Set 2 round 1 shows the same winner banner on both peers
+PASS Set 2 round 2 retains augments
+PASS Set 2 round 2 enters combat without draft or banner
+PASS Set 2 round 2 starts at full health
+PASS Set 2 round 2 has no old projectiles
+PASS Set 2 round 2 scores synchronized
+PASS Set 2 round 2 shows the same winner banner on both peers
+PASS Set 2 winner receives no draft
+PASS Set 2 lamps reset for next set
+PASS host loss 1 has three common choices
+PASS host gets ten seconds for common selection
+PASS host loss 1 waits for separate job choice
+PASS host loss 1 has three job choices
+PASS host gets a fresh ten seconds for job selection
+PASS host sees the job choice label
+PASS Personal loss reward host/1 correct
+PASS Set 3 round 1 retains augments
+PASS Set 3 round 1 enters combat without draft or banner
+PASS Set 3 round 1 starts at full health
+PASS Set 3 round 1 has no old projectiles
+PASS Set 3 round 1 scores synchronized
+PASS Set 3 round 1 shows the same winner banner on both peers
+PASS Set 3 round 2 retains augments
+PASS Set 3 round 2 enters combat without draft or banner
+PASS Set 3 round 2 starts at full health
+PASS Set 3 round 2 has no old projectiles
+PASS Set 3 round 2 scores synchronized
+PASS Set 3 round 2 shows the same winner banner on both peers
+PASS Set 3 winner receives no draft
+PASS Set 3 lamps reset for next set
+PASS client loss 2 has three common choices
+PASS client gets ten seconds for common selection
+PASS Personal loss reward client/2 correct
+PASS Set 4 round 1 retains augments
+PASS Set 4 round 1 enters combat without draft or banner
+PASS Set 4 round 1 starts at full health
+PASS Set 4 round 1 has no old projectiles
+PASS Set 4 round 1 scores synchronized
+PASS Set 4 round 1 shows the same winner banner on both peers
+PASS Set 4 round 2 retains augments
+PASS Set 4 round 2 enters combat without draft or banner
+PASS Set 4 round 2 starts at full health
+PASS Set 4 round 2 has no old projectiles
+PASS Set 4 round 2 scores synchronized
+PASS Set 4 round 2 shows the same winner banner on both peers
+PASS Set 4 winner receives no draft
+PASS Set 4 lamps reset for next set
+PASS host loss 2 has three common choices
+PASS host gets ten seconds for common selection
+PASS Personal loss reward host/2 correct
+PASS Set 5 round 1 retains augments
+PASS Set 5 round 1 enters combat without draft or banner
+PASS Set 5 round 1 starts at full health
+PASS Set 5 round 1 has no old projectiles
+PASS Set 5 round 1 scores synchronized
+PASS Set 5 round 1 shows the same winner banner on both peers
+PASS Set 5 round 2 retains augments
+PASS Set 5 round 2 enters combat without draft or banner
+PASS Set 5 round 2 starts at full health
+PASS Set 5 round 2 has no old projectiles
+PASS Set 5 round 2 scores synchronized
+PASS Set 5 round 2 shows the same winner banner on both peers
+PASS Set 5 winner receives no draft
+PASS Set 5 lamps reset for next set
+PASS client loss 3 has three common choices
+PASS client gets ten seconds for common selection
+PASS client loss 3 waits for separate job choice
+PASS client loss 3 has three job choices
+PASS client gets a fresh ten seconds for job selection
+PASS client sees the job choice label
+PASS Personal loss reward client/3 correct
+PASS Set 6 round 1 retains augments
+PASS Set 6 round 1 enters combat without draft or banner
+PASS Set 6 round 1 starts at full health
+PASS Set 6 round 1 has no old projectiles
+PASS Set 6 round 1 scores synchronized
+PASS Set 6 round 1 shows the same winner banner on both peers
+PASS Set 6 round 2 retains augments
+PASS Set 6 round 2 enters combat without draft or banner
+PASS Set 6 round 2 starts at full health
+PASS Set 6 round 2 has no old projectiles
+PASS Set 6 round 2 scores synchronized
+PASS Set 6 round 2 shows the same winner banner on both peers
+PASS Set 6 winner receives no draft
+PASS Set 6 lamps reset for next set
+PASS host loss 3 has three common choices
+PASS host gets ten seconds for common selection
+PASS host loss 3 waits for separate job choice
+PASS host loss 3 has three job choices
+PASS host gets a fresh ten seconds for job selection
+PASS host sees the job choice label
+PASS Personal loss reward host/3 correct
+PASS Set 7 round 1 retains augments
+PASS Set 7 round 1 enters combat without draft or banner
+PASS Set 7 round 1 starts at full health
+PASS Set 7 round 1 has no old projectiles
+PASS Set 7 round 1 scores synchronized
+PASS Set 7 round 1 shows the same winner banner on both peers
+PASS Set 7 round 2 retains augments
+PASS Set 7 round 2 enters combat without draft or banner
+PASS Set 7 round 2 starts at full health
+PASS Set 7 round 2 has no old projectiles
+PASS Set 7 round 2 scores synchronized
+PASS Set 7 round 2 shows the same winner banner on both peers
+PASS Final match ends at 4:3 after seven sets
+PASS Opposite final results and no resume
+PASS Editor displays common selection and countdown
+PASS Editor displays opponent selection status after a real card click
+PASS Single band announces the actual winner
+PASS Second round respawns directly without another card selection
+PASS Common card clicked just before deadline
+PASS Deadline preserves clicked common card during its animation
+PASS Job card gets a separate ten seconds
+PASS Job card clicked just before deadline
+PASS Deadline preserves clicked job card and closes old animation
+PASS Draw banner preserves zero round scores
+PASS Draw replays the same round at full health

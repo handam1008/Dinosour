@@ -7,7 +7,7 @@ namespace SSW
     {
         [SerializeField] Camera _view;
         [SerializeField] SandboxCameraFollow _follow;
-        [SerializeField] Transform[] _spawns;
+        [SerializeField] SpawnPoints _spawnPoints;
         [SerializeField] GameObject[] _offline;
         [SerializeField] Behaviour[] _localTools;
         [SerializeField] float _fallY = -12f;
@@ -15,7 +15,7 @@ namespace SSW
         public Camera View => _view;
         public int Side { get; private set; } = 1;
         public float FallY => _fallY;
-        public Vector3 Spawn(int slot) => _spawns[slot].position;
+        public Vector3 Spawn(int slot) => _spawnPoints.At(slot);
 
         void Awake()
         {

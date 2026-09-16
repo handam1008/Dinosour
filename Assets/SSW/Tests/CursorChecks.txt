@@ -1,0 +1,25 @@
+PASS host initial timeout grants one offered card and starts combat
+PASS client initial timeout grants one offered card and starts combat
+PASS client common timeout selects exactly one offered card
+PASS client job draft receives a separate ten seconds
+PASS client job timeout selects exactly one offered card and starts combat
+PASS Automatic selection closes both local and spectator screens
+PASS host common timeout selects exactly one offered card
+PASS host job draft receives a separate ten seconds
+PASS host job timeout selects exactly one offered card and starts combat
+PASS Automatic selection closes both local and spectator screens
+PASS Custom cursor hides the native cursor
+PASS Closing the previous choice does not restore the next choice cursor
+PASS Closing the choice restores the native cursor
+PASS Original cursor visibility is preserved
+PASS Player 0: 0:0 lights wins in order across two lamps
+PASS Player 0: 0:1 lights wins in order across two lamps
+PASS Player 0: 1:1 lights wins in order across two lamps
+PASS Player 0: 2:1 lights wins in order across two lamps
+PASS Player 0: 1:2 lights wins in order across two lamps
+PASS Player 1: 0:0 lights wins in order across two lamps
+PASS Player 1: 0:1 lights wins in order across two lamps
+PASS Player 1: 1:1 lights wins in order across two lamps
+PASS Player 1: 2:1 lights wins in order across two lamps
+PASS Player 1: 1:2 lights wins in order across two lamps
+PASS New set clears both players' lamps

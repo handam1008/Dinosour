@@ -10,12 +10,17 @@ namespace SSW
         [SerializeField] Text _title;
         [SerializeField] Button _resume;
         [SerializeField] Button _exit;
+        [SerializeField] RoundUI _rounds;
+        [SerializeField] RoundWipe _wipe;
+        [SerializeField] DraftStatus _draft;
         NetGame _game;
         bool _result;
 
         internal bool IsOpen => _panel.activeSelf;
         internal string Title => _title.gameObject.activeSelf ? _title.text : string.Empty;
         internal bool CanResume => _resume.gameObject.activeSelf;
+        internal DraftStatus Draft => _draft;
+        internal RoundWipe Wipe => _wipe;
 
         public void Bind(NetGame game)
         {
@@ -23,6 +28,23 @@ namespace SSW
             _resume.onClick.AddListener(Resume);
             _exit.onClick.AddListener(Exit);
             _panel.SetActive(false);
+            _rounds.Show(default, game.LocalId);
+            _draft.Bind(game);
+            _wipe.Hide();
+        }
+
+        public void ShowRound(MatchState state)
+        {
+            _rounds.Show(state, _game.LocalId);
+            if (state.Phase == MatchPhase.RoundEnd || state.Phase == MatchPhase.SetEnd)
+            {
+                string winner = "";
+                foreach (NetPlayer player in _game.Players)
+                    if (player.OwnerClientId == state.Winner)
+                        winner = player.Info.Name.IsEmpty ? $"플레이어 {(player.Side > 0 ? 1 : 2)}" : player.Info.Name.ToString();
+                _wipe.Show(state.Reason == MatchEnd.Draw ? "무승부" : $"{winner} 승리!");
+            }
+            else _wipe.Reveal();
         }
 
         void Update()

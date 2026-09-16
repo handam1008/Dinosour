@@ -1,0 +1,65 @@
+PASS Initial choices are never shown to the opponent
+PASS Initial card offers are not sent through spectator state
+PASS Both players see their own portrait on the left initially
+PASS Initial host choice remains unchanged beyond the old ten-second limit
+PASS Initial client choice also has no automatic grant
+PASS Finishing the initial choice does not reveal the opponent choice
+PASS Opponent initial choice after host has selected remains unchanged beyond the old ten-second limit
+PASS Waiting notice stays visible without a countdown
+PASS client selects with left portrait and host watches right portrait
+PASS host sees exactly the same common cards
+PASS host has no selectable reward
+PASS client common choice remains unchanged beyond the old ten-second limit
+PASS client first card hover is mirrored
+PASS host receives cursor position and white trail
+PASS host cannot select the other player's card
+PASS host cannot move while watching
+PASS host sees the selected common card
+PASS host sees the next job cards
+PASS client job choice remains unchanged beyond the old ten-second limit
+PASS host cursor disappears outside the window and its dust fades away
+PASS client receives exactly one common and one job augment
+PASS client late manual pick is preserved through its animation
+PASS Both draft views close before combat
+PASS host selects with left portrait and client watches right portrait
+PASS client sees exactly the same common cards
+PASS client has no selectable reward
+PASS host common choice remains unchanged beyond the old ten-second limit
+PASS host first card hover is mirrored
+PASS client receives cursor position and white trail
+PASS client cannot select the other player's card
+PASS client cannot move while watching
+PASS client sees the selected common card
+PASS client sees the next job cards
+PASS host job choice remains unchanged beyond the old ten-second limit
+PASS client cursor disappears outside the window and its dust fades away
+PASS host receives exactly one common and one job augment
+PASS host late manual pick is preserved through its animation
+PASS Both draft views close before combat
+
+PASS 거인 height=16
+PASS 뱀파이어 height=16
+PASS 광전사 height=34
+PASS 자신감 height=34
+PASS 유리 대포 height=34
+PASS 카드 연계 height=70
+PASS 더블 드로우 height=70
+PASS 응급 마술 height=52
+PASS 조커 카드 height=88
+PASS 행운의 클로버 height=52
+PASS 미러 카드 height=70
+PASS 빠른 셔플 height=70
+PASS 리턴 카드 height=70
+PASS 날카로운 카드 height=52
+PASS 반짝이는 다이아 height=52
+PASS 마녀의 흡정 height=16
+PASS 쿨감 height=16
+PASS 넓은 살포 height=16
+PASS 진한 농도 height=34
+PASS 정밀 조제 height=34
+PASS 잔류형 포션 height=52
+PASS 깨진 유리병 height=16
+
+PASS Editor host and standalone client: initial cards, common spectator cards, job cards, next combat
+PASS Visual review: longest Joker, Mirror and Quick Shuffle descriptions fit below titles
+Scope: localhost direct connection. Existing startup DOTween and deferred spawn warnings remain outside this presentation change.

@@ -45,8 +45,10 @@ namespace SSW
 
         void HandlePicked(AugmentCardUI picked)
         {
+            NotifyPicked(picked.Augment);
             foreach (AugmentCardUI card in _cards)
             {
+                card.Lock();
                 if (card != picked) card.PlayDiscard();
             }
 
@@ -58,7 +60,13 @@ namespace SSW
                 if (PausesGame) Time.timeScale = 1f;
                 _onSelected?.Invoke(picked.Augment);
                 Destroy(gameObject);
-            }, true);
+            }, true).SetLink(gameObject);
+        }
+
+        void OnDestroy()
+        {
+            _group.DOKill();
+            _title.DOKill();
         }
     }
 }
