@@ -37,8 +37,9 @@ namespace SSW
             _label.text = waiting ? "상대가 증강을 고르는 중..." : draft.Common ? "공용 증강 선택" : "직업 증강 선택";
             _time.text = $"{Mathf.CeilToInt(draft.Seconds)}초";
             _time.color = draft.Seconds <= 3f ? new Color(1f, 0.46f, 0.3f) : new Color(1f, 0.86f, 0.4f);
-            _content.anchoredPosition = new Vector2(0f, waiting ? 90f : 220f);
-            _back.enabled = waiting;
+            bool watching = waiting && _game.State.Set > 1 && draft.HasView;
+            _content.anchoredPosition = new Vector2(0f, waiting && !watching ? 90f : 220f);
+            _back.enabled = waiting && !watching;
         }
     }
 }
