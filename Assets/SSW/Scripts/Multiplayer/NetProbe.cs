@@ -26,6 +26,13 @@ namespace SSW
             public string job;
             public string name;
             public bool draftView;
+            public bool spectating;
+            public bool portraitRight;
+            public int hover;
+            public Vector2 cursor;
+            public int trail;
+            public Vector3Int watchOffer;
+            public int watchPick;
             public float hp;
             public float max;
             public Vector2 position;
@@ -37,8 +44,7 @@ namespace SSW
             public int animation;
             public bool owner;
             public bool ready;
-            public double deadline;
-            public float seconds;
+            public bool draftUnlocked;
             public Vector3Int offer;
             public int[] augments;
             public int potion;
@@ -70,7 +76,6 @@ namespace SSW
             public string phase;
             public bool draftStatus;
             public string draftLabel;
-            public string draftTime;
             public bool wipe;
             public string wipeTitle;
             public string reason;
@@ -168,6 +173,20 @@ namespace SSW
                 case "fire": local.Cast.Attack(command.value > 0, local.Aim); break;
                 case "cycle": local.Cast.Cycle(command.value > 0); break;
                 case "choose": local.Draft.Choose(command.value); break;
+                case "draftclick":
+                    if (local.Draft.View != null)
+                        local.Draft.View.GetComponentsInChildren<AugmentCardUI>(true)[command.value]
+                            .OnPointerClick(new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current));
+                    break;
+                case "watchclick":
+                    foreach (NetPlayer player in game.Players)
+                        if (!player.IsOwner && player.Draft.View != null)
+                        {
+                            player.Draft.View.GetComponentsInChildren<AugmentCardUI>(true)[command.value]
+                                .OnPointerClick(new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current));
+                            player.Draft.Choose(command.value);
+                        }
+                    break;
                 case "damage": local.Health.TakeDamage(command.value); break;
                 case "heal": local.Health.Heal(command.value); break;
                 case "remote":
@@ -216,11 +235,18 @@ namespace SSW
                 {
                     id = player.OwnerClientId, job = player.Job.ToString(), hp = player.Health.Current,
                     name = player.Info.Name.ToString(), draftView = player.Draft.HasView,
+                    spectating = player.Draft.View != null && player.Draft.View.Spectating,
+                    portraitRight = player.Draft.View != null && player.Draft.View.PortraitOnRight,
+                    hover = player.Draft.View != null ? player.Draft.View.Hover : -1,
+                    cursor = player.Draft.View != null ? player.Draft.View.Cursor : -Vector2.one,
+                    trail = player.Draft.View != null ? player.Draft.View.Particles : 0,
+                    watchOffer = player.Draft.WatchPose.Offer, watchPick = player.Draft.WatchPose.Pick,
                     max = player.Health.Max, position = player.transform.position, velocity = player.Body.linearVelocity,
                     viewport = game.Arena.View.WorldToViewportPoint(player.transform.position),
                     aim = player.Aim, side = player.Side, labelsFaceView = LabelsFaceView(player, game.Arena.View),
                     animation = animator.GetCurrentAnimatorStateInfo(0).shortNameHash, owner = player.IsOwner,
-                    ready = player.Draft.Ready, deadline = player.Draft.Deadline, seconds = player.Draft.Seconds,
+                    ready = player.Draft.Ready,
+                    draftUnlocked = player.Draft.View != null && System.Array.TrueForAll(player.Draft.View.GetComponentsInChildren<AugmentCardUI>(true), card => !card.Locked),
                     offer = player.IsOwner ? player.Draft.Offer : default,
                     augments = owned.ToArray(), potion = player.Cast.Held, rank = player.Cast.Rank
                 });
@@ -249,7 +275,6 @@ namespace SSW
                 phase = state.Phase.ToString(), reason = state.Reason.ToString(),
                 draftStatus = game.Menu != null && game.Menu.Draft.Visible,
                 draftLabel = game.Menu != null ? game.Menu.Draft.Label : "",
-                draftTime = game.Menu != null ? game.Menu.Draft.Time : "",
                 wipe = game.Menu != null && game.Menu.Wipe.Visible,
                 wipeTitle = game.Menu != null ? game.Menu.Wipe.Title : "",
                 time = Time.unscaledTime, intro = game.Intro != null,

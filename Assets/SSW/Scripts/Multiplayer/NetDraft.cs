@@ -9,22 +9,22 @@ namespace SSW
         [SerializeField] NetPlayer _player;
         [SerializeField] AugmentDrafter _drafter;
         [SerializeField] NetDeck _deck;
-        [SerializeField] AugmentDraftUIBase _viewPrefab;
+        [SerializeField] DraftScreen _viewPrefab;
+        [SerializeField] DraftWatch _watch;
         NetworkList<int> _owned;
         readonly NetworkVariable<Vector3Int> _offer = new NetworkVariable<Vector3Int>(
             new Vector3Int(-1, -1, -1), NetworkVariableReadPermission.Owner);
         readonly NetworkVariable<bool> _ready = new NetworkVariable<bool>();
-        readonly NetworkVariable<double> _deadline = new NetworkVariable<double>();
-        AugmentDraftUIBase _view;
+        DraftScreen _view;
+        Vector3Int _viewOffer;
         bool _jobPending;
         int _reserved = -1;
 
-        public const float ChoiceSeconds = 10f;
-        public double Deadline => _deadline.Value;
-        public float Seconds => IsSpawned ? Mathf.Max(0f, (float)(Deadline - NetworkManager.ServerTime.Time)) : 0f;
         public bool Common => _offer.Value.x >= 0 && _deck.At(_offer.Value.x) is CommonAugment;
 
         public bool HasView => _view != null;
+        public DraftScreen View => _view;
+        public DraftPose WatchPose => _watch.Pose;
         public bool Ready => _ready.Value;
         public IEnumerable<int> Owned { get { foreach (int id in _owned) yield return id; } }
         public Vector3Int Offer => _offer.Value;
@@ -56,7 +56,6 @@ namespace SSW
         void OfferChoices(bool common)
         {
             _reserved = -1;
-            _deadline.Value = NetworkManager.ServerTime.Time + ChoiceSeconds;
             List<int> candidates = _deck.Candidates(_player.Job, Owned, common);
             Vector3Int offer = new Vector3Int(-1, -1, -1);
             for (int slot = 0; slot < 3 && candidates.Count > 0; slot++)
@@ -66,6 +65,7 @@ namespace SSW
                 candidates.RemoveAt(index);
             }
             _offer.Value = offer;
+            _watch.Open(offer, NetGame.Current.State.Set > 1);
             if (offer.x < 0) NextChoice();
         }
 
@@ -78,19 +78,13 @@ namespace SSW
                 return;
             }
             _ready.Value = true;
-            _deadline.Value = 0d;
+            _watch.Close();
             NetGame.Current.Match.Picked();
         }
 
         void Update()
         {
-            if (!IsServer || !IsSpawned || _ready.Value || Deadline <= 0d) return;
-            if (NetGame.Current.Match.State.Phase != MatchPhase.Draft || Seconds > 0f) return;
-            int count = 0;
-            for (int i = 0; i < 3; i++)
-                if (_offer.Value[i] >= 0) count++;
-            if (count > 0) Grant(_offer.Value[_reserved >= 0 ? _reserved : Random.Range(0, count)]);
-            NextChoice();
+            if (IsSpawned && !IsOwner) Watch();
         }
 
         void Grant(int id)
@@ -114,12 +108,38 @@ namespace SSW
         void Offered(Vector3Int previous, Vector3Int current)
         {
             if (!IsOwner || current.x < 0 || _ready.Value) return;
+            Show(current, false);
+        }
+
+        void Watch()
+        {
+            if (!_watch.Active || _ready.Value || NetGame.Current.State.Phase != MatchPhase.Draft)
+            {
+                if (_view != null) Close();
+                return;
+            }
+            DraftPose pose = _watch.Pose;
+            if (_view == null && _viewOffer == pose.Offer && pose.Pick >= 0) return;
+            if (_view == null || _viewOffer != pose.Offer) Show(pose.Offer, true);
+            _view.Apply(pose);
+        }
+
+        void Show(Vector3Int current, bool spectator)
+        {
             Close();
+            _viewOffer = current;
             Augment[] choices = new Augment[3];
             for (int i = 0; i < 3; i++)
                 choices[i] = current[i] >= 0 ? _deck.At(current[i]) : null;
             _view = Instantiate(_viewPrefab);
             _view.PausesGame = false;
+            _view.SetPlayer(_player.Job, spectator, NetGame.Current.Menu);
+            if (spectator)
+            {
+                _view.Show(choices, _ => { });
+                return;
+            }
+            _view.Pointed += (cursor, hover) => _watch.Point(cursor, hover, current);
             AugmentDraftUIBase view = _view;
             _view.Picked += selected =>
             {
@@ -143,7 +163,9 @@ namespace SSW
         [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Owner)]
         void ReserveRpc(int slot, Vector3Int offer)
         {
-            if (Valid(slot, offer) && Seconds > 0f && _reserved < 0) _reserved = slot;
+            if (!Valid(slot, offer) || _reserved >= 0) return;
+            _reserved = slot;
+            _watch.Pick(slot);
         }
 
         bool Valid(int slot, Vector3Int offer) =>
@@ -153,7 +175,7 @@ namespace SSW
         [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Owner)]
         void ChooseRpc(int slot, Vector3Int offer)
         {
-            if (!Valid(slot, offer) || (Seconds <= 0f && _reserved != slot)) return;
+            if (!Valid(slot, offer)) return;
             if (_reserved >= 0 && _reserved != slot) return;
             Grant(_offer.Value[slot]);
             NextChoice();
@@ -166,7 +188,7 @@ namespace SSW
 
         public void Close()
         {
-            if (_view != null) Destroy(_view.gameObject);
+            if (_view != null) _view.Close();
             _view = null;
         }
 
@@ -175,7 +197,8 @@ namespace SSW
             _owned.OnListChanged -= Granted;
             _offer.OnValueChanged -= Offered;
             _ready.OnValueChanged -= Selected;
-            Close();
+            if (_view != null) Destroy(_view.gameObject);
+            _view = null;
         }
     }
 }
