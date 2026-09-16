@@ -14,8 +14,15 @@ namespace SSW
         readonly NetworkVariable<Vector3Int> _offer = new NetworkVariable<Vector3Int>(
             new Vector3Int(-1, -1, -1), NetworkVariableReadPermission.Owner);
         readonly NetworkVariable<bool> _ready = new NetworkVariable<bool>();
+        readonly NetworkVariable<double> _deadline = new NetworkVariable<double>();
         AugmentDraftUIBase _view;
         bool _jobPending;
+        int _reserved = -1;
+
+        public const float ChoiceSeconds = 10f;
+        public double Deadline => _deadline.Value;
+        public float Seconds => IsSpawned ? Mathf.Max(0f, (float)(Deadline - NetworkManager.ServerTime.Time)) : 0f;
+        public bool Common => _offer.Value.x >= 0 && _deck.At(_offer.Value.x) is CommonAugment;
 
         public bool HasView => _view != null;
         public bool Ready => _ready.Value;
@@ -48,6 +55,8 @@ namespace SSW
 
         void OfferChoices(bool common)
         {
+            _reserved = -1;
+            _deadline.Value = NetworkManager.ServerTime.Time + ChoiceSeconds;
             List<int> candidates = _deck.Candidates(_player.Job, Owned, common);
             Vector3Int offer = new Vector3Int(-1, -1, -1);
             for (int slot = 0; slot < 3 && candidates.Count > 0; slot++)
@@ -69,7 +78,19 @@ namespace SSW
                 return;
             }
             _ready.Value = true;
+            _deadline.Value = 0d;
             NetGame.Current.Match.Picked();
+        }
+
+        void Update()
+        {
+            if (!IsServer || !IsSpawned || _ready.Value || Deadline <= 0d) return;
+            if (NetGame.Current.Match.State.Phase != MatchPhase.Draft || Seconds > 0f) return;
+            int count = 0;
+            for (int i = 0; i < 3; i++)
+                if (_offer.Value[i] >= 0) count++;
+            if (count > 0) Grant(_offer.Value[_reserved >= 0 ? _reserved : Random.Range(0, count)]);
+            NextChoice();
         }
 
         void Grant(int id)
@@ -99,24 +120,41 @@ namespace SSW
                 choices[i] = current[i] >= 0 ? _deck.At(current[i]) : null;
             _view = Instantiate(_viewPrefab);
             _view.PausesGame = false;
+            AugmentDraftUIBase view = _view;
+            _view.Picked += selected =>
+            {
+                for (int i = 0; i < choices.Length; i++)
+                    if (choices[i] == selected) { ReserveRpc(i, current); break; }
+            };
             _view.Show(choices, selected =>
             {
+                if (_view != view) return;
                 _view = null;
                 for (int i = 0; i < choices.Length; i++)
-                    if (choices[i] == selected) { Choose(i); break; }
+                    if (choices[i] == selected) { ChooseRpc(i, current); break; }
             });
         }
 
         public void Choose(int slot)
         {
-            if (IsOwner && IsSpawned) ChooseRpc(slot);
+            if (IsOwner && IsSpawned) ChooseRpc(slot, _offer.Value);
         }
 
         [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Owner)]
-        void ChooseRpc(int slot)
+        void ReserveRpc(int slot, Vector3Int offer)
         {
-            if (_ready.Value || NetGame.Current.Match.State.Phase != MatchPhase.Draft) return;
-            if (slot < 0 || slot > 2 || _offer.Value[slot] < 0) return;
+            if (Valid(slot, offer) && Seconds > 0f && _reserved < 0) _reserved = slot;
+        }
+
+        bool Valid(int slot, Vector3Int offer) =>
+            !_ready.Value && NetGame.Current.Match.State.Phase == MatchPhase.Draft
+            && slot >= 0 && slot < 3 && offer.Equals(_offer.Value) && _offer.Value[slot] >= 0;
+
+        [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Owner)]
+        void ChooseRpc(int slot, Vector3Int offer)
+        {
+            if (!Valid(slot, offer) || (Seconds <= 0f && _reserved != slot)) return;
+            if (_reserved >= 0 && _reserved != slot) return;
             Grant(_offer.Value[slot]);
             NextChoice();
         }
