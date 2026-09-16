@@ -59,7 +59,8 @@ namespace SSW
                 return false;
             }
 
-            if (_acquired.Add(magicianAugment.type))
+            NetPlayer player = GetComponent<NetPlayer>();
+            if (_acquired.Add(magicianAugment.type) && (player == null || player.IsOwner))
             {
                 EnsureAugmentHud();
                 _augmentHud.AddAugment(magicianAugment);

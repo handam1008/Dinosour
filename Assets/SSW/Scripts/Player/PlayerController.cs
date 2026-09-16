@@ -13,6 +13,8 @@ namespace SSW
         [SerializeField] LayerMask _whatIsGround;
         [SerializeField] Transform _visual;
 
+        IPlayerDrive _drive;
+        bool _simulated = true;
         Rigidbody2D _rb;
         Collider2D _col;
         Camera _cam;
@@ -32,6 +34,37 @@ namespace SSW
             _rb = GetComponent<Rigidbody2D>();
             _col = GetComponent<Collider2D>();
             _cam = Camera.main;
+        }
+
+        public float SpeedFactor { get; set; } = 1f;
+        public float MoveSpeed => _moveSpeed * CurrentMoveSpeedMultiplier * SpeedFactor;
+        public float JumpSpeed => _jumpForce;
+        public LayerMask GroundMask => _whatIsGround;
+        public float KnockbackDecay => _externalVelocityDecay;
+        public float CounterBrake => _counterMoveBrake;
+        public bool Simulated
+        {
+            get => _simulated;
+            set
+            {
+                if (_simulated == value) return;
+                _simulated = value;
+                if (value) return;
+                _move = Vector2.zero;
+                _externalVelocityX = 0f;
+                _rb.linearVelocity = Vector2.zero;
+            }
+        }
+
+        public void Bind(IPlayerDrive drive, bool simulated)
+        {
+            _drive = drive;
+            Simulated = simulated;
+        }
+
+        public void Move(Vector2 value)
+        {
+            _move = value;
         }
 
         public float FacingSign => Mathf.Sign(_visual.localScale.x);
@@ -121,13 +154,19 @@ namespace SSW
 
         void OnMove(InputValue value)
         {
-            _move = value.Get<Vector2>();
+            if (_drive != null) _drive.Move(value.Get<Vector2>());
+            else Move(value.Get<Vector2>());
         }
 
         void OnJump(InputValue value)
         {
             if (!value.isPressed) return;
+            if (_drive != null) _drive.Jump();
+            else Jump();
+        }
 
+        public void Jump()
+        {
             Collider2D ground = GetGroundCollider();
             if (ground == null) return;
 
@@ -169,6 +208,7 @@ namespace SSW
 
         void Update()
         {
+            if (!Simulated) return;
             if (Time.time >= _slowEndTime) _slowMultiplier = 1f;
             if (Time.time >= _speedEndTime) _speedMultiplier = 1f;
             if (Time.time >= _attackWeakenEndTime) _outgoingDamageMultiplier = 1f;
@@ -186,13 +226,14 @@ namespace SSW
                 0f,
                 brake * Time.deltaTime);
 
-            float controlledVelocity = _move.x * _moveSpeed * CurrentMoveSpeedMultiplier;
+            float controlledVelocity = _move.x * _moveSpeed * CurrentMoveSpeedMultiplier * SpeedFactor;
             _rb.linearVelocity = new Vector2(controlledVelocity + _externalVelocityX, _rb.linearVelocity.y);
             FaceMouse();
         }
 
         void FaceMouse()
         {
+            if (_drive != null || Mouse.current == null || _cam == null) return;
             Vector3 world = _cam.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             Vector3 scale = _visual.localScale;
             scale.x = world.x < transform.position.x ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);

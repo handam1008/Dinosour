@@ -1313,96 +1313,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8821414762111665215, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
   m_PrefabInstance: {fileID: 7261052234574551643}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &338657675
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 338657676}
-  - component: {fileID: 338657678}
-  - component: {fileID: 338657677}
-  m_Layer: 3
-  m_Name: Star
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &338657676
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 338657675}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 337175680}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &338657677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 338657675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bd12dbad8ce7b04f84301f21a2e2d69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SSW.Health
-  maxHealth: 100000
-  _disableOnDeath: 1
-  _deathDisableDelay: 0
-  _healthBarResourceName: HealthBarUI
-  _damageNumberResourceName: DamageNumberUI
-  _healthBarPadding: 0.15
-  healthChangeEvent: {fileID: 0}
-  hitEvent: {fileID: 0}
---- !u!70 &338657678
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 338657675}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: -0.013431251, y: -0.01343143}
-  m_Size: {x: 1.3984026, y: 1.526746}
-  m_Direction: 0
 --- !u!1 &355914588
 GameObject:
   m_ObjectHideFlags: 0
@@ -8106,6 +8016,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JJW.Script.Jackpot.JackpotDivision
   coinShooter: {fileID: 2016847338}
+  augmentController: {fileID: 0}
+  health: {fileID: 0}
+  normalDamageChance: 7
+  normalHealChance: 7
+  normalInvincibleChance: 7
+  normalSpeedChance: 7
+  normalInstantKillChance: 1
+  normal777Chance: 5
+  moreDamageChance: 5
+  moreHealChance: 5
+  moreInvincibleChance: 5
+  moreSpeedChance: 5
+  moreInstantKillChance: 1
+  more777Chance: 3
+  luckChanceBonus: 0.5
+  probabilityIncrease: 1
+  maximum777Chance: 10
+  requiredWinningCount: 20
+  oldCoinChance: 1
+  damageMultiplier: 1.3
+  healAmount: 50
+  invincibleDuration: 5
+  speedIncreaseAmount: 0.523
+  speedDuration: 7.4
+  instantKillDamage: 4444
+  jackpotHealAmount: 30
+  jackpotDuration: 15
 --- !u!114 &904079590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8130,7 +8067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1611136039949d42baa53619e8b9957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageUpjackpot
-  damageUpCooldwon: 10
+  damageUpCooldown: 10
 --- !u!114 &904079601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8192,6 +8129,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27c8db1cc17bd7a4da3fb1884a896c2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JJW.Script.Augments.GamblerAugmentController
+--- !u!114 &904079624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904079570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b4b708419401d34a866e6bd1d312dcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JJW.Script.Augments.Gambler777AugmentEffects
+  augmentController: {fileID: 904079614}
+  jackpot777: {fileID: 904079613}
+  excitedSpeedMultiplier: 1.5
+  overflowingPowerDamageMultiplier: 1.5
+  jackpotBoostDamageMultiplier: 1.2
+  jackpotBoostSpeedMultiplier: 1.25
+--- !u!114 &904079625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904079570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 212a3137fbbd90c43bf098ba7a0cd056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JJW.Script.Augments.GamblerCoinUpgradeEffects
+  augmentController: {fileID: 904079614}
+  division: {fileID: 904079580}
+  damageUpJackpot: {fileID: 904079591}
+  slowAmount: 0.2
+  slowDuration: 0.5
+  burnDamagePerTick: 4
+  burnTickInterval: 0.5
+  burnDuration: 2
+  lifeStealRatio: 0.2
+  lifeStealDuration: 10
 --- !u!1 &933345699
 GameObject:
   m_ObjectHideFlags: 0
@@ -17485,6 +17462,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GamblerMagazine
   magazineSize: 3
   reloadTime: 1.5
+  augmentController: {fileID: 0}
 --- !u!1 &2128264166
 GameObject:
   m_ObjectHideFlags: 0
@@ -22514,9 +22492,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8821414762111665215, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 652320369}
-    - targetCorrespondingSourceObject: {fileID: 8821414762111665215, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 338657676}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 11155713228905163, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
       insertIndex: -1
@@ -22542,6 +22517,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 11155713228905163, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 904079614}
+    - targetCorrespondingSourceObject: {fileID: 11155713228905163, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 904079624}
+    - targetCorrespondingSourceObject: {fileID: 11155713228905163, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 904079625}
   m_SourcePrefab: {fileID: 100100000, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
 --- !u!1 &7584981224241185858
 GameObject:

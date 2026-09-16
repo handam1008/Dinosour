@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f7728e03b5ee3946853972dab511ea2, type: 3}
+  m_Name: GamblerAugment_JackpotBoost
+  m_EditorClassIdentifier: Assembly-CSharp::JJW.Script.Augments.GamblerAugment
+  displayName: "\uC7AD\uD31F!!"
+  description: "\uD604\uC7AC \uBC1C\uB3D9 \uC911\uC778 \uC7AD\uD31F\uC5D0 \uB530\uB77C
+    \uB3D9\uC804\uC5D0 \uCD94\uAC00 \uD6A8\uACFC\uAC00 \uBD80\uC5EC\uB429\uB2C8\uB2E4."
+  icon: {fileID: 0}
+  type: 5

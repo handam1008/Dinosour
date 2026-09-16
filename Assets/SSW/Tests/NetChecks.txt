@@ -1,0 +1,79 @@
+Unity 6000.5.2f1 / NGO 2.13.2 / Windows x64
+Builds/Local/Game.exe
+PASS 2026-09-10T17:12:25
+Localhost host/client, reversed jobs, editor host/standalone client
+Checks: 
+66
+
+PASS two players and jobs
+PASS same initial health and augments
+PASS three unique common choices
+PASS draft keeps shared time running
+PASS invalid choice and draft movement rejected
+PASS waits for both choices
+PASS both choices start battle
+PASS health augment replicates
+PASS repeated choice rejected
+PASS client cannot change own or opponent health
+PASS no runtime errors after spawn and draft
+PASS client movement reaches server
+PASS remote movement interpolates
+PASS movement stops and converges
+PASS client jump runs on server
+PASS jump reaches remote view
+PASS card spawns as same network object
+PASS card moves from server launch
+PASS card cooldown rejects extra cast
+PASS card hit damage replicated
+PASS host potion roll matches client
+PASS client potion damages server target 144 -> 122.375
+PASS potion damage agrees on both peers
+PASS projectiles despawn after impact
+PASS no runtime combat errors
+PASS client healing cannot bypass server
+PASS healing potion runs on server hp=70.2437515258789 -> 75.2437515258789
+PASS healing agrees on client
+PASS server death ends both matches
+PASS finished match rejects gameplay
+PASS exit returns to main menu
+PASS leaving preserves knockout result
+PASS no runtime result errors
+PASS reversed jobs connect
+PASS remote walk animation agrees 1326225478
+PASS remote idle animation agrees
+PASS escape opens resume and exit menu
+PASS menu blocks local movement only
+PASS continue closes menu
+PASS escape toggles menu
+PASS client leaving shows result on host
+PASS same instances reconnect cleanly
+PASS host leaving shows result on client
+PASS disconnected client can return to menu
+PASS no reconnect or menu errors
+PASS editor host and standalone client enter same scene
+PASS client magician spawns shared card
+PASS client magician damages host through server 27.099998474121094 -> 16.0999984741211
+PASS opposite win and loss titles
+PASS result menu offers exit only
+PASS editor and standalone runtime errors absent
+PASS editor and build return to menu cleanly
+PASS final build connects two players
+PASS final health damage synchronizes
+PASS final health rejects client changes
+PASS final build reports matching outcome
+PASS dead network player cannot heal
+PASS final build exits without errors
+PASS sandbox menu entries: 연습장, 다리, 그네, 바람
+PASS swing entry with 44 blocks
+PASS offline player simulation
+PASS offline respawn health
+PASS offline pause and resume
+PASS compilation
+PASS prefab references: 8 prefabs, missing=0
+PASS server transform and animator authority
+
+Visuals: NetDraft.png, NetPlay.png, NetResult.png
+Final build health and connection checks were repeated after the offline health fix.
+Earlier probe assertions were corrected to compare health after lifesteal and to sample a card before impact.
+Standalone ESC, resume, exit and reconnect checks passed. Editor synthetic ESC did not route through the Game view; its menu state is not counted as a passed key-input check.
+External Relay/UGS and two-PC connectivity were not verified. Existing project service-ID warnings remain.

@@ -12,13 +12,13 @@ namespace SSW
         public void OnPointerEnter(PointerEventData eventData)
         {
             transform.DOKill();
-            transform.DOScale(_hoverScale, _duration);
+            transform.DOScale(_hoverScale, _duration).SetUpdate(true);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             transform.DOKill();
-            transform.DOScale(1f, _duration);
+            transform.DOScale(1f, _duration).SetUpdate(true);
         }
     }
 }

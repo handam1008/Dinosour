@@ -6,12 +6,17 @@ using UnityEngine;
 
 public class Jackpot777 : MonoBehaviour
 {
-    [SerializeField, Min(0.01f)] private float healInterval = 0.2f;
+     [SerializeField, Min(0.01f)] private float healInterval = 0.2f;
+
     private JackpotDivision division;
     private Coroutine jackpotCoroutine;
-    private bool isJackpotActive;
     private float originalMaxHealth;
     private bool hasOriginalMaxHealth;
+
+    public bool IsActive { get; private set; }
+
+    public event Action<float> JackpotStarted;
+    public event Action JackpotEnded;
 
     private void Awake()
     {
@@ -43,14 +48,17 @@ public class Jackpot777 : MonoBehaviour
             return;
         }
 
-        jackpotCoroutine = StartCoroutine(JackpotCoroutine(amount, cooldown));
+        jackpotCoroutine = StartCoroutine(
+            JackpotCoroutine(amount, cooldown));
     }
 
-    private IEnumerator JackpotCoroutine(float amount, float cooldown)
+    private IEnumerator JackpotCoroutine(
+        float amount,
+        float cooldown)
     {
-        isJackpotActive = true;
-
+        IsActive = true;
         IncreaseMaxHealth();
+        JackpotStarted?.Invoke(cooldown);
 
         float remainingTime = cooldown;
 
@@ -71,15 +79,12 @@ public class Jackpot777 : MonoBehaviour
             yield return new WaitForSeconds(remainingTime);
         }
 
-        RestoreMaxHealth();
-
-        isJackpotActive = false;
-        jackpotCoroutine = null;
+        FinishJackpot();
     }
 
     private void IncreaseMaxHealth()
     {
-        if (TryGetComponent(out Health health))
+        if (TryGetComponent<Health>(out var health))
         {
             originalMaxHealth = health.maxHealth;
             health.maxHealth *= 2f;
@@ -94,12 +99,27 @@ public class Jackpot777 : MonoBehaviour
             return;
         }
 
-        if (TryGetComponent(out Health health))
+        if (TryGetComponent<Health>(out var health))
         {
             health.maxHealth = originalMaxHealth;
         }
 
         hasOriginalMaxHealth = false;
+    }
+
+    private void FinishJackpot()
+    {
+        RestoreMaxHealth();
+
+        bool wasActive = IsActive;
+
+        IsActive = false;
+        jackpotCoroutine = null;
+
+        if (wasActive)
+        {
+            JackpotEnded?.Invoke();
+        }
     }
 
     private void StopJackpot()
@@ -110,12 +130,14 @@ public class Jackpot777 : MonoBehaviour
             jackpotCoroutine = null;
         }
 
-        if (!isJackpotActive)
-        {
-            return;
-        }
+        bool wasActive = IsActive;
 
         RestoreMaxHealth();
-        isJackpotActive = false;
+        IsActive = false;
+
+        if (wasActive)
+        {
+            JackpotEnded?.Invoke();
+        }
     }
 }

@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4817323057203609915
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5365077104844236530}
+  - component: {fileID: 292964414745111157}
+  m_Layer: 0
+  m_Name: NetGame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5365077104844236530
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4817323057203609915}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &292964414745111157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4817323057203609915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9a2d618e17a46ea86d46032834648d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.NetGame
+  _managerPrefab: {fileID: 1142685941192645643, guid: 46e37f2ffd454394698d8376eb0fcb09, type: 3}
+  _playerPrefab: {fileID: 3278762098247593300, guid: 8c967834a16d86c4a910ce2a84860771, type: 3}
+  _matchPrefab: {fileID: 3118616020688493788, guid: fe17ee2598bf5c74386ee107f38b8933, type: 3}
+  _shots:
+  - {fileID: 7687144316599026220, guid: 10388f0e84697a64f9692a174255b541, type: 3}
+  - {fileID: 3426517256819113306, guid: b0f9b480c34c3784096c8ad5b73152bd, type: 3}
+  - {fileID: 1150809275581399450, guid: c3c2d44c8640a7d478dea0465d2570fc, type: 3}
+  _menuPrefab: {fileID: 8041016769084939697, guid: e706dbea2a3c1af42b379418b9b10485, type: 3}
+  _introPrefab: {fileID: 1688307513721857620, guid: 6be933312588ea14990503a887b2d1ca, type: 3}

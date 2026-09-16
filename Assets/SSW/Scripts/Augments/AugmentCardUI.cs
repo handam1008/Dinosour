@@ -28,6 +28,8 @@ namespace SSW
         bool _slotCaptured;
 
         public Augment Augment => _augment;
+        public bool ReadOnly { get; set; }
+        public bool Locked => _locked;
         public float HoverScale => _hoverScale;
         public float HalfHeight => ((RectTransform)transform).rect.height * 0.5f;
         public event System.Action<AugmentCardUI> HoverEntered;
@@ -64,7 +66,7 @@ namespace SSW
             _rt.anchoredPosition = _slotPos + new Vector2(0f, -_dealDistance);
             _rt.localRotation = Quaternion.Euler(0f, 0f, -_dealTilt);
 
-            Sequence seq = DOTween.Sequence().SetUpdate(true).SetDelay(delay);
+            Sequence seq = DOTween.Sequence().SetTarget(transform).SetLink(gameObject).SetUpdate(true).SetDelay(delay);
             seq.Append(_rt.DOAnchorPos(_slotPos, _dealDuration).SetEase(Ease.OutCubic));
             seq.Join(_rt.DOLocalRotate(Vector3.zero, _dealDuration).SetEase(Ease.OutBack));
             seq.AppendInterval(0.05f);
@@ -123,6 +125,11 @@ namespace SSW
             _locked = true;
         }
 
+        void OnDisable()
+        {
+            transform.DOKill();
+        }
+
         void CaptureSlot()
         {
             if (_slotCaptured) return;
@@ -133,24 +140,29 @@ namespace SSW
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (_locked) return;
-            transform.DOKill();
-            transform.DOScale(_hoverScale, _hoverDuration).SetUpdate(true);
+            if (_locked || ReadOnly) return;
+            PreviewHover(true);
             HoverEntered?.Invoke(this);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (_locked) return;
-            transform.DOKill();
-            transform.DOScale(1f, _hoverDuration).SetUpdate(true);
+            if (_locked || ReadOnly) return;
+            PreviewHover(false);
             HoverExited?.Invoke(this);
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (_locked) return;
+            if (_locked || ReadOnly) return;
             _onClick?.Invoke(this);
+        }
+
+        public void PreviewHover(bool hovered)
+        {
+            if (_locked) return;
+            transform.DOKill();
+            transform.DOScale(hovered ? _hoverScale : 1f, _hoverDuration).SetUpdate(true);
         }
     }
 }

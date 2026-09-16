@@ -10,7 +10,6 @@ public class DamagePotion : AbstractPotion
         IDamageable hit = target.GetComponentInParent<IDamageable>();
         if (hit == null) return;
 
-        // CombatDamage를 거쳐야 증강(피해 증가, 흡정)이 적용된다
         CombatDamage.Deal(
             source,
             hit,

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8037446537486056885}
   - component: {fileID: 4671591246785840614}
   - component: {fileID: 6500387562129648618}
+  - component: {fileID: 3223219606563715616}
   m_Layer: 0
   m_Name: DamageNumberUI
   m_TagString: Untagged
@@ -106,6 +107,18 @@ MonoBehaviour:
   _normalColor: {r: 1, g: 1, b: 1, a: 1}
   _criticalColor: {r: 1, g: 0.15, b: 0.15, a: 1}
   _criticalScale: 1.4
+--- !u!114 &3223219606563715616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3045644762103238144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c70756cd4544d6f439d46af112f34ac3, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.NetLabel
 --- !u!1 &8157027479680614195
 GameObject:
   m_ObjectHideFlags: 0

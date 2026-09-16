@@ -1,0 +1,1268 @@
+{
+  "build": "PASS 2026-09-10T18:57:48",
+  "launcher": "PASS Play MainMenu no network, one client PID=21364",
+  "room": {
+    "client": {
+      "seq": 9,
+      "error": "",
+      "scene": "MainMenu",
+      "status": "",
+      "busy": false,
+      "matching": false,
+      "joined": true,
+      "host": false,
+      "canStart": false,
+      "room": "최종 확인",
+      "code": "D7LHCJ",
+      "count": 2,
+      "buttons": [
+        {
+          "name": "방 나가기Button",
+          "text": "방 나가기",
+          "enabled": true
+        }
+      ],
+      "inputs": [],
+      "panels": [
+        {
+          "name": "MainPanel",
+          "active": false,
+          "alpha": 0.0,
+          "interactive": false
+        },
+        {
+          "name": "PlayPanel",
+          "active": false,
+          "alpha": 0.0,
+          "interactive": false
+        },
+        {
+          "name": "SettingsPanel",
+          "active": false,
+          "alpha": 1.0,
+          "interactive": true
+        },
+        {
+          "name": "JobSelectionPanel",
+          "active": false,
+          "alpha": 1.0,
+          "interactive": true
+        },
+        {
+          "name": "MultiplayerMenu(Clone)",
+          "active": true,
+          "alpha": 1.0,
+          "interactive": true
+        },
+        {
+          "name": "CreatePage",
+          "active": false,
+          "alpha": 1.0,
+          "interactive": true
+        },
+        {
+          "name": "BrowsePage",
+          "active": false,
+          "alpha": 1.0,
+          "interactive": true
+        },
+        {
+          "name": "PasswordPage",
+          "active": false,
+          "alpha": 1.0,
+          "interactive": true
+        },
+        {
+          "name": "MatchingPage",
+          "active": false,
+          "alpha": 1.0,
+          "interactive": true
+        },
+        {
+          "name": "WaitingPage",
+          "active": true,
+          "alpha": 1.0,
+          "interactive": true
+        }
+      ]
+    },
+    "host": {
+      "seq": 7,
+      "error": "",
+      "scene": "MainMenu",
+      "status": "",
+      "busy": false,
+      "matching": false,
+      "joined": true,
+      "host": true,
+      "canStart": true,
+      "room": "최종 확인",
+      "code": "D7LHCJ",
+      "count": 2,
+      "buttons": [
+        {
+          "name": "게임 시작Button",
+          "text": "게임 시작",
+          "enabled": true
+        },
+        {
+          "name": "방 나가기Button",
+          "text": "방 나가기",
+          "enabled": true
+        }
+      ],
+      "inputs": [],
+      "panels": [
+        {
+          "name": "MainPanel",
+          "active": false,
+          "alpha": 0.0,
+          "interactive": false
+        },
+        {
+          "name": "PlayPanel",
+          "active": false,
+          "alpha": 0.0,
+          "interactive": false
+        },
+        {
+          "name": "SettingsPanel",
+          "active": false,
+          "alpha": 1.0,
+          "interactive": true
+        },
+        {
+          "name": "JobSelectionPanel",
+          "active": false,
+          "alpha": 1.0,
+          "interactive": true
+        },
+        {
+          "name": "MultiplayerMenu(Clone)",
+          "active": true,
+          "alpha": 1.0,
+          "interactive": true
+        },
+        {
+          "name": "CreatePage",
+          "active": false,
+          "alpha": 1.0,
+          "interactive": true
+        },
+        {
+          "name": "BrowsePage",
+          "active": false,
+          "alpha": 1.0,
+          "interactive": true
+        },
+        {
+          "name": "PasswordPage",
+          "active": false,
+          "alpha": 1.0,
+          "interactive": true
+        },
+        {
+          "name": "MatchingPage",
+          "active": false,
+          "alpha": 1.0,
+          "interactive": true
+        },
+        {
+          "name": "WaitingPage",
+          "active": true,
+          "alpha": 1.0,
+          "interactive": true
+        }
+      ]
+    }
+  },
+  "match": {
+    "b": {
+      "seq": 0,
+      "error": "",
+      "listening": true,
+      "server": true,
+      "connected": true,
+      "peers": 2,
+      "readyToStart": true,
+      "scene": "SuperUltraLegendScene",
+      "menuOpen": false,
+      "canResume": true,
+      "title": "승리",
+      "phase": "Draft",
+      "reason": "Knockout",
+      "winner": 0,
+      "timeScale": 1.0,
+      "players": [
+        {
+          "id": 0,
+          "job": "Magician",
+          "hp": 80.0,
+          "max": 80.0,
+          "position": {
+            "x": -6.0,
+            "y": -3.1513466835021973
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.34481698274612427,
+            "y": 0.42278024554252625,
+            "z": 10.0
+          },
+          "aim": {
+            "x": 1.0,
+            "y": 0.0
+          },
+          "side": 1,
+          "labelsFaceView": true,
+          "animation": 2081823275,
+          "owner": true,
+          "ready": false,
+          "offer": {
+            "x": 4,
+            "y": 0,
+            "z": 3
+          },
+          "augments": [
+            12
+          ],
+          "potion": -1,
+          "rank": 1
+        },
+        {
+          "id": 1,
+          "job": "Witch",
+          "hp": 80.0,
+          "max": 80.0,
+          "position": {
+            "x": 6.0,
+            "y": -3.1513466835021973
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.6593154072761536,
+            "y": 0.42278024554252625,
+            "z": 10.0
+          },
+          "aim": {
+            "x": -1.0,
+            "y": 0.0
+          },
+          "side": -1,
+          "labelsFaceView": true,
+          "animation": 2081823275,
+          "owner": false,
+          "ready": false,
+          "offer": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "augments": [
+            15
+          ],
+          "potion": -1,
+          "rank": 1
+        }
+      ],
+      "shots": []
+    },
+    "a": {
+      "seq": 0,
+      "error": "",
+      "listening": true,
+      "server": false,
+      "connected": true,
+      "peers": 0,
+      "readyToStart": false,
+      "scene": "SuperUltraLegendScene",
+      "menuOpen": false,
+      "canResume": true,
+      "title": "승리",
+      "phase": "Draft",
+      "reason": "Knockout",
+      "winner": 0,
+      "timeScale": 1.0,
+      "players": [
+        {
+          "id": 0,
+          "job": "Magician",
+          "hp": 80.0,
+          "max": 80.0,
+          "position": {
+            "x": -6.0,
+            "y": -2.799999952316284
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.6263831853866577,
+            "y": 0.3885497450828552,
+            "z": 10.0
+          },
+          "aim": {
+            "x": 1.0,
+            "y": 0.0
+          },
+          "side": 1,
+          "labelsFaceView": true,
+          "animation": 2081823275,
+          "owner": false,
+          "ready": false,
+          "offer": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "augments": [
+            12
+          ],
+          "potion": -1,
+          "rank": 1
+        },
+        {
+          "id": 1,
+          "job": "Witch",
+          "hp": 80.0,
+          "max": 80.0,
+          "position": {
+            "x": 6.0,
+            "y": -2.799999952316284
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.34086307883262634,
+            "y": 0.3885497450828552,
+            "z": 9.999999046325684
+          },
+          "aim": {
+            "x": -1.0,
+            "y": 0.0
+          },
+          "side": -1,
+          "labelsFaceView": true,
+          "animation": 2081823275,
+          "owner": true,
+          "ready": false,
+          "offer": {
+            "x": 3,
+            "y": 4,
+            "z": 2
+          },
+          "augments": [
+            15
+          ],
+          "potion": -1,
+          "rank": 1
+        }
+      ],
+      "shots": []
+    },
+    "menuB": {
+      "seq": 3,
+      "error": "",
+      "scene": "SuperUltraLegendScene",
+      "status": "대전을 시작하는 중...",
+      "busy": false,
+      "matching": false,
+      "joined": true,
+      "host": true,
+      "canStart": false,
+      "room": "빠른 대전",
+      "code": "DLCGBQ",
+      "count": 2,
+      "buttons": [],
+      "inputs": [],
+      "panels": [
+        {
+          "name": "AugmentDraftUIDino(Clone)",
+          "active": true,
+          "alpha": 1.0,
+          "interactive": true
+        },
+        {
+          "name": "Description",
+          "active": true,
+          "alpha": 0.0,
+          "interactive": false
+        }
+      ]
+    },
+    "menuA": {
+      "seq": 3,
+      "error": "",
+      "scene": "SuperUltraLegendScene",
+      "status": "상대를 찾는 중...",
+      "busy": true,
+      "matching": true,
+      "joined": true,
+      "host": false,
+      "canStart": false,
+      "room": "빠른 대전",
+      "code": "DLCGBQ",
+      "count": 2,
+      "buttons": [],
+      "inputs": [],
+      "panels": [
+        {
+          "name": "AugmentDraftUIDino(Clone)",
+          "active": true,
+          "alpha": 0.9412195086479187,
+          "interactive": true
+        },
+        {
+          "name": "Description",
+          "active": true,
+          "alpha": 0.0,
+          "interactive": false
+        }
+      ]
+    }
+  },
+  "card": {
+    "b": {
+      "seq": 4,
+      "error": "",
+      "listening": true,
+      "server": true,
+      "connected": true,
+      "peers": 2,
+      "readyToStart": true,
+      "scene": "SuperUltraLegendScene",
+      "menuOpen": false,
+      "canResume": true,
+      "title": "승리",
+      "phase": "Playing",
+      "reason": "Knockout",
+      "winner": 0,
+      "timeScale": 1.0,
+      "players": [
+        {
+          "id": 0,
+          "job": "Magician",
+          "hp": 56.0,
+          "max": 56.0,
+          "position": {
+            "x": -6.0,
+            "y": -3.1512508392333984
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.28744229674339294,
+            "y": 0.4083538055419922,
+            "z": 10.0
+          },
+          "aim": {
+            "x": 0.9989946484565735,
+            "y": 0.044829677790403366
+          },
+          "side": 1,
+          "labelsFaceView": true,
+          "animation": 2081823275,
+          "owner": true,
+          "ready": true,
+          "offer": {
+            "x": 4,
+            "y": 0,
+            "z": 3
+          },
+          "augments": [
+            12,
+            4
+          ],
+          "potion": -1,
+          "rank": 1
+        },
+        {
+          "id": 1,
+          "job": "Witch",
+          "hp": 80.0,
+          "max": 80.0,
+          "position": {
+            "x": 6.0,
+            "y": -3.1512527465820312
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.7125577330589294,
+            "y": 0.40835368633270264,
+            "z": 10.0
+          },
+          "aim": {
+            "x": -1.0,
+            "y": 0.0
+          },
+          "side": -1,
+          "labelsFaceView": true,
+          "animation": 2081823275,
+          "owner": false,
+          "ready": true,
+          "offer": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "augments": [
+            15,
+            3
+          ],
+          "potion": 0,
+          "rank": 1
+        }
+      ],
+      "shots": [
+        {
+          "id": 4,
+          "type": "card",
+          "position": {
+            "x": -4.801162242889404,
+            "y": -3.104337692260742
+          },
+          "rank": 1,
+          "kind": 0
+        }
+      ]
+    },
+    "a": {
+      "seq": 1,
+      "error": "",
+      "listening": true,
+      "server": false,
+      "connected": true,
+      "peers": 0,
+      "readyToStart": false,
+      "scene": "SuperUltraLegendScene",
+      "menuOpen": false,
+      "canResume": true,
+      "title": "승리",
+      "phase": "Playing",
+      "reason": "Knockout",
+      "winner": 0,
+      "timeScale": 1.0,
+      "players": [
+        {
+          "id": 0,
+          "job": "Magician",
+          "hp": 56.0,
+          "max": 56.0,
+          "position": {
+            "x": -6.0,
+            "y": -3.146918535232544
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.7100840210914612,
+            "y": 0.40942010283470154,
+            "z": 10.000000953674316
+          },
+          "aim": {
+            "x": 1.0,
+            "y": 0.0
+          },
+          "side": 1,
+          "labelsFaceView": true,
+          "animation": 937511423,
+          "owner": false,
+          "ready": true,
+          "offer": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "augments": [
+            12,
+            4
+          ],
+          "potion": -1,
+          "rank": 1
+        },
+        {
+          "id": 1,
+          "job": "Witch",
+          "hp": 80.0,
+          "max": 80.0,
+          "position": {
+            "x": 6.0,
+            "y": -3.146918535232544
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.28991585969924927,
+            "y": 0.40942010283470154,
+            "z": 9.999999046325684
+          },
+          "aim": {
+            "x": -1.0,
+            "y": 0.0
+          },
+          "side": -1,
+          "labelsFaceView": true,
+          "animation": 937511423,
+          "owner": true,
+          "ready": true,
+          "offer": {
+            "x": 3,
+            "y": 4,
+            "z": 2
+          },
+          "augments": [
+            15,
+            3
+          ],
+          "potion": 0,
+          "rank": 1
+        }
+      ],
+      "shots": [
+        {
+          "id": 4,
+          "type": "card",
+          "position": {
+            "x": -6.0,
+            "y": -3.1512527465820312
+          },
+          "rank": 1,
+          "kind": 0
+        }
+      ]
+    }
+  },
+  "potion": {
+    "b": {
+      "seq": 4,
+      "error": "",
+      "listening": true,
+      "server": true,
+      "connected": true,
+      "peers": 2,
+      "readyToStart": true,
+      "scene": "SuperUltraLegendScene",
+      "menuOpen": false,
+      "canResume": true,
+      "title": "승리",
+      "phase": "Playing",
+      "reason": "Knockout",
+      "winner": 0,
+      "timeScale": 1.0,
+      "players": [
+        {
+          "id": 0,
+          "job": "Magician",
+          "hp": 56.0,
+          "max": 56.0,
+          "position": {
+            "x": -6.0,
+            "y": -3.1512506008148193
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.2770531177520752,
+            "y": 0.40776193141937256,
+            "z": 10.0
+          },
+          "aim": {
+            "x": 0.9989849328994751,
+            "y": 0.045045770704746246
+          },
+          "side": 1,
+          "labelsFaceView": true,
+          "animation": 2081823275,
+          "owner": true,
+          "ready": true,
+          "offer": {
+            "x": 4,
+            "y": 0,
+            "z": 3
+          },
+          "augments": [
+            12,
+            4
+          ],
+          "potion": -1,
+          "rank": 1
+        },
+        {
+          "id": 1,
+          "job": "Witch",
+          "hp": 71.9000015258789,
+          "max": 80.0,
+          "position": {
+            "x": 6.574755668640137,
+            "y": -3.1512506008148193
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.72540682554245,
+            "y": 0.40776193141937256,
+            "z": 10.0
+          },
+          "aim": {
+            "x": -0.9999992251396179,
+            "y": -0.0012609652476385236
+          },
+          "side": -1,
+          "labelsFaceView": true,
+          "animation": 2081823275,
+          "owner": false,
+          "ready": true,
+          "offer": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "augments": [
+            15,
+            3
+          ],
+          "potion": 0,
+          "rank": 1
+        }
+      ],
+      "shots": [
+        {
+          "id": 5,
+          "type": "potion",
+          "position": {
+            "x": 3.5247573852539062,
+            "y": -2.995420217514038
+          },
+          "rank": 0,
+          "kind": 0
+        }
+      ]
+    },
+    "a": {
+      "seq": 4,
+      "error": "",
+      "listening": true,
+      "server": false,
+      "connected": true,
+      "peers": 0,
+      "readyToStart": false,
+      "scene": "SuperUltraLegendScene",
+      "menuOpen": false,
+      "canResume": true,
+      "title": "승리",
+      "phase": "Playing",
+      "reason": "Knockout",
+      "winner": 0,
+      "timeScale": 1.0,
+      "players": [
+        {
+          "id": 0,
+          "job": "Magician",
+          "hp": 56.0,
+          "max": 56.0,
+          "position": {
+            "x": -6.0,
+            "y": -3.146918535232544
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.7214515805244446,
+            "y": 0.40742504596710205,
+            "z": 10.000000953674316
+          },
+          "aim": {
+            "x": 1.0,
+            "y": 0.0
+          },
+          "side": 1,
+          "labelsFaceView": true,
+          "animation": 937511423,
+          "owner": false,
+          "ready": true,
+          "offer": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "augments": [
+            12,
+            4
+          ],
+          "potion": -1,
+          "rank": 1
+        },
+        {
+          "id": 1,
+          "job": "Witch",
+          "hp": 71.9000015258789,
+          "max": 80.0,
+          "position": {
+            "x": 6.541925430297852,
+            "y": -3.1516671180725098
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.27206456661224365,
+            "y": 0.4071316123008728,
+            "z": 9.999999046325684
+          },
+          "aim": {
+            "x": -0.9999992251396179,
+            "y": -0.0012609652476385236
+          },
+          "side": -1,
+          "labelsFaceView": true,
+          "animation": 2081823275,
+          "owner": true,
+          "ready": true,
+          "offer": {
+            "x": 3,
+            "y": 4,
+            "z": 2
+          },
+          "augments": [
+            15,
+            3
+          ],
+          "potion": 0,
+          "rank": 1
+        }
+      ],
+      "shots": [
+        {
+          "id": 5,
+          "type": "potion",
+          "position": {
+            "x": 5.495571613311768,
+            "y": -3.0030875205993652
+          },
+          "rank": 0,
+          "kind": 0
+        }
+      ]
+    }
+  },
+  "cancel": {
+    "open": {
+      "seq": 10,
+      "error": "",
+      "listening": true,
+      "server": true,
+      "connected": true,
+      "peers": 2,
+      "readyToStart": true,
+      "scene": "SuperUltraLegendScene",
+      "menuOpen": true,
+      "canResume": true,
+      "title": "",
+      "phase": "Playing",
+      "reason": "Knockout",
+      "winner": 0,
+      "timeScale": 1.0,
+      "players": [
+        {
+          "id": 0,
+          "job": "Magician",
+          "hp": 56.0,
+          "max": 56.0,
+          "position": {
+            "x": -6.0,
+            "y": -3.1512508392333984
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.2710209786891937,
+            "y": 0.40965965390205383,
+            "z": 10.0
+          },
+          "aim": {
+            "x": 0.9991393089294434,
+            "y": 0.04148111492395401
+          },
+          "side": 1,
+          "labelsFaceView": true,
+          "animation": 2081823275,
+          "owner": true,
+          "ready": true,
+          "offer": {
+            "x": 4,
+            "y": 0,
+            "z": 3
+          },
+          "augments": [
+            12,
+            4
+          ],
+          "potion": -1,
+          "rank": 6
+        },
+        {
+          "id": 1,
+          "job": "Witch",
+          "hp": 55.70000076293945,
+          "max": 80.0,
+          "position": {
+            "x": 7.113933086395264,
+            "y": -3.1512508392333984
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.7289789915084839,
+            "y": 0.40965965390205383,
+            "z": 10.0
+          },
+          "aim": {
+            "x": -0.9999898076057434,
+            "y": -0.004521587397903204
+          },
+          "side": -1,
+          "labelsFaceView": true,
+          "animation": 2081823275,
+          "owner": false,
+          "ready": true,
+          "offer": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "augments": [
+            15,
+            3
+          ],
+          "potion": 1,
+          "rank": 1
+        }
+      ],
+      "shots": []
+    },
+    "held": {
+      "seq": 9,
+      "error": "",
+      "listening": true,
+      "server": true,
+      "connected": true,
+      "peers": 2,
+      "readyToStart": true,
+      "scene": "SuperUltraLegendScene",
+      "menuOpen": false,
+      "canResume": true,
+      "title": "",
+      "phase": "Playing",
+      "reason": "Knockout",
+      "winner": 0,
+      "timeScale": 1.0,
+      "players": [
+        {
+          "id": 0,
+          "job": "Magician",
+          "hp": 56.0,
+          "max": 56.0,
+          "position": {
+            "x": -6.0,
+            "y": -3.1512508392333984
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.2710209786891937,
+            "y": 0.40965965390205383,
+            "z": 10.0
+          },
+          "aim": {
+            "x": 0.9991393089294434,
+            "y": 0.04148111492395401
+          },
+          "side": 1,
+          "labelsFaceView": true,
+          "animation": 2081823275,
+          "owner": true,
+          "ready": true,
+          "offer": {
+            "x": 4,
+            "y": 0,
+            "z": 3
+          },
+          "augments": [
+            12,
+            4
+          ],
+          "potion": -1,
+          "rank": 8
+        },
+        {
+          "id": 1,
+          "job": "Witch",
+          "hp": 55.70000076293945,
+          "max": 80.0,
+          "position": {
+            "x": 7.113933086395264,
+            "y": -3.1512508392333984
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.7289789915084839,
+            "y": 0.40965965390205383,
+            "z": 10.0
+          },
+          "aim": {
+            "x": -0.9999898076057434,
+            "y": -0.004521587397903204
+          },
+          "side": -1,
+          "labelsFaceView": true,
+          "animation": 2081823275,
+          "owner": false,
+          "ready": true,
+          "offer": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "augments": [
+            15,
+            3
+          ],
+          "potion": 3,
+          "rank": 1
+        }
+      ],
+      "shots": []
+    },
+    "released": {
+      "seq": 11,
+      "error": "",
+      "listening": true,
+      "server": true,
+      "connected": true,
+      "peers": 2,
+      "readyToStart": true,
+      "scene": "SuperUltraLegendScene",
+      "menuOpen": true,
+      "canResume": true,
+      "title": "",
+      "phase": "Playing",
+      "reason": "Knockout",
+      "winner": 0,
+      "timeScale": 1.0,
+      "players": [
+        {
+          "id": 0,
+          "job": "Magician",
+          "hp": 56.0,
+          "max": 56.0,
+          "position": {
+            "x": -6.0,
+            "y": -3.1512508392333984
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.2710209786891937,
+            "y": 0.40965965390205383,
+            "z": 10.0
+          },
+          "aim": {
+            "x": 0.9991393089294434,
+            "y": 0.04148111492395401
+          },
+          "side": 1,
+          "labelsFaceView": true,
+          "animation": 2081823275,
+          "owner": true,
+          "ready": true,
+          "offer": {
+            "x": 4,
+            "y": 0,
+            "z": 3
+          },
+          "augments": [
+            12,
+            4
+          ],
+          "potion": -1,
+          "rank": 6
+        },
+        {
+          "id": 1,
+          "job": "Witch",
+          "hp": 55.70000076293945,
+          "max": 80.0,
+          "position": {
+            "x": 7.113933086395264,
+            "y": -3.1512508392333984
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.7289789915084839,
+            "y": 0.40965965390205383,
+            "z": 10.0
+          },
+          "aim": {
+            "x": -0.9999898076057434,
+            "y": -0.004521587397903204
+          },
+          "side": -1,
+          "labelsFaceView": true,
+          "animation": 2081823275,
+          "owner": false,
+          "ready": true,
+          "offer": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "augments": [
+            15,
+            3
+          ],
+          "potion": 1,
+          "rank": 1
+        }
+      ],
+      "shots": []
+    },
+    "before": {
+      "seq": 8,
+      "error": "",
+      "listening": true,
+      "server": true,
+      "connected": true,
+      "peers": 2,
+      "readyToStart": true,
+      "scene": "SuperUltraLegendScene",
+      "menuOpen": false,
+      "canResume": true,
+      "title": "",
+      "phase": "Playing",
+      "reason": "Knockout",
+      "winner": 0,
+      "timeScale": 1.0,
+      "players": [
+        {
+          "id": 0,
+          "job": "Magician",
+          "hp": 56.0,
+          "max": 56.0,
+          "position": {
+            "x": -6.0,
+            "y": -3.1512508392333984
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.2710209786891937,
+            "y": 0.40965965390205383,
+            "z": 10.0
+          },
+          "aim": {
+            "x": 0.9991393089294434,
+            "y": 0.04148111492395401
+          },
+          "side": 1,
+          "labelsFaceView": true,
+          "animation": 2081823275,
+          "owner": true,
+          "ready": true,
+          "offer": {
+            "x": 4,
+            "y": 0,
+            "z": 3
+          },
+          "augments": [
+            12,
+            4
+          ],
+          "potion": -1,
+          "rank": 7
+        },
+        {
+          "id": 1,
+          "job": "Witch",
+          "hp": 55.70000076293945,
+          "max": 80.0,
+          "position": {
+            "x": 7.113933086395264,
+            "y": -3.1512508392333984
+          },
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "viewport": {
+            "x": 0.7289789915084839,
+            "y": 0.40965965390205383,
+            "z": 10.0
+          },
+          "aim": {
+            "x": -0.9999898076057434,
+            "y": -0.004521587397903204
+          },
+          "side": -1,
+          "labelsFaceView": true,
+          "animation": 2081823275,
+          "owner": false,
+          "ready": true,
+          "offer": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "augments": [
+            15,
+            3
+          ],
+          "potion": 3,
+          "rank": 1
+        }
+      ],
+      "shots": []
+    }
+  },
+  "logs": "PASS no runtime errors in ReadyA.log and ReadyB.log"
+}

@@ -29,6 +29,8 @@ namespace SSW
 
         void OnDisable()
         {
+            _fillImage.DOKill();
+            transform.DOKill();
             _health.OnHealthChanged -= HandleHealthChanged;
             _health.OnDamaged -= HandleDamaged;
         }
