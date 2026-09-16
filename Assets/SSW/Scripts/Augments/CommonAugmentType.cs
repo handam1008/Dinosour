@@ -31,9 +31,6 @@ namespace SSW
         DevilsDeal,
         StayStill,
         CooldownReduction,
-        Microwave,
-        BigWeapon,
-        Poison,
 
         Sniper,
         Ricochet,
