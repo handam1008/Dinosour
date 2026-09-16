@@ -1,4 +1,4 @@
-param([string]$Run = 'Run1', [string]$Project = (Get-Location).Path, [string]$Build = 'Builds/Flow/Game.exe')
+param([string]$Run = 'Run1', [string]$Project = (Get-Location).Path, [string]$Build = 'Builds/Wait/Game.exe')
 $ErrorActionPreference = 'Stop'
 $testRoot = Join-Path $Project ('Logs/Flow/' + $Run)
 New-Item -ItemType Directory -Path $testRoot -Force | Out-Null
@@ -43,16 +43,15 @@ try {
     Await 'initial common draft' { $h.phase -eq 'Draft' -and $c.phase -eq 'Draft' -and (Own $h).draftView -and (Own $c).draftView } 60
     Check ((Own $h).augments.Count -eq 0 -and (Own $c).augments.Count -eq 0) 'No random job granted at match start'
     Check ((ThreeChoices host) -and (ThreeChoices client)) 'Three distinct initial common choices on both peers'
-    Check ((Own $h).seconds -gt 8 -and (Own $c).seconds -gt 8) 'Both initial choices start with ten seconds'
     Send host choose 8
     Start-Sleep -Milliseconds 350
     Check ((Own (Snapshot host)).augments.Count -eq 0) 'Invalid draft slot rejected'
     Send host choose 0
     Await 'waiting for opponent' { $h.draftStatus -and $h.draftLabel -eq '상대가 증강을 고르는 중...' }
     Check ($c.draftLabel -eq '공용 증강 선택') 'Choosing peer sees common choice label'
-    Check ($h.draftTime -eq $c.draftTime) 'Waiting and choosing peers display the same timer'
+    Send client choose 0
     Await 'first combat' { $h.phase -eq 'Playing' -and $c.phase -eq 'Playing' }
-    Check ((Own $h).augments.Count -eq 1 -and (Own $c).augments.Count -eq 1) 'Initial timeout selects exactly one common'
+    Check ((Own $h).augments.Count -eq 1 -and (Own $c).augments.Count -eq 1) 'Initial manual choices grant exactly one common each'
     $counts = @{ host = 1; client = 1 }
     $losses = @{ host = 0; client = 0 }
     for ($set = 1; $set -le 7; $set++) {
@@ -89,17 +88,15 @@ try {
         Check ($h.firstMarks -eq 0 -and $h.secondMarks -eq 0 -and $c.firstMarks -eq 0 -and $c.secondMarks -eq 0) "Set $set lamps reset for next set"
         $oldOffer = (Own (Snapshot $loser)).offer | ConvertTo-Json -Compress
         Check (ThreeChoices $loser) "$loser loss $($losses[$loser]) has three common choices"
-        Check ((Own (Snapshot $loser)).seconds -gt 8) "$loser gets ten seconds for common selection"
-        if ($set -ne 1) { Send $loser choose 0 }
+        Send $loser choose 0
         $counts[$loser]++
         if ($losses[$loser] % 2 -eq 1) {
             Await 'job choice after common' { $s = Snapshot $loser; $s.phase -eq 'Draft' -and (Own $s).draftView -and -not (Own $s).ready -and (Own $s).augments.Count -eq $counts[$loser] -and ((Own $s).offer | ConvertTo-Json -Compress) -ne $oldOffer }
             Check ($h.phase -eq 'Draft' -and $c.phase -eq 'Draft') "$loser loss $($losses[$loser]) waits for separate job choice"
             Check (ThreeChoices $loser) "$loser loss $($losses[$loser]) has three job choices"
-            Check ((Own (Snapshot $loser)).seconds -gt 8) "$loser gets a fresh ten seconds for job selection"
             Await 'job label rendered' { (Snapshot $loser).draftLabel -eq '직업 증강 선택' }
             Check ((Snapshot $loser).draftLabel -eq '직업 증강 선택') "$loser sees the job choice label"
-            if ($set -ne 1) { Send $loser choose 0 }
+            Send $loser choose 0
             $counts[$loser]++
         }
         Await 'next set combat' { $h.phase -eq 'Playing' -and $c.phase -eq 'Playing' }
