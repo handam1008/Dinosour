@@ -2586,6 +2586,14 @@ PrefabInstance:
       propertyPath: _commonPool
       value: 
       objectReference: {fileID: 11400000, guid: f396daccee22bc54c96a46fbe2596d2a, type: 2}
+    - target: {fileID: 9183996978747195668, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      propertyPath: hitChannel
+      value: 
+      objectReference: {fileID: 11400000, guid: ba1b79262c399f14ca5594cd639dfcfd, type: 2}
+    - target: {fileID: 9183996978747195668, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      propertyPath: testChannel
+      value: 
+      objectReference: {fileID: 11400000, guid: 4bffae8994c8b2440973b7b481cec1f3, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -4114,7 +4122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6ea3e269b2dd9f42bf70e4e72d27481, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Player.KDH_AugmentController
-  _bulletData: {fileID: 11400000, guid: 9be95c4a54f705c4a940f8fb516956be, type: 2}
 --- !u!1 &1786929127
 GameObject:
   m_ObjectHideFlags: 0
@@ -5622,7 +5629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SSW.PlayerHatView
   _identity: {fileID: 4861530810439955386}
-  _catalog: {fileID: 0}
+  _catalog: {fileID: 11400000, guid: 36bb1906e98e3c8438b9a968aef73d64, type: 2}
   _renderer: {fileID: 4604062200489303841}
 --- !u!1 &7686893400146233274
 GameObject:
@@ -5713,6 +5720,8 @@ MonoBehaviour:
   _healthBarResourceName: HealthBarUI
   _damageNumberResourceName: DamageNumberUI
   _healthBarPadding: 0.15
+  healthChangeEvent: {fileID: 11400000, guid: 4bffae8994c8b2440973b7b481cec1f3, type: 2}
+  hitEvent: {fileID: 11400000, guid: ba1b79262c399f14ca5594cd639dfcfd, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

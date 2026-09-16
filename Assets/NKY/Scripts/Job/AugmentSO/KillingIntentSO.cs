@@ -74,12 +74,10 @@ namespace NKY.Scripts.Job.AugmentSO
                     {
                         speedComp.ApplySlow(currentDebuffRatio, 0.2f);
                     }
-
-                    // 공격력 감쇄
-                    var attackComp = enemy.GetComponentInChildren<IAttackBuffable>();
-                    if (attackComp != null)
+                    
+                    if (enemy.TryGetComponent(out IWeakenable weakenable))
                     {
-                        attackComp.ApplyAttackDebuff(currentDamageDebuffRatio, 0.2f);
+                        weakenable.ApplyAttackWeaken(currentDamageDebuffRatio, 0.2f);
                     }
                 }
 
