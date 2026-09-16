@@ -23,7 +23,7 @@ namespace SSW
         public override void Show(Augment[] choices, System.Action<Augment> onSelected)
         {
             _onSelected = onSelected;
-            Time.timeScale = 0f;
+            if (PausesGame) Time.timeScale = 0f;
 
             _group.alpha = 0f;
             _group.DOFade(1f, _showDuration).SetUpdate(true);
@@ -55,7 +55,7 @@ namespace SSW
 
             DOVirtual.DelayedCall(_closeDuration * 2f, () =>
             {
-                Time.timeScale = 1f;
+                if (PausesGame) Time.timeScale = 1f;
                 _onSelected?.Invoke(picked.Augment);
                 Destroy(gameObject);
             }, true);

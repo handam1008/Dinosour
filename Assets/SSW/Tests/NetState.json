@@ -1,0 +1,155 @@
+{
+  "build": "PASS 2026-09-10T17:12:25",
+  "client": {
+    "seq": 4,
+    "error": "",
+    "listening": true,
+    "server": false,
+    "connected": true,
+    "peers": 0,
+    "readyToStart": false,
+    "scene": "SuperUltraLegendScene",
+    "menuOpen": true,
+    "canResume": false,
+    "title": "패배",
+    "phase": "Finished",
+    "reason": "Knockout",
+    "winner": 0,
+    "timeScale": 1.0,
+    "players": [
+      {
+        "id": 0,
+        "job": "Magician",
+        "hp": 80.0,
+        "max": 80.0,
+        "position": {
+          "x": -6.0,
+          "y": -3.1518750190734863
+        },
+        "velocity": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "animation": 2081823275,
+        "owner": false,
+        "ready": true,
+        "offer": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "augments": [
+          13,
+          1
+        ],
+        "potion": -1,
+        "rank": 1
+      },
+      {
+        "id": 1,
+        "job": "Witch",
+        "hp": 0.0,
+        "max": 80.0,
+        "position": {
+          "x": 6.0,
+          "y": -3.1518750190734863
+        },
+        "velocity": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "animation": 1293411866,
+        "owner": true,
+        "ready": true,
+        "offer": {
+          "x": 3,
+          "y": 0,
+          "z": 4
+        },
+        "augments": [
+          15,
+          3
+        ],
+        "potion": 0,
+        "rank": 1
+      }
+    ],
+    "shots": []
+  },
+  "server": {
+    "seq": 3,
+    "error": "",
+    "listening": true,
+    "server": true,
+    "connected": true,
+    "peers": 2,
+    "readyToStart": true,
+    "scene": "SuperUltraLegendScene",
+    "menuOpen": true,
+    "canResume": false,
+    "title": "승리",
+    "phase": "Finished",
+    "reason": "Knockout",
+    "winner": 0,
+    "timeScale": 1.0,
+    "players": [
+      {
+        "id": 0,
+        "job": "Magician",
+        "hp": 80.0,
+        "max": 80.0,
+        "position": {
+          "x": -6.0,
+          "y": -3.151252508163452
+        },
+        "velocity": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "animation": 2081823275,
+        "owner": true,
+        "ready": true,
+        "offer": {
+          "x": 1,
+          "y": 0,
+          "z": 2
+        },
+        "augments": [
+          13,
+          1
+        ],
+        "potion": -1,
+        "rank": 1
+      },
+      {
+        "id": 1,
+        "job": "Witch",
+        "hp": 0.0,
+        "max": 80.0,
+        "position": {
+          "x": 6.0,
+          "y": -3.151252508163452
+        },
+        "velocity": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "animation": 1293411866,
+        "owner": false,
+        "ready": true,
+        "offer": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "augments": [
+          15,
+          3
+        ],
+        "potion": 0,
+        "rank": 1
+      }
+    ],
+    "shots": []
+  }
+}

@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace NKY.Scripts
 {
-    public abstract class AbstractWeapon : MonoBehaviour, IAttackBuffable
+    public abstract class AbstractWeapon : MonoBehaviour, IAttackBuffable, IIncomingDamageModifier
     {
         [SerializeField] protected LayerMask targetMask;
         [SerializeField] protected float damage;
@@ -79,7 +79,7 @@ namespace NKY.Scripts
             _debuffCoroutine = null;
         }
 
-        protected virtual void CalcDamage(IDamageable damageable, GameObject target)
+        protected virtual void CalcDamage(Health damageable, GameObject target)
         {
             DamageInfo info = new DamageInfo
             {
@@ -90,7 +90,16 @@ namespace NKY.Scripts
 
             _onBasicAttackChannel?.Raise(target);
             damageCalcEvent?.Raise(info);
-            damageable.TakeDamage(info.Damage);
+            damageable.ReceiveDamage(new DamageRequest(null, info.Damage, info.DamageTag));
+        }
+
+
+        public int Priority { get; }
+        public float ModifyIncomingDamage(DamageRequest request, float currentAmount)
+        {
+            if (request.HasTag(DamageTag.IgnoreDefense))
+                return currentAmount;
+            return 0f;
         }
     }
 }

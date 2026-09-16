@@ -49,8 +49,8 @@ namespace SSW
             if (_title == null) return;
             Vector2 pos = _title.anchoredPosition;
             _title.anchoredPosition = pos + new Vector2(0f, 260f);
-            _title.DOAnchorPos(pos, 0.65f).SetEase(Ease.OutBack).OnComplete(() =>
-                _title.DOAnchorPosY(pos.y + 12f, 1.8f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine));
+            _title.DOAnchorPos(pos, 0.65f).SetEase(Ease.OutBack).SetLink(_title.gameObject, LinkBehaviour.KillOnDestroy).OnComplete(() =>
+                _title.DOAnchorPosY(pos.y + 12f, 1.8f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine).SetLink(_title.gameObject, LinkBehaviour.KillOnDestroy));
         }
 
         public void ShowMain()
@@ -77,21 +77,34 @@ namespace SSW
         void ShowPanel(CanvasGroup target)
         {
             if (_current == target) return;
-
-            if (_title != null) _title.gameObject.SetActive(target != _jobPanel);
-
-            if (_current != null)
+            _title.gameObject.SetActive(target != _jobPanel);
+            CanvasGroup previous = _current;
+            if (previous != null)
             {
-                _current.DOKill();
-                _current.gameObject.SetActive(false);
+                previous.DOKill();
+                previous.interactable = false;
+                previous.blocksRaycasts = false;
+                previous.DOFade(0f, _fadeDuration * 0.5f)
+                    .SetUpdate(true).SetLink(previous.gameObject)
+                    .OnComplete(() => previous.gameObject.SetActive(false));
             }
 
             _current = target;
-            target.gameObject.SetActive(true);
             target.DOKill();
+            target.gameObject.SetActive(true);
             target.alpha = 0f;
-            target.DOFade(1f, _fadeDuration);
-            AnimateButtons(target);
+            target.interactable = false;
+            target.blocksRaycasts = false;
+            target.DOFade(1f, _fadeDuration)
+                .SetDelay(previous != null ? _fadeDuration * 0.5f : 0f)
+                .SetUpdate(true).SetLink(target.gameObject)
+                .OnComplete(() =>
+                {
+                    target.interactable = true;
+                    target.blocksRaycasts = true;
+                });
+            if (_multiplayerMenu == null || target != _multiplayerMenu.Group)
+                AnimateButtons(target);
             SetStatus("");
         }
 
@@ -103,7 +116,7 @@ namespace SSW
                 Transform t = buttons[i].transform;
                 t.DOKill();
                 t.localScale = Vector3.zero;
-                t.DOScale(1f, 0.32f).SetDelay(i * _buttonStagger).SetEase(Ease.OutBack);
+                t.DOScale(1f, 0.32f).SetDelay(i * _buttonStagger).SetEase(Ease.OutBack).SetLink(t.gameObject);
             }
         }
 

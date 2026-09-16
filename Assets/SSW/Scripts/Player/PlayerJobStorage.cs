@@ -6,15 +6,17 @@ namespace SSW
     {
         public const string PreferenceKey = "SSW.EquippedJob.v1";
 
+        static string Key => NetLaunch.Profile == "default" ? PreferenceKey : PreferenceKey + "." + NetLaunch.Profile;
+
         public static PlayerJob Load()
         {
-            int storedValue = PlayerPrefs.GetInt(PreferenceKey, (int)PlayerJob.Magician);
+            int storedValue = PlayerPrefs.GetInt(Key, (int)PlayerJob.Magician);
             return ToSelectableJob(storedValue);
         }
 
         public static void Save(PlayerJob job)
         {
-            PlayerPrefs.SetInt(PreferenceKey, (int)ToSelectableJob((int)job));
+            PlayerPrefs.SetInt(Key, (int)ToSelectableJob((int)job));
             PlayerPrefs.Save();
         }
 

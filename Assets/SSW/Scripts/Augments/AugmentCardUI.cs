@@ -64,7 +64,7 @@ namespace SSW
             _rt.anchoredPosition = _slotPos + new Vector2(0f, -_dealDistance);
             _rt.localRotation = Quaternion.Euler(0f, 0f, -_dealTilt);
 
-            Sequence seq = DOTween.Sequence().SetUpdate(true).SetDelay(delay);
+            Sequence seq = DOTween.Sequence().SetTarget(transform).SetLink(gameObject).SetUpdate(true).SetDelay(delay);
             seq.Append(_rt.DOAnchorPos(_slotPos, _dealDuration).SetEase(Ease.OutCubic));
             seq.Join(_rt.DOLocalRotate(Vector3.zero, _dealDuration).SetEase(Ease.OutBack));
             seq.AppendInterval(0.05f);
@@ -121,6 +121,11 @@ namespace SSW
         public void Lock()
         {
             _locked = true;
+        }
+
+        void OnDisable()
+        {
+            transform.DOKill();
         }
 
         void CaptureSlot()

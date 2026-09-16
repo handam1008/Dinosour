@@ -26,5 +26,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/SSW/Scenes/Map_Vanish.unity
     guid: b8019f2d78d487548aff7a2eba256895
+  - enabled: 1
+    path: Assets/NKY/Scenes/TestScene.unity
+    guid: 2d251f02ca440bd4286c8dbef5d4eb14
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

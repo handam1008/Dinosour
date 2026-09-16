@@ -41,7 +41,7 @@ namespace SSW
         int _rankIndexB;
         InputAction _attackAction;
         MagicianAugmentController _augments;
-        NetworkCardRelay _networkRelay;
+        NetCast _networkCast;
         SpriteRenderer _secondRenderer;
         bool _inactiveUIHidden;
 
@@ -53,7 +53,7 @@ namespace SSW
             base.Awake();
             _attackAction = GetComponent<PlayerInput>().actions.FindAction("Attack");
             _augments = GetComponent<MagicianAugmentController>();
-            _networkRelay = GetComponent<NetworkCardRelay>();
+            _networkCast = GetComponent<NetCast>();
         }
 
         protected override void OnEnable()
@@ -76,6 +76,7 @@ namespace SSW
 
         void OnAttack(InputValue value)
         {
+            if (!enabled) return;
             if (!IsJobActive)
             {
                 HideForInactiveJob();
@@ -244,6 +245,11 @@ namespace SSW
 
         public void SpawnMirrorCard(Suit suit, int rankIndex, Vector2 dir, float effectMultiplier)
         {
+            if (_networkCast != null && _networkCast.IsSpawned)
+            {
+                _networkCast.Mirror(suit, rankIndex + 1, dir, effectMultiplier);
+                return;
+            }
             if (!IsJobActive) return;
             Sprite[] cards = CardsFor(suit);
             if (cards == null || rankIndex < 0 || rankIndex >= cards.Length) return;
@@ -267,12 +273,10 @@ namespace SSW
             float scale,
             float effectMultiplier,
             bool isJoker,
-            bool isMirror,
-            bool shareNetwork = true,
-            Vector3? spawnPosition = null)
+            bool isMirror)
         {
             GameObject go = new GameObject("FlyingCard");
-            go.transform.position = spawnPosition ?? transform.position;
+            go.transform.position = transform.position;
             go.transform.localScale = Vector3.one * scale;
 
             SpriteRenderer sr = go.AddComponent<SpriteRenderer>();
@@ -306,51 +310,29 @@ namespace SSW
             if (isMirror) card.MarkMirror();
             feedback.PlayLaunch();
 
-            if (shareNetwork && _networkRelay != null)
-            {
-                _networkRelay.ShareCard(
-                    suit,
-                    number,
-                    go.transform.position,
-                    dir.normalized,
-                    scale,
-                    effectMultiplier,
-                    isJoker,
-                    isMirror);
-            }
-
             return card;
         }
 
-        public void SpawnNetworkCard(
-            Suit suit,
-            int number,
-            Vector2 position,
-            Vector2 direction,
-            float scale,
-            float effectMultiplier,
-            bool isJoker,
-            bool isMirror)
+        public void ShowRank(int number, bool visible)
         {
-            Sprite[] cards = CardsFor(suit);
-            int rankIndex = number - 1;
-            if (cards == null || rankIndex < 0 || rankIndex >= cards.Length) return;
-
-            Sprite sprite = isJoker && _jokerSprite != null ? _jokerSprite : cards[rankIndex];
-            FlyingCard card = CreateCard(
-                sprite,
-                suit,
-                number,
-                direction,
-                scale,
-                effectMultiplier,
-                isJoker,
-                isMirror,
-                false,
-                position);
-            card.MarkVisualOnly();
+            _renderer.sprite = _blackRanks[number - 1];
+            SetAlphaInstant(_renderer, visible ? 1f : 0f);
+            _anchor.localPosition = new Vector3(_lockedOffset, 0f, 0f);
         }
 
+        public void ConfigureShot(FlyingCard card, SpriteRenderer sprite, MagicianCardFeedback feedback, CardState state)
+        {
+            sprite.sprite = state.Joker && _jokerSprite != null ? _jokerSprite : CardsFor(state.Suit)[state.Rank - 1];
+            sprite.sharedMaterial = _flyingCardMaterial;
+            feedback.Configure(_cardFeedback, state.Suit, state.Rank, _flyingCardMaterial);
+            card.Configure(state.Suit, state.Rank, GetComponent<IHealable>());
+            card.SetAugments(_augments, transform);
+            card.SetLifetime(_flyMaxLifetime);
+            card.SetEffectMultiplier(state.Effect);
+            if (state.Joker) card.MarkJoker();
+            if (state.Mirror) card.MarkMirror();
+            feedback.PlayLaunch();
+        }
         Sprite[] CardsFor(Suit suit)
         {
             switch (suit)

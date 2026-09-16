@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+using KDH.Scripts.Arguments;
 using KDH.Scripts.Bullet;
 using KDH.Scripts.Gun;
+using SSW;
 using UnityEngine;
 
 namespace KDH.Scripts.Upgrade
 {
-    public class KDH_UpgradeList : MonoBehaviour
+    public class KDH_UpgradeList : AugmentReceiverBehaviour
     {
         [field: SerializeField] public List<KDH_AbstractBulletAbility> bulletAbilityList = new();
         [field: SerializeField] public List<KDH_AbstractPlayerAbility> playerAbilityList = new();
@@ -48,5 +50,22 @@ namespace KDH.Scripts.Upgrade
         {
             bulletAbilityList.Remove(ability.GetComponent<KDH_AbstractBulletAbility>());
         }
+
+        public override PlayerJob Job => PlayerJob.Gunner;
+    
+        readonly HashSet<GunnerAugmentType> _has = new();
+        
+        public override bool TryReceive(Augment augment)
+        {
+            if (augment is not GunnerArgument w) return false;
+            _has.Add(w.type);
+            return true;
+        }
+    
+        public bool Has(GunnerAugmentType t) => _has.Contains(t);
+        
+        // 게임 코드가 읽어갈 값. 없으면 1배(= 효과 없음)
+        
+        public float SplashMultiplier => Has(GunnerAugmentType.IceBullet) ? 1.3f : 1f;
     }
 }

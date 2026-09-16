@@ -76,8 +76,6 @@ namespace NKY.Scripts.Job
 
             return true;
         }
-        
-        public bool Has(AssassinAugmentType t) => _has.Contains(t);
 
         public void HealthChanged((float currentHealth, float maxHealth) info)
         {
@@ -135,12 +133,9 @@ namespace NKY.Scripts.Job
 
         private void HandleDamageCalculate(DamageInfo info)
         {
-            if(!info.Target.TryGetComponent(out PlayerController player))
-                return;
-            
             foreach (var aug in _activeAugments.Values)
             {
-                info.Damage = aug.ModifyDamage(_context, player, info.Damage, info.IsBasicAttack);
+                info.Damage = aug.ModifyDamage(_context, info);
             }
         }
 
