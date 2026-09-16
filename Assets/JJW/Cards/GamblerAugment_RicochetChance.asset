@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f7728e03b5ee3946853972dab511ea2, type: 3}
+  m_Name: GamblerAugment_RicochetChance
+  m_EditorClassIdentifier: Assembly-CSharp::JJW.Script.Augments.GamblerAugment
+  displayName: "\uD280\uAE30\uB294 \uD655\uB960"
+  description: "\uB8F0\uB81B \uB3D9\uC804\uC774 \uD295\uAE38 \uB54C \uCD94\uAC00
+    \uD6A8\uACFC\uAC00 \uBC1C\uC0DD\uD569\uB2C8\uB2E4."
+  icon: {fileID: 0}
+  type: 7

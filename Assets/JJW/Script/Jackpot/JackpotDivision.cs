@@ -1,5 +1,5 @@
 using System;
-using SSW;
+using JJW.Script.Augments;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,68 +7,194 @@ namespace JJW.Script.Jackpot
 {
     public class JackpotDivision : MonoBehaviour
     {
+        [Header("References")]
+        [SerializeField] private GamblerCoinShooter coinShooter;
+        [SerializeField] private GamblerAugmentController augmentController;
+
+        [Header("Base Chances")]
+        [SerializeField, Range(0f, 100f)] private float damageChance = 7f;
+        [SerializeField, Range(0f, 100f)] private float healChance = 7f;
+        [SerializeField, Range(0f, 100f)] private float invincibleChance = 7f;
+        [SerializeField, Range(0f, 100f)] private float speedChance = 7f;
+        [SerializeField, Range(0f, 100f)] private float instantKillChance = 1f;
+        [SerializeField, Range(0f, 100f)] private float jackpot777Chance = 5f;
+
+        [Header("Luck Augment")]
+        [SerializeField, Min(0f)] private float luckChanceBonus = 0.5f;
+
+        [Header("Result Values")]
+        [SerializeField] private float damageMultiplier = 1.3f;
+        [SerializeField] private float healAmount = 50f;
+        [SerializeField] private float invincibleDuration = 5f;
+        [SerializeField] private float speedIncreaseAmount = 0.523f;
+        [SerializeField] private float speedDuration = 7.4f;
+        [SerializeField] private float instantKillDamage = 4444f;
+        [SerializeField] private float jackpotHealAmount = 30f;
+        [SerializeField] private float jackpotDuration = 15f;
+
         public event Action<float> DamageJackpot;
         public event Action<float> HealJackpot;
         public event Action<float, float> SpeedJackpot;
-        public event Action<float,float> Jackpot777;
+        public event Action<float, float> Jackpot777;
         public event Action<float> Jackpot444;
         public event Action<float> StarJackpot;
-        
-        [SerializeField] private GamblerCoinShooter coinShooter;
+
+        public event Action<JackpotResultType> ResultDecided;
+
         private void Awake()
         {
             if (coinShooter == null)
             {
                 coinShooter = GetComponentInChildren<GamblerCoinShooter>();
             }
+
+            if (augmentController == null)
+            {
+                augmentController =
+                    GetComponentInParent<GamblerAugmentController>();
+            }
         }
 
         private void OnEnable()
         {
-            coinShooter.RouletteCoinFired += Roulette;
+            if (coinShooter != null)
+            {
+                coinShooter.RouletteCoinFired += Roulette;
+            }
         }
 
         private void OnDisable()
         {
-            coinShooter.RouletteCoinFired -= Roulette;
+            if (coinShooter != null)
+            {
+                coinShooter.RouletteCoinFired -= Roulette;
+            }
         }
 
         private void Roulette()
         {
-            int boll = Random.Range(0, 100);
-            Debug.Log("룰렛 돌아감!!");
+            float chanceBonus = GetLuckChanceBonus();
+            JackpotResultType result = RollResult(chanceBonus);
 
-             if (0 <= boll && boll < 7)
+            Debug.Log(
+                $"룰렛 결과: {result} / 행운 보너스: {chanceBonus}%");
+
+            InvokeResult(result);
+            ResultDecided?.Invoke(result);
+        }
+
+        private float GetLuckChanceBonus()
+        {
+            if (augmentController == null)
             {
-                Debug.Log("공격력 증가");
-                DamageJackpot?.Invoke(1.3f);
+                return 0f;
             }
-            else if (7 <= boll && boll < 14)
+
+            if (!augmentController.Has(GamblerAugmentType.Luck))
             {
-                Debug.Log("체력 회복");
-                HealJackpot?.Invoke(30f);
+                return 0f;
             }
-            else if (14 <= boll && boll < 21)//14 21
+
+            return luckChanceBonus;
+        }
+
+        private JackpotResultType RollResult(float bonusChance)
+        {
+            float roll = Random.Range(0f, 100f);
+            float accumulatedChance = 0f;
+
+            if (IsSelected(
+                    roll,
+                    ref accumulatedChance,
+                    damageChance + bonusChance))
             {
-                Debug.Log("무적");
-                StarJackpot?.Invoke(5f);
+                return JackpotResultType.DamageUp;
             }
-            else if (21 <= boll && boll < 28)
+
+            if (IsSelected(
+                    roll,
+                    ref accumulatedChance,
+                    healChance + bonusChance))
             {
-                Debug.Log("스피드 증가");
-                SpeedJackpot?.Invoke(1.523f,7.4f);
+                return JackpotResultType.Heal;
             }
-            else if (boll == 28)
+
+            if (IsSelected(
+                    roll,
+                    ref accumulatedChance,
+                    invincibleChance + bonusChance))
             {
-                Debug.Log("즉사");
-                Jackpot444?.Invoke(4444f);
+                return JackpotResultType.Invincible;
             }
-            else if (29 <= boll && boll < 34)
+
+            if (IsSelected(
+                    roll,
+                    ref accumulatedChance,
+                    speedChance + bonusChance))
             {
-                Debug.Log("잭팟");
-                Jackpot777?.Invoke(30f,15f);
+                return JackpotResultType.SpeedUp;
+            }
+
+            if (IsSelected(
+                    roll,
+                    ref accumulatedChance,
+                    instantKillChance + bonusChance))
+            {
+                return JackpotResultType.InstantKill;
+            }
+
+            if (IsSelected(
+                    roll,
+                    ref accumulatedChance,
+                    jackpot777Chance + bonusChance))
+            {
+                return JackpotResultType.Jackpot777;
+            }
+
+            return JackpotResultType.None;
+        }
+
+        private bool IsSelected(
+            float roll,
+            ref float accumulatedChance,
+            float chance)
+        {
+            accumulatedChance += Mathf.Max(0f, chance);
+            return roll < accumulatedChance;
+        }
+
+        private void InvokeResult(JackpotResultType result)
+        {
+            switch (result)
+            {
+                case JackpotResultType.DamageUp:
+                    DamageJackpot?.Invoke(damageMultiplier);
+                    break;
+
+                case JackpotResultType.Heal:
+                    HealJackpot?.Invoke(healAmount);
+                    break;
+
+                case JackpotResultType.Invincible:
+                    StarJackpot?.Invoke(invincibleDuration);
+                    break;
+
+                case JackpotResultType.SpeedUp:
+                    SpeedJackpot?.Invoke(
+                        speedIncreaseAmount,
+                        speedDuration);
+                    break;
+
+                case JackpotResultType.InstantKill:
+                    Jackpot444?.Invoke(instantKillDamage);
+                    break;
+
+                case JackpotResultType.Jackpot777:
+                    Jackpot777?.Invoke(
+                        jackpotHealAmount,
+                        jackpotDuration);
+                    break;
             }
         }
     }
 }
-
