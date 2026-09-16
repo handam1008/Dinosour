@@ -86,4 +86,4 @@ Game.exe --net-mode client --net-job Witch --net-address 127.0.0.1 --net-port 77
 
 시작 시 양쪽 모두 공용 증강 3개 중 하나를 고른다. 세트가 끝나면 패자만 추가 선택한다. 개인 누적 1·3번째 패배에는 공용과 직업 증강을 각각 3개 중 하나씩 고르고, 2번째 패배에는 공용만 고른다. 최종 패배 후에는 선택하지 않는다. 기존 증강은 유지하고 매 라운드 체력·위치·공격·임시 효과를 초기화한다.
 
-RoundChecks.txt는 두 실행 파일의 7세트 4:3 종료까지 98개 검사와 에디터의 동시 사망·카드 클릭·연결 종료 4개 검증 결과다. RoundState.json은 최종 호스트 상태, RoundPreview.png는 테두리와 발광을 다듬은 실제 게임 화면이다. RoundRules.txt는 Unity CLI eval_file로 실행하는 순수 규칙 검사다.
+RoundChecks.txt는 두 실행 파일의 7세트 4:3 종료까지 98개 검사와 에디터의 동시 사망·카드 클릭·연결 종료 4개 검증 결과다. RoundState.json은 최종 호스트 상태, RoundPreview.png는 테두리와 발광을 다듬은 실제 게임 화면이다. Rounds~/Rules.cs는 Unity CLI eval_file로 실행하는 순수 규칙 검사다.
