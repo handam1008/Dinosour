@@ -46,6 +46,7 @@ namespace SSW
         [SerializeField] Button _passwordBackButton;
 
         [SerializeField] GameObject _matchingPage;
+        [SerializeField] Text _matchingText;
 
         [SerializeField] GameObject _waitingPage;
         [SerializeField] Text _waitingRoomNameText;
@@ -63,8 +64,9 @@ namespace SSW
         string _gameSceneName;
         string _passwordRoomId;
         Page _page;
+        bool _closing;
 
-        public CanvasGroup Group => _group != null ? _group : GetComponent<CanvasGroup>();
+        public CanvasGroup Group => _group;
 
         void Awake()
         {
@@ -75,7 +77,7 @@ namespace SSW
             _passwordJoinButton.onClick.AddListener(JoinPasswordRoom);
             _passwordBackButton.onClick.AddListener(ShowBrowse);
             _startButton.onClick.AddListener(StartGame);
-            _leaveButton.onClick.AddListener(LeaveRoom);
+            _leaveButton.onClick.AddListener(Back);
         }
 
         public void Initialize(MainMenuController menu, string gameSceneName)
@@ -112,6 +114,7 @@ namespace SSW
         void ShowPage(Page page)
         {
             _page = page;
+            _backButton.gameObject.SetActive(page != Page.Waiting);
             _createPage.SetActive(false);
             _browsePage.SetActive(false);
             _passwordPage.SetActive(false);
@@ -134,30 +137,10 @@ namespace SSW
 
         void AnimatePage(GameObject page)
         {
-            RectTransform rect = page.transform as RectTransform;
-            CanvasGroup pageGroup = page.GetComponent<CanvasGroup>();
-
-            rect.DOKill();
-            rect.localScale = Vector3.one * 0.96f;
-            rect.DOScale(1f, 0.28f).SetEase(Ease.OutBack);
-
-            if (pageGroup != null)
-            {
-                pageGroup.DOKill();
-                pageGroup.alpha = 0f;
-                pageGroup.DOFade(1f, 0.2f);
-            }
-
-            Button[] buttons = page.GetComponentsInChildren<Button>(true);
-            for (int i = 0; i < buttons.Length; i++)
-            {
-                Transform button = buttons[i].transform;
-                button.DOKill();
-                button.localScale = Vector3.zero;
-                button.DOScale(1f, 0.28f)
-                    .SetDelay(i * 0.06f)
-                    .SetEase(Ease.OutBack);
-            }
+            CanvasGroup group = page.GetComponent<CanvasGroup>();
+            group.DOKill();
+            group.alpha = 0f;
+            group.DOFade(1f, 0.2f).SetUpdate(true).SetLink(page);
         }
 
         void ShowPasswordRoom(MultiplayerRoomInfo room)
@@ -218,10 +201,7 @@ namespace SSW
             _playerListText.text = players.ToString();
 
             _startButton.gameObject.SetActive(_sessions.IsHost);
-            _startButton.interactable = _sessions.IsHost
-                && _sessions.PlayerCount == 2
-                && _sessions.HasNetworkPlayer
-                && !_sessions.IsBusy;
+            _startButton.interactable = _sessions.CanStart;
 
             if (!_sessions.IsHost)
                 _waitingMessageText.text = "방장이 게임을 시작할 때까지 기다려주세요";
@@ -230,7 +210,7 @@ namespace SSW
             else if (_sessions.PlayerCount < 2)
                 _waitingMessageText.text = "상대를 기다리는 중...";
             else
-                _waitingMessageText.text = "상대가 들어왔어요. 게임을 시작해 주세요!";
+                _waitingMessageText.text = _sessions.CanStart ? "게임을 시작할 수 있습니다" : "상대의 연결을 준비하는 중...";
         }
 
         async void CreateRoom()
@@ -290,19 +270,7 @@ namespace SSW
         {
             try
             {
-                await _sessions.QuickPlayAsync();
-            }
-            catch (Exception)
-            {
-            }
-        }
-
-        async void LeaveRoom()
-        {
-            try
-            {
-                await _sessions.LeaveRoomAsync();
-                _menu.ShowPlay();
+                await _sessions.QuickPlayAsync(_gameSceneName);
             }
             catch (Exception)
             {
@@ -320,23 +288,37 @@ namespace SSW
             }
         }
 
-        void Back()
+        async void Back()
         {
-            if (_sessions.IsBusy) return;
-            if (_sessions.IsInSession)
+            if (_closing) return;
+            _closing = true;
+            _backButton.interactable = false;
+            try
             {
-                LeaveRoom();
-                return;
+                await _sessions.CancelAsync();
+                _menu.ShowPlay();
             }
-
-            _menu.ShowPlay();
+            catch (Exception) { UpdateStatus(); }
+            finally
+            {
+                _closing = false;
+                _backButton.interactable = true;
+            }
         }
 
         void HandleSessionChanged()
         {
             UpdateStatus();
-            if (!_sessions.IsInSession) return;
-
+            if (_sessions.IsMatching)
+            {
+                if (_page != Page.Matching) ShowPage(Page.Matching);
+                return;
+            }
+            if (!_sessions.IsInSession)
+            {
+                if (_page == Page.Waiting && !_sessions.IsBusy && !_closing) ShowBrowse();
+                return;
+            }
             if (_page != Page.Waiting) ShowWaitingRoom();
             else UpdateWaitingRoom();
         }
@@ -344,7 +326,11 @@ namespace SSW
         void UpdateStatus()
         {
             if (_sessions == null) return;
+            bool matching = _page == Page.Matching;
+            _statusText.gameObject.SetActive(!matching);
             _statusText.text = _sessions.Status;
+            _matchingText.text = string.IsNullOrEmpty(_sessions.Status) ? "상대를 찾는 중..." : _sessions.Status;
+            _backButton.GetComponentInChildren<Text>().text = matching ? "취소" : "뒤로";
             _createButton.interactable = !_sessions.IsBusy;
             _refreshButton.interactable = !_sessions.IsBusy;
             _joinCodeButton.interactable = !_sessions.IsBusy;
