@@ -5,9 +5,9 @@ using UnityEngine.InputSystem;
 
 public class Defance : MonoBehaviour, IIncomingDamageModifier
 {
-    [SerializeField] float _coolDown = 3f;            // 방어 쿨타임
-    [SerializeField] float _barrierContinue = 0.5f;   // 방어 유지시간
-    [SerializeField] GameObject _barrier;             // 보이는 이펙트 (없어도 동작함)
+    [SerializeField] float _coolDown = 3f;
+    [SerializeField] float _barrierContinue = 0.5f;
+    [SerializeField] GameObject _barrier;
 
     public event Action OnBarrierUsed;
 
@@ -17,7 +17,6 @@ public class Defance : MonoBehaviour, IIncomingDamageModifier
     public bool IsGuarding => Time.time < _guardEndTime;
     public bool IsReady => Time.time >= _readyTime;
 
-    // 방어 증강(쿨감, 유지시간 증가)이 조절할 값
     public float CoolDown
     {
         get => _coolDown;
@@ -30,7 +29,6 @@ public class Defance : MonoBehaviour, IIncomingDamageModifier
         set => _barrierContinue = Mathf.Max(0f, value);
     }
 
-    // 다른 받는 피해 보정들보다 먼저 계산
     public int Priority => -100;
 
     void Awake()
@@ -50,11 +48,16 @@ public class Defance : MonoBehaviour, IIncomingDamageModifier
         Guard();
     }
 
-    void Guard()
+    public void Guard()
     {
         _guardEndTime = Time.time + _barrierContinue;
-        _readyTime = _guardEndTime + _coolDown;   // 유지시간이 끝난 뒤부터 쿨타임
+        _readyTime = _guardEndTime + _coolDown;
         OnBarrierUsed?.Invoke();
+    }
+
+    public void ResetCooldown()
+    {
+        _readyTime = Time.time;
     }
 
     public float ModifyIncomingDamage(DamageRequest request, float currentAmount)
