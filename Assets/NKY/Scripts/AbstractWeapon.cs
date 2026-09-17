@@ -79,7 +79,7 @@ namespace NKY.Scripts
             _debuffCoroutine = null;
         }
 
-        protected virtual void CalcDamage(Health damageable, GameObject target)
+        protected virtual void CalcDamage(IDamageable damageable, GameObject target)
         {
             DamageInfo info = new DamageInfo
             {
@@ -90,7 +90,14 @@ namespace NKY.Scripts
 
             _onBasicAttackChannel?.Raise(target);
             damageCalcEvent?.Raise(info);
-            damageable.ReceiveDamage(new DamageRequest(null, info.Damage, info.DamageTag));
+            if (damageable is Health health)
+            {
+                health.ReceiveDamage(new DamageRequest(null, info.Damage, info.DamageTag));
+            }
+            else
+            {
+                damageable.TakeDamage(info.Damage);
+            }
         }
 
 

@@ -1,64 +1,124 @@
-using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using RYU._01.Script.Leaderboard;
 using TMPro;
+using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Leaderboards;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LeaderboardManager : MonoBehaviour
+namespace RYU._01.Script.Leaderboard
 {
-    [Header("UI")]
-    [SerializeField] private Button saveScoreBtn;
-    [SerializeField] private Button loadScoreBtn;
-    [SerializeField] private TMP_InputField scoreIf;
-    [SerializeField] private Button fetchAllScoreBtn;
-    [SerializeField] private Transform rankUserInfoParent;
-    [SerializeField] private GameObject rankUserInfoPrefab;
-    
-    private const string LeaderboardId = "Ranking";
-
-
-    private void Start()
+    public class LeaderboardManager : MonoBehaviour
     {
-        BindingUIEvents();
-    }
+        [Header("UI")]
+        [SerializeField] private Button saveScoreBtn;
+        [SerializeField] private Button logoutBtn;
+        [SerializeField] private TMP_InputField scoreIf;
+        [SerializeField] private Button fetchAllScoreBtn;
+        [SerializeField] private Transform rankUserInfoParent;
+        [SerializeField] private GameObject rankUserInfoPrefab;
 
-    private void BindingUIEvents()
-    {
-        saveScoreBtn.onClick.AddListener(async () => await SaveScore(int.Parse(scoreIf.text)));
-        fetchAllScoreBtn.onClick.AddListener(async () => await LoadAllScore());
-    }
-
-    private async Task LoadAllScore()
-    {
-        RemoveScores();
-        
-        var options = new GetScoresOptions() { Limit = 1000 };
-        var response = await UnityServices.Instance.GetLeaderboardsService().GetScoresAsync(LeaderboardId, options);
-
-        foreach (var entry in response.Results)
+        private readonly Dictionary<string, string> _tierName =  new Dictionary<string, string>
         {
-            var userInfo= Instantiate(rankUserInfoPrefab, rankUserInfoParent);
-            userInfo.GetComponent<RankUserInfo>().SetUserInfo(entry.Rank, entry.Score, entry.Tier, entry.PlayerName);
+            {"Extinct" , "멸종급"},
+            {"IceAge" , "빙하기급" },
+            {"Meteor" , "메테오급"},
+            {"Magma" , "마그마급" },
+            {"Dino" , "공룡급"},
+            {"Monkey" , "원숭이급" },
+        };
+    
+        private const string LeaderboardId = "Ranking";
+
+
+        private void Start()
+        {
+            BindingUIEvents();
+        }
+
+        private void BindingUIEvents()
+        {
+            saveScoreBtn.onClick.AddListener(async () => await SaveScore(int.Parse(scoreIf.text)));
+            fetchAllScoreBtn.onClick.AddListener(async () => await LoadAllScore());
+            logoutBtn.onClick.AddListener(async () => await SignOut());
+        }
+
+        private async Task SignOut()
+        {
+            AuthenticationService.Instance.SignOut();
+            SceneManager.LoadScene("Login");
+        }
+
+        private async Task LoadAllScore()
+        {
+            RemoveScores();
+        
+            var options = new GetScoresOptions { Limit = 1000 };
+            var response = await UnityServices.Instance.GetLeaderboardsService().GetScoresAsync(LeaderboardId, options);
+
+            foreach (var entry in response.Results)
+            {
+                var userInfo = Instantiate(rankUserInfoPrefab, rankUserInfoParent);
+                var go = userInfo.GetComponent<RankUserInfo>();
+                
+                string tier = TierByRank(entry.Rank);
+                go.SetUserInfo(entry.Rank + 1, entry.Score, _tierName[tier], entry.PlayerName.Split("#")[0]);
+            
+            
+                //Monkey = 0, Dino = 1, Magma = 2, Meteor = 3, IceAge = 4, Extinct = 5
+                   
+                switch (entry.Tier)
+                {
+                    case "Extinct":
+                        go.SetTierImage(go.tier[5]);
+                        break;
+                    case  "IceAge":
+                        go.SetTierImage(go.tier[4]);
+                        break;
+                    case "Meteor":
+                        go.SetTierImage(go.tier[3]);
+                        break;
+                    case  "Magma":
+                        go.SetTierImage(go.tier[2]);
+                        break;
+                    case "Dino":
+                        go.SetTierImage(go.tier[1]);
+                        break;
+                    case  "Monkey":
+                        go.SetTierImage(go.tier[0]);
+                        break;
+               
+                }
+            }
+        
+        }
+    
+        public void RemoveScores()
+        {
+            for (int i = 0; i < rankUserInfoParent.childCount; i++)
+            {
+                Destroy(rankUserInfoParent.GetChild(i).gameObject);
+            }
+        }
+
+        private async Task SaveScore(int score)
+        {
+            var response = await UnityServices.Instance.GetLeaderboardsService().AddPlayerScoreAsync(LeaderboardId, score);
+            Debug.Log(JsonConvert.SerializeObject(response));
         }
         
-    }
-    
-    public void RemoveScores()
-    {
-        for (int i = 0; i < rankUserInfoParent.childCount; i++)
+        private static string TierByRank(int rank)   // entry.Rank 그대로 (0부터)
         {
-            Destroy(rankUserInfoParent.GetChild(i).gameObject);
+            if (rank < 1)  return "Extinct";   // 1위
+            if (rank < 6)  return "IceAge";    // 2~6위
+            if (rank < 16) return "Meteor";    // 7~16위
+            if (rank < 31) return "Magma";     // 17~31위
+            if (rank < 48) return "Dino";      // 32~48위
+            return "Monkey";                   // 나머지
         }
-    }
-
-    private async Task SaveScore(int score)
-    {
-        var response = await UnityServices.Instance.GetLeaderboardsService().AddPlayerScoreAsync(LeaderboardId, score);
-        Debug.Log(JsonConvert.SerializeObject(response));
     }
 }

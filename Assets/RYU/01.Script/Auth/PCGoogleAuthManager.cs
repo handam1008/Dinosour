@@ -8,6 +8,7 @@ using Unity.Services.Core;
 using Unity.Services.Core.Environments;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace RYU._01.Script.Auth
@@ -18,9 +19,13 @@ namespace RYU._01.Script.Auth
         [SerializeField] private Button loginButton;
         [SerializeField] private Button savePlayerNameButton;
         [SerializeField] private TMP_InputField playerNameIF;
+
+        
+        [SerializeField] private string sceneName = "Leaderboard";
         
         [Header("Google Desktop Credentials")]
         [SerializeField] private GoogleOAuthConfig oauthConfig;
+        
         
         private const string RedirectUri = "http://localhost:5000/";
 
@@ -57,6 +62,9 @@ namespace RYU._01.Script.Auth
                 var _playerName = await AuthenticationService.Instance.GetPlayerNameAsync();
                 playerNameIF.text = _playerName.Split('#')[0];
                 Debug.Log("플레이어 이름 변경 성공" + AuthenticationService.Instance.PlayerName);
+                playerNameIF.gameObject.SetActive(false);
+                savePlayerNameButton.gameObject.SetActive(false);
+                SceneManager.LoadScene(sceneName);
             }
             catch (AuthenticationException e)
             {
@@ -102,7 +110,7 @@ namespace RYU._01.Script.Auth
             }
             catch (HttpListenerException ex)
             {
-                Debug.LogError($"포트(5000)가 이미 사용 중이거나 방화벽에 의해 차단되었습니다: {ex.Message}");
+                Debug.LogError($"포트(5000)가 이미 사용 중이거나 방화벽에 의해 차단되었습니다: {ex.Message}");  
                 return null;
             }
 

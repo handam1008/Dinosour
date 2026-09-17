@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -6,23 +5,23 @@ namespace KDH.Scripts.Objects
 {
     public class KDH_BackgroundVisual : MonoBehaviour
     {
-        [SerializeField] private Color startColor;
-        [SerializeField] private Color endColor;
-        [SerializeField] private float transitionTime;
+        [SerializeField] protected Color startColor;
+        [SerializeField] protected Color endColor;
+        [SerializeField] protected float transitionTime;
         [SerializeField] private float rotationTime;
-        private SpriteRenderer _spriteRenderer;
+        protected SpriteRenderer _spriteRenderer;
 
-        private void Awake()
+        protected void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        private void Start()
+        protected void Start()
         {
             FadeColor();
         }
 
-        private void FadeColor()
+        public virtual void FadeColor()
         {
             Sequence seq = DOTween.Sequence();
 

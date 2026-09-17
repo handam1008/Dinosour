@@ -25,7 +25,13 @@ namespace JJW.Script.Augments
                 return false;
             }
 
-            if (acquired.Add(gamblerAugment.type))
+            
+
+            bool wasAdded = acquired.Add(gamblerAugment.type);
+
+          
+
+            if (wasAdded)
             {
                 EnsureAugmentHud();
                 augmentHud.AddAugment(gamblerAugment);

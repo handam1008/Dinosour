@@ -39,6 +39,18 @@ namespace SSW
             public Vector2 viewPosition;
             public bool viewLinked;
             public Vector2 velocity;
+            public ulong objectId;
+            public uint epoch;
+            public uint tick;
+            public uint processed;
+            public uint buffered;
+            public int resyncs;
+            public float speed;
+            public float silence;
+            public float ackSilence;
+            public bool grounded;
+            public float correction;
+            public float maxCorrection;
             public Vector3 viewport;
             public Vector2 aim;
             public int side;
@@ -51,6 +63,15 @@ namespace SSW
             public int[] augments;
             public int potion;
             public int rank;
+            public int heldView;
+            public int previews;
+            public int visiblePreviews;
+            public int matches;
+            public int rejected;
+            public bool charging;
+            public uint action;
+            public uint confirmed;
+            public double readyIn;
         }
 
         [Serializable] sealed class ShotState
@@ -61,12 +82,19 @@ namespace SSW
 
             public int rank;
             public int kind;
+            public uint action;
+            public ulong caster;
         }
 
         [Serializable] sealed class Snapshot
         {
+            public int probeVersion;
+            public string build;
+            public int targetFps;
+            public float frameTime;
             public float viewDelay;
             public float bodyDelay;
+            public float castDelay;
             public int seq;
             public string error;
             public bool listening;
@@ -108,9 +136,13 @@ namespace SSW
         float _measureAt;
         float _viewDelay = -1f;
         float _bodyDelay = -1f;
+        double _castAt;
+        float _castDelay = -1f;
+        bool _measuringCast;
         Vector2 _viewStart;
         Vector2 _bodyStart;
         bool _measuring;
+        bool _measureJump;
         bool _watch;
         bool _captured;
         float _introAt = -1f;
@@ -137,9 +169,16 @@ namespace SSW
             if (_measuring && NetGame.Current.Local != null)
             {
                 NetPlayer player = NetGame.Current.Local;
-                if (_viewDelay < 0f && Vector2.Distance(player.GetComponentInChildren<DinosaurVisualController>().transform.position, _viewStart) > 0.035f) _viewDelay = Time.unscaledTime - _measureAt;
-                if (_bodyDelay < 0f && Vector2.Distance(player.Body.position, _bodyStart) > 0.035f) _bodyDelay = Time.unscaledTime - _measureAt;
+                Vector2 viewDelta = (Vector2)player.View.position - _viewStart;
+                Vector2 bodyDelta = player.Body.position - _bodyStart;
+                if (_viewDelay < 0f && (_measureJump ? viewDelta.y > 0.035f : Mathf.Abs(viewDelta.x) > 0.035f)) _viewDelay = Time.unscaledTime - _measureAt;
+                if (_bodyDelay < 0f && (_measureJump ? bodyDelta.y > 0.035f : Mathf.Abs(bodyDelta.x) > 0.035f)) _bodyDelay = Time.unscaledTime - _measureAt;
                 if (_viewDelay >= 0f && _bodyDelay >= 0f) _measuring = false;
+            }
+            if (_measuringCast && NetGame.Current.Local != null && NetGame.Current.Local.Cast.FeedbackAt >= _castAt)
+            {
+                _castDelay = (float)(NetGame.Current.Local.Cast.FeedbackAt - _castAt);
+                _measuringCast = false;
             }
             if (_path == null || Time.unscaledTime < _next) return;
             _next = Time.unscaledTime + 0.1f;
@@ -179,11 +218,12 @@ namespace SSW
                     });
                     break;
                 case "measure":
-                    _viewStart = local.GetComponentInChildren<DinosaurVisualController>().transform.position;
+                    _viewStart = local.View.position;
                     _bodyStart = local.Body.position;
                     _measureAt = Time.unscaledTime;
                     _viewDelay = _bodyDelay = -1f;
                     _measuring = true;
+                    _measureJump = command.value == 1;
                     if (command.value == 1) local.Jump();
                     else local.Move(new Vector2(command.x, command.y));
                     break;
@@ -195,8 +235,26 @@ namespace SSW
                     foreach (NetPlayer player in game.Players)
                         if (!player.IsOwner) player.GetComponent<PlayerController>().ApplySlow(command.x,command.y);
                     break;
+                case "metrics":
+                    foreach (NetPlayer player in game.Players) player.GetComponent<MotionView>().ClearMetrics();
+                    break;
+                case "warp":
+                    foreach (NetPlayer player in game.Players)
+                        if (player.IsOwner == (command.value == 0)) player.GetComponent<MotionView>().Teleport(new Vector2(command.x, command.y));
+                    break;
+                case "fps":
+                    QualitySettings.vSyncCount = 0;
+                    Application.targetFrameRate = Mathf.Clamp(command.value, 20, 240);
+                    break;
                 case "move": local.Move(new Vector2(command.x, command.y)); break;
                 case "jump": local.Jump(); break;
+                case "cast":
+                    _castAt = Time.unscaledTimeAsDouble;
+                    _castDelay = -1f;
+                    _measuringCast = true;
+                    local.Cast.Attack(command.value > 0, new Vector2(command.x, command.y));
+                    break;
+                case "cancel": local.Cast.Cancel(); break;
                 case "press": local.Cast.Attack(true, new Vector2(command.x, command.y)); break;
                 case "release": local.Cast.Attack(false, new Vector2(command.x, command.y)); break;
                 case "aim":
@@ -283,14 +341,25 @@ namespace SSW
                     cursor = player.Draft.View != null ? player.Draft.View.Cursor : -Vector2.one,
                     trail = player.Draft.View != null ? player.Draft.View.Particles : 0,
                     watchOffer = player.Draft.WatchPose.Offer, watchPick = player.Draft.WatchPose.Pick,
-                    max = player.Health.Max, position = player.transform.position, viewPosition = player.GetComponentInChildren<DinosaurVisualController>().transform.position, viewLinked = player.GetComponentInChildren<DinosaurVisualController>().transform.IsChildOf(player.View), velocity = player.Body.linearVelocity,
+                    max = player.Health.Max, position = player.transform.position, viewPosition = player.View.position, viewLinked = player.GetComponentInChildren<DinosaurVisualController>().transform.IsChildOf(player.View), velocity = player.Velocity,
+                    objectId = player.NetworkObjectId, epoch = player.GetComponent<MotionView>().Epoch,
+                    tick = player.GetComponent<MotionView>().Tick, processed = player.InputSequence,
+                    grounded = player.GetComponent<MotionView>().Grounded, correction = player.GetComponent<MotionView>().Correction,
+                    maxCorrection = player.GetComponent<MotionView>().MaxCorrection,
+                    buffered = player.GetComponent<MotionView>().Buffered, resyncs = player.GetComponent<MotionView>().Resyncs,
+                    speed = player.GetComponent<MotionView>().Speed, silence = player.GetComponent<MotionView>().Silence,
+                    ackSilence = player.GetComponent<MotionView>().AckSilence,
                     viewport = game.Arena.View.WorldToViewportPoint(player.transform.position),
                     aim = player.Aim, side = player.Side, labelsFaceView = LabelsFaceView(player, game.Arena.View),
                     animation = animator.GetCurrentAnimatorStateInfo(0).shortNameHash, owner = player.IsOwner,
                     ready = player.Draft.Ready,
                     draftUnlocked = player.Draft.View != null && System.Array.TrueForAll(player.Draft.View.GetComponentsInChildren<AugmentCardUI>(true), card => !card.Locked),
                     offer = player.IsOwner ? player.Draft.Offer : default,
-                    augments = owned.ToArray(), potion = player.Cast.Held, rank = player.Cast.Rank
+                    augments = owned.ToArray(), potion = player.Cast.Held, rank = player.Cast.Rank,
+                    heldView = player.Cast.DisplayHeld, previews = player.Cast.Previews,
+                    visiblePreviews = player.Cast.VisiblePreviews, matches = player.Cast.Matches,
+                    rejected = player.Cast.Rejections, charging = player.Cast.Charging,
+                    action = player.Cast.Action, confirmed = player.Cast.Confirmed, readyIn = player.Cast.ReadyIn
                 });
             }
             if (game.Connected)
@@ -298,16 +367,17 @@ namespace SSW
                 {
                     var obj = entry.Value;
                     if (obj.TryGetComponent(out NetCard card))
-                        shots.Add(new ShotState { id = entry.Key, type = "card", position = obj.transform.position, rank = card.State.Rank });
+                        shots.Add(new ShotState { id = entry.Key, type = "card", position = obj.transform.position, rank = card.State.Rank, action = card.State.Action, caster = card.State.Caster });
                     else if (obj.TryGetComponent(out NetPotion potion))
-                        shots.Add(new ShotState { id = entry.Key, type = "potion", position = obj.transform.position, kind = potion.Kind });
+                        shots.Add(new ShotState { id = entry.Key, type = "potion", position = obj.transform.position, kind = potion.Kind, action = potion.Action, caster = potion.Caster });
                     else if (obj.TryGetComponent(out NetZone zone))
                         shots.Add(new ShotState { id = entry.Key, type = "zone", position = obj.transform.position });
                 }
             MatchState state = game.State;
             Snapshot snapshot = new Snapshot
             {
-                seq = _sequence, viewDelay = _viewDelay, bodyDelay = _bodyDelay, error = _error, listening = game.Connected,
+                probeVersion = 2, build = Application.buildGUID, targetFps = Application.targetFrameRate, frameTime = Time.unscaledDeltaTime,
+                seq = _sequence, viewDelay = _viewDelay, bodyDelay = _bodyDelay, castDelay = _castDelay, error = _error, listening = game.Connected,
                 server = game.Connected && game.Manager.IsServer, connected = game.Connected && game.Manager.IsConnectedClient,
                 peers = game.Connected && game.Manager.IsServer ? game.Manager.ConnectedClientsIds.Count : 0,
                 readyToStart = game.Ready, scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name,
