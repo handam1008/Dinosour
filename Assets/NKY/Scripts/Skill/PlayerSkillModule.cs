@@ -1,12 +1,13 @@
 ﻿using System;
 using NKY.Lib.EventChannel;
 using SSW;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace NKY.Scripts.Skill
 {
-    public class PlayerSkillModule : MonoBehaviour
+    public class PlayerSkillModule : NetworkBehaviour
     {
         [SerializeField] private AbstractPlayerSkillSo _skillData;
         [SerializeField] private VoidEventChannelSO _onSkillUsedEvent;
@@ -33,32 +34,45 @@ namespace NKY.Scripts.Skill
 
         public void TryUseSkill()
         {
-            if (_skillData == null) return;
-
-            // 1. 스킬 재사용 시도
-            if (_skillData.IsReUse && _isReUseReady)
-            {
-                _skillData.ExecuteReUseSkill(_player, _activeSkillInstance);
-                _isReUseReady = false;
-                _activeSkillInstance = null;
+            if (!IsOwner)
                 return;
-            }
 
-            // 2. 최초 스킬 사용 시도 (쿨타임 체크)
+            if (_skillData == null)
+                return;
+
             if (Time.time - _lastUsedTime >= _skillData.SkillCooldown)
             {
                 Vector3 aimDir = GetAimDirection();
-                _activeSkillInstance = _skillData.ExecuteSkill(_player, aimDir);
-                
-                _lastUsedTime = Time.time;
-                if (_skillData.IsReUse && _activeSkillInstance != null)
-                {
-                    _isReUseReady = true;
-                }
 
-                // 이벤트 단 1회 발생
-                _onSkillUsedEvent?.Raise();
+                UseSkillServerRpc(aimDir);
+
+                _lastUsedTime = Time.time;
             }
+        }
+        
+        [ServerRpc]
+        private void UseSkillServerRpc(Vector3 aimDirection)
+        {
+            GameObject skill = _skillData.ExecuteSkill(
+                _player,
+                aimDirection
+            );
+
+            if (skill == null)
+                return;
+
+            NetworkObject networkObject =
+                skill.GetComponent<NetworkObject>();
+
+            if (networkObject == null)
+            {
+                Debug.LogError("스킬 프리팹에 NetworkObject가 없습니다.");
+                Destroy(skill);
+                return;
+            }
+
+            networkObject.Spawn();
+            _onSkillUsedEvent?.Raise();
         }
 
         private Vector3 GetAimDirection()

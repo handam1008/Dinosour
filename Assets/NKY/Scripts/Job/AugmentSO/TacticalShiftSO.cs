@@ -67,7 +67,6 @@ namespace NKY.Scripts.Job.AugmentSO
         // 3. 라운드 시작 시 호출되는 훅 (발동 기회 초기화)
         public override void OnRoundStart(AugmentContext ctx)
         {
-            Debug.Log(ctx.GetFlag(type));
             ctx.SetFlag(type, false);
             ctx.SetFlag(AssassinAugmentType.OnTacticalShift, false);
         }
