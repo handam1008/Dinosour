@@ -14,6 +14,7 @@ namespace SSW
         [SerializeField] Transform _visual;
 
         IPlayerDrive _drive;
+        IForceReceiver _networkForce;
         bool _simulated = true;
         Rigidbody2D _rb;
         Collider2D _col;
@@ -38,6 +39,16 @@ namespace SSW
 
         public float SpeedFactor { get; set; } = 1f;
         public float MoveSpeed => _moveSpeed * CurrentMoveSpeedMultiplier * SpeedFactor;
+        public MotionRate Rate => new MotionRate
+        {
+            Base = _moveSpeed * SpeedFactor,
+            Slow = _slowMultiplier,
+            Haste = _speedMultiplier,
+            SlowTime = Mathf.Max(0f, _slowEndTime - Time.time),
+            HasteTime = Mathf.Max(0f, _speedEndTime - Time.time)
+        };
+        public bool Predicted => _networkForce != null;
+        public Vector2 Velocity => _networkForce is IMotionSource source ? source.Velocity : _rb.linearVelocity;
         public float JumpSpeed => _jumpForce;
         public LayerMask GroundMask => _whatIsGround;
         public float KnockbackDecay => _externalVelocityDecay;
@@ -56,9 +67,10 @@ namespace SSW
             }
         }
 
-        public void Bind(IPlayerDrive drive, bool simulated)
+        public void Bind(IPlayerDrive drive, bool simulated, IForceReceiver networkForce = null)
         {
             _drive = drive;
+            _networkForce = networkForce;
             Simulated = simulated;
         }
 
@@ -68,7 +80,7 @@ namespace SSW
         }
 
         public float FacingSign => Mathf.Sign(_visual.localScale.x);
-        public bool IsGrounded => GetGroundCollider() != null;
+        public bool IsGrounded => _networkForce is IMotionSource source ? source.Grounded : GetGroundCollider() != null;
         public float CurrentMoveSpeedMultiplier
         {
             get
@@ -114,6 +126,11 @@ namespace SSW
 
         public void ApplyForce(Vector2 force, ForceMode2D mode)
         {
+            if (_networkForce != null)
+            {
+                _networkForce.ApplyForce(force, mode);
+                return;
+            }
             if (_rb == null) return;
 
             float mass = Mathf.Max(0.0001f, _rb.mass);

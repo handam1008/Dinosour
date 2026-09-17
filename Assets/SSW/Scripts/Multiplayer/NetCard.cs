@@ -6,6 +6,7 @@ namespace SSW
     public struct CardState : INetworkSerializable, System.IEquatable<CardState>
     {
         public ulong Caster;
+        public uint Action;
         public Suit Suit;
         public int Rank;
         public float Effect;
@@ -15,6 +16,7 @@ namespace SSW
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref Caster);
+            serializer.SerializeValue(ref Action);
             serializer.SerializeValue(ref Suit);
             serializer.SerializeValue(ref Rank);
             serializer.SerializeValue(ref Effect);
@@ -22,7 +24,7 @@ namespace SSW
             serializer.SerializeValue(ref Mirror);
         }
 
-        public bool Equals(CardState other) => Caster == other.Caster && Suit == other.Suit
+        public bool Equals(CardState other) => Caster == other.Caster && Action == other.Action && Suit == other.Suit
             && Rank == other.Rank && Effect == other.Effect && Joker == other.Joker && Mirror == other.Mirror;
     }
 
@@ -41,11 +43,11 @@ namespace SSW
 
         public CardState State => _state.Value;
 
-        public void Init(NetPlayer owner, Suit suit, int rank, Vector2 direction, float effect, bool joker, bool mirror)
+        public void Init(NetPlayer owner, Suit suit, int rank, Vector2 direction, float effect, bool joker, bool mirror, uint action = 0)
         {
             _startState = new CardState
             {
-                Caster = owner.NetworkObjectId, Suit = suit, Rank = rank,
+                Caster = owner.NetworkObjectId, Action = action, Suit = suit, Rank = rank,
                 Effect = effect, Joker = joker, Mirror = mirror
             };
             _velocity = direction * 12f;
@@ -58,7 +60,9 @@ namespace SSW
             if (IsServer) _state.Value = _startState;
             CardState state = _state.Value;
             NetPlayer owner = NetworkManager.SpawnManager.SpawnedObjects[state.Caster].GetComponent<NetPlayer>();
-            owner.Cast.Cards.ConfigureShot(_card, _sprite, _feedback, state);
+            bool anticipated = owner.IsOwner && !IsServer && state.Action != 0;
+            owner.Cast.Cards.ConfigureShot(_card, _sprite, _feedback, state, !anticipated);
+            if (anticipated && !owner.Cast.MatchShot(state.Action, 0, _sprite, _feedback)) _feedback.PlayLaunch();
             _card.SetLife(this);
             _card.enabled = IsServer;
             _collider.enabled = IsServer;

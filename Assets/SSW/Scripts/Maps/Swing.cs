@@ -28,14 +28,17 @@ namespace SSW
 
         void OnCollisionStay2D(Collision2D collision)
         {
-            if (!collision.collider.TryGetComponent<IForceReceiver>(out _)) return;
             Rigidbody2D rider = collision.rigidbody;
+            if (rider == null || !rider.TryGetComponent<IForceReceiver>(out _)) return;
+            if (rider.TryGetComponent<NetPlayer>(out var player) && !player.IsServer) return;
+            Vector2 velocity = rider.TryGetComponent<PlayerController>(out var motion)
+                ? motion.Velocity : rider.linearVelocity;
 
             for (int i = 0; i < collision.contactCount; i++)
             {
                 Vector2 point = collision.GetContact(i).point;
                 if (transform.InverseTransformPoint(point).y < _surface) continue;
-                float speed = rider.linearVelocity.x - _body.GetPointVelocity(point).x;
+                float speed = velocity.x - _body.GetPointVelocity(point).x;
                 _body.AddForceAtPosition(Vector2.right * (Mathf.Clamp(speed, -7f, 7f) * _push), point);
                 break;
             }
