@@ -13,12 +13,18 @@
     <list default="true" id="6fb1d2c4-7096-4d2f-81e7-2333f2fed1f9" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/JJW/Cards/GamblerAugmentPool.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Cards/GamblerAugmentPool.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/JJW/Cards/GamblerAugment_RicochetChance.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/JJW/Cards/GamblerAugment_RicochetChance.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/JJW/Cards/GamblerAugment_JackpotBoost.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Cards/GamblerAugment_JackpotBoost.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/JJW/Scene/Gamblinger.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Scene/Gamblinger.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/Augments/GamblerAugmentType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/Augments/GamblerAugmentType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/Augments/GamblerAugmentController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/Augments/GamblerAugmentController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/GamblerCoinUpgradeEffects.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/GamblerCoinUpgradeEffects.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/GamblerMagazine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/GamblerMagazine.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/JackpotDivision.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/JackpotDivision.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/NKY/Player (1).prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/NKY/Player (1).prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SSW/Resources/Network/Card.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SSW/Resources/Network/Card.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SSW/Resources/Network/Match.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SSW/Resources/Network/Match.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SSW/Resources/Network/Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SSW/Resources/Network/Player.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SSW/Resources/Network/Potion.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SSW/Resources/Network/Potion.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SSW/Resources/Network/Zone.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SSW/Resources/Network/Zone.prefab" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +36,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d44b17e136d09081da1e8fd0e8c83fde60e11818b9f2442d7ed8cb733fae895e/System.Collections.Generic.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/JJW/Anime/CoinsV2_outline_18x18res_14.controller" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/JJW/Script/Augments/Gambler777AugmentEffects.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/JJW/Script/Augments/GamblerRaiseTheStakes.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/JJW/Script/GamblerCoinUpgradeEffects.cs" root0="FORCE_HIGHLIGHTING" />
@@ -257,6 +264,8 @@
       <workItem from="1789515398248" duration="4247000" />
       <workItem from="1789570912000" duration="75000" />
       <workItem from="1789571390943" duration="1086000" />
+      <workItem from="1789625626129" duration="1074000" />
+      <workItem from="1789632216320" duration="2956000" />
     </task>
     <servers />
   </component>

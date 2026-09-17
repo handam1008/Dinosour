@@ -116,6 +116,11 @@ namespace JJW.Script.Jackpot
 
         private void Roulette()
         {
+            Debug.Log(
+                $"[룰렛 증강 검사] " +
+                $"컨트롤러 연결: {augmentController != null} / " +
+                $"행운 적용: {HasAugment(GamblerAugmentType.Luck)}",
+                this);
             bool usedGuaranteedJackpot =
                 HasAugment(GamblerAugmentType.GuaranteedJackpot)
                 && guaranteedWinningCount >= requiredWinningCount;
