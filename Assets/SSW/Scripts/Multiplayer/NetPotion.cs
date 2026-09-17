@@ -16,6 +16,11 @@ namespace SSW
         [SerializeField] FeedBackPlayer _feedback;
         [SerializeField] float _radius = 1.5f;
         readonly NetworkVariable<int> _kind = new NetworkVariable<int>();
+        readonly NetworkVariable<ulong> _caster = new NetworkVariable<ulong>();
+        readonly NetworkVariable<uint> _action = new NetworkVariable<uint>();
+        readonly NetworkVariable<int> _part = new NetworkVariable<int>();
+        uint _startAction;
+        int _startPart;
         NetPlayer _owner;
         Collider2D _ownerCollider;
         PotionModifiers _mods;
@@ -26,10 +31,16 @@ namespace SSW
         bool _hit;
 
         public int Kind => _kind.Value;
+        public SpriteRenderer Style => _sprite;
+        public float Gravity => _body.gravityScale;
+        public ulong Caster => _caster.Value;
+        public uint Action => _action.Value;
 
-        public void Init(NetPlayer owner, int kind, Vector2 velocity, PotionModifiers mods)
+        public void Init(NetPlayer owner, int kind, Vector2 velocity, PotionModifiers mods, uint action = 0, int part = 0)
         {
             _owner = owner;
+            _startAction = action;
+            _startPart = part;
             _ownerCollider = owner.Collider;
             _startKind = kind;
             _mods = mods;
@@ -39,10 +50,21 @@ namespace SSW
 
         public override void OnNetworkSpawn()
         {
-            if (IsServer) _kind.Value = _startKind;
+            if (IsServer)
+            {
+                _kind.Value = _startKind;
+                _caster.Value = _owner.NetworkObjectId;
+                _action.Value = _startAction;
+                _part.Value = _startPart;
+            }
             _sprite.sprite = _stock.At(_kind.Value).sprite;
             _collider.enabled = IsServer;
-            if (!IsServer) return;
+            if (!IsServer)
+            {
+                if (NetworkManager.SpawnManager.SpawnedObjects.TryGetValue(_caster.Value, out NetworkObject caster))
+                    caster.GetComponent<NetPlayer>().Cast.MatchShot(_action.Value, _part.Value, _sprite);
+                return;
+            }
             Physics2D.IgnoreCollision(_collider, _ownerCollider);
             _body.linearVelocity = _velocity;
             _body.angularVelocity = -360f;

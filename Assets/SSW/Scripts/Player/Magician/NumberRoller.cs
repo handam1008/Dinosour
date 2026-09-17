@@ -320,7 +320,7 @@ namespace SSW
             _anchor.localPosition = new Vector3(_lockedOffset, 0f, 0f);
         }
 
-        public void ConfigureShot(FlyingCard card, SpriteRenderer sprite, MagicianCardFeedback feedback, CardState state)
+        public void ConfigureShot(FlyingCard card, SpriteRenderer sprite, MagicianCardFeedback feedback, CardState state, bool launch = true)
         {
             sprite.sprite = state.Joker && _jokerSprite != null ? _jokerSprite : CardsFor(state.Suit)[state.Rank - 1];
             sprite.sharedMaterial = _flyingCardMaterial;
@@ -331,8 +331,15 @@ namespace SSW
             card.SetEffectMultiplier(state.Effect);
             if (state.Joker) card.MarkJoker();
             if (state.Mirror) card.MarkMirror();
-            feedback.PlayLaunch();
+            if (launch) feedback.PlayLaunch();
         }
+        public void StylePreview(SpriteRenderer sprite, MagicianCardFeedback feedback, Suit suit, int rank)
+        {
+            sprite.sprite = CardsFor(suit)[Mathf.Clamp(rank, 1, 10) - 1];
+            sprite.sharedMaterial = _flyingCardMaterial;
+            feedback.Configure(_cardFeedback, suit, rank, _flyingCardMaterial);
+        }
+
         Sprite[] CardsFor(Suit suit)
         {
             switch (suit)

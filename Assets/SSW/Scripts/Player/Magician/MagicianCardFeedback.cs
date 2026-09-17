@@ -162,6 +162,22 @@ namespace SSW
             PlayClip(clip, position, _settings.volume * 0.35f * Mathf.Clamp01(intensity));
         }
 
+        public void SetTrailVisible(bool visible)
+        {
+            if (_trail != null)
+            {
+                _trail.emitting = visible;
+                _trail.enabled = visible;
+                if (!visible) _trail.Clear();
+            }
+            if (_coreTrail != null)
+            {
+                _coreTrail.emitting = visible;
+                _coreTrail.enabled = visible;
+                if (!visible) _coreTrail.Clear();
+            }
+        }
+
         public void ReleaseTrail()
         {
             ReleaseTrailRenderer(ref _trailObject, ref _trail);
