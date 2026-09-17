@@ -230,5 +230,13 @@ namespace SSW
                     renderer.enabled = visible && renderer.sprite != null;
             }
         }
+        
+        public void PlayRevive()
+        {
+            _dead = false;
+            _hurtUntil = 0f;
+            if (_animator != null) _animator.speed = _normalAnimatorSpeed;
+            PlayAnimation(Idle, true);
+        }
     }
 }
