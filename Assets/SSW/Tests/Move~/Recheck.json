@@ -1,0 +1,1132 @@
+{
+  "date": "2026-09-17T14:12:21.002575+00:00",
+  "base": "fed19ef3d9238259726713229afc6257d47349fb",
+  "branch": "SSW",
+  "protocol": 2,
+  "developmentBuild": {
+    "guid": "3f31f81694d745eb8b9cc47388203e71",
+    "buildId": "build_746a5d9d66a8",
+    "path": "Builds/Local/Game.exe",
+    "assemblySha256": "e5f38283d9ab3a4c6c2acb967a797db82e0edb6c466da7fdea9d38b679ba42ef",
+    "errors": 0,
+    "warnings": 10
+  },
+  "playBuild": {
+    "guid": "64cb290a41d74031982fee03b78008bb",
+    "buildId": "build_c20b0fad4adc",
+    "path": "Builds/Play/Game.exe",
+    "assemblySha256": "0f0ba7abf23f99eae83b7475d8bc50725392aa6843e34de9de63d297538fe42c",
+    "errors": 0,
+    "warnings": 10,
+    "developmentProbesExcluded": true
+  },
+  "sources": {
+    "Assets/SSW/Scripts/Multiplayer/NetCast.cs": "517fa9455bc8e60d33b078c1558c534bc589f3266c4063f5116e9211590cf409",
+    "Assets/SSW/Scripts/Multiplayer/NetPlayer.cs": "7c8bc545d2331329872a38691d3cbccc66559516fdfb0df34610485250aca80e",
+    "Assets/SSW/Scripts/Multiplayer/MotionView.cs": "eecc2b1380d264d55f369bc2ef6df9f41e2f80afcaf8fa13ce605c830fd90e48",
+    "Assets/SSW/Scripts/Multiplayer/CastView.cs": "0e53e1818fc8ff8019d5f30537eade7419d9c324ce900f418993c0d39d16d8e4"
+  },
+  "runtime": {
+    "Recheck05": {
+      "checks": [
+        "PASS Peers use the same build",
+        "PASS Continuous movement converges under 200 ms delay, 50 ms jitter and 5 percent loss per peer",
+        "PASS All three guest projectiles hand over to authoritative objects"
+      ],
+      "build": "3f31f81694d745eb8b9cc47388203e71",
+      "trajectory": {
+        "build": "3f31f81694d745eb8b9cc47388203e71",
+        "movementMaxCorrection": 0.0,
+        "peers": {
+          "host": {
+            "frames": 361,
+            "frameMsP95": 33.3930067718029,
+            "shots": [
+              {
+                "caster": 2,
+                "action": 2,
+                "part": 0,
+                "frames": 22,
+                "minForwardStep": 0.17761802673339844,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 1,
+                "part": 0,
+                "frames": 8,
+                "minForwardStep": 0.49994659423828125,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 4,
+                "part": 0,
+                "frames": 22,
+                "minForwardStep": 0.19626426696777344,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 2,
+                "part": 0,
+                "frames": 8,
+                "minForwardStep": 0.49998950958251953,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 6,
+                "part": 0,
+                "frames": 22,
+                "minForwardStep": 0.2050018310546875,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 3,
+                "part": 0,
+                "frames": 8,
+                "minForwardStep": 0.4999856948852539,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              }
+            ]
+          },
+          "client": {
+            "frames": 1725,
+            "frameMsP95": 6.953996606171131,
+            "shots": [
+              {
+                "caster": 3,
+                "action": 1,
+                "part": 0,
+                "frames": 101,
+                "minForwardStep": 0.0,
+                "handoffs": 1,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 2,
+                "part": 0,
+                "frames": 60,
+                "minForwardStep": 0.07888031005859375,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 2,
+                "part": 0,
+                "frames": 103,
+                "minForwardStep": 0.0,
+                "handoffs": 1,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 4,
+                "part": 0,
+                "frames": 100,
+                "minForwardStep": 0.07309341430664062,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 3,
+                "part": 0,
+                "frames": 103,
+                "minForwardStep": 0.0,
+                "handoffs": 0,
+                "contactComplete": true,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 6,
+                "part": 0,
+                "frames": 111,
+                "minForwardStep": 0.0,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              }
+            ]
+          }
+        },
+        "checks": 43
+      },
+      "rtt": 451
+    },
+    "Recheck06": {
+      "checks": [
+        "PASS Peers use the same build",
+        "PASS Continuous movement converges under 450 ms delay, 40 ms jitter and 2 percent loss per peer",
+        "PASS All three guest projectiles hand over to authoritative objects"
+      ],
+      "build": "3f31f81694d745eb8b9cc47388203e71",
+      "trajectory": {
+        "build": "3f31f81694d745eb8b9cc47388203e71",
+        "movementMaxCorrection": 0.0,
+        "peers": {
+          "host": {
+            "frames": 717,
+            "frameMsP95": 16.846202313899994,
+            "shots": [
+              {
+                "caster": 2,
+                "action": 1,
+                "part": 0,
+                "frames": 17,
+                "minForwardStep": 0.24999237060546875,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 2,
+                "part": 0,
+                "frames": 71,
+                "minForwardStep": 0.1999727487564087,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 2,
+                "part": 0,
+                "frames": 18,
+                "minForwardStep": 0.08548164367675781,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 4,
+                "part": 0,
+                "frames": 71,
+                "minForwardStep": 0.19997525215148926,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 3,
+                "part": 0,
+                "frames": 18,
+                "minForwardStep": 0.0,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 6,
+                "part": 0,
+                "frames": 72,
+                "minForwardStep": 0.1979231834411621,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              }
+            ]
+          },
+          "client": {
+            "frames": 718,
+            "frameMsP95": 16.781101003289223,
+            "shots": [
+              {
+                "caster": 3,
+                "action": 2,
+                "part": 0,
+                "frames": 126,
+                "minForwardStep": 0.0,
+                "handoffs": 1,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 1,
+                "part": 0,
+                "frames": 18,
+                "minForwardStep": 0.22498416900634766,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 4,
+                "part": 0,
+                "frames": 128,
+                "minForwardStep": 0.0,
+                "handoffs": 1,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 2,
+                "part": 0,
+                "frames": 17,
+                "minForwardStep": 0.2354421615600586,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 6,
+                "part": 0,
+                "frames": 131,
+                "minForwardStep": 0.0,
+                "handoffs": 1,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 3,
+                "part": 0,
+                "frames": 20,
+                "minForwardStep": 0.22499465942382812,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              }
+            ]
+          }
+        },
+        "checks": 44
+      },
+      "rtt": 1001
+    },
+    "RecheckCore03": {
+      "checks": [
+        "PASS Both peers use the fresh instrumented build",
+        "PASS Actual dinosaur renderers are attached to presentation transforms",
+        "PASS Client visible movement starts in 17 ms",
+        "PASS Client collision body responds in 17 ms despite simulated latency",
+        "PASS Client collision body converges to the actual host authority after stopping",
+        "PASS Host movement starts in 17 ms",
+        "PASS Client jump presentation starts in 17 ms",
+        "PASS Client jump collision body responds without a server round trip",
+        "PASS Jump keeps its upward velocity through consecutive physics steps",
+        "PASS Jump lands and reconciles without persistent offset",
+        "PASS Authoritative knockback reaches the client motor",
+        "PASS Prediction reconciles after server knockback",
+        "PASS Server slow reaches the predicted movement speed",
+        "PASS Teleport resets owner prediction to the authoritative position",
+        "PASS Client charge feedback starts in 0 ms",
+        "PASS Client shot feedback starts in 0 ms",
+        "PASS Anticipated shot matches the authoritative projectile",
+        "PASS Rejected cooldown attack leaves no ghost shot or charge",
+        "PASS Cancel clears local and server charge",
+        "PASS Real card collision applies the same health change on host and client",
+        "PASS Collision body stops advancing after snapshot timeout",
+        "PASS Presentation recovers after packet loss ends",
+        "PASS Server input backlog recovers instead of retaining stale movement",
+        "PASS Predicted character stays within arena walls",
+        "PASS Prediction clears during respawn countdown",
+        "PASS Movement prediction is disabled during card selection",
+        "PASS Respawn preserves the selected augment"
+      ],
+      "build": "3f31f81694d745eb8b9cc47388203e71",
+      "rtt": 250
+    },
+    "RecheckCore04": {
+      "checks": [
+        "PASS Both peers use the fresh instrumented build",
+        "PASS Actual dinosaur renderers are attached to presentation transforms",
+        "PASS Client visible movement starts in 14 ms",
+        "PASS Client collision body responds in 14 ms despite simulated latency",
+        "PASS Client collision body converges to the actual host authority after stopping",
+        "PASS Host movement starts in 33 ms",
+        "PASS Client jump presentation starts in 21 ms",
+        "PASS Client jump collision body responds without a server round trip",
+        "PASS Jump keeps its upward velocity through consecutive physics steps",
+        "PASS Jump lands and reconciles without persistent offset",
+        "PASS Authoritative knockback reaches the client motor",
+        "PASS Prediction reconciles after server knockback",
+        "PASS Server slow reaches the predicted movement speed",
+        "PASS Teleport resets owner prediction to the authoritative position",
+        "PASS Client shot feedback starts in 0 ms",
+        "PASS Anticipated shot matches the authoritative projectile",
+        "PASS Real card collision applies the same health change on host and client",
+        "PASS Collision body stops advancing after snapshot timeout",
+        "PASS Presentation recovers after packet loss ends",
+        "PASS Server input backlog recovers instead of retaining stale movement",
+        "PASS Predicted character stays within arena walls",
+        "PASS Prediction clears during respawn countdown",
+        "PASS Movement prediction is disabled during card selection",
+        "PASS Respawn preserves the selected augment"
+      ],
+      "build": "3f31f81694d745eb8b9cc47388203e71",
+      "rtt": 212
+    },
+    "RecheckSpecial01": {
+      "checks": [
+        "PASS Delayed card or all three potion parts match independently",
+        "PASS Return, bounce, multishot and lingering zone effects finish without ghost objects"
+      ],
+      "build": "3f31f81694d745eb8b9cc47388203e71",
+      "rtt": 408
+    },
+    "RecheckSpecial02": {
+      "checks": [
+        "PASS Delayed card or all three potion parts match independently",
+        "PASS Return, bounce, multishot and lingering zone effects finish without ghost objects"
+      ],
+      "build": "3f31f81694d745eb8b9cc47388203e71",
+      "rtt": 550
+    },
+    "Cadence07": {
+      "checks": [
+        "PASS host accepted the shot",
+        "PASS host can fire again when the local cooldown ends",
+        "PASS client accepted the shot",
+        "PASS client can fire again when the local cooldown ends",
+        "PASS Guest cooldown does not add a network round trip: gap -0.013 seconds",
+        "PASS Charge survives delayed acknowledgement beyond 800 ms",
+        "PASS Unacknowledged charge starts immediately",
+        "PASS Unacknowledged attack starts local feedback",
+        "PASS Lost acknowledgement cannot leave an endless preview or charge"
+      ],
+      "build": "3f31f81694d745eb8b9cc47388203e71"
+    }
+  },
+  "idleQueue": {
+    "before": [
+      {
+        "delay": 0,
+        "responseMs": 461.6685,
+        "buffer": 16,
+        "distance": 6.4399954080581665
+      },
+      {
+        "delay": 250,
+        "responseMs": 477.4973,
+        "buffer": 4,
+        "distance": 6.299995303153992
+      },
+      {
+        "delay": 0,
+        "responseMs": 438.8858,
+        "buffer": 16,
+        "distance": 6.299995124340057
+      }
+    ],
+    "after": [
+      {
+        "delay": 0,
+        "responseMs": 73.3043,
+        "buffer": 1,
+        "distance": 6.299995481967926
+      },
+      {
+        "delay": 250,
+        "responseMs": 458.7704,
+        "buffer": 0,
+        "distance": 5.739995896816254
+      },
+      {
+        "delay": 0,
+        "responseMs": 183.3708,
+        "buffer": 0,
+        "distance": 5.599995791912079
+      },
+      {
+        "delay": 350,
+        "responseMs": 512.3065999999999,
+        "buffer": 0,
+        "distance": 6.439994990825653
+      },
+      {
+        "delay": 50,
+        "responseMs": 106.6776,
+        "buffer": 0,
+        "distance": 6.439994990825653
+      }
+    ],
+    "checks": [
+      "PASS Guest movement reaches authority after delay changes to 0 ms per peer: 6.3 units",
+      "PASS Idle input backlog drains after 0 ms delay",
+      "PASS Zero-delay authority response stays below 350 ms including probe polling",
+      "PASS Guest movement reaches authority after delay changes to 250 ms per peer: 5.74 units",
+      "PASS Idle input backlog drains after 250 ms delay",
+      "PASS Guest movement reaches authority after delay changes to 0 ms per peer: 5.6 units",
+      "PASS Idle input backlog drains after 0 ms delay",
+      "PASS Zero-delay authority response stays below 350 ms including probe polling",
+      "PASS Guest movement reaches authority after delay changes to 350 ms per peer: 6.44 units",
+      "PASS Idle input backlog drains after 350 ms delay",
+      "PASS Guest movement reaches authority after delay changes to 50 ms per peer: 6.44 units",
+      "PASS Idle input backlog drains after 50 ms delay"
+    ],
+    "build": "6d8e83abd39b487cab5039e4c48cad5b",
+    "note": "MotionView is unchanged since this intermediate build; later edits only affect NetCast cooldown timing."
+  },
+  "cadence": {
+    "before": [
+      {
+        "elapsed": 3.0235815048217773,
+        "rejected": 0,
+        "rtt": 0,
+        "peer": "host"
+      },
+      {
+        "elapsed": 3.738234519958496,
+        "rejected": 0,
+        "rtt": 517,
+        "peer": "client"
+      }
+    ],
+    "intermediate": [
+      {
+        "elapsed": 3.031494140625,
+        "rtt": 0,
+        "rejected": 0,
+        "peer": "host"
+      },
+      {
+        "elapsed": 3.5192298889160156,
+        "rtt": 534,
+        "rejected": 0,
+        "peer": "client"
+      }
+    ],
+    "after": [
+      {
+        "rtt": 0,
+        "rejected": 0,
+        "peer": "host",
+        "elapsed": 3.047300338745117
+      },
+      {
+        "rtt": 517,
+        "rejected": 0,
+        "peer": "client",
+        "elapsed": 3.0343017578125
+      }
+    ],
+    "conditions": {
+      "delay": 250,
+      "jitter": 35,
+      "lossPercent": 3,
+      "pollSeconds": 0.1
+    }
+  },
+  "relay": {
+    "checks": [
+      "PASS Real Unity Services private room created",
+      "PASS Second process joins through Relay with a separate authentication profile",
+      "PASS Relay guest movement feedback 17 ms; RTT 400 ms",
+      "PASS Relay guest keeps the selected magician job",
+      "PASS Native spawn attack is accepted by the Relay host",
+      "PASS Guest card prediction joins the real Relay projectile in open flight",
+      "PASS Leaving Relay produces a synchronized disconnect result",
+      "PASS Both peers leave and release the private session"
+    ],
+    "trajectory": {
+      "build": "3f31f81694d745eb8b9cc47388203e71",
+      "rtt": 400,
+      "shots": [
+        {
+          "action": 4,
+          "part": 0,
+          "frames": 95,
+          "minStep": 0.0,
+          "handoffs": 1,
+          "stalls": 0,
+          "handoffMs": [
+            16.66699971655561
+          ]
+        }
+      ]
+    },
+    "cleanup": {
+      "client": {
+        "status": "",
+        "busy": false,
+        "joined": false
+      },
+      "host": {
+        "status": "",
+        "busy": false,
+        "joined": false
+      }
+    },
+    "earlierAttempt": "Logs/Relay/Recheck01 timed out while joining; the final run succeeded."
+  },
+  "evidence": [
+    {
+      "path": "Logs/Move/Recheck05/checks.txt",
+      "sha256": "f27a097c3392da39dcca3e84faf683d230a2e33a2bebfd51559efd0a915320a4"
+    },
+    {
+      "path": "Logs/Move/Recheck05/client.json",
+      "sha256": "9f31b5a33b7cca0377bf02a75878224e6caf7e4c798b670cafc1253d8b1b2a12"
+    },
+    {
+      "path": "Logs/Move/Recheck05/client.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/Recheck05/client.trace.1.json",
+      "sha256": "8103759e01eb477f6878293749701c2fbf503ba128d05065f7c20247d796ad60"
+    },
+    {
+      "path": "Logs/Move/Recheck05/client.trace.2.json",
+      "sha256": "d9c5f7e94fedb8110e2a76d92bdb56460edef83dc780ef6d1f493408aff9109b"
+    },
+    {
+      "path": "Logs/Move/Recheck05/final-client.json",
+      "sha256": "abbebd46bf50ffb5b6d321a6cc11ad88ad0cfaac3a40350fd2043adca98cd239"
+    },
+    {
+      "path": "Logs/Move/Recheck05/final-host.json",
+      "sha256": "913b4cc91e6a3a42ac1d84074d540c816dcbd0a050de3bc3b8ee4db724a4bace"
+    },
+    {
+      "path": "Logs/Move/Recheck05/host.json",
+      "sha256": "31b5559c8c52f7a52e8c83ead9c7c09d4e4fc3282b8900c1242216f555b5bacb"
+    },
+    {
+      "path": "Logs/Move/Recheck05/host.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/Recheck05/host.trace.1.json",
+      "sha256": "b9947d582e2302f79373934daafbd6c74845a5deb6a3fb133decb8694c4f8b68"
+    },
+    {
+      "path": "Logs/Move/Recheck05/host.trace.2.json",
+      "sha256": "e7b834ec04f5b6a17b60e9050e383b0ac57634df39fe5ebd750ade36cce22431"
+    },
+    {
+      "path": "Logs/Move/Recheck05/trajectory-results.json",
+      "sha256": "d3700c9aedf03f40182d48f7a7552955e3887dadacfddb7dd36dec8d2812b0ce"
+    },
+    {
+      "path": "Logs/Move/Recheck06/checks.txt",
+      "sha256": "36a600953a6c8c0e42a34aa0d2d2897afa11e80d7a7f0bfc41af94c93e3448c0"
+    },
+    {
+      "path": "Logs/Move/Recheck06/client.json",
+      "sha256": "531f0f905466eb1f42e5124f31b657cb13dd26fbd7d8a8e178248a46616d0408"
+    },
+    {
+      "path": "Logs/Move/Recheck06/client.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/Recheck06/client.trace.1.json",
+      "sha256": "eedc981cb9f6b63f1fde889d8537a12edb6eb676ef6833f8b6593ba057b1a021"
+    },
+    {
+      "path": "Logs/Move/Recheck06/client.trace.2.json",
+      "sha256": "4ddb1f5179745ce6509efcdc044e17445b1e356427fd2d99348fe9a4f4351f1f"
+    },
+    {
+      "path": "Logs/Move/Recheck06/final-client.json",
+      "sha256": "0a0e69d47ae0723c593f4471716b73578c3d05df159223fa6ef065e5c5a096d1"
+    },
+    {
+      "path": "Logs/Move/Recheck06/final-host.json",
+      "sha256": "e717ecb733b12f6abb047a6270526e7f642d612b90a47efd4c6c5cc2dda7c286"
+    },
+    {
+      "path": "Logs/Move/Recheck06/host.json",
+      "sha256": "6569b136136b4432673a2eb6c8574a5af3186c0064e2d54ee96264ab3d8909e0"
+    },
+    {
+      "path": "Logs/Move/Recheck06/host.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/Recheck06/host.trace.1.json",
+      "sha256": "702dde2618e6df3845c11a6cfbacb4ccdb503ed251ccee3a03e1557d23c047b5"
+    },
+    {
+      "path": "Logs/Move/Recheck06/host.trace.2.json",
+      "sha256": "7d1aca7ec13a5291adc19de2057e0de3bcf9416147909a074055869afe9c3c71"
+    },
+    {
+      "path": "Logs/Move/Recheck06/trajectory-results.json",
+      "sha256": "092d48971eb0caf7f09de8953674a82da1be1910b7d8d76bfcc8515587aa0ffb"
+    },
+    {
+      "path": "Logs/Move/RecheckCore03/checks.txt",
+      "sha256": "d291a45f85fd047196888abb37e8b03c48aec02239d40c499eeb2726fcdb8f84"
+    },
+    {
+      "path": "Logs/Move/RecheckCore03/client.json",
+      "sha256": "0a325da473e08cfc374984cdb71ad7f925a958ae65f580fd662ced0c86128562"
+    },
+    {
+      "path": "Logs/Move/RecheckCore03/client.menu.json",
+      "sha256": "3551862f5f198e7952aad6a56958f13203ad244777fa9d1bb2641dc006f3fbe6"
+    },
+    {
+      "path": "Logs/Move/RecheckCore03/combat-client.json",
+      "sha256": "c17e23d97927a693d39efc0c190b720f0a6ff53c0f7a9b05b8c7771845d6eb59"
+    },
+    {
+      "path": "Logs/Move/RecheckCore03/combat-host.json",
+      "sha256": "a65b872005787b2d457af99fd8e222a583ee62f12a5e4e4f4319d6c609b75ca6"
+    },
+    {
+      "path": "Logs/Move/RecheckCore03/final-client.json",
+      "sha256": "107c3ae641c14f8b57f84d1e9fff8f96caca47641590aa5269bd0127b78224de"
+    },
+    {
+      "path": "Logs/Move/RecheckCore03/final-host.json",
+      "sha256": "97ae0c4d4936708aac479b5f4fb17e4666f405898d52fe86ae24da6e8bc0107c"
+    },
+    {
+      "path": "Logs/Move/RecheckCore03/host.json",
+      "sha256": "82dff2e88e901f078878af4d20743c5004e84c7b95ad1f2674b6f3ccb74f70b7"
+    },
+    {
+      "path": "Logs/Move/RecheckCore03/host.menu.json",
+      "sha256": "7caf6c92f9f3d8ea94de83c672ad4c3f2efb7537ae570277e79f92b62d315fa3"
+    },
+    {
+      "path": "Logs/Move/RecheckCore04/checks.txt",
+      "sha256": "a31f88eae14ac5b67383a16fd20eff8c8ebe298b35c4f11bfe520bea42d5832c"
+    },
+    {
+      "path": "Logs/Move/RecheckCore04/client.json",
+      "sha256": "e78479ec3c880d68e2d5b80af0a4ba26d3c7f7de84a382eba1b2b4f5e461a631"
+    },
+    {
+      "path": "Logs/Move/RecheckCore04/client.menu.json",
+      "sha256": "3551862f5f198e7952aad6a56958f13203ad244777fa9d1bb2641dc006f3fbe6"
+    },
+    {
+      "path": "Logs/Move/RecheckCore04/combat-client.json",
+      "sha256": "fe2ff4cfabcbcf6013063d65feff3832f8ef98c417944da6f663999872615840"
+    },
+    {
+      "path": "Logs/Move/RecheckCore04/combat-host.json",
+      "sha256": "948ea67228999c8e062f58252f5ef3f05afaba759cca35568c88ffed3fcb18be"
+    },
+    {
+      "path": "Logs/Move/RecheckCore04/final-client.json",
+      "sha256": "682885b6d6e2c1cc49de1478f9fe490e9f1f768caf6bfb6e5309c8d6e3f416de"
+    },
+    {
+      "path": "Logs/Move/RecheckCore04/final-host.json",
+      "sha256": "b299d87900111e5878b06cbab7dbba6440bfa7057885f7005f3639b15a75b591"
+    },
+    {
+      "path": "Logs/Move/RecheckCore04/host.json",
+      "sha256": "0d43ae14a5630b0036222d46a75588ebb14646f040590548778eccdc47f517cf"
+    },
+    {
+      "path": "Logs/Move/RecheckCore04/host.menu.json",
+      "sha256": "7caf6c92f9f3d8ea94de83c672ad4c3f2efb7537ae570277e79f92b62d315fa3"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial01/checks.txt",
+      "sha256": "e893f9dfc8d8bb8adbb77355a57ecaa3c4061d684104c0f2c9da261cf2e3d8bc"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial01/client.json",
+      "sha256": "9f9a777dca0e6199fd2f571ae2b015b2b0a838bc4afeeda86168dcc54afe65c6"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial01/client.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial01/client.trace.3.json",
+      "sha256": "36544c2f7d1933c14af67ecdcc5a7f790df09c475b641ff0f00930951d4dd682"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial01/final-client.json",
+      "sha256": "6eb8bd7ef6a747d47f3a5ebb535e85b3c9ba4e90fc8af5f3544ea60af691499f"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial01/final-host.json",
+      "sha256": "749279393b216284ef68373ad13f349bf7efce5a251a46f344cb3ea5ebb007e2"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial01/host.json",
+      "sha256": "c735e772107cc3eee010d13d657031341c349f2d22cce6d182721d61fb5031fe"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial01/host.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial01/host.trace.3.json",
+      "sha256": "3ada592361c844b28591ab0854fb426f5ebbed169c072ffb32bc01398f2536e2"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial01/special-results.json",
+      "sha256": "15dfb119c69cc869b68f10a9f6eb03149861f4b0b2cedee11f22e3123c71c472"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial02/checks.txt",
+      "sha256": "e893f9dfc8d8bb8adbb77355a57ecaa3c4061d684104c0f2c9da261cf2e3d8bc"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial02/client.json",
+      "sha256": "e914675fcb3bcef7f1091e4979a399e21edd7280a87dca9a53ef4ce969682610"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial02/client.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial02/client.trace.3.json",
+      "sha256": "4ba524646be523f55c4e907516ae89447d71ff0cb86f4c3f23d1ff86136d70a1"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial02/final-client.json",
+      "sha256": "bb9f59102785d8049f38069e7a5ca4b858b95b67cab103bbb33d695676c42df6"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial02/final-host.json",
+      "sha256": "7f31ff79eb6c60dfc27b18fa1b419b81ec0e6d0ca36a7c5138b1071b566db105"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial02/host.json",
+      "sha256": "4e1f36740027802572d754b0b22f40e6e6eeca38ce123c401b295efb17577482"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial02/host.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial02/host.trace.3.json",
+      "sha256": "828cd6118028e5dc8b6d6ab9725bd47dc8adbcdc59bfb8d817fc1ba16ca008e4"
+    },
+    {
+      "path": "Logs/Move/RecheckSpecial02/special-results.json",
+      "sha256": "185c879176383d0ec24998ab566337d8e1fc92ced2ad9af365d764b10006e306"
+    },
+    {
+      "path": "Logs/Move/Cadence07/cadence.json",
+      "sha256": "c314f54ec9bd1b710bd865fb91634d630afa858708333c85796ba260f38873a2"
+    },
+    {
+      "path": "Logs/Move/Cadence07/checks.txt",
+      "sha256": "4cb57630aec39d6768f4944efffe6dae7c78d6906481d809f2326aad794eda97"
+    },
+    {
+      "path": "Logs/Move/Cadence07/client.json",
+      "sha256": "61ace2d688a6bf3e5905ba0ba8526f1f6e79ab8fa82471f130d1192e7d06d8dd"
+    },
+    {
+      "path": "Logs/Move/Cadence07/client.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/Cadence07/expired-client.json",
+      "sha256": "37a39d8066df379ffa2249410c6a76a8d64d0b1b030f9651e95ab87363382329"
+    },
+    {
+      "path": "Logs/Move/Cadence07/host.json",
+      "sha256": "628f51de40f620d37a36308e8aacc3d3db46e91689514fac118e9d084048a191"
+    },
+    {
+      "path": "Logs/Move/Cadence07/host.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/Cadence07/unacked-press.json",
+      "sha256": "3afe9843f8cb907612459a94a7d789e95ad189e692a8e956bb46cafd085d21e6"
+    },
+    {
+      "path": "Logs/Move/LagBefore/checks.txt",
+      "sha256": "912f4aa5ffc59c01a59e2dd45a94ab4d56ed588636ac160392d8d9296cf7c11b"
+    },
+    {
+      "path": "Logs/Move/LagBefore/client.json",
+      "sha256": "4714ad12d6b1058662a0ad88bf300642488d23e1a92883c75d02765019b8963b"
+    },
+    {
+      "path": "Logs/Move/LagBefore/client.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/LagBefore/failure.txt",
+      "sha256": "2b661b99850beb4de5fd0a699ec2b28d93a44cf8d2655d74542fbc62c31435a6"
+    },
+    {
+      "path": "Logs/Move/LagBefore/host.json",
+      "sha256": "6e2d4ea1ed6939c5e5f10277639bc93a227a805df18480c23bb3d4d45b038618"
+    },
+    {
+      "path": "Logs/Move/LagBefore/host.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/LagBefore/steps.json",
+      "sha256": "45c15367126dad518aac3e1bdfadccaeec85e4476625a665c2f9715e651bc1bc"
+    },
+    {
+      "path": "Logs/Move/LagAfter/checks.txt",
+      "sha256": "71bccd4e0837d932be6aa10112bbe12b41decaae7dfdb8fa8c78062102c8f929"
+    },
+    {
+      "path": "Logs/Move/LagAfter/client.json",
+      "sha256": "ad4c2f4d32fcce91c049ebadc6baa14fb4ff74ca87340590f277b0e404d9e811"
+    },
+    {
+      "path": "Logs/Move/LagAfter/client.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/LagAfter/host.json",
+      "sha256": "3460ebc40e65ff9a76d0bb016131657d8cf14a83c7153fe7b2391b44f2cc18da"
+    },
+    {
+      "path": "Logs/Move/LagAfter/host.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/LagAfter/steps.json",
+      "sha256": "83eb0ade3171a685e7cf04bb8db306e33a9df1586a164367ba3571c2a9c585fc"
+    },
+    {
+      "path": "Logs/Move/Recheck01/checks.txt",
+      "sha256": "7ccaaefb574d49000dd6d5362bf4082a6387e15525ccb53d0eb0987f0c1c18e3"
+    },
+    {
+      "path": "Logs/Move/Recheck01/client.json",
+      "sha256": "31f58dcb1d3980677db904e833231c1dc0294c6a80eb315231d408efcab05dd3"
+    },
+    {
+      "path": "Logs/Move/Recheck01/client.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/Recheck01/client.trace.1.json",
+      "sha256": "3a84163d89d5472376cab0556617e03b2bd8c07b0683677548b0c479c7eca5ef"
+    },
+    {
+      "path": "Logs/Move/Recheck01/client.trace.2.json",
+      "sha256": "0de9b25e3ae24174ea5ce66eb10878c6c38fce550eebba33cf6b067994a2fe88"
+    },
+    {
+      "path": "Logs/Move/Recheck01/failure-client.json",
+      "sha256": "38f4147e36a444c828e33d46563723a6a2797eccda9730b67eccfafafcfffd80"
+    },
+    {
+      "path": "Logs/Move/Recheck01/failure-host.json",
+      "sha256": "5c05550dbd4473f75c24615993077f3e502cfd7c53417ccdcf3b240f97844a6c"
+    },
+    {
+      "path": "Logs/Move/Recheck01/failure.txt",
+      "sha256": "d0291af6be8074107cbadf08a7366b0581fe4e4040ff8a580823189df97518a8"
+    },
+    {
+      "path": "Logs/Move/Recheck01/host.json",
+      "sha256": "d161d9e3ae003d990de59fdc396301c8979c89853b1dbd9a2cc34128786f2426"
+    },
+    {
+      "path": "Logs/Move/Recheck01/host.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/Recheck01/host.trace.1.json",
+      "sha256": "b45d1deb174360c11a780a9a87175da26fb932154b341e2cd6099b455aa73df2"
+    },
+    {
+      "path": "Logs/Move/Recheck01/host.trace.2.json",
+      "sha256": "ee7d43c022599a122e6f51afbd72ec3fb819dd0fac278a1d30d6b9d25813a849"
+    },
+    {
+      "path": "Logs/Move/Recheck03/checks.txt",
+      "sha256": "36a600953a6c8c0e42a34aa0d2d2897afa11e80d7a7f0bfc41af94c93e3448c0"
+    },
+    {
+      "path": "Logs/Move/Recheck03/client.json",
+      "sha256": "4705eed680c18866f2e8be0307d3006e65cf4e44215168d691343402755779dd"
+    },
+    {
+      "path": "Logs/Move/Recheck03/client.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/Recheck03/client.trace.1.json",
+      "sha256": "da972092f1afceab9ef638347f18e8cf53cf517b0f15a13d950513e7788bab43"
+    },
+    {
+      "path": "Logs/Move/Recheck03/client.trace.2.json",
+      "sha256": "98f041c5d3664eddf5b200507541e0347aa19ff5ebf2384a303a829bc49cc13f"
+    },
+    {
+      "path": "Logs/Move/Recheck03/final-client.json",
+      "sha256": "41a530a0ca6ebe24dcb0f99c2816fc539eb205fc4da7b4be6efe6a8e1a8e482f"
+    },
+    {
+      "path": "Logs/Move/Recheck03/final-host.json",
+      "sha256": "c69c7bcec59a0e384d1e99035508fa255220e3bd55be41a4a4f515bfc605a4c1"
+    },
+    {
+      "path": "Logs/Move/Recheck03/host.json",
+      "sha256": "26e4702377603fcb7a9856e4931e8bfe9a59cef9262cf2bfc2e3f09b48ae7d4c"
+    },
+    {
+      "path": "Logs/Move/Recheck03/host.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/Recheck03/host.trace.1.json",
+      "sha256": "85e589bdf6da2932cb37018697b98fc71b6f1378fe1e27114249dfd32234f8f5"
+    },
+    {
+      "path": "Logs/Move/Recheck03/host.trace.2.json",
+      "sha256": "84dc404c44326db0992b444248183f5f278d720e1ef9d8cc846819690c7794da"
+    },
+    {
+      "path": "Logs/Move/Cadence01/cadence.json",
+      "sha256": "2204d344235c76401708af309c1a9bd5ea8acc7122ec203a88c2d5858e48f0d3"
+    },
+    {
+      "path": "Logs/Move/Cadence01/checks.txt",
+      "sha256": "c01f35e3d240a92a19551af87d0c439543ec92edb9c435168ca642c5ade5e6d1"
+    },
+    {
+      "path": "Logs/Move/Cadence01/client.json",
+      "sha256": "dae53e78f02dc324ba4385cc58837b58472a65bbfa4358375f731b2b2a355757"
+    },
+    {
+      "path": "Logs/Move/Cadence01/client.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/Cadence01/failure.txt",
+      "sha256": "1a35275483ecbb24e9eb87e3f6026faf6443958fd222a8d536dbc332a2233d38"
+    },
+    {
+      "path": "Logs/Move/Cadence01/host.json",
+      "sha256": "5efdfdba29196e0a06028ca9d1298c3469b83d4cf678e59494540838edec431a"
+    },
+    {
+      "path": "Logs/Move/Cadence01/host.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/Cadence05/cadence.json",
+      "sha256": "b6a59e3039364acc3791efd7bbc6da0df12fb597b4405b739b049a9e5953157a"
+    },
+    {
+      "path": "Logs/Move/Cadence05/checks.txt",
+      "sha256": "57a7af389a09d2e05e3db163de6579fd90ee58ceb0d7a18504fc652e575e648d"
+    },
+    {
+      "path": "Logs/Move/Cadence05/client.json",
+      "sha256": "2d160678698de0e5c1ca3272474acf38bc4a88173b87f6f604e14a1ca5d8aa94"
+    },
+    {
+      "path": "Logs/Move/Cadence05/client.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Move/Cadence05/failure-client.json",
+      "sha256": "febffc1bd2484c7d0c175d580af2cde06b4e68e18ba5f3c48a42fbef146adcd3"
+    },
+    {
+      "path": "Logs/Move/Cadence05/failure-host.json",
+      "sha256": "52b3af6471ea42b5656253a1c1b80eb6100df273fe803449cac11426d60d2721"
+    },
+    {
+      "path": "Logs/Move/Cadence05/failure.txt",
+      "sha256": "bdc2671e6f198ca815c602ebf1040da7491f4934cdf4cd03f94830c1c2a584cb"
+    },
+    {
+      "path": "Logs/Move/Cadence05/host.json",
+      "sha256": "1147f3db5bb8d097a1c99c16e730ed7b0520f1be8024399c18fcbf9d0e5d8ca6"
+    },
+    {
+      "path": "Logs/Move/Cadence05/host.menu.json",
+      "sha256": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845"
+    },
+    {
+      "path": "Logs/Relay/Recheck02/checks.txt",
+      "sha256": "098e4e8d8ad4dc7557f4d609e710b07c9cd2ce57a44a996372699c0bd39bdb4a"
+    },
+    {
+      "path": "Logs/Relay/Recheck02/cleanup.json",
+      "sha256": "fa92566ca93fb58d031f47e9cd1928699db29a4d61cbac21e3065c37b0f41fc7"
+    },
+    {
+      "path": "Logs/Relay/Recheck02/client.json",
+      "sha256": "5cc7b628bfd192576a2b6b46da14d7ceaf39ec14698bda11b20d47d867bc1e7d"
+    },
+    {
+      "path": "Logs/Relay/Recheck02/client.menu.json",
+      "sha256": "bfbd28580ed89a3a27725e8d3c1e471a5c613763717566716e53ecfa9ac448f5"
+    },
+    {
+      "path": "Logs/Relay/Recheck02/client.trace.4.json",
+      "sha256": "807cbd4aabfbe3f0562fd7cc791a9564ae78e423bb29d16118bba181da4d8d6c"
+    },
+    {
+      "path": "Logs/Relay/Recheck02/client.trace.5.json",
+      "sha256": "49a23022812a91fa83670b794ac2add6bacbd8167dc958495682f03c359632ae"
+    },
+    {
+      "path": "Logs/Relay/Recheck02/combat-client.json",
+      "sha256": "6a7ac48f296f318cca051b135694de15badc682b3a18aca952768b9a004ec2d8"
+    },
+    {
+      "path": "Logs/Relay/Recheck02/combat-host.json",
+      "sha256": "485ad2a597d6cc5f69770a9eb99c1bb6b50f1198c348b6bcabd0133257f85c6f"
+    },
+    {
+      "path": "Logs/Relay/Recheck02/host.json",
+      "sha256": "c0b48d874134319cd804de5bc90528dd2f85d3d984640c7fa6c44f05602381fe"
+    },
+    {
+      "path": "Logs/Relay/Recheck02/host.menu.json",
+      "sha256": "2fe972ad80558b10fe07b62831b9c922d821dea0d90f741afb0ae381b0c36365"
+    },
+    {
+      "path": "Logs/Relay/Recheck02/host.trace.4.json",
+      "sha256": "7e704aa4a8e97b6fb557b90b1b938f6f50e8105f61c5be8ac24b4105d2e83618"
+    },
+    {
+      "path": "Logs/Relay/Recheck02/host.trace.5.json",
+      "sha256": "3a5023ca57acbd3e8200b97f5406070943de49a9e46beff53f329568bb67bac7"
+    },
+    {
+      "path": "Logs/Relay/Recheck02/native-client.json",
+      "sha256": "6dd47047812ed7af78b0f59e475ee6634ed6f40eedab72ca5898e92cfb50d0d6"
+    },
+    {
+      "path": "Logs/Relay/Recheck02/native-host.json",
+      "sha256": "5187efad4c8f5068af5387e4ebc71cf650800104e304a4c3bf950dc000d2f4f4"
+    },
+    {
+      "path": "Logs/Relay/Recheck02/trajectory-results.json",
+      "sha256": "726c33235225cf21aff94f349432d24187377540e827c9b6e5e91519ebb80933"
+    }
+  ]
+}

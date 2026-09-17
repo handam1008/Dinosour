@@ -1,16 +1,30 @@
-param([string]$Run = 'Flight01', [string]$Project = (Get-Location).Path, [string]$Build = 'Builds/Local/Game.exe', [int]$Port = 7796, [string]$HostJob = 'Witch', [string]$ClientJob = 'Magician', [int]$HostFps = 60, [int]$ClientFps = 60, [int]$Delay = 120, [int]$Jitter = 35, [int]$Loss = 3)
+﻿param([string]$Run = 'Flight01', [string]$Project = (Get-Location).Path, [string]$Build = 'Builds/Local/Game.exe', [int]$Port = 7796, [string]$HostJob = 'Witch', [string]$ClientJob = 'Magician', [int]$HostFps = 60, [int]$ClientFps = 60, [int]$Delay = 120, [int]$Jitter = 35, [int]$Loss = 3)
 $ErrorActionPreference = 'Stop'
 $root = "$Project/Logs/Move/$Run"
 if (Test-Path "$root/host.json") { throw 'Use a fresh Run name' }
 New-Item -ItemType Directory -Path $root -Force | Out-Null
 $seq = @{host=0;client=0}
 $checks = [Collections.Generic.List[string]]::new()
-function Read($peer) { try { Get-Content "$root/$peer.json" -Raw | ConvertFrom-Json } catch { return $null } }
+function Read($peer) {
+    for ($attempt=0; $attempt -lt 25; $attempt++) {
+        try {
+            $state=Get-Content "$root/$peer.json" -Raw | ConvertFrom-Json
+            if ($state) { return $state }
+        } catch { }
+        Start-Sleep -Milliseconds 10
+    }
+    return $null
+}
 function Own($state) { @($state.players | Where-Object owner)[0] }
 function Other($state) { @($state.players | Where-Object { -not $_.owner })[0] }
 function Send($peer,$op,$value=0,$x=0,$y=0) {
     $seq[$peer]++
-    [IO.File]::WriteAllText("$root/$peer.cmd.json",(@{seq=$seq[$peer];op=$op;value=$value;x=$x;y=$y}|ConvertTo-Json -Compress))
+    $json=@{seq=$seq[$peer];op=$op;value=$value;x=$x;y=$y}|ConvertTo-Json -Compress
+    $writeUntil=[DateTime]::UtcNow.AddSeconds(2)
+    while ($true) {
+        try { [IO.File]::WriteAllText("$root/$peer.cmd.json",$json); break }
+        catch [IO.IOException] { if ([DateTime]::UtcNow -gt $writeUntil) { throw }; Start-Sleep -Milliseconds 15 }
+    }
     if ($op -eq 'quit') { return }
     $until=[DateTime]::UtcNow.AddSeconds(8)
     while ((Read $peer).seq -lt $seq[$peer]) {

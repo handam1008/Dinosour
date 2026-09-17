@@ -48,11 +48,12 @@ namespace SSW
         public uint Processed => _processed;
         public uint JumpSequence => _state.Jump;
         public uint Tick => _tick;
+        public float InputDelay => IsOwner && !IsServer ? Mathf.Max(0f, (long)_tick - _processed) * Time.fixedDeltaTime : 0f;
         public float Correction { get; private set; }
         public float MaxCorrection { get; private set; }
         public bool Grounded => _state.Grounded;
-        public float Silence => (float)(Time.unscaledTimeAsDouble - _lastStateAt);
-        public float AckSilence => (float)(Time.unscaledTimeAsDouble - _lastAckAt);
+        public float Silence => (float)(Time.realtimeSinceStartupAsDouble - _lastStateAt);
+        public float AckSilence => (float)(Time.realtimeSinceStartupAsDouble - _lastAckAt);
         public uint Buffered => IsServer && _receivedInput > _processed ? _receivedInput - _processed : 0;
         public int Resyncs { get; private set; }
         public float Speed => _speed;
@@ -69,7 +70,7 @@ namespace SSW
             _view.position = transform.position;
             _rate = _motion.Rate;
             _speed = _rate.Value;
-            _lastStateAt = _lastAckAt = Time.unscaledTimeAsDouble;
+            _lastStateAt = _lastAckAt = Time.realtimeSinceStartupAsDouble;
             _body.bodyType = RigidbodyType2D.Kinematic;
             _body.useFullKinematicContacts = true;
             _body.interpolation = RigidbodyInterpolation2D.None;
@@ -95,10 +96,11 @@ namespace SSW
                 else
                 {
                     InputRpc(new MotionPacket(_history, input.Tick, _state.Epoch));
-                    Predict(input, _player.CanAct && Silence < 0.75f && AckSilence < 0.75f);
+                    float wait = _player.ResponseTime;
+                    Predict(input, _player.CanAct && Silence < wait && AckSilence < wait);
                 }
             }
-            else if (_started && Time.unscaledTimeAsDouble >= _startAt)
+            else if (_started && Time.realtimeSinceStartupAsDouble >= _startAt)
             {
                 StepRemote();
             }
@@ -120,9 +122,24 @@ namespace SSW
 
         void StepRemote()
         {
+            if (_state.Grounded && _state.Velocity.sqrMagnitude < 0.0001f && Mathf.Abs(_state.External) < 0.0001f
+                && _last.Move.sqrMagnitude < 0.0001f && _last.Jump <= _state.Jump)
+            {
+                while (_receivedInput > _processed + 2)
+                {
+                    if (_history.TryGet(_processed + 1, out MotionFrame pending)
+                        && (pending.Move.sqrMagnitude >= 0.0001f || pending.Jump > _state.Jump)) break;
+                    _processed++;
+                }
+                if (_processed >= _receivedInput)
+                {
+                    StepIdle();
+                    return;
+                }
+            }
             uint tick = _processed + 1;
             MotionFrame input = _history.TryGet(tick, out MotionFrame received) ? received : _last;
-            if (Time.unscaledTimeAsDouble - _lastInputAt > 0.12d) input.Move = Vector2.zero;
+            if (Time.realtimeSinceStartupAsDouble - _lastInputAt > 0.12d) input.Move = Vector2.zero;
             input.Tick = tick;
             _last = input;
             _rate = _motion.Rate;
@@ -137,7 +154,7 @@ namespace SSW
             _rate = _motion.Rate;
             _speed = _rate.Value;
             MotionFrame input = _last;
-            if (Time.unscaledTimeAsDouble - _lastInputAt > 0.12d) input.Move = Vector2.zero;
+            if (Time.realtimeSinceStartupAsDouble - _lastInputAt > 0.12d) input.Move = Vector2.zero;
             input.Jump = _state.Jump;
             _motor.Step(ref _state, input, _speed, Time.fixedDeltaTime, _player.CanAct);
         }
@@ -155,7 +172,7 @@ namespace SSW
             MotionFrame newest = packet[0];
             if (!newest.Valid || newest.Tick <= _processed) return;
             bool overflow = newest.Tick - _processed >= MotionHistory.Capacity;
-            if (overflow && _started && Time.unscaledTimeAsDouble - _lastInputAt < 0.75d) return;
+            if (overflow && _started && Time.realtimeSinceStartupAsDouble - _lastInputAt < 0.75d) return;
             if (!_started || overflow)
             {
                 uint first = newest.Tick;
@@ -164,13 +181,13 @@ namespace SSW
                 if (_started) Resyncs++;
                 _history.Clear();
                 _processed = first - 1;
-                _startAt = Time.unscaledTimeAsDouble + Time.fixedDeltaTime * 2d;
+                _startAt = Time.realtimeSinceStartupAsDouble + Time.fixedDeltaTime * 2d;
                 _started = true;
             }
             if (newest.Tick > _receivedInput)
             {
                 _receivedInput = newest.Tick;
-                _lastInputAt = Time.unscaledTimeAsDouble;
+                _lastInputAt = Time.realtimeSinceStartupAsDouble;
             }
             for (int i = 0; i < 6; i++)
             {
@@ -185,8 +202,8 @@ namespace SSW
         {
             if (serial <= _receivedState) return;
             _receivedState = serial;
-            _lastStateAt = Time.unscaledTimeAsDouble;
-            if (processed > _processed) _lastAckAt = Time.unscaledTimeAsDouble;
+            _lastStateAt = Time.realtimeSinceStartupAsDouble;
+            if (processed > _processed) _lastAckAt = Time.realtimeSinceStartupAsDouble;
             _processed = processed;
             _rate = rate;
             _speed = rate.Value;
@@ -214,13 +231,14 @@ namespace SSW
                 _history.Clear();
                 _tick = processed;
                 _offset = Vector2.zero;
-                _lastAckAt = Time.unscaledTimeAsDouble;
+                _lastAckAt = Time.realtimeSinceStartupAsDouble;
             }
             if (processed > _tick || _tick - processed >= MotionHistory.Capacity)
             {
                 _tick = processed;
                 _history.Clear();
             }
+            bool predict = playing && _player.CanAct && AckSilence < _player.ResponseTime;
             for (uint tick = processed + 1; tick <= _tick; tick++)
             {
                 if (!_history.TryGet(tick, out MotionFrame input))
@@ -230,7 +248,7 @@ namespace SSW
                     _history.Clear();
                     break;
                 }
-                Predict(input, playing && _player.CanAct && AckSilence < 0.75f);
+                Predict(input, predict);
             }
             Vector2 correction = before - _state.Position;
             Correction = correction.magnitude;

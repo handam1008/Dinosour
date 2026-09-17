@@ -17,6 +17,7 @@ namespace SSW
             public float Spin;
             public float Delay;
             public float Age;
+            public float Life;
             public bool Started;
         }
 
@@ -41,9 +42,9 @@ namespace SSW
             _ground = ground;
         }
 
-        public void Card(uint action, Vector2 position, Vector2 direction, Suit suit, int rank, float delay, float gravity)
+        public void Card(uint action, Vector2 position, Vector2 direction, Suit suit, int rank, float delay, float gravity, float life)
         {
-            Shot shot = Create(action, 0, position);
+            Shot shot = Create(action, 0, position, life);
             shot.Feedback = shot.View.gameObject.AddComponent<MagicianCardFeedback>();
             _cards.StylePreview(shot.View, shot.Feedback, suit, rank);
             shot.Feedback.SetTrailVisible(false);
@@ -55,9 +56,9 @@ namespace SSW
             Start(shot);
         }
 
-        public void Potion(uint action, int part, Vector2 position, Vector2 velocity, SpriteRenderer style, Sprite sprite, float gravity)
+        public void Potion(uint action, int part, Vector2 position, Vector2 velocity, SpriteRenderer style, Sprite sprite, float gravity, float life)
         {
-            Shot shot = Create(action, part, position);
+            Shot shot = Create(action, part, position, life);
             shot.View.sprite = sprite;
             shot.View.sharedMaterial = style.sharedMaterial;
             shot.View.color = style.color;
@@ -70,12 +71,12 @@ namespace SSW
             Start(shot);
         }
 
-        Shot Create(uint action, int part, Vector2 position)
+        Shot Create(uint action, int part, Vector2 position, float life)
         {
             if (_shots.Count == 16) Remove(0);
             var obj = new GameObject("Shot Preview");
             obj.transform.position = position;
-            var shot = new Shot { Action = action, Part = part, View = obj.AddComponent<SpriteRenderer>() };
+            var shot = new Shot { Action = action, Part = part, Life = life, View = obj.AddComponent<SpriteRenderer>() };
             shot.View.enabled = false;
             _shots.Add(shot);
             return shot;
@@ -130,7 +131,7 @@ namespace SSW
                     continue;
                 }
                 shot.Age += delta;
-                if (shot.Age >= 0.8f) { Remove(i); continue; }
+                if (shot.Age >= shot.Life) { Remove(i); continue; }
                 Vector2 before = shot.View.transform.position;
                 Vector2 next = before + shot.Velocity * delta + shot.Gravity * (0.5f * delta * (delta + Time.fixedDeltaTime));
                 shot.Velocity += shot.Gravity * delta;
@@ -143,10 +144,10 @@ namespace SSW
                 }
                 shot.View.transform.position = next;
                 shot.View.transform.Rotate(0f, 0f, shot.Spin * delta);
-                if (shot.Age > 0.5f)
+                if (shot.Age > shot.Life - 0.3f)
                 {
                     Color color = shot.View.color;
-                    color.a = 1f - (shot.Age - 0.5f) / 0.3f;
+                    color.a = Mathf.Clamp01((shot.Life - shot.Age) / 0.3f);
                     shot.View.color = color;
                 }
             }

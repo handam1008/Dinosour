@@ -46,6 +46,8 @@ namespace SSW
         public LayerMask GroundMask => _motion.GroundMask;
         public uint Epoch => _prediction.Epoch;
         public Vector2 Velocity => _prediction.Velocity;
+        public float ResponseTime => Mathf.Clamp(0.2f + 1.5f * Mathf.Max(_prediction.InputDelay,
+            NetworkManager.NetworkConfig.NetworkTransport.GetCurrentRtt(NetworkManager.ServerClientId) * 0.001f), 0.8f, 2.5f);
         public Vector2 Aim => _aim;
         public int Side => _side.Value;
         public bool CanAct => IsSpawned && _health.Current > 0f && NetGame.Current.CanFight;

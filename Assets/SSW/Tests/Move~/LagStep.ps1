@@ -1,4 +1,4 @@
-﻿param([string]$Run = 'Flight01', [string]$Project = (Get-Location).Path, [string]$Build = 'Builds/Local/Game.exe', [int]$Port = 7796, [string]$HostJob = 'Witch', [string]$ClientJob = 'Magician', [int]$HostFps = 60, [int]$ClientFps = 60, [int]$Delay = 120, [int]$Jitter = 35, [int]$Loss = 3)
+﻿param([string]$Run = 'LagStep01', [string]$Project = (Get-Location).Path, [string]$Build = 'Builds/Local/Game.exe', [int]$Port = 7796, [string]$HostJob = 'Magician', [string]$ClientJob = 'Magician', [int]$HostFps = 60, [int]$ClientFps = 60, [int]$Delay = 250, [int]$Jitter = 35, [int]$Loss = 3)
 $ErrorActionPreference = 'Stop'
 $root = "$Project/Logs/Move/$Run"
 if (Test-Path "$root/host.json") { throw 'Use a fresh Run name' }
@@ -62,42 +62,42 @@ foreach($peer in @('host','client')) {
     Start-Process -FilePath (Join-Path $Project $Build) -WorkingDirectory $Project -ArgumentList @('--net-mode',$peer,'--net-job',$job,'--net-port',$Port,'--net-name',$peer,'--net-probe',"$root/$peer",'-logFile',"$root/$peer.log",'-screen-fullscreen','0') -WindowStyle Hidden | Out-Null
 }
 try {
-    Await 'draft' { $h.phase -eq 'Draft' -and $c.phase -eq 'Draft' } 60
-    Send host fps $HostFps; Send client fps $ClientFps
+    Await 'draft' {$h.phase -eq 'Draft' -and $c.phase -eq 'Draft'} 60
+    Send host fps 60; Send client fps 60
     Send host choose 0; Send client choose 0
-    Await 'combat' { $h.phase -eq 'Playing' -and $c.phase -eq 'Playing' }
-    Send host lag $Delay $Jitter $Loss; Send client lag $Delay $Jitter $Loss
-    $mage=if($HostJob -eq 'Magician'){'host'}else{'client'}
-    $witch=if($HostJob -eq 'Witch'){'host'}else{'client'}
-    $mageSlot=if($mage -eq 'host'){0}else{1}
-    $witchSlot=1-$mageSlot
-    Send host grant 12 $mageSlot
-    Send host grant 11 $mageSlot
-    Send host grant 19 $witchSlot
-    Send host grant 21 $witchSlot
-    Send host grant 20 $witchSlot
-    Await 'augments replicate' { (Own (Read $mage)).augments -contains 12 -and (Own (Read $witch)).augments -contains 21 }
-    Send host warp $mageSlot 13 0; Send host warp $witchSlot -10 0
-    Await 'settle' { (Own $c).grounded -and (Other $h).grounded -and (ServerError) -lt 0.15 }
-    $matches=(Own $c).matches
-    Send host trace 3 8; Send client trace 3 8
-    Send $mage press 0 1 0
-    Start-Sleep -Milliseconds 250
-    Send $mage cast 0 1 0
-    Send $witch cast 1 0.8 0.6
-    Await 'augmented previews matched' { (Own $c).matches -ge $matches + $(if($ClientJob -eq 'Witch'){3}else{1}) }
-    Check ($true) 'Delayed card or all three potion parts match independently'
-    Await 'traces' { (Test-Path "$root/client.trace.3.json") -and (Test-Path "$root/host.trace.3.json") } 12
-    Await 'shots and zones clear' { $h.shots.Count -eq 0 -and $c.shots.Count -eq 0 -and (Own $c).previews -eq 0 } 10
-    Check ($true) 'Return, bounce, multishot and lingering zone effects finish without ghost objects'
-    $h|ConvertTo-Json -Depth 12|Set-Content "$root/final-host.json"
-    $c|ConvertTo-Json -Depth 12|Set-Content "$root/final-client.json"
-    Write-Output "PASS augmented capture: $root"
+    Await 'combat settled' {$h.phase -eq 'Playing' -and $c.phase -eq 'Playing' -and (Own $c).grounded}
+    $records=[Collections.Generic.List[object]]::new()
+    foreach($delay in @(0,250,0,350,50)) {
+        Send host lag $delay 0 0; Send client lag $delay 0 0
+        Start-Sleep -Milliseconds 1600
+        $before=Other (Read host)
+        $direction=if($before.position.x -lt -5){-1}else{1}
+        $watch=[Diagnostics.Stopwatch]::StartNew()
+        Send client move 0 $direction 0
+        do {
+            $sample=Other (Read host)
+            if ([Math]::Abs($sample.position.x-$before.position.x) -gt 0.1) { break }
+            if ($watch.Elapsed.TotalSeconds -gt 2) { throw "Movement not received at delay $delay" }
+            Start-Sleep -Milliseconds 10
+        } while ($true)
+        $response=$watch.Elapsed.TotalSeconds
+        $remaining=850-[int]$watch.Elapsed.TotalMilliseconds
+        if ($remaining -gt 0) { Start-Sleep -Milliseconds $remaining }
+        Send client move 0 0 0
+        Start-Sleep -Milliseconds 1400
+        $hostState=Read host; $clientState=Read client
+        $after=Other $hostState
+        $distance=[Math]::Abs($after.position.x-$before.position.x)
+        $records.Add(@{delay=$delay;distance=$distance;response=$response;host=$after;client=(Own $clientState)})
+        $records|ConvertTo-Json -Depth 12|Set-Content "$root/steps.json"
+        Check ($distance -gt 3) "Guest movement reaches authority after delay changes to $delay ms per peer: $([Math]::Round($distance,2)) units"
+        Check ($after.buffered -le 3) "Idle input backlog drains after $delay ms delay"
+        if ($delay -eq 0) { Check ($response -lt 0.35) "Zero-delay authority response stays below 350 ms including probe polling" }
+    }
+    Write-Output 'PASS changing network delay without teleporting or reconnecting'
 }
 catch {
     $_|Out-String|Set-Content "$root/failure.txt"
-    $h|ConvertTo-Json -Depth 12|Set-Content "$root/failure-host.json"
-    $c|ConvertTo-Json -Depth 12|Set-Content "$root/failure-client.json"
     throw
 }
-finally { Send host quit; Send client quit }
+finally {Send host quit;Send client quit}
