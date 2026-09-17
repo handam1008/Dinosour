@@ -1,11 +1,13 @@
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TMPro;
+using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Leaderboards;
-using Unity.Services.Leaderboards.Models;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace RYU._01.Script.Leaderboard
@@ -14,12 +16,13 @@ namespace RYU._01.Script.Leaderboard
     {
         [Header("UI")]
         [SerializeField] private Button saveScoreBtn;
+        [SerializeField] private Button logoutBtn;
         [SerializeField] private TMP_InputField scoreIf;
         [SerializeField] private Button fetchAllScoreBtn;
         [SerializeField] private Transform rankUserInfoParent;
         [SerializeField] private GameObject rankUserInfoPrefab;
 
-        private Dictionary<string, string> tierName =  new Dictionary<string, string>
+        private readonly Dictionary<string, string> _tierName =  new Dictionary<string, string>
         {
             {"Extinct" , "멸종급"},
             {"IceAge" , "빙하기급" },
@@ -41,6 +44,13 @@ namespace RYU._01.Script.Leaderboard
         {
             saveScoreBtn.onClick.AddListener(async () => await SaveScore(int.Parse(scoreIf.text)));
             fetchAllScoreBtn.onClick.AddListener(async () => await LoadAllScore());
+            logoutBtn.onClick.AddListener(async () => await SignOut());
+        }
+
+        private async Task SignOut()
+        {
+            AuthenticationService.Instance.SignOut();
+            SceneManager.LoadScene("Login");
         }
 
         private async Task LoadAllScore()
@@ -54,7 +64,9 @@ namespace RYU._01.Script.Leaderboard
             {
                 var userInfo = Instantiate(rankUserInfoPrefab, rankUserInfoParent);
                 var go = userInfo.GetComponent<RankUserInfo>();
-                go.SetUserInfo(entry.Rank + 1, entry.Score, tierName[entry.Tier], entry.PlayerName.Split("#")[0]);
+                
+                string tier = TierByRank(entry.Rank);
+                go.SetUserInfo(entry.Rank + 1, entry.Score, _tierName[tier], entry.PlayerName.Split("#")[0]);
             
             
                 //Monkey = 0, Dino = 1, Magma = 2, Meteor = 3, IceAge = 4, Extinct = 5
@@ -97,6 +109,16 @@ namespace RYU._01.Script.Leaderboard
         {
             var response = await UnityServices.Instance.GetLeaderboardsService().AddPlayerScoreAsync(LeaderboardId, score);
             Debug.Log(JsonConvert.SerializeObject(response));
+        }
+        
+        private static string TierByRank(int rank)   // entry.Rank 그대로 (0부터)
+        {
+            if (rank < 1)  return "Extinct";   // 1위
+            if (rank < 6)  return "IceAge";    // 2~6위
+            if (rank < 16) return "Meteor";    // 7~16위
+            if (rank < 31) return "Magma";     // 17~31위
+            if (rank < 48) return "Dino";      // 32~48위
+            return "Monkey";                   // 나머지
         }
     }
 }
