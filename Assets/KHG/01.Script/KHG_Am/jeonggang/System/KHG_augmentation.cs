@@ -1,5 +1,6 @@
 
    public enum SwordAugmentType 
    {
-        ParingHeal
+        ParingHeal,
+        DashSpeed
    }

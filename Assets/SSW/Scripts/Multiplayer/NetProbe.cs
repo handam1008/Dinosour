@@ -9,6 +9,7 @@ using UnityEngine.InputSystem.LowLevel;
 
 namespace SSW
 {
+    [DefaultExecutionOrder(500)]
     public sealed class NetProbe : MonoBehaviour
     {
         [Serializable] sealed class Command
@@ -92,6 +93,7 @@ namespace SSW
             public string build;
             public int targetFps;
             public float frameTime;
+            public ulong rtt;
             public float viewDelay;
             public float bodyDelay;
             public float castDelay;
@@ -133,6 +135,7 @@ namespace SSW
             public ShotState[] shots;
         }
 
+        readonly NetTrace _trace = new NetTrace();
         float _measureAt;
         float _viewDelay = -1f;
         float _bodyDelay = -1f;
@@ -203,12 +206,15 @@ namespace SSW
 #endif
         }
 
+        void LateUpdate() => _trace.Sample(NetGame.Current);
+
         void Execute(Command command)
         {
             NetGame game = NetGame.Current;
             NetPlayer local = game.Local;
             switch (command.op)
             {
+                case "trace": _trace.Begin(_path + ".trace." + command.value + ".json", command.x); break;
                 case "watch": _watch = true; _captured = false; _introAt = -1f; break;
                 case "lag":
                     var transport = (Unity.Netcode.Transports.UTP.UnityTransport)game.Manager.NetworkConfig.NetworkTransport;
@@ -234,6 +240,11 @@ namespace SSW
                 case "slow":
                     foreach (NetPlayer player in game.Players)
                         if (!player.IsOwner) player.GetComponent<PlayerController>().ApplySlow(command.x,command.y);
+                    break;
+                case "grant":
+                    if (!game.Manager.IsServer) break;
+                    foreach (NetPlayer player in game.Players)
+                        if (player.IsOwner == (command.x < 0.5f)) player.Draft.Restore(new[] { command.value });
                     break;
                 case "metrics":
                     foreach (NetPlayer player in game.Players) player.GetComponent<MotionView>().ClearMetrics();
@@ -376,7 +387,8 @@ namespace SSW
             MatchState state = game.State;
             Snapshot snapshot = new Snapshot
             {
-                probeVersion = 2, build = Application.buildGUID, targetFps = Application.targetFrameRate, frameTime = Time.unscaledDeltaTime,
+                probeVersion = 2, build = Application.buildGUID,
+                rtt = game.Connected ? game.Manager.NetworkConfig.NetworkTransport.GetCurrentRtt(Unity.Netcode.NetworkManager.ServerClientId) : 0, targetFps = Application.targetFrameRate, frameTime = Time.unscaledDeltaTime,
                 seq = _sequence, viewDelay = _viewDelay, bodyDelay = _bodyDelay, castDelay = _castDelay, error = _error, listening = game.Connected,
                 server = game.Connected && game.Manager.IsServer, connected = game.Connected && game.Manager.IsConnectedClient,
                 peers = game.Connected && game.Manager.IsServer ? game.Manager.ConnectedClientsIds.Count : 0,

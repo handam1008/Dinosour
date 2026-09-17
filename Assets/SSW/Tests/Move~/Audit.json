@@ -1,0 +1,692 @@
+{
+  "date": "2026-09-17T13:06:05.874362+00:00",
+  "base": "42daf9b52a768877dcf1c9e3bf55e8668f8e1898",
+  "branch": "SSW",
+  "developmentBuild": {
+    "guid": "894c089ff08e43c3a166aeca759690ef",
+    "path": "Builds/Local/Game.exe",
+    "assemblySha256": "ebeb5aec071d2db8d98ce4b174e594105c9ed800cd295a0a1a5b65dc63cd404c",
+    "errors": 0,
+    "warnings": 10,
+    "buildId": "build_21359c885844"
+  },
+  "playBuild": {
+    "guid": "ed35822e0a3c4bd3961bc136520996f0",
+    "path": "Builds/Play/Game.exe",
+    "assemblySha256": "8ec127fbd8f70772f476eefd4afeba849fde2506b47bc01f18d27c1cc67a2cb3",
+    "errors": 0,
+    "warnings": 10,
+    "buildId": "build_ed309a7595ad"
+  },
+  "protocol": 2,
+  "trajectories": {
+    "Flight12": {
+      "build": "894c089ff08e43c3a166aeca759690ef",
+      "movementMaxCorrection": 0.0,
+      "peers": {
+        "host": {
+          "frames": 721,
+          "frameMsP95": 16.667502000927925,
+          "shots": [
+            {
+              "caster": 2,
+              "action": 1,
+              "part": 0,
+              "frames": 18,
+              "minForwardStep": 0.017096519470214844,
+              "handoffs": 0,
+              "midflightStalls": 0
+            },
+            {
+              "caster": 3,
+              "action": 2,
+              "part": 0,
+              "frames": 72,
+              "minForwardStep": 0.19998598098754883,
+              "handoffs": 0,
+              "midflightStalls": 0
+            },
+            {
+              "caster": 2,
+              "action": 2,
+              "part": 0,
+              "frames": 18,
+              "minForwardStep": 0.07569408416748047,
+              "handoffs": 0,
+              "midflightStalls": 0
+            },
+            {
+              "caster": 3,
+              "action": 4,
+              "part": 0,
+              "frames": 73,
+              "minForwardStep": 0.18210411071777344,
+              "handoffs": 0,
+              "midflightStalls": 0
+            },
+            {
+              "caster": 2,
+              "action": 3,
+              "part": 0,
+              "frames": 18,
+              "minForwardStep": 0.12796974182128906,
+              "handoffs": 0,
+              "midflightStalls": 0
+            },
+            {
+              "caster": 3,
+              "action": 6,
+              "part": 0,
+              "frames": 72,
+              "minForwardStep": 0.19998717308044434,
+              "handoffs": 0,
+              "midflightStalls": 0
+            }
+          ]
+        },
+        "client": {
+          "frames": 721,
+          "frameMsP95": 16.667701303958893,
+          "shots": [
+            {
+              "caster": 3,
+              "action": 2,
+              "part": 0,
+              "frames": 88,
+              "minForwardStep": 0.0,
+              "handoffs": 1,
+              "midflightStalls": 0
+            },
+            {
+              "caster": 2,
+              "action": 2,
+              "part": 0,
+              "frames": 17,
+              "minForwardStep": 0.23267364501953125,
+              "handoffs": 0,
+              "midflightStalls": 0
+            },
+            {
+              "caster": 3,
+              "action": 4,
+              "part": 0,
+              "frames": 91,
+              "minForwardStep": 0.0,
+              "handoffs": 1,
+              "midflightStalls": 0
+            },
+            {
+              "caster": 2,
+              "action": 3,
+              "part": 0,
+              "frames": 18,
+              "minForwardStep": 0.22500038146972656,
+              "handoffs": 0,
+              "midflightStalls": 0
+            },
+            {
+              "caster": 3,
+              "action": 6,
+              "part": 0,
+              "frames": 91,
+              "minForwardStep": 0.0,
+              "handoffs": 1,
+              "midflightStalls": 0
+            }
+          ]
+        }
+      },
+      "checks": 42,
+      "conditions": {
+        "host": "Witch",
+        "guest": "Magician",
+        "fps": [
+          60,
+          60
+        ],
+        "sendDelayMsPerPeer": 120,
+        "jitterMsPerPeer": 35,
+        "lossPercentPerPeer": 3
+      },
+      "lastRttMs": 300
+    },
+    "Flight13": {
+      "build": "894c089ff08e43c3a166aeca759690ef",
+      "movementMaxCorrection": 0.0,
+      "peers": {
+        "host": {
+          "frames": 361,
+          "frameMsP95": 33.3343967795372,
+          "shots": [
+            {
+              "caster": 2,
+              "action": 2,
+              "part": 0,
+              "frames": 22,
+              "minForwardStep": 0.18381404876708984,
+              "handoffs": 0,
+              "midflightStalls": 0
+            },
+            {
+              "caster": 3,
+              "action": 1,
+              "part": 0,
+              "frames": 8,
+              "minForwardStep": 0.4999961853027344,
+              "handoffs": 0,
+              "midflightStalls": 0
+            },
+            {
+              "caster": 2,
+              "action": 4,
+              "part": 0,
+              "frames": 22,
+              "minForwardStep": 0.18410873413085938,
+              "handoffs": 0,
+              "midflightStalls": 0
+            },
+            {
+              "caster": 3,
+              "action": 2,
+              "part": 0,
+              "frames": 8,
+              "minForwardStep": 0.49999237060546875,
+              "handoffs": 0,
+              "midflightStalls": 0
+            },
+            {
+              "caster": 2,
+              "action": 6,
+              "part": 0,
+              "frames": 22,
+              "minForwardStep": 0.1881561279296875,
+              "handoffs": 0,
+              "midflightStalls": 0
+            },
+            {
+              "caster": 3,
+              "action": 3,
+              "part": 0,
+              "frames": 8,
+              "minForwardStep": 0.49999046325683594,
+              "handoffs": 0,
+              "midflightStalls": 0
+            }
+          ]
+        },
+        "client": {
+          "frames": 1728,
+          "frameMsP95": 6.9458968937397,
+          "shots": [
+            {
+              "caster": 3,
+              "action": 1,
+              "part": 0,
+              "frames": 101,
+              "minForwardStep": 0.0,
+              "handoffs": 1,
+              "midflightStalls": 0
+            },
+            {
+              "caster": 2,
+              "action": 2,
+              "part": 0,
+              "frames": 99,
+              "minForwardStep": 0.07099342346191406,
+              "handoffs": 0,
+              "midflightStalls": 0
+            },
+            {
+              "caster": 3,
+              "action": 2,
+              "part": 0,
+              "frames": 107,
+              "minForwardStep": 0.0,
+              "handoffs": 1,
+              "midflightStalls": 0
+            },
+            {
+              "caster": 2,
+              "action": 4,
+              "part": 0,
+              "frames": 110,
+              "minForwardStep": 0.0,
+              "handoffs": 0,
+              "midflightStalls": 0
+            },
+            {
+              "caster": 3,
+              "action": 3,
+              "part": 0,
+              "frames": 107,
+              "minForwardStep": 0.0,
+              "handoffs": 1,
+              "midflightStalls": 0
+            },
+            {
+              "caster": 2,
+              "action": 6,
+              "part": 0,
+              "frames": 105,
+              "minForwardStep": 0.07098579406738281,
+              "handoffs": 0,
+              "midflightStalls": 0
+            }
+          ]
+        }
+      },
+      "checks": 44,
+      "conditions": {
+        "host": "Magician",
+        "guest": "Witch",
+        "fps": [
+          30,
+          144
+        ],
+        "sendDelayMsPerPeer": 200,
+        "jitterMsPerPeer": 50,
+        "lossPercentPerPeer": 5
+      },
+      "lastRttMs": 549
+    }
+  },
+  "specials": {
+    "Special10": {
+      "results": {
+        "host": {
+          "returnFrames": 21,
+          "returnEndX": 13.442299842834473,
+          "potionParts": 3,
+          "bouncingParts": 1
+        },
+        "client": {
+          "returnFrames": 86,
+          "returnEndX": 13.0,
+          "potionParts": 3,
+          "bouncingParts": 1
+        }
+      },
+      "checks": [
+        "PASS Delayed card or all three potion parts match independently",
+        "PASS Return, bounce, multishot and lingering zone effects finish without ghost objects"
+      ]
+    },
+    "Special11": {
+      "results": {
+        "host": {
+          "returnFrames": 41,
+          "returnEndX": 13.5115327835083,
+          "potionParts": 3,
+          "bouncingParts": 1
+        },
+        "client": {
+          "returnFrames": 43,
+          "returnEndX": 13.0,
+          "potionParts": 3,
+          "bouncingParts": 1
+        }
+      },
+      "checks": [
+        "PASS Delayed card or all three potion parts match independently",
+        "PASS Return, bounce, multishot and lingering zone effects finish without ghost objects"
+      ]
+    }
+  },
+  "checks": {
+    "Move/Audit06": [
+      "PASS Both peers use the fresh instrumented build",
+      "PASS Actual dinosaur renderers are attached to presentation transforms",
+      "PASS Client visible movement starts in 33 ms",
+      "PASS Client collision body responds in 33 ms despite simulated latency",
+      "PASS Client collision body converges to the actual host authority after stopping",
+      "PASS Host movement starts in 17 ms",
+      "PASS Client jump presentation starts in 17 ms",
+      "PASS Client jump collision body responds without a server round trip",
+      "PASS Jump keeps its upward velocity through consecutive physics steps",
+      "PASS Jump lands and reconciles without persistent offset",
+      "PASS Authoritative knockback reaches the client motor",
+      "PASS Prediction reconciles after server knockback",
+      "PASS Server slow reaches the predicted movement speed",
+      "PASS Teleport resets owner prediction to the authoritative position",
+      "PASS Client charge feedback starts in 0 ms",
+      "PASS Client shot feedback starts in 0 ms",
+      "PASS Anticipated shot matches the authoritative projectile",
+      "PASS Rejected cooldown attack leaves no ghost shot or charge",
+      "PASS Cancel clears local and server charge",
+      "PASS Real card collision applies the same health change on host and client",
+      "PASS Collision body stops advancing after snapshot timeout",
+      "PASS Presentation recovers after packet loss ends",
+      "PASS Server input backlog recovers instead of retaining stale movement",
+      "PASS Predicted character stays within arena walls",
+      "PASS Prediction clears during respawn countdown",
+      "PASS Movement prediction is disabled during card selection",
+      "PASS Respawn preserves the selected augment"
+    ],
+    "Move/Audit07": [
+      "PASS Both peers use the fresh instrumented build",
+      "PASS Actual dinosaur renderers are attached to presentation transforms",
+      "PASS Client visible movement starts in 33 ms",
+      "PASS Client collision body responds in 33 ms despite simulated latency",
+      "PASS Client collision body converges to the actual host authority after stopping",
+      "PASS Host movement starts in 21 ms",
+      "PASS Client jump presentation starts in 33 ms",
+      "PASS Client jump collision body responds without a server round trip",
+      "PASS Jump keeps its upward velocity through consecutive physics steps",
+      "PASS Jump lands and reconciles without persistent offset",
+      "PASS Authoritative knockback reaches the client motor",
+      "PASS Prediction reconciles after server knockback",
+      "PASS Server slow reaches the predicted movement speed",
+      "PASS Teleport resets owner prediction to the authoritative position",
+      "PASS Client shot feedback starts in 0 ms",
+      "PASS Anticipated shot matches the authoritative projectile",
+      "PASS Real card collision applies the same health change on host and client",
+      "PASS Collision body stops advancing after snapshot timeout",
+      "PASS Presentation recovers after packet loss ends",
+      "PASS Server input backlog recovers instead of retaining stale movement",
+      "PASS Predicted character stays within arena walls",
+      "PASS Prediction clears during respawn countdown",
+      "PASS Movement prediction is disabled during card selection",
+      "PASS Respawn preserves the selected augment"
+    ],
+    "Flow/Audit02": [
+      "PASS No random job granted at match start",
+      "PASS Three distinct initial common choices on both peers",
+      "PASS Invalid draft slot rejected",
+      "PASS Choosing peer sees common choice label",
+      "PASS Initial manual choices grant exactly one common each",
+      "PASS Set 1 round 1 retains augments",
+      "PASS Set 1 round 1 enters combat without draft or banner",
+      "PASS Set 1 round 1 starts at full health",
+      "PASS Set 1 round 1 has no old projectiles",
+      "PASS Set 1 round 1 scores synchronized",
+      "PASS Set 1 round 1 shows the same winner banner on both peers",
+      "PASS Set 1 round 2 retains augments",
+      "PASS Set 1 round 2 enters combat without draft or banner",
+      "PASS Set 1 round 2 starts at full health",
+      "PASS Set 1 round 2 has no old projectiles",
+      "PASS Set 1 round 2 scores synchronized",
+      "PASS Set 1 round 2 shows the same winner banner on both peers",
+      "PASS Set 1 round 3 retains augments",
+      "PASS Set 1 round 3 enters combat without draft or banner",
+      "PASS Set 1 round 3 starts at full health",
+      "PASS Set 1 round 3 has no old projectiles",
+      "PASS Set 1 round 3 scores synchronized",
+      "PASS Set 1 round 3 shows the same winner banner on both peers",
+      "PASS Set 1 winner receives no draft",
+      "PASS Set 1 lamps reset for next set",
+      "PASS client loss 1 has three common choices",
+      "PASS client loss 1 waits for separate job choice",
+      "PASS client loss 1 has three job choices",
+      "PASS client sees the job choice label",
+      "PASS Personal loss reward client/1 correct",
+      "PASS Set 2 round 1 retains augments",
+      "PASS Set 2 round 1 enters combat without draft or banner",
+      "PASS Set 2 round 1 starts at full health",
+      "PASS Set 2 round 1 has no old projectiles",
+      "PASS Set 2 round 1 scores synchronized",
+      "PASS Set 2 round 1 shows the same winner banner on both peers",
+      "PASS Set 2 round 2 retains augments",
+      "PASS Set 2 round 2 enters combat without draft or banner",
+      "PASS Set 2 round 2 starts at full health",
+      "PASS Set 2 round 2 has no old projectiles",
+      "PASS Set 2 round 2 scores synchronized",
+      "PASS Set 2 round 2 shows the same winner banner on both peers",
+      "PASS Set 2 winner receives no draft",
+      "PASS Set 2 lamps reset for next set",
+      "PASS host loss 1 has three common choices",
+      "PASS host loss 1 waits for separate job choice",
+      "PASS host loss 1 has three job choices",
+      "PASS host sees the job choice label",
+      "PASS Personal loss reward host/1 correct",
+      "PASS Set 3 round 1 retains augments",
+      "PASS Set 3 round 1 enters combat without draft or banner",
+      "PASS Set 3 round 1 starts at full health",
+      "PASS Set 3 round 1 has no old projectiles",
+      "PASS Set 3 round 1 scores synchronized",
+      "PASS Set 3 round 1 shows the same winner banner on both peers",
+      "PASS Set 3 round 2 retains augments",
+      "PASS Set 3 round 2 enters combat without draft or banner",
+      "PASS Set 3 round 2 starts at full health",
+      "PASS Set 3 round 2 has no old projectiles",
+      "PASS Set 3 round 2 scores synchronized",
+      "PASS Set 3 round 2 shows the same winner banner on both peers",
+      "PASS Set 3 winner receives no draft",
+      "PASS Set 3 lamps reset for next set",
+      "PASS client loss 2 has three common choices",
+      "PASS Personal loss reward client/2 correct",
+      "PASS Set 4 round 1 retains augments",
+      "PASS Set 4 round 1 enters combat without draft or banner",
+      "PASS Set 4 round 1 starts at full health",
+      "PASS Set 4 round 1 has no old projectiles",
+      "PASS Set 4 round 1 scores synchronized",
+      "PASS Set 4 round 1 shows the same winner banner on both peers",
+      "PASS Set 4 round 2 retains augments",
+      "PASS Set 4 round 2 enters combat without draft or banner",
+      "PASS Set 4 round 2 starts at full health",
+      "PASS Set 4 round 2 has no old projectiles",
+      "PASS Set 4 round 2 scores synchronized",
+      "PASS Set 4 round 2 shows the same winner banner on both peers",
+      "PASS Set 4 winner receives no draft",
+      "PASS Set 4 lamps reset for next set",
+      "PASS host loss 2 has three common choices",
+      "PASS Personal loss reward host/2 correct",
+      "PASS Set 5 round 1 retains augments",
+      "PASS Set 5 round 1 enters combat without draft or banner",
+      "PASS Set 5 round 1 starts at full health",
+      "PASS Set 5 round 1 has no old projectiles",
+      "PASS Set 5 round 1 scores synchronized",
+      "PASS Set 5 round 1 shows the same winner banner on both peers",
+      "PASS Set 5 round 2 retains augments",
+      "PASS Set 5 round 2 enters combat without draft or banner",
+      "PASS Set 5 round 2 starts at full health",
+      "PASS Set 5 round 2 has no old projectiles",
+      "PASS Set 5 round 2 scores synchronized",
+      "PASS Set 5 round 2 shows the same winner banner on both peers",
+      "PASS Set 5 winner receives no draft",
+      "PASS Set 5 lamps reset for next set",
+      "PASS client loss 3 has three common choices",
+      "PASS client loss 3 waits for separate job choice",
+      "PASS client loss 3 has three job choices",
+      "PASS client sees the job choice label",
+      "PASS Personal loss reward client/3 correct",
+      "PASS Set 6 round 1 retains augments",
+      "PASS Set 6 round 1 enters combat without draft or banner",
+      "PASS Set 6 round 1 starts at full health",
+      "PASS Set 6 round 1 has no old projectiles",
+      "PASS Set 6 round 1 scores synchronized",
+      "PASS Set 6 round 1 shows the same winner banner on both peers",
+      "PASS Set 6 round 2 retains augments",
+      "PASS Set 6 round 2 enters combat without draft or banner",
+      "PASS Set 6 round 2 starts at full health",
+      "PASS Set 6 round 2 has no old projectiles",
+      "PASS Set 6 round 2 scores synchronized",
+      "PASS Set 6 round 2 shows the same winner banner on both peers",
+      "PASS Set 6 winner receives no draft",
+      "PASS Set 6 lamps reset for next set",
+      "PASS host loss 3 has three common choices",
+      "PASS host loss 3 waits for separate job choice",
+      "PASS host loss 3 has three job choices",
+      "PASS host sees the job choice label",
+      "PASS Personal loss reward host/3 correct",
+      "PASS Set 7 round 1 retains augments",
+      "PASS Set 7 round 1 enters combat without draft or banner",
+      "PASS Set 7 round 1 starts at full health",
+      "PASS Set 7 round 1 has no old projectiles",
+      "PASS Set 7 round 1 scores synchronized",
+      "PASS Set 7 round 1 shows the same winner banner on both peers",
+      "PASS Set 7 round 2 retains augments",
+      "PASS Set 7 round 2 enters combat without draft or banner",
+      "PASS Set 7 round 2 starts at full health",
+      "PASS Set 7 round 2 has no old projectiles",
+      "PASS Set 7 round 2 scores synchronized",
+      "PASS Set 7 round 2 shows the same winner banner on both peers",
+      "PASS Final match ends at 4:3 after seven sets",
+      "PASS Opposite final results and no resume"
+    ],
+    "Watch/Audit03": [
+      "PASS Initial choices are never shown to the opponent",
+      "PASS Initial card offers are not sent through spectator state",
+      "PASS Both players see their own portrait on the left initially",
+      "PASS Initial host choice remains unchanged beyond the old ten-second limit",
+      "PASS Initial client choice also has no automatic grant",
+      "PASS Finishing the initial choice does not reveal the opponent choice",
+      "PASS Opponent initial choice after host has selected remains unchanged beyond the old ten-second limit",
+      "PASS Waiting notice stays visible without a countdown",
+      "PASS client selects with left portrait and host watches right portrait",
+      "PASS host sees exactly the same common cards",
+      "PASS host has no selectable reward",
+      "PASS client common choice remains unchanged beyond the old ten-second limit",
+      "PASS client first card hover is mirrored",
+      "PASS host receives cursor position and white trail",
+      "PASS host cannot select the other player's card",
+      "PASS host cannot move while watching",
+      "PASS host sees the selected common card",
+      "PASS host sees the next job cards",
+      "PASS client job choice remains unchanged beyond the old ten-second limit",
+      "PASS host cursor disappears outside the window and its dust fades away",
+      "PASS client receives exactly one common and one job augment",
+      "PASS client late manual pick is preserved through its animation",
+      "PASS Both draft views close before combat",
+      "PASS host selects with left portrait and client watches right portrait",
+      "PASS client sees exactly the same common cards",
+      "PASS client has no selectable reward",
+      "PASS host common choice remains unchanged beyond the old ten-second limit",
+      "PASS host first card hover is mirrored",
+      "PASS client receives cursor position and white trail",
+      "PASS client cannot select the other player's card",
+      "PASS client cannot move while watching",
+      "PASS client sees the selected common card",
+      "PASS client sees the next job cards",
+      "PASS host job choice remains unchanged beyond the old ten-second limit",
+      "PASS client cursor disappears outside the window and its dust fades away",
+      "PASS host receives exactly one common and one job augment",
+      "PASS host late manual pick is preserved through its animation",
+      "PASS Both draft views close before combat"
+    ],
+    "Spawn/Audit01": [
+      "PASS Initial spawn uses scene markers on both peers",
+      "PASS Round restart: both clients use the assigned markers",
+      "PASS Round restart player 0 restores health",
+      "PASS Round restart player 0 keeps augments",
+      "PASS Round restart player 1 restores health",
+      "PASS Round restart player 1 keeps augments",
+      "PASS Round restart player 0 restores health",
+      "PASS Round restart player 0 keeps augments",
+      "PASS Round restart player 1 restores health",
+      "PASS Round restart player 1 keeps augments",
+      "PASS Set restart: both clients use the assigned markers",
+      "PASS Set restart player 0 restores health",
+      "PASS Set restart player 0 keeps augments",
+      "PASS Set restart player 1 restores health",
+      "PASS Set restart player 1 keeps augments",
+      "PASS Set restart player 0 restores health",
+      "PASS Set restart player 0 keeps augments",
+      "PASS Set restart player 1 restores health",
+      "PASS Set restart player 1 keeps augments",
+      "PASS Only set loser selects augments after respawn",
+      "PASS Moved parent restart: both clients use the assigned markers",
+      "PASS Moved parent restart player 0 restores health",
+      "PASS Moved parent restart player 0 keeps augments",
+      "PASS Moved parent restart player 1 restores health",
+      "PASS Moved parent restart player 1 keeps augments",
+      "PASS Moved parent restart player 0 restores health",
+      "PASS Moved parent restart player 0 keeps augments",
+      "PASS Moved parent restart player 1 restores health",
+      "PASS Moved parent restart player 1 keeps augments"
+    ],
+    "Logs/Move/motor-checks.txt": [
+      "PASS Capsule settles on the floor: (1000.00, -0.91), (0.00, 0.00), grounded True",
+      "PASS First jump sequence responds immediately",
+      "PASS Capsule stops at the wall",
+      "PASS Jump passes upward through a one-way platform",
+      "PASS Falling lands on the one-way platform",
+      "PASS Down-jump drops through the platform",
+      "PASS Jump pad launches the predicted motor",
+      "PASS Wind accelerates the predicted motor upward",
+      "PASS Draft blocking clears residual motion"
+    ],
+    "Logs/Move/clock-checks.txt": [
+      "PASS monotonic 30/60/144 FPS through backward/forward clock corrections; 700 ms flight prediction; bounded stale snapshots"
+    ],
+    "blocked-host": 0.0,
+    "blocked-client": 0.0
+  },
+  "relay": {
+    "result": "partial",
+    "runs": [
+      "Audit01",
+      "Audit02",
+      "Audit03",
+      "Audit04",
+      "Audit05"
+    ],
+    "verified": [
+      "Private Unity Services room created",
+      "Two authentication profiles joined through Relay",
+      "Both peers entered real combat",
+      "Local movement feedback recorded",
+      "Native attack accepted: host flight trace and client confirmed=2/rejected=0"
+    ],
+    "movementFeedbackMs": [
+      14.80865478515625,
+      3.887176513671875
+    ],
+    "rttObservedMs": [
+      371,
+      380,
+      1890
+    ],
+    "limits": [
+      "Audit01 Relay HTTP JoinAllocation timeout (Curl 28)",
+      "Audit03 shot hit the overhead platform in about 65 ms; preview expired before late server spawn; full handoff did not pass",
+      "Audit04/Audit05 transport connection did not complete; Audit05 reported Failed to connect to server",
+      "No full live Relay flight/handoff/disconnect pass; separate physical PC not measured"
+    ],
+    "lastCleanup": {
+      "client": {
+        "status": "네트워크 연결을 시작하지 못했습니다",
+        "joined": false,
+        "busy": false
+      },
+      "host": {
+        "status": "",
+        "joined": false,
+        "busy": false
+      }
+    }
+  },
+  "limits": [
+    "Two local Windows processes for latency/loss simulation",
+    "Timing starts from injected game command, not physical mouse input",
+    "Renderer transforms were traced; hidden player screenshots were black and are not visual QA evidence",
+    "Offline Map_Basic/JumpPad/Teleport/Vanish scenes are not active online NetArena maps",
+    "Physics hit confirmation still requires server communication; unlimited jitter/loss cannot be hidden",
+    "Build warnings in teammate folders and pre-existing service settings were not edited"
+  ],
+  "evidenceSha256": {
+    "Logs/Move/Flight12/client.trace.1.json": "5aac7a5e03dd381ff674b171d916c12277065ca08ad63fb71676b3a8f0ef2776",
+    "Logs/Move/Flight12/client.trace.2.json": "714e72c3dec4aed0121d285882c612ab48417105fe6bf3007f27840b4a418328",
+    "Logs/Move/Flight12/host.trace.1.json": "19a816e587b1509f4b6d4060cbca31932c15409de967d265ec127112838d7e50",
+    "Logs/Move/Flight12/host.trace.2.json": "662dc3c2f8f4d5948881e83f5647709389f2702450300cbd3b4cc1f3f6dc7ec9",
+    "Logs/Move/Flight13/client.trace.1.json": "7ac7b6c0c076ec9eafb7389e71e6795d49bc24db8c502fbcd5ac1b08dafd1f84",
+    "Logs/Move/Flight13/client.trace.2.json": "d0ae6267988af0c389819786a7d1365605f786cecef03bd1ef32a615be72ade2",
+    "Logs/Move/Flight13/host.trace.1.json": "5575e151ef1ac1344c4a8b63f312a4b1bffbaaec7d1264621f25c22f08166e5b",
+    "Logs/Move/Flight13/host.trace.2.json": "e7f61dd9db3911fb58898d747ca77775768b50e5afae26171ebf1afb795756f9",
+    "Logs/Move/Special10/client.trace.3.json": "c667e21cf0715b6a5a40c97014e6a0e6586521243d8bd8b93ad5041dca867b46",
+    "Logs/Move/Special10/host.trace.3.json": "5133a86799c93859a452986e056e46234e6f7480b8336cb267da56bd4dd899bf",
+    "Logs/Move/Special11/client.trace.3.json": "65208daa6cddcd1d31213aa1c4e45c7ff18c8ea4fee60d1a8edb78f30e48f6e5",
+    "Logs/Move/Special11/host.trace.3.json": "87c7ba0500075ace3f6a17c5e20143293fe2b1383db25c93c981946f4b1a0e7c",
+    "Logs/Move/Audit06/checks.txt": "e29bdc53089098fbad52837506b3f7f863dcc7f27a3fcd535b208053e1628067",
+    "Logs/Move/Audit07/checks.txt": "c96d61c6a402cd85289ba6774563a7fb2b837653d5f16b4d9ada5b75742091fe",
+    "Logs/Flow/Audit02/checks.txt": "2c83f0e9c367f22452f5f435d61f96e1c397012101e74e27c721b5315980396b",
+    "Logs/Watch/Audit03/checks.txt": "d6d764da15c2b1f3a9a39182e3d4e80c90935eced5adf505936da4446b89c071",
+    "Logs/Spawn/Audit01/checks.txt": "5957ef516752be54fabf4e938047603f9d0308045b848fc807d4b64adb05ab5d",
+    "Logs/Move/motor-checks.txt": "e4bc21e80f8955d35c83e6f9ead80e28a5a7cc57b1429d6ad17af5a38e44348a",
+    "Logs/Move/clock-checks.txt": "1a89978960114602ad05bbc7053a5fa159807873825b509710174d2bc040e00b",
+    "Logs/Relay/Audit03/host.trace.4.json": "71edac0185e641f614fc1f772ee9b75817a62b62bff37d93b863172d39593200",
+    "Logs/Relay/Audit03/client.trace.4.json": "8155ce3d2079afdeca74d1a3df565752fb5906233262227ebe0e06e897d91919",
+    "Logs/Relay/Audit03/failure-client.json": "26b4ca84af8df7c94cb132d05feee6c740f083ace5879febb8a459c119c658e3",
+    "Logs/Move/build-audit-final.json": "7d1b8803b1d9e1424fbce336170ad6ed9ddddaeb213a7149d53096f66613eb33",
+    "Logs/Move/build-play.json": "02cf75a51a0d761a9930c56f211efb4c0ab2e1024db195b56ad19e8f2815055e"
+  }
+}

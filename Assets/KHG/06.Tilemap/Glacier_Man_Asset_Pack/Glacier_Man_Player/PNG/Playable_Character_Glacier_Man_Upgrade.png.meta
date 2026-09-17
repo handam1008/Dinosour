@@ -1,0 +1,845 @@
+fileFormatVersion: 2
+guid: 10724cbb507d41d4bb735070b7474816
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1638520382010358484
+    second: Playable_Character_Glacier_Man_Upgrade_0
+  - first:
+      213: 5607117133002111519
+    second: Playable_Character_Glacier_Man_Upgrade_1
+  - first:
+      213: -6413907191193676962
+    second: Playable_Character_Glacier_Man_Upgrade_2
+  - first:
+      213: -457711153389476560
+    second: Playable_Character_Glacier_Man_Upgrade_3
+  - first:
+      213: 1850232852285475041
+    second: Playable_Character_Glacier_Man_Upgrade_4
+  - first:
+      213: -157491302505177920
+    second: Playable_Character_Glacier_Man_Upgrade_5
+  - first:
+      213: 6555868930902421084
+    second: Playable_Character_Glacier_Man_Upgrade_6
+  - first:
+      213: 4526156785441419183
+    second: Playable_Character_Glacier_Man_Upgrade_7
+  - first:
+      213: -2085364813464396456
+    second: Playable_Character_Glacier_Man_Upgrade_8
+  - first:
+      213: 369979373054552837
+    second: Playable_Character_Glacier_Man_Upgrade_9
+  - first:
+      213: 4740684087143434540
+    second: Playable_Character_Glacier_Man_Upgrade_10
+  - first:
+      213: -5060578925129694622
+    second: Playable_Character_Glacier_Man_Upgrade_11
+  - first:
+      213: 944145736914545248
+    second: Playable_Character_Glacier_Man_Upgrade_12
+  - first:
+      213: -8419024973382821921
+    second: Playable_Character_Glacier_Man_Upgrade_13
+  - first:
+      213: 2562990930635506862
+    second: Playable_Character_Glacier_Man_Upgrade_14
+  - first:
+      213: 7944331715650849205
+    second: Playable_Character_Glacier_Man_Upgrade_15
+  - first:
+      213: 7125516532842554330
+    second: Playable_Character_Glacier_Man_Upgrade_16
+  - first:
+      213: -2789231391983947427
+    second: Playable_Character_Glacier_Man_Upgrade_17
+  - first:
+      213: -1009646623136468058
+    second: Playable_Character_Glacier_Man_Upgrade_18
+  - first:
+      213: 2575882801603271616
+    second: Playable_Character_Glacier_Man_Upgrade_19
+  - first:
+      213: 2710635315293543346
+    second: Playable_Character_Glacier_Man_Upgrade_20
+  - first:
+      213: -7996222748478573104
+    second: Playable_Character_Glacier_Man_Upgrade_21
+  - first:
+      213: -3904107379381073034
+    second: Playable_Character_Glacier_Man_Upgrade_22
+  - first:
+      213: 6900962780131936596
+    second: Playable_Character_Glacier_Man_Upgrade_23
+  - first:
+      213: -5698277918226384648
+    second: Playable_Character_Glacier_Man_Upgrade_24
+  - first:
+      213: -5259101260371292370
+    second: Playable_Character_Glacier_Man_Upgrade_25
+  - first:
+      213: 884669175797198590
+    second: Playable_Character_Glacier_Man_Upgrade_26
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_0
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 7
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4daf6fe2b913db610800000000000000
+      internalID: 1638520382010358484
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_1
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 7
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1af89e135b70dd40800000000000000
+      internalID: 5607117133002111519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_2
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 7
+        width: 25
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e53d39654693df6a0800000000000000
+      internalID: -6413907191193676962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_3
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 7
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0356c7c8122e5a9f0800000000000000
+      internalID: -457711153389476560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_4
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 7
+        width: 25
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e8cb38e9f85da910800000000000000
+      internalID: 1850232852285475041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_5
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 7
+        width: 26
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cc17faae7a70ddf0800000000000000
+      internalID: -157491302505177920
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_6
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 7
+        width: 34
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5e6574ee002bfa50800000000000000
+      internalID: 6555868930902421084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_7
+      rect:
+        serializedVersion: 2
+        x: 342
+        y: 7
+        width: 34
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fafa5f1ad9320de30800000000000000
+      internalID: 4526156785441419183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_8
+      rect:
+        serializedVersion: 2
+        x: 390
+        y: 7
+        width: 33
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85d1b5a30cb4f03e0800000000000000
+      internalID: -2085364813464396456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_9
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 7
+        width: 35
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50b6321974e622500800000000000000
+      internalID: 369979373054552837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_10
+      rect:
+        serializedVersion: 2
+        x: 486
+        y: 7
+        width: 33
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c29088e5f0b4ac140800000000000000
+      internalID: 4740684087143434540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_11
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 7
+        width: 32
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26201d9974635c9b0800000000000000
+      internalID: -5060578925129694622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_12
+      rect:
+        serializedVersion: 2
+        x: 591
+        y: 7
+        width: 24
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06aadf0ab874a1d00800000000000000
+      internalID: 944145736914545248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_13
+      rect:
+        serializedVersion: 2
+        x: 639
+        y: 7
+        width: 24
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd7df52846d992b80800000000000000
+      internalID: -8419024973382821921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_14
+      rect:
+        serializedVersion: 2
+        x: 678
+        y: 7
+        width: 33
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea4c31f0ca2919320800000000000000
+      internalID: 2562990930635506862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_15
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 7
+        width: 33
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b90d31ca9fef3e60800000000000000
+      internalID: 7944331715650849205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_16
+      rect:
+        serializedVersion: 2
+        x: 781
+        y: 7
+        width: 28
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad3e045b88be2e260800000000000000
+      internalID: 7125516532842554330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_17
+      rect:
+        serializedVersion: 2
+        x: 823
+        y: 7
+        width: 35
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d51bd64b3d8aa49d0800000000000000
+      internalID: -2789231391983947427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_18
+      rect:
+        serializedVersion: 2
+        x: 874
+        y: 7
+        width: 30
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a3374fdeb30df1f0800000000000000
+      internalID: -1009646623136468058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_19
+      rect:
+        serializedVersion: 2
+        x: 927
+        y: 5
+        width: 20
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0cbd99ca2cf5fb320800000000000000
+      internalID: 2575882801603271616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_20
+      rect:
+        serializedVersion: 2
+        x: 975
+        y: 5
+        width: 20
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2bb53bb257c1e9520800000000000000
+      internalID: 2710635315293543346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_21
+      rect:
+        serializedVersion: 2
+        x: 1023
+        y: 8
+        width: 20
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d5790ca6c5b70190800000000000000
+      internalID: -7996222748478573104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_22
+      rect:
+        serializedVersion: 2
+        x: 1070
+        y: 5
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67b8207f503d1d9c0800000000000000
+      internalID: -3904107379381073034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_23
+      rect:
+        serializedVersion: 2
+        x: 1110
+        y: 5
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 459c4fde51525cf50800000000000000
+      internalID: 6900962780131936596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_24
+      rect:
+        serializedVersion: 2
+        x: 1162
+        y: 7
+        width: 30
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f8f9a49c66abe0b0800000000000000
+      internalID: -5698277918226384648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_25
+      rect:
+        serializedVersion: 2
+        x: 1215
+        y: 7
+        width: 27
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2f82c1844be307b0800000000000000
+      internalID: -5259101260371292370
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Playable_Character_Glacier_Man_Upgrade_26
+      rect:
+        serializedVersion: 2
+        x: 1263
+        y: 7
+        width: 27
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efe212f9de9f64c00800000000000000
+      internalID: 884669175797198590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Playable_Character_Glacier_Man_Upgrade_0: 1638520382010358484
+      Playable_Character_Glacier_Man_Upgrade_1: 5607117133002111519
+      Playable_Character_Glacier_Man_Upgrade_10: 4740684087143434540
+      Playable_Character_Glacier_Man_Upgrade_11: -5060578925129694622
+      Playable_Character_Glacier_Man_Upgrade_12: 944145736914545248
+      Playable_Character_Glacier_Man_Upgrade_13: -8419024973382821921
+      Playable_Character_Glacier_Man_Upgrade_14: 2562990930635506862
+      Playable_Character_Glacier_Man_Upgrade_15: 7944331715650849205
+      Playable_Character_Glacier_Man_Upgrade_16: 7125516532842554330
+      Playable_Character_Glacier_Man_Upgrade_17: -2789231391983947427
+      Playable_Character_Glacier_Man_Upgrade_18: -1009646623136468058
+      Playable_Character_Glacier_Man_Upgrade_19: 2575882801603271616
+      Playable_Character_Glacier_Man_Upgrade_2: -6413907191193676962
+      Playable_Character_Glacier_Man_Upgrade_20: 2710635315293543346
+      Playable_Character_Glacier_Man_Upgrade_21: -7996222748478573104
+      Playable_Character_Glacier_Man_Upgrade_22: -3904107379381073034
+      Playable_Character_Glacier_Man_Upgrade_23: 6900962780131936596
+      Playable_Character_Glacier_Man_Upgrade_24: -5698277918226384648
+      Playable_Character_Glacier_Man_Upgrade_25: -5259101260371292370
+      Playable_Character_Glacier_Man_Upgrade_26: 884669175797198590
+      Playable_Character_Glacier_Man_Upgrade_3: -457711153389476560
+      Playable_Character_Glacier_Man_Upgrade_4: 1850232852285475041
+      Playable_Character_Glacier_Man_Upgrade_5: -157491302505177920
+      Playable_Character_Glacier_Man_Upgrade_6: 6555868930902421084
+      Playable_Character_Glacier_Man_Upgrade_7: 4526156785441419183
+      Playable_Character_Glacier_Man_Upgrade_8: -2085364813464396456
+      Playable_Character_Glacier_Man_Upgrade_9: 369979373054552837
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

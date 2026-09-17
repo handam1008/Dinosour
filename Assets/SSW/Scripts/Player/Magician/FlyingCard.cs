@@ -35,6 +35,8 @@ namespace SSW
         bool _consumed;
         IShotLife _life;
 
+        public bool Returning => _returning;
+
         public void Configure(Suit suit, int number, IHealable casterHealth)
         {
             _suit = suit;

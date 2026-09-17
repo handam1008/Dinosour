@@ -2,77 +2,82 @@ using SSW;
 using System.Collections;
 using UnityEngine;
 
-public class KHG_nomalAttack : MonoBehaviour
+namespace NKY.Scripts
 {
-    [SerializeField] private Collider2D attackCollider;
-
-    private float Damage = 30f;
-
-    [SerializeField] private float attackDelay = 0.3f;
-
-    private float lastAttackTime = -999f;
-    private KHG_SwordAttack attackMotion;
-
-    private bool _canAttack;
-
-    // 평타 적중 이벤트
-    // GameObject = 맞은 적
-    // float = 평타 피해량
-    public System.Action<GameObject, float> OnNormalAttackHit;
-
-    private void Awake()
+    public class KHG_nomalAttack : AbstractMeleeWeapon
     {
-        attackMotion = GetComponentInParent<KHG_SwordAttack>();
+        [SerializeField] private float attackDelay = 0.3f;
 
-        if (attackMotion != null)
+        private KHG_SwordAttack attackMotion;
+
+        public System.Action<GameObject, float> OnNormalAttackHit;
+
+        protected override void Awake()
         {
-            attackDelay = attackMotion.SwingTime + attackMotion.ReturnTime;
+            base.Awake();
+
+            attackMotion = GetComponentInParent<KHG_SwordAttack>();
+
+            if (attackMotion != null)
+            {
+                attackDelay = attackMotion.SwingTime + attackMotion.ReturnTime;
+            }
+
+            _currentOffset = new Vector2(offset, 0);
         }
-    }
 
-    private void Start()
-    {
-        StartCoroutine(Attackroutine());
-    }
-
-    private IEnumerator Attackroutine()
-    {
-        yield return new WaitForSeconds(attackDelay);
-    }
-
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
+        protected override void Update()
         {
-            if (Time.time < lastAttackTime + attackDelay)
+            base.Update();
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                Attack();
+            }
+        }
+
+        public override void Attack()
+        {
+            if (Time.time - _currentCooldown < attackCooldown)
                 return;
 
-            _canAttack = true;
+            _currentCooldown = Time.time;
 
-            lastAttackTime = Time.time;
+            StartCoroutine(AttackCoroutine());
 
-            Invoke(nameof(DisableAttackCollider), 0.3f);
+            AttackScan();
         }
-    }
 
-    private void DisableAttackCollider()
-    {
-        _canAttack = false;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (!_canAttack)
-            return;
-
-        if (collision.TryGetComponent<IDamageable>(out var damageable))
+        private IEnumerator AttackCoroutine()
         {
-            damageable.TakeDamage(Damage);
+            isAttacking = true;
 
-            OnNormalAttackHit?.Invoke(
-                collision.gameObject,
-                Damage
+            yield return new WaitForSeconds(attackDelay);
+
+            isAttacking = false;
+        }
+
+        private void OnDrawGizmos()
+        {
+            Matrix4x4 originalMatrix = Gizmos.matrix;
+
+            Vector3 position =
+                (Vector2)transform.position + _currentOffset;
+
+            Quaternion rotation =
+                Quaternion.Euler(0, 0, _currentAngle);
+
+            Gizmos.matrix =
+                Matrix4x4.TRS(position, rotation, hitboxSize);
+
+            Gizmos.color = Color.green;
+
+            Gizmos.DrawWireCube(
+                Vector3.zero,
+                hitboxSize
             );
+
+            Gizmos.matrix = originalMatrix;
         }
     }
 }

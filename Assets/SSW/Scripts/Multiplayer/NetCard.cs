@@ -30,6 +30,7 @@ namespace SSW
 
     public sealed class NetCard : NetworkBehaviour, IShotLife
     {
+        [SerializeField] ShotSync _flight;
         [SerializeField] FlyingCard _card;
         [SerializeField] Rigidbody2D _body;
         [SerializeField] Collider2D _collider;
@@ -42,6 +43,7 @@ namespace SSW
         float _spin;
 
         public CardState State => _state.Value;
+        public float Gravity => _body.gravityScale;
 
         public void Init(NetPlayer owner, Suit suit, int rank, Vector2 direction, float effect, bool joker, bool mirror, uint action = 0)
         {
@@ -60,9 +62,9 @@ namespace SSW
             if (IsServer) _state.Value = _startState;
             CardState state = _state.Value;
             NetPlayer owner = NetworkManager.SpawnManager.SpawnedObjects[state.Caster].GetComponent<NetPlayer>();
-            bool anticipated = owner.IsOwner && !IsServer && state.Action != 0;
-            owner.Cast.Cards.ConfigureShot(_card, _sprite, _feedback, state, !anticipated);
-            if (anticipated && !owner.Cast.MatchShot(state.Action, 0, _sprite, _feedback)) _feedback.PlayLaunch();
+            owner.Cast.Cards.ConfigureShot(_card, _sprite, _feedback, state, IsServer);
+            transform.localScale = Vector3.one * (state.Mirror ? 0.18f : 0.3f);
+            _flight.Bind(owner, state.Action, 0);
             _card.SetLife(this);
             _card.enabled = IsServer;
             _collider.enabled = IsServer;
@@ -74,7 +76,9 @@ namespace SSW
 
         void Update()
         {
-            if (IsServer && IsSpawned && !NetGame.Current.CanFight) Finish();
+            if (!IsServer || !IsSpawned) return;
+            _flight.Terrain = !_card.Returning;
+            if (!NetGame.Current.CanFight) Finish();
         }
 
         public void Impact(Vector2 point, float radius)

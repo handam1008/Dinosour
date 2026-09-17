@@ -32,7 +32,7 @@ namespace SSW
         uint _action;
         uint _confirmed;
         uint _epoch;
-        double _localReady;
+        double _cooldownUntil;
         double _localShow;
         double _waitingUntil;
         int _localHeld;
@@ -52,15 +52,17 @@ namespace SSW
         public int VisiblePreviews => _preview?.Visible ?? 0;
         public int Matches { get; private set; }
         public int Rejections { get; private set; }
-        public double ReadyIn => System.Math.Max(0d, (Anticipating ? _localReady : _readyAt.Value) - Now);
+        public double ReadyIn => System.Math.Max(0d, IsOwner && !IsServer
+            ? _cooldownUntil - Time.unscaledTimeAsDouble : _readyAt.Value - Now);
         public double FeedbackAt { get; private set; } = -1d;
         public uint Action => _action;
         public uint Confirmed => _confirmed;
         public bool Charging => _rollingRank;
         public int DisplayHeld => Anticipating ? _localHeld : _held.Value;
-        bool Anticipating => IsOwner && !IsServer && (_action > _confirmed || _confirmed > _version.Value) && Now < _waitingUntil;
+        bool Anticipating => IsOwner && !IsServer && (_action > _confirmed || _confirmed > _version.Value) && Time.unscaledTimeAsDouble < _waitingUntil;
         float CardCooldown => _cardCooldown * CooldownScale;
-        double Now => NetworkManager.ServerTime.Time;
+        double Now => IsOwner && !IsServer ? NetworkManager.LocalTime.Time : NetworkManager.ServerTime.Time;
+        float ResponseTime => _player.ResponseTime;
 
         public override void OnNetworkSpawn()
         {
@@ -77,10 +79,9 @@ namespace SSW
             {
                 _localHeld = _held.Value;
                 _localNext = _next.Value;
-                _localReady = _readyAt.Value;
                 _localShow = _showUntil.Value;
             }
-            _waitingUntil = Now + 0.8d;
+            _waitingUntil = Time.unscaledTimeAsDouble + ResponseTime;
             return ++_action;
         }
 
@@ -91,9 +92,9 @@ namespace SSW
             uint action = Begin();
             if (!IsServer)
             {
-                if (_player.Job == PlayerJob.Witch && pressed && _localHeld >= 0 && Now >= _throwAt)
+                if (_player.Job == PlayerJob.Witch && pressed && _localHeld >= 0 && Time.unscaledTimeAsDouble >= _throwAt)
                 {
-                    _throwAt = Now + 0.15d;
+                    _throwAt = Time.unscaledTimeAsDouble + 0.15d;
                     int kind = _localHeld;
                     _localHeld = _localNext;
                     _localNext = -1;
@@ -103,13 +104,13 @@ namespace SSW
                     {
                         float angle = count == 1 ? 0f : (i / (float)(count - 1) - 0.5f) * 24f;
                         Vector2 spread = Quaternion.Euler(0f, 0f, angle) * velocity;
-                        _preview.Potion(action, i, _hand.transform.position, spread, _potionPrefab.Style, _stock.At(kind).sprite, _potionPrefab.Gravity);
+                        _preview.Potion(action, i, _hand.transform.position, spread, _potionPrefab.Style, _stock.At(kind).sprite, _potionPrefab.Gravity, ResponseTime);
                     }
                     FeedbackAt = Time.unscaledTimeAsDouble;
                 }
                 else if (_player.Job == PlayerJob.Magician)
                 {
-                    if (pressed && !_rollingRank && Now >= System.Math.Max(_readyAt.Value, _localReady))
+                    if (pressed && !_rollingRank && ReadyIn <= 0d)
                     {
                         _rollingSuit = false;
                         _rollingRank = true;
@@ -121,9 +122,9 @@ namespace SSW
                     else if (!pressed && _rollingRank)
                     {
                         _rollingRank = false;
-                        _localReady = Now + CardCooldown;
+                        _cooldownUntil = Time.unscaledTimeAsDouble + CardCooldown;
                         _localShow = Now + 1.4d;
-                        _preview.Card(action, _player.View.position, direction, Suit, Rank, _magic.FireDelay);
+                        _preview.Card(action, _player.View.position, direction, Suit, Rank, _magic.FireDelay, _cardPrefab.Gravity, ResponseTime);
                         FeedbackAt = Time.unscaledTimeAsDouble;
                     }
                 }
@@ -236,18 +237,20 @@ namespace SSW
             if (IsServer || action != _action || epoch != _player.Epoch) return;
             _rollingRank = rank;
             _rollingSuit = suit;
-            _localReady = ready;
+            if (!accepted) _cooldownUntil = System.Math.Max(_cooldownUntil, Time.unscaledTimeAsDouble + System.Math.Max(0d, ready - Now));
             _localShow = show;
             _localHeld = held;
             _localNext = next;
         }
 
-        public bool MatchShot(uint action, int part, SpriteRenderer sprite, MagicianCardFeedback feedback = null)
+        public bool MatchShot(uint action, int part, ShotSync shot)
         {
-            bool matched = action != 0 && _preview != null && _preview.Match(action, part, sprite, feedback);
+            bool matched = action != 0 && _preview != null && _preview.Match(action, part, shot);
             if (matched) Matches++;
             return matched;
         }
+
+        public void ReadPreviews(System.Action<uint, int, Vector2, bool> read) => _preview?.Read(read);
 
         int RollRank()
         {
@@ -276,7 +279,7 @@ namespace SSW
                 _rollingRank = _rollingSuit = false;
                 _localShow = 0d;
             }
-            else if (IsOwner && !IsServer && _action > _confirmed && Now >= _waitingUntil)
+            else if (IsOwner && !IsServer && _action > _confirmed && Time.unscaledTimeAsDouble >= _waitingUntil)
             {
                 _rollingRank = _rollingSuit = false;
                 _localShow = 0d;
@@ -292,8 +295,7 @@ namespace SSW
             ShowPotion(_reserve, anticipating ? _localNext : _next.Value);
             if (IsOwner && magician && Mouse.current != null)
             {
-                double ready = anticipating ? _localReady : _readyAt.Value;
-                _cooldown.SetProgress(Mathf.Clamp01((float)(ready - Now) / Mathf.Max(0.01f, CardCooldown)));
+                _cooldown.SetProgress(Mathf.Clamp01((float)ReadyIn / Mathf.Max(0.01f, CardCooldown)));
             }
         }
 
