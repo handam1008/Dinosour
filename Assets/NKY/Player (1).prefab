@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52a3772330c740a29df44789a31bf755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.Skill.PlayerSkillModule
+  ShowTopMostFoldoutHeaderGroup: 1
   _skillData: {fileID: 11400000, guid: 0bc71b0e7d474cb479cfe611af884a7f, type: 2}
   _onSkillUsedEvent: {fileID: 11400000, guid: 242a9a411e0c303419898aada801c2f6, type: 2}
 --- !u!1 &1339465974075409521
@@ -289,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 4261666650
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -752,7 +753,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.AssassinMeleeAttack
   targetMask:
     serializedVersion: 2
-    m_Bits: 9
+    m_Bits: 4294967295
   damage: 20
   damageMultiplier: 1
   attackCooldown: 0.7
