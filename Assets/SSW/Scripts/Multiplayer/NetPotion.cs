@@ -8,6 +8,7 @@ namespace SSW
 {
     public sealed class NetPotion : NetworkBehaviour
     {
+        [SerializeField] ShotSync _flight;
         [SerializeField] NetStock _stock;
         [SerializeField] NetZone _zonePrefab;
         [SerializeField] Rigidbody2D _body;
@@ -29,6 +30,9 @@ namespace SSW
         int _bounces;
         float _age;
         bool _hit;
+        AbstractFeedBack[] _effects;
+
+        void Awake() => _effects = _feedback.GetComponents<AbstractFeedBack>();
 
         public int Kind => _kind.Value;
         public SpriteRenderer Style => _sprite;
@@ -59,12 +63,9 @@ namespace SSW
             }
             _sprite.sprite = _stock.At(_kind.Value).sprite;
             _collider.enabled = IsServer;
-            if (!IsServer)
-            {
-                if (NetworkManager.SpawnManager.SpawnedObjects.TryGetValue(_caster.Value, out NetworkObject caster))
-                    caster.GetComponent<NetPlayer>().Cast.MatchShot(_action.Value, _part.Value, _sprite);
-                return;
-            }
+            NetPlayer caster = NetworkManager.SpawnManager.SpawnedObjects[_caster.Value].GetComponent<NetPlayer>();
+            _flight.Bind(caster, _action.Value, _part.Value);
+            if (!IsServer) return;
             Physics2D.IgnoreCollision(_collider, _ownerCollider);
             _body.linearVelocity = _velocity;
             _body.angularVelocity = -360f;
@@ -92,7 +93,7 @@ namespace SSW
             _hit = true;
             float radius = _radius * _mods.Splash;
             bool target = Splash(radius);
-            ImpactRpc(_mods.Splash);
+            ImpactRpc(_body.position, _mods.Splash);
             if (_mods.LeaveZone)
             {
                 NetZone zone = Instantiate(_zonePrefab, transform.position, Quaternion.identity);
@@ -102,6 +103,7 @@ namespace SSW
             if (_bounces > 0 && !target)
             {
                 _bounces--;
+                _flight.Redirect();
                 Vector2 normal = _collider.Distance(other).normal;
                 _body.linearVelocity = Vector2.Reflect(_body.linearVelocity, normal);
                 _body.position -= normal * 0.08f;
@@ -126,9 +128,9 @@ namespace SSW
         }
 
         [Rpc(SendTo.Everyone, InvokePermission = RpcInvokePermission.Server)]
-        void ImpactRpc(float scale)
+        void ImpactRpc(Vector2 point, float scale)
         {
-            _feedback.PlayAllFeedBacks(scale);
+            foreach (AbstractFeedBack effect in _effects) effect.CreateFeedBack(point, scale);
         }
     }
 }

@@ -33,6 +33,7 @@ namespace SSW
         double _lastStateAt;
         double _lastAckAt;
         double _startAt;
+        ViewClock _clock;
         bool _started;
         uint _tick;
         uint _processed;
@@ -119,14 +120,9 @@ namespace SSW
 
         void StepRemote()
         {
-            uint pending = Buffered;
-            if (pending == 0)
-            {
-                StepIdle();
-                return;
-            }
-            uint tick = pending > 3 ? _receivedInput - 2 : _processed + 1;
+            uint tick = _processed + 1;
             MotionFrame input = _history.TryGet(tick, out MotionFrame received) ? received : _last;
+            if (Time.unscaledTimeAsDouble - _lastInputAt > 0.12d) input.Move = Vector2.zero;
             input.Tick = tick;
             _last = input;
             _rate = _motion.Rate;
@@ -200,6 +196,7 @@ namespace SSW
                 if (relocated)
                 {
                     _snapshots.Clear();
+                    _clock = default;
                     _state = state;
                     Commit();
                     _view.localPosition = Vector3.zero;
@@ -266,7 +263,7 @@ namespace SSW
         void Interpolate()
         {
             if (_snapshots.Count == 0) return;
-            double time = NetworkManager.ServerTime.Time - 0.04d;
+            double time = _clock.Step(NetworkManager.ServerTime.Time - 0.04d, Time.unscaledDeltaTime);
             while (_snapshots.Count > 2 && _snapshots[1].Time <= time) _snapshots.RemoveAt(0);
             Snapshot first = _snapshots[0];
             Snapshot last = _snapshots.Count > 1 ? _snapshots[1] : first;
@@ -297,6 +294,7 @@ namespace SSW
             _snapshots.Clear();
             _last = default;
             _started = false;
+            _clock = default;
             Commit();
             _view.position = transform.position;
         }

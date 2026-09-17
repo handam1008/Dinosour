@@ -1,12 +1,16 @@
-param([string]$Run = 'Wait1', [string]$Project = (Get-Location).Path, [string]$Build = 'Builds/Wait/Game.exe')
+﻿param([string]$Run = 'Wait1', [string]$Project = (Get-Location).Path, [string]$Build = 'Builds/Wait/Game.exe')
 $ErrorActionPreference = 'Stop'
 $root = Join-Path $Project ('Logs/Watch/' + $Run)
 New-Item -ItemType Directory -Path $root -Force | Out-Null
 $seq = @{ host = 0; client = 0 }
 $checks = [Collections.Generic.List[string]]::new()
 function Read($peer) {
-    for ($attempt=0; $attempt -lt 5; $attempt++) {
-        try { return Get-Content "$root/$peer.json" -Raw | ConvertFrom-Json } catch { Start-Sleep -Milliseconds 10 }
+    for ($attempt=0; $attempt -lt 25; $attempt++) {
+        try {
+            $state = Get-Content "$root/$peer.json" -Raw | ConvertFrom-Json
+            if ($state) { return $state }
+        } catch { }
+        Start-Sleep -Milliseconds 10
     }
     return $null
 }
@@ -14,7 +18,23 @@ function Own($s) { @($s.players | Where-Object owner)[0] }
 function Other($s) { @($s.players | Where-Object { -not $_.owner })[0] }
 function Send($peer, $op, $value = 0, $x = 0, $y = 0) {
     $seq[$peer]++
-    [IO.File]::WriteAllText("$root/$peer.cmd.json", (@{seq=$seq[$peer];op=$op;value=$value;x=$x;y=$y} | ConvertTo-Json -Compress))
+    $json = @{seq=$seq[$peer];op=$op;value=$value;x=$x;y=$y} | ConvertTo-Json -Compress
+    $until = [DateTime]::UtcNow.AddSeconds(2)
+    while ($true) {
+        try { [IO.File]::WriteAllText("$root/$peer.cmd.json", $json); break }
+        catch [IO.IOException] {
+            if ([DateTime]::UtcNow -ge $until) { throw }
+            Start-Sleep -Milliseconds 15
+        }
+    }
+    if ($op -eq 'quit') { return }
+    $until = [DateTime]::UtcNow.AddSeconds(8)
+    do {
+        $state = Read $peer
+        if ($state -and $state.seq -ge $seq[$peer]) { return }
+        Start-Sleep -Milliseconds 20
+    } while ([DateTime]::UtcNow -lt $until)
+    throw "Unprocessed command: $peer $op"
 }
 function Await($label, [scriptblock]$condition, $seconds = 15) {
     $until = [DateTime]::UtcNow.AddSeconds($seconds)
@@ -66,10 +86,22 @@ function Spectate($chooser, $viewer, $set, $previous) {
     Send $viewer watchclick 0
     Start-Sleep -Milliseconds 200
     Check ((Own (Read $chooser)).augments.Count -eq $previous -and -not (Own (Read $chooser)).ready) "$viewer cannot select the other player's card"
-    $position = (Own (Read $viewer)).position | ConvertTo-Json -Compress
+    $before = Own (Read $viewer)
+    if (-not $before) { throw "Missing spectator snapshot: $viewer" }
     Send $viewer move 0 1 0
-    Start-Sleep -Milliseconds 180
-    Check (((Own (Read $viewer)).position | ConvertTo-Json -Compress) -eq $position) "$viewer cannot move while watching"
+    $samples = [Collections.Generic.List[object]]::new()
+    $maxDistance = 0.0
+    for ($sample = 0; $sample -lt 10; $sample++) {
+        Start-Sleep -Milliseconds 50
+        $state = Read $viewer
+        $player = Own $state
+        if (-not $player) { throw "Missing spectator snapshot: $viewer" }
+        $distance = [Math]::Sqrt([Math]::Pow($player.position.x - $before.position.x, 2) + [Math]::Pow($player.position.y - $before.position.y, 2))
+        $maxDistance = [Math]::Max($maxDistance, $distance)
+        $samples.Add(@{time=$state.time;phase=$state.phase;seq=$state.seq;position=$player.position;velocity=$player.velocity;distance=$distance})
+    }
+    @{before=$before.position;maximum=$maxDistance;samples=$samples} | ConvertTo-Json -Depth 8 | Set-Content "$root/blocked-$viewer.json"
+    Check ($maxDistance -lt 0.0001 -and $state.phase -eq 'Draft') "$viewer cannot move while watching"
     Send $viewer move 0 0 0
     Send $chooser draftclick 2
     Await 'selected card mirrored' { (Other (Read $viewer)).watchPick -eq 2 } 3
@@ -130,6 +162,7 @@ catch {
     throw
 }
 finally {
-    Send host quit
-    Send client quit
+    foreach ($peer in @('host','client')) {
+        try { Send $peer quit } catch { Write-Warning $_ }
+    }
 }

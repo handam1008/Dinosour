@@ -91,18 +91,22 @@ namespace SSW
             if (!IsSpawned) return;
 
             if (!IsOwner) return;
-            if (Mouse.current != null && NetGame.Current.Arena != null)
-            {
-                Vector3 cursor = NetGame.Current.Arena.View.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-                Vector2 aim = (Vector2)cursor - ViewPosition;
-                if (aim.sqrMagnitude > 0.001f) _aim = aim.normalized;
-            }
+            AimAtCursor();
             Face(false, _aim.x < 0f);
+        }
+
+        void AimAtCursor()
+        {
+            if (Mouse.current == null || NetGame.Current.Arena == null) return;
+            Vector3 cursor = NetGame.Current.Arena.View.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            Vector2 aim = (Vector2)cursor - (Vector2)View.position;
+            if (aim.sqrMagnitude > 0.001f) _aim = aim.normalized;
         }
 
         void Attack(InputAction.CallbackContext context)
         {
             if (_blocked || !_input.inputIsActive) return;
+            AimAtCursor();
             _cast.Attack(context.ReadValueAsButton(), _aim);
         }
 

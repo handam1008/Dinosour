@@ -123,7 +123,7 @@ namespace SSW
                         _rollingRank = false;
                         _localReady = Now + CardCooldown;
                         _localShow = Now + 1.4d;
-                        _preview.Card(action, _player.View.position, direction, Suit, Rank, _magic.FireDelay);
+                        _preview.Card(action, _player.View.position, direction, Suit, Rank, _magic.FireDelay, _cardPrefab.Gravity);
                         FeedbackAt = Time.unscaledTimeAsDouble;
                     }
                 }
@@ -242,12 +242,14 @@ namespace SSW
             _localNext = next;
         }
 
-        public bool MatchShot(uint action, int part, SpriteRenderer sprite, MagicianCardFeedback feedback = null)
+        public bool MatchShot(uint action, int part, ShotSync shot)
         {
-            bool matched = action != 0 && _preview != null && _preview.Match(action, part, sprite, feedback);
+            bool matched = action != 0 && _preview != null && _preview.Match(action, part, shot);
             if (matched) Matches++;
             return matched;
         }
+
+        public void ReadPreviews(System.Action<uint, int, Vector2, bool> read) => _preview?.Read(read);
 
         int RollRank()
         {

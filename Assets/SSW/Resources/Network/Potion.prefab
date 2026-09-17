@@ -15,9 +15,8 @@ GameObject:
   - component: {fileID: 621105459665250899}
   - component: {fileID: 8398349783945670464}
   - component: {fileID: 3426517256819113306}
-  - component: {fileID: 8545842749239556687}
-  - component: {fileID: 1942927081287196619}
   - component: {fileID: 6467337417625077608}
+  - component: {fileID: 22722205438605008}
   m_Layer: 9
   m_Name: Potion
   m_TagString: Untagged
@@ -216,69 +215,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &8545842749239556687
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 345646801135344861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e96cb6065543e43c4a752faaa1468eb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkTransform
-  ShowTopMostFoldoutHeaderGroup: 1
-  NetworkTransformExpanded: 0
-  AutoOwnerAuthorityTickOffset: 1
-  PositionInterpolationType: 0
-  RotationInterpolationType: 0
-  ScaleInterpolationType: 0
-  PositionLerpSmoothing: 1
-  PositionMaxInterpolationTime: 0.1
-  RotationLerpSmoothing: 1
-  RotationMaxInterpolationTime: 0.1
-  ScaleLerpSmoothing: 1
-  ScaleMaxInterpolationTime: 0.1
-  AuthorityMode: 0
-  TickSyncChildren: 0
-  UseUnreliableDeltas: 0
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 0
-  SyncRotAngleX: 0
-  SyncRotAngleY: 0
-  SyncRotAngleZ: 1
-  SyncScaleX: 1
-  SyncScaleY: 1
-  SyncScaleZ: 1
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  UseQuaternionSynchronization: 0
-  UseQuaternionCompression: 0
-  UseHalfFloatPrecision: 0
-  InLocalSpace: 0
-  SwitchTransformSpaceWhenParented: 0
-  Interpolate: 1
-  SlerpPosition: 0
---- !u!114 &1942927081287196619
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 345646801135344861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkRigidbody2D
-  ShowTopMostFoldoutHeaderGroup: 1
-  NetworkRigidbodyBaseExpanded: 0
-  UseRigidBodyForMotion: 0
-  AutoUpdateKinematicState: 1
-  AutoSetKinematicOnDespawn: 1
 --- !u!114 &6467337417625077608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,6 +228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SSW.NetPotion
   ShowTopMostFoldoutHeaderGroup: 1
+  _flight: {fileID: 22722205438605008}
   _stock: {fileID: 11400000, guid: fc2174970fe100641976ef59210351c5, type: 2}
   _zonePrefab: {fileID: 5831856611764561324, guid: c3c2d44c8640a7d478dea0465d2570fc, type: 3}
   _body: {fileID: 7556466402802987867}
@@ -299,3 +236,22 @@ MonoBehaviour:
   _sprite: {fileID: 5135085963214982075}
   _feedback: {fileID: 621105459665250899}
   _radius: 1.5
+--- !u!114 &22722205438605008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345646801135344861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b9b82446cdc45849bf7ff50626ba031, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.ShotSync
+  ShowTopMostFoldoutHeaderGroup: 1
+  _body: {fileID: 7556466402802987867}
+  _sprite: {fileID: 5135085963214982075}
+  _feedback: {fileID: 0}
+  _ground:
+    serializedVersion: 2
+    m_Bits: 256

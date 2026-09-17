@@ -10,16 +10,13 @@ namespace SSW
             public uint Action;
             public int Part;
             public SpriteRenderer View;
-            public SpriteRenderer Target;
             public MagicianCardFeedback Feedback;
-            public MagicianCardFeedback TargetFeedback;
             public Vector2 Velocity;
             public Vector2 Gravity;
+            public Vector2 Normal;
             public float Spin;
             public float Delay;
             public float Age;
-            public float Blend;
-            public bool Matched;
             public bool Started;
         }
 
@@ -44,7 +41,7 @@ namespace SSW
             _ground = ground;
         }
 
-        public void Card(uint action, Vector2 position, Vector2 direction, Suit suit, int rank, float delay)
+        public void Card(uint action, Vector2 position, Vector2 direction, Suit suit, int rank, float delay, float gravity)
         {
             Shot shot = Create(action, 0, position);
             shot.Feedback = shot.View.gameObject.AddComponent<MagicianCardFeedback>();
@@ -52,6 +49,7 @@ namespace SSW
             shot.Feedback.SetTrailVisible(false);
             shot.View.transform.localScale = Vector3.one * 0.3f;
             shot.Velocity = direction * 12f;
+            shot.Gravity = Physics2D.gravity * gravity;
             shot.Spin = direction.x < 0f ? -720f : 720f;
             shot.Delay = delay;
             Start(shot);
@@ -95,24 +93,23 @@ namespace SSW
             }
         }
 
-        public bool Match(uint action, int part, SpriteRenderer target, MagicianCardFeedback feedback)
+        public bool Match(uint action, int part, ShotSync target)
         {
-            foreach (Shot shot in _shots)
+            for (int i = 0; i < _shots.Count; i++)
             {
-                if (shot.Action != action || shot.Part != part || shot.Matched) continue;
-                shot.Target = target;
-                shot.TargetFeedback = feedback;
-                if (feedback != null) feedback.SetTrailVisible(false);
-                shot.Matched = true;
-                shot.Delay = 0f;
-                Start(shot);
-                shot.View.sprite = target.sprite;
-                shot.View.color = target.color;
-                shot.View.sharedMaterial = target.sharedMaterial;
-                target.enabled = false;
+                Shot shot = _shots[i];
+                if (shot.Action != action || shot.Part != part) continue;
+                target.Adopt(shot.View.transform, shot.Normal);
+                Remove(i);
                 return true;
             }
             return false;
+        }
+
+        public void Read(System.Action<uint, int, Vector2, bool> read)
+        {
+            foreach (Shot shot in _shots)
+                if (shot.Started && shot.View.enabled) read(shot.Action, shot.Part, shot.View.transform.position, shot.Normal.sqrMagnitude > 0f);
         }
 
         public void Reject(uint action)
@@ -126,18 +123,6 @@ namespace SSW
             for (int i = _shots.Count - 1; i >= 0; i--)
             {
                 Shot shot = _shots[i];
-                if (shot.Matched)
-                {
-                    if (shot.Target == null) { Remove(i); continue; }
-                    shot.Blend += delta;
-                    float weight = Mathf.Clamp01(delta / Mathf.Max(delta, 0.12f - shot.Blend));
-                    shot.View.transform.position = Vector3.Lerp(shot.View.transform.position, shot.Target.transform.position, weight);
-                    shot.View.transform.rotation = Quaternion.Slerp(shot.View.transform.rotation, shot.Target.transform.rotation, weight);
-                    shot.View.transform.localScale = Vector3.Lerp(shot.View.transform.localScale, shot.Target.transform.lossyScale, weight);
-                    shot.View.sprite = shot.Target.sprite;
-                    if (shot.Blend >= 0.12f) Remove(i);
-                    continue;
-                }
                 if (shot.Delay > 0f)
                 {
                     shot.Delay -= delta;
@@ -147,12 +132,13 @@ namespace SSW
                 shot.Age += delta;
                 if (shot.Age >= 0.8f) { Remove(i); continue; }
                 Vector2 before = shot.View.transform.position;
+                Vector2 next = before + shot.Velocity * delta + shot.Gravity * (0.5f * delta * (delta + Time.fixedDeltaTime));
                 shot.Velocity += shot.Gravity * delta;
-                Vector2 next = before + shot.Velocity * delta;
-                RaycastHit2D hit = Physics2D.Linecast(before, next, _ground);
+                RaycastHit2D hit = shot.Normal.sqrMagnitude == 0f ? Physics2D.Linecast(before, next, _ground) : default;
                 if (hit.collider != null)
                 {
                     next = hit.point;
+                    shot.Normal = hit.normal;
                     shot.Velocity = shot.Gravity = Vector2.zero;
                 }
                 shot.View.transform.position = next;
@@ -169,8 +155,6 @@ namespace SSW
         void Remove(int index)
         {
             Shot shot = _shots[index];
-            if (shot.Target != null) shot.Target.enabled = true;
-            if (shot.TargetFeedback != null) shot.TargetFeedback.SetTrailVisible(true);
             if (shot.Feedback != null) shot.Feedback.ReleaseTrail();
             Object.Destroy(shot.View.gameObject);
             _shots.RemoveAt(index);
