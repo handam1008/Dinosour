@@ -15,7 +15,7 @@ namespace RYU._01.Script.Leaderboard
            
         
 
-        public void SetUserInfo(int rank,  int score, string tier, string playerName)
+        public void SetUserInfo(int rank,  double score, string tier, string playerName)
         {
             _rank.text = rank.ToString();
             _playerName.text = playerName;

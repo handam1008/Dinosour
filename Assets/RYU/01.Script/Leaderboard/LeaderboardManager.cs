@@ -54,7 +54,7 @@ namespace RYU._01.Script.Leaderboard
             {
                 var userInfo = Instantiate(rankUserInfoPrefab, rankUserInfoParent);
                 var go = userInfo.GetComponent<RankUserInfo>();
-                go.SetUserInfo(entry.Rank + 1, entry.Score, entry.Tier, entry.PlayerName.Split("#")[0]);
+                go.SetUserInfo(entry.Rank + 1, entry.Score, tierName[entry.Tier], entry.PlayerName.Split("#")[0]);
             
             
                 //Monkey = 0, Dino = 1, Magma = 2, Meteor = 3, IceAge = 4, Extinct = 5
