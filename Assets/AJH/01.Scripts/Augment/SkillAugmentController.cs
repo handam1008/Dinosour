@@ -26,11 +26,6 @@ namespace SSW
         [Header("쿨감")]
         [SerializeField] float _cooldownReduction = 0.35f;
 
-        [Header("독")]
-        [SerializeField] float _poisonRatio = 0.22f;         // 준 피해의 22%를 도트로
-        [SerializeField] int _poisonTickCount = 5;
-        [SerializeField] float _poisonTickInterval = 1f;
-
         readonly HashSet<CommonAugmentType> _acquired = new HashSet<CommonAugmentType>();
 
         AugmentDrafter _drafter;
@@ -156,22 +151,6 @@ namespace SSW
 
             if (Has(CommonAugmentType.DevilsDeal))
                 _health.Heal(result.AppliedAmount * _devilsHealRate);
-        }
-
-        // ---------- 독 : 공격한 쪽에서 대상에 도트를 건다 ----------
-        public void TryApplyPoison(GameObject target, float dealtAmount)
-        {
-            if (!Has(CommonAugmentType.Poison)) return;
-            if (target == null) return;
-
-            var runner = target.GetComponentInParent<RYU._01.Script.Potions.OverTimeRunner>();
-            if (runner == null) return;
-
-            float perTick = dealtAmount * _poisonRatio;
-            runner.Run(
-                new RYU._01.Script.Potions.DamageTick(perTick, this),
-                _poisonTickCount,
-                _poisonTickInterval);
         }
     }
 }

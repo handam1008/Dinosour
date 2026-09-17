@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using NKY.Scripts.Skill;
+using UnityEngine;
 
 namespace NKY.Scripts.Job.AugmentSO
 {

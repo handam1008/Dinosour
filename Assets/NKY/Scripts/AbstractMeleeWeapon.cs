@@ -27,7 +27,7 @@ namespace NKY.Scripts
             {
                 if(hit.transform.root == transform.root) continue;
                 
-                if (hit.TryGetComponent(out Health health))
+                if (hit.TryGetComponent(out IDamageable health))
                 {
                     CalcDamage(health, hit.gameObject);
                 }
