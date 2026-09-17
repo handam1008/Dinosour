@@ -111,6 +111,7 @@ namespace SSW
         {
             if (augment is not CommonAugment common) return;
             _acquired.Add(common.type);
+            Debug.Log($"[증강 획득] {common.type}");
 
             switch (common.type)
             {
@@ -152,7 +153,10 @@ namespace SSW
 
         void HandleHealthChanged(float current, float max)
         {
+            bool before = BerserkerActive;
             BerserkerActive = Has(CommonAugmentType.Berserker) && current <= max * _berserkerHpRatio;
+            if (before != BerserkerActive)
+                Debug.Log($"[광전사] {BerserkerActive} / 체력 {current}/{max}");
         }
 
         public void OnDamageDealt(DamageRequest request, DamageResult result)
@@ -163,7 +167,10 @@ namespace SSW
                 _health.Heal(result.AppliedAmount * _vampireHealRate);
 
             if (Has(CommonAugmentType.Confidence))
+            {
+                Debug.Log($"[자신감] 이속 버프, speedable={_speedable}");
                 _speedable?.ApplySpeed(_confidenceSpeedBonus, _confidenceDuration);
+            }
         }
 
         public float ModifyIncomingDamage(DamageRequest request, float currentAmount)

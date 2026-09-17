@@ -36,7 +36,7 @@ namespace KDH.Scripts.Bullet
                 if (_bullet.IsUpgraded)
                 {
                     if (collision.TryGetComponent<IDamageable>(out var damageable))
-                        damageable.TakeDamage(_damage * _upgradeValue);
+                        CombatDamage.Deal(_bullet.PlayerGun, damageable, _damage * _upgradeValue, DamageTag.BasicAttack);
                     
                     transform.root.gameObject.SetActive(false);
                     _bullet.PlayerGun.SpawnBullet.bullets.Push(transform.root.gameObject);
@@ -45,7 +45,7 @@ namespace KDH.Scripts.Bullet
                 }
                 
                 if (collision.TryGetComponent<IDamageable>(out var dmg))
-                    dmg.TakeDamage(_damage);
+                    CombatDamage.Deal(_bullet.PlayerGun, dmg, _damage, DamageTag.BasicAttack);
             }
             
             transform.root.gameObject.SetActive(false);
