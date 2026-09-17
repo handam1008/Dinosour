@@ -25,12 +25,7 @@ namespace SSW
         readonly NetworkVariable<bool> _left = new NetworkVariable<bool>();
         Vector2 _move;
         Vector2 _aim = Vector2.right;
-        float _lastInput;
-        float _nextInput;
-        uint _sentInput;
-        uint _receivedInput;
         uint _sentJump;
-        uint _receivedJump;
         bool _blocked;
         PlayerJob _startJob;
         int _startSide;
@@ -40,14 +35,17 @@ namespace SSW
         public Fighter Info => _info.Value;
         public Transform View => _prediction.View;
         public Vector2 ViewPosition => _prediction.Position;
-        public uint InputSequence => _receivedInput;
-        public uint JumpSequence => _receivedJump;
+        public uint InputSequence => _prediction.Processed;
+        public uint JumpSequence => _prediction.JumpSequence;
         public Health Health => _health;
         public NetCast Cast => _cast;
         public NetDraft Draft => _draft;
         public PlayerJob Job => _job.Value;
         public Collider2D Collider => _collider;
         public Rigidbody2D Body => _body;
+        public LayerMask GroundMask => _motion.GroundMask;
+        public uint Epoch => _prediction.Epoch;
+        public Vector2 Velocity => _prediction.Velocity;
         public Vector2 Aim => _aim;
         public int Side => _side.Value;
         public bool CanAct => IsSpawned && _health.Current > 0f && NetGame.Current.CanFight;
@@ -70,7 +68,7 @@ namespace SSW
             }
             _identity.SetJob(_job.Value);
             _aim = new Vector2(Side, 0f);
-            _motion.Bind(this, IsServer);
+            _motion.Bind(this, false, _prediction);
             _input.enabled = IsOwner;
             if (IsOwner)
             {
@@ -91,9 +89,6 @@ namespace SSW
         void Update()
         {
             if (!IsSpawned) return;
-            _motion.Simulated = IsServer && CanAct;
-            if (IsServer && (!CanAct || Time.unscaledTime - _lastInput > 0.5f))
-                _motion.Move(Vector2.zero);
 
             if (!IsOwner) return;
             if (Mouse.current != null && NetGame.Current.Arena != null)
@@ -102,15 +97,7 @@ namespace SSW
                 Vector2 aim = (Vector2)cursor - ViewPosition;
                 if (aim.sqrMagnitude > 0.001f) _aim = aim.normalized;
             }
-            Vector2 move = new Vector2(_move.x * Side, _move.y);
-            if (_blocked || !_input.inputIsActive || !CanAct) move = Vector2.zero;
-            _prediction.Move(move);
-            if (IsServer) _motion.Move(move);
             Face(false, _aim.x < 0f);
-            if (Time.unscaledTime < _nextInput) return;
-            _nextInput = Time.unscaledTime + 1f / 30f;
-            _prediction.Record(++_sentInput);
-            InputRpc(move, _aim, _sentInput);
         }
 
         void Attack(InputAction.CallbackContext context)
@@ -128,16 +115,15 @@ namespace SSW
         public void Move(Vector2 value)
         {
             _move = value;
-            _nextInput = 0f;
-            if (IsOwner) _prediction.Move(CanAct && !_blocked && _input.inputIsActive ? new Vector2(value.x * Side, value.y) : Vector2.zero);
         }
 
         public void Jump()
         {
             if (!IsOwner || _blocked || !_input.inputIsActive || !CanAct) return;
-            _prediction.Jump(++_sentJump);
-            JumpRpc(_sentJump);
+            _sentJump++;
         }
+
+        internal void ResetJump(uint jump) => _sentJump = jump;
 
         public void Block(bool value)
         {
@@ -154,25 +140,22 @@ namespace SSW
             }
         }
 
-        [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Owner, Delivery = RpcDelivery.Unreliable)]
-        void InputRpc(Vector2 move, Vector2 aim, uint sequence)
+        public MotionFrame ReadInput(uint tick)
         {
-            if (sequence <= _receivedInput || !NetMath.Finite(move) || !NetMath.Finite(aim)) return;
-            _receivedInput = sequence;
-            _lastInput = Time.unscaledTime;
-            _aim = aim.sqrMagnitude > 0.001f ? aim.normalized : _aim;
+            Vector2 move = new Vector2(_move.x * Side, _move.y);
+            if (_blocked || !_input.inputIsActive || !CanAct) move = Vector2.zero;
+            return new MotionFrame
+            {
+                Tick = tick, Jump = _sentJump, Move = Vector2.ClampMagnitude(move, 1f), Aim = _aim
+            };
+        }
+
+        public void ApplyInput(MotionFrame input)
+        {
+            if (!IsServer) return;
+            if (input.Aim.sqrMagnitude > 0.001f) _aim = input.Aim.normalized;
             _left.Value = _aim.x < 0f;
-            _motion.Move(CanAct ? Vector2.ClampMagnitude(move, 1f) : Vector2.zero);
         }
-
-        [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Owner)]
-        void JumpRpc(uint sequence)
-        {
-            if (sequence <= _receivedJump) return;
-            _receivedJump = sequence;
-            if (CanAct) _motion.Jump();
-        }
-
         void Face(bool previous, bool left)
         {
             Vector3 scale = _visual.localScale;

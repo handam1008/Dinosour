@@ -8016,20 +8016,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JJW.Script.Jackpot.JackpotDivision
   coinShooter: {fileID: 2016847338}
-  augmentController: {fileID: 0}
-  health: {fileID: 0}
-  normalDamageChance: 7
-  normalHealChance: 7
-  normalInvincibleChance: 7
-  normalSpeedChance: 7
+  augmentController: {fileID: 904079614}
+  health: {fileID: 904079632}
+  normalDamageChance: 8
+  normalHealChance: 8
+  normalInvincibleChance: 8
+  normalSpeedChance: 8
   normalInstantKillChance: 1
   normal777Chance: 5
-  moreDamageChance: 5
-  moreHealChance: 5
-  moreInvincibleChance: 5
-  moreSpeedChance: 5
+  moreDamageChance: 7
+  moreHealChance: 7
+  moreInvincibleChance: 7
+  moreSpeedChance: 7
   moreInstantKillChance: 1
-  more777Chance: 3
+  more777Chance: 7
   luckChanceBonus: 0.5
   probabilityIncrease: 1
   maximum777Chance: 10
@@ -8162,6 +8162,7 @@ MonoBehaviour:
   augmentController: {fileID: 904079614}
   division: {fileID: 904079580}
   damageUpJackpot: {fileID: 904079591}
+  coinShooter: {fileID: 0}
   slowAmount: 0.2
   slowDuration: 0.5
   burnDamagePerTick: 4
@@ -8169,6 +8170,34 @@ MonoBehaviour:
   burnDuration: 2
   lifeStealRatio: 0.2
   lifeStealDuration: 10
+--- !u!114 &904079632 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1584961724198795703, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
+  m_PrefabInstance: {fileID: 7261052234574551643}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904079570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd12dbad8ce7b04f84301f21a2e2d69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+--- !u!114 &904079636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904079570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a956f2759a9385489b78259cdaf9d15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JJW.Script.Augments.GamblerRaiseTheStakes
+  augmentController: {fileID: 904079614}
+  division: {fileID: 904079580}
+  health: {fileID: 904079632}
+  maximumStacks: 3
+  damageIncreasePerStack: 0.1
 --- !u!1 &933345699
 GameObject:
   m_ObjectHideFlags: 0
@@ -9990,11 +10019,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3017196835076093405, guid: b89645d7b3c954847a11576c13269860, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.28
+      value: 2.12
       objectReference: {fileID: 0}
     - target: {fileID: 3017196835076093405, guid: b89645d7b3c954847a11576c13269860, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.98649
+      value: 4.06
       objectReference: {fileID: 0}
     - target: {fileID: 3017196835076093405, guid: b89645d7b3c954847a11576c13269860, type: 3}
       propertyPath: m_LocalPosition.z
@@ -17462,7 +17491,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GamblerMagazine
   magazineSize: 3
   reloadTime: 1.5
-  augmentController: {fileID: 0}
+  augmentController: {fileID: 904079614}
 --- !u!1 &2128264166
 GameObject:
   m_ObjectHideFlags: 0
@@ -22431,9 +22460,17 @@ PrefabInstance:
       propertyPath: _job
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3025669487846797003, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3497198363943219803, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357141661091538562, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7659702680044648022, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
       propertyPath: m_Layer
@@ -22483,7 +22520,8 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 3
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4357141661091538562, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8821414762111665215, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
@@ -22523,6 +22561,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 11155713228905163, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 904079625}
+    - targetCorrespondingSourceObject: {fileID: 11155713228905163, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 904079636}
   m_SourcePrefab: {fileID: 100100000, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
 --- !u!1 &7584981224241185858
 GameObject:

@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using NKY.Scripts.Job;
+﻿using NKY.Scripts.Job;
 using SSW;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace NKY.Scripts.Skill
 {
@@ -21,11 +19,15 @@ namespace NKY.Scripts.Skill
             projectile.Init(player, Damage, ThrowSpeed, WhatIsTarget, DestroyTime);
             projectile.transform.up = aimDirection;
             
+            projectile.Launch(aimDirection);
+            
             var augmentController = player.GetComponentInChildren<AssassinAugmentController>();
             if (augmentController != null)
             {
                 augmentController.NotifySpawnProjectile(projectile.gameObject);
             }
+            
+            
 
             return projectile.gameObject;
         }

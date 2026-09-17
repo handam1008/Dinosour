@@ -10,13 +10,7 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6fb1d2c4-7096-4d2f-81e7-2333f2fed1f9" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/GameModules/ShaderAndMaterials/VolcanoMat.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/GameModules/ShaderAndMaterials/VolcanoMat.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map9.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map9.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_BackgroundVisual.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_BackgroundVisual.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" afterDir="false" />
-    </list>
+    <list default="true" id="6fb1d2c4-7096-4d2f-81e7-2333f2fed1f9" name="변경" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,9 +21,10 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d44b17e136d09081da1e8fd0e8c83fde60e11818b9f2442d7ed8cb733fae895e/System.Collections.Generic.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/JJW/Anime/CoinsV2_outline_18x18res_14.controller" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/JJW/Script/Augments/Gambler777AugmentEffects.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/JJW/Script/Augments/GamblerRaiseTheStakes.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/JJW/Script/GamblerCoinUpgradeEffects.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_ShakeEffect.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/NKY/Lib/EventChannel/EventChannelAsset/GameObjectEventChannelSO.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/NKY/Lib/EventChannel/EventChannelAsset/IntEventChannelSO.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/NKY/Lib/EventChannel/EventListener.cs" root0="FORCE_HIGHLIGHTING" />
@@ -69,7 +64,6 @@
     <setting file="file://$PROJECT_DIR$/Assets/NKY/Scripts/Skill/AssassinNormalSkillSo.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/NKY/Scripts/Skill/PlayerSkillModule.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/NKY/Scripts/TestJump.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/Plugins/PlayerInput/PlayerInput.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.inputsystem@21a28c3a6c83/InputSystem/Plugins/PlayerInput/PlayerInputEditor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@cfd429cc91ec/Editor/NetworkObjectEditor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@cfd429cc91ec/Runtime/Connection/NetworkConnectionManager.cs" root0="SKIP_HIGHLIGHTING" />
@@ -89,61 +83,61 @@
   </component>
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.4256677342397794" />
-      <entry key="MS500" value="3.658997413874611" />
-      <entry key="S2" value="6.141822641642354" />
-      <entry key="S5" value="7.318944500331687" />
-      <entry key="S10" value="7.976169811858476" />
-      <entry key="S30" value="8.599188914065035" />
-      <entry key="S60" value="8.790510029236383" />
-      <entry key="M2" value="8.904398041913971" />
-      <entry key="M5" value="10.089095420721582" />
-      <entry key="M10" value="15.67152153562651" />
-      <entry key="M15" value="21.418523019249683" />
-      <entry key="M30" value="33.980927872004" />
-      <entry key="H1" value="61.411344337774295" />
-      <entry key="H2" value="134.0444369903252" />
-      <entry key="H4" value="246.7199898987788" />
-      <entry key="D1" value="458.1378764780049" />
-      <entry key="W1" value="513.9402310828112" />
+      <entry key="MS100" value="2.2310338140366223E-4" />
+      <entry key="MS500" value="0.18608065689581746" />
+      <entry key="S2" value="0.6567881486988997" />
+      <entry key="S5" value="0.8452211133761336" />
+      <entry key="S10" value="0.9214771078723222" />
+      <entry key="S30" value="1.7012552998666646" />
+      <entry key="S60" value="4.519958504677363" />
+      <entry key="M2" value="10.034943775293682" />
+      <entry key="M5" value="25.09361115770779" />
+      <entry key="M10" value="43.24986376531372" />
+      <entry key="M15" value="55.48332878871775" />
+      <entry key="M30" value="82.48970103677887" />
+      <entry key="H1" value="135.29088637212328" />
+      <entry key="H2" value="217.66143459414573" />
+      <entry key="H4" value="298.5567390845587" />
+      <entry key="D1" value="404.0677282907957" />
+      <entry key="W1" value="427.01207146983626" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="7.87253539376751E-23" />
-      <entry key="MS500" value="5.2332603551444174E-5" />
-      <entry key="S2" value="0.17965895515724306" />
-      <entry key="S5" value="0.9663791138909708" />
-      <entry key="S10" value="1.7007863973231987" />
-      <entry key="S30" value="2.4823132926022" />
-      <entry key="S60" value="2.7288541347458866" />
-      <entry key="M2" value="2.878768807803569" />
-      <entry key="M5" value="3.8561513789184807" />
-      <entry key="M10" value="6.566316783730823" />
-      <entry key="M15" value="8.73185345613608" />
-      <entry key="M30" value="12.83542982134691" />
-      <entry key="H1" value="21.282460828429087" />
-      <entry key="H2" value="43.34333012379348" />
-      <entry key="H4" value="77.6969294860128" />
-      <entry key="D1" value="142.66233472367722" />
-      <entry key="W1" value="159.89112119495303" />
+      <entry key="MS100" value="1.0" />
+      <entry key="MS500" value="1.0" />
+      <entry key="S2" value="1.0000003535409787" />
+      <entry key="S5" value="1.003731819081957" />
+      <entry key="S10" value="1.096405235405537" />
+      <entry key="S30" value="1.981937515819302" />
+      <entry key="S60" value="2.9752392529021954" />
+      <entry key="M2" value="4.272494182817649" />
+      <entry key="M5" value="7.884390525974075" />
+      <entry key="M10" value="12.44428173027178" />
+      <entry key="M15" value="15.493091140807092" />
+      <entry key="M30" value="22.177352440948884" />
+      <entry key="H1" value="36.66621282474924" />
+      <entry key="H2" value="61.05258245710056" />
+      <entry key="H4" value="85.77344124040542" />
+      <entry key="D1" value="118.56432466218166" />
+      <entry key="W1" value="125.74953802314838" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="1.1905875305404647" />
-      <entry key="MS500" value="3.468269664381935" />
-      <entry key="S2" value="6.002567145984701" />
-      <entry key="S5" value="7.965376009460389" />
-      <entry key="S10" value="9.434115849541602" />
-      <entry key="S30" value="10.969906856097928" />
-      <entry key="S60" value="11.458550472320622" />
-      <entry key="M2" value="11.751297695021169" />
-      <entry key="M5" value="13.929866903448172" />
-      <entry key="M10" value="22.2261414222385" />
-      <entry key="M15" value="30.14024779467258" />
-      <entry key="M30" value="46.808192271798475" />
-      <entry key="H1" value="82.68283074745881" />
-      <entry key="H2" value="177.37252725357658" />
-      <entry key="H4" value="324.40242610061495" />
-      <entry key="D1" value="600.795829992712" />
-      <entry key="W1" value="673.8306555597891" />
+      <entry key="MS100" value="0.001839979722604624" />
+      <entry key="MS500" value="0.39525430877012524" />
+      <entry key="S2" value="1.308055061415382" />
+      <entry key="S5" value="1.688409118934737" />
+      <entry key="S10" value="1.930470392336979" />
+      <entry key="S30" value="3.6392241049852085" />
+      <entry key="S60" value="7.458563271532826" />
+      <entry key="M2" value="14.275799024632597" />
+      <entry key="M5" value="32.94119662098552" />
+      <entry key="M10" value="55.63278130046956" />
+      <entry key="M15" value="70.90565944595993" />
+      <entry key="M30" value="104.60067759808027" />
+      <entry key="H1" value="171.90670446607066" />
+      <entry key="H2" value="278.6798014424019" />
+      <entry key="H4" value="384.30928410460314" />
+      <entry key="D1" value="522.6278057276568" />
+      <entry key="W1" value="552.7609797286653" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -170,7 +164,7 @@
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;KDH&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;JJW&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -253,7 +247,10 @@
       <workItem from="1789462363313" duration="59000" />
       <workItem from="1789478236074" duration="3083000" />
       <workItem from="1789515398248" duration="4247000" />
-      <workItem from="1789632178044" duration="6588000" />
+      <workItem from="1789570912000" duration="75000" />
+      <workItem from="1789571390943" duration="1086000" />
+      <workItem from="1789625626129" duration="1074000" />
+      <workItem from="1789632216320" duration="2956000" />
     </task>
     <servers />
   </component>

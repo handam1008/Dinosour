@@ -13,6 +13,7 @@ namespace JJW.Script.Augments
         [SerializeField] private GamblerAugmentController augmentController;
         [SerializeField] private JackpotDivision division;
         [SerializeField] private DamageUpjackpot damageUpJackpot;
+        [SerializeField] private GamblerCoinShooter coinShooter;
 
         [Header("Slow")]
         [SerializeField, Range(0f, 1f)] private float slowAmount = 0.2f;
@@ -42,7 +43,8 @@ namespace JJW.Script.Augments
 
             if (division == null)
             {
-                division = GetComponentInParent<JackpotDivision>();
+                division =
+                    GetComponentInParent<JackpotDivision>();
             }
 
             if (damageUpJackpot == null)
@@ -51,7 +53,14 @@ namespace JJW.Script.Augments
                     GetComponentInParent<DamageUpjackpot>();
             }
 
-            ownerHealable = GetComponentInParent<IHealable>();
+            if (coinShooter == null)
+            {
+                coinShooter =
+                    GetComponentInChildren<GamblerCoinShooter>();
+            }
+
+            ownerHealable =
+                GetComponentInParent<IHealable>();
         }
 
         private void OnEnable()
@@ -64,8 +73,11 @@ namespace JJW.Script.Augments
 
             if (damageUpJackpot != null)
             {
-                damageUpJackpot.DamageStackAdded += OnDamageStackAdded;
-                damageUpJackpot.DamageBuffEnded += OnDamageBuffEnded;
+                damageUpJackpot.DamageStackAdded +=
+                    OnDamageStackAdded;
+
+                damageUpJackpot.DamageBuffEnded +=
+                    OnDamageBuffEnded;
             }
         }
 
@@ -79,8 +91,11 @@ namespace JJW.Script.Augments
 
             if (damageUpJackpot != null)
             {
-                damageUpJackpot.DamageStackAdded -= OnDamageStackAdded;
-                damageUpJackpot.DamageBuffEnded -= OnDamageBuffEnded;
+                damageUpJackpot.DamageStackAdded -=
+                    OnDamageStackAdded;
+
+                damageUpJackpot.DamageBuffEnded -=
+                    OnDamageBuffEnded;
             }
 
             slowCoinEndTime = 0f;
@@ -128,18 +143,14 @@ namespace JJW.Script.Augments
                 Time.time + lifeStealDuration);
         }
 
-        private void OnDamageStackAdded(
-            bool wasAlreadyActive)
+        private void OnDamageStackAdded(bool _)
         {
             if (!HasCoinUpgrade())
             {
                 return;
             }
 
-            if (wasAlreadyActive)
-            {
-                burnEnabled = true;
-            }
+            burnEnabled = true;
         }
 
         private void OnDamageBuffEnded()
@@ -180,9 +191,8 @@ namespace JJW.Script.Augments
                 return;
             }
 
-            StartCoroutine(BurnCoroutine(
-                target,
-                damageable));
+            StartCoroutine(
+                BurnCoroutine(target, damageable));
         }
 
         private IEnumerator BurnCoroutine(
@@ -198,15 +208,24 @@ namespace JJW.Script.Augments
 
                 remainingTime -= burnTickInterval;
 
-                if (target == null || damageable.Current <= 0f)
+                if (target == null
+                    || damageable.Current <= 0f)
                 {
                     yield break;
                 }
 
+                float burnMultiplier =
+                    coinShooter != null
+                        ? coinShooter.DamageMultiplier
+                        : 1f;
+
+                float finalBurnDamage =
+                    burnDamagePerTick * burnMultiplier;
+
                 CombatDamage.Deal(
                     this,
                     damageable,
-                    burnDamagePerTick,
+                    finalBurnDamage,
                     DamageTag.DamageOverTime
                     | DamageTag.JobSkill);
             }
@@ -224,14 +243,17 @@ namespace JJW.Script.Augments
                 return;
             }
 
-            float healAmount = appliedDamage * lifeStealRatio;
+            float healAmount =
+                appliedDamage * lifeStealRatio;
 
             ownerHealable.Heal(healAmount);
         }
 
         private bool HasCoinUpgrade()
         {
-            return augmentController != null && augmentController.Has(GamblerAugmentType.CoinUpgrade);
+            return augmentController != null
+                && augmentController.Has(
+                    GamblerAugmentType.CoinUpgrade);
         }
     }
 }

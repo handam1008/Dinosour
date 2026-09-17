@@ -14,6 +14,8 @@ namespace SSW
         [SerializeField] float _acceleration = 65f;
 
         public bool IsOn { get; private set; } = true;
+        public float RiseSpeed => _riseSpeed;
+        public float Acceleration => Mathf.Max(0f, _acceleration);
 
         void Update()
         {
@@ -33,6 +35,7 @@ namespace SSW
             if (!IsOn) return;
             Rigidbody2D body = other.attachedRigidbody;
             if (body == null || !body.TryGetComponent<IForceReceiver>(out _)) return;
+            if (body.TryGetComponent<PlayerController>(out var motion) && motion.Predicted) return;
 
             Vector2 velocity = body.linearVelocity;
             velocity.y = Mathf.MoveTowards(velocity.y, _riseSpeed, _acceleration * Time.fixedDeltaTime);

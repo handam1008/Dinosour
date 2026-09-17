@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7297498712438663898}
   - component: {fileID: 5294371109245490923}
   - component: {fileID: 5892836177394216848}
+  - component: {fileID: -7855134109455640995}
   m_Layer: 0
   m_Name: HealField
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.7137, y: 1.7137, z: 1.7137}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.7137}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -105,7 +106,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9919d4634772464f8a2737ce94323d85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealField
-  _radius: 1.5
+  _radius: 0.75
   _chargeTime: 1
   _healRatio: 0.2
   _lifeTime: 8
+--- !u!114 &-7855134109455640995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6753817699180805440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0, g: 1, b: 0, a: 1}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
