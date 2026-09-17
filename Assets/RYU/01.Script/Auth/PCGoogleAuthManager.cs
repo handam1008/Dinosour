@@ -110,7 +110,7 @@ namespace RYU._01.Script.Auth
             }
             catch (HttpListenerException ex)
             {
-                Debug.LogError($"포트(5000)가 이미 사용 중이거나 방화벽에 의해 차단되었습니다: {ex.Message}");
+                Debug.LogError($"포트(5000)가 이미 사용 중이거나 방화벽에 의해 차단되었습니다: {ex.Message}");  
                 return null;
             }
 
