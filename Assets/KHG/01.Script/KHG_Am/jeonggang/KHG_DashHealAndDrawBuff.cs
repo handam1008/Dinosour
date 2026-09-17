@@ -1,5 +1,6 @@
 using SSW;
 using System.Collections;
+using NKY.Scripts;
 using UnityEngine;
 
 public class KHG_DashHealAndDrawBuff : MonoBehaviour

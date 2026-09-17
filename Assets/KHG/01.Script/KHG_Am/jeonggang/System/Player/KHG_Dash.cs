@@ -14,17 +14,17 @@ public class KHG_Dash : MonoBehaviour
     [Header("대쉬 데미지 설정")]
     [SerializeField] private float damage = 5f;
     [SerializeField] private LayerMask enemyLayer;
-
-    private float _damageMultiplier = 1f;
+    [SerializeField] private float hitRadius = 0.8f;
 
     [Header("대쉬 쿨타임 실시간 관리")]
     private float _currentCooldown = 0f;
 
+    private float _damageMultiplier = 1f;
+
     private Rigidbody2D _rb;
-    private Transform _visual;
     private PlayerController _playerController;
     private KHG_DashSpeed _dashSpeedBoost;
-    private Collider2D _playerCollider;
+    private Transform _visual;
 
     private bool _canDash = true;
     private bool _isDashing;
@@ -40,15 +40,13 @@ public class KHG_Dash : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _playerController = GetComponent<PlayerController>();
         _dashSpeedBoost = GetComponent<KHG_DashSpeed>();
-        _playerCollider = GetComponent<Collider2D>();
 
         _visual = transform.Find("Visual");
 
         if (_visual == null && transform.childCount > 0)
-        {
             _visual = transform.GetChild(0);
-        }
     }
+
     public void SetDamageMultiplier(float multiplier)
     {
         _damageMultiplier = multiplier;
@@ -68,23 +66,22 @@ public class KHG_Dash : MonoBehaviour
         _isDashing = true;
         _hitEnemies.Clear();
 
-        if (_playerController != null)
-            _playerController.enabled = false;
+        _playerController.enabled = false;
 
         float originalGravity = _rb.gravityScale;
         _rb.gravityScale = 0f;
 
-        bool originalIsTrigger = false;
+        int playerLayer = LayerMask.NameToLayer("Player");
 
-        if (_playerCollider != null)
+        for (int i = 0; i < 32; i++)
         {
-            originalIsTrigger = _playerCollider.isTrigger;
-            _playerCollider.isTrigger = true;
+            if ((enemyLayer.value & (1 << i)) != 0)
+                Physics2D.IgnoreLayerCollision(playerLayer, i, true);
         }
 
-        Vector2 moveInput = Vector2.zero;
-
         PlayerInput playerInput = GetComponent<PlayerInput>();
+
+        Vector2 moveInput = Vector2.zero;
 
         if (playerInput != null)
         {
@@ -92,46 +89,46 @@ public class KHG_Dash : MonoBehaviour
                 playerInput.actions.FindAction("Move");
 
             if (moveAction != null)
-            {
                 moveInput = moveAction.ReadValue<Vector2>();
-            }
         }
 
         float dashDirection;
 
         if (moveInput.x != 0)
-        {
             dashDirection = Mathf.Sign(moveInput.x);
-        }
         else
-        {
             dashDirection = Mathf.Sign(_visual.localScale.x);
-        }
 
         _rb.linearVelocity = new Vector2(
             dashDirection * _dashSpeed,
             0f
         );
 
-        yield return new WaitForSeconds(_dashDuration);
+        float timer = 0f;
 
-        if (_playerCollider != null)
+        while (timer < _dashDuration)
         {
-            _playerCollider.isTrigger = originalIsTrigger;
+            CheckDashDamage();
+
+            timer += Time.deltaTime;
+            yield return null;
         }
 
+        _rb.linearVelocity = Vector2.zero;
         _rb.gravityScale = originalGravity;
 
-        if (_playerController != null)
-            _playerController.enabled = true;
-
-        if (_dashSpeedBoost != null)
+        for (int i = 0; i < 32; i++)
         {
-            _dashSpeedBoost.ActivateSpeedBoost();
+            if ((enemyLayer.value & (1 << i)) != 0)
+                Physics2D.IgnoreLayerCollision(playerLayer, i, false);
         }
 
-        _isDashing = false;
+        _playerController.enabled = true;
 
+        if (_dashSpeedBoost != null)
+            _dashSpeedBoost.ActivateSpeedBoost();
+
+        _isDashing = false;
         _damageMultiplier = 1f;
 
         _currentCooldown = _dashCooldown;
@@ -145,43 +142,38 @@ public class KHG_Dash : MonoBehaviour
         _canDash = true;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void CheckDashDamage()
     {
-        if (!_isDashing)
-            return;
+        Collider2D[] hits = Physics2D.OverlapCircleAll(
+            transform.position,
+            hitRadius,
+            enemyLayer
+        );
 
-        if (((1 << collision.gameObject.layer) & enemyLayer) != 0)
+        foreach (Collider2D hit in hits)
         {
-            ApplyDashDamage(collision.gameObject);
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (!_isDashing)
-            return;
-
-        if (((1 << collision.gameObject.layer) & enemyLayer) != 0)
-        {
-            ApplyDashDamage(collision.gameObject);
+            ApplyDashDamage(hit.gameObject);
         }
     }
 
     private void ApplyDashDamage(GameObject target)
     {
-        if (target.TryGetComponent<IDamageable>(out var damageable))
-        {
-            if (!_hitEnemies.Contains(damageable))
-            {
-                _hitEnemies.Add(damageable);
+        if (target.transform.root == transform.root)
+            return;
 
-                float finalDamage = damage * _damageMultiplier;
+        if (!target.TryGetComponent<IDamageable>(out var enemy))
+            return;
 
-                damageable.TakeDamage(finalDamage);
+        if (_hitEnemies.Contains(enemy))
+            return;
 
-                OnDashHitEnemy?.Invoke(target, finalDamage);
-            }
-        }
+        _hitEnemies.Add(enemy);
+
+        float finalDamage = damage * _damageMultiplier;
+
+        enemy.TakeDamage(finalDamage);
+
+        OnDashHitEnemy?.Invoke(target, finalDamage);
     }
 
     public void ReduceCooldown(float seconds)
@@ -200,10 +192,18 @@ public class KHG_Dash : MonoBehaviour
         _isDashing = false;
         _canDash = true;
 
-        if (_playerController != null)
-            _playerController.enabled = true;
+        _rb.linearVelocity = Vector2.zero;
 
-        if (_playerCollider != null)
-            _playerCollider.isTrigger = false;
+        _playerController.enabled = true;
+
+        int playerLayer = LayerMask.NameToLayer("Player");
+
+        for (int i = 0; i < 32; i++)
+        {
+            if ((enemyLayer.value & (1 << i)) != 0)
+                Physics2D.IgnoreLayerCollision(playerLayer, i, false);
+        }
+
+        _hitEnemies.Clear();
     }
 }
