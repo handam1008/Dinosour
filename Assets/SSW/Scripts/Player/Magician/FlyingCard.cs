@@ -34,6 +34,9 @@ namespace SSW
         bool _returning;
         bool _consumed;
         IShotLife _life;
+        bool _swept;
+
+        public void UseSweep() => _swept = true;
 
         public bool Returning => _returning;
 
@@ -101,6 +104,11 @@ namespace SSW
 
         void OnTriggerEnter2D(Collider2D other)
         {
+            if (!_swept) Contact(other, other.ClosestPoint(transform.position));
+        }
+
+        public void Contact(Collider2D other, Vector2 impactPoint)
+        {
             if (_consumed) return;
 
             IDamageable damageable = other.GetComponentInParent<IDamageable>();
@@ -110,9 +118,8 @@ namespace SSW
 
                 if (_feedback != null)
                 {
-                    Vector2 impactPoint = other.ClosestPoint(transform.position);
                     _feedback.PlayEnvironmentImpact(impactPoint);
-                    _life?.Impact(impactPoint, 0f);
+                    _life?.Impact(impactPoint, 0f, _isMirror || _caster == null || _augments == null || !_augments.Has(MagicianAugmentType.ReturnCard));
                 }
 
                 HandleMiss();
@@ -121,7 +128,7 @@ namespace SSW
 
             if (IsCaster(damageable)) return;
 
-            HitTarget(other, damageable);
+            HitTarget(other, damageable, impactPoint);
         }
 
         void HandleMiss()
@@ -162,7 +169,7 @@ namespace SSW
             }, false);
         }
 
-        void HitTarget(Collider2D other, IDamageable damageable)
+        void HitTarget(Collider2D other, IDamageable damageable, Vector2 impactPoint)
         {
             _consumed = true;
             Component targetComponent = damageable as Component;
@@ -202,7 +209,6 @@ namespace SSW
 
             if (_feedback != null)
             {
-                Vector2 impactPoint = other.ClosestPoint(transform.position);
                 bool hasDiamondExplosion = _suit == Suit.Diamond || jokerBonusSuit == Suit.Diamond;
                 _feedback.PlayImpact(impactPoint, hasDiamondExplosion ? GetDiamondRadius() : 0f);
                 _life?.Impact(impactPoint, hasDiamondExplosion ? GetDiamondRadius() : 0f);
@@ -241,7 +247,13 @@ namespace SSW
                     float radius = GetDiamondRadius();
                     float damage = _number * _diamondDamagePerNumber * effectMul * damageScale;
                     Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, radius);
-                    HashSet<IDamageable> damagedTargets = new HashSet<IDamageable>();
+                    HashSet<IDamageable> damagedTargets = new HashSet<IDamageable> { damageable };
+                    DealDamage(damageable, damage);
+                    if (_augments != null && _augments.Has(MagicianAugmentType.SparklingDiamond))
+                    {
+                        ISlowable direct = target.GetComponentInParent<ISlowable>();
+                        if (direct != null) direct.ApplySlow(_augments.DiamondSlowAmount, _augments.DiamondSlowDuration);
+                    }
                     foreach (Collider2D hit in hits)
                     {
                         IDamageable hitDamageable = hit.GetComponentInParent<IDamageable>();

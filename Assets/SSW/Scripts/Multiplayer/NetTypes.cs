@@ -16,7 +16,7 @@ namespace SSW
 
     public interface IShotLife
     {
-        void Impact(Vector2 point, float radius);
+        void Impact(Vector2 point, float radius, bool terminal = true);
         void Finish();
     }
 

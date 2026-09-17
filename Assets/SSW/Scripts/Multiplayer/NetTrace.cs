@@ -14,6 +14,7 @@ namespace SSW
             public uint action;
             public int part;
             public bool preview;
+            public bool ending;
             public bool blocked;
             public float age;
             public uint turn;
@@ -72,6 +73,13 @@ namespace SSW
                     {
                         caster = shot.Caster, action = shot.Action, part = shot.Part,
                         position = shot.transform.position, velocity = shot.Velocity, blocked = shot.Blocked, age = shot.Age, turn = shot.Turn
+                    });
+            foreach (NetPlayer caster in game.Players)
+                foreach (ShotTail tail in caster.Cast.Finishes)
+                    shots.Add(new Shot
+                    {
+                        caster = caster.NetworkObjectId, action = tail.Action, part = tail.Part,
+                        ending = true, position = tail.transform.position
                     });
             _trace.owner = player.NetworkObjectId;
             _trace.frames.Add(new Frame

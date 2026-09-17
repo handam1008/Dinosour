@@ -14,6 +14,8 @@ namespace SSW
             public Vector2 Velocity;
             public Vector2 Gravity;
             public Vector2 Normal;
+            public Collider2D Contact;
+            public float Radius;
             public float Spin;
             public float Delay;
             public float Age;
@@ -24,6 +26,7 @@ namespace SSW
         readonly List<Shot> _shots = new List<Shot>(8);
         readonly NumberRoller _cards;
         readonly int _ground;
+        readonly float _radius;
         public int Count => _shots.Count;
         public int Visible
         {
@@ -36,10 +39,11 @@ namespace SSW
             }
         }
 
-        public CastView(NumberRoller cards, int ground)
+        public CastView(NumberRoller cards, int ground, float radius)
         {
             _cards = cards;
             _ground = ground;
+            _radius = radius;
         }
 
         public void Card(uint action, Vector2 position, Vector2 direction, Suit suit, int rank, float delay, float gravity, float life)
@@ -51,6 +55,7 @@ namespace SSW
             shot.View.transform.localScale = Vector3.one * 0.3f;
             shot.Velocity = direction * 12f;
             shot.Gravity = Physics2D.gravity * gravity;
+            shot.Radius = _radius;
             shot.Spin = direction.x < 0f ? -720f : 720f;
             shot.Delay = delay;
             Start(shot);
@@ -100,7 +105,7 @@ namespace SSW
             {
                 Shot shot = _shots[i];
                 if (shot.Action != action || shot.Part != part) continue;
-                target.Adopt(shot.View.transform, shot.Normal);
+                target.Adopt(shot.View.transform, shot.Normal, shot.Contact);
                 Remove(i);
                 return true;
             }
@@ -135,10 +140,10 @@ namespace SSW
                 Vector2 before = shot.View.transform.position;
                 Vector2 next = before + shot.Velocity * delta + shot.Gravity * (0.5f * delta * (delta + Time.fixedDeltaTime));
                 shot.Velocity += shot.Gravity * delta;
-                RaycastHit2D hit = shot.Normal.sqrMagnitude == 0f ? Physics2D.Linecast(before, next, _ground) : default;
-                if (hit.collider != null)
+                if (shot.Normal.sqrMagnitude == 0f && ShotQuery.Ground(before, next, shot.Radius, _ground, out RaycastHit2D hit))
                 {
-                    next = hit.point;
+                    next = hit.centroid;
+                    shot.Contact = hit.collider;
                     shot.Normal = hit.normal;
                     shot.Velocity = shot.Gravity = Vector2.zero;
                 }

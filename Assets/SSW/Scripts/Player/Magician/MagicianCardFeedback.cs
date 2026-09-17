@@ -94,6 +94,13 @@ namespace SSW
             CreateTrail(trailMaterial);
         }
 
+        public void CopyTo(MagicianCardFeedback target, Material material)
+        {
+            target.Configure(_settings, _suit, _number, material);
+            target.SetIntensityMultiplier(_intensityMultiplier);
+            if (_isJoker) target.MarkJoker();
+        }
+
         public void SetIntensityMultiplier(float multiplier)
         {
             _intensityMultiplier = Mathf.Max(0f, multiplier);

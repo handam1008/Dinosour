@@ -10,8 +10,30 @@ using UnityEngine.SceneManagement;
 
 namespace SSW
 {
+    [DefaultExecutionOrder(-200)]
     public sealed class NetGame : MonoBehaviour, IRoundField
     {
+        public double PhysicsTime { get; private set; }
+        bool _physicsStarted;
+        double _physicsOffset;
+
+        void FixedUpdate()
+        {
+            if (!Connected || !_manager.IsServer) return;
+            if (!_physicsStarted)
+            {
+                _physicsOffset = _manager.ServerTime.Time - Time.fixedTimeAsDouble;
+                PhysicsTime = _manager.ServerTime.Time;
+                _physicsStarted = true;
+            }
+            else PhysicsTime = Math.Max(PhysicsTime + Time.fixedDeltaTime, _physicsOffset + Time.fixedTimeAsDouble);
+        }
+
+        void LateUpdate()
+        {
+            if (Connected && _manager.IsServer) _physicsOffset = _manager.ServerTime.Time - Time.timeAsDouble;
+        }
+
         internal ShotChannel Shots { get; } = new ShotChannel();
         const string JobMessage = "mushrooms.job";
         const string GameScene = "SuperUltraLegendScene";
@@ -86,7 +108,8 @@ namespace SSW
             {
                 if (!_explicitJob) _localJob = PlayerJobStorage.Load();
                 if (!NetMath.Supported(_localJob)) throw new ArgumentException("온라인 직업은 마녀와 마술사 중에서 선택해 주세요.");
-                _manager.NetworkConfig.ProtocolVersion = 2;
+                _physicsStarted = false;
+                _manager.NetworkConfig.ProtocolVersion = 3;
                 _manager.NetworkConfig.PlayerPrefab = null;
                 _manager.NetworkConfig.EnableSceneManagement = true;
                 RegisterPrefab(_playerPrefab.gameObject);
