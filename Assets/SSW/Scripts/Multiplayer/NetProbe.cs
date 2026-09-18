@@ -71,6 +71,7 @@ namespace SSW
             public int rejected;
             public Vector2 shotOrigin;
             public uint shotTick;
+            public int shotKind;
             public double shotLag;
             public int fired;
             public bool charging;
@@ -247,6 +248,10 @@ namespace SSW
                     foreach (NetPlayer player in game.Players)
                         if (!player.IsOwner) player.GetComponent<PlayerController>().ApplySlow(command.x,command.y);
                     break;
+                case "haste":
+                    foreach (NetPlayer player in game.Players)
+                        if (!player.IsOwner) player.GetComponent<PlayerController>().ApplySpeed(command.x,command.y);
+                    break;
                 case "grant":
                     if (!game.Manager.IsServer) break;
                     foreach (NetPlayer player in game.Players)
@@ -376,7 +381,7 @@ namespace SSW
                     augments = owned.ToArray(), potion = player.Cast.Held, rank = player.Cast.Rank,
                     heldView = player.Cast.DisplayHeld, previews = player.Cast.Previews,
                     visiblePreviews = player.Cast.VisiblePreviews, matches = player.Cast.Matches,
-                    shotOrigin = player.Cast.Origin, shotTick = player.Cast.ShotTick, shotLag = player.Cast.ShotLag, fired = player.Cast.Shots,
+                    shotOrigin = player.Cast.Origin, shotTick = player.Cast.ShotTick, shotKind = player.Cast.ShotKind, shotLag = player.Cast.ShotLag, fired = player.Cast.Shots,
                     rejected = player.Cast.Rejections, charging = player.Cast.Charging,
                     action = player.Cast.Action, confirmed = player.Cast.Confirmed, readyIn = player.Cast.ReadyIn
                 });

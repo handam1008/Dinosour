@@ -109,7 +109,7 @@ namespace SSW
                 if (!_explicitJob) _localJob = PlayerJobStorage.Load();
                 if (!NetMath.Supported(_localJob)) throw new ArgumentException("온라인 직업은 마녀와 마술사 중에서 선택해 주세요.");
                 _physicsStarted = false;
-                _manager.NetworkConfig.ProtocolVersion = 3;
+                _manager.NetworkConfig.ProtocolVersion = 4;
                 _manager.NetworkConfig.PlayerPrefab = null;
                 _manager.NetworkConfig.EnableSceneManagement = true;
                 RegisterPrefab(_playerPrefab.gameObject);

@@ -14,7 +14,7 @@ namespace SSW
     {
         const string SessionType = "mushrooms-1v1-session";
         const string GameProperty = "game";
-        const string GamePropertyValue = "mushrooms-1v1-v3";
+        const string GamePropertyValue = "mushrooms-1v1-v4";
         const string ModeProperty = "mode";
         const int PlayerLimit = 2;
         static MultiplayerSessionManager _instance;

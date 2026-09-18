@@ -38,6 +38,9 @@ namespace SSW
         public uint InputSequence => _prediction.Processed;
         public double ViewTime => _prediction.ViewTime;
         public bool SweepHit(Vector2 from, Vector2 to, double first, double last, float radius, out float fraction)
+            => SweepHit(from, to, first, last, radius, 0f, out fraction);
+
+        public bool SweepHit(Vector2 from, Vector2 to, double first, double last, float radius, float half, out float fraction)
         {
             fraction = 0f;
             if (!_prediction.ReadHit(first, out Vector2 a) || !_prediction.ReadHit(last, out Vector2 b)) return false;
@@ -45,7 +48,7 @@ namespace SSW
             float width = _prediction.Vertical ? size.x : size.y;
             float height = _prediction.Vertical ? size.y : size.x;
             return ShotQuery.Capsule(from, to, a + _prediction.HitOffset, b + _prediction.HitOffset,
-                _prediction.HitAxis, Mathf.Max(0f, (height - width) * 0.5f), width * 0.5f + radius, out fraction);
+                _prediction.HitAxis, Mathf.Max(0f, (height - width) * 0.5f) + half, width * 0.5f + radius, out fraction);
         }
         public uint CastTick => _prediction.Tick;
         public MotionPacket CastPacket => _prediction.Packet;
