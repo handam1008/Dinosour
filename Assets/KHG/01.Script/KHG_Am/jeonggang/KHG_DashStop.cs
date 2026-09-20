@@ -9,7 +9,7 @@ public class KHG_DashStop : MonoBehaviour
 
     private KHG_Dash dash;
 
-    private Rigidbody2D rootedRigidbody;
+    private Rigidbody2D _rb;
     private float nextRootTime = 0f;
 
     private void Awake()
@@ -32,7 +32,7 @@ public class KHG_DashStop : MonoBehaviour
             dash.OnDashHitEnemy -= OnDashHit;
         }
 
-        rootedRigidbody = null;
+        _rb = null;
     }
 
     private void OnDashHit(GameObject target, float damage)

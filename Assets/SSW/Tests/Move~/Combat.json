@@ -1,0 +1,785 @@
+{
+  "base": "1b5c467622019808b9f00121f203328487ad9d7b",
+  "development": {
+    "buildId": "build_44e58a573eda",
+    "guid": "9cb4f74a1f634c2397af5effcb44c604",
+    "errors": 0,
+    "warnings": 10
+  },
+  "release": {
+    "buildId": "build_8369a84b8a1e",
+    "guid": "6378a32ac4804dad8a449259af904e26",
+    "errors": 0,
+    "warnings": 10,
+    "startupSmoke": true,
+    "probeTypeStringsPresent": false
+  },
+  "combat": {
+    "CadenceFinal01": {
+      "records": 10,
+      "build": "9cb4f74a1f634c2397af5effcb44c604",
+      "matches": 10,
+      "rejections": 0,
+      "rtt": [
+        403,
+        449,
+        401,
+        383,
+        501,
+        384,
+        467,
+        667,
+        418,
+        384
+      ],
+      "rankPairs": [
+        [
+          3,
+          3
+        ],
+        [
+          8,
+          8
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          8,
+          8
+        ],
+        [
+          9,
+          9
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          4,
+          4
+        ],
+        [
+          7,
+          7
+        ]
+      ]
+    },
+    "StepFinal02": {
+      "records": 6,
+      "build": "9cb4f74a1f634c2397af5effcb44c604",
+      "matches": 6,
+      "rejections": 0,
+      "rtt": [
+        923,
+        84,
+        84,
+        85,
+        100,
+        101
+      ],
+      "rankPairs": [
+        [
+          6,
+          6
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          3,
+          3
+        ],
+        [
+          4,
+          4
+        ]
+      ]
+    },
+    "ImpactFinal01": {
+      "records": 1,
+      "build": "9cb4f74a1f634c2397af5effcb44c604",
+      "damage": 14.0
+    },
+    "MotionFinal01": {
+      "records": 4,
+      "build": "9cb4f74a1f634c2397af5effcb44c604",
+      "originErrors": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    "StallFinal01": {
+      "records": 1,
+      "build": "49658c8fe2a34535bf02214c4aff5680",
+      "clockError": 0.004573465815884248
+    }
+  },
+  "move": {
+    "CombatCoreFinal02": {
+      "checks.txt": [
+        "PASS Both peers use the fresh instrumented build",
+        "PASS Actual dinosaur renderers are attached to presentation transforms",
+        "PASS Client visible movement starts in 17 ms",
+        "PASS Client collision body responds in 17 ms despite simulated latency",
+        "PASS Client collision body converges to the actual host authority after stopping",
+        "PASS Host movement starts in 33 ms",
+        "PASS Client jump presentation starts in 33 ms",
+        "PASS Client jump collision body responds without a server round trip",
+        "PASS Jump keeps its upward velocity through consecutive physics steps",
+        "PASS Jump lands and reconciles without persistent offset",
+        "PASS Authoritative knockback reaches the client motor",
+        "PASS Prediction reconciles after server knockback",
+        "PASS Server slow reaches the predicted movement speed",
+        "PASS Teleport resets owner prediction to the authoritative position",
+        "PASS Client charge feedback starts in 0 ms",
+        "PASS Client shot feedback starts in 0 ms",
+        "PASS Anticipated shot matches the authoritative projectile",
+        "PASS Rejected cooldown attack leaves no ghost shot or charge",
+        "PASS Cancel clears local and server charge",
+        "PASS Real card collision applies the same health change on host and client",
+        "PASS Collision body stops advancing after snapshot timeout",
+        "PASS Presentation recovers after packet loss ends",
+        "PASS Server input backlog recovers instead of retaining stale movement",
+        "PASS Predicted character stays within arena walls",
+        "PASS Prediction clears during respawn countdown",
+        "PASS Movement prediction is disabled during card selection",
+        "PASS Respawn preserves the selected augment"
+      ],
+      "build": "9cb4f74a1f634c2397af5effcb44c604"
+    },
+    "CombatCoreFinal03": {
+      "checks.txt": [
+        "PASS Both peers use the fresh instrumented build",
+        "PASS Actual dinosaur renderers are attached to presentation transforms",
+        "PASS Client visible movement starts in 21 ms",
+        "PASS Client collision body responds in 21 ms despite simulated latency",
+        "PASS Client collision body converges to the actual host authority after stopping",
+        "PASS Host movement starts in 33 ms",
+        "PASS Client jump presentation starts in 7 ms",
+        "PASS Client jump collision body responds without a server round trip",
+        "PASS Jump keeps its upward velocity through consecutive physics steps",
+        "PASS Jump lands and reconciles without persistent offset",
+        "PASS Authoritative knockback reaches the client motor",
+        "PASS Prediction reconciles after server knockback",
+        "PASS Server slow reaches the predicted movement speed",
+        "PASS Teleport resets owner prediction to the authoritative position",
+        "PASS Client shot feedback starts in 0 ms",
+        "PASS Anticipated shot matches the authoritative projectile",
+        "PASS Real card collision applies the same health change on host and client",
+        "PASS Collision body stops advancing after snapshot timeout",
+        "PASS Presentation recovers after packet loss ends",
+        "PASS Server input backlog recovers instead of retaining stale movement",
+        "PASS Predicted character stays within arena walls",
+        "PASS Prediction clears during respawn countdown",
+        "PASS Movement prediction is disabled during card selection",
+        "PASS Respawn preserves the selected augment"
+      ],
+      "build": "9cb4f74a1f634c2397af5effcb44c604"
+    },
+    "CombatFlightFinal01": {
+      "checks.txt": [
+        "PASS Peers use the same build",
+        "PASS Continuous movement converges under 450 ms delay, 40 ms jitter and 2 percent loss per peer",
+        "PASS All three guest projectiles hand over to authoritative objects"
+      ],
+      "trajectory-results.json": {
+        "build": "9cb4f74a1f634c2397af5effcb44c604",
+        "movementMaxCorrection": 0.0,
+        "peers": {
+          "host": {
+            "frames": 720,
+            "frameMsP95": 16.75870269536972,
+            "shots": [
+              {
+                "caster": 2,
+                "action": 1,
+                "part": 0,
+                "frames": 18,
+                "minForwardStep": 0.16237831115722656,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 2,
+                "part": 0,
+                "frames": 74,
+                "minForwardStep": 0.1999506950378418,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 2,
+                "part": 0,
+                "frames": 17,
+                "minForwardStep": 0.22925090789794922,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 4,
+                "part": 0,
+                "frames": 75,
+                "minForwardStep": 0.0,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 3,
+                "part": 0,
+                "frames": 18,
+                "minForwardStep": 0.0852212905883789,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 6,
+                "part": 0,
+                "frames": 74,
+                "minForwardStep": 0.13490009307861328,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              }
+            ]
+          },
+          "client": {
+            "frames": 720,
+            "frameMsP95": 16.778402030467987,
+            "shots": [
+              {
+                "caster": 3,
+                "action": 2,
+                "part": 0,
+                "frames": 133,
+                "minForwardStep": 0.0,
+                "handoffs": 1,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 1,
+                "part": 0,
+                "frames": 20,
+                "minForwardStep": 0.22443389892578125,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 2,
+                "part": 0,
+                "frames": 18,
+                "minForwardStep": 0.2249889373779297,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 4,
+                "part": 0,
+                "frames": 134,
+                "minForwardStep": 0.0,
+                "handoffs": 1,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 3,
+                "part": 0,
+                "frames": 21,
+                "minForwardStep": 0.22499370574951172,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 6,
+                "part": 0,
+                "frames": 135,
+                "minForwardStep": 0.0,
+                "handoffs": 1,
+                "contactComplete": false,
+                "midflightStalls": 0
+              }
+            ]
+          }
+        },
+        "checks": 44
+      },
+      "build": "9cb4f74a1f634c2397af5effcb44c604"
+    },
+    "CombatFlightFinal02": {
+      "checks.txt": [
+        "PASS Peers use the same build",
+        "PASS Continuous movement converges under 200 ms delay, 50 ms jitter and 5 percent loss per peer",
+        "PASS All three guest projectiles hand over to authoritative objects"
+      ],
+      "trajectory-results.json": {
+        "build": "9cb4f74a1f634c2397af5effcb44c604",
+        "movementMaxCorrection": 0.1400003433227539,
+        "peers": {
+          "host": {
+            "frames": 361,
+            "frameMsP95": 33.48409757018089,
+            "shots": [
+              {
+                "caster": 2,
+                "action": 2,
+                "part": 0,
+                "frames": 22,
+                "minForwardStep": 0.3064765930175781,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 1,
+                "part": 0,
+                "frames": 9,
+                "minForwardStep": 0.38385963439941406,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 4,
+                "part": 0,
+                "frames": 22,
+                "minForwardStep": 0.328155517578125,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 2,
+                "part": 0,
+                "frames": 9,
+                "minForwardStep": 0.31214141845703125,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 6,
+                "part": 0,
+                "frames": 23,
+                "minForwardStep": 0.189239501953125,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 3,
+                "part": 0,
+                "frames": 8,
+                "minForwardStep": 0.4999971389770508,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              }
+            ]
+          },
+          "client": {
+            "frames": 1721,
+            "frameMsP95": 7.074603345245123,
+            "shots": [
+              {
+                "caster": 3,
+                "action": 1,
+                "part": 0,
+                "frames": 99,
+                "minForwardStep": 0.07819366455078125,
+                "handoffs": 1,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 2,
+                "part": 0,
+                "frames": 71,
+                "minForwardStep": 0.08282470703125,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 2,
+                "part": 0,
+                "frames": 108,
+                "minForwardStep": 0.07211160659790039,
+                "handoffs": 1,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 4,
+                "part": 0,
+                "frames": 112,
+                "minForwardStep": 0.021091461181640625,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 3,
+                "action": 3,
+                "part": 0,
+                "frames": 109,
+                "minForwardStep": 0.07352685928344727,
+                "handoffs": 1,
+                "contactComplete": false,
+                "midflightStalls": 0
+              },
+              {
+                "caster": 2,
+                "action": 6,
+                "part": 0,
+                "frames": 79,
+                "minForwardStep": 0.016214370727539062,
+                "handoffs": 0,
+                "contactComplete": false,
+                "midflightStalls": 0
+              }
+            ]
+          }
+        },
+        "checks": 44
+      },
+      "build": "9cb4f74a1f634c2397af5effcb44c604"
+    },
+    "CombatSpecialFinal01": {
+      "checks.txt": [
+        "PASS Delayed card or all three potion parts match independently",
+        "PASS Return, bounce, multishot and lingering zone effects finish without ghost objects"
+      ],
+      "special-results.json": {
+        "host": {
+          "returnFrames": 42,
+          "returnEndX": 13.363388061523438,
+          "potionParts": 3,
+          "bouncingParts": 1
+        },
+        "client": {
+          "returnFrames": 40,
+          "returnEndX": 13.0,
+          "potionParts": 3,
+          "bouncingParts": 1
+        }
+      },
+      "build": "49658c8fe2a34535bf02214c4aff5680"
+    },
+    "CombatSpecialFinal02": {
+      "checks.txt": [
+        "PASS Delayed card or all three potion parts match independently",
+        "PASS Return, bounce, multishot and lingering zone effects finish without ghost objects"
+      ],
+      "special-results.json": {
+        "host": {
+          "returnFrames": 21,
+          "returnEndX": 13.489446640014648,
+          "potionParts": 3,
+          "bouncingParts": 1
+        },
+        "client": {
+          "returnFrames": 94,
+          "returnEndX": 13.73938274383545,
+          "potionParts": 3,
+          "bouncingParts": 1
+        }
+      },
+      "build": "9cb4f74a1f634c2397af5effcb44c604"
+    }
+  },
+  "relay": {
+    "checks": [
+      "PASS Real Unity Services private room created",
+      "PASS Second process joins through Relay with a separate authentication profile",
+      "PASS Relay guest movement feedback 17 ms; RTT 1888 ms",
+      "PASS Relay guest keeps the selected magician job",
+      "PASS Native spawn attack is accepted by the Relay host",
+      "PASS Guest card prediction joins the real Relay projectile in open flight",
+      "PASS Leaving Relay produces a synchronized disconnect result",
+      "PASS Both peers leave and release the private session"
+    ],
+    "trajectory": {
+      "action": 4,
+      "frames": 102,
+      "handoffs": 1,
+      "handoffSeconds": 0.016666397392292254,
+      "minForwardStep": 0.0,
+      "stalls": 0,
+      "rtt": 383
+    }
+  },
+  "checks": {
+    "Geometry": [
+      "stationary capsule",
+      "miss",
+      "moving target",
+      "overlap",
+      "tangent"
+    ],
+    "History": [
+      "interpolation",
+      "expired",
+      "epoch crossing rejected",
+      "new epoch",
+      "replace",
+      "ring rollover"
+    ]
+  },
+  "sourceHashes": {
+    "Assets/SSW/Scripts/Multiplayer/CastView.cs": "282973cd5bb4cba247cd0057e1efcb0c5208c0f9df5a8903a5a16d630772ff3e",
+    "Assets/SSW/Scripts/Multiplayer/MotionView.cs": "0ce7587ca74fd48f88c6703003d2c4d76559b67e186063190acdf2c3a9ae510e",
+    "Assets/SSW/Scripts/Multiplayer/MultiplayerSessionManager.cs": "410c720348e891405d2077175873f500a3ede093732f1f4086e8e2939161cb5d",
+    "Assets/SSW/Scripts/Multiplayer/NetCard.cs": "4ca215fdcad9214e5e1b3d55465e34ea350e6b2cdd5e27f62ca9d928926afbc1",
+    "Assets/SSW/Scripts/Multiplayer/NetCast.cs": "96932f60008f04aab94d41f7a152cdf13dbdd878753913ba9e5892fe8d0ff857",
+    "Assets/SSW/Scripts/Multiplayer/NetGame.cs": "6713eed96e898a50dcb8e08135d5201e5d4decfd2063f60d98c8821ccf137e63",
+    "Assets/SSW/Scripts/Multiplayer/NetPlayer.cs": "0e0898548c1613389edc2a952e10a5c3aa45d630f6fc70ffecd16adaff3cc5e2",
+    "Assets/SSW/Scripts/Multiplayer/NetProbe.cs": "27949d59656b5643857e587282cc498bbad361e7244f382eb113e5a14746c71c",
+    "Assets/SSW/Scripts/Multiplayer/NetTrace.cs": "6e4717eb736b3431f6ec00fa6d88bfdc50ab21b656e38523fbea2e2174da424b",
+    "Assets/SSW/Scripts/Multiplayer/NetTypes.cs": "96fb1fa0715f60992215f832fa9d7248c08c39a6c984ed959f569434aad1e355",
+    "Assets/SSW/Scripts/Multiplayer/ShotSync.cs": "6c5f7fe7f12f860ff5c20552337d647e8bd7cf7f86b54287ab29672bcb684817",
+    "Assets/SSW/Scripts/Player/Magician/FlyingCard.cs": "408d318819df5892137bf74fbe2fd10edd24f47b6e17e330718a47e409ba91b3",
+    "Assets/SSW/Scripts/Player/Magician/MagicianCardFeedback.cs": "0bf1e31550af54ddaf194a5d922084ee3991cb2fecda2d4082ca1f344c690fc0",
+    "Assets/SSW/Tests/Move~/Trajectory.py": "8e51155c3f4b18a245e99dcaa9328733a9c0b0df7a0bf93e39689cd55c4bbd44",
+    "Assets/SSW/Tests/Move~/Verify.ps1": "bb0584a5140d7443f43ef4f12060872b0d16acfe5f0d6f3fc7923582c57b3049",
+    "Assets/SSW/Scripts/Multiplayer/CastInput.cs": "bcce9167a8d880a0a57316a0e9797bd46816ecc2a1e06b1e609c0c704cb715d6",
+    "Assets/SSW/Scripts/Multiplayer/CastInput.cs.meta": "bc0ea5d3f4f9a0dc6b6060415cd23e9884c17df6092cc672e6d6370b19ade1a5",
+    "Assets/SSW/Scripts/Multiplayer/HitTrack.cs": "688729074288f6de958359f14e32270a7da48cfedbc4c91f0c1130dd09e19e8c",
+    "Assets/SSW/Scripts/Multiplayer/HitTrack.cs.meta": "ec31796519733760136ddb59785428504d8757e542536e4f73f14a5e0249f247",
+    "Assets/SSW/Scripts/Multiplayer/ShotQuery.cs": "343bbc2905df3e9a92472beddc12c12c0d49c5973db7ab41973c0fac9e8d0e12",
+    "Assets/SSW/Scripts/Multiplayer/ShotQuery.cs.meta": "7480632f12b9ccaffcc9a45dd200df79a7461ac240fa02a06cc3ff12c4151e3f",
+    "Assets/SSW/Scripts/Multiplayer/ShotTail.cs": "483bff8b8b0ebc5e563f80f5a9bc790f013c22f8a2d1f91c41ef25059de5f9d4",
+    "Assets/SSW/Scripts/Multiplayer/ShotTail.cs.meta": "3ae3d8ad5ff2d0b4e753768e9b89390a901e0c547b1782cdf939220c5a558180",
+    "Assets/SSW/Tests/Move~/Combat.py": "bf9e21f9cbc168ab3cdff81670dce0b4276bee9ec486ab028d7ce9a7fcd08923",
+    "Assets/SSW/Tests/Move~/ShotChecks.cs": "0d7f6542859254dd88254a482a863cd5c95aa988001e219b18bddd92b722d85c"
+  },
+  "artifactHashes": {
+    "Logs/Combat/CadenceFinal01/client.cmd.json": "0da15bb86666dcf2fd11b6c38602398fe2bf1bde1a3ac89aaa6d6c78de3f01a9",
+    "Logs/Combat/CadenceFinal01/client.json": "81fc0bb49112c429053b30613b435503fce4a3b6105402adb94aa993aed8b788",
+    "Logs/Combat/CadenceFinal01/client.log": "2f9c280ac6e17e7c6fa988bc6d85b2013c89bf3443792ffaeae0cc4aad91c037",
+    "Logs/Combat/CadenceFinal01/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Combat/CadenceFinal01/client.trace.1.json": "557bc7feeda2988a7ed516eb784616b5d2a5638c7d29779283165ac45ac101e8",
+    "Logs/Combat/CadenceFinal01/host.cmd.json": "f10494fcd23b282c54a803b962539f1877065c1442660e87d988e2f6e894e95b",
+    "Logs/Combat/CadenceFinal01/host.json": "1ac40103eeb55f24aa0b4abaa41320f4356462a177309b757b7c2a8e0067ff36",
+    "Logs/Combat/CadenceFinal01/host.log": "ee53502446757fba7644043aa259c997e16b9be824aed28fe1b026427fbf6147",
+    "Logs/Combat/CadenceFinal01/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Combat/CadenceFinal01/host.trace.1.json": "2606a1681fa94cefa4915c363ca66d661bc99b616ef452296d335ba2b3113020",
+    "Logs/Combat/CadenceFinal01/shots.json": "820c267e0dd075793780440055312bbc7fb70d41f090a8c5dcb7aa61f827b758",
+    "Logs/Combat/ImpactFinal01/client.cmd.json": "f10494fcd23b282c54a803b962539f1877065c1442660e87d988e2f6e894e95b",
+    "Logs/Combat/ImpactFinal01/client.json": "0cefabfd052719ab7b330e22f695e86c2b7749bccabe7c3b3ffc5ac6081949d3",
+    "Logs/Combat/ImpactFinal01/client.log": "35487eba52dcb647529dd58bfc2cffcc04083e1dab22304e44a78d7c7918840f",
+    "Logs/Combat/ImpactFinal01/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Combat/ImpactFinal01/client.trace.2.json": "3e70d2ed0b3345d7999cf44aa338b2908456eff7183b274a8b8a4440e27c0b4e",
+    "Logs/Combat/ImpactFinal01/host.cmd.json": "ecb0dc1af9b1d5da5391e394672be8946f2f8528aea396ad718ac8c5b99c0106",
+    "Logs/Combat/ImpactFinal01/host.json": "02ea439bff0fdd90afcb1359a8f0264c6f0d4ae6b5d0184c364d47b98ec938d5",
+    "Logs/Combat/ImpactFinal01/host.log": "f965ed14ab0d15a7368ecfd5ebf52a2be331d7131ca5c5aeb0aa2388d9c4a26d",
+    "Logs/Combat/ImpactFinal01/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Combat/ImpactFinal01/host.trace.2.json": "349247f469d7b19de5b83d7d29dcc82e96fa00a2eee41c47f17560c040ed5547",
+    "Logs/Combat/ImpactFinal01/shots.json": "879aa765735a8abac15ce960e1d0f46438cf1ee5fea1b3d18513aa8987566ba1",
+    "Logs/Combat/MotionFinal01/client.cmd.json": "2007bf4a84b631589a54007960785907aa5c88e7034e2a9b16954cb02aecbebf",
+    "Logs/Combat/MotionFinal01/client.json": "9e717d769519bf7ec201a05309fc3812b26e8840a51e0b311aa340c000820826",
+    "Logs/Combat/MotionFinal01/client.log": "09d42542beafe031efae20ce5040d3a359781b7a6899d546ec316280f3b9e965",
+    "Logs/Combat/MotionFinal01/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Combat/MotionFinal01/host.cmd.json": "ecb0dc1af9b1d5da5391e394672be8946f2f8528aea396ad718ac8c5b99c0106",
+    "Logs/Combat/MotionFinal01/host.json": "8d50eed4ce86dd6ce9f1c1759c38c74a8c3ebc2192d3206b604a18e82b9d2b4d",
+    "Logs/Combat/MotionFinal01/host.log": "c2b327302eaba76cfcf083520f8548dae77b6ad381f83b3d53ffdee54aee1cc2",
+    "Logs/Combat/MotionFinal01/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Combat/MotionFinal01/shots.json": "007bdf4a5243ab920a2e7f0ccadbbfabe7b68b85f37ba949976e3e210e607243",
+    "Logs/Combat/StallFinal01/client.cmd.json": "bae43dae992729d2e1d557018a9d6962cfd3e6c56cb72ebfa216d188b7aaa7fe",
+    "Logs/Combat/StallFinal01/client.json": "d5c5ebfdf127e1ca8fc25028c235d7893bb5b67811a65c69ca78eb895592d61b",
+    "Logs/Combat/StallFinal01/client.log": "e95fa1251d12bc79905f5539cee28776f9f1e5184b380b3b390f1ae81304026d",
+    "Logs/Combat/StallFinal01/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Combat/StallFinal01/host.cmd.json": "f10494fcd23b282c54a803b962539f1877065c1442660e87d988e2f6e894e95b",
+    "Logs/Combat/StallFinal01/host.json": "655de4bf8b086f62136ab4e6d12f4d10e6ad681290e082e9ec2b3af3cfba7b6c",
+    "Logs/Combat/StallFinal01/host.log": "a522949d3e6e0185ab665df92fefa19d44cefc3aa596347afc55078ccb1b324d",
+    "Logs/Combat/StallFinal01/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Combat/StallFinal01/shots.json": "34c785d857e6a34e2eee0097d28dcf16a42174a79e55773db0bbc9e9668802fd",
+    "Logs/Combat/StepFinal01/client.cmd.json": "ecb0dc1af9b1d5da5391e394672be8946f2f8528aea396ad718ac8c5b99c0106",
+    "Logs/Combat/StepFinal01/client.json": "ed36d014d59850242748869a99782626cce7a971db633bb36cb334736e3530c5",
+    "Logs/Combat/StepFinal01/client.log": "1e6af6a443e322e5e53a36dc58bd611cf5ef2e2f21ffe15b8698917369054f13",
+    "Logs/Combat/StepFinal01/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Combat/StepFinal01/host.cmd.json": "416179e11012609d1f79c8562dc3e6eb0a79f74e570e9f39a341a63143060649",
+    "Logs/Combat/StepFinal01/host.json": "f551336d305bd4993cf250c70c25b31234243ec99165f695f6636365dfbfcb06",
+    "Logs/Combat/StepFinal01/host.log": "6ecb20a8c5bac3982c57cafd01c0b466139298c6388b32fe3dbdd9ecec07ffd2",
+    "Logs/Combat/StepFinal01/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Combat/StepFinal01/shots.json": "92b7ec2a8774c7069cb1b75feb03c8a65c7145034a425b4fb18367dfeeb7efe7",
+    "Logs/Combat/StepFinal02/client.cmd.json": "7b7429114e5dc23ef33d02e8320f4989db076eefe0a4ed4758f4d8d9cfe30ba4",
+    "Logs/Combat/StepFinal02/client.json": "704c5aef30dc77dd944850dad90a194fc8c5e5568c4fc98136ac0257937b66a5",
+    "Logs/Combat/StepFinal02/client.log": "6a3bb90f1b2d538fcf0a3aff7358c1f2f9ebae2d23c9535396e667e035f193fc",
+    "Logs/Combat/StepFinal02/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Combat/StepFinal02/host.cmd.json": "416179e11012609d1f79c8562dc3e6eb0a79f74e570e9f39a341a63143060649",
+    "Logs/Combat/StepFinal02/host.json": "e8f14571d0de9e160729cf946ff300bf9779c923b3617cdeeb7033331df70af5",
+    "Logs/Combat/StepFinal02/host.log": "3ceb2f0b3a5db1422ff25e7b85cbad0830a521d7aaf854828ef16b420cbde2b6",
+    "Logs/Combat/StepFinal02/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Combat/StepFinal02/shots.json": "5f59417ac7b4bb70263921556a52f1957bcc1628495d1a87a91885648bb7dfb0",
+    "Logs/Move/CombatCoreFinal01/client.cmd.json": "e13961dd2d60521428b9ee94f89fd91d7b3375d598099e2133ca0408d2702235",
+    "Logs/Move/CombatCoreFinal01/client.json": "c031e5689849c902f12d45a056e69edcba5d3727dbb2bac089a0ad42ba615726",
+    "Logs/Move/CombatCoreFinal01/client.log": "7e6b662a85374112423ac2ed65715ededdb9803c3162feed79e5e6b4c939c366",
+    "Logs/Move/CombatCoreFinal01/client.menu.json": "2a43e719d796249b520fa1ca3ad1485ffb22bcd4bb360f5efb45fc3ae8f4ae15",
+    "Logs/Move/CombatCoreFinal01/failure-client.json": "a7d19fbb2ade3b3e2284222d508ea7f27b314fbdca6c07e12132a99d20e1a7d5",
+    "Logs/Move/CombatCoreFinal01/failure-host.json": "cad82a11f800680b16486a04a785de817584a5838e3ff30dec60b355d53fe17e",
+    "Logs/Move/CombatCoreFinal01/failure.txt": "d71413c0cad550683fae8b34a80260cc676df930434fb4f0018498891fb42184",
+    "Logs/Move/CombatCoreFinal01/host.cmd.json": "e13961dd2d60521428b9ee94f89fd91d7b3375d598099e2133ca0408d2702235",
+    "Logs/Move/CombatCoreFinal01/host.json": "cad082efdbb4bad2ee47d90ace592e2e084db10c89e388039b2afd872a768464",
+    "Logs/Move/CombatCoreFinal01/host.log": "8e519d039198386e299324775bd8aa8f299e58c23accbeed8a7e6b6e8d913bcd",
+    "Logs/Move/CombatCoreFinal01/host.menu.json": "2a43e719d796249b520fa1ca3ad1485ffb22bcd4bb360f5efb45fc3ae8f4ae15",
+    "Logs/Move/CombatCoreFinal02/checks.txt": "d4dbb2a20047191ab9e48cb9b899c74d13806eefea5324f509a753cd4561f001",
+    "Logs/Move/CombatCoreFinal02/client.cmd.json": "f59b30da7857c8611519c7c1178dd010af63825420815b8f10e6bb920059120c",
+    "Logs/Move/CombatCoreFinal02/client.json": "1fd05de026308de359c79a3baaa19479aa520490564487266aee16c3c3a17daa",
+    "Logs/Move/CombatCoreFinal02/client.log": "16a1110a0414ecddffe77721f9d1a258f6ca49c5363fe2d50e13f30b0c2e9a41",
+    "Logs/Move/CombatCoreFinal02/client.menu.json": "3551862f5f198e7952aad6a56958f13203ad244777fa9d1bb2641dc006f3fbe6",
+    "Logs/Move/CombatCoreFinal02/combat-client.json": "437a707654982d12569a926bc5616a5e2f182477077cc74c934d9324376177d9",
+    "Logs/Move/CombatCoreFinal02/combat-host.json": "102f74a4ff80424571f3a93ecf3d44ce5c0a0754b02bdb8ac6809312725bc18a",
+    "Logs/Move/CombatCoreFinal02/final-client.json": "9b883fa11b97b4bb5cb838b32a8819ec5bd5233428b4487e38f7e14efdc326d4",
+    "Logs/Move/CombatCoreFinal02/final-host.json": "51f9792e10430abb465f1c79984b149758c1b44c62803795cf64a442cbfe7237",
+    "Logs/Move/CombatCoreFinal02/host.cmd.json": "ab07119ba8b3dd181971a2cc56539c7f0872b9a9f47b75d0f286de4e9e44c18d",
+    "Logs/Move/CombatCoreFinal02/host.json": "12e53123da8434150b008e70666657ff8a15b755880df68d628156afdef8625d",
+    "Logs/Move/CombatCoreFinal02/host.log": "d747a6c6175016ffc6ab18e3f6e7e4f3886a03be036a37a23dbacfa5457b77c8",
+    "Logs/Move/CombatCoreFinal02/host.menu.json": "7caf6c92f9f3d8ea94de83c672ad4c3f2efb7537ae570277e79f92b62d315fa3",
+    "Logs/Move/CombatCoreFinal03/checks.txt": "c83dbb6cadb054cf05095590c32fc7854ede0ca6107b312525afdb7ab0002107",
+    "Logs/Move/CombatCoreFinal03/client.cmd.json": "e5ce5da1e8888cd1b76937d62e2491a65bfb38797b3d06080d0cbe98e4bb72d3",
+    "Logs/Move/CombatCoreFinal03/client.json": "1b5baf07072a86065bfa718060cf948f002ce02fc14112e7bb98dd89aa89cc09",
+    "Logs/Move/CombatCoreFinal03/client.log": "dea9ece14afa3773e21a9f9e9aca8fb37576685e1b1d8d0f1f5087ab8cff438e",
+    "Logs/Move/CombatCoreFinal03/client.menu.json": "3551862f5f198e7952aad6a56958f13203ad244777fa9d1bb2641dc006f3fbe6",
+    "Logs/Move/CombatCoreFinal03/combat-client.json": "843d4201f3bf794cbbd50d4bc23c105682d25eeecb5457f103f298c55a714561",
+    "Logs/Move/CombatCoreFinal03/combat-host.json": "f73a9c930d69525cf167f3eb843a70a8d7b5fcfc3b463bc5d39264ac3c898090",
+    "Logs/Move/CombatCoreFinal03/final-client.json": "c34ef76600edcabf6d56bb367a6e6bf1bd7b12999fb5f579b072be91b23b3c20",
+    "Logs/Move/CombatCoreFinal03/final-host.json": "fc757e844fa1c8992e8d90562fd717b672fd119e32999446abeddb8e9d1d0a28",
+    "Logs/Move/CombatCoreFinal03/host.cmd.json": "e5ce5da1e8888cd1b76937d62e2491a65bfb38797b3d06080d0cbe98e4bb72d3",
+    "Logs/Move/CombatCoreFinal03/host.json": "f176fbc600acd9e8891d2aa1f2a3019f1e9c8e58764cb19bac14028346196161",
+    "Logs/Move/CombatCoreFinal03/host.log": "5bb497abe82ed0d7703f22a9cc85f33e0687f9abd27d84fd593428db65d490d7",
+    "Logs/Move/CombatCoreFinal03/host.menu.json": "7caf6c92f9f3d8ea94de83c672ad4c3f2efb7537ae570277e79f92b62d315fa3",
+    "Logs/Move/CombatFlightFinal01/checks.txt": "36a600953a6c8c0e42a34aa0d2d2897afa11e80d7a7f0bfc41af94c93e3448c0",
+    "Logs/Move/CombatFlightFinal01/client.cmd.json": "83d6135efa3ebe6d2ec337e9e6f07faa7a86533f6fc4b7dcaf606f67a0c78bdc",
+    "Logs/Move/CombatFlightFinal01/client.json": "3c0607cd5666e000ffa8829c4295a966e05a4907613b68f651c1f0541662f4e6",
+    "Logs/Move/CombatFlightFinal01/client.log": "18e91728569c686954a035721f11fd9115bfc02e61bbbdd01edb30ededdceb5d",
+    "Logs/Move/CombatFlightFinal01/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Move/CombatFlightFinal01/client.trace.1.json": "d1e57212d02ececc5166e069fdb4e89e45525cb89f831806925645cf02bea430",
+    "Logs/Move/CombatFlightFinal01/client.trace.2.json": "70706ad3ee77e4465c5086016b71ac946308466574fcab704761ccf421d2ef0b",
+    "Logs/Move/CombatFlightFinal01/final-client.json": "5bf25637bcb189f25b3f33fd0cfc720e2ae01264b6c1b6bb7311f269b46ef25d",
+    "Logs/Move/CombatFlightFinal01/final-host.json": "895ba7eeaf29e2cd2f23de2d48d915955b3208f32e8f9285217d80924dec8928",
+    "Logs/Move/CombatFlightFinal01/host.cmd.json": "83d6135efa3ebe6d2ec337e9e6f07faa7a86533f6fc4b7dcaf606f67a0c78bdc",
+    "Logs/Move/CombatFlightFinal01/host.json": "5824f7f3189168fa87925bb1bb9607a82522c9b751a487cb4e17797f5936b470",
+    "Logs/Move/CombatFlightFinal01/host.log": "04755f2208c9bfb377993bb7384105dfe3db336514b96bf547274997a49fd9a4",
+    "Logs/Move/CombatFlightFinal01/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Move/CombatFlightFinal01/host.trace.1.json": "6630d8a3c51ea0335e013c655159367471d7b24264e8aeba3ba9425b4fcee701",
+    "Logs/Move/CombatFlightFinal01/host.trace.2.json": "4ad45e1ba2119c8008669287917d905bd0132d65c2dd3650d48b2f612e5f319e",
+    "Logs/Move/CombatFlightFinal01/trajectory-results.json": "384f41af8fc0fa753e0b57e3069d1be3c9d4718f714154119b9d2f622dd2d862",
+    "Logs/Move/CombatFlightFinal02/checks.txt": "f27a097c3392da39dcca3e84faf683d230a2e33a2bebfd51559efd0a915320a4",
+    "Logs/Move/CombatFlightFinal02/client.cmd.json": "ad8b559ea121126cedd7825bfa237fb842949361f6ee0955826967cf8071c40c",
+    "Logs/Move/CombatFlightFinal02/client.json": "ceedd4cff7cb6fe54ca2c0f96e33e886dd0c56ff5cdd3a58e2112aaff789c7bb",
+    "Logs/Move/CombatFlightFinal02/client.log": "aceaa56a7a8f0df315310585e34b4ead35ff0290e158c74a30062d5a308db75c",
+    "Logs/Move/CombatFlightFinal02/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Move/CombatFlightFinal02/client.trace.1.json": "27a0be7702e2bbe025c6fee7308c8d6f75d8bbbbb7f22b520b9a8522cf82b601",
+    "Logs/Move/CombatFlightFinal02/client.trace.2.json": "039ab4c72612428821969d12b94862af32f7f06c1c3dd41c6dd49192a5d8a0a9",
+    "Logs/Move/CombatFlightFinal02/final-client.json": "115bfe339192e40d960d0db05d0a7369fc0ec14b7aad2c4112de19c6b74dc7a0",
+    "Logs/Move/CombatFlightFinal02/final-host.json": "ba92d3b3fbdb9931dece3fd0415625e0be15fb34e5d931ca1b1a3394a99d2443",
+    "Logs/Move/CombatFlightFinal02/host.cmd.json": "50696ca5a8a05d31045786af97d0e1c20f4b6c427f02e391121d98d96fd8cc2b",
+    "Logs/Move/CombatFlightFinal02/host.json": "74987ebcd7a25a4bd97e8e990b71501793f5af65be4dae98119af45a5b13cbd9",
+    "Logs/Move/CombatFlightFinal02/host.log": "8531c9db8681777085a127a5e5399c2ebe589b00d5c885ead89977358c0d9590",
+    "Logs/Move/CombatFlightFinal02/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Move/CombatFlightFinal02/host.trace.1.json": "7fb89c69b258f1094bf9c3d666a0e5996c2b54a2ce0ca8961b71cb3d2495e572",
+    "Logs/Move/CombatFlightFinal02/host.trace.2.json": "157244264c10557434a82ed685e3a556411039243e3d60052f42d5ab7f5e51df",
+    "Logs/Move/CombatFlightFinal02/trajectory-results.json": "65316a3031b531fcd3edb270b60de6e9f73e2904945ac6c7edbeb3e9db7fe9a3",
+    "Logs/Move/CombatSpecialFinal01/checks.txt": "e893f9dfc8d8bb8adbb77355a57ecaa3c4061d684104c0f2c9da261cf2e3d8bc",
+    "Logs/Move/CombatSpecialFinal01/client.cmd.json": "a441995049de084ea7ce1b78fb57f63225fc6a633974a8c14a0d06034c67fae7",
+    "Logs/Move/CombatSpecialFinal01/client.json": "c1cb6da327341af5cdd35c2f8d53e734d55c14b4839bed228df2440e27627c06",
+    "Logs/Move/CombatSpecialFinal01/client.log": "bdf12138102d034e93935699ee6a3861e1e280b920ef7f31b49a828938442aac",
+    "Logs/Move/CombatSpecialFinal01/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Move/CombatSpecialFinal01/client.trace.3.json": "993c7c121142dfdd9d62694b2b1526af31957a3019b00fa650fc30b876a8de28",
+    "Logs/Move/CombatSpecialFinal01/final-client.json": "fc707676efbf28cc8782ec96be2a0edda53b56c80d59117e1ae44600f6b92d51",
+    "Logs/Move/CombatSpecialFinal01/final-host.json": "36a233df633a652a60ce08a7e4098afc26a4b7ada4e386ac6fbbeccc41631d30",
+    "Logs/Move/CombatSpecialFinal01/host.cmd.json": "e2434ba01c807155f1213961866a9ac86b118d6d4efe505746e8c1b5549ca895",
+    "Logs/Move/CombatSpecialFinal01/host.json": "070a8c034a1199b6d82a8dc7a545a252e852e79ffd4db631f28c402f4985abe6",
+    "Logs/Move/CombatSpecialFinal01/host.log": "3e9f0c8e5d4f27963b59736b09079d05c9d7b6e5e59d4df469d78154aac0a9fe",
+    "Logs/Move/CombatSpecialFinal01/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Move/CombatSpecialFinal01/host.trace.3.json": "c597d1ad9fdd5339db064ace0c502119cb18480d1746f2a84725d04183684569",
+    "Logs/Move/CombatSpecialFinal01/special-results.json": "781bf0d4ec7538451dcb921224ac15f18e8db054cbf55ddecaebbaa2c093ae5c",
+    "Logs/Move/CombatSpecialFinal02/checks.txt": "e893f9dfc8d8bb8adbb77355a57ecaa3c4061d684104c0f2c9da261cf2e3d8bc",
+    "Logs/Move/CombatSpecialFinal02/client.cmd.json": "5c1e8514cd41b4833677fa9cadb986a56f15d35ccdd7d9c6c8021b75b7f77059",
+    "Logs/Move/CombatSpecialFinal02/client.json": "d5027a7193dc129dd4129369aac0110a7c64975e692aacd3e4d35f2d0767dcf7",
+    "Logs/Move/CombatSpecialFinal02/client.log": "029cd92b2d4df3ec1c2bb1695ece70da5f1b4d0af7a9cca1414445a6a700857e",
+    "Logs/Move/CombatSpecialFinal02/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Move/CombatSpecialFinal02/client.trace.3.json": "2feb655505fad61e1c71e2ec5180ab772f61278d052cc8e30db49355fbf8056a",
+    "Logs/Move/CombatSpecialFinal02/final-client.json": "2256329ee8f92e416261a06c75036095839166e8aea97b7d65924817c0a221f7",
+    "Logs/Move/CombatSpecialFinal02/final-host.json": "60813a0aea04026191f1c8a3a92882cdc5ea228dc3034f19e79e85adfae43bed",
+    "Logs/Move/CombatSpecialFinal02/host.cmd.json": "b923ff8032c247579d6bfa9210ad1172d6e6f0d1c7978c5d3c3cd6bd6e803ace",
+    "Logs/Move/CombatSpecialFinal02/host.json": "ee098ce8f82bc458601d2bbedafa9fc36fde6bfb9ef5ac29e54aa29faf2972e2",
+    "Logs/Move/CombatSpecialFinal02/host.log": "4d86d3f3003211faea41bbd8b87ac98b5943c8b15cf9b57f50fa2702fcb29ece",
+    "Logs/Move/CombatSpecialFinal02/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+    "Logs/Move/CombatSpecialFinal02/host.trace.3.json": "809fa4f9f323cfdbdfc2c46d668c195f46dbfcefdce0ed8232204d78926c7c34",
+    "Logs/Move/CombatSpecialFinal02/special-results.json": "9264a530d9383a275caa8b19d1c02ad1ba4645124246914b93094eabf063ad51",
+    "Logs/Relay/CombatFinal01/checks.txt": "2e7d4fdf59460e887dcc2bbed32e36db7b53d4ddd6b2c5fc345592d7e29b76cd",
+    "Logs/Relay/CombatFinal01/cleanup.json": "fa92566ca93fb58d031f47e9cd1928699db29a4d61cbac21e3065c37b0f41fc7",
+    "Logs/Relay/CombatFinal01/client.cmd.json": "014bdf063db03f39f1e376a99e4b8e5bf4a8dadd7896bb1273c27f97578af97c",
+    "Logs/Relay/CombatFinal01/client.json": "f0580b29b46d37442217662500ca69d0538b80cbf5db2f3e118dccf6b0f04943",
+    "Logs/Relay/CombatFinal01/client.log": "ab5ce7c098f601897803e9054f0793240a84e34cdea5bb7a3bce19a0b5f1e47a",
+    "Logs/Relay/CombatFinal01/client.menu.cmd.json": "db9f54e99139712c1202b3829c272e095e8bc447dd3422c3e836d779acc91831",
+    "Logs/Relay/CombatFinal01/client.menu.json": "2f3e5ec722a2b64b0a0c668ae79f8cdb61c7afd5fb8d0bf649f3d0c3f6907a66",
+    "Logs/Relay/CombatFinal01/client.trace.4.json": "e0c2785fd597c324d1591eb3f4e4ece96777ec594dbd5ffbfcadf6a2e7843934",
+    "Logs/Relay/CombatFinal01/client.trace.5.json": "c22aa8f0cec7147b2fc68cd96e505843bc66657ac3f97ce753fb9d4d6a494ec5",
+    "Logs/Relay/CombatFinal01/combat-client.json": "42f11c88e4d8957eb574537c759e09e51dd9745de5a180c11cb7b2b47fefe2fc",
+    "Logs/Relay/CombatFinal01/combat-host.json": "3576221f27b6df0fed27402d560b7b6480e05e18c51ffdbd24d5293df81fdcaa",
+    "Logs/Relay/CombatFinal01/host.cmd.json": "66393745d14df89e44a6a1fd07a09d8468d251424e1426cdd961876e1c0ce219",
+    "Logs/Relay/CombatFinal01/host.json": "d540313e8479c0da2ff64e1cd5157f33800ff1ddf38a47ebde87248fac6c51f6",
+    "Logs/Relay/CombatFinal01/host.log": "da0afe545e92bd6e2f3261e2d762a5770d6b4e1cbd770005d9ef08b2264fb1b6",
+    "Logs/Relay/CombatFinal01/host.menu.cmd.json": "1063e5cc468d2683771ad9b2235981c7983e070a9d63d262eb92153000a56976",
+    "Logs/Relay/CombatFinal01/host.menu.json": "d9b1f509bb3971340c85468aad4414bafd474f81d3324834ecc1aa94063eb8e3",
+    "Logs/Relay/CombatFinal01/host.trace.4.json": "0d4faeba17b6c471ae1fb4df58928af03a90e31a1ae6e1ecce1467d6fa9d07b1",
+    "Logs/Relay/CombatFinal01/host.trace.5.json": "182171c9a5f0463c7488f50ebdd9625d72f8c788583a8c910c9b761fa9263efc",
+    "Logs/Relay/CombatFinal01/native-client.json": "8be3729b1b776070dd87a8d6e8c6b38145e63c2ab69fd6434e2a2ff3471e098f",
+    "Logs/Relay/CombatFinal01/native-host.json": "eeb1c09e52f4e5f15ffd4a96876756cceee89b9b4534d0c2e1170e67ff525972",
+    "Logs/Relay/CombatFinal01/trajectory-results.json": "a49ce704cb8139b2fd088d375d3b7ff9375cec5cdc4abf8d16f74e02ecb3798c"
+  },
+  "assemblyHashes": {
+    "Builds/Local/Game_Data/Managed/Assembly-CSharp.dll": "639030fcb1188e1a1f5f881e9e5f2eda05cc64a7efea8d857ac8741c0f7a2191",
+    "Builds/Play/Game_Data/Managed/Assembly-CSharp.dll": "abd0f1b53a2449e85aa589f9160ba94c7bc9dbd83d1034f55359626e4b91311f"
+  }
+}

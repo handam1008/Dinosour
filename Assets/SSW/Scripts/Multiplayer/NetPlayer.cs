@@ -36,6 +36,24 @@ namespace SSW
         public Transform View => _prediction.View;
         public Vector2 ViewPosition => _prediction.Position;
         public uint InputSequence => _prediction.Processed;
+        public double ViewTime => _prediction.ViewTime;
+        public bool SweepHit(Vector2 from, Vector2 to, double first, double last, float radius, out float fraction)
+            => SweepHit(from, to, first, last, radius, 0f, out fraction);
+
+        public bool SweepHit(Vector2 from, Vector2 to, double first, double last, float radius, float half, out float fraction)
+        {
+            fraction = 0f;
+            if (!_prediction.ReadHit(first, out Vector2 a) || !_prediction.ReadHit(last, out Vector2 b)) return false;
+            Vector2 size = _prediction.HitSize;
+            float width = _prediction.Vertical ? size.x : size.y;
+            float height = _prediction.Vertical ? size.y : size.x;
+            return ShotQuery.Capsule(from, to, a + _prediction.HitOffset, b + _prediction.HitOffset,
+                _prediction.HitAxis, Mathf.Max(0f, (height - width) * 0.5f) + half, width * 0.5f + radius, out fraction);
+        }
+        public uint CastTick => _prediction.Tick;
+        public MotionPacket CastPacket => _prediction.Packet;
+        public bool ReadCast(uint epoch, uint tick, out Vector2 position) => _prediction.ReadPosition(epoch, tick, out position);
+        public void ReceiveCast(MotionPacket packet) => _prediction.ReceiveInput(packet);
         public uint JumpSequence => _prediction.JumpSequence;
         public Health Health => _health;
         public NetCast Cast => _cast;
@@ -46,6 +64,8 @@ namespace SSW
         public LayerMask GroundMask => _motion.GroundMask;
         public uint Epoch => _prediction.Epoch;
         public Vector2 Velocity => _prediction.Velocity;
+        public float ResponseTime => Mathf.Clamp(0.2f + 1.5f * Mathf.Max(_prediction.InputDelay,
+            NetworkManager.NetworkConfig.NetworkTransport.GetCurrentRtt(NetworkManager.ServerClientId) * 0.001f), 0.8f, 2.5f);
         public Vector2 Aim => _aim;
         public int Side => _side.Value;
         public bool CanAct => IsSpawned && _health.Current > 0f && NetGame.Current.CanFight;
@@ -91,18 +111,22 @@ namespace SSW
             if (!IsSpawned) return;
 
             if (!IsOwner) return;
-            if (Mouse.current != null && NetGame.Current.Arena != null)
-            {
-                Vector3 cursor = NetGame.Current.Arena.View.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-                Vector2 aim = (Vector2)cursor - ViewPosition;
-                if (aim.sqrMagnitude > 0.001f) _aim = aim.normalized;
-            }
+            AimAtCursor();
             Face(false, _aim.x < 0f);
+        }
+
+        void AimAtCursor()
+        {
+            if (Mouse.current == null || NetGame.Current.Arena == null) return;
+            Vector3 cursor = NetGame.Current.Arena.View.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            Vector2 aim = (Vector2)cursor - (Vector2)View.position;
+            if (aim.sqrMagnitude > 0.001f) _aim = aim.normalized;
         }
 
         void Attack(InputAction.CallbackContext context)
         {
             if (_blocked || !_input.inputIsActive) return;
+            AimAtCursor();
             _cast.Attack(context.ReadValueAsButton(), _aim);
         }
 

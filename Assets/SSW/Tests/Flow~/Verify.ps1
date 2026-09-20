@@ -1,4 +1,4 @@
-param([string]$Run = 'Run1', [string]$Project = (Get-Location).Path, [string]$Build = 'Builds/Wait/Game.exe')
+﻿param([string]$Run = 'Run1', [string]$Project = (Get-Location).Path, [string]$Build = 'Builds/Wait/Game.exe')
 $ErrorActionPreference = 'Stop'
 $testRoot = Join-Path $Project ('Logs/Flow/' + $Run)
 New-Item -ItemType Directory -Path $testRoot -Force | Out-Null
@@ -11,8 +11,23 @@ function Snapshot($peer) {
 }
 function Send($peer, $op, $value = 0) {
     $seq[$peer]++
-    $json = @{ seq = $seq[$peer]; op = $op; value = $value } | ConvertTo-Json -Compress
-    [IO.File]::WriteAllText("$testRoot/$peer.cmd.json", $json)
+    $json = @{seq=$seq[$peer];op=$op;value=$value} | ConvertTo-Json -Compress
+    $until = [DateTime]::UtcNow.AddSeconds(2)
+    while ($true) {
+        try { [IO.File]::WriteAllText("$testRoot/$peer.cmd.json", $json); break }
+        catch [IO.IOException] {
+            if ([DateTime]::UtcNow -ge $until) { throw }
+            Start-Sleep -Milliseconds 15
+        }
+    }
+    if ($op -eq 'quit') { return }
+    $until = [DateTime]::UtcNow.AddSeconds(8)
+    do {
+        $state = Snapshot $peer
+        if ($state -and $state.seq -ge $seq[$peer]) { return }
+        Start-Sleep -Milliseconds 20
+    } while ([DateTime]::UtcNow -lt $until)
+    throw "Unprocessed command: $peer $op"
 }
 function Await($description, [scriptblock]$condition, $seconds = 25) {
     $until = [DateTime]::UtcNow.AddSeconds($seconds)
@@ -114,6 +129,7 @@ catch {
     throw
 }
 finally {
-    Send host quit
-    Send client quit
+    foreach ($peer in @('host','client')) {
+        try { Send $peer quit } catch { Write-Warning $_ }
+    }
 }
