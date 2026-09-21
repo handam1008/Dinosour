@@ -1,0 +1,724 @@
+{
+  "capturedAt": "2026-09-18T02:06:26.345117+00:00",
+  "base": "a30d6f287c5d35137c749754e39caef5eaba5042",
+  "sources": {
+    "Assets/SSW/Scripts/Multiplayer/CastInput.cs": "1c6d3203799d28e0845220c5096ef1b731e775511fcb245410ecc560ea02d0fd",
+    "Assets/SSW/Scripts/Multiplayer/CastView.cs": "392fa0c841e6fafb49f7a7cb0f4ac53b9070a35a039a9a1456db26de1e35670b",
+    "Assets/SSW/Scripts/Multiplayer/MotionView.cs": "4f5221edbb2271e751b5d377ce638cfb843a415fcf706dc6b60e3d190fea1d5f",
+    "Assets/SSW/Scripts/Multiplayer/MultiplayerSessionManager.cs": "1a9a3b0575b9f10b6f80bf1458684e03827fdc309b9fcccc286327b2e9ea5e39",
+    "Assets/SSW/Scripts/Multiplayer/NetCast.cs": "eb3f23893b462bde1af8e67225df363be47e72d3a26013aeff413cdf348e8bb1",
+    "Assets/SSW/Scripts/Multiplayer/NetGame.cs": "1500e67a54320f52e5d7294c41c846f21ee6189ebb101a56a3fe4e27678106a2",
+    "Assets/SSW/Scripts/Multiplayer/NetPlayer.cs": "df2ec3b27e59e8364d0d7a57b7e29ccf0b625feeea61a30dd5a664ffe9101b84",
+    "Assets/SSW/Scripts/Multiplayer/NetPotion.cs": "4d1764ab07e1830d1522c9dfcb61767777c63aa43f9d69b8659dec0dfdd7bb92",
+    "Assets/SSW/Scripts/Multiplayer/NetProbe.cs": "108afcca6b3e8b049065d12a79ccc2b55616a3228a37fa62fc84fe4d0542af1b",
+    "Assets/SSW/Scripts/Multiplayer/ShotQuery.cs": "eba3f86a3d7ae52503f34f9f440dc7fd38e9b2980131de3662b395d61cd1ebe4",
+    "Assets/SSW/Scripts/Multiplayer/ShotSync.cs": "970d73da45fe97908d57845a864eaaee7ac5064d5716c2be922d71a2cdc996ec",
+    "Assets/SSW/Tests/Move~/Combat.py": "2b86902d336e0149ab6d639d5afed978e9d47db64ff9bb227b636866365b4438",
+    "Assets/SSW/Tests/Move~/Relay.ps1": "6fc4122ceb12caa8b504532a4340b7baac75c4c1c3be162cef3f2b9758aaa2aa",
+    "Assets/SSW/Tests/Move~/StockChecks.cs": "310ac5f90db2c94478f514bf9b6ea07a02a5fc36d71f831a31a04ec915ea5dec",
+    "Assets/SSW/Tests/Move~/ContactChecks.cs": "0c7ed7475fae3fc76ce35166a5d5073d9fbfea7cc7ff2b5bc201be0c40bf9adf",
+    "Assets/SSW/Tests/Move~/ViewChecks.cs": "4fa7f373334cacc4d87c5a3bb7decd3178095a54239d68622cc535e2f7b58558"
+  },
+  "reports": {
+    "development-before-stock": {
+      "value": {
+        "buildId": "build_dcad7dcb81e1",
+        "result": "Succeeded",
+        "totalErrors": 0,
+        "totalWarnings": 10,
+        "buildTimeMs": 76329,
+        "guid": "3795b6abec3b443fb7f867d9bfa5ea81"
+      },
+      "sha256": "494e10b2faec315d7ffc9380a00e534c148c480884dbaa87c0418d31eb64e6f9"
+    },
+    "release-before-stock": {
+      "value": {
+        "status": "completed",
+        "buildId": "build_be1703ac62e6",
+        "result": "Succeeded",
+        "totalErrors": 0,
+        "totalWarnings": 10,
+        "buildTimeMs": 106337,
+        "outputPath": "Builds/Play/Game.exe",
+        "guid": "7fc98ff653ba410bac1550d41beb1a06"
+      },
+      "sha256": "49b729013553af2cbba8efd448782d48b94b70da354ebb7eb39fe030b7062fe4"
+    },
+    "release-smoke-before-stock": {
+      "value": {
+        "Local": {
+          "sha256": "7eaf307b11cc6761922212ac9c8869fc152124faf2ad9f8ca2fed9ed3a3fea10",
+          "NetProbe": true,
+          "NetTrace": true
+        },
+        "Play": {
+          "sha256": "f9c7730daaaf8e7c9c6e11447815df5e63104f560846f8a04ff917fd2b5f577d",
+          "NetProbe": false,
+          "NetTrace": false
+        },
+        "startup": {
+          "seconds": 12,
+          "alive": true,
+          "errorCount": 0,
+          "log": "Logs\\Sprint\\release-smoke.log"
+        }
+      },
+      "sha256": "473f66b8b98326891cad36516ff39f9e0e45ae83e7f2f4d40d707c927b4dc019"
+    },
+    "development-before-effects": {
+      "value": {
+        "buildId": "build_b57865176508",
+        "result": "Succeeded",
+        "totalErrors": 0,
+        "totalWarnings": 10,
+        "buildTimeMs": 1204890,
+        "guid": "d06aa11371c94611b5e3e9883eba0f8b"
+      },
+      "sha256": "5ef8556e75549c49b6b4505545528232430fc8ab8cf7b38b5b54ca888dc0bcbd"
+    },
+    "development-effects": {
+      "value": {
+        "buildId": "build_cc891637bb63",
+        "result": "Succeeded",
+        "totalErrors": 0,
+        "totalWarnings": 10,
+        "buildTimeMs": 468247,
+        "guid": "fe5f8c1c9c544f448970af7a34e93519"
+      },
+      "sha256": "5e41b5dbf464d241e88aa9bcacddd0a5a48cf43297f5ff6ccd844fc1127bdf8a"
+    },
+    "development": {
+      "value": {
+        "status": "completed",
+        "buildId": "build_7090515abfef",
+        "result": "Succeeded",
+        "totalErrors": 0,
+        "totalWarnings": 10,
+        "buildTimeMs": 99857,
+        "guid": "bd012134b9934e578df6e0e1c6b2de05"
+      },
+      "sha256": "56c4db27a5328d010e9b7f2e8ae46088cb910ca72d48db28bbc4ee288c53a718"
+    },
+    "release": {
+      "value": {
+        "status": "completed",
+        "buildId": "build_dca339929ffa",
+        "result": "Succeeded",
+        "totalErrors": 0,
+        "totalWarnings": 10,
+        "buildTimeMs": 65872,
+        "guid": "9bb4ccc2a57343bb8681cd534ab656ef"
+      },
+      "sha256": "17d56e24b2cf356a2fbc42e363cfc28cdd1d5267c55caaf9435a6edeafd93a03"
+    },
+    "release-smoke": {
+      "value": {
+        "Local": {
+          "sha256": "2eb10cf572d4308069856eab3f0069d7d11c7eaa360ad5972cbae3a3c3782f00",
+          "NetProbe": true,
+          "NetTrace": true
+        },
+        "Play": {
+          "sha256": "a27b6fa9cd9d4dbb9e608934062cc0fb2511265e9730b775bbbdb1f391474525",
+          "NetProbe": false,
+          "NetTrace": false
+        },
+        "startup": {
+          "seconds": 12,
+          "alive": true,
+          "errorCount": 0,
+          "log": "Logs\\Sprint\\release-smoke-final.log"
+        }
+      },
+      "sha256": "ab79f15a5f03f1e2297a80c0a7fe7a2e079af86421faaf078bf0ed899366986f"
+    },
+    "release-before-effects": {
+      "value": {
+        "buildId": "build_de4a9835606d",
+        "result": "Failed",
+        "totalErrors": 1,
+        "totalWarnings": 10,
+        "buildTimeMs": 1347853
+      },
+      "sha256": "b074e230121900dbc4e89cc91fc4e2430dd7057bf51b4dbc2acf12325844a675"
+    },
+    "ViewChecks": {
+      "value": {
+        "success": true,
+        "command": "command eval",
+        "data": {
+          "command": "eval",
+          "parameters": {
+            "code": "var flags = System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic;\r\nvar method = typeof(SSW.MotionView).GetMethod(\"Ease\", flags);\r\nif (typeof(SSW.MotionView).GetField(\"_shown\", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic) == null) throw new System.Exception(\"presentation baseline is not compiled\");\r\nUnityEngine.Vector2 Ease(UnityEngine.Vector2 offset, UnityEngine.Vector2 velocity, float speed, float delta) => (UnityEngine.Vector2)method.Invoke(null, new object[] { offset, velocity, speed, delta, velocity * delta });\r\nvar checks = new System.Collections.Generic.List<string>();\r\nforeach (int fps in new[] { 30, 60, 144 })\r\n{\r\n    float dt = 1f / fps;\r\n    var offset = new UnityEngine.Vector2(-0.7f, 0f);\r\n    var velocity = new UnityEngine.Vector2(-3.5f, 0f);\r\n    for (int i = 0; i < fps; i++)\r\n    {\r\n        var next = Ease(offset, velocity, 3.5f, dt);\r\n        if (velocity.x * dt + next.x - offset.x > 0.00001f) throw new System.Exception(\"slow reversed at \" + fps);\r\n        if (next.sqrMagnitude > offset.sqrMagnitude + 0.00001f) throw new System.Exception(\"offset grew at \" + fps);\r\n        offset = next;\r\n    }\r\n    if (offset.sqrMagnitude > 0.00001f) throw new System.Exception(\"slow did not settle at \" + fps);\r\n    checks.Add(\"slow stays in direction and settles at \" + fps);\r\n    offset = new UnityEngine.Vector2(1.61f, 0f);\r\n    for (int i = 0; i < fps / 4; i++) offset = Ease(offset, new UnityEngine.Vector2(-10.5f, 0f), 10.5f, dt);\r\n    if (offset.sqrMagnitude > 0.00001f) throw new System.Exception(\"haste did not settle at \" + fps);\r\n    checks.Add(\"haste settles within 250 ms at \" + fps);\r\n    if (Ease(UnityEngine.Vector2.zero, velocity, 7f, dt) != UnityEngine.Vector2.zero) throw new System.Exception(\"zero drift at \" + fps);\r\n    checks.Add(\"zero remains zero at \" + fps);\r\n}\r\nvar held = (UnityEngine.Vector2)method.Invoke(null, new object[] { new UnityEngine.Vector2(-0.7f, 0f), new UnityEngine.Vector2(-7f, 0f), 7f, 1f/144f, UnityEngine.Vector2.zero });\r\nif (held.x != -0.7f) throw new System.Exception(\"stationary interpolation frame reversed\");\r\nchecks.Add(\"stationary interpolation frame does not reverse\");\r\nvar before = new UnityEngine.Vector2(-0.7f, 0f);\r\nvar movement = new UnityEngine.Vector2(-3.5f/144f, 0f);\r\nvar after = (UnityEngine.Vector2)method.Invoke(null, new object[] { before, new UnityEngine.Vector2(-7f, 0f), 7f, 1f/144f, movement });\r\nif ((movement+after-before).x > 0f) throw new System.Exception(\"slow expiration reversed the view\");\r\nchecks.Add(\"slow expiration respects actual interpolation movement\");\r\nreturn checks;\r\n"
+          },
+          "result": {
+            "output": null,
+            "diagnostics": [],
+            "success": true,
+            "result": [
+              "slow stays in direction and settles at 30",
+              "haste settles within 250 ms at 30",
+              "zero remains zero at 30",
+              "slow stays in direction and settles at 60",
+              "haste settles within 250 ms at 60",
+              "zero remains zero at 60",
+              "slow stays in direction and settles at 144",
+              "haste settles within 250 ms at 144",
+              "zero remains zero at 144",
+              "stationary interpolation frame does not reverse",
+              "slow expiration respects actual interpolation movement"
+            ]
+          },
+          "target": {
+            "host": "127.0.0.1",
+            "port": 7802,
+            "projectPath": "D:\\unity_project\\Mushrooms"
+          },
+          "success": true
+        },
+        "errors": [],
+        "warnings": []
+      },
+      "sha256": "9372d46cd41a876053542bc9242bbfe603031f73cf9cee84b202333ab9400621"
+    },
+    "StockChecks": {
+      "value": {
+        "success": true,
+        "command": "command eval",
+        "data": {
+          "command": "eval",
+          "parameters": {
+            "code": "int count = 0;\r\nSystem.Action<bool, string> check = (ok, name) =>\r\n{\r\n    if (!ok) throw new System.Exception(name);\r\n    count++;\r\n};\r\nvar stock = new SSW.CastStock();\r\nstock.Reset(4);\r\ncheck(stock.Held.Kind == -1 && stock.Next.Kind == -1, \"empty\");\r\nstock.Add(2, 0, 0.6);\r\nvar first = stock.Held;\r\nstock.Add(2, 1.5, 0.6);\r\nvar second = stock.Next;\r\ncheck(first.Id != second.Id && first.Kind == second.Kind, \"same kind has distinct ids\");\r\ncheck(!stock.Take(second.Id, 4, 1.6, out _), \"reserve cannot skip held\");\r\nstock.Add(1, 3, 0.6);\r\nvar third = stock.Next;\r\ncheck(stock.Take(first.Id, 4, 3.5, out int kind) && kind == 2, \"delayed replaced stock keeps kind\");\r\ncheck(stock.Held.Id == second.Id && stock.Next.Id == third.Id, \"old stock leaves current slots intact\");\r\ncheck(!stock.Take(first.Id, 4, 3.51, out _), \"old stock cannot replay\");\r\ncheck(stock.Take(second.Id, 4, 3.66, out kind) && kind == 2, \"fast second shot after delayed first\");\r\ncheck(stock.Held.Id == third.Id && stock.Next.Id == 0, \"second shot promotes one reserve\");\r\ncheck(!stock.Take(9999, 4, 3.7, out _) && !stock.Take(0, 4, 3.7, out _), \"unissued ids rejected\");\r\nstock.Add(0, 4, 100);\r\nstock.Add(3, 5, 100);\r\ncheck(!stock.Take(third.Id, 4, 6.25, out _), \"grace capped and expiry exclusive\");\r\nvar beforeReset = stock.Held;\r\nstock.Reset(5);\r\ncheck(stock.Held.Kind == beforeReset.Kind && stock.Held.Id != beforeReset.Id, \"epoch preserves kind renews id\");\r\ncheck(!stock.Take(beforeReset.Id, 5, 6.3, out _), \"old epoch id rejected with new epoch\");\r\ncheck(!stock.Take(stock.Held.Id, 4, 6.3, out _), \"old epoch rejected with current id\");\r\ncheck(stock.Take(stock.Held.Id, 5, 6.3, out _), \"new epoch current stock accepted\");\r\ncheck(stock.Take(stock.Held.Id, 5, 6.46, out _), \"quick second stock accepted\");\r\ncheck(stock.Held.Id == 0 && stock.Next.Id == 0, \"both spent empty\");\r\nstock.Reset(6);\r\nstock.Add(2, 10, 1.25);\r\nvar delayed = stock.Held;\r\nstock.Add(1, 11.5, 1.25);\r\nstock.Add(3, 13, 1.25);\r\ncheck(stock.Take(delayed.Id, 6, 14.1, out kind) && kind == 2, \"RTT spike preserves replaced stock for 1.1 seconds\");\r\ncheck(!stock.Take(delayed.Id, 6, 14.11, out _), \"delayed stock still cannot replay\");\r\nreturn count + \" stock checks passed\";\r\n"
+          },
+          "result": {
+            "output": null,
+            "diagnostics": [],
+            "success": true,
+            "result": "18 stock checks passed"
+          },
+          "target": {
+            "host": "127.0.0.1",
+            "port": 7802,
+            "projectPath": "D:\\unity_project\\Mushrooms"
+          },
+          "success": true
+        },
+        "errors": [],
+        "warnings": []
+      },
+      "sha256": "773c3537fe90bc3618895def74ddb5be5add79938472a73cfffa345676debbe5"
+    },
+    "ContactChecks": {
+      "value": {
+        "success": true,
+        "command": "command eval",
+        "data": {
+          "command": "eval",
+          "parameters": {
+            "code": "var previous = UnityEngine.SceneManagement.SceneManager.GetActiveScene();\nvar scene = UnityEditor.SceneManagement.EditorSceneManager.NewScene(UnityEditor.SceneManagement.NewSceneSetup.EmptyScene, UnityEditor.SceneManagement.NewSceneMode.Additive);\nvar checks = new System.Collections.Generic.List<string>();\ntry\n{\n    var wall = new UnityEngine.GameObject(\"Query Wall\");\n    wall.transform.position = new UnityEngine.Vector3(1000,0,0);\n    var collider = wall.AddComponent<UnityEngine.BoxCollider2D>();\n    collider.size = new UnityEngine.Vector2(1,4);\n    var trigger = new UnityEngine.GameObject(\"Query Trigger\");\n    trigger.transform.position = new UnityEngine.Vector3(998,0,0);\n    trigger.AddComponent<UnityEngine.BoxCollider2D>().isTrigger = true;\n    UnityEngine.Physics2D.SyncTransforms();\n    UnityEngine.RaycastHit2D hit;\n    var size = new UnityEngine.Vector2(0.3813953f,0.4930232f);\n    if (!SSW.ShotQuery.Ground(new UnityEngine.Vector2(997,0),new UnityEngine.Vector2(1003,0),size.x*.5f,size,1,out hit) || hit.collider!=collider) throw new System.Exception(\"capsule and trigger filter\");\n    checks.Add(\"capsule and trigger filter\");\n    float offset = hit.centroid.x-(999.5f-size.x*.5f);\n    if (UnityEngine.Mathf.Abs(offset)>0.03f) throw new System.Exception(\"capsule contact size: \" + offset);\n    checks.Add(\"capsule contact size\");\n    var contact = hit.centroid;\n    if (!SSW.ShotQuery.Touches(collider,contact,size.x*.5f,size)) throw new System.Exception(\"contact retained\");\n    checks.Add(\"contact retained\");\n    wall.transform.position += UnityEngine.Vector3.up*10;\n    UnityEngine.Physics2D.SyncTransforms();\n    if (SSW.ShotQuery.Touches(collider,contact,size.x*.5f,size)) throw new System.Exception(\"moved contact released\");\n    checks.Add(\"moved contact released\");\n    wall.transform.position -= UnityEngine.Vector3.up*10;\n    collider.enabled=false;\n    UnityEngine.Physics2D.SyncTransforms();\n    if (SSW.ShotQuery.Touches(collider,contact,size.x*.5f,size)) throw new System.Exception(\"disabled contact released\");\n    checks.Add(\"disabled contact released\");\n    UnityEngine.Object.DestroyImmediate(wall);\n    if (SSW.ShotQuery.Touches(collider,contact,size.x*.5f,size)) throw new System.Exception(\"destroyed contact released\");\n    checks.Add(\"destroyed contact released\");\n    var flight = new UnityEngine.GameObject(\"Contact Flight\").AddComponent<SSW.ShotSync>();\n    var floor = new UnityEngine.GameObject(\"Contact Floor\");\n    floor.transform.position = new UnityEngine.Vector3(1000,-1,0);\n    var floorShape = floor.AddComponent<UnityEngine.BoxCollider2D>();\n    floorShape.size = new UnityEngine.Vector2(10,1);\n    UnityEngine.Physics2D.SyncTransforms();\n    var flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic;\n    void Set(string name, object value) => typeof(SSW.ShotSync).GetField(name,flags).SetValue(flight,value);\n    object Get(string name) => typeof(SSW.ShotSync).GetField(name,flags).GetValue(flight);\n    void Accept(SSW.ShotPose pose) => typeof(SSW.ShotSync).GetMethod(\"Accept\",flags).Invoke(flight,new object[]{pose,0.5d});\n    var stop = new UnityEngine.Vector2(1000,-0.5f+size.y*.5f);\n    Set(\"_pose\",new SSW.ShotPose { Velocity=new UnityEngine.Vector2(15,3),Terrain=true });\n    Set(\"_normal\",UnityEngine.Vector2.up);\n    Set(\"_stop\",stop);\n    Set(\"_contact\",floorShape);\n    Set(\"_size\",size);\n    Set(\"_radius\",size.x*.5f);\n    Set(\"_blockedAt\",0d);\n    Accept(new SSW.ShotPose { Time=.1d,Position=stop+new UnityEngine.Vector2(-4,.5f),Velocity=new UnityEngine.Vector2(15,2),Terrain=true });\n    if (!flight.Blocked) throw new System.Exception(\"early pose must not release contact\");\n    checks.Add(\"early pose must not release contact\");\n    Accept(new SSW.ShotPose { Time=.2d,Position=stop+new UnityEngine.Vector2(1,.5f),Velocity=new UnityEngine.Vector2(15,2),Terrain=true });\n    if (flight.Blocked || !(bool)Get(\"_released\")) throw new System.Exception(\"passed contact releases without correction pullback\");\n    checks.Add(\"passed contact releases without correction pullback\");\n    Set(\"_normal\",UnityEngine.Vector2.up);\n    Set(\"_contact\",floorShape);\n    Accept(new SSW.ShotPose { Time=.3d,Position=stop+new UnityEngine.Vector2(-1,0),Velocity=UnityEngine.Vector2.left,Terrain=true,Turn=1 });\n    if (flight.Blocked) throw new System.Exception(\"bounce turn releases contact\");\n    checks.Add(\"bounce turn releases contact\");\n    return new { checks, offset };\n}\nfinally\n{\n    UnityEditor.SceneManagement.EditorSceneManager.CloseScene(scene,true);\n    UnityEngine.SceneManagement.SceneManager.SetActiveScene(previous);\n}\n"
+          },
+          "result": {
+            "output": null,
+            "diagnostics": [],
+            "success": true,
+            "result": {
+              "checks": [
+                "capsule and trigger filter",
+                "capsule contact size",
+                "contact retained",
+                "moved contact released",
+                "disabled contact released",
+                "destroyed contact released",
+                "early pose must not release contact",
+                "passed contact releases without correction pullback",
+                "bounce turn releases contact"
+              ],
+              "offset": 0.00502871
+            }
+          },
+          "target": {
+            "host": "127.0.0.1",
+            "port": 7801,
+            "projectPath": "D:\\unity_project\\Mushrooms"
+          },
+          "success": true
+        },
+        "errors": [],
+        "warnings": []
+      },
+      "sha256": "e0eb2a4a157cd5df2c5f70af94a3c90c71cf9792669101d10f7c334882337c53"
+    }
+  },
+  "records": {
+    "Combat/TurnsBefore01": {
+      "Logs/Combat/TurnsBefore01/client.cmd.json": "6a84fe61c1f62b7f09cb596d848ba3e8608dea5a87073dd8ea4854588d9b8dcb",
+      "Logs/Combat/TurnsBefore01/client.json": "15173f7da5560c8b81ca9e12bd1b9caf389a9a0574e7b009fe2acab09ecc1eb1",
+      "Logs/Combat/TurnsBefore01/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/TurnsBefore01/client.trace.6.json": "d56311af008817fe7715d98cecfe8a2b2b520d239b79ee290e0eb52633b59b85",
+      "Logs/Combat/TurnsBefore01/host.cmd.json": "a264bd5b6e587eec6b1986b929941d6b3a54042279de5f0f9c798049eb489aeb",
+      "Logs/Combat/TurnsBefore01/host.json": "8d7e9d6b37b8c19ac71ff4ede499bbce439077a735f643ae8aa5c669fe56bfc5",
+      "Logs/Combat/TurnsBefore01/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/TurnsBefore01/host.trace.6.json": "c941cc760c7fee95330109e03048f4253f160ed89cfee7938304ec34d2d05d16",
+      "Logs/Combat/TurnsBefore01/results.json": "a214f1fcf6ef1039051e755c7672e637685e1af87a37e2c2ccc17096789a1420",
+      "Logs/Combat/TurnsBefore01/shots.json": "3132f281c47af256ed8803a81dfe8474a5213694d71cde52bc819fb16464f6f2"
+    },
+    "Combat/TurnsAfter01": {
+      "Logs/Combat/TurnsAfter01/client.cmd.json": "6f43d17b3083a7f0d516d3731d7ebd6d166619ec27cbe3437b28691a5c9e3926",
+      "Logs/Combat/TurnsAfter01/client.json": "926f29d67233100c8800e781d0e9c8a307888543b5c1ee19c3793b0a24551b57",
+      "Logs/Combat/TurnsAfter01/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/TurnsAfter01/client.trace.6.json": "506fdc4c83ae72dc305ebd94d41515d0d0b63681c5cd3c25bcec2585ea5004ed",
+      "Logs/Combat/TurnsAfter01/host.cmd.json": "f98832c030bfb95433c0f196f07759c3083dfe8eb9a37e52386c9cfe9057deab",
+      "Logs/Combat/TurnsAfter01/host.json": "3856ee766503d6b607c02cdc57af89022a7f5ac55686df736cad147a25616be3",
+      "Logs/Combat/TurnsAfter01/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/TurnsAfter01/host.trace.6.json": "5891238a0351988282d232c48646309ffd6be9da156ed5313d7a9179eafa02df",
+      "Logs/Combat/TurnsAfter01/results.json": "9b073bdb4a1378e7573282773f29aa45b9855270fa7fe732cbade3ac5c50e92c",
+      "Logs/Combat/TurnsAfter01/shots.json": "4e4c0fc4907804b422f88941a4b9bac6d7a3a9fd1f74598e178ad19fac87c66d"
+    },
+    "Combat/SprintTurns02": {
+      "Logs/Combat/SprintTurns02/client.cmd.json": "83c19d7d50cb5f079e654c1bae4a413839ecb5ab90cbaced68babce56372a4c8",
+      "Logs/Combat/SprintTurns02/client.json": "754c1203ad93ce332504665adec3b0ee431406ff5e0920a19bf247d286f1119d",
+      "Logs/Combat/SprintTurns02/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintTurns02/client.trace.6.json": "c69572d7561b418c8a43d8fa85ced524f1dc11be770a04da28a1d868011dbb36",
+      "Logs/Combat/SprintTurns02/host.cmd.json": "91246345da213691a82b49b22bcc871c856f148236b2bacde1d7bfcd06b3fe37",
+      "Logs/Combat/SprintTurns02/host.json": "918e28d06fcba5a707b7c5b23a98104bdfd0d118f3d85d21d49b31b60b7cf289",
+      "Logs/Combat/SprintTurns02/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintTurns02/host.trace.6.json": "d2814bbd99ed6d62f8014e2c4c5cacaa14f7edc54d75504a86a78fcb9bb2ec59",
+      "Logs/Combat/SprintTurns02/results.json": "f18e9c14788e4bd1e26ea6ea43e5d68efa506dbcf799e36fabf0b1b179fb5018",
+      "Logs/Combat/SprintTurns02/shots.json": "d09503e94f90de2af7b51110f6d6e81860e239c438ffd2c56f71639c9208d11b"
+    },
+    "Combat/SprintTurns03": {
+      "Logs/Combat/SprintTurns03/client.cmd.json": "f98832c030bfb95433c0f196f07759c3083dfe8eb9a37e52386c9cfe9057deab",
+      "Logs/Combat/SprintTurns03/client.json": "5e0fbaa7411ae4d354761efacaea1ce4b8d55baef4a7e6f2584ec7a7f2c5a39c",
+      "Logs/Combat/SprintTurns03/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintTurns03/client.trace.6.json": "fd6bef364c83aedd5009534da665ad1c529bb2fc6445ef06710633177aa36d2f",
+      "Logs/Combat/SprintTurns03/host.cmd.json": "3e8f00104530c32332832620438aeb68370cdfc0398fdbe8b99204d64480323a",
+      "Logs/Combat/SprintTurns03/host.json": "9ff797b5d69593b3a6bb3b4b1217a2f176e6e52c00ef86a04334d8edf13ab900",
+      "Logs/Combat/SprintTurns03/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintTurns03/host.trace.6.json": "8011244636bb5c865b467c563d12b9e220d0f9956c9251117ad7bf79e3d49c71",
+      "Logs/Combat/SprintTurns03/results.json": "d1128370a37a324e6e9f76452cdb9c65772c67adbd6a867bb2c372ab5f1aa976",
+      "Logs/Combat/SprintTurns03/shots.json": "a8228b47da8fc30009482a7b2f41586bc74ad787e132c4756889a59483097beb"
+    },
+    "Combat/StockBefore02": {
+      "Logs/Combat/StockBefore02/client.cmd.json": "ecb0dc1af9b1d5da5391e394672be8946f2f8528aea396ad718ac8c5b99c0106",
+      "Logs/Combat/StockBefore02/client.json": "6002dce8c73b0d5d2c204daa56eff4e6e8407590405e4c8f40bf0485a9fe3de2",
+      "Logs/Combat/StockBefore02/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/StockBefore02/host.cmd.json": "f10494fcd23b282c54a803b962539f1877065c1442660e87d988e2f6e894e95b",
+      "Logs/Combat/StockBefore02/host.json": "77db106ab2248d65e89a8d844d89419fd0f65f383038dce324f3710a70447051",
+      "Logs/Combat/StockBefore02/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/StockBefore02/results.json": "56c0fffbed6223f964ff0e7c3b6968be40bf1e92ac486e9310199314569ca317",
+      "Logs/Combat/StockBefore02/shots.json": "53f255295af14bb974859e165ecc00f5cdfe23ba5beba71108e566800a9a5b0f"
+    },
+    "Combat/StockAfter01": {
+      "Logs/Combat/StockAfter01/client.cmd.json": "ecb0dc1af9b1d5da5391e394672be8946f2f8528aea396ad718ac8c5b99c0106",
+      "Logs/Combat/StockAfter01/client.json": "0215de85ef8d38cde2c1bebb2a1c5f9ca1dce2139b7269387ab16ddc20a903de",
+      "Logs/Combat/StockAfter01/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/StockAfter01/host.cmd.json": "f10494fcd23b282c54a803b962539f1877065c1442660e87d988e2f6e894e95b",
+      "Logs/Combat/StockAfter01/host.json": "f96e9d881a76e6eebfb31b98050475aa612c9cbfbad6498e24d8222ed4f2d209",
+      "Logs/Combat/StockAfter01/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/StockAfter01/results.json": "b04480b5cbda17c8b5475dc152d942e527e85594194fa01f4120765e72438ae2",
+      "Logs/Combat/StockAfter01/shots.json": "0da85a72177e3c93d93666b65718217d096c76553cb4eb2fc809e0b5aaa17e2f"
+    },
+    "Combat/BurstAfter01": {
+      "Logs/Combat/BurstAfter01/client.cmd.json": "bae43dae992729d2e1d557018a9d6962cfd3e6c56cb72ebfa216d188b7aaa7fe",
+      "Logs/Combat/BurstAfter01/client.json": "eee86847e6bae320f4d571034fdca8120f2d6c8377d4d7f2b6dbb674a8aca0a7",
+      "Logs/Combat/BurstAfter01/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/BurstAfter01/host.cmd.json": "f10494fcd23b282c54a803b962539f1877065c1442660e87d988e2f6e894e95b",
+      "Logs/Combat/BurstAfter01/host.json": "fd0119833d804b36ec310a478be877a2e23b3df32e807fce57a298c7e6657526",
+      "Logs/Combat/BurstAfter01/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/BurstAfter01/shots.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    "Combat/BurstAfter02": {
+      "Logs/Combat/BurstAfter02/client.cmd.json": "ecb0dc1af9b1d5da5391e394672be8946f2f8528aea396ad718ac8c5b99c0106",
+      "Logs/Combat/BurstAfter02/client.json": "9083f94cb2e39eac992a4b0e7e15b627ddfd6a8d84c7e19e7cccd67967070a0e",
+      "Logs/Combat/BurstAfter02/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/BurstAfter02/host.cmd.json": "416179e11012609d1f79c8562dc3e6eb0a79f74e570e9f39a341a63143060649",
+      "Logs/Combat/BurstAfter02/host.json": "469a738af38e4d3fffe4ee38d50d09048cdfc1b147ca18acf48800f01890e7ec",
+      "Logs/Combat/BurstAfter02/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/BurstAfter02/shots.json": "5b921a75c6ea1f90b2a89c57416ff3612d5a636564c34ee6bfb4ebd0e021ee23"
+    },
+    "Combat/SprintImpact02": {
+      "Logs/Combat/SprintImpact02/client.cmd.json": "bae43dae992729d2e1d557018a9d6962cfd3e6c56cb72ebfa216d188b7aaa7fe",
+      "Logs/Combat/SprintImpact02/client.json": "4e65a013537e052c27fcc7bd1f095588469df21362df82a61d8f5c6bb02c413b",
+      "Logs/Combat/SprintImpact02/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintImpact02/client.trace.2.json": "583d0677d43bd407d5edb08ad20e9dff0cbb1b361980c1adf0b113fa589cd0ba",
+      "Logs/Combat/SprintImpact02/host.cmd.json": "ecb0dc1af9b1d5da5391e394672be8946f2f8528aea396ad718ac8c5b99c0106",
+      "Logs/Combat/SprintImpact02/host.json": "ddbf8658f4394a73217b2953e688052b0bd0b3ddb2d771aaef4b933a58cd81ca",
+      "Logs/Combat/SprintImpact02/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintImpact02/host.trace.2.json": "69b8a2744d7a8a3034d92d62bf95ea00d81139d85410647756608e80f3aaacd3",
+      "Logs/Combat/SprintImpact02/shots.json": "79f68bdb27441095493ec0927b6fdb430058e9b651f66066884ed03f197feb6b"
+    },
+    "Combat/SprintSelf04": {
+      "Logs/Combat/SprintSelf04/client.cmd.json": "bae43dae992729d2e1d557018a9d6962cfd3e6c56cb72ebfa216d188b7aaa7fe",
+      "Logs/Combat/SprintSelf04/client.json": "4818874e85dab36416f64bfce2248087550279ce7cb9ea14b75606c3743843f9",
+      "Logs/Combat/SprintSelf04/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintSelf04/client.trace.7.json": "76e8f44fc80c24cc6053478b3570cc4058df8e9ce37da00abc2061df62d38b05",
+      "Logs/Combat/SprintSelf04/host.cmd.json": "ecb0dc1af9b1d5da5391e394672be8946f2f8528aea396ad718ac8c5b99c0106",
+      "Logs/Combat/SprintSelf04/host.json": "fa2e3ff172a1eea6a19e9631fb6969303e82b73fe1915a4beb1b307d6794dcfa",
+      "Logs/Combat/SprintSelf04/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintSelf04/host.trace.7.json": "5ea7376416dcb77f5e2031e00ae8247c6e2aba4cb1d08885e8d49b5982107503",
+      "Logs/Combat/SprintSelf04/results.json": "0177bf43d766a0e87d25eeaeac1f1b1428bb2351b0478b14b20d15b02481f5aa",
+      "Logs/Combat/SprintSelf04/shots.json": "864d0fc81e23058a3aec66e7194b860e468fff5ce2c98f98b34059d5165272fb"
+    },
+    "Combat/EffectsBefore01": {
+      "Logs/Combat/EffectsBefore01/client.cmd.json": "ecb0dc1af9b1d5da5391e394672be8946f2f8528aea396ad718ac8c5b99c0106",
+      "Logs/Combat/EffectsBefore01/client.json": "db7f9b91f88fe146c378656549779ee7f783b1293ce6e84bcd57df1bb11df1c3",
+      "Logs/Combat/EffectsBefore01/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/EffectsBefore01/client.trace.8.json": "fd716f0a79832e853b38e2e0b7aa55c9eb35aa54d9f77764e86f449769ef90c5",
+      "Logs/Combat/EffectsBefore01/host.cmd.json": "d9a2a8930956de2c1ca685b0b863cccd0a71e28826a3109c83eab2ee2d853492",
+      "Logs/Combat/EffectsBefore01/host.json": "11d6c22a27748fffe6f20f3500bfc48d1dc624c17debe9b1d9298e0a5c49d4e0",
+      "Logs/Combat/EffectsBefore01/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/EffectsBefore01/host.trace.8.json": "981a82b479eece1132805b169aafd52124a7f6a208fdf794213aa7b9aa142b40",
+      "Logs/Combat/EffectsBefore01/shots.json": "d222b27565469b1af772a9bfa9c922736116690645506188635f1db42097dc7d"
+    },
+    "Combat/EffectsBefore02": {
+      "Logs/Combat/EffectsBefore02/client.cmd.json": "ecb0dc1af9b1d5da5391e394672be8946f2f8528aea396ad718ac8c5b99c0106",
+      "Logs/Combat/EffectsBefore02/client.json": "46b6c701ce01c2cec2aeace8c22c009d7c2b77fb7c340306a4bb85392e567b8a",
+      "Logs/Combat/EffectsBefore02/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/EffectsBefore02/client.trace.8.json": "56cb4cc16b267db560ce01100f35f94ee8adcab3aa46aceda81f4e6501150223",
+      "Logs/Combat/EffectsBefore02/host.cmd.json": "d9a2a8930956de2c1ca685b0b863cccd0a71e28826a3109c83eab2ee2d853492",
+      "Logs/Combat/EffectsBefore02/host.json": "e377ec864e8a875bb0ca38e466b01967fdd5bb09ce70526f562d4db6eb77aa07",
+      "Logs/Combat/EffectsBefore02/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/EffectsBefore02/shots.json": "523f6bf88a5fe0f63d58c0cd9f9bebd27bff12c48b38ebc4230b60ff027e01a4"
+    },
+    "Combat/EffectsAfter01": {
+      "Logs/Combat/EffectsAfter01/client.cmd.json": "ecb0dc1af9b1d5da5391e394672be8946f2f8528aea396ad718ac8c5b99c0106",
+      "Logs/Combat/EffectsAfter01/client.json": "13a1185af887c28b15bab5929ec8b6a1af45d1315dd56ae3a4fa47ef8e6914aa",
+      "Logs/Combat/EffectsAfter01/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/EffectsAfter01/client.trace.8.json": "66a96caccf19da93f5645f0519f96cc2debe29e73dd52e89eed5ed4dfb5ee63e",
+      "Logs/Combat/EffectsAfter01/host.cmd.json": "d9a2a8930956de2c1ca685b0b863cccd0a71e28826a3109c83eab2ee2d853492",
+      "Logs/Combat/EffectsAfter01/host.json": "374f0a909b47155930f6fc01e48e3118518395becb79ab5ae5d9cf4548a5e98f",
+      "Logs/Combat/EffectsAfter01/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/EffectsAfter01/host.trace.8.json": "5a422f29f3d1cd070dc088b044bf134a5803e76672ffcaf42bb5fb798220c5fe",
+      "Logs/Combat/EffectsAfter01/shots.json": "e7a12f3d2d8fb0cb498952371e5f7ba84760c4a27aedd9fb039074fdce1fa114"
+    },
+    "Combat/EffectsAfter02": {
+      "Logs/Combat/EffectsAfter02/client.cmd.json": "506a1751fd1f2cc64f2ae406921076608d8dc7eff5bc099e5c23bfd46cb8dfb0",
+      "Logs/Combat/EffectsAfter02/client.json": "dd74ef5a7614b7316708943c8d2ee2a766784f3b7cde6d1b7757a18e43ab6e50",
+      "Logs/Combat/EffectsAfter02/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/EffectsAfter02/client.trace.10.json": "71429fb3eb7053441f1031fb52ba5f680aa9659724d9f14f612adb55541ff28d",
+      "Logs/Combat/EffectsAfter02/client.trace.11.json": "f83cdcab3f27321d7a8e596dc10e3a87e2f076e07765bbc9f2269ea5a289500b",
+      "Logs/Combat/EffectsAfter02/client.trace.8.json": "5f8b24d32978efd4ff7a0529599c2ace752ffc9feb6d09752ef5dcb62f7683ee",
+      "Logs/Combat/EffectsAfter02/client.trace.9.json": "976c9cd8e6afc24cdbaf9b99c100538cae544f35ddb1b1acb0179117a6dbdf40",
+      "Logs/Combat/EffectsAfter02/host.cmd.json": "abdae19586e55527eb43620186be767fa55b019f7fab238dacc09bfd68acc511",
+      "Logs/Combat/EffectsAfter02/host.json": "a27e8b2a9bc95bb6390792a7c421bdea80a88717289f6ef83fbefc2325707a94",
+      "Logs/Combat/EffectsAfter02/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/EffectsAfter02/host.trace.10.json": "6dbab5f6f4247536d5149ac0cb758db39bab02bec81d366d8a8a4e60391d540f",
+      "Logs/Combat/EffectsAfter02/host.trace.11.json": "11c0207284474004abc3d58364ace1ab8e995adff2afaeef35162b9cb11f0f8c",
+      "Logs/Combat/EffectsAfter02/host.trace.8.json": "ba7221742ef4f2677d561fad07a55f39cc570e2d912b79848cd38493e722d419",
+      "Logs/Combat/EffectsAfter02/host.trace.9.json": "6d8f3cf2e8c138820c271be3b3fc3d2854a0ee2581d4f2d90d9e5e2087e67469",
+      "Logs/Combat/EffectsAfter02/results.json": "73649272a5a5bd6da7a24673a97c3871862d1ae957bc100aab5d6ebbaba0e14f",
+      "Logs/Combat/EffectsAfter02/shots.json": "e8847ebff5a2037302b09fefe04b42af7e78caa6a7ba2d845fce25bb4d65a608"
+    },
+    "Combat/SprintTurns06": {
+      "Logs/Combat/SprintTurns06/client.cmd.json": "6a84fe61c1f62b7f09cb596d848ba3e8608dea5a87073dd8ea4854588d9b8dcb",
+      "Logs/Combat/SprintTurns06/client.json": "6bd86aee51e6c6b71c427b4e1293b78dbcea467747d1b18b5226dfab9f92369b",
+      "Logs/Combat/SprintTurns06/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintTurns06/client.trace.6.json": "c1e1854cfb06e9c5c980162ac3d64c6f311bb2ac0e46675244c2d4055942bf51",
+      "Logs/Combat/SprintTurns06/host.cmd.json": "3e8f00104530c32332832620438aeb68370cdfc0398fdbe8b99204d64480323a",
+      "Logs/Combat/SprintTurns06/host.json": "a2fe3db929fac58522f13c525e59384a8ec6654b61d8396bf994a2900f2ca532",
+      "Logs/Combat/SprintTurns06/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintTurns06/host.trace.6.json": "427cf1f4dad65eeee28e2a2571f1cef0d36c7968c53fc7bc7822eb0906e18987",
+      "Logs/Combat/SprintTurns06/results.json": "7a8017270d5ac6329cd9a6f1a627f56dcf19c4d2fa09e55fa98d33ab289c6399",
+      "Logs/Combat/SprintTurns06/shots.json": "aa5be96fe209eba5ea48ba43d61d1f414af5fa5d57abef19b82ab1c4c308005d"
+    },
+    "Combat/SprintTurns07": {
+      "Logs/Combat/SprintTurns07/client.cmd.json": "88f6de75a3b7f198cd9a079d6bb0756d9b4bba4ba33475a8195c50f8bb65df84",
+      "Logs/Combat/SprintTurns07/client.json": "65d46a097ea5fcae49f9778a133d2dc294026c22d1488c974b055517e8e560e6",
+      "Logs/Combat/SprintTurns07/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintTurns07/client.trace.6.json": "9904e4a901cadcfe7ef26f4d1ce198d13e28b8680ecd97fe301dd79fedc917c6",
+      "Logs/Combat/SprintTurns07/host.cmd.json": "3e8f00104530c32332832620438aeb68370cdfc0398fdbe8b99204d64480323a",
+      "Logs/Combat/SprintTurns07/host.json": "1e80b844f11930bfff64bc5eb299fab089090664ba3859a9df5fba10202ebbe9",
+      "Logs/Combat/SprintTurns07/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintTurns07/host.trace.6.json": "76ce25630fa219f1b36f9e58bc1f245b3c9d1bf7d778432fcad5ce423921d0f3",
+      "Logs/Combat/SprintTurns07/results.json": "fa2df7c774c93ccb19cab4ea46516b09c6498219f7a8ed28789cfaa6be60d18f",
+      "Logs/Combat/SprintTurns07/shots.json": "7fed414ade0a9807ca396f5ecf42b38763e35c7932dbf7314eb36f1271d95454"
+    },
+    "Combat/SprintTurns08": {
+      "Logs/Combat/SprintTurns08/client.cmd.json": "83c19d7d50cb5f079e654c1bae4a413839ecb5ab90cbaced68babce56372a4c8",
+      "Logs/Combat/SprintTurns08/client.json": "1ca782cbfaac64212c1a3fa80cd2de19a4b52a02a440ec21a5d26a167027313c",
+      "Logs/Combat/SprintTurns08/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintTurns08/client.trace.6.json": "63384537e14d7065229bf28785fdd0e5d9b75d89ac35e9a4fc3c1ca70a0309eb",
+      "Logs/Combat/SprintTurns08/host.cmd.json": "91246345da213691a82b49b22bcc871c856f148236b2bacde1d7bfcd06b3fe37",
+      "Logs/Combat/SprintTurns08/host.json": "16f7b62625434a5dcc4f58281c84c0195404fb0324bfb53a5735f22803eb42f2",
+      "Logs/Combat/SprintTurns08/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintTurns08/host.trace.6.json": "33d4b3022ead9f2b07daf3f166bc955293279d7bb86217ab7658ed24323d032b",
+      "Logs/Combat/SprintTurns08/results.json": "cc45ad0c6b7eb7a9d0c9029dc341afa1077be51fd43cb159cad498dc38c212c2",
+      "Logs/Combat/SprintTurns08/shots.json": "d60c4bd0f7ecd1586f09abcf0671a343aaeb1b6ce3447020b3177e08b5a8d602"
+    },
+    "Combat/SprintTurns09": {
+      "Logs/Combat/SprintTurns09/client.cmd.json": "6a84fe61c1f62b7f09cb596d848ba3e8608dea5a87073dd8ea4854588d9b8dcb",
+      "Logs/Combat/SprintTurns09/client.json": "5d6bbe8d5e5f37c83d1697789eb10b5b7f744e1367d24072d78e01e896fa3ee1",
+      "Logs/Combat/SprintTurns09/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintTurns09/client.trace.6.json": "ac40f3a2b0dd7ef093959b1c09f5709e15b69796475e5fe4da07f57fdd9757a8",
+      "Logs/Combat/SprintTurns09/host.cmd.json": "3e8f00104530c32332832620438aeb68370cdfc0398fdbe8b99204d64480323a",
+      "Logs/Combat/SprintTurns09/host.json": "1295436fa35447e704bd591fad9744506d0ef0b20faee9c7dc8eb280e26d5f6e",
+      "Logs/Combat/SprintTurns09/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintTurns09/host.trace.6.json": "c5bfe59072e558ad48e8d040313710d37c9d7e36ac10ac062994f59472623f62",
+      "Logs/Combat/SprintTurns09/results.json": "f99440964b9ae4a95dd0d5195ca5b88a07666b180049046ac44f67482d86d56f",
+      "Logs/Combat/SprintTurns09/shots.json": "1762ba7a464b8e5688eb57e06594a307c8c059c1f1962caf193d9a5c770b7a18"
+    },
+    "Combat/SprintTurns10": {
+      "Logs/Combat/SprintTurns10/client.cmd.json": "6a84fe61c1f62b7f09cb596d848ba3e8608dea5a87073dd8ea4854588d9b8dcb",
+      "Logs/Combat/SprintTurns10/client.json": "84cc287f7c2d75d1f534553bc5ebf708619db40cbdada87427f928570fec58f6",
+      "Logs/Combat/SprintTurns10/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintTurns10/client.trace.6.json": "8809e2a458abcaae5ba66f2c3f69ed4ffcab3922a5809ee5fef439e29b74294a",
+      "Logs/Combat/SprintTurns10/host.cmd.json": "91246345da213691a82b49b22bcc871c856f148236b2bacde1d7bfcd06b3fe37",
+      "Logs/Combat/SprintTurns10/host.json": "93c14c7745f8917dc0b6f6e5cb6a08fdd68759ad2b81b0a51337b3efa022305f",
+      "Logs/Combat/SprintTurns10/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintTurns10/host.trace.6.json": "739dc38312b7f31aa3666a8eeff319c6bcd2ac83c855af913d71c20f1d37b82c",
+      "Logs/Combat/SprintTurns10/results.json": "cd85b8ac1f912f444d78128dec13a8a785f2db60029c605c56ed6d55845c4251",
+      "Logs/Combat/SprintTurns10/shots.json": "e7a0919e3ad3e4721ab8a0f7bd8c8c256ea41d3a691b5af97bcbddfe062ae543"
+    },
+    "Combat/StockAfter02": {
+      "Logs/Combat/StockAfter02/client.cmd.json": "6f2ca9053940196b6b99bd676bf1c595e40c33012fc5b8d311efafb358ecda24",
+      "Logs/Combat/StockAfter02/client.json": "1c2e27aa8bbb520c037cf8083e4af80c6ccb4a85cacd03d518505f15507f44cb",
+      "Logs/Combat/StockAfter02/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/StockAfter02/host.cmd.json": "f10494fcd23b282c54a803b962539f1877065c1442660e87d988e2f6e894e95b",
+      "Logs/Combat/StockAfter02/host.json": "d99cdabf6dd95af46a8e396d4fc2872f47b04647b26ff65d74c9f4fac311c0b9",
+      "Logs/Combat/StockAfter02/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/StockAfter02/results.json": "ffa6b42ead59cdab89344cc59ccd558d938a48fa0976cff7ada0e87b31c11c07",
+      "Logs/Combat/StockAfter02/shots.json": "e69ec11f750d5676e2f02f3cb27cc528a271271b277c63a08532e8d04ae45117"
+    },
+    "Combat/SprintMotion02": {
+      "Logs/Combat/SprintMotion02/client.cmd.json": "2007bf4a84b631589a54007960785907aa5c88e7034e2a9b16954cb02aecbebf",
+      "Logs/Combat/SprintMotion02/client.json": "57cdf66f45591adc1fe1934abd5739a9fae2bf37343b50b6d22cc81a7b0a5fa0",
+      "Logs/Combat/SprintMotion02/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintMotion02/host.cmd.json": "6f2ca9053940196b6b99bd676bf1c595e40c33012fc5b8d311efafb358ecda24",
+      "Logs/Combat/SprintMotion02/host.json": "7b558c7bea07747a6e6695734a250cc49556bc0e40ab5233c88f1b960d95a242",
+      "Logs/Combat/SprintMotion02/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Combat/SprintMotion02/shots.json": "ac09910ba16a0c75146031624f8f12c8be46dcead45027f3dc56b7c69cf9fb3f"
+    },
+    "Move/SprintCore03": {
+      "Logs/Move/SprintCore03/checks.txt": "4d63f4e54665876eed0ffc3bed8740fd724f6631f3fa583baf6b7bc6bf4b3061",
+      "Logs/Move/SprintCore03/client.cmd.json": "d1ca9582edca553363886bad50e60fc4789773890dd7c2aef9c522f86462ad1c",
+      "Logs/Move/SprintCore03/client.json": "28c6457dc001c1ad627a3d59b8a5344c85c06a189d7979d4bf3d02cea445b858",
+      "Logs/Move/SprintCore03/client.menu.json": "3551862f5f198e7952aad6a56958f13203ad244777fa9d1bb2641dc006f3fbe6",
+      "Logs/Move/SprintCore03/combat-client.json": "224fbae43098c2c4d716440a4555a4695b7d2d06515682ef008b70e4cfb1394a",
+      "Logs/Move/SprintCore03/combat-host.json": "c6a7af2903c3cc2586e86eff02bd1b48d4f758e39425373a29b9b82aa89dc0b5",
+      "Logs/Move/SprintCore03/final-client.json": "705d1607e7a3fc1e9479b75f847ce88f3a1f0a0397f769b82457b0e5e1176b92",
+      "Logs/Move/SprintCore03/final-host.json": "5cd0efc48b2483de0d001e01abd3a00247efba97ea180a084196d9e8a1cbc60f",
+      "Logs/Move/SprintCore03/host.cmd.json": "d1ca9582edca553363886bad50e60fc4789773890dd7c2aef9c522f86462ad1c",
+      "Logs/Move/SprintCore03/host.json": "1427d21404bdaca87c955dc84e8d64a5c600e8defa9f8813f95f731a2549571e",
+      "Logs/Move/SprintCore03/host.menu.json": "7caf6c92f9f3d8ea94de83c672ad4c3f2efb7537ae570277e79f92b62d315fa3"
+    },
+    "Move/SprintCore04": {
+      "Logs/Move/SprintCore04/checks.txt": "3fdaa727b8bfe15aa1ad21edd3c10a2f2e5e6423f6d61c773fb72f8ba28075a2",
+      "Logs/Move/SprintCore04/client.cmd.json": "d8c09e99616a27cc9d2e792e788fd0af5e1241fc36cba4710dcc8460487a0da3",
+      "Logs/Move/SprintCore04/client.json": "9bc4f059311ada640319fcb9591966e521d214edf1c4700c103365292687336b",
+      "Logs/Move/SprintCore04/client.menu.json": "3551862f5f198e7952aad6a56958f13203ad244777fa9d1bb2641dc006f3fbe6",
+      "Logs/Move/SprintCore04/combat-client.json": "214656751753cfd4c1d6ee7eb272b8ffa604499c921de7711d79c4a599e3eafc",
+      "Logs/Move/SprintCore04/combat-host.json": "12a8d8076ebbd78df8768ff101c8dac24ab0b17f50045551a0dd28662a3f90e1",
+      "Logs/Move/SprintCore04/final-client.json": "497c5a630bc94a033b163e8134bd80ec07f320e114139971221d3d2e0da57bd7",
+      "Logs/Move/SprintCore04/final-host.json": "58f6087f8cc2df74daa20b8656bfd238a79ea1f207bc1a4e856f443ce0f78f6e",
+      "Logs/Move/SprintCore04/host.cmd.json": "1cd3f97ae81a6a89d7bfd6cba50b4d2ed84cb13cbb475792c558a38c34787e89",
+      "Logs/Move/SprintCore04/host.json": "2b762112ab08be08482ee880e3973cc8e0434c6ff1c2fa666f1b9ca780827ccb",
+      "Logs/Move/SprintCore04/host.menu.json": "7caf6c92f9f3d8ea94de83c672ad4c3f2efb7537ae570277e79f92b62d315fa3"
+    },
+    "Move/SprintCore05": {
+      "Logs/Move/SprintCore05/checks.txt": "01be18c83f937d5ef663791e669747ad47fefbcf12e79cdf3e6925ff756fc93d",
+      "Logs/Move/SprintCore05/client.cmd.json": "d95adb3b5143e6aaf7cf46a37ba0792d78a57af3343081d93dd438d1867cf462",
+      "Logs/Move/SprintCore05/client.json": "eab99d5e54db3aa42260c6d680ca1090b40a43b0477157642aafe4808ef5ccd7",
+      "Logs/Move/SprintCore05/client.menu.json": "3551862f5f198e7952aad6a56958f13203ad244777fa9d1bb2641dc006f3fbe6",
+      "Logs/Move/SprintCore05/combat-client.json": "9277d1c84f110ab66f4f87e25af7aa0d2ff990846f46a84339d30ae3b96b7235",
+      "Logs/Move/SprintCore05/combat-host.json": "6e2425ee9ec13c54cd929f961124f6f041dfce6c2f109d06adfe91efe60e94f0",
+      "Logs/Move/SprintCore05/final-client.json": "bb3c6bd5b7dc73fa917355f0aa2b9bcd2424e990260007c8fdfa1f4c3882a175",
+      "Logs/Move/SprintCore05/final-host.json": "6f8df4572c59113e3b62c1cefde5088d2154c62d710e6f6be690935e18cd5180",
+      "Logs/Move/SprintCore05/host.cmd.json": "0bafb12e6c2183be7c3148be503c45b9ee42160ca0d56da7d62a862034cb172d",
+      "Logs/Move/SprintCore05/host.json": "ac4690a7ef82f4162f1f9951c90f6d0d6446a005a66c71b3ba9fda52165b1c39",
+      "Logs/Move/SprintCore05/host.menu.json": "7caf6c92f9f3d8ea94de83c672ad4c3f2efb7537ae570277e79f92b62d315fa3"
+    },
+    "Move/SprintCore06": {
+      "Logs/Move/SprintCore06/checks.txt": "405caacf4d9fdc47b9ac5afc72399e962af499fd9bf603d493f5bc1e947e47e1",
+      "Logs/Move/SprintCore06/client.cmd.json": "83bdab6027c12482b18bcd273e6f7fe565f0336ae8a218d3ad30b3b498da89e9",
+      "Logs/Move/SprintCore06/client.json": "e812a680eb36321fc08be49b6f2513ae292aa7e4f57f1ea837c5fd84be507e41",
+      "Logs/Move/SprintCore06/client.menu.json": "3551862f5f198e7952aad6a56958f13203ad244777fa9d1bb2641dc006f3fbe6",
+      "Logs/Move/SprintCore06/combat-client.json": "b04513f4bf85c4c9442771076e1c15e234fc04c5374b68962b92bb3627e87b5e",
+      "Logs/Move/SprintCore06/combat-host.json": "02b2eadf4c7d37e2015d4d26797f1da0dbd53deec91595ab983b1646226faacc",
+      "Logs/Move/SprintCore06/final-client.json": "c5386720110c9953392f62a783c233874f5e8e317b9fadfa52e97a69e60235ec",
+      "Logs/Move/SprintCore06/final-host.json": "c71d03d025bd7dbf8eb798a57bd5fc7373922c04dd47c48bae92a4957a2f6775",
+      "Logs/Move/SprintCore06/host.cmd.json": "83bdab6027c12482b18bcd273e6f7fe565f0336ae8a218d3ad30b3b498da89e9",
+      "Logs/Move/SprintCore06/host.json": "f5dafc878a19f3a8e7c0e09b6d5548ab9847c4e5761d5e9f808352f3ddd2e379",
+      "Logs/Move/SprintCore06/host.menu.json": "7caf6c92f9f3d8ea94de83c672ad4c3f2efb7537ae570277e79f92b62d315fa3"
+    },
+    "Move/SprintCore07": {
+      "Logs/Move/SprintCore07/checks.txt": "d291a45f85fd047196888abb37e8b03c48aec02239d40c499eeb2726fcdb8f84",
+      "Logs/Move/SprintCore07/client.cmd.json": "64b294647288e253607b3bf4480359a623f3abb59da330eb7a7c1a84d600bf45",
+      "Logs/Move/SprintCore07/client.json": "41c3685a467c2d9a4ad290ed95cc805ea87e7b53fa1e4911acd1d7717e8d1b71",
+      "Logs/Move/SprintCore07/client.menu.json": "3551862f5f198e7952aad6a56958f13203ad244777fa9d1bb2641dc006f3fbe6",
+      "Logs/Move/SprintCore07/combat-client.json": "608fec7b767178a509e0ce2de6c96c98472f6429ca83721a180116ce47fe3963",
+      "Logs/Move/SprintCore07/combat-host.json": "a0ab1bd83a690254698dd4cb539f114d63c32c658e691d779c35bdb841d4b231",
+      "Logs/Move/SprintCore07/final-client.json": "5aca3ba06a9b55c49fbd5b49cce4ed43d39c69aca0dcb2f5966d1489a2805949",
+      "Logs/Move/SprintCore07/final-host.json": "ef2720388c2b0718075e9ad0d967f14baeaca5eebd82d179761b1232d5b9a493",
+      "Logs/Move/SprintCore07/host.cmd.json": "1a4a5d4f240ee2a02dd3e1dd1dd9222c5ddf255b63292f8a686f6222e1daf9e0",
+      "Logs/Move/SprintCore07/host.json": "d6c7c9f3771e7307c71536f3ffa700bbb46d50000c38725bb20edfb2c8dbfcdd",
+      "Logs/Move/SprintCore07/host.menu.json": "7caf6c92f9f3d8ea94de83c672ad4c3f2efb7537ae570277e79f92b62d315fa3"
+    },
+    "Move/SprintCore08": {
+      "Logs/Move/SprintCore08/checks.txt": "a7ab044c278fdb4a9450c63840ff3b64a0eb1241fce64ee6735902885e6a75e8",
+      "Logs/Move/SprintCore08/client.cmd.json": "be6f75a10682f22a6c16b67ab92b1273474dd5bc785bbdc94171bfacec537796",
+      "Logs/Move/SprintCore08/client.json": "db787ee2e856065fef710bebeca8e5d9732f77d223281754d2c87b9822911567",
+      "Logs/Move/SprintCore08/client.menu.json": "3551862f5f198e7952aad6a56958f13203ad244777fa9d1bb2641dc006f3fbe6",
+      "Logs/Move/SprintCore08/combat-client.json": "797b9540661b3787c013e21462524bc6c2d206e581b082b42232362d44586ac0",
+      "Logs/Move/SprintCore08/combat-host.json": "b240408affb109ba0161e9206094bb37ea2e03d8ea754281fbca4fd977c8f461",
+      "Logs/Move/SprintCore08/final-client.json": "a4bca94e98d45e8a916125e7477d7ce4e49419ce3fab523eb82c5fd915c691e7",
+      "Logs/Move/SprintCore08/final-host.json": "84e09cc130b29ceeb3a2e78c9fc92dc402681e6d4006c67093b42d134ae5a91b",
+      "Logs/Move/SprintCore08/host.cmd.json": "be6f75a10682f22a6c16b67ab92b1273474dd5bc785bbdc94171bfacec537796",
+      "Logs/Move/SprintCore08/host.json": "6374b3b8d630aeeca43abb214637b32907bb6e796a55259374bd29f12939dd14",
+      "Logs/Move/SprintCore08/host.menu.json": "7caf6c92f9f3d8ea94de83c672ad4c3f2efb7537ae570277e79f92b62d315fa3"
+    },
+    "Move/SprintFlight03": {
+      "Logs/Move/SprintFlight03/checks.txt": "f27a097c3392da39dcca3e84faf683d230a2e33a2bebfd51559efd0a915320a4",
+      "Logs/Move/SprintFlight03/client.cmd.json": "1956df53093aa5af90aca88ec10481ca02a19204192d1750be2ec0551563b67f",
+      "Logs/Move/SprintFlight03/client.json": "9189eab24881c84a56cf8251f9f58f393a07fc92513fec6a4e59d943b79c5e9a",
+      "Logs/Move/SprintFlight03/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Move/SprintFlight03/client.trace.1.json": "2148e13cba5caf56bd4e594f55039408ede79b30d3096b6d5e8f2a74437ff6af",
+      "Logs/Move/SprintFlight03/client.trace.2.json": "680e3932221767dd513af4f480057edb2bde7d5aa47da2cb56c2e6e71e60148d",
+      "Logs/Move/SprintFlight03/final-client.json": "5d3713f004841e1f13227339d3d75e43b6a6c46a886e6a606a9791249de54568",
+      "Logs/Move/SprintFlight03/final-host.json": "1ec7b77bb84f264454e495264db8cf71281192f8fd52bfac97d20746a53bcc28",
+      "Logs/Move/SprintFlight03/host.cmd.json": "377fe4c1aeb44b56605d42a06b9f5e999768582d4359ccbb7cd393e4018e781d",
+      "Logs/Move/SprintFlight03/host.json": "78916add5249428ebceec3032fe18fe02c6f5fa831e504bc14de36984075df37",
+      "Logs/Move/SprintFlight03/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Move/SprintFlight03/host.trace.1.json": "0c9c7607382508f83ea8d3aac2d49e9d3f4ed7500e4dd63a95e83c2184815f8f",
+      "Logs/Move/SprintFlight03/host.trace.2.json": "9cceefe5f74af10fe8717dd28b5312e4e377b31ce416cb73d2c9292c2b5816ee",
+      "Logs/Move/SprintFlight03/trajectory-results.json": "d2922c1c38b4f47726b44dac36e9727c7f90d37c3095bc22014020391df60788"
+    },
+    "Move/SprintFlight04": {
+      "Logs/Move/SprintFlight04/checks.txt": "36a600953a6c8c0e42a34aa0d2d2897afa11e80d7a7f0bfc41af94c93e3448c0",
+      "Logs/Move/SprintFlight04/client.cmd.json": "0bafb12e6c2183be7c3148be503c45b9ee42160ca0d56da7d62a862034cb172d",
+      "Logs/Move/SprintFlight04/client.json": "78b3e271a3402a9bf229fb137840bd4617521221414ca0b46f48b39ef62d350e",
+      "Logs/Move/SprintFlight04/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Move/SprintFlight04/client.trace.1.json": "4e57da4675f3eb8a5a1991e46c095fe059ba8c404d35754dc0b09f577420e88f",
+      "Logs/Move/SprintFlight04/client.trace.2.json": "944b97b0284bb7c93fdcf7d325af7d6c228df2332bc53eed941aceab2be04368",
+      "Logs/Move/SprintFlight04/final-client.json": "7a73d153c0516f255a023363f48702012d9334eba8fb1978ea027673b87e0ca6",
+      "Logs/Move/SprintFlight04/final-host.json": "0114af9609029b30c9a63b5bf4107abe6abe80db45b6a0f081118fa2800b758f",
+      "Logs/Move/SprintFlight04/host.cmd.json": "0bafb12e6c2183be7c3148be503c45b9ee42160ca0d56da7d62a862034cb172d",
+      "Logs/Move/SprintFlight04/host.json": "ecd0c48bf72f443c7734bbb5b4407f709933cd818b2bdeb5c26ce447c13e7cae",
+      "Logs/Move/SprintFlight04/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Move/SprintFlight04/host.trace.1.json": "ff6b5856f7ab12532a8c8ff5dcec49bc2a94f44c9a755793a7ca5e6bce220324",
+      "Logs/Move/SprintFlight04/host.trace.2.json": "b581735b926f94ecdbc45ef065b42cfd02e7210be71c2f2e2f11fd6c3e1aab7e",
+      "Logs/Move/SprintFlight04/trajectory-results.json": "a6ea41f5b6457c2454ffb28fe1b3e309272eee4ff5b4d0e4ae143313c1a75e05"
+    },
+    "Move/SprintFlight05": {
+      "Logs/Move/SprintFlight05/checks.txt": "36a600953a6c8c0e42a34aa0d2d2897afa11e80d7a7f0bfc41af94c93e3448c0",
+      "Logs/Move/SprintFlight05/client.cmd.json": "1a4a5d4f240ee2a02dd3e1dd1dd9222c5ddf255b63292f8a686f6222e1daf9e0",
+      "Logs/Move/SprintFlight05/client.json": "13ac7f621d4bf305b2ca0f1d9f6aa14e58642bf9781f9457ab3fe337f0d48145",
+      "Logs/Move/SprintFlight05/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Move/SprintFlight05/client.trace.1.json": "9c0d94df85e8f48a9e9bcf5370c098da5bbd478dd770df32686968e5d7ea9e6a",
+      "Logs/Move/SprintFlight05/client.trace.2.json": "ca2c6b9c8346e9019e01b44214f991bbee11f30dc2ff165606e050d483eb2e4b",
+      "Logs/Move/SprintFlight05/final-client.json": "2fad1790ffb44883f95d5b12e6bbda7e4b9f6280b936c5985c6a563104bc1ac1",
+      "Logs/Move/SprintFlight05/final-host.json": "96a273c6cdd529bd6087ff7bbd1de677fe1148c5d8630827fcd4332f6ea6296c",
+      "Logs/Move/SprintFlight05/host.cmd.json": "1a4a5d4f240ee2a02dd3e1dd1dd9222c5ddf255b63292f8a686f6222e1daf9e0",
+      "Logs/Move/SprintFlight05/host.json": "172ae7f279608ee6fa7985e70c53a25a22953c2f4a5f8f6e235e5a1fd9486470",
+      "Logs/Move/SprintFlight05/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Move/SprintFlight05/host.trace.1.json": "3bc2f77700d2a90a5c34792ee111e40ad859832337397b0ec2d44a04142e9954",
+      "Logs/Move/SprintFlight05/host.trace.2.json": "861496d205f70950bb2f1cbae550f4e58215fcc59acf65cfb9d94d44a79a217e",
+      "Logs/Move/SprintFlight05/trajectory-results.json": "3eb8d009cc98bb517f17940e284084075fa71f7359d7ccb025feea753a73dbff"
+    },
+    "Move/SprintSpecial03": {
+      "Logs/Move/SprintSpecial03/checks.txt": "e893f9dfc8d8bb8adbb77355a57ecaa3c4061d684104c0f2c9da261cf2e3d8bc",
+      "Logs/Move/SprintSpecial03/client.cmd.json": "c0f622094588127f780a272848e5f602ea61998314fb5cb84019406b420212ec",
+      "Logs/Move/SprintSpecial03/client.json": "83cbf9a8a560fb53f2f56dd7ac823ce645798fe1d2bf18181ffb60fd1cc25f32",
+      "Logs/Move/SprintSpecial03/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Move/SprintSpecial03/client.trace.3.json": "0186db547f8f672c56ad0b91371310360df4c05c0e6b65f50d4ffb85524bb33e",
+      "Logs/Move/SprintSpecial03/final-client.json": "69a6e40a131032bca41706bf1a6b11cd0a22c060a0aaac9e01d87dd97508a279",
+      "Logs/Move/SprintSpecial03/final-host.json": "65a20d87333a487cad62fd3141a44c4d9c8ff1f8a6aad62fc3bc0f792a31354f",
+      "Logs/Move/SprintSpecial03/host.cmd.json": "e7686941a1bd23fa18e4a08fc627ac08dcced0e443f98409bf2f9d2a504bc6e5",
+      "Logs/Move/SprintSpecial03/host.json": "ca06f287ea352ef975885f884bdf4a7b85d7860b460bc550182078b9c158cb72",
+      "Logs/Move/SprintSpecial03/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Move/SprintSpecial03/host.trace.3.json": "215629834a2d386715b9fe363b17f25dc260c5755805e2aee25692d1691499f5",
+      "Logs/Move/SprintSpecial03/special-results.json": "38813c2cbc5617ab0345f55d707d31fb551d90b012575792b281b22e8e5233a8"
+    },
+    "Move/SprintSpecial04": {
+      "Logs/Move/SprintSpecial04/checks.txt": "e893f9dfc8d8bb8adbb77355a57ecaa3c4061d684104c0f2c9da261cf2e3d8bc",
+      "Logs/Move/SprintSpecial04/client.cmd.json": "3a89b6f467e691ddb25a07682004acfaa0bb890323152b9fc217a3b4535a7859",
+      "Logs/Move/SprintSpecial04/client.json": "37717f9b0b2a4e38f46da4483284d499adef1be62376b145e66d73f3db99583d",
+      "Logs/Move/SprintSpecial04/client.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Move/SprintSpecial04/client.trace.3.json": "077942aad6b470be629d5b9372e214532ff031663c86d50221679499c5c70d33",
+      "Logs/Move/SprintSpecial04/final-client.json": "f01eb1c63038f71a8f672bdc5e2c369838c7bbc4a5a1689eda71dfb0b956e577",
+      "Logs/Move/SprintSpecial04/final-host.json": "9eea3c808851add388c480820dc32b4e9529e1a540b27155c0bfe66491943a7d",
+      "Logs/Move/SprintSpecial04/host.cmd.json": "a4e3ff5f7c53208f3043bbf897d7d07f935c9331b89a2e3367b551f68dace9a6",
+      "Logs/Move/SprintSpecial04/host.json": "c38e3d352136af4755bd5f15a3940556e1a65c1d773132a3f4ea72be3cc95c80",
+      "Logs/Move/SprintSpecial04/host.menu.json": "cc9d24f9d28f6123991999789f88873b9c45d1a4c4b349260fb0fd62a13e6845",
+      "Logs/Move/SprintSpecial04/host.trace.3.json": "006facadef94007485c878c1fc089b292ccc37ff81605fe47cdf62d963df547f",
+      "Logs/Move/SprintSpecial04/special-results.json": "18cc3f75422922d485c48a0685541a707be510ded982bf931cf27a563fe2b6af"
+    },
+    "Relay/Sprint01": {
+      "Logs/Relay/Sprint01/checks.txt": "14c58c7044a29235f55b94b4ec3e43ed10875ede54396323f3ad350256ae28b9",
+      "Logs/Relay/Sprint01/cleanup.json": "446624482842f2ba1f164c24724cc3644f0f33a3c9e7387f190a098a88df728b",
+      "Logs/Relay/Sprint01/client.cmd.json": "c9dc91aad0da0f875fce1f979c43fc36a809c09febdf9f0a4505f605f399c713",
+      "Logs/Relay/Sprint01/client.json": "65cd9d913684076b4d18baf1e7739fe8a902e956c2757550f9e5b5c3f541aa48",
+      "Logs/Relay/Sprint01/client.menu.cmd.json": "a3633d90ceca8bd1a88f22d38011b357a278f765f5f68db4fcb68957972649a0",
+      "Logs/Relay/Sprint01/client.menu.json": "bfbd28580ed89a3a27725e8d3c1e471a5c613763717566716e53ecfa9ac448f5",
+      "Logs/Relay/Sprint01/client.trace.4.json": "4e171593999d35669adc0d5b3df8274f9e7480d88a7d96150625b687fd66f13a",
+      "Logs/Relay/Sprint01/client.trace.5.json": "16ae59d64895efae5738f04e6477bed35ad6abaa166fc80d5dff7d72bc11c2d5",
+      "Logs/Relay/Sprint01/combat-client.json": "8328a5536c493376b8108c5c7482f8b01dddada57be39a1890ef86cb7ddc1c4d",
+      "Logs/Relay/Sprint01/combat-host.json": "d786df98d1e3a472b05c61c721926ed03f9f150c4a6284235abe168a78fc657e",
+      "Logs/Relay/Sprint01/flight-result.json": "6d5355fba56e4caa061a02fb3336bcbf3151172badf4836bbc295ab99e22250c",
+      "Logs/Relay/Sprint01/host.cmd.json": "5d2e3ea2fbe9d6cb94d27eb363e6587f92f3a6406a08a8775828a731bffb6f64",
+      "Logs/Relay/Sprint01/host.json": "36f04082a63ced1c387a6ea94bc3f2acd8aa50e2e67aa66ebb9a90ecc74fcb54",
+      "Logs/Relay/Sprint01/host.menu.cmd.json": "6a8130034dc76a5d79c3e8d924c2a8b49905c6cf6dcb84d09a5e5904e0f57e70",
+      "Logs/Relay/Sprint01/host.menu.json": "a9836babd10855227cd4fdf659a9dd37a5da539f4b31725a3685b630b611ec54",
+      "Logs/Relay/Sprint01/host.trace.4.json": "0b16574e6b20729a534d8109df6574fefe8e7a976d2236bdf7737bf585c3d53c",
+      "Logs/Relay/Sprint01/host.trace.5.json": "8d7158f77b38902c93986280dd43e6eb3d465206bf2486c93406e1716c695a5a",
+      "Logs/Relay/Sprint01/native-client.json": "313f56a56236f382114feb77cad34b2329f73cb429569bab848566c412b4a1e7",
+      "Logs/Relay/Sprint01/native-host.json": "f53a690ab7f9b7aaf40395433e8e724aec86e96ccc07d9767bd94cd67b54cc04"
+    },
+    "Relay/Sprint02": {
+      "Logs/Relay/Sprint02/cleanup.json": "446624482842f2ba1f164c24724cc3644f0f33a3c9e7387f190a098a88df728b",
+      "Logs/Relay/Sprint02/client.cmd.json": "bd4459042f47fcef57895a5cf69b9c48da8a0148907f372f42f96882c6b6968e",
+      "Logs/Relay/Sprint02/client.json": "6951012a8449551bdc5e87f2758fbd57626ee09522c4b1c1b22eff0359c74dff",
+      "Logs/Relay/Sprint02/client.menu.cmd.json": "088f89b648b13734db0b5b9b4b336a6540e2f996dd848cc907e037ff8594f765",
+      "Logs/Relay/Sprint02/client.menu.json": "93fea0e8ed8078439d60f575522e4f06c07b6964941ea68cc76ad5eca083f9aa",
+      "Logs/Relay/Sprint02/failure-client.json": "440e2443fdb504d8e2999909837863ae0235ee3c15ea3097edb3e5ab217a28b0",
+      "Logs/Relay/Sprint02/failure-host.json": "32de7506975ef69a644065d27c6875f392f27b2bd5e20cc4f30b7d4cf2c1d6fc",
+      "Logs/Relay/Sprint02/host.cmd.json": "bd4459042f47fcef57895a5cf69b9c48da8a0148907f372f42f96882c6b6968e",
+      "Logs/Relay/Sprint02/host.json": "4c301057e3561835e16610ebec21ba925326eefd7a81cc63f921d23bf4c0c179",
+      "Logs/Relay/Sprint02/host.menu.cmd.json": "0314ff03a8dbc7bbf1160353579e01aa92720481bbad2e8629ebc538eaafa5a0",
+      "Logs/Relay/Sprint02/host.menu.json": "3a98f28706997751d6cc3dd89fd7753c56d9479ee8b10207483078dbc6a42372"
+    },
+    "Relay/Sprint03": {
+      "Logs/Relay/Sprint03/cleanup.json": "d5947162ee3dba7cf45b7e509688b07f4526c6cb659956c90c2df5376bf5ca4f",
+      "Logs/Relay/Sprint03/client.cmd.json": "b80a47b69ef331b315fe9fb0168308a29e19c50fbf9be9460b00da3ec68aa24f",
+      "Logs/Relay/Sprint03/client.json": "ab713bdaf60473828a7c01bbe39414477056aa4458cb94e573c6359869053880",
+      "Logs/Relay/Sprint03/client.menu.cmd.json": "ef48b1438cc8de1347478b00cda0b40c003ba1d773a2543129bc27a32c39c2af",
+      "Logs/Relay/Sprint03/client.menu.json": "93fea0e8ed8078439d60f575522e4f06c07b6964941ea68cc76ad5eca083f9aa",
+      "Logs/Relay/Sprint03/failure-client.json": "57defa95f0d58fbc691f4f71819fc387e3ec39b1758081e608e89b44ce5fbc6d",
+      "Logs/Relay/Sprint03/failure-host.json": "5a08038b46e86dcc9eb71c94039f7e8e2db10e6f64c6f748b7bd7b14c9887b62",
+      "Logs/Relay/Sprint03/host.cmd.json": "b80a47b69ef331b315fe9fb0168308a29e19c50fbf9be9460b00da3ec68aa24f",
+      "Logs/Relay/Sprint03/host.json": "bf242fafa2dcba08f778c65c941942b33934f250c37ef426734217fc773b4f5a",
+      "Logs/Relay/Sprint03/host.menu.cmd.json": "247a22592ee3ce6c9fef4bc696e07b514807eebdc19ae49d018706d56249785a",
+      "Logs/Relay/Sprint03/host.menu.json": "a8485a1f261fc85b6b50e6c854f12de722d488c53113bedd5720c2dfc21fea87"
+    },
+    "Relay/Sprint04": {
+      "Logs/Relay/Sprint04/checks.txt": "aaf89a55fa5f630d93757289eb107417445e17c991ba1574cd14cde24325ba2d",
+      "Logs/Relay/Sprint04/cleanup.json": "d34114b7f62eba49d718a03e671c1cf8ceff434f2a9bfb4c447b3847bced2e96",
+      "Logs/Relay/Sprint04/client.cmd.json": "ec1bff912f92d5b9855927348cfac5917da842581065b29dbbb78291439bbe27",
+      "Logs/Relay/Sprint04/client.json": "3ef81721ec3077d7bcc890d607eed210105b3643e270532ba3ce6c69632f5633",
+      "Logs/Relay/Sprint04/client.menu.cmd.json": "9c2e8bf4aaaddf2134e240bdbc0fb963ded4c1dfcc6fce96d65dc6d7dbfb2e22",
+      "Logs/Relay/Sprint04/client.menu.json": "7fffedf747f3d3ad6c384cd133baac40e13006f06fe3d38cc33b45a3c3aff38c",
+      "Logs/Relay/Sprint04/client.trace.4.json": "27cb8278f97e03da4db6092b5a1850aabe9a78cef0bc3700e7c2d3bbd3541018",
+      "Logs/Relay/Sprint04/client.trace.5.json": "fab84725285f09e791e86d8d3285eb0f934c525f6d3d631a9a7cecbe9daa08cd",
+      "Logs/Relay/Sprint04/combat-client.json": "3f30e253634c73f4372183a71016c28f0b36506a4ebbf7c59e3572abd4fa594b",
+      "Logs/Relay/Sprint04/combat-host.json": "87a567d48aa3f58dc06db710923e1f977ca6e1c168e45a74171aa3e41965ca0f",
+      "Logs/Relay/Sprint04/flight-result.json": "108eb1bfdb56adc60b3f0ad8aa35d9b12434ecc03e68da79ae13bab740e4c9da",
+      "Logs/Relay/Sprint04/host.cmd.json": "93f5f45a20887631b371f9ba37197b1f70937725d0b6bf10e610dc7dae755c16",
+      "Logs/Relay/Sprint04/host.json": "e81954bc01c08b5f651e605620a89f3c88b474b99de7c110b5b1debe89539dcd",
+      "Logs/Relay/Sprint04/host.menu.cmd.json": "8f6022ab7a992bf6e581596c000caf26b1ea35117a1faec53abab85bb9a0fa65",
+      "Logs/Relay/Sprint04/host.menu.json": "daca9415459a3318e5c8aae5fa728e45e46c39b9b79fe8e0c66a8b8fc2897b6c",
+      "Logs/Relay/Sprint04/host.trace.4.json": "17fc82ca006ba203405ef305b6584f9d9669874940d0c2ef95e265d6caf50efc",
+      "Logs/Relay/Sprint04/host.trace.5.json": "0574475588424d863e7c861698f1c701ed8856e095a92d5ab1426c2371dfa8bd",
+      "Logs/Relay/Sprint04/native-client.json": "c172e3721fb7854aa669656c453b95e70b2942c174d522f2b33c5546933502c5",
+      "Logs/Relay/Sprint04/native-host.json": "69674162cb5a1acfce0d33023d143c51c7fb0016ecf1ee77fe5c1e7249ec0e37",
+      "Logs/Relay/Sprint04/progress.json": "67039bee59fe938a6c229840f10f23ea209768963568f4548e489cb2264d26bc"
+    }
+  },
+  "assemblies": {
+    "Local": "2eb10cf572d4308069856eab3f0069d7d11c7eaa360ad5972cbae3a3c3782f00",
+    "Play": "a27b6fa9cd9d4dbb9e608934062cc0fb2511265e9730b775bbbdb1f391474525"
+  },
+  "limits": [
+    "Two processes on one Windows PC; two physical PCs and long matches not tested",
+    "Actual Relay RTT remains; ProtonVPN is the observed route, not a proven sole cause",
+    "See Sprint.md for failed fixtures and intermediate build boundaries"
+  ]
+}

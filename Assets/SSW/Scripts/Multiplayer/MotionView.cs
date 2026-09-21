@@ -13,6 +13,14 @@ namespace SSW
             public MotionState State;
         }
 
+        struct CastSample
+        {
+            public uint Tick;
+            public uint Epoch;
+            public Vector2 Position;
+        }
+
+        readonly CastSample[] _positions = new CastSample[256];
         [SerializeField] NetPlayer _player;
         [SerializeField] PlayerController _motion;
         [SerializeField] Rigidbody2D _body;
@@ -20,6 +28,7 @@ namespace SSW
         [SerializeField] Transform _view;
         [SerializeField] Transform[] _parts;
         [SerializeField] DinosaurVisualController _animation;
+        readonly HitTrack _hits = new HitTrack();
         readonly MotionHistory _history = new MotionHistory();
         readonly List<Snapshot> _snapshots = new List<Snapshot>(32);
         MotionMotor _motor;
@@ -27,19 +36,37 @@ namespace SSW
         MotionFrame _last;
         Vector2 _previous;
         Vector2 _offset;
+        Vector2 _shown;
         float _speed;
+        float _inputCredit;
         MotionRate _rate;
         double _lastInputAt;
         double _lastStateAt;
         double _lastAckAt;
         double _startAt;
         ViewClock _clock;
+        double _viewTime;
         bool _started;
         uint _tick;
         uint _processed;
         uint _receivedInput;
         uint _sentState;
         uint _receivedState;
+
+        public double ViewTime => _viewTime;
+        public bool ReadHit(double time, out Vector2 position) => _hits.Read(time, _state.Epoch, out position);
+        public Vector2 HitOffset => transform.TransformVector(_shape.offset);
+        public Vector2 HitAxis => _shape.direction == CapsuleDirection2D.Vertical ? transform.up : transform.right;
+        public Vector2 HitSize => Vector2.Scale(_shape.size, new Vector2(Mathf.Abs(transform.lossyScale.x), Mathf.Abs(transform.lossyScale.y)));
+        public bool Vertical => _shape.direction == CapsuleDirection2D.Vertical;
+        public MotionPacket Packet => new MotionPacket(_history, _tick, _state.Epoch);
+
+        public bool ReadPosition(uint epoch, uint tick, out Vector2 position)
+        {
+            CastSample sample = _positions[tick % _positions.Length];
+            position = sample.Position;
+            return sample.Epoch == epoch && sample.Tick == tick;
+        }
 
         public Transform View => _view;
         public Vector2 Position => _body.position;
@@ -67,7 +94,7 @@ namespace SSW
         {
             _motor = new MotionMotor(_shape, _motion, Physics2D.gravity.y * _body.gravityScale);
             _state.Position = _previous = _body.position;
-            _view.position = transform.position;
+            _shown = _view.position = transform.position;
             _rate = _motion.Rate;
             _speed = _rate.Value;
             _lastStateAt = _lastAckAt = Time.realtimeSinceStartupAsDouble;
@@ -81,6 +108,8 @@ namespace SSW
         {
             if (!IsSpawned || (!IsOwner && !IsServer)) return;
             _previous = _state.Position;
+            if (IsServer && !IsOwner)
+                _inputCredit = Mathf.Min(_inputCredit + Time.fixedDeltaTime, MotionHistory.Capacity * Time.fixedDeltaTime);
             if (IsOwner)
             {
                 MotionFrame input = _player.ReadInput(++_tick);
@@ -109,8 +138,9 @@ namespace SSW
                 StepIdle();
             }
             Commit();
+            if (IsServer) _hits.Store(NetGame.Current.PhysicsTime, _state.Epoch, _state.Position);
             if (IsServer)
-                StateRpc(++_sentState, _processed, _state, _rate, _player.CanAct, NetworkManager.ServerTime.Time);
+                StateRpc(++_sentState, _processed, _state, _rate, _player.CanAct, NetGame.Current.PhysicsTime);
         }
 
         void Predict(MotionFrame input, bool playing)
@@ -122,35 +152,31 @@ namespace SSW
 
         void StepRemote()
         {
-            if (_state.Grounded && _state.Velocity.sqrMagnitude < 0.0001f && Mathf.Abs(_state.External) < 0.0001f
-                && _last.Move.sqrMagnitude < 0.0001f && _last.Jump <= _state.Jump)
+            int steps = _receivedInput > _processed + 3 ? 2 : 1;
+            for (int i = 0; i < steps; i++)
             {
-                while (_receivedInput > _processed + 2)
+                if (_inputCredit + 0.000001f < Time.fixedDeltaTime) break;
+                uint tick = _processed + 1;
+                if (!_history.TryGet(tick, out MotionFrame input))
                 {
-                    if (_history.TryGet(_processed + 1, out MotionFrame pending)
-                        && (pending.Move.sqrMagnitude >= 0.0001f || pending.Jump > _state.Jump)) break;
-                    _processed++;
+                    if (_receivedInput < tick + 6) break;
+                    input = _last;
+                    input.Tick = tick;
                 }
-                if (_processed >= _receivedInput)
-                {
-                    StepIdle();
-                    return;
-                }
+                _last = input;
+                _rate = _motion.Rate;
+                _speed = _rate.Value;
+                _player.ApplyInput(input);
+                _motor.Step(ref _state, input, _speed, Time.fixedDeltaTime, _player.CanAct);
+                _processed = tick;
+                _inputCredit = Mathf.Max(0f, _inputCredit - Time.fixedDeltaTime);
+                Commit();
             }
-            uint tick = _processed + 1;
-            MotionFrame input = _history.TryGet(tick, out MotionFrame received) ? received : _last;
-            if (Time.realtimeSinceStartupAsDouble - _lastInputAt > 0.12d) input.Move = Vector2.zero;
-            input.Tick = tick;
-            _last = input;
-            _rate = _motion.Rate;
-            _speed = _rate.Value;
-            _player.ApplyInput(input);
-            _motor.Step(ref _state, input, _speed, Time.fixedDeltaTime, _player.CanAct);
-            _processed = tick;
         }
 
         void StepIdle()
         {
+            _inputCredit = Mathf.Max(0f, _inputCredit - Time.fixedDeltaTime);
             _rate = _motion.Rate;
             _speed = _rate.Value;
             MotionFrame input = _last;
@@ -163,10 +189,17 @@ namespace SSW
         {
             _body.position = _state.Position;
             _body.linearVelocity = Vector2.zero;
+            if (IsServer)
+                _positions[_processed % _positions.Length] = new CastSample
+                {
+                    Tick = _processed, Epoch = _state.Epoch, Position = _state.Position
+                };
         }
 
         [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Owner, Delivery = RpcDelivery.Unreliable)]
-        void InputRpc(MotionPacket packet)
+        void InputRpc(MotionPacket packet) => ReceiveInput(packet);
+
+        public void ReceiveInput(MotionPacket packet)
         {
             if (packet.Epoch != _state.Epoch) return;
             MotionFrame newest = packet[0];
@@ -181,6 +214,7 @@ namespace SSW
                 if (_started) Resyncs++;
                 _history.Clear();
                 _processed = first - 1;
+                _inputCredit = Mathf.Max(_inputCredit, (newest.Tick - first + 1) * Time.fixedDeltaTime);
                 _startAt = Time.realtimeSinceStartupAsDouble + Time.fixedDeltaTime * 2d;
                 _started = true;
             }
@@ -254,10 +288,10 @@ namespace SSW
             Correction = correction.magnitude;
             MaxCorrection = Mathf.Max(MaxCorrection, Correction);
             _previous -= correction;
-            _offset = playing && !relocated && Correction < 0.5f ? Vector2.ClampMagnitude(_offset + correction, 0.35f) : Vector2.zero;
-            if (!playing || relocated || Correction >= 0.5f) _previous = _state.Position;
+            _offset = playing && !relocated ? _offset + correction : Vector2.zero;
+            if (!playing || relocated) _previous = _state.Position;
             Commit();
-            if (relocated || !playing) _view.position = transform.position;
+            if (relocated || !playing) _shown = _view.position = transform.position;
         }
 
         void LateUpdate()
@@ -271,21 +305,36 @@ namespace SSW
             else
             {
                 float alpha = Mathf.Clamp01((Time.time - Time.fixedTime) / Time.fixedDeltaTime);
-                _offset *= Mathf.Exp(-24f * Time.unscaledDeltaTime);
-                Vector2 point = Vector2.Lerp(_previous, _state.Position, alpha) + _offset;
+                Vector2 point = Vector2.Lerp(_previous, _state.Position, alpha);
+                Vector2 movement = point + _offset - _shown;
+                _offset = Ease(_offset, _state.Velocity, _speed, Time.unscaledDeltaTime, movement);
+                point += _offset;
+                _shown = point;
                 _view.position = new Vector3(point.x, point.y, transform.position.z);
+                _viewTime = NetGame.Current.PhysicsTime - (1f - alpha) * Time.fixedDeltaTime;
             }
             _animation.SetMotionView(_state.Velocity, _state.Grounded);
+        }
+
+        static Vector2 Ease(Vector2 offset, Vector2 velocity, float speed, float delta, Vector2 movement)
+        {
+            Vector2 shift = Vector2.ClampMagnitude(-offset, Mathf.Max(8f, speed * 2f) * delta);
+            if (shift.x * velocity.x < 0f)
+                shift.x = Mathf.Sign(shift.x) * Mathf.Min(Mathf.Abs(shift.x), Mathf.Max(0f, movement.x * Mathf.Sign(velocity.x)) * 0.8f);
+            if (shift.y * velocity.y < 0f)
+                shift.y = Mathf.Sign(shift.y) * Mathf.Min(Mathf.Abs(shift.y), Mathf.Max(0f, movement.y * Mathf.Sign(velocity.y)) * 0.8f);
+            return offset + shift;
         }
 
         void Interpolate()
         {
             if (_snapshots.Count == 0) return;
-            double time = _clock.Step(NetworkManager.ServerTime.Time - 0.04d, Time.unscaledDeltaTime);
+            double time = _clock.Step(NetworkManager.ServerTime.Time, Time.unscaledDeltaTime);
             while (_snapshots.Count > 2 && _snapshots[1].Time <= time) _snapshots.RemoveAt(0);
             Snapshot first = _snapshots[0];
             Snapshot last = _snapshots.Count > 1 ? _snapshots[1] : first;
             float alpha = last.Time > first.Time ? Mathf.Clamp01((float)((time - first.Time) / (last.Time - first.Time))) : 1f;
+            _viewTime = first.Time + (last.Time - first.Time) * alpha;
             _state = last.State;
             _state.Position = Vector2.Lerp(first.State.Position, last.State.Position, alpha);
             _state.Velocity = Vector2.Lerp(first.State.Velocity, last.State.Velocity, alpha);
@@ -307,14 +356,16 @@ namespace SSW
             if (IsOwner) _player.ResetJump(_state.Jump);
             _previous = position;
             _offset = Vector2.zero;
-            _processed = _receivedInput;
+            _processed = IsOwner ? _tick : _receivedInput;
             _history.Clear();
             _snapshots.Clear();
+            _inputCredit = 0f;
             _last = default;
             _started = false;
             _clock = default;
             Commit();
-            _view.position = transform.position;
+            _shown = _view.position = transform.position;
+            _hits.Store(NetGame.Current.PhysicsTime, _state.Epoch, _state.Position);
         }
 
         public void ClearMetrics() => Correction = MaxCorrection = 0f;

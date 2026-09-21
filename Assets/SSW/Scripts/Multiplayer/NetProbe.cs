@@ -69,6 +69,11 @@ namespace SSW
             public int visiblePreviews;
             public int matches;
             public int rejected;
+            public Vector2 shotOrigin;
+            public uint shotTick;
+            public int shotKind;
+            public double shotLag;
+            public int fired;
             public bool charging;
             public uint action;
             public uint confirmed;
@@ -94,6 +99,8 @@ namespace SSW
             public int targetFps;
             public float frameTime;
             public ulong rtt;
+            public double physicsTime;
+            public double serverTime;
             public float viewDelay;
             public float bodyDelay;
             public float castDelay;
@@ -241,6 +248,10 @@ namespace SSW
                     foreach (NetPlayer player in game.Players)
                         if (!player.IsOwner) player.GetComponent<PlayerController>().ApplySlow(command.x,command.y);
                     break;
+                case "haste":
+                    foreach (NetPlayer player in game.Players)
+                        if (!player.IsOwner) player.GetComponent<PlayerController>().ApplySpeed(command.x,command.y);
+                    break;
                 case "grant":
                     if (!game.Manager.IsServer) break;
                     foreach (NetPlayer player in game.Players)
@@ -253,6 +264,7 @@ namespace SSW
                     foreach (NetPlayer player in game.Players)
                         if (player.IsOwner == (command.value == 0)) player.GetComponent<MotionView>().Teleport(new Vector2(command.x, command.y));
                     break;
+                case "stall": System.Threading.Thread.Sleep(Mathf.Clamp(command.value, 0, 1000)); break;
                 case "fps":
                     QualitySettings.vSyncCount = 0;
                     Application.targetFrameRate = Mathf.Clamp(command.value, 20, 240);
@@ -369,6 +381,7 @@ namespace SSW
                     augments = owned.ToArray(), potion = player.Cast.Held, rank = player.Cast.Rank,
                     heldView = player.Cast.DisplayHeld, previews = player.Cast.Previews,
                     visiblePreviews = player.Cast.VisiblePreviews, matches = player.Cast.Matches,
+                    shotOrigin = player.Cast.Origin, shotTick = player.Cast.ShotTick, shotKind = player.Cast.ShotKind, shotLag = player.Cast.ShotLag, fired = player.Cast.Shots,
                     rejected = player.Cast.Rejections, charging = player.Cast.Charging,
                     action = player.Cast.Action, confirmed = player.Cast.Confirmed, readyIn = player.Cast.ReadyIn
                 });
@@ -387,7 +400,8 @@ namespace SSW
             MatchState state = game.State;
             Snapshot snapshot = new Snapshot
             {
-                probeVersion = 2, build = Application.buildGUID,
+                physicsTime = game.PhysicsTime, serverTime = game.Connected ? game.Manager.ServerTime.Time : 0d,
+                probeVersion = 3, build = Application.buildGUID,
                 rtt = game.Connected ? game.Manager.NetworkConfig.NetworkTransport.GetCurrentRtt(Unity.Netcode.NetworkManager.ServerClientId) : 0, targetFps = Application.targetFrameRate, frameTime = Time.unscaledDeltaTime,
                 seq = _sequence, viewDelay = _viewDelay, bodyDelay = _bodyDelay, castDelay = _castDelay, error = _error, listening = game.Connected,
                 server = game.Connected && game.Manager.IsServer, connected = game.Connected && game.Manager.IsConnectedClient,

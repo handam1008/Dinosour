@@ -60,7 +60,7 @@ for peer in ("host", "client"):
             check(len(handoffs) == 1 or contact_complete, f"{peer} {key}: one handoff or matched disposal at terrain contact")
             if handoffs:
                 check(handoffs[0][0] <= 20 * handoffs[0][1] + 0.02, f"{peer} {key}: handoff bounded by flight speed")
-        active = [s for i, s in enumerate(steps) if i > 2 and not s[2].get("blocked", False) and not s[3].get("blocked", False)]
+        active = [s for i, s in enumerate(steps) if i > 2 and not s[2].get("blocked", False) and not s[3].get("blocked", False) and not s[2].get("ending", False) and not s[3].get("ending", False)]
         stalls = sum(s[0] < 0.0001 for s in active)
         check(stalls == 0, f"{peer} {key}: no midflight stalls outside terrain contact ({stalls})")
         shots.append({"caster": key[0], "action": key[1], "part": key[2], "frames": len(samples), "minForwardStep": min(s[0] for s in steps), "handoffs": len(handoffs), "contactComplete": contact_complete, "midflightStalls": stalls})

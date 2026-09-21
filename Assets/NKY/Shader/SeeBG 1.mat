@@ -50,14 +50,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AnimationSpeed: 1
+    - _AnimationSpeed: 0.3
     - _Distortion_Strength: 50
     - _NoiseScale: 2
     - _WaveStrength: 10
     m_Colors:
     - White: {r: 1, g: 1, b: 1, a: 1}
-    - _BaseColor: {r: 8.150942, g: 51.61693, b: 64, a: 1}
-    - _DeepColor: {r: 0.080099665, g: 0.33332887, b: 0.6792453, a: 1}
+    - _BaseColor: {r: 4.075471, g: 25.808464, b: 32, a: 1}
+    - _DeepColor: {r: 0.040049832, g: 0.16666444, b: 0.33962265, a: 1}
     - _WaveColor: {r: 7.4972734, g: 8.300151, b: 9.082411, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

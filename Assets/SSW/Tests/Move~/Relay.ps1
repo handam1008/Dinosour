@@ -1,10 +1,11 @@
-﻿param([string]$Run='Audit01',[string]$Project=(Get-Location).Path)
+param([string]$Run='Audit01',[string]$Project=(Get-Location).Path,[int]$CreateTimeout=45)
 $ErrorActionPreference='Stop'
 $root="$Project/Logs/Relay/$Run"
 New-Item -ItemType Directory -Path $root -Force | Out-Null
 $menuSeq=@{host=0;client=0}; $netSeq=@{host=0;client=0}
 $checks=[Collections.Generic.List[string]]::new()
 $processes=@{}
+$progress=[Collections.Generic.List[object]]::new()
 function WriteCommand($path,$json){
     $end=[DateTime]::UtcNow.AddSeconds(2)
     while($true){
@@ -37,9 +38,15 @@ function Send($peer,$op,$value=0,$x=0,$y=0){
 }
 function Await($label,[scriptblock]$condition,$seconds=30){
     $end=[DateTime]::UtcNow.AddSeconds($seconds)
+    $next=[DateTime]::UtcNow
     do{
         $script:h=Menu host;$script:c=Menu client
         $script:nh=Read host;$script:nc=Read client
+        if([DateTime]::UtcNow -ge $next){
+            $progress.Add(@{at=[DateTime]::UtcNow.ToString('o');label=$label;host=@{busy=$h.busy;joined=$h.joined;status=$h.status;server=$nh.server;connected=$nh.connected};client=@{busy=$c.busy;joined=$c.joined;connected=$nc.connected}})
+            $progress | ConvertTo-Json -Depth 5 | Set-Content "$root/progress.json"
+            $next=[DateTime]::UtcNow.AddSeconds(1)
+        }
         if($h.error -or $c.error){throw "Menu error: $($h.error) $($c.error)"}
         if($h -and $c -and (& $condition)){return}
         Start-Sleep -Milliseconds 50
@@ -62,7 +69,7 @@ try{
     MenuSend host text '방 이름Input' '멀티 검증'
     MenuSend host toggle '방 목록에서 숨기기Toggle' '' 1
     MenuSend host click '방 만들기Button'
-    Await 'private relay room' {$h.joined -and $h.host -and $h.code.Length -gt 0 -and -not $h.busy} 45
+    Await 'private relay room' {$h.joined -and $h.host -and $h.code.Length -gt 0 -and -not $h.busy} $CreateTimeout
     Check ($true) 'Real Unity Services private room created'
     MenuSend client click 'Button_방 들어가기'
     Await 'join form' {(Button client '코드 참가Button')}

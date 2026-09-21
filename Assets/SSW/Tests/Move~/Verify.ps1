@@ -63,7 +63,7 @@ foreach($peer in @('host','client')) {
 }
 try {
     Await 'draft' { $h.phase -eq 'Draft' -and $c.phase -eq 'Draft' } 60
-    Check ($h.probeVersion -eq 2 -and $c.probeVersion -eq 2 -and $h.build -eq $c.build) 'Both peers use the fresh instrumented build'
+    Check ($h.probeVersion -eq 3 -and $c.probeVersion -eq 3 -and $h.build -eq $c.build) 'Both peers use the fresh instrumented build'
     Send host fps $HostFps; Send client fps $ClientFps
     Send host choose 0; Send client choose 0
     Await 'combat grounded' { $h.phase -eq 'Playing' -and $c.phase -eq 'Playing' -and [Math]::Abs((Other $h).velocity.y) -lt 0.1 }
