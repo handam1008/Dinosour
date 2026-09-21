@@ -91,7 +91,7 @@ namespace NKY.Scripts.Skill
 
             if (_giver != null && other.gameObject != _giver.gameObject && other.TryGetComponent(out IDamageable damageable))
             {
-                damageable.TakeDamage(_damage);
+                CombatDamage.Deal(_giver, damageable, _damage, DamageTag.JobSkill | DamageTag.Projectile);
             }
         }
 
