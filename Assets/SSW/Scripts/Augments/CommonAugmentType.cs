@@ -29,21 +29,21 @@ namespace SSW
         GuardMastery,
 
         DevilsDeal,
-        StayStill,
         CooldownReduction,
 
-        Sniper,
-        Ricochet,
-        Drill,
-        Spray,
-        Thruster,
-        BulletRefund,
-
-        RapidStrike,
         SwiftApproach,
         NomNom,
         Magnet,
-        BigWeaponMelee,
-        PhaseShift
+        
+        TenLives,
+        Multiscale,
+        Regeneration,
+        
+        Slam,
+        ShrinkEngine,
+        Versatile,
+        DoubleJump,
+        Minefield,
+        SlowAura 
     }
 }

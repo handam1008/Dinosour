@@ -90,14 +90,7 @@ namespace NKY.Scripts
 
             _onBasicAttackChannel?.Raise(target);
             damageCalcEvent?.Raise(info);
-            if (damageable is Health health)
-            {
-                health.ReceiveDamage(new DamageRequest(null, info.Damage, info.DamageTag));
-            }
-            else
-            {
-                damageable.TakeDamage(info.Damage);
-            }
+            CombatDamage.Deal(this, damageable, info.Damage, info.DamageTag | DamageTag.BasicAttack);
         }
 
 

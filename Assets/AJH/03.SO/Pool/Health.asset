@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fc08250a3d9e144b9b48d06d74782e3, type: 3}
-  m_Name: Skill
+  m_Name: Health
   m_EditorClassIdentifier: 
   augments:
-  - {fileID: 11400000, guid: 64b794c45c797f845bb93e452fff9595, type: 2}
-  - {fileID: 11400000, guid: 6fb1528e3342b154cb2dee2fbeb616f6, type: 2}
-  - {fileID: 11400000, guid: 6a47109ccae724c47b67c963ab446cb1, type: 2}
-  - {fileID: 11400000, guid: d9f4e3ef88179cb489788690fc1bae1f, type: 2}
+  - {fileID: 11400000, guid: 81ad4213cebc6bb4d962c08fc7b02fbb, type: 2}
+  - {fileID: 11400000, guid: ef604d959828179419e05b7344755241, type: 2}
+  - {fileID: 11400000, guid: b40d8dae17810f24baeb9643c2a55473, type: 2}
+  - {fileID: 11400000, guid: 06a97833084c8c6488a519668ae1d6a5, type: 2}

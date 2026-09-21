@@ -10,13 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15639e63881de9b4a82609b01e29ee74, type: 3}
-  m_Name: SwiftApproach
+  m_Name: DoubleJump
   m_EditorClassIdentifier: Assembly-CSharp::SSW.CommonAugment
-  displayName: "\uCF8C\uC18D \uC811\uADFC"
-  description: "\uC801\uC744 \uD5A5\uD574 \uC774\uB3D9\uD560 \uB54C \uC774\uB3D9
-    \uC18D\uB3C4\uAC00 60% \uC99D\uAC00\uD55C\uB2E4. \uC801\uACFC \uC5F0\uACB0\uB41C
-    \uB048\uC774 \uC788\uC744 \uB54C\uB9CC \uC801\uC6A9\uB418\uBA70, \uB048\uC774
-    \uBB3C\uCCB4\uB97C \uD1B5\uACFC\uD558\uBA74 \uAEBC\uC9C4\uB2E4."
+  displayName: "\uB354\uBE14\uC810\uD504"
+  description: "\uB354\uBE14\uC810\uD504 \u3131\u3134"
   icon: {fileID: 0}
-  type: 17
-  category: 4
+  type: 26
+  category: 3
