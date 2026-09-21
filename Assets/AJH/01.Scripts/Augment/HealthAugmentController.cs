@@ -152,6 +152,7 @@ namespace SSW
 
         void HandleHealthChanged(float current, float max)
         {
+            bool before = BerserkerActive;
             BerserkerActive = Has(CommonAugmentType.Berserker) && current <= max * _berserkerHpRatio;
         }
 
@@ -178,7 +179,7 @@ namespace SSW
                 _phoenixInvulnTimer = _phoenixInvulnTime;
                 _pendingDamage.Clear();         
                 _health.Heal(_health.maxHealth);
-                //_visual?.PlayRevive();
+                _visual?.PlayRevive();
                 return 0f;
             }
 

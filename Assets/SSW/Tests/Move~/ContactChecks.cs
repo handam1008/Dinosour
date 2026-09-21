@@ -1,0 +1,71 @@
+var previous = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+var scene = UnityEditor.SceneManagement.EditorSceneManager.NewScene(UnityEditor.SceneManagement.NewSceneSetup.EmptyScene, UnityEditor.SceneManagement.NewSceneMode.Additive);
+var checks = new System.Collections.Generic.List<string>();
+try
+{
+    var wall = new UnityEngine.GameObject("Query Wall");
+    wall.transform.position = new UnityEngine.Vector3(1000,0,0);
+    var collider = wall.AddComponent<UnityEngine.BoxCollider2D>();
+    collider.size = new UnityEngine.Vector2(1,4);
+    var trigger = new UnityEngine.GameObject("Query Trigger");
+    trigger.transform.position = new UnityEngine.Vector3(998,0,0);
+    trigger.AddComponent<UnityEngine.BoxCollider2D>().isTrigger = true;
+    UnityEngine.Physics2D.SyncTransforms();
+    UnityEngine.RaycastHit2D hit;
+    var size = new UnityEngine.Vector2(0.3813953f,0.4930232f);
+    if (!SSW.ShotQuery.Ground(new UnityEngine.Vector2(997,0),new UnityEngine.Vector2(1003,0),size.x*.5f,size,1,out hit) || hit.collider!=collider) throw new System.Exception("capsule and trigger filter");
+    checks.Add("capsule and trigger filter");
+    float offset = hit.centroid.x-(999.5f-size.x*.5f);
+    if (UnityEngine.Mathf.Abs(offset)>0.03f) throw new System.Exception("capsule contact size: " + offset);
+    checks.Add("capsule contact size");
+    var contact = hit.centroid;
+    if (!SSW.ShotQuery.Touches(collider,contact,size.x*.5f,size)) throw new System.Exception("contact retained");
+    checks.Add("contact retained");
+    wall.transform.position += UnityEngine.Vector3.up*10;
+    UnityEngine.Physics2D.SyncTransforms();
+    if (SSW.ShotQuery.Touches(collider,contact,size.x*.5f,size)) throw new System.Exception("moved contact released");
+    checks.Add("moved contact released");
+    wall.transform.position -= UnityEngine.Vector3.up*10;
+    collider.enabled=false;
+    UnityEngine.Physics2D.SyncTransforms();
+    if (SSW.ShotQuery.Touches(collider,contact,size.x*.5f,size)) throw new System.Exception("disabled contact released");
+    checks.Add("disabled contact released");
+    UnityEngine.Object.DestroyImmediate(wall);
+    if (SSW.ShotQuery.Touches(collider,contact,size.x*.5f,size)) throw new System.Exception("destroyed contact released");
+    checks.Add("destroyed contact released");
+    var flight = new UnityEngine.GameObject("Contact Flight").AddComponent<SSW.ShotSync>();
+    var floor = new UnityEngine.GameObject("Contact Floor");
+    floor.transform.position = new UnityEngine.Vector3(1000,-1,0);
+    var floorShape = floor.AddComponent<UnityEngine.BoxCollider2D>();
+    floorShape.size = new UnityEngine.Vector2(10,1);
+    UnityEngine.Physics2D.SyncTransforms();
+    var flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic;
+    void Set(string name, object value) => typeof(SSW.ShotSync).GetField(name,flags).SetValue(flight,value);
+    object Get(string name) => typeof(SSW.ShotSync).GetField(name,flags).GetValue(flight);
+    void Accept(SSW.ShotPose pose) => typeof(SSW.ShotSync).GetMethod("Accept",flags).Invoke(flight,new object[]{pose,0.5d});
+    var stop = new UnityEngine.Vector2(1000,-0.5f+size.y*.5f);
+    Set("_pose",new SSW.ShotPose { Velocity=new UnityEngine.Vector2(15,3),Terrain=true });
+    Set("_normal",UnityEngine.Vector2.up);
+    Set("_stop",stop);
+    Set("_contact",floorShape);
+    Set("_size",size);
+    Set("_radius",size.x*.5f);
+    Set("_blockedAt",0d);
+    Accept(new SSW.ShotPose { Time=.1d,Position=stop+new UnityEngine.Vector2(-4,.5f),Velocity=new UnityEngine.Vector2(15,2),Terrain=true });
+    if (!flight.Blocked) throw new System.Exception("early pose must not release contact");
+    checks.Add("early pose must not release contact");
+    Accept(new SSW.ShotPose { Time=.2d,Position=stop+new UnityEngine.Vector2(1,.5f),Velocity=new UnityEngine.Vector2(15,2),Terrain=true });
+    if (flight.Blocked || !(bool)Get("_released")) throw new System.Exception("passed contact releases without correction pullback");
+    checks.Add("passed contact releases without correction pullback");
+    Set("_normal",UnityEngine.Vector2.up);
+    Set("_contact",floorShape);
+    Accept(new SSW.ShotPose { Time=.3d,Position=stop+new UnityEngine.Vector2(-1,0),Velocity=UnityEngine.Vector2.left,Terrain=true,Turn=1 });
+    if (flight.Blocked) throw new System.Exception("bounce turn releases contact");
+    checks.Add("bounce turn releases contact");
+    return new { checks, offset };
+}
+finally
+{
+    UnityEditor.SceneManagement.EditorSceneManager.CloseScene(scene,true);
+    UnityEngine.SceneManagement.SceneManager.SetActiveScene(previous);
+}

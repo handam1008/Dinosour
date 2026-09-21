@@ -1,4 +1,4 @@
-param([string]$Run = 'Run1', [string]$Project = (Get-Location).Path, [string]$Build = 'Builds/Spawn/Game.exe')
+﻿param([string]$Run = 'Run1', [string]$Project = (Get-Location).Path, [string]$Build = 'Builds/Spawn/Game.exe')
 $ErrorActionPreference = 'Stop'
 $root = "$project/Logs/Spawn/$Run"
 if (Test-Path "$root/host.json") { throw 'Use a new Run name for each verification' }
@@ -6,7 +6,7 @@ New-Item -ItemType Directory -Path $root -Force | Out-Null
 $seq = @{ host = 0; client = 0 }
 $checks = [Collections.Generic.List[string]]::new()
 function Eval([string]$code) {
-    $r = unity command eval --code $code --project-path $project --format json | ConvertFrom-Json
+    $r = unity command eval --code $code --caller plugin --skill unity-cli --project-path $project --format json | ConvertFrom-Json
     if (-not $r.success -or -not $r.data.result.success) { throw ($r | ConvertTo-Json -Depth 8) }
     return $r.data.result.result
 }
@@ -15,7 +15,12 @@ function Read($peer) {
 }
 function Send($peer, $op, $value = 0, $x = 0, $y = 0) {
     $seq[$peer]++
-    [IO.File]::WriteAllText("$root/$peer.cmd.json", (@{seq=$seq[$peer];op=$op;value=$value;x=$x;y=$y} | ConvertTo-Json -Compress))
+    $json = @{seq=$seq[$peer];op=$op;value=$value;x=$x;y=$y} | ConvertTo-Json -Compress
+    $writeUntil = [DateTime]::UtcNow.AddSeconds(2)
+    while ($true) {
+        try { [IO.File]::WriteAllText("$root/$peer.cmd.json", $json); break }
+        catch [IO.IOException] { if ([DateTime]::UtcNow -gt $writeUntil) { throw }; Start-Sleep -Milliseconds 15 }
+    }
     if ($op -eq 'quit') { return }
     $until = [DateTime]::UtcNow.AddSeconds(5)
     while ((Read $peer).seq -lt $seq[$peer]) {
@@ -91,6 +96,6 @@ try {
     Write-Output "PASS $($checks.Count) spawn checks"
 }
 finally {
-    Send client quit
-    unity command editor_stop --project-path $project --format json | Out-Null
+    try { Send client quit } catch { Write-Warning $_ }
+    unity command editor_stop --caller plugin --skill unity-cli --project-path $project --format json | Out-Null
 }

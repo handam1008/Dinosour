@@ -366,7 +366,8 @@ MonoBehaviour:
   loginButton: {fileID: 17528272}
   savePlayerNameButton: {fileID: 327710106}
   playerNameIF: {fileID: 798951768}
-  oauthConfig: {fileID: 11400000, guid: 5a48dd2ef091cdf48a7fe0c9025671db, type: 2}
+  sceneName: Leaderboard
+  oauthConfig: {fileID: 11400000, guid: 18b30d61d4af0f94ab6fc53763bb4c5b, type: 2}
 --- !u!1 &89155703
 GameObject:
   m_ObjectHideFlags: 0
