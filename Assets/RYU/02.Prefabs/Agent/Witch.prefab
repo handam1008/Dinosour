@@ -31,6 +31,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2135737490050164936}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2103708770526696037
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 86301703340705727}
+  - component: {fileID: 3494663737482685303}
+  m_Layer: 3
+  m_Name: 'PotionEffectVisual        '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &86301703340705727
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103708770526696037}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5571562757424826083}
+  m_Father: {fileID: 2135737490050164936}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3494663737482685303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2103708770526696037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fb80abf33ab73844bb9f2a1c687e123, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.Potions.PotionEffectVisual
+  _particles: {fileID: 2348189167601695431}
 --- !u!1 &3786246424897390877
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,6 +257,51 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &5722060649258184250
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3613273828399786951}
+  - component: {fileID: 2351889733385784016}
+  m_Layer: 3
+  m_Name: 'DeathFeedBack             '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3613273828399786951
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5722060649258184250}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2135737490050164936}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2351889733385784016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5722060649258184250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8e0919e1f6c49f1b005b0f4c6495460, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.FeedBack.EffectPlayer
+  Effect: {fileID: 2620054012374658102, guid: 913e21d64e5e9d54f97c6ee818f404fa, type: 3}
 --- !u!1 &8344356039665309093
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,6 +322,7 @@ GameObject:
   - component: {fileID: 5584472989402170578}
   - component: {fileID: 7894245468821844901}
   - component: {fileID: 7446115595534520450}
+  - component: {fileID: 4329336291441170311}
   m_Layer: 3
   m_Name: Witch
   m_TagString: Player
@@ -256,6 +348,8 @@ Transform:
   - {fileID: 5681549726193008372}
   - {fileID: 8907189963430700941}
   - {fileID: 7608977445023911124}
+  - {fileID: 86301703340705727}
+  - {fileID: 3613273828399786951}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &6982397936833956777
@@ -274,7 +368,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 3
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: a8fca4245ed7ded41946c5499acb5650, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -340,7 +434,7 @@ MonoBehaviour:
   _counterMoveBrake: 30
   _whatIsGround:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 384
   _visual: {fileID: 6416462776148130405}
 --- !u!114 &5615987518601352734
 MonoBehaviour:
@@ -360,6 +454,8 @@ MonoBehaviour:
   _healthBarResourceName: HealthBarUI
   _damageNumberResourceName: DamageNumberUI
   _healthBarPadding: 0.15
+  healthChangeEvent: {fileID: 0}
+  hitEvent: {fileID: 0}
 --- !u!114 &5488841333503155527
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,6 +585,24 @@ MonoBehaviour:
   _berserkerAtkSpeedBonus: 0.45
   _berserkerDamageBonus: 0.6
   _deathWaltzSpreadTime: 5
+  _tenLivesHealth: 10
+  _tenLivesDamage: 1
+  _multiscaleReduction: 0.5
+  _regenAmount: 1
+  _regenInterval: 1
+--- !u!114 &4329336291441170311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8344356039665309093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90b9676cda586e14d92551d35bf292a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.FeedBack.BoneDeathFX
+  _deathFeedBack: {fileID: 0}
 --- !u!1 &8387797616486615991
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,7 +688,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -3527056022417232336, guid: 7dec1fedb986a4f4faa1de3669df9423, type: 3}
+  m_Sprite: {fileID: -3527056022417232336, guid: e2b2627244b08984f9ba525a00c72729, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -620,7 +734,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.2D.Animation.Runtime::UnityEngine.U2D.Animation.SpriteLibrary
   m_Library: []
-  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: 1854385eaebb5ae45bc529aed18b77fb, type: 3}
+  m_SpriteLibraryAsset: {fileID: 7108339969198208228, guid: cd9ad8ecabae9824e8fb222d59df9fdb, type: 3}
 --- !u!114 &6011226987426619703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -652,3 +766,71 @@ MonoBehaviour:
   _playHatchOnStart: 1
   _hatchDuration: 3
   _hurtDuration: 0.35
+  _reviveDuration: 1
+--- !u!1001 &8262714102275149447
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 86301703340705727}
+    m_Modifications:
+    - target: {fileID: 2434538502818078187, guid: bf3b1e1768426fd4a9bf03dae204fc22, type: 3}
+      propertyPath: m_Name
+      value: Minecraft
+      objectReference: {fileID: 0}
+    - target: {fileID: 4609755809568704612, guid: bf3b1e1768426fd4a9bf03dae204fc22, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4609755809568704612, guid: bf3b1e1768426fd4a9bf03dae204fc22, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4609755809568704612, guid: bf3b1e1768426fd4a9bf03dae204fc22, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4609755809568704612, guid: bf3b1e1768426fd4a9bf03dae204fc22, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4609755809568704612, guid: bf3b1e1768426fd4a9bf03dae204fc22, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4609755809568704612, guid: bf3b1e1768426fd4a9bf03dae204fc22, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4609755809568704612, guid: bf3b1e1768426fd4a9bf03dae204fc22, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4609755809568704612, guid: bf3b1e1768426fd4a9bf03dae204fc22, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4609755809568704612, guid: bf3b1e1768426fd4a9bf03dae204fc22, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4609755809568704612, guid: bf3b1e1768426fd4a9bf03dae204fc22, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bf3b1e1768426fd4a9bf03dae204fc22, type: 3}
+--- !u!198 &2348189167601695431 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5926032501224584256, guid: bf3b1e1768426fd4a9bf03dae204fc22, type: 3}
+  m_PrefabInstance: {fileID: 8262714102275149447}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5571562757424826083 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4609755809568704612, guid: bf3b1e1768426fd4a9bf03dae204fc22, type: 3}
+  m_PrefabInstance: {fileID: 8262714102275149447}
+  m_PrefabAsset: {fileID: 0}

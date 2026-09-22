@@ -42,7 +42,8 @@ namespace KDH.Scripts.Player
         
             KDH_Bullet bulletScript = bullet.GetComponent<KDH_Bullet>();
             bulletScript.IsUpgraded = isUpgraded;
-            bulletScript.Init(GetFireDirection(cam, visual, gunPos));
+            // bulletScript.Init(GetFireDirection(cam, visual, gunPos));
+            bulletScript.Init(transform.rotation.eulerAngles.z);
             
             bullet.SetActive(true);
         }

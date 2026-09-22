@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using DevLib.ServiceLocator;
+using DevLib.SoundSystem.Runtime;
 using RYU._01.Script.Argument;
 using RYU._01.Script.Potions;
 using UnityEngine;
@@ -15,6 +17,7 @@ public class RandomPotion : MonoBehaviour
     [SerializeField] private float Angle = 15f;
     [SerializeField] private float cycleTime = 1.5f;  
     [SerializeField] private float spreadAngle = 24f; 
+    [SerializeField] private SoundClipSO throwSound;
 
     private WitchAugmentController _augment;
 
@@ -24,6 +27,7 @@ public class RandomPotion : MonoBehaviour
     
     private AbstractPotion _pocket;
     private bool _pocketUsed;
+    private Camera _camera;
     
     public AbstractPotion Pocket => _pocket;
 
@@ -33,6 +37,7 @@ public class RandomPotion : MonoBehaviour
     private void Awake()
     {
         _augment = GetComponentInParent<WitchAugmentController>();
+        _camera = Camera.main;
     }
 
     private void Start()
@@ -56,9 +61,10 @@ public class RandomPotion : MonoBehaviour
         {
             if (currentPotions.Count <= 0) return;
 
-            Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            Vector3 mouseWorld = _camera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             Vector2 dir = ((Vector2)mouseWorld - (Vector2)Hand.position).normalized;
             Shoot(dir);
+            ServiceLocator.Get<IAudioService>().PlaySfx(throwSound);
         }
 
         if (currentPotions.Count > 2)
