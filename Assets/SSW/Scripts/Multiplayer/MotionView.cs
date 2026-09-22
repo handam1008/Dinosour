@@ -38,7 +38,7 @@ namespace SSW
         Vector2 _offset;
         Vector2 _shown;
         float _speed;
-        float _inputCredit;
+        InputBudget _inputBudget;
         MotionRate _rate;
         double _lastInputAt;
         double _lastStateAt;
@@ -98,6 +98,7 @@ namespace SSW
             _rate = _motion.Rate;
             _speed = _rate.Value;
             _lastStateAt = _lastAckAt = Time.realtimeSinceStartupAsDouble;
+            _inputBudget.Reset(Time.realtimeSinceStartupAsDouble);
             _body.bodyType = RigidbodyType2D.Kinematic;
             _body.useFullKinematicContacts = true;
             _body.interpolation = RigidbodyInterpolation2D.None;
@@ -109,7 +110,7 @@ namespace SSW
             if (!IsSpawned || (!IsOwner && !IsServer)) return;
             _previous = _state.Position;
             if (IsServer && !IsOwner)
-                _inputCredit = Mathf.Min(_inputCredit + Time.fixedDeltaTime, MotionHistory.Capacity * Time.fixedDeltaTime);
+                _inputBudget.Advance(Time.realtimeSinceStartupAsDouble, Time.fixedDeltaTime);
             if (IsOwner)
             {
                 MotionFrame input = _player.ReadInput(++_tick);
@@ -155,7 +156,7 @@ namespace SSW
             int steps = _receivedInput > _processed + 3 ? 2 : 1;
             for (int i = 0; i < steps; i++)
             {
-                if (_inputCredit + 0.000001f < Time.fixedDeltaTime) break;
+                if (!_inputBudget.Ready(Time.fixedDeltaTime)) break;
                 uint tick = _processed + 1;
                 if (!_history.TryGet(tick, out MotionFrame input))
                 {
@@ -169,14 +170,14 @@ namespace SSW
                 _player.ApplyInput(input);
                 _motor.Step(ref _state, input, _speed, Time.fixedDeltaTime, _player.CanAct);
                 _processed = tick;
-                _inputCredit = Mathf.Max(0f, _inputCredit - Time.fixedDeltaTime);
+                _inputBudget.Spend(Time.fixedDeltaTime);
                 Commit();
             }
         }
 
         void StepIdle()
         {
-            _inputCredit = Mathf.Max(0f, _inputCredit - Time.fixedDeltaTime);
+            _inputBudget.Spend(Time.fixedDeltaTime);
             _rate = _motion.Rate;
             _speed = _rate.Value;
             MotionFrame input = _last;
@@ -214,7 +215,7 @@ namespace SSW
                 if (_started) Resyncs++;
                 _history.Clear();
                 _processed = first - 1;
-                _inputCredit = Mathf.Max(_inputCredit, (newest.Tick - first + 1) * Time.fixedDeltaTime);
+                _inputBudget.Seed((int)(newest.Tick - first + 1), Time.fixedDeltaTime);
                 _startAt = Time.realtimeSinceStartupAsDouble + Time.fixedDeltaTime * 2d;
                 _started = true;
             }
@@ -361,7 +362,7 @@ namespace SSW
             _processed = IsOwner ? _tick : _receivedInput;
             _history.Clear();
             _snapshots.Clear();
-            _inputCredit = 0f;
+            _inputBudget.Reset(Time.realtimeSinceStartupAsDouble);
             _last = default;
             _started = false;
             _clock = default;
