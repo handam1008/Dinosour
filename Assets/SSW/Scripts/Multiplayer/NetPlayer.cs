@@ -44,6 +44,14 @@ namespace SSW
         {
             fraction = 0f;
             if (!_prediction.ReadHit(first, out Vector2 a) || !_prediction.ReadHit(last, out Vector2 b)) return false;
+            return Sweep(from, to, a, b, radius, half, out fraction);
+        }
+
+        public bool SweepView(Vector2 from, Vector2 to, float radius, float half, out float fraction)
+            => Sweep(from, to, View.position, View.position, radius, half, out fraction);
+
+        bool Sweep(Vector2 from, Vector2 to, Vector2 a, Vector2 b, float radius, float half, out float fraction)
+        {
             Vector2 size = _prediction.HitSize;
             float width = _prediction.Vertical ? size.x : size.y;
             float height = _prediction.Vertical ? size.y : size.x;

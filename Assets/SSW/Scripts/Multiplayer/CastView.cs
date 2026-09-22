@@ -15,6 +15,7 @@ namespace SSW
             public Vector2 Gravity;
             public Vector2 Normal;
             public Collider2D Contact;
+            public ShotContact Target;
             public float Radius;
             public Vector2 Size;
             public float Spin;
@@ -28,6 +29,8 @@ namespace SSW
         readonly NumberRoller _cards;
         readonly int _ground;
         readonly float _radius;
+        readonly NetPlayer _caster;
+        readonly IReadOnlyList<NetPlayer> _players;
         public int Count => _shots.Count;
         public int Visible
         {
@@ -40,11 +43,13 @@ namespace SSW
             }
         }
 
-        public CastView(NumberRoller cards, int ground, float radius)
+        public CastView(NumberRoller cards, int ground, float radius, NetPlayer caster, IReadOnlyList<NetPlayer> players)
         {
             _cards = cards;
             _ground = ground;
             _radius = radius;
+            _caster = caster;
+            _players = players;
         }
 
         public void Card(uint action, Vector2 position, Vector2 direction, Suit suit, int rank, float delay, float gravity, float life)
@@ -84,7 +89,11 @@ namespace SSW
             if (_shots.Count == 16) Remove(0);
             var obj = new GameObject("Shot Preview");
             obj.transform.position = position;
-            var shot = new Shot { Action = action, Part = part, Life = life, View = obj.AddComponent<SpriteRenderer>() };
+            var shot = new Shot
+            {
+                Action = action, Part = part, Life = life, View = obj.AddComponent<SpriteRenderer>(),
+                Target = new ShotContact(_caster, _players)
+            };
             shot.View.enabled = false;
             _shots.Add(shot);
             return shot;
@@ -108,7 +117,7 @@ namespace SSW
             {
                 Shot shot = _shots[i];
                 if (shot.Action != action || shot.Part != part) continue;
-                target.Adopt(shot.View.transform, shot.Normal, shot.Contact);
+                target.Adopt(shot.View.transform, shot.Normal, shot.Contact, shot.Target);
                 Remove(i);
                 return true;
             }
@@ -118,7 +127,8 @@ namespace SSW
         public void Read(System.Action<uint, int, Vector2, bool> read)
         {
             foreach (Shot shot in _shots)
-                if (shot.Started && shot.View.enabled) read(shot.Action, shot.Part, shot.View.transform.position, shot.Normal.sqrMagnitude > 0f);
+                if (shot.Started && shot.View.enabled)
+                    read(shot.Action, shot.Part, shot.View.transform.position, shot.Normal.sqrMagnitude > 0f || shot.Target.Blocked);
         }
 
         public void Reject(uint action)
@@ -147,7 +157,7 @@ namespace SSW
                     shot.Normal = Vector2.zero;
                     shot.Contact = null;
                 }
-                if (shot.Normal.sqrMagnitude == 0f)
+                if (shot.Normal.sqrMagnitude == 0f && !shot.Target.Blocked)
                 {
                     next += shot.Velocity * delta + shot.Gravity * (0.5f * delta * (delta + Time.fixedDeltaTime));
                     shot.Velocity += shot.Gravity * delta;
@@ -156,6 +166,12 @@ namespace SSW
                         next = hit.centroid;
                         shot.Contact = hit.collider;
                         shot.Normal = hit.normal;
+                    }
+                    if (shot.Target.TryBlock(before, next, shot.Radius, shot.Size, shot.Age, shot.Velocity.magnitude))
+                    {
+                        next = shot.Target.Point;
+                        shot.Normal = Vector2.zero;
+                        shot.Contact = null;
                     }
                 }
                 shot.View.transform.position = next;

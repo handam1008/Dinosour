@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 namespace SSW
 {
+    [DefaultExecutionOrder(125)]
     public sealed class NetCast : NetworkBehaviour
     {
         [SerializeField] NetPlayer _player;
@@ -135,7 +136,8 @@ namespace SSW
                 PublishStock();
             }
             else if (IsOwner) SyncStock(_potions.Value);
-            if (IsOwner && !IsServer) _preview = new CastView(_cards, _player.GroundMask, _cardPrefab.PreviewRadius);
+            if (IsOwner && !IsServer)
+                _preview = new CastView(_cards, _player.GroundMask, _cardPrefab.PreviewRadius, _player, NetGame.Current.Players);
         }
 
         uint Begin()
