@@ -18,7 +18,7 @@ namespace SSW
 
         [Header("쾌속 접근")]
         [SerializeField] float _swiftSpeedBonus = 0.60f;
-        [SerializeField] float _swiftRange = 20f;
+        [SerializeField] float _swiftRange = 30f;
         [SerializeField] LayerMask _swiftObstacleMask;
         [SerializeField] LineRenderer _swiftTether;
 
@@ -64,7 +64,7 @@ namespace SSW
         [Header("느려져라")]
         [SerializeField] float _slowAuraRadius = 4.5f;
         [SerializeField] float _slowAuraAmount = 0.35f;
-        [SerializeField] Transform _slowAuraVisual;
+        [SerializeField] GameObject _slowAuraObject;
 
         readonly HashSet<CommonAugmentType> _acquired = new HashSet<CommonAugmentType>();
         readonly List<Health> _enemies = new List<Health>();
@@ -102,8 +102,8 @@ namespace SSW
             _speedable = GetComponentInParent<ISpeedable>();
             _healthAugments = GetComponent<HealthAugmentController>();
             _defance = GetComponent<Defance>();
-
-            if (_slowAuraVisual != null) _slowAuraVisual.gameObject.SetActive(false);
+            
+            if (_slowAuraObject != null) _slowAuraObject.SetActive(false);
             if (_swiftTether != null) _swiftTether.enabled = false;
         }
 
@@ -132,7 +132,7 @@ namespace SSW
                     if (_defance != null) _defance.CoolDown *= 1f - _versatileGuardCool;
                     break;
                 case CommonAugmentType.SlowAura:
-                    if (_slowAuraVisual != null) _slowAuraVisual.gameObject.SetActive(true);
+                    if (_slowAuraObject != null) _slowAuraObject.SetActive(true);
                     break;
             }
         }
@@ -327,17 +327,10 @@ namespace SSW
             GameObject go = Instantiate(_minePrefab, transform.position, Quaternion.identity);
             go.GetComponent<Mine>()?.Init(this, _health);
         }
-
+        
         void TickSlowAura()
         {
             if (!Has(CommonAugmentType.SlowAura)) return;
-
-            if (_slowAuraVisual != null)
-            {
-                float parentScale = Mathf.Abs(transform.lossyScale.x);
-                float diameter = _slowAuraRadius * 2f / (parentScale > 0f ? parentScale : 1f);
-                _slowAuraVisual.localScale = new Vector3(diameter, diameter, 1f);
-            }
 
             foreach (Health enemy in FindEnemies(_slowAuraRadius))
                 enemy.GetComponentInParent<ISlowable>()?.ApplySlow(_slowAuraAmount, 0.15f);
