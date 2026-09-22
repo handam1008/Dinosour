@@ -1,0 +1,28 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/NKY/UI/USS/MatchManu.uss?fileID=7433441132597879392&amp;guid=ca468121f115ec34aaf333f4c04e44a2&amp;type=3#MatchManu"/>
+    <ui:VisualElement name="root" class="menu-root" style="-unity-text-align: lower-center;">
+        <ui:VisualElement name="content" class="menu-content" style="height: 629px; top: 316px;">
+            <ui:VisualElement name="Button_container" class="menu-body" style="min-width: 100%; min-height: 450px; height: 200px; flex-direction: column;">
+                <ui:VisualElement name="Top_btn_container" style="flex-grow: 1; width: 100%; height: 40%; min-width: 100%; min-height: 40%;">
+                    <ui:VisualElement name="Match_btn" class="left-column" style="height: 303px;">
+                        <ui:Label text="멀티플레이" class="section-label" style="height: 77px; top: 4px;"/>
+                        <ui:Button name="matchmakingButton" text="매치메이킹" class="menu-button matchmaking-button"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Room_btn_container" class="right-column" style="height: 306px;">
+                        <ui:Button name="createRoomButton" text="방 만들기" class="menu-button create-button"/>
+                        <ui:Button name="joinRoomButton" text="방 들어가기" class="menu-button join-button"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="Under_btn_container" style="flex-grow: 1; flex-direction: row; width: 100%; height: 0%; align-items: center; justify-content: flex-start; align-self: auto; align-content: flex-start;">
+                    <ui:Button name="JobSelectButton" text="직업 설정" class="menu-button sandbox-button" style="height: 80%; top: auto; width: 50%; left: auto; position: relative; -unity-text-align: middle-left; background-color: rgb(189, 204, 43); flex-direction: row-reverse; justify-content: flex-start;">
+                        <ui:VisualElement name="CurrentJob_container" style="flex-grow: 1; width: 20%;">
+                            <ui:Image source="project://database/Assets/SSW/Art/Jobs/Hats/Gunner.png?fileID=21300000&amp;guid=fd8e240e16a892447835deeb68c3ebd3&amp;type=3#Gunner" style="width: 20%;"/>
+                        </ui:VisualElement>
+                    </ui:Button>
+                    <ui:Button name="sandboxButton" text="샌드박스" class="menu-button sandbox-button" style="height: 80%; top: auto; width: 50%; left: auto; position: relative; -unity-text-align: middle-left;"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Button name="backButton" text="뒤로" class="back-button"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

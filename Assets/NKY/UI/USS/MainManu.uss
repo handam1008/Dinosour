@@ -1,0 +1,251 @@
+/* =========================================================
+   MAIN MENU
+   Reference Resolution : 1920 x 1080
+   Aspect Ratio         : 16 : 9
+   ========================================================= */
+
+
+/* =========================================================
+   ROOT
+   ========================================================= */
+
+.main-menu {
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 100%;
+
+    flex-grow: 1;
+}
+
+
+/* =========================================================
+   BACKGROUND
+   ========================================================= */
+
+.background {
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 100%;
+
+    /*
+        사진의 어두운 배경
+    */
+
+    background-color: rgb(22, 22, 34);
+}
+
+
+/* =========================================================
+   CONTENT
+   화면 중앙
+   ========================================================= */
+
+.content {
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 100%;
+
+    align-items: center;
+
+    justify-content: flex-start;
+}
+
+
+/* =========================================================
+   TITLE
+   ========================================================= */
+
+.game-title {
+
+    width: 100%;
+
+    margin-top: 90px;
+    margin-bottom: 125px;
+
+    /*
+        제목
+    */
+
+    color: rgb(255, 255, 255);
+
+    font-size: 62px;
+
+    -unity-font-style: bold;
+
+    -unity-text-align: middle-center;
+
+    /*
+        사진처럼 살짝 강조된 외곽선
+    */
+
+    -unity-text-outline-width: 2px;
+    -unity-text-outline-color: rgb(88, 67, 180);
+}
+
+
+/* =========================================================
+   MENU LIST
+   ========================================================= */
+
+.menu-list {
+
+    width: auto;
+
+    height: 150px;
+
+    flex-direction: row;
+
+    align-items: stretch;
+
+    justify-content: center;
+}
+
+
+/* =========================================================
+   MENU BUTTON
+   ========================================================= */
+
+.menu-button {
+
+    width: 270px;
+
+    height: 150px;
+
+    margin-left: 8px;
+    margin-right: 8px;
+
+    padding-left: 20px;
+    padding-right: 20px;
+
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    /*
+        기본 카드 색상
+    */
+
+    background-color: rgb(32, 32, 46);
+
+    /*
+        기본 Unity Button 테두리 제거
+    */
+
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+
+    /*
+        텍스트
+    */
+
+    color: rgb(245, 245, 245);
+
+    font-size: 23px;
+
+    -unity-font-style: bold;
+
+    /*
+        왼쪽 아래 정렬
+    */
+
+    -unity-text-align: lower-left;
+}
+
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+.menu-button:hover {
+
+    background-color: rgb(82, 62, 166);
+
+    color: rgb(255, 255, 255);
+}
+
+
+/* =========================================================
+   SELECTED
+   ========================================================= */
+
+.menu-button.selected {
+
+    background-color: rgb(82, 62, 166);
+
+    color: rgb(255, 255, 255);
+}
+
+
+/* =========================================================
+   SELECTED + HOVER
+   ========================================================= */
+
+.menu-button.selected:hover {
+
+    background-color: rgb(88, 67, 180);
+
+    color: rgb(255, 255, 255);
+}
+
+
+/* =========================================================
+   ACTIVE
+   ========================================================= */
+
+.menu-button:active {
+
+    background-color: rgb(65, 48, 135);
+
+    color: rgb(255, 255, 255);
+}
+
+
+/* =========================================================
+   FOCUS
+   ========================================================= */
+
+.menu-button:focus {
+
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+}
+
+
+/* =========================================================
+   INDIVIDUAL BUTTON
+   ========================================================= */
+
+#PlayButton {
+
+    margin-left: 0;
+}
+
+
+#ExitButton {
+
+    margin-right: 0;
+}
