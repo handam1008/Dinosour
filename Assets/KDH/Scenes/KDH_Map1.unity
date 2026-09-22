@@ -1660,7 +1660,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f55603b1324af3e459c1b4c60572e56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_ChangeParent
-  parent: {fileID: 0}
+  topContactMinNormalY: 0.5
 --- !u!1001 &540032254217900974
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1758,9 +1758,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89bfc739f5559a64897b4d53d6a6e5f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_ChildRotation
-  startPos: 0
-  speed: 2
-  radius: 7
+  targetEulerAngles: {x: 0, y: 0, z: 0}
 --- !u!114 &1081902497678926769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1773,7 +1771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f55603b1324af3e459c1b4c60572e56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_ChangeParent
-  parent: {fileID: 0}
+  topContactMinNormalY: 0.5
 --- !u!114 &1266924388592408516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1786,7 +1784,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f55603b1324af3e459c1b4c60572e56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_ChangeParent
-  parent: {fileID: 0}
+  topContactMinNormalY: 0.5
 --- !u!4 &1284656254546695387
 Transform:
   m_ObjectHideFlags: 0
@@ -2016,7 +2014,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!331 &2354997094131212530
 SpriteMask:
   m_ObjectHideFlags: 0
@@ -2086,7 +2084,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7072059720929188287}
@@ -6935,9 +6933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89bfc739f5559a64897b4d53d6a6e5f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_ChildRotation
-  startPos: 0
-  speed: 2
-  radius: 7
+  targetEulerAngles: {x: 0, y: 0, z: 0}
 --- !u!331 &2729387566298658867
 SpriteMask:
   m_ObjectHideFlags: 0
@@ -7066,11 +7062,11 @@ GameObject:
   m_Component:
   - component: {fileID: 3308642276444425595}
   - component: {fileID: 4088621542134469828}
+  - component: {fileID: 5631927978351238231}
+  - component: {fileID: 5666306274032425339}
   - component: {fileID: 2354997094131212530}
   - component: {fileID: 3986151942884813138}
-  - component: {fileID: 5631927978351238231}
   - component: {fileID: 417076673151405858}
-  - component: {fileID: 5666306274032425339}
   m_Layer: 8
   m_Name: Part
   m_TagString: Untagged
@@ -7103,7 +7099,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7072059720929188287}
@@ -7198,9 +7194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89bfc739f5559a64897b4d53d6a6e5f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_ChildRotation
-  startPos: 0
-  speed: 2
-  radius: 7
+  targetEulerAngles: {x: 0, y: 0, z: 0}
 --- !u!1 &4054323976897659431
 GameObject:
   m_ObjectHideFlags: 0
@@ -7291,7 +7285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f55603b1324af3e459c1b4c60572e56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_ChangeParent
-  parent: {fileID: 0}
+  topContactMinNormalY: 0.5
 --- !u!1 &4368427904303789773
 GameObject:
   m_ObjectHideFlags: 0
@@ -7557,9 +7551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89bfc739f5559a64897b4d53d6a6e5f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_ChildRotation
-  startPos: 0
-  speed: 2
-  radius: 7
+  targetEulerAngles: {x: 0, y: 0, z: 0}
 --- !u!212 &5488795351570050436
 SpriteRenderer:
   serializedVersion: 3
@@ -8205,7 +8197,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7072059720929188287
 Transform:
   m_ObjectHideFlags: 0
@@ -8246,7 +8238,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!331 &7409418746242266841
 SpriteMask:
   m_ObjectHideFlags: 0
@@ -8316,7 +8308,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7072059720929188287}
@@ -8396,7 +8388,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7072059720929188287}
