@@ -1,7 +1,7 @@
 # 멀티플레이 이동·투사체 검증
 
 2026-09-22. Unity 6000.5.2f1, NGO 2.13.2, Multiplayer Services 2.2.4, Transport 6.5.0.
-기준 커밋은 Base의 `3cb0f62`. 수정 범위는 `Assets/SSW`, 작업 브랜치는 `SSW`다.
+첫 검증의 기준 커밋은 Base의 `3cb0f62`. 수정 범위는 `Assets/SSW`, 작업 브랜치는 `SSW`다. 이후 접속자 멈춤 재현과 추가 수정은 아래에 별도로 기록한다.
 
 ## 수정
 
@@ -57,3 +57,39 @@ pwsh -File 'Assets/SSW/Tests/Move~/Relay.ps1' -Run FreshRelay -HostJob Magician 
 `Run`에는 매번 새 이름을 사용한다. 원본 프레임 추적과 빌드 보고서는 로컬의 Git 제외 경로 `Logs`에 보관한다. 이 폴더의 `~` 접미사는 검사 코드를 일반 플레이어에 포함하지 않도록 한다.
 
 서로 다른 실제 PC·공유기 조합과 장시간 인터넷 플레이는 아직 검증하지 않았다. 통신 지연 자체가 없어지는 것은 아니며, 서버 확인을 기다리는 명중 표시 지연은 남는다.
+
+## 추가 수정: 호스트 정지 후 입력 적체
+
+Base를 Unity 에디터에서 실행해도 접속자가 멈춘다는 보고를 받고 다시 재현했다. 기존의 `stall` 검사는 서버 시계만 확인해, 입력 적체가 계속 남는 문제를 놓쳤다.
+
+`Hitch22Before01`은 네트워크 지연·지터·손실 없이 호스트를 900ms 정지시켰다. 호스트가 돌아온 뒤 1.5초를 기다려도 입력 31개가 처리되지 않고 남았다. 물리 간격이 20ms이므로 약 620ms가 계속 밀린 상태였다.
+
+원인은 `MotionView`가 실제로 실행된 FixedUpdate 횟수만큼만 입력 처리 시간을 적립한 것이다. Unity가 긴 프레임의 물리 업데이트 시간을 제한하면 빠진 시간을 이후에도 적립하지 못한다. 이 동작은 [Unity의 maximumDeltaTime 설명](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/Time-maximumDeltaTime.html)과 일치한다.
+
+`InputBudget`으로 입력 처리 시간 계산을 분리하고 실제 경과 시간을 적립하도록 바꿨다. 기존의 물리 업데이트당 최대 2개 처리, 입력 기록 128개 한도, 입력 순서 검사, 순간이동 시 초기화는 유지한다. 같은 시각에 물리 업데이트가 여러 번 실행되어도 시간을 중복 적립하지 않는다.
+
+`Combat.py --editor-client`와 `Relay.ps1 -EditorClient`는 빌드 호스트에 실제 Unity 에디터를 접속시킨다. 두 검사 도구의 `QueuePlayerLoopUpdate`를 끄므로 강제 에디터 갱신으로 멈춤을 가리지 않는다. 종료 시 에디터를 편집 모드로 되돌린다.
+
+| 검사 | 결과 |
+| --- | --- |
+| `BudgetChecks.cs` | 20 / 30 / 144FPS에서 900ms 정지 4회 후 적체 1~2개. 같은 타임스탬프 중복 적립 방지, 128개 한도, 순간이동 초기화 통과 |
+| `Hitch22After01` | 실제 플레이어 30 / 144FPS, 호스트 정지 4회 후 서버 적체 4개, 접속자 미확인 입력 4~5개, 재동기화 0회 |
+| `Editor22Hitch02` | 에디터 접속자, 정지 4회 후 서버 적체 2~3개, 접속자 미확인 입력 3개, 재동기화 0회. 20초 추적에서 50ms 초과 프레임 0개 |
+| `Editor22TurnsCard01` | 에디터 카드 접속자, 양쪽 이동·점프·공격 중 지연 20→220→20ms. 공격 인계 8회, 거부 0회, 최종 적체 2개. 30초 추적에서 50ms 초과 프레임 0개 |
+| `Editor22TurnsPotion01` | 에디터 물약 접속자, 동일한 지연 변화. 공격 인계 17회, 거부 0회, 최종 적체 2개. 30초 추적에서 50ms 초과 프레임 1개, 최대 66.3ms |
+| `Editor22HitchFireCard01` | 호스트가 멈춘 도중 카드 발사 3회 모두 인계, 거부 0회. 서버 적체 3~4개로 회복. 30초 추적에서 50ms 초과 프레임 1개, 최대 68.3ms |
+| `Editor22RelayCard01` | 실제 UGS와 에디터 카드 접속자 검사 10개 통과. 호스트 정지 2회 후 서버 적체 2개, 접속자 미확인 입력 5~6개. RTT 99~101ms. 양쪽 방 퇴장 확인 |
+| `Editor22RelayPotion01` | 최신 Base 빌드와 에디터 물약 접속자, 실제 UGS 검사 10개 통과. 정지 후 서버 적체 3~4개, 접속자 미확인 입력 7~8개. RTT 99~101ms. 양쪽 방 퇴장 확인 |
+| `Verify22HitchFinal01` | 최신 Base 빌드 30 / 144FPS에서 이동·점프·밀치기·감속·순간이동·피해·재시작 등 27개 통과. 3.4초 완전 패킷 손실 후 표시와 입력 적체 회복 |
+
+추가 검증 중 Base에 올라온 `e71529e`까지 가져왔다. 다른 팀의 프리팹·맵·물리 재질 변경을 보존했다. 최종 개발 빌드 GUID는 `66cb4aa5d36242a18b1fd5d60c6a7007`이며 오류 0개, 기존 경고 9개로 성공했다. 이전의 일반 배포 ZIP은 이번 추가 수정을 포함하지 않는다.
+
+```powershell
+unity command eval_file --file 'Assets/SSW/Tests/Move~/BudgetChecks.cs' --project-path . --caller plugin --skill unity-cli --format json
+python 'Assets/SSW/Tests/Move~/Combat.py' --run FreshHitch --scenario hitches --repeat 4 --host-fps 30 --client-fps 144 --delay 0 --jitter 0 --loss 0 --expect-pass
+python 'Assets/SSW/Tests/Move~/Combat.py' --run FreshEditorHitch --scenario hitches --repeat 3 --host-fps 30 --client-fps 144 --delay 0 --jitter 0 --loss 0 --editor-client --fire-during-hitch --expect-pass
+python 'Assets/SSW/Tests/Move~/Combat.py' --run FreshEditorTurns --scenario turns --host-job Magician --client-job Witch --host-fps 30 --client-fps 144 --editor-client --expect-pass
+pwsh -File 'Assets/SSW/Tests/Move~/Relay.ps1' -Run FreshEditorRelay -HostJob Magician -ClientJob Witch -CreateTimeout 60 -EditorClient
+```
+
+이번 수정은 재현한 호스트 정지 뒤의 지속적인 입력 적체를 해결한다. 호스트 자체가 멈춘 동안의 서버 응답이나 실제 인터넷 지연을 없애지는 않는다. 서로 다른 두 PC의 장시간 사용은 아직 검증하지 않았다.
