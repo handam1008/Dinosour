@@ -121,7 +121,7 @@ namespace SSW
                 direct = target.Health;
                 normal = Vector2.zero;
             }
-            if (direct != null) Contact(point, normal, direct);
+            if (nearest <= 1f) Contact(point, normal, direct);
             _previous = _body.position;
             _previousTime = time;
         }

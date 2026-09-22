@@ -44,7 +44,7 @@ namespace SSW
         double _lastStateAt;
         double _lastAckAt;
         double _startAt;
-        ViewClock _clock;
+        SnapshotClock _clock;
         double _viewTime;
         bool _started;
         uint _tick;
@@ -252,6 +252,7 @@ namespace SSW
                     Commit();
                     _view.localPosition = Vector3.zero;
                 }
+                _clock.Observe(time, NetworkManager.ServerTime.Time, Time.fixedDeltaTime);
                 _snapshots.Add(new Snapshot { Time = time, State = state });
                 if (_snapshots.Count > 32) _snapshots.RemoveAt(0);
                 return;
@@ -300,7 +301,7 @@ namespace SSW
             if (!IsServer && !IsOwner)
             {
                 Interpolate();
-                _view.localPosition = Vector3.zero;
+                _view.position = new Vector3(_state.Position.x, _state.Position.y, transform.position.z);
             }
             else
             {
@@ -329,7 +330,8 @@ namespace SSW
         void Interpolate()
         {
             if (_snapshots.Count == 0) return;
-            double time = _clock.Step(NetworkManager.ServerTime.Time, Time.unscaledDeltaTime);
+            double time = _clock.Step(NetworkManager.ServerTime.Time, _snapshots[0].Time,
+                _snapshots[_snapshots.Count - 1].Time, Time.unscaledDeltaTime);
             while (_snapshots.Count > 2 && _snapshots[1].Time <= time) _snapshots.RemoveAt(0);
             Snapshot first = _snapshots[0];
             Snapshot last = _snapshots.Count > 1 ? _snapshots[1] : first;
