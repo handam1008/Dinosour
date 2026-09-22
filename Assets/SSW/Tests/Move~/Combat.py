@@ -12,7 +12,7 @@ def main():
     parser.add_argument("--repeat", type=int, default=8)
     parser.add_argument("--delay", type=int, default=180)
     parser.add_argument("--jitter", type=int, default=150)
-    parser.add_argument("--scenario", default="cadence", choices=("cadence", "impact", "motion", "stall", "turns", "self", "stock", "burst", "effects"))
+    parser.add_argument("--scenario", default="cadence", choices=("cadence", "impact", "motion", "stall", "hitches", "turns", "self", "stock", "burst", "effects"))
     parser.add_argument("--step", action="store_true")
     parser.add_argument("--loss", type=int, default=3)
     parser.add_argument("--host-fps", type=int, default=60)
@@ -21,6 +21,8 @@ def main():
     parser.add_argument("--client-job", default="Magician", choices=("Magician", "Witch"))
     parser.add_argument("--port", type=int, default=7797)
     parser.add_argument("--expect-pass", action="store_true")
+    parser.add_argument("--editor-client", action="store_true")
+    parser.add_argument("--fire-during-hitch", action="store_true")
     parser.add_argument("--augment", type=int, default=-1)
     args = parser.parse_args()
     project = pathlib.Path.cwd()
@@ -29,6 +31,21 @@ def main():
     sequence = {"host": 0, "client": 0}
     processes = []
     records = []
+    editor_started = False
+
+    def unity(command, *arguments):
+        cli = pathlib.Path.home() / "AppData/Local/Unity/bin/unity.exe"
+        result = subprocess.run([
+            str(cli), "command", command, *arguments, "--project-path", str(project),
+            "--caller", "plugin", "--skill", "unity-cli", "--format", "json"
+        ], capture_output=True, text=True, encoding="utf-8", timeout=60)
+        response = json.loads(result.stdout)
+        if result.returncode or not response.get("success"):
+            raise RuntimeError(result.stdout)
+        value = response["data"]["result"]
+        if isinstance(value, dict) and value.get("success") is False:
+            raise RuntimeError(value)
+        return value
 
     def read(peer):
         path = root / (peer + ".json")
@@ -57,7 +74,7 @@ def main():
             time.sleep(0.015)
         raise TimeoutError(label)
 
-    def send(peer, op, value=0, x=0, y=0):
+    def send(peer, op, value=0, x=0, y=0, ack=True):
         sequence[peer] += 1
         command = dict(seq=sequence[peer], op=op, value=value, x=x, y=y)
         until = time.monotonic() + 2
@@ -69,17 +86,40 @@ def main():
                 if time.monotonic() > until:
                     raise
                 time.sleep(0.01)
-        if op != "quit":
+        if op != "quit" and ack:
             wait(peer + " " + op, lambda: read(peer) and read(peer)["seq"] >= sequence[peer], 8)
 
     def save():
         (root / "shots.json").write_text(json.dumps(records, indent=2), encoding="utf-8")
+
+    def editor_ready():
+        try:
+            status = unity("editor_status")
+            return status["playMode"] == "playing" and not status["domainReloadInProgress"] and not status["compiling"]
+        except (RuntimeError, ValueError, subprocess.TimeoutExpired):
+            return False
 
     startup = subprocess.STARTUPINFO()
     startup.dwFlags |= subprocess.STARTF_USESHOWWINDOW
     startup.wShowWindow = subprocess.SW_HIDE
     try:
         for peer in sequence:
+            if peer == "client" and args.editor_client:
+                status = unity("editor_status")
+                if status["playMode"] != "stopped":
+                    raise RuntimeError("The Editor must be in Edit mode before this test")
+                unity("editor_play")
+                editor_started = True
+                time.sleep(2)
+                wait("Editor domain reload", editor_ready, 45)
+                unity("eval", " ".join([
+                    "var game = SSW.NetGame.GetOrCreate();",
+                    'game.SetProfile(SSW.Fighter.Create("client", ""));',
+                    "game.gameObject.AddComponent<SSW.NetProbe>().Init(" + json.dumps(str(root / peer)) + ", false);",
+                    'game.StartLocal(false, "127.0.0.1", SSW.PlayerJob.' + args.client_job + ", " + str(args.port) + ");",
+                    "return new { background = UnityEngine.Application.runInBackground, forcedLoop = false };"
+                ]))
+                continue
             processes.append(subprocess.Popen([
                 str(project / args.build), "--net-mode", peer, "--net-job", args.host_job if peer == "host" else args.client_job,
                 "--net-port", str(args.port), "--net-name", peer, "--net-probe", str(root / peer),
@@ -354,6 +394,39 @@ def main():
             if args.expect_pass and (result["endingBacklog"] > 6 or result["maxInstantExcess"] > 0.04 or owner["rejected"] or
                 (args.host_job == args.client_job == "Magician" and owner["maxCorrection"] > 0.5)):
                 raise AssertionError("Rapid turns and firing keep excessive delay or cause large position corrections")
+        elif args.scenario == "hitches":
+            send("client", "trace", 8, 30 if args.fire_during_hitch else 20)
+            for index in range(args.repeat):
+                if args.fire_during_hitch:
+                    wait("shot ready", lambda: own("client")["readyIn"] <= 0 and
+                         (args.client_job != "Witch" or own("client")["heldView"] >= 0))
+                before = own("client")
+                send("client", "move", 0, 1 if index % 2 == 0 else -1, 0)
+                if args.fire_during_hitch and args.client_job == "Magician":
+                    send("client", "press", 0, 0, 1)
+                send("host", "stall", 900, ack=not args.fire_during_hitch)
+                if args.fire_during_hitch:
+                    time.sleep(0.3)
+                    send("client", "release" if args.client_job == "Magician" else "press", 0, 0, 1)
+                    wait("host resumed", lambda: read("host")["seq"] >= sequence["host"])
+                time.sleep(1.5)
+                host = read("host")
+                client = read("client")
+                authority = next(p for p in host["players"] if not p["owner"])
+                player = next(p for p in client["players"] if p["owner"])
+                result = dict(hitch=index, buffered=authority["buffered"],
+                              unacknowledged=player["tick"]-player["processed"],
+                              ackSilence=player["ackSilence"], resyncs=authority["resyncs"],
+                              matches=player["matches"]-before["matches"], rejected=player["rejected"]-before["rejected"])
+                records.append(dict(result=result, host=host, client=client))
+                save()
+                print(json.dumps(result), flush=True)
+                if args.expect_pass and (result["buffered"] > 8 or result["unacknowledged"] > 16):
+                    raise AssertionError("Host frame hitch leaves a permanent client input backlog")
+                if args.expect_pass and args.fire_during_hitch and (result["matches"] != 1 or result["rejected"]):
+                    raise AssertionError("Firing during a host hitch lost or rejected the projectile")
+            send("client", "move")
+            wait("hitch trace", lambda: (root / "client.trace.8.json").exists(), 25)
         elif args.scenario == "stall":
             before = read("host")
             send("host", "stall", 900)
@@ -404,8 +477,12 @@ def main():
     finally:
         save()
         for peer in sequence:
+            if peer == "client" and args.editor_client:
+                continue
             if read(peer):
                 send(peer, "quit")
+        if editor_started:
+            unity("editor_stop")
         for process in processes:
             try:
                 process.wait(timeout=8)

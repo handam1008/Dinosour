@@ -160,10 +160,12 @@ namespace SSW
         int _sequence;
         float _next;
         string _error = "";
+        bool _drive;
 
-        public void Init(string path)
+        public void Init(string path, bool drive = true)
         {
-            Application.targetFrameRate = 60;
+            _drive = drive;
+            if (drive) Application.targetFrameRate = 60;
             _path = Path.GetFullPath(path);
             Directory.CreateDirectory(Path.GetDirectoryName(_path));
             Application.logMessageReceived += Log;
@@ -209,7 +211,7 @@ namespace SSW
             catch (IOException) { }
             catch (Exception exception) { _error = exception.ToString(); }
 #if UNITY_EDITOR
-            UnityEditor.EditorApplication.QueuePlayerLoopUpdate();
+            if (_drive) UnityEditor.EditorApplication.QueuePlayerLoopUpdate();
 #endif
         }
 
