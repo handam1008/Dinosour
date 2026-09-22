@@ -425,8 +425,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3ca45f92d18e98448ec84da6381ee87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KHG_nomalAttack
+  damage: 30
+  attackDuration: 0.1
+  attackCooldown: 0.3
   attackCollider: {fileID: 759995485}
-  attackDelay: 0.5
 --- !u!114 &759995484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1379,7 +1381,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1401800969}
-  - component: {fileID: 1401800970}
   m_Layer: 3
   m_Name: Pivot
   m_TagString: Untagged
@@ -1403,23 +1404,6 @@ Transform:
   - {fileID: 759995487}
   m_Father: {fileID: 7926685366298052483}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1401800970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1401800968}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf097874eb4c4a4caa9f242a0ab12cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KHG_SwordAttack
-  swingAngle: -30
-  windupAngle: 20
-  windupTime: 0.05
-  SwingTime: 0.4
-  ReturnTime: 0.2
 --- !u!114 &1506820362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3232,6 +3216,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 8
+  hitRadius: 0.8
 --- !u!114 &8313555302424761400
 MonoBehaviour:
   m_ObjectHideFlags: 0

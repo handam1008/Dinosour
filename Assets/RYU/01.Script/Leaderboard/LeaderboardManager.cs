@@ -6,6 +6,7 @@ using TMPro;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Leaderboards;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -62,6 +63,8 @@ namespace RYU._01.Script.Leaderboard
 
             foreach (var entry in response.Results)
             {
+               // entry.Tier == "빙하기급" -> 원래 있던 창호 자우고 새로운 창호 지급
+                
                 var userInfo = Instantiate(rankUserInfoPrefab, rankUserInfoParent);
                 var go = userInfo.GetComponent<RankUserInfo>();
                 
