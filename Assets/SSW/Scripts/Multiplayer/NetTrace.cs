@@ -20,11 +20,22 @@ namespace SSW
             public uint turn;
             public Vector2 position;
             public Vector2 velocity;
+            public double sampleTime;
+            public double viewTime;
+            public Vector2 samplePosition;
+            public Vector2 gravity;
         }
 
         [Serializable] sealed class Frame
         {
             public double time;
+            public long utc;
+            public double serverTime;
+            public double localTime;
+            public double physicsTime;
+            public double otherTime;
+            public float hp;
+            public float otherHp;
             public float delta;
             public Vector2 body;
             public Vector2 view;
@@ -60,8 +71,15 @@ namespace SSW
             NetPlayer player = game.Local;
             MotionView motion = player.GetComponent<MotionView>();
             Vector2 otherView = default;
+            double otherTime = 0d;
+            float otherHp = 0f;
             foreach (NetPlayer other in game.Players)
-                if (other != player) otherView = other.View.position;
+                if (other != player)
+                {
+                    otherView = other.View.position;
+                    otherTime = other.ViewTime;
+                    otherHp = other.Health.Current;
+                }
             var shots = new List<Shot>();
             player.Cast.ReadPreviews((action, part, position, blocked) => shots.Add(new Shot
             {
@@ -72,7 +90,9 @@ namespace SSW
                     shots.Add(new Shot
                     {
                         caster = shot.Caster, action = shot.Action, part = shot.Part,
-                        position = shot.transform.position, velocity = shot.Velocity, blocked = shot.Blocked, age = shot.Age, turn = shot.Turn
+                        position = shot.transform.position, velocity = shot.Velocity, blocked = shot.Blocked, age = shot.Age, turn = shot.Turn,
+                        sampleTime = shot.Pose.Time, viewTime = shot.ViewTime,
+                        samplePosition = shot.Pose.Position, gravity = shot.Pose.Gravity
                     });
             foreach (NetPlayer caster in game.Players)
                 foreach (ShotTail tail in caster.Cast.Finishes)
@@ -85,6 +105,9 @@ namespace SSW
             _trace.frames.Add(new Frame
             {
                 time = Time.unscaledTimeAsDouble, delta = Time.unscaledDeltaTime,
+                utc = DateTime.UtcNow.Ticks, serverTime = game.Manager.ServerTime.Time,
+                localTime = game.Manager.LocalTime.Time, physicsTime = game.PhysicsTime,
+                otherTime = otherTime, hp = player.Health.Current, otherHp = otherHp,
                 body = player.Body.position, view = player.View.position, otherView = otherView, correction = motion.Correction,
                 epoch = motion.Epoch, tick = motion.Tick, processed = motion.Processed, shots = shots.ToArray()
             });

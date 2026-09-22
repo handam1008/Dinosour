@@ -5,48 +5,28 @@ using UnityEngine;
 public class HealField : MonoBehaviour
 {
     [SerializeField] float _radius = 1.5f;
-    [SerializeField] float _chargeTime = 1f;
-    [SerializeField] float _healRatio = 0.20f;
-    [SerializeField] float _lifeTime = 8f;
-
-    readonly Dictionary<IHealable, float> _stayTimes = new();
-    readonly HashSet<IHealable> _inside = new();
-    readonly List<IHealable> _left = new();
+    [SerializeField] float _chargeTime = 1f;     // 설치 후 터지기까지 시간
+    [SerializeField] float _healRatio = 0.20f;   // 최대 체력의 20%
 
     void Start()
     {
-        Destroy(gameObject, _lifeTime);
+        Invoke(nameof(Burst), _chargeTime);
     }
 
-    void Update()
+    void Burst()
     {
-        _inside.Clear();
+        // 콜라이더가 여러 개인 캐릭터도 한 번만 회복되게
+        var targets = new HashSet<IHealable>();
         foreach (Collider2D hit in Physics2D.OverlapCircleAll(transform.position, _radius))
         {
             IHealable healable = hit.GetComponentInParent<IHealable>();
-            if (healable != null) _inside.Add(healable);
+            if (healable != null) targets.Add(healable);
         }
 
-        _left.Clear();
-        foreach (IHealable key in _stayTimes.Keys)
-            if (!_inside.Contains(key)) _left.Add(key);
-        foreach (IHealable key in _left)
-            _stayTimes.Remove(key);
+        foreach (IHealable healable in targets)
+            healable.Heal(healable.Max * _healRatio);
 
-        foreach (IHealable healable in _inside)
-        {
-            _stayTimes.TryGetValue(healable, out float time);
-            time += Time.deltaTime;
-
-            if (time >= _chargeTime)
-            {
-                healable.Heal(healable.Max * _healRatio);
-                Destroy(gameObject);
-                return;
-            }
-
-            _stayTimes[healable] = time;
-        }
+        Destroy(gameObject);   // 아무도 없어도 사라짐
     }
 
     void OnDrawGizmos()

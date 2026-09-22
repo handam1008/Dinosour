@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15639e63881de9b4a82609b01e29ee74, type: 3}
+  m_Name: Regeneration
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.CommonAugment
+  displayName: "\uB760\uB04C\uBAA8\uC544\uD0DC\uC0B0"
+  description: "\t1\uCD08\uB9C8\uB2E4 \uCCB4\uB825 \uD68C\uBCF5"
+  icon: {fileID: 0}
+  type: 22
+  category: 0
