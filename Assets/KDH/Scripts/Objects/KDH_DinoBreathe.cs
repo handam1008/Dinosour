@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace KDH.Scripts.Objects
 {
-    public class KDH_Godzilla : MonoBehaviour
+    public class KDH_DinoBreathe : MonoBehaviour
     {
         [SerializeField] private Transform target1, target2;
         [SerializeField] private Color signalColor1, signalColor2;

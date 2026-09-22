@@ -140,9 +140,9 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -5013,6 +5013,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_BreatheDamageCaster
   tick: 0.05
   damage: 1
+  canDamage: 0
 --- !u!61 &8053336344966319817
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10154,13 +10155,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5707888772390120679}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.24765311, y: 0.66232014, z: -0.66232014, w: -0.24765311}
-  m_LocalPosition: {x: -2.1, y: 10, z: 0}
+  m_LocalRotation: {x: 0.47771436, y: -0.5213339, z: 0.5213339, w: -0.47771436}
+  m_LocalPosition: {x: -35.302734, y: -2.6964855, z: 0.000001039356}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3573258158083086864}
-  m_LocalEulerAnglesHint: {x: -311.003, y: -90, z: 90}
+  m_LocalEulerAnglesHint: {x: 175, y: -90, z: 90}
 --- !u!198 &8071394545396627360
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -10297,8 +10298,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 10
-      minScalar: 5
+      scalar: 60
+      minScalar: 50
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -10879,7 +10880,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 15
+      value: 10
       mode: 0
       spread: 0
       speed:
@@ -10998,7 +10999,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 5
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -15028,6 +15029,7 @@ GameObject:
   - component: {fileID: 3857848808004952085}
   - component: {fileID: 7497723756460545974}
   - component: {fileID: 6668722724035313776}
+  - component: {fileID: 5608227453901303463}
   m_Layer: 0
   m_Name: dinoHeadA_0
   m_TagString: Untagged
@@ -15172,6 +15174,26 @@ SpriteMask:
   m_IsCustomRangeActive: 0
   m_SpriteSortPoint: 0
   m_MaskSource: 1
+--- !u!114 &5608227453901303463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7436341895414411877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c268c9e07e93a34599ee7164173ed6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_Godzilla
+  target1: {fileID: 2347409529758002463}
+  target2: {fileID: 8353621995799285184}
+  signalColor1: {r: 1, g: 0, b: 0, a: 1}
+  signalColor2: {r: 1, g: 1, b: 1, a: 1}
+  baseColor: {r: 0.13333334, g: 0.14117648, b: 0.15294118, a: 1}
+  particles: {fileID: 8725738373681950655}
+  damageCaster: {fileID: 155907280563221925}
+  relationTime: 5
 --- !u!1 &8426535166785623819
 GameObject:
   m_ObjectHideFlags: 0
