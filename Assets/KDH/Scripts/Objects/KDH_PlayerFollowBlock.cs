@@ -3,9 +3,14 @@ using UnityEngine;
 
 namespace KDH.Scripts.Objects
 {
-    public class KDH_ChangeParent : MonoBehaviour
+    public class KDH_PlayerFollowBlock : MonoBehaviour
     {
-        private void OnCollisionEnter(Collision collision)
+        // private void CalcualtePosition(Vector2 )
+        // {
+        //     
+        // }
+        
+        private void OnCollisionEnter2D(Collision2D collision)
         {
             if (collision.gameObject.TryGetComponent(out PlayerController _))
             {
@@ -13,7 +18,7 @@ namespace KDH.Scripts.Objects
             }
         }
     
-        private void OnCollisionExit(Collision collision)
+        private void OnCollisionExit2D(Collision2D collision)
         {
             if (collision.gameObject.TryGetComponent(out PlayerController _))
             {
