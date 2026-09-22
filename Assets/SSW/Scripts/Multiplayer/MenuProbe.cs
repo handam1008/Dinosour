@@ -58,9 +58,11 @@ namespace SSW
         int _sequence;
         float _next;
         string _error = "";
+        bool _drive;
 
-        public void Init(string path)
+        public void Init(string path, bool drive = true)
         {
+            _drive = drive;
             _path = Path.GetFullPath(path) + ".menu";
             Directory.CreateDirectory(Path.GetDirectoryName(_path));
         }
@@ -86,7 +88,7 @@ namespace SSW
             catch (IOException) { }
             catch (Exception exception) { _error = exception.Message; Write(); }
 #if UNITY_EDITOR
-            UnityEditor.EditorApplication.QueuePlayerLoopUpdate();
+            if (_drive) UnityEditor.EditorApplication.QueuePlayerLoopUpdate();
 #endif
         }
 
