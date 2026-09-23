@@ -1,11 +1,20 @@
-param([string]$Run='Audit01',[string]$Project=(Get-Location).Path,[int]$CreateTimeout=45)
+param([string]$Run='Audit01',[string]$Project=(Get-Location).Path,[int]$CreateTimeout=45,[ValidateSet('Witch','Magician')][string]$HostJob='Witch',[ValidateSet('Witch','Magician')][string]$ClientJob='Magician',[switch]$EditorClient)
 $ErrorActionPreference='Stop'
 $root="$Project/Logs/Relay/$Run"
+if(Test-Path "$root/host.json"){throw 'Use a fresh Run name'}
 New-Item -ItemType Directory -Path $root -Force | Out-Null
 $menuSeq=@{host=0;client=0}; $netSeq=@{host=0;client=0}
 $checks=[Collections.Generic.List[string]]::new()
 $processes=@{}
 $progress=[Collections.Generic.List[object]]::new()
+$editorStarted=$false
+function Editor($command,[string[]]$arguments=@()){
+    $response=& "$env:LOCALAPPDATA/Unity/bin/unity.exe" command $command @arguments --project-path $Project --caller plugin --skill unity-cli --format json | ConvertFrom-Json
+    if(-not $response.success){throw ($response|ConvertTo-Json -Depth 6)}
+    $value=$response.data.result
+    if($value.success -eq $false){throw ($value|ConvertTo-Json -Depth 6)}
+    return $value
+}
 function WriteCommand($path,$json){
     $end=[DateTime]::UtcNow.AddSeconds(2)
     while($true){
@@ -55,13 +64,32 @@ function Await($label,[scriptblock]$condition,$seconds=30){
 }
 function Button($peer,$name){@((Menu $peer).buttons|Where-Object {$_.name -eq $name -and $_.enabled}).Count -gt 0}
 function Check($condition,$label){if(-not $condition){throw $label};$checks.Add("PASS $label");[IO.File]::WriteAllLines("$root/checks.txt",$checks)}
-foreach($peer in @('host','client')){
-    $processes[$peer]=Start-Process -FilePath "$Project/Builds/Local/Game.exe" -WorkingDirectory $Project -ArgumentList @('--net-profile',"audit-$peer",'--net-probe',"$root/$peer",'--net-name',"Audit-$peer",'-logFile',"$root/$peer.log",'-screen-fullscreen','0','-screen-width','1280','-screen-height','720') -WindowStyle Hidden -PassThru
-}
 try{
+    foreach($peer in @('host','client')){
+        if($EditorClient -and $peer -eq 'client'){
+            if((Editor editor_status).playMode -ne 'stopped'){throw 'The Editor must be in Edit mode before this test'}
+            Editor editor_play | Out-Null
+            $editorStarted=$true
+            Start-Sleep -Seconds 2
+            $until=[DateTime]::UtcNow.AddSeconds(45)
+            do{
+                $state=$null
+                try{$state=Editor editor_status}catch{}
+                if($state.playMode -eq 'playing' -and -not $state.domainReloadInProgress -and -not $state.compiling){break}
+                if([DateTime]::UtcNow -gt $until){throw 'Editor domain reload timed out'}
+                Start-Sleep -Milliseconds 500
+            }while($true)
+            $path="$root/client"|ConvertTo-Json -Compress
+            $code="var game = SSW.NetGame.GetOrCreate(); game.gameObject.AddComponent<SSW.NetProbe>().Init($path, false); game.gameObject.AddComponent<SSW.MenuProbe>().Init($path, false); return UnityEngine.Application.runInBackground;"
+            Editor eval @($code) | Out-Null
+        }else{
+            $processes[$peer]=Start-Process -FilePath "$Project/Builds/Local/Game.exe" -WorkingDirectory $Project -ArgumentList @('--net-profile',"audit-$peer",'--net-probe',"$root/$peer",'--net-name',"Audit-$peer",'-logFile',"$root/$peer.log",'-screen-fullscreen','0','-screen-width','1280','-screen-height','720') -WindowStyle Hidden -PassThru
+        }
+    }
     Await 'menus' { (Button host 'Button_Play') -and (Button client 'Button_Play') } 45
     Send host fps 60; Send client fps 60
-    MenuSend host job '' '' 1; MenuSend client job '' '' 2
+    $jobs=@{Witch=1;Magician=2}
+    MenuSend host job '' '' $jobs[$HostJob]; MenuSend client job '' '' $jobs[$ClientJob]
     foreach($peer in @('host','client')){MenuSend $peer click 'Button_Play'}
     Await 'play menus' {(Button host 'Button_방 만들기') -and (Button client 'Button_방 들어가기')}
     MenuSend host click 'Button_방 만들기'
@@ -85,28 +113,47 @@ try{
     Await 'relay movement response' {$nc.viewDelay -ge 0 -and $nc.bodyDelay -ge 0}
     Send client move 0 0 0
     Check ($nc.viewDelay -lt 0.1) "Relay guest movement feedback $([Math]::Round($nc.viewDelay*1000)) ms; RTT $($nc.rtt) ms"
-    Check (@($nc.players|Where-Object owner)[0].job -eq 'Magician') 'Relay guest keeps the selected magician job'
+    Check (@($nc.players|Where-Object owner)[0].job -eq $ClientJob) "Relay guest keeps the selected $ClientJob job"
     Send host trace 4 3; Send client trace 4 3
     Send client cast 1 0 1
-    Start-Sleep -Milliseconds 200
-    Send client cast 0 0 1
+    if($ClientJob -eq 'Magician'){
+        Start-Sleep -Milliseconds 200
+        Send client cast 0 0 1
+    }
+    $nativeAction=@((Read client).players|Where-Object owner)[0].action
     Await 'native spawn shot trace' {(Test-Path "$root/host.trace.4.json") -and (Test-Path "$root/client.trace.4.json")}
     $nh|ConvertTo-Json -Depth 12|Set-Content "$root/native-host.json"
     $nc|ConvertTo-Json -Depth 12|Set-Content "$root/native-client.json"
-    Await 'native shot acknowledged' {@($nc.players|Where-Object owner)[0].confirmed -ge 2}
-    Check (@($nc.players|Where-Object owner)[0].confirmed -ge 2 -and @($nc.players|Where-Object owner)[0].rejected -eq 0) 'Native spawn attack is accepted by the Relay host'
-    Send host warp 0 13 0; Send host warp 1 -10 0
-    Await 'open flight range' {$p=@($nc.players|Where-Object owner)[0];$p.epoch -gt 0 -and $p.grounded -and [Math]::Abs($p.position.x+10) -lt 0.1 -and $p.readyIn -le 0}
+    Await 'native shot acknowledged' {@($nc.players|Where-Object owner)[0].confirmed -ge $nativeAction}
+    Check ($nativeAction -gt 0 -and @($nc.players|Where-Object owner)[0].confirmed -ge $nativeAction -and @($nc.players|Where-Object owner)[0].rejected -eq 0) 'Native spawn attack is accepted by the Relay host'
+    $shotX=if($ClientJob -eq 'Witch'){-18}else{-10}
+    Send host warp 0 13 0; Send host warp 1 $shotX 0
+    Await 'open flight range' {$p=@($nc.players|Where-Object owner)[0];$p.epoch -gt 0 -and $p.grounded -and [Math]::Abs($p.position.x-$shotX) -lt 0.1 -and $p.readyIn -le 0 -and ($ClientJob -ne 'Witch' -or $p.heldView -ge 0)}
     $matches=@($nc.players|Where-Object owner)[0].matches
     Send host trace 5 4; Send client trace 5 4
     Send client cast 1 1 0
-    Start-Sleep -Milliseconds 200
-    Send client cast 0 1 0
+    if($ClientJob -eq 'Magician'){
+        Start-Sleep -Milliseconds 200
+        Send client cast 0 1 0
+    }
     Await 'relay shot handoff' {@($nc.players|Where-Object owner)[0].matches -gt $matches}
     Await 'flight trace' {(Test-Path "$root/host.trace.5.json") -and (Test-Path "$root/client.trace.5.json")}
-    Check ($true) 'Guest card prediction joins the real Relay projectile in open flight'
+    Check ($true) "Guest $ClientJob prediction joins the real Relay projectile in open flight"
     $nh|ConvertTo-Json -Depth 12|Set-Content "$root/combat-host.json"
     $nc|ConvertTo-Json -Depth 12|Set-Content "$root/combat-client.json"
+    $recovery=[Collections.Generic.List[object]]::new()
+    for($i=0;$i -lt 2;$i++){
+        Send client move 0 $(if($i -eq 0){-1}else{1}) 0
+        Send host stall 900
+        Start-Sleep -Milliseconds 1500
+        $nh=Read host;$nc=Read client
+        $authority=@($nh.players|Where-Object {-not $_.owner})[0]
+        $owner=@($nc.players|Where-Object owner)[0]
+        $recovery.Add(@{hitch=$i;buffered=$authority.buffered;unacknowledged=$owner.tick-$owner.processed;rtt=$nc.rtt;resyncs=$authority.resyncs})
+        $recovery|ConvertTo-Json -Depth 4|Set-Content "$root/recovery.json"
+        Check ($authority.buffered -le 8 -and $owner.tick-$owner.processed -le 16) "Relay input recovers after host hitch $i"
+    }
+    Send client move 0 0 0
     Send client exit
     Await 'host wins disconnect' {$nh.phase -eq 'Finished' -and $nh.reason -eq 'Left'}
     Check ($true) 'Leaving Relay produces a synchronized disconnect result'
@@ -147,8 +194,9 @@ finally{
             $state=Menu $peer
             $cleanup[$peer]=@{joined=$state.joined;busy=$state.busy;status=$state.status}
             if($state.joined){Write-Warning "Session leave incomplete: $peer"}
-            Send $peer quit
+            if(-not ($EditorClient -and $peer -eq 'client')){Send $peer quit}
         }catch{Write-Warning $_}
     }
     $cleanup|ConvertTo-Json -Depth 5|Set-Content "$root/cleanup.json"
+    if($editorStarted){Editor editor_stop|Out-Null}
 }

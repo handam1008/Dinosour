@@ -46,6 +46,7 @@ namespace SSW
         [SerializeField] float _nuclearCoolPenalty = 1.50f;
         [SerializeField] LayerMask _nuclearWallMask;   
         [SerializeField] GameObject _nuclearExplosionPrefab;
+        
 
         readonly HashSet<CommonAugmentType> _acquired = new HashSet<CommonAugmentType>();
 
@@ -160,6 +161,7 @@ namespace SSW
             if (Has(CommonAugmentType.Blink))
                 StartBlink();
         }
+        
 
         void StartBlink()
         {
@@ -218,7 +220,6 @@ namespace SSW
 
             if (targets.Count == 0) return;
 
-            // 완전 정지 (공중이면 공중에 그대로 멈춤)
             foreach (ISlowable slowable in targets)
             {
                 if (slowable is Component component)

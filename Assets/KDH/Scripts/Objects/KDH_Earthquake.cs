@@ -35,7 +35,7 @@ namespace KDH.Scripts.Objects
 
             seq = DOTween.Sequence()
                 .AppendCallback(() => canDamage = true)
-                .Append(transform.DOShakePosition(shakeDuration, shakeAmount))
+                .Append(transform.DOShakePosition(shakeDuration, new Vector3(shakeAmount, 0f, 0f)))
                 .SetLoops(-1, LoopType.Restart)
                 .SetLink(gameObject);
         }

@@ -13,8 +13,12 @@ namespace KDH.Scripts.Objects
         private readonly List<Collider2D> _keyBuffer = new();
         private readonly List<Collider2D> _toRemove = new();
 
+        public bool canDamage;
+        
         private void Update()
         {
+            if (!canDamage) return;
+            
             if (_targets.Count == 0) return;
 
             _keyBuffer.Clear();

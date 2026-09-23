@@ -38,13 +38,13 @@ namespace SSW
         Vector2 _offset;
         Vector2 _shown;
         float _speed;
-        float _inputCredit;
+        InputBudget _inputBudget;
         MotionRate _rate;
         double _lastInputAt;
         double _lastStateAt;
         double _lastAckAt;
         double _startAt;
-        ViewClock _clock;
+        SnapshotClock _clock;
         double _viewTime;
         bool _started;
         uint _tick;
@@ -93,11 +93,13 @@ namespace SSW
         public override void OnNetworkSpawn()
         {
             _motor = new MotionMotor(_shape, _motion, Physics2D.gravity.y * _body.gravityScale);
-            _state.Position = _previous = _body.position;
+            _state.Position = _previous = transform.position;
+            _body.position = _state.Position;
             _shown = _view.position = transform.position;
             _rate = _motion.Rate;
             _speed = _rate.Value;
             _lastStateAt = _lastAckAt = Time.realtimeSinceStartupAsDouble;
+            _inputBudget.Reset(Time.realtimeSinceStartupAsDouble);
             _body.bodyType = RigidbodyType2D.Kinematic;
             _body.useFullKinematicContacts = true;
             _body.interpolation = RigidbodyInterpolation2D.None;
@@ -109,7 +111,7 @@ namespace SSW
             if (!IsSpawned || (!IsOwner && !IsServer)) return;
             _previous = _state.Position;
             if (IsServer && !IsOwner)
-                _inputCredit = Mathf.Min(_inputCredit + Time.fixedDeltaTime, MotionHistory.Capacity * Time.fixedDeltaTime);
+                _inputBudget.Advance(Time.realtimeSinceStartupAsDouble, Time.fixedDeltaTime);
             if (IsOwner)
             {
                 MotionFrame input = _player.ReadInput(++_tick);
@@ -155,7 +157,7 @@ namespace SSW
             int steps = _receivedInput > _processed + 3 ? 2 : 1;
             for (int i = 0; i < steps; i++)
             {
-                if (_inputCredit + 0.000001f < Time.fixedDeltaTime) break;
+                if (!_inputBudget.Ready(Time.fixedDeltaTime)) break;
                 uint tick = _processed + 1;
                 if (!_history.TryGet(tick, out MotionFrame input))
                 {
@@ -169,14 +171,14 @@ namespace SSW
                 _player.ApplyInput(input);
                 _motor.Step(ref _state, input, _speed, Time.fixedDeltaTime, _player.CanAct);
                 _processed = tick;
-                _inputCredit = Mathf.Max(0f, _inputCredit - Time.fixedDeltaTime);
+                _inputBudget.Spend(Time.fixedDeltaTime);
                 Commit();
             }
         }
 
         void StepIdle()
         {
-            _inputCredit = Mathf.Max(0f, _inputCredit - Time.fixedDeltaTime);
+            _inputBudget.Spend(Time.fixedDeltaTime);
             _rate = _motion.Rate;
             _speed = _rate.Value;
             MotionFrame input = _last;
@@ -214,7 +216,7 @@ namespace SSW
                 if (_started) Resyncs++;
                 _history.Clear();
                 _processed = first - 1;
-                _inputCredit = Mathf.Max(_inputCredit, (newest.Tick - first + 1) * Time.fixedDeltaTime);
+                _inputBudget.Seed((int)(newest.Tick - first + 1), Time.fixedDeltaTime);
                 _startAt = Time.realtimeSinceStartupAsDouble + Time.fixedDeltaTime * 2d;
                 _started = true;
             }
@@ -252,6 +254,7 @@ namespace SSW
                     Commit();
                     _view.localPosition = Vector3.zero;
                 }
+                _clock.Observe(time, NetworkManager.ServerTime.Time, Time.fixedDeltaTime);
                 _snapshots.Add(new Snapshot { Time = time, State = state });
                 if (_snapshots.Count > 32) _snapshots.RemoveAt(0);
                 return;
@@ -300,7 +303,7 @@ namespace SSW
             if (!IsServer && !IsOwner)
             {
                 Interpolate();
-                _view.localPosition = Vector3.zero;
+                _view.position = new Vector3(_state.Position.x, _state.Position.y, transform.position.z);
             }
             else
             {
@@ -329,7 +332,8 @@ namespace SSW
         void Interpolate()
         {
             if (_snapshots.Count == 0) return;
-            double time = _clock.Step(NetworkManager.ServerTime.Time, Time.unscaledDeltaTime);
+            double time = _clock.Step(NetworkManager.ServerTime.Time, _snapshots[0].Time,
+                _snapshots[_snapshots.Count - 1].Time, Time.unscaledDeltaTime);
             while (_snapshots.Count > 2 && _snapshots[1].Time <= time) _snapshots.RemoveAt(0);
             Snapshot first = _snapshots[0];
             Snapshot last = _snapshots.Count > 1 ? _snapshots[1] : first;
@@ -359,7 +363,7 @@ namespace SSW
             _processed = IsOwner ? _tick : _receivedInput;
             _history.Clear();
             _snapshots.Clear();
-            _inputCredit = 0f;
+            _inputBudget.Reset(Time.realtimeSinceStartupAsDouble);
             _last = default;
             _started = false;
             _clock = default;

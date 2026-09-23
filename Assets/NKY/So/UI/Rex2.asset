@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cb22fd30e7a48ed83533b5c7ec1d05e, type: 3}
+  m_Name: Rex2
+  m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.UI.ManuDinoDataSo
+  dinoName: Rex2
+  sprite: {fileID: -3527056022417232336, guid: 1b100e4193d53464db6b8f6566a24386, type: 3}
+  minSpeed: 2
+  maxSpeed: 6
+  minScale: 1.7
+  maxScale: 2.8
+  minDirectionChangeTime: 1.3
+  maxDirectionChangeTime: 3.5
+  minTurnAngle: 0
+  maxTurnAngle: 40

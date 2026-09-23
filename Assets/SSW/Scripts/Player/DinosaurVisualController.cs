@@ -18,10 +18,15 @@ namespace SSW
         const string Dead = "Dead";
         const string AirborneIdle = "AirborneIdle";
         const string EggMove = "EggMove";
+        const string Revive = "EggHatch";
+        
 
         [SerializeField] bool _playHatchOnStart = true;
         [SerializeField, Min(0.1f)] float _hatchDuration = 3f;
         [SerializeField, Min(0.05f)] float _hurtDuration = 0.35f;
+        [SerializeField, Min(0.05f)] float _reviveDuration = 1f;
+        
+        float _reviveUntil;
 
         SpriteLibrary _spriteLibrary;
         SpriteResolver _resolver;
@@ -96,6 +101,15 @@ namespace SSW
             }
 
             if (_dead) return;
+
+            if (Time.time < _reviveUntil)
+            {
+                PlayAnimation(Revive);
+                return;
+            }
+
+            if (Time.time < _hurtUntil)
+                PlayAnimation(Hurt);
 
             if (Time.time < _hurtUntil)
                 PlayAnimation(Hurt);
@@ -236,7 +250,16 @@ namespace SSW
             _dead = false;
             _hurtUntil = 0f;
             if (_animator != null) _animator.speed = _normalAnimatorSpeed;
-            PlayAnimation(Idle, true);
+
+            if (HasAnimation(Revive))
+            {
+                _reviveUntil = Time.time + _reviveDuration;
+                PlayAnimation(Revive, true);
+            }
+            else
+            {
+                PlayAnimation(Idle, true);
+            }
         }
     }
 }

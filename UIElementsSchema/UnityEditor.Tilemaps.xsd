@@ -55,7 +55,7 @@
       <xs:extension xmlns:q13="UnityEngine.UIElements" base="q13:BindableElementType">
         <xs:choice />
         <xs:attribute name="label" type="xs:string" />
-        <xs:attribute default="project://database/Assets/KHG/06.Tilemap/Ground.prefab?fileID=8459064672899787742&amp;guid=00074cb0c2228a34d8995c92232e2726&amp;type=3#Ground" name="value" type="xs:string" />
+        <xs:attribute name="value" type="xs:string" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -97,7 +97,7 @@
       <xs:extension xmlns:q23="UnityEngine.UIElements" base="q23:BindableElementType">
         <xs:choice />
         <xs:attribute name="label" type="xs:string" />
-        <xs:attribute default="project://database/?fileID=8459064672899787742&amp;guid=00074cb0c2228a34d8995c92232e2726&amp;type=3#Default Brush" name="value" type="xs:string" />
+        <xs:attribute default="project://database/?fileID=0&amp;guid=&amp;type=0#Default Brush" name="value" type="xs:string" />
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

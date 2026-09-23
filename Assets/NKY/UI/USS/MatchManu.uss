@@ -1,0 +1,638 @@
+/* =========================================================
+   Multiplayer Menu
+   Unity UI Toolkit
+   ========================================================= */
+
+.menu-root {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    background-color: rgb(22, 22, 34);
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   Main Layout
+   ========================================================= */
+
+.menu-content {
+    position: absolute;
+
+    left: 19.5%;
+    top: 13.5%;
+
+    width: 55%;
+    height: 74%;
+}
+
+
+.menu-body {
+    position: relative;
+
+    width: 100%;
+    height: 56%;
+}
+
+
+/* =========================================================
+   Columns
+   ========================================================= */
+
+.top-button-container {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+}
+
+
+.left-column {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 57.5%;
+    height: 100%;
+}
+
+
+.right-column {
+    position: absolute;
+
+    left: 58.5%;
+    top: 0;
+
+    width: 41.5%;
+    height: 100%;
+}
+
+
+.section-label {
+    position: absolute;
+
+    left: 0;
+    top: -8%;
+
+    width: 100%;
+    height: 16%;
+
+    color: rgb(173, 160, 245);
+
+    font-size: 15px;
+
+    -unity-font-style: bold;
+    -unity-text-align: lower-left;
+}
+
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+
+.menu-button {
+    border-width: 0;
+    border-radius: 0;
+
+    padding-left: 13px;
+    padding-right: 13px;
+
+    color: rgb(247, 247, 247);
+
+    font-size: 16px;
+
+    -unity-font-style: bold;
+    -unity-text-align: middle-left;
+}
+
+
+/* =========================================================
+   Matchmaking
+   ========================================================= */
+
+.matchmaking-button {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgb(91, 72, 177);
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   Match Player
+   ========================================================= */
+
+.match-player {
+    position: absolute;
+
+    top: 10%;
+
+    width: 34%;
+    height: 80%;
+
+    picking-mode: ignore;
+
+    opacity: 0;
+
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+
+/* 왼쪽 플레이어 */
+
+.left-player {
+    left: 0;
+
+    translate: -150px 0;
+
+    rotate: 0deg;
+}
+
+
+/* 오른쪽 플레이어 */
+
+.right-player {
+    right: 0;
+
+    translate: 150px 0;
+
+    rotate: 0deg;
+}
+
+
+/* =========================================================
+   Impact
+   ========================================================= */
+
+.match-impact {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 70px;
+    height: 70px;
+
+    translate: -50% -50%;
+
+    opacity: 0;
+
+    scale: 0.2 0.2;
+
+    picking-mode: ignore;
+
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+
+/* =========================================================
+   Impact Lines
+   ========================================================= */
+
+.impact-line {
+    position: absolute;
+
+    top: 50%;
+
+    width: 100px;
+    height: 4px;
+
+    translate: 0 -50%;
+
+    opacity: 0;
+
+    background-color: rgba(255, 255, 255, 0.9);
+
+    picking-mode: ignore;
+}
+
+
+.impact-line-left {
+    right: 50%;
+
+    transform-origin: right center;
+
+    rotate: 12deg;
+}
+
+
+.impact-line-right {
+    left: 50%;
+
+    transform-origin: left center;
+
+    rotate: -12deg;
+}
+
+
+/* =========================================================
+   Match Animation State
+   ========================================================= */
+
+/* 애니메이션 실행 중 */
+
+.matchmaking-button.match-animation
+.match-player {
+    opacity: 1;
+}
+
+
+/* 충돌 순간 */
+
+.matchmaking-button.match-hit
+.match-impact {
+    opacity: 1;
+}
+
+
+.matchmaking-button.match-hit
+.impact-line {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   Create Room
+   ========================================================= */
+
+.create-button {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 48%;
+
+    background-color: rgb(53, 96, 164);
+}
+
+
+/* =========================================================
+   Join Room
+   ========================================================= */
+
+.join-button {
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    width: 100%;
+    height: 48%;
+
+    background-color: rgb(145, 53, 117);
+}
+
+
+/* =========================================================
+   Bottom Buttons
+   ========================================================= */
+
+.under-button-container {
+    flex-direction: row;
+
+    width: 100%;
+    height: 0%;
+
+    align-items: center;
+
+    justify-content: flex-start;
+}
+
+
+.job-button {
+    position: relative;
+
+    width: 49%;
+    height: 80%;
+
+    background-color: rgb(189, 204, 43);
+
+    flex-direction: row-reverse;
+
+    justify-content: flex-start;
+}
+
+
+.sandbox-menu-button {
+    position: relative;
+
+    width: 50%;
+    height: 80%;
+
+    background-color: rgb(37, 104, 70);
+}
+
+
+/* =========================================================
+   Job
+   ========================================================= */
+
+.current-job-container {
+    flex-grow: 1;
+
+    width: 20%;
+
+    flex-direction: row-reverse;
+}
+
+
+.jobs {
+    flex-grow: 1;
+
+    max-width: 20%;
+    max-height: 100%;
+}
+
+
+.job-icon {
+    width: 100%;
+
+    flex-grow: 1;
+}
+
+
+.job-name {
+    margin-right: 2px;
+
+    width: 100%;
+
+    -unity-text-align: upper-center;
+
+    -unity-font-style: bold;
+
+    color: rgb(0, 0, 0);
+}
+
+
+/* =========================================================
+   Hover
+   ========================================================= */
+
+.menu-button:hover {
+    border-width: 2px;
+
+    border-color: rgba(255, 255, 255, 0.28);
+
+    translate: 0 -2px;
+}
+
+
+.menu-button:active {
+    translate: 0 1px;
+
+    border-width: 0;
+}
+
+
+.matchmaking-button:hover {
+    background-color: rgb(103, 82, 195);
+}
+
+
+.create-button:hover {
+    background-color: rgb(65, 111, 184);
+}
+
+
+.join-button:hover {
+    background-color: rgb(164, 64, 135);
+}
+
+
+.sandbox-button:hover {
+    background-color: rgb(46, 119, 81);
+}
+
+
+/* =========================================================
+   Back Button
+   ========================================================= */
+
+.back-button {
+    position: absolute;
+
+    left: 40%;
+    top: 84%;
+
+    width: 20%;
+    height: 10%;
+
+    border-width: 0;
+    border-radius: 0;
+
+    background-color: rgb(31, 31, 46);
+
+    color: rgb(236, 236, 236);
+
+    font-size: 13px;
+
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+
+.back-button:hover {
+    background-color: rgb(43, 43, 61);
+}
+
+
+.back-button:active {
+    background-color: rgb(52, 52, 72);
+}
+
+
+/* =========================================================
+   Decorations
+   ========================================================= */
+
+.deco {
+    position: absolute;
+
+    picking-mode: ignore;
+}
+
+
+/* =========================================================
+   Diamonds
+   ========================================================= */
+
+.deco-diamond {
+    width: 27px;
+    height: 27px;
+
+    rotate: 45deg;
+
+    background-color: rgba(145, 70, 150, 0.72);
+}
+
+
+.diamond-left {
+    left: 7%;
+    top: 72%;
+
+    background-color: rgba(159, 61, 71, 0.70);
+}
+
+
+.diamond-center {
+    left: 49%;
+    top: 31%;
+
+    background-color: rgba(155, 63, 145, 0.65);
+}
+
+
+.diamond-bottom-right {
+    left: 87%;
+    top: 75%;
+
+    background-color: rgba(76, 64, 99, 0.22);
+}
+
+
+/* =========================================================
+   Pixel Hearts
+   ========================================================= */
+
+.deco-heart {
+    width: 30px;
+    height: 27px;
+}
+
+
+.heart-block {
+    position: absolute;
+
+    background-color: rgba(166, 43, 49, 0.72);
+}
+
+
+.heart-main {
+    left: 5px;
+    top: 5px;
+
+    width: 20px;
+    height: 18px;
+}
+
+
+.heart-left {
+    left: 0;
+    top: 0;
+
+    width: 12px;
+    height: 12px;
+}
+
+
+.heart-right-block {
+    right: 0;
+    top: 0;
+
+    width: 12px;
+    height: 12px;
+}
+
+
+.heart-top {
+    right: 10%;
+    top: 11%;
+}
+
+
+.heart-right {
+    right: 25%;
+    top: 49%;
+
+    scale: 0.72 0.72;
+}
+
+
+/* =========================================================
+   Pixel Arrows
+   ========================================================= */
+
+.deco-arrow {
+    width: 27px;
+    height: 27px;
+
+    opacity: 0.20;
+}
+
+
+.arrow-shaft {
+    position: absolute;
+
+    left: 11px;
+    top: 2px;
+
+    width: 6px;
+    height: 23px;
+
+    background-color: rgb(18, 18, 28);
+}
+
+
+.arrow-head-left,
+.arrow-head-right {
+    position: absolute;
+
+    top: 1px;
+
+    width: 6px;
+    height: 12px;
+
+    background-color: rgb(18, 18, 28);
+}
+
+
+.arrow-head-left {
+    left: 5px;
+
+    rotate: -45deg;
+}
+
+
+.arrow-head-right {
+    right: 5px;
+
+    rotate: 45deg;
+}
+
+
+/* =========================================================
+   Arrow Positions
+   ========================================================= */
+
+.arrow-top-left {
+    left: 9%;
+    top: 13%;
+}
+
+
+.arrow-top-right {
+    right: 26%;
+    top: 31%;
+
+    scale: 0.85 0.85;
+}
+
+
+.arrow-bottom-right {
+    right: 8%;
+    bottom: 13%;
+
+    scale: 1.05 1.05;
+}

@@ -1,26 +1,12 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
-    <Style src="project://database/Assets/NKY/UI/USS/MainManuUss.uss?fileID=7433441132597879392&amp;guid=a64695614a6605e4187b47117ad55817&amp;type=3#MainManuUss"/>
+    <Style src="project://database/Assets/NKY/UI/USS/MainManu.uss?fileID=7433441132597879392&amp;guid=9ca7ef739f48f644f9ac79d5f9f092dc&amp;type=3#MainManu"/>
     <ui:VisualElement name="MainMenu" class="main-menu">
-        <ui:VisualElement name="Background" class="background"/>
-        <ui:VisualElement name="MenuContainer" class="menu-container" style="bottom: -1px;">
-            <ui:Label name="GameTitle" text="GAME TITLE" class="game-title"/>
-            <ui:VisualElement name="MenuList" class="menu-list" style="top: 291px; right: 2px; left: -1px;">
-                <ui:VisualElement name="PlayItem" class="menu-item">
-                    <ui:VisualElement name="PlayHoverBackground" class="hover-background"/>
-                    <ui:Button name="PlayButton" text="플레이" class="menu-button selected"/>
-                </ui:VisualElement>
-                <ui:VisualElement name="JobItem" class="menu-item">
-                    <ui:VisualElement name="JobHoverBackground" class="hover-background"/>
-                    <ui:Button name="JobButton" text="직업" class="menu-button"/>
-                </ui:VisualElement>
-                <ui:VisualElement name="SettingItem" class="menu-item">
-                    <ui:VisualElement name="SettingHoverBackground" class="hover-background"/>
-                    <ui:Button name="SettingButton" text="설정" class="menu-button"/>
-                </ui:VisualElement>
-                <ui:VisualElement name="ExitItem" class="menu-item">
-                    <ui:VisualElement name="ExitHoverBackground" class="hover-background"/>
-                    <ui:Button name="ExitButton" text="나가기" class="menu-button"/>
-                </ui:VisualElement>
+        <ui:VisualElement name="Content" class="content">
+            <ui:Label name="GameTitle" text="제목 미정" class="game-title" style="margin-top: 210px; font-size: 100px;"/>
+            <ui:VisualElement name="MenuList" class="menu-list" style="height: 774px; width: 1920px; flex-direction: column; flex-wrap: nowrap; align-items: center; margin-top: 225px;">
+                <ui:Button name="PlayButton" text="플레이" class="menu-button selected" style="height: 60px; align-items: center; -unity-text-align: lower-center; width: 400px; margin-left: 8px; margin-bottom: 10px;"/>
+                <ui:Button name="SettingsButton" text="설정" class="menu-button" style="height: 60px; width: 400px; -unity-text-align: lower-center; margin-bottom: 10px;"/>
+                <ui:Button name="ExitButton" text="종료" class="menu-button" style="height: 60px; width: 400px; -unity-text-align: lower-center; margin-right: 8px;"/>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

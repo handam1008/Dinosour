@@ -1,58 +1,110 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace SSW
 {
     [RequireComponent(typeof(Health))]
     [RequireComponent(typeof(AugmentDrafter))]
-    public class SkillAugmentController : MonoBehaviour,
-        IIncomingDamageModifier,
-        IOutgoingDamageModifier,
-        IDamageDealtListener
+    public class SkillAugmentController : MonoBehaviour, IIncomingDamageModifier, IOutgoingDamageModifier, IDamageDealtListener
     {
+        [Header("공용")]
+        [SerializeField] float _moveThreshold = 0.05f; 
+
         [Header("악마와의 거래")]
-        [SerializeField] float _devilsDrainRatio = 0.01f;    // 초당 최대체력의 1% 감소
-        [SerializeField] float _devilsStopRatio = 0.10f;     // 현재체력 10% 미만이면 감소 정지
-        [SerializeField] float _devilsHealRate = 0.25f;      // 흡혈 25%
+        [SerializeField] float _devilsDrainRatio = 0.01f;
+        [SerializeField] float _devilsStopRatio = 0.10f;
+        [SerializeField] float _devilsHealRate = 0.25f;
 
-        [Header("가만히 있으면 반은 간다")]
-        [SerializeField] float _stillRequiredTime = 7f;      // 이만큼 정지하면 발동
-        [SerializeField] float _stillBuffDuration = 5f;      // 버프 지속
-        [SerializeField] float _stillSpeedBonus = 0.30f;
-        [SerializeField] float _stillDamageBonus = 0.50f;
-        [SerializeField] float _stillDamageReduction = 0.50f;
-        [SerializeField] float _stillMoveThreshold = 0.05f;  // 이 속도 이하를 "정지"로 판단
+        [Header("쾌속 접근")]
+        [SerializeField] float _swiftSpeedBonus = 0.60f;
+        [SerializeField] float _swiftRange = 30f;
+        [SerializeField] LayerMask _swiftObstacleMask;
+        [SerializeField] LineRenderer _swiftTether;
 
-        [Header("쿨감")]
-        [SerializeField] float _cooldownReduction = 0.35f;
+        [Header("냠냠")]
+        [SerializeField] float _nomRadius = 4f;
+        [SerializeField] float _nomDamage = 3f;
+        [SerializeField] float _nomHealRate = 1f;
+        [SerializeField] float _nomInterval = 1f;
+
+        [Header("자석")]
+        [SerializeField] float _magnetRadius = 8.5f;
+        [SerializeField] float _magnetStrength = 2f;
+        [SerializeField] float _magnetInterval = 1f;
+
+        [Header("축소 엔진")]
+        [SerializeField] float _shrinkScale = 0.25f;
+        [SerializeField] float _shrinkSpeedBonus = 0.25f;
+
+        [Header("다재다능")]
+        [SerializeField] float _versatileHp = 0.10f;
+        [SerializeField] float _versatileDamage = 0.10f;
+        [SerializeField] float _versatileLifesteal = 0.05f;
+        [SerializeField] float _versatileSpeed = 0.10f;
+        [SerializeField] float _versatileGuardCool = 0.10f;
+
+        [Header("더블 점프")]
+        [SerializeField] float _doubleJumpRatio = 0.9f;
+
+        [Header("쿵!")]
+        [SerializeField] float _slamMinHeight = 2f;
+        [SerializeField] Vector2 _slamBoxSize = new Vector2(6f, 0.3f);
+        [SerializeField] float _slamBoxOffsetY = -0.5f;
+        [SerializeField] float _slamBaseDamage = 5f;
+        [SerializeField] float _slamDamagePerHeight = 3f;
+        [SerializeField] float _slamMaxDamage = 40f;
+        [SerializeField] float _slamKnockback = 6f;
+        [SerializeField] GameObject _slamEffectPrefab;
+
+        [Header("지뢰밭")]
+        [SerializeField] GameObject _minePrefab;
+        [SerializeField] float _mineInterval = 3f;
+
+        [Header("느려져라")]
+        [SerializeField] float _slowAuraRadius = 4.5f;
+        [SerializeField] float _slowAuraAmount = 0.35f;
+        [SerializeField] GameObject _slowAuraObject;
 
         readonly HashSet<CommonAugmentType> _acquired = new HashSet<CommonAugmentType>();
+        readonly List<Health> _enemies = new List<Health>();
 
         AugmentDrafter _drafter;
         Health _health;
         Rigidbody2D _body;
+        PlayerController _player;
         ISpeedable _speedable;
+        HealthAugmentController _healthAugments;
+        Defance _defance;
 
         float _devilsDrainTimer;
-        float _stillTimer;
-        float _stillBuffEndTime;
+        bool _swiftActive;
+        float _nomTimer;
+        float _magnetTimer;
+        bool _airJumpUsed;
+        bool _wasGrounded = true;
+        float _fallPeakY;
+        float _mineTimer;
 
-        public int Priority => 100;   // HealthAugmentController(0) 다음에 계산되도록
+        public int Priority => 100;
 
         public bool Has(CommonAugmentType type) => _acquired.Contains(type);
 
-        public bool StayStillBuffActive => Time.time < _stillBuffEndTime;
-
-        // 직업 스킬 스크립트가 쿨타임에 곱해서 쓰는 값
-        public float SkillCooldownMultiplier =>
-            Has(CommonAugmentType.CooldownReduction) ? 1f - _cooldownReduction : 1f;
+        Vector2 Velocity => _player != null ? _player.Velocity : Vector2.zero;
+        bool IsMoving => Mathf.Abs(Velocity.x) > _moveThreshold;
 
         void Awake()
         {
             _drafter = GetComponent<AugmentDrafter>();
             _health = GetComponent<Health>();
             _body = GetComponentInParent<Rigidbody2D>();
+            _player = GetComponentInParent<PlayerController>();
             _speedable = GetComponentInParent<ISpeedable>();
+            _healthAugments = GetComponent<HealthAugmentController>();
+            _defance = GetComponent<Defance>();
+            
+            if (_slowAuraObject != null) _slowAuraObject.SetActive(false);
+            if (_swiftTether != null) _swiftTether.enabled = false;
         }
 
         void OnEnable()
@@ -68,17 +120,49 @@ namespace SSW
         void HandleSelected(Augment augment)
         {
             if (augment is not CommonAugment common) return;
-            _acquired.Add(common.type);
-            // 이 계열은 전부 "상황 발생 시" 발동이라 뽑는 순간 할 일이 없음
+            if (!_acquired.Add(common.type)) return;
+
+            switch (common.type)
+            {
+                case CommonAugmentType.ShrinkEngine:
+                    _healthAugments?.MultiplyScale(1f - _shrinkScale);
+                    break;
+                case CommonAugmentType.Versatile:
+                    _healthAugments?.ApplyMaxHealthMultiplier(1f + _versatileHp);
+                    if (_defance != null) _defance.CoolDown *= 1f - _versatileGuardCool;
+                    break;
+                case CommonAugmentType.SlowAura:
+                    if (_slowAuraObject != null) _slowAuraObject.SetActive(true);
+                    break;
+            }
         }
 
         void Update()
         {
             TickDevilsDeal();
-            TickStayStill();
+            TickSwiftApproach();
+            TickNomNom();
+            TickMagnet();
+            TickLanding();
+            TickMinefield();
+            TickSlowAura();
+
+            UpdateMoveSpeed();
         }
 
-        // ---------- 악마와의 거래 : 지속 HP 감소 ----------
+        void UpdateMoveSpeed()
+        {
+            float multiplier = 1f;
+
+            if (_swiftActive) multiplier *= 1f + _swiftSpeedBonus;
+            if (Has(CommonAugmentType.ShrinkEngine)) multiplier *= 1f + _shrinkSpeedBonus;
+            if (Has(CommonAugmentType.Versatile)) multiplier *= 1f + _versatileSpeed;
+            if (_healthAugments != null) multiplier *= _healthAugments.ConfidenceSpeedMultiplier;
+
+            if (multiplier > 1.0001f)
+                _speedable?.ApplySpeed(multiplier - 1f, 0.1f);
+        }
+
         void TickDevilsDeal()
         {
             if (!Has(CommonAugmentType.DevilsDeal)) return;
@@ -87,70 +171,260 @@ namespace SSW
             if (_devilsDrainTimer < 1f) return;
             _devilsDrainTimer -= 1f;
 
-            // 체력이 일정 비율 밑이면 더 이상 깎지 않음 (이걸로 죽지는 않게)
             if (_health.Current <= _health.Max * _devilsStopRatio) return;
 
             float amount = _health.Max * _devilsDrainRatio;
             _health.ReceiveDamage(new DamageRequest(this, amount, DamageTag.IgnoreDefense));
         }
 
-        // ---------- 가만히 있으면 반은 간다 ----------
-        void TickStayStill()
+        void TickSwiftApproach()
         {
-            if (!Has(CommonAugmentType.StayStill)) return;
-            if (StayStillBuffActive) return;   // 버프 중엔 다시 충전하지 않음
+            _swiftActive = false;
 
-            bool moving = _body != null
-                && Mathf.Abs(_body.linearVelocity.x) > _stillMoveThreshold;
-
-            if (moving)
+            if (!Has(CommonAugmentType.SwiftApproach) || _body == null)
             {
-                _stillTimer = 0f;
+                SetTether(false, default, default);
                 return;
             }
 
-            _stillTimer += Time.deltaTime;
-            if (_stillTimer < _stillRequiredTime) return;
+            Health target = FindNearestEnemy(_swiftRange);
+            if (target == null)
+            {
+                SetTether(false, default, default);
+                return;
+            }
 
-            _stillTimer = 0f;
-            _stillBuffEndTime = Time.time + _stillBuffDuration;
-            _speedable?.ApplySpeed(_stillSpeedBonus, _stillBuffDuration);
+            Vector2 from = _body.worldCenterOfMass;
+            Vector2 to = CenterOf(target);
+
+            if (Physics2D.Linecast(from, to, _swiftObstacleMask))
+            {
+                SetTether(false, default, default);
+                return;
+            }
+
+            SetTether(true, from, to);
+
+            float toEnemyX = to.x - from.x;
+            _swiftActive = IsMoving && Velocity.x * toEnemyX > 0f;
         }
 
-        // ---------- 주는 피해 보정 ----------
+        void SetTether(bool on, Vector2 a, Vector2 b)
+        {
+            if (_swiftTether == null) return;
+
+            _swiftTether.enabled = on;
+            if (!on) return;
+
+            _swiftTether.positionCount = 2;
+            _swiftTether.SetPosition(0, a);
+            _swiftTether.SetPosition(1, b);
+        }
+
+        void TickNomNom()
+        {
+            if (!Has(CommonAugmentType.NomNom)) return;
+
+            _nomTimer += Time.deltaTime;
+            if (_nomTimer < _nomInterval) return;
+            _nomTimer -= _nomInterval;
+
+            foreach (Health enemy in FindEnemies(_nomRadius))
+            {
+                DamageResult result = CombatDamage.Deal(this, enemy, _nomDamage, DamageTag.JobSkill);
+                if (result.WasApplied)
+                    _health.Heal(result.AppliedAmount * _nomHealRate);
+            }
+        }
+
+        void TickMagnet()
+        {
+            if (!Has(CommonAugmentType.Magnet)) return;
+
+            _magnetTimer += Time.deltaTime;
+            if (_magnetTimer < _magnetInterval) return;
+            _magnetTimer -= _magnetInterval;
+
+            float myX = transform.position.x;
+            foreach (Health enemy in FindEnemies(_magnetRadius))
+            {
+                IForceReceiver receiver = enemy.GetComponentInParent<IForceReceiver>();
+                if (receiver == null) continue;
+
+                float dir = Mathf.Sign(myX - enemy.transform.position.x);
+                receiver.ApplyForce(new Vector2(dir * _magnetStrength, 0f), ForceMode2D.Impulse);
+            }
+        }
+
+        void TickLanding()
+        {
+            if (_player == null) return;
+
+            bool grounded = _player.IsGrounded;
+            float y = transform.position.y;
+
+            if (!grounded)
+            {
+                _fallPeakY = _wasGrounded ? y : Mathf.Max(_fallPeakY, y);
+            }
+            else
+            {
+                _airJumpUsed = false;
+
+                if (!_wasGrounded && Has(CommonAugmentType.Slam))
+                {
+                    float fallHeight = _fallPeakY - y;
+                    if (fallHeight >= _slamMinHeight)
+                        DoSlam(fallHeight);
+                }
+            }
+
+            _wasGrounded = grounded;
+        }
+
+        void DoSlam(float height)
+        {
+            Vector2 center = (Vector2)transform.position + new Vector2(0f, _slamBoxOffsetY);
+            float damage = Mathf.Min(_slamBaseDamage + _slamDamagePerHeight * height, _slamMaxDamage);
+            float power = _slamKnockback * (1f + height * 0.1f);
+
+            if (_slamEffectPrefab != null)
+                Instantiate(_slamEffectPrefab, center, Quaternion.identity);
+
+            foreach (Health enemy in FindEnemiesInBox(center, _slamBoxSize))
+            {
+                CombatDamage.Deal(this, enemy, damage, DamageTag.JobSkill);
+
+                IForceReceiver receiver = enemy.GetComponentInParent<IForceReceiver>();
+                if (receiver == null) continue;
+
+                float dir = Mathf.Sign(enemy.transform.position.x - center.x);
+                receiver.ApplyForce(new Vector2(dir, 0.6f) * power, ForceMode2D.Impulse);
+            }
+        }
+
+        void OnJump(InputValue value)
+        {
+            if (!value.isPressed) return;
+            if (!Has(CommonAugmentType.DoubleJump)) return;
+            if (_player == null || _body == null) return;
+            if (_player.IsGrounded || _airJumpUsed) return;
+
+            _airJumpUsed = true;
+            _body.linearVelocity = new Vector2(
+                _body.linearVelocity.x,
+                _player.JumpSpeed * _doubleJumpRatio);
+        }
+
+        void TickMinefield()
+        {
+            if (!Has(CommonAugmentType.Minefield) || _minePrefab == null) return;
+
+            _mineTimer += Time.deltaTime;
+            if (_mineTimer < _mineInterval) return;
+            _mineTimer -= _mineInterval;
+
+            GameObject go = Instantiate(_minePrefab, transform.position, Quaternion.identity);
+            go.GetComponent<Mine>()?.Init(this, _health);
+        }
+        
+        void TickSlowAura()
+        {
+            if (!Has(CommonAugmentType.SlowAura)) return;
+
+            foreach (Health enemy in FindEnemies(_slowAuraRadius))
+                enemy.GetComponentInParent<ISlowable>()?.ApplySlow(_slowAuraAmount, 0.15f);
+        }
+
         public float ModifyOutgoingDamage(float amount)
         {
-            if (Has(CommonAugmentType.StayStill) && StayStillBuffActive)
-                amount *= 1f + _stillDamageBonus;
+            if (Has(CommonAugmentType.Versatile))
+                amount *= 1f + _versatileDamage;
 
             return amount;
         }
 
-        // ---------- 받는 피해 보정 ----------
         public float ModifyIncomingDamage(DamageRequest request, float currentAmount)
         {
-            // 내부적으로 다시 넣는 피해(악마 감소분, 죽음의 무도 틱)는 그대로 통과
             if (request.HasTag(DamageTag.IgnoreDefense))
                 return currentAmount;
 
-            // 악마와의 거래 : 환경 피해 면역
             if (Has(CommonAugmentType.DevilsDeal) && request.HasTag(DamageTag.Environment))
                 return 0f;
-
-            // 가만히 있으면 반은 간다 : 피해 감소
-            if (Has(CommonAugmentType.StayStill) && StayStillBuffActive)
-                currentAmount *= 1f - _stillDamageReduction;
 
             return currentAmount;
         }
 
-        // ---------- 공격 성공 시 ----------
         public void OnDamageDealt(DamageRequest request, DamageResult result)
         {
             if (!result.WasApplied) return;
 
-            if (Has(CommonAugmentType.DevilsDeal))
-                _health.Heal(result.AppliedAmount * _devilsHealRate);
+            float healRate = 0f;
+            if (Has(CommonAugmentType.DevilsDeal)) healRate += _devilsHealRate;
+            if (Has(CommonAugmentType.Versatile)) healRate += _versatileLifesteal;
+
+            if (healRate > 0f)
+                _health.Heal(result.AppliedAmount * healRate);
+        }
+
+        List<Health> FindEnemies(float radius)
+        {
+            return Collect(Physics2D.OverlapCircleAll(transform.position, radius));
+        }
+
+        List<Health> FindEnemiesInBox(Vector2 center, Vector2 size)
+        {
+            return Collect(Physics2D.OverlapBoxAll(center, size, 0f));
+        }
+
+        List<Health> Collect(Collider2D[] hits)
+        {
+            _enemies.Clear();
+            foreach (Collider2D hit in hits)
+            {
+                Health enemy = hit.GetComponentInParent<Health>();
+                if (enemy == null || enemy == _health) continue;
+                if (!enemy.isActiveAndEnabled || enemy.Current <= 0f) continue;
+                if (!_enemies.Contains(enemy)) _enemies.Add(enemy);
+            }
+            return _enemies;
+        }
+
+        Health FindNearestEnemy(float radius)
+        {
+            Health nearest = null;
+            float nearestSqr = float.MaxValue;
+            Vector2 me = transform.position;
+
+            foreach (Health enemy in FindEnemies(radius))
+            {
+                float sqr = ((Vector2)enemy.transform.position - me).sqrMagnitude;
+                if (sqr < nearestSqr)
+                {
+                    nearestSqr = sqr;
+                    nearest = enemy;
+                }
+            }
+            return nearest;
+        }
+
+        static Vector2 CenterOf(Component target)
+        {
+            return target.TryGetComponent(out Collider2D col)
+                ? (Vector2)col.bounds.center
+                : (Vector2)target.transform.position;
+        }
+
+        void OnDrawGizmosSelected()
+        {
+            Vector3 p = transform.position;
+            Gizmos.color = Color.cyan;    Gizmos.DrawWireSphere(p, _swiftRange);
+            Gizmos.color = Color.red;     Gizmos.DrawWireSphere(p, _nomRadius);
+            Gizmos.color = Color.magenta; Gizmos.DrawWireSphere(p, _magnetRadius);
+            Gizmos.color = Color.blue;    Gizmos.DrawWireSphere(p, _slowAuraRadius);
+
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireCube(p + new Vector3(0f, _slamBoxOffsetY, 0f), _slamBoxSize);
         }
     }
 }

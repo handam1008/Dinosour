@@ -35,16 +35,19 @@ namespace SSW
         double _caughtAt;
         float _radius;
         Vector2 _size;
+        ShotContact _target;
 
         public float Age => IsServer ? 0f : (float)(_clock.Time - _pose.Time);
         public uint Turn => _pose.Turn;
         public bool Terrain { get; set; } = true;
         public SpriteRenderer Sprite => _sprite;
-        public bool Blocked => _normal.sqrMagnitude > 0f || _caught;
+        public bool Blocked => _normal.sqrMagnitude > 0f || _caught || _target != null && _target.Blocked;
         public ulong Caster => _caster.NetworkObjectId;
         public uint Action => _action;
         public int Part => _part;
         public Vector2 Velocity => _pose.Velocity;
+        internal ShotPose Pose => _pose;
+        internal double ViewTime => IsServer ? NetGame.Current.PhysicsTime : _clock.Time;
         double Now => _local ? NetworkManager.LocalTime.Time : NetworkManager.ServerTime.Time;
 
         public void Redirect() => _turn++;
@@ -57,6 +60,7 @@ namespace SSW
             _local = caster.IsOwner;
             _radius = radius;
             _size = size;
+            _target = new ShotContact(caster, NetGame.Current.Players);
         }
 
         protected override void OnNetworkPostSpawn()
@@ -90,13 +94,14 @@ namespace SSW
             };
         }
 
-        public void Adopt(Transform view, Vector2 normal, Collider2D contact)
+        public void Adopt(Transform view, Vector2 normal, Collider2D contact, ShotContact target)
         {
             double time = _clock.Time;
             _normal = normal;
             _contact = contact;
             _blockedAt = _clock.Time;
             _stop = view.position;
+            _target = target;
             _offset = (Vector2)view.position - _pose.Point(time);
             _angleOffset = Mathf.DeltaAngle(_pose.Rotation(time), view.eulerAngles.z);
             transform.SetPositionAndRotation(view.position, view.rotation);
@@ -110,9 +115,11 @@ namespace SSW
             if (_pending.Count > 32) _pending.Dequeue();
         }
 
-        void Accept(ShotPose pose, double time)
+        void Accept(ShotPose pose, double time, double previous)
         {
-            _offset += _pose.Point(time) - pose.Point(time);
+            _offset = pose.Turn != _pose.Turn
+                ? (Vector2)transform.position - pose.Point(previous)
+                : _offset + _pose.Point(time) - pose.Point(time);
             _angleOffset = Mathf.DeltaAngle(pose.Rotation(time), _pose.Rotation(time) + _angleOffset);
             bool cleared = _normal.sqrMagnitude > 0f && !ShotQuery.Touches(_contact, _stop, _radius, _size);
             bool escaped = pose.Time >= _blockedAt && Vector2.Dot(pose.Velocity, _normal) > 0.01f
@@ -121,6 +128,12 @@ namespace SSW
             if (_normal.sqrMagnitude > 0f && (!pose.Terrain || pose.Turn != _pose.Turn || cleared || escaped))
                 Release(pose, time);
             if (_caught && pose.Time >= _caughtAt && Vector2.Distance(pose.Position, _caster.View.position) > 0.5f) _caught = false;
+            if (_target != null && _target.Advance(pose, _seed.Value.Time))
+            {
+                _released = true;
+                _offset = _target.Point - pose.Point(time);
+                transform.position = _target.Point;
+            }
             _pose = pose;
         }
 
@@ -172,7 +185,7 @@ namespace SSW
             _released = false;
             double previous = _clock.Time;
             double now = _clock.Step(Now, Time.deltaTime);
-            while (_pending.Count > 0 && _pending.Peek().Time <= now) Accept(_pending.Dequeue(), now);
+            while (_pending.Count > 0 && _pending.Peek().Time <= now) Accept(_pending.Dequeue(), now, previous);
             if (_normal.sqrMagnitude > 0f && !ShotQuery.Touches(_contact, _stop, _radius, _size)) Release(_pose, now);
             float age = Mathf.Clamp((float)(now - _pose.Time), 0f, 1f);
             float elapsed = _released ? 0f : age - Mathf.Clamp((float)(previous - _pose.Time), 0f, 1f);
@@ -180,18 +193,25 @@ namespace SSW
             _offset = Vector2.MoveTowards(_offset, Vector2.zero, speed * 0.25f * elapsed);
             _angleOffset = Mathf.MoveTowards(_angleOffset, 0f, 180f * elapsed);
             Vector2 point = _pose.Point(now) + _offset;
-            if (_normal.sqrMagnitude > 0f) point = _stop;
-            else if (_pose.Terrain)
+            if (_target.Blocked) point = _target.Point;
+            else if (_normal.sqrMagnitude > 0f) point = _stop;
+            else
             {
-                if (ShotQuery.Ground(transform.position, point, _radius, _size, _ground, out RaycastHit2D hit))
+                if (_pose.Terrain && ShotQuery.Ground(transform.position, point, _radius, _size, _ground, out RaycastHit2D hit))
                 {
                     _normal = hit.normal;
                     _contact = hit.collider;
                     _blockedAt = now;
                     point = _stop = hit.centroid;
                 }
+                if (_target.TryBlock(transform.position, point, _radius, _size, (float)(now - _seed.Value.Time), speed))
+                {
+                    point = _target.Point;
+                    _normal = Vector2.zero;
+                    _contact = null;
+                }
             }
-            if (!_pose.Terrain) point = StopAtCaster(point);
+            if (!_pose.Terrain && !_target.Blocked) point = StopAtCaster(point);
             transform.SetPositionAndRotation(point, Quaternion.Euler(0f, 0f, _pose.Rotation(now) + _angleOffset));
         }
     }
