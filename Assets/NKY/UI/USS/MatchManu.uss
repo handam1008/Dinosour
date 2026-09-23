@@ -29,24 +29,6 @@
 }
 
 
-.menu-title {
-    width: 100%;
-    height: 17%;
-
-    margin-bottom: 1%;
-
-    color: rgb(245, 244, 255);
-
-    font-size: 42px;
-
-    -unity-font-style: bold;
-    -unity-text-align: middle-center;
-
-    -unity-text-outline-width: 2px;
-    -unity-text-outline-color: rgb(104, 91, 224);
-}
-
-
 .menu-body {
     position: relative;
 
@@ -58,6 +40,14 @@
 /* =========================================================
    Columns
    ========================================================= */
+
+.top-button-container {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+}
+
 
 .left-column {
     position: absolute;
@@ -119,7 +109,9 @@
 }
 
 
-/* Matchmaking */
+/* =========================================================
+   Matchmaking
+   ========================================================= */
 
 .matchmaking-button {
     position: absolute;
@@ -131,10 +123,147 @@
     height: 100%;
 
     background-color: rgb(91, 72, 177);
+
+    overflow: hidden;
 }
 
 
-/* Create Room */
+/* =========================================================
+   Match Player
+   ========================================================= */
+
+.match-player {
+    position: absolute;
+
+    top: 10%;
+
+    width: 34%;
+    height: 80%;
+
+    picking-mode: ignore;
+
+    opacity: 0;
+
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+
+/* 왼쪽 플레이어 */
+
+.left-player {
+    left: 0;
+
+    translate: -150px 0;
+
+    rotate: 0deg;
+}
+
+
+/* 오른쪽 플레이어 */
+
+.right-player {
+    right: 0;
+
+    translate: 150px 0;
+
+    rotate: 0deg;
+}
+
+
+/* =========================================================
+   Impact
+   ========================================================= */
+
+.match-impact {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 70px;
+    height: 70px;
+
+    translate: -50% -50%;
+
+    opacity: 0;
+
+    scale: 0.2 0.2;
+
+    picking-mode: ignore;
+
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+
+/* =========================================================
+   Impact Lines
+   ========================================================= */
+
+.impact-line {
+    position: absolute;
+
+    top: 50%;
+
+    width: 100px;
+    height: 4px;
+
+    translate: 0 -50%;
+
+    opacity: 0;
+
+    background-color: rgba(255, 255, 255, 0.9);
+
+    picking-mode: ignore;
+}
+
+
+.impact-line-left {
+    right: 50%;
+
+    transform-origin: right center;
+
+    rotate: 12deg;
+}
+
+
+.impact-line-right {
+    left: 50%;
+
+    transform-origin: left center;
+
+    rotate: -12deg;
+}
+
+
+/* =========================================================
+   Match Animation State
+   ========================================================= */
+
+/* 애니메이션 실행 중 */
+
+.matchmaking-button.match-animation
+.match-player {
+    opacity: 1;
+}
+
+
+/* 충돌 순간 */
+
+.matchmaking-button.match-hit
+.match-impact {
+    opacity: 1;
+}
+
+
+.matchmaking-button.match-hit
+.impact-line {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   Create Room
+   ========================================================= */
 
 .create-button {
     position: absolute;
@@ -149,7 +278,9 @@
 }
 
 
-/* Join Room */
+/* =========================================================
+   Join Room
+   ========================================================= */
 
 .join-button {
     position: absolute;
@@ -164,23 +295,89 @@
 }
 
 
-/* Sandbox */
+/* =========================================================
+   Bottom Buttons
+   ========================================================= */
 
-.sandbox-button {
-    position: absolute;
-
-    left: 0;
-    top: 70%;
+.under-button-container {
+    flex-direction: row;
 
     width: 100%;
-    height: 30%;
+    height: 0%;
+
+    align-items: center;
+
+    justify-content: flex-start;
+}
+
+
+.job-button {
+    position: relative;
+
+    width: 49%;
+    height: 80%;
+
+    background-color: rgb(189, 204, 43);
+
+    flex-direction: row-reverse;
+
+    justify-content: flex-start;
+}
+
+
+.sandbox-menu-button {
+    position: relative;
+
+    width: 50%;
+    height: 80%;
 
     background-color: rgb(37, 104, 70);
 }
 
 
 /* =========================================================
-   Button Interaction
+   Job
+   ========================================================= */
+
+.current-job-container {
+    flex-grow: 1;
+
+    width: 20%;
+
+    flex-direction: row-reverse;
+}
+
+
+.jobs {
+    flex-grow: 1;
+
+    max-width: 20%;
+    max-height: 100%;
+}
+
+
+.job-icon {
+    width: 100%;
+
+    flex-grow: 1;
+}
+
+
+.job-name {
+    margin-right: 2px;
+
+    width: 100%;
+
+    -unity-text-align: upper-center;
+
+    -unity-font-style: bold;
+
+    color: rgb(0, 0, 0);
+}
+
+
+/* =========================================================
+   Hover
    ========================================================= */
 
 .menu-button:hover {
