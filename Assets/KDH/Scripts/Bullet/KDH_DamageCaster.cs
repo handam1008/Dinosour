@@ -1,4 +1,3 @@
-using KDH.Scripts.Gun;
 using SSW;
 using UnityEngine;
 
@@ -23,9 +22,6 @@ namespace KDH.Scripts.Bullet
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.gameObject.transform.root.TryGetComponent(out KDH_Gun _))
-                return;
-            
             if (collision.CompareTag("Player"))
                 _bullet.PlayerGun.UpgradeList.ApplyBulletAbility(collision, _bullet); // 증강에 적용된 총알들의 능력을 모두 적용
             // _bullet.PlayerGun.

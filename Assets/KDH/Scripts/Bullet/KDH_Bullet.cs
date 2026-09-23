@@ -48,9 +48,11 @@ namespace KDH.Scripts.Bullet
             Rigid.linearVelocity = MoveDir * Speed;
         }
         
-        public void Init(Vector2 moveDir)
+        public void Init(float amount)
         {
-            MoveDir = moveDir;
+            float angle = amount * Mathf.Deg2Rad;
+            Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+            MoveDir = direction;
         }
     }
 }
