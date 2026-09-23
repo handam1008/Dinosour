@@ -1,0 +1,41 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/NKY/UI/USS/MatchManu.uss?fileID=7433441132597879392&amp;guid=ca468121f115ec34aaf333f4c04e44a2&amp;type=3#MatchManu"/>
+    <ui:VisualElement name="root" class="menu-root" style="color: rgb(235, 248, 88); background-color: rgb(44, 82, 66); background-image: none;">
+        <ui:VisualElement name="content" class="menu-content" style="height: 844px; top: 248px; width: 1321px; left: 264px;">
+            <ui:VisualElement name="Button_container" class="menu-body" style="height: 70%;">
+                <ui:VisualElement name="Top_btn_container" class="top-button-container">
+                    <ui:VisualElement name="Match_btn" class="left-column">
+                        <ui:Button name="matchmakingButton" text="매치메이킹" class="menu-button matchmaking-button" style="-unity-text-align: lower-left; flex-direction: row; align-items: flex-start; justify-content: flex-end; font-size: 25px; width: 100%;">
+                            <ui:Image name="Icon" source="project://database/Assets/NKY/Asset/DinoFootIcon.png?fileID=-3338258424178146402&amp;guid=8fbc4f89ef208c44387d37b14e1f6013&amp;type=3#DinoFootIcon_1" tint-color="rgba(0, 0, 0, 0.27)" style="height: 40%; width: 20%;"/>
+                        </ui:Button>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Room_btn_container" class="right-column">
+                        <ui:Button name="createRoomButton" text="방 만들기" class="menu-button create-button" style="-unity-text-align: lower-left; font-size: 25px; align-items: flex-end;">
+                            <ui:Image source="project://database/Assets/NKY/Asset/FB001.png?fileID=-2917000182891882972&amp;guid=17b3159769a5b8c4fa6bf5db03cbc05d&amp;type=3#FB001_0" tint-color="rgba(0, 0, 0, 0.27)" focusable="false" name="Image" style="height: 40%; width: 15%; rotate: -0.5934119rad; scale: -1 1;"/>
+                        </ui:Button>
+                        <ui:Button name="joinRoomButton" text="방 들어가기" class="menu-button join-button" style="-unity-text-align: lower-left; font-size: 25px; align-items: flex-end;">
+                            <ui:Image source="project://database/Assets/0.Asset/download/male/kuro/egg/crack.png?fileID=8795366620419746748&amp;guid=5b70797c210d7fb4b87ea6772b351feb&amp;type=3#crack_0" tint-color="rgba(0, 0, 0, 0.27)" style="height: 40%; width: 15%;"/>
+                        </ui:Button>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="Under_btn_container" class="under-button-container" style="height: 30%;">
+                    <ui:Button name="JobSelectButton" text="직업 설정" class="menu-button sandbox-button job-button" style="font-size: 25px;">
+                        <ui:VisualElement name="CurrentJob_container" class="current-job-container" style="-unity-text-align: middle-left;">
+                            <ui:VisualElement name="Jobs" class="jobs">
+                                <ui:Image source="project://database/Assets/SSW/Art/Jobs/Hats/Gunner.png?fileID=21300000&amp;guid=fd8e240e16a892447835deeb68c3ebd3&amp;type=3#Gunner" name="Job_icon" tint-color="rgb(255, 255, 255)" class="job-icon"/>
+                                <ui:Label text="Gunner" name="Job_name" class="job-name" style="font-size: 16px;"/>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:Button>
+                    <ui:Button name="sandboxButton" text="샌드박스" class="menu-button sandbox-button sandbox-menu-button" style="font-size: 25px; align-items: flex-end;">
+                        <ui:Image source="project://database/Assets/0.Asset/download/male/mort/base/scan.png?fileID=-8779688227974700679&amp;guid=a7a5f557938c8e147a6c61684852d9a2&amp;type=3#scan_5" tint-color="rgba(0, 0, 0, 0.27)" style="height: 100%; width: 15%; scale: -1 1;"/>
+                    </ui:Button>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Button name="backButton" text="뒤로" class="back-button" style="top: 643px; left: 527px;"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="Design" style="flex-grow: 1;">
+            <ui:Image name="Image" source="project://database/Assets/NKY/Asset/FB001.png?fileID=2800000&amp;guid=17b3159769a5b8c4fa6bf5db03cbc05d&amp;type=3#FB001" tint-color="rgba(0, 0, 0, 0.27)" style="height: 200px; width: 200px; position: absolute; top: 852px; left: 1583px; scale: -1 1; color: rgba(235, 248, 0, 0); rotate: -41deg;"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

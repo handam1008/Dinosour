@@ -131,7 +131,6 @@ namespace SSW
             TickRegeneration();
         }
 
-        // ---------- 뽑는 순간 ----------
         void HandleSelected(Augment augment)
         {
             if (augment is not CommonAugment common) return;
@@ -155,7 +154,7 @@ namespace SSW
                     ApplyMaxHealthMultiplier(1f - _phoenixHpPenalty);
                     break;
                 case CommonAugmentType.TenLives:
-                    SetMaxHealth(_tenLivesHealth);   // 배율이 아니라 고정값
+                    SetMaxHealth(_tenLivesHealth);
                     break;
             }
         }
@@ -163,7 +162,7 @@ namespace SSW
         
         public void ApplyMaxHealthMultiplier(float multiplier)
         {
-            if (Has(CommonAugmentType.TenLives)) return;   // 10으로 고정된 뒤엔 체력 배율 무시
+            if (Has(CommonAugmentType.TenLives)) return;
             SetMaxHealth(_health.maxHealth * multiplier);
         }
 
@@ -184,7 +183,6 @@ namespace SSW
             }
         }
 
-        // ---------- 티끌모아 태산 ----------
         void TickRegeneration()
         {
             if (!Has(CommonAugmentType.Regeneration)) return;
@@ -214,25 +212,19 @@ namespace SSW
                 _speedable?.ApplySpeed(_confidenceSpeedBonus, _confidenceDuration);
         }
 
-        // ---------- 내가 맞을 때 ----------
         public float ModifyIncomingDamage(DamageRequest request, float currentAmount)
         {
-            // 1. 불사조 부활 직후 무적
             if (_phoenixInvulnActive)
                 return 0f;
 
-            // 밖에서 들어온 진짜 피해인지 (방어로 막힌 0, 내부 틱은 제외)
             bool external = currentAmount > 0f && !request.HasTag(DamageTag.IgnoreDefense);
 
-            // 2. 멀티스케일 — 체력이 가득 찬 상태면 피해 감소
             if (external && Has(CommonAugmentType.Multiscale) && IsFullHealth)
                 currentAmount *= 1f - _multiscaleReduction;
 
-            // 3. 10개의 목숨 — 무조건 1 (멀티스케일보다 우선)
             if (external && Has(CommonAugmentType.TenLives))
                 currentAmount = _tenLivesDamage;
 
-            // 4. 불사조 — 위에서 줄어든 값 기준으로 죽는지 판단
             if (Has(CommonAugmentType.Phoenix) && !_phoenixUsed && currentAmount >= _health.Current)
             {
                 _phoenixUsed = true;
@@ -244,11 +236,9 @@ namespace SSW
                 return 0f;
             }
 
-            // 5. 내부 피해는 그대로 통과
             if (request.HasTag(DamageTag.IgnoreDefense))
                 return currentAmount;
 
-            // 6. 죽음의 무도
             if (Has(CommonAugmentType.DeathWaltz) && currentAmount > 0f)
             {
                 int ticks = Mathf.Max(1, Mathf.RoundToInt(_deathWaltzSpreadTime));

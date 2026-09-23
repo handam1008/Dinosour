@@ -93,7 +93,8 @@ namespace SSW
         public override void OnNetworkSpawn()
         {
             _motor = new MotionMotor(_shape, _motion, Physics2D.gravity.y * _body.gravityScale);
-            _state.Position = _previous = _body.position;
+            _state.Position = _previous = transform.position;
+            _body.position = _state.Position;
             _shown = _view.position = transform.position;
             _rate = _motion.Rate;
             _speed = _rate.Value;
