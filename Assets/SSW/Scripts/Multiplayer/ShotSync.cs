@@ -115,9 +115,11 @@ namespace SSW
             if (_pending.Count > 32) _pending.Dequeue();
         }
 
-        void Accept(ShotPose pose, double time)
+        void Accept(ShotPose pose, double time, double previous)
         {
-            _offset += _pose.Point(time) - pose.Point(time);
+            _offset = pose.Turn != _pose.Turn
+                ? (Vector2)transform.position - pose.Point(previous)
+                : _offset + _pose.Point(time) - pose.Point(time);
             _angleOffset = Mathf.DeltaAngle(pose.Rotation(time), _pose.Rotation(time) + _angleOffset);
             bool cleared = _normal.sqrMagnitude > 0f && !ShotQuery.Touches(_contact, _stop, _radius, _size);
             bool escaped = pose.Time >= _blockedAt && Vector2.Dot(pose.Velocity, _normal) > 0.01f
@@ -183,7 +185,7 @@ namespace SSW
             _released = false;
             double previous = _clock.Time;
             double now = _clock.Step(Now, Time.deltaTime);
-            while (_pending.Count > 0 && _pending.Peek().Time <= now) Accept(_pending.Dequeue(), now);
+            while (_pending.Count > 0 && _pending.Peek().Time <= now) Accept(_pending.Dequeue(), now, previous);
             if (_normal.sqrMagnitude > 0f && !ShotQuery.Touches(_contact, _stop, _radius, _size)) Release(_pose, now);
             float age = Mathf.Clamp((float)(now - _pose.Time), 0f, 1f);
             float elapsed = _released ? 0f : age - Mathf.Clamp((float)(previous - _pose.Time), 0f, 1f);
