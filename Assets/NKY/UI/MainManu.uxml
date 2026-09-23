@@ -1,0 +1,27 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/NKY/UI/USS/MainManuUss.uss?fileID=7433441132597879392&amp;guid=a64695614a6605e4187b47117ad55817&amp;type=3#MainManuUss"/>
+    <ui:VisualElement name="MainMenu" class="main-menu">
+        <ui:VisualElement name="Background" class="background"/>
+        <ui:VisualElement name="MenuContainer" class="menu-container" style="bottom: -1px;">
+            <ui:Label name="GameTitle" text="GAME TITLE" class="game-title"/>
+            <ui:VisualElement name="MenuList" class="menu-list" style="top: 291px; right: 2px; left: -1px;">
+                <ui:VisualElement name="PlayItem" class="menu-item">
+                    <ui:VisualElement name="PlayHoverBackground" class="hover-background"/>
+                    <ui:Button name="PlayButton" text="플레이" class="menu-button selected"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="JobItem" class="menu-item">
+                    <ui:VisualElement name="JobHoverBackground" class="hover-background"/>
+                    <ui:Button name="JobButton" text="직업" class="menu-button"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="SettingItem" class="menu-item">
+                    <ui:VisualElement name="SettingHoverBackground" class="hover-background"/>
+                    <ui:Button name="SettingButton" text="설정" class="menu-button"/>
+                </ui:VisualElement>
+                <ui:VisualElement name="ExitItem" class="menu-item">
+                    <ui:VisualElement name="ExitHoverBackground" class="hover-background"/>
+                    <ui:Button name="ExitButton" text="나가기" class="menu-button"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
