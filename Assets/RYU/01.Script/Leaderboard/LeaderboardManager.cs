@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TMPro;
 using Unity.Services.Authentication;
+using Unity.Services.CloudCode;
 using Unity.Services.Core;
 using Unity.Services.Leaderboards;
 using Unity.VisualScripting;
@@ -13,6 +15,8 @@ using UnityEngine.UI;
 
 namespace RYU._01.Script.Leaderboard
 {
+    
+   
     public class LeaderboardManager : MonoBehaviour
     {
         [Header("UI")]
@@ -74,7 +78,7 @@ namespace RYU._01.Script.Leaderboard
             
                 //Monkey = 0, Dino = 1, Magma = 2, Meteor = 3, IceAge = 4, Extinct = 5
                    
-                switch (entry.Tier)
+                switch (tier)
                 {
                     case "Extinct":
                         go.SetTierImage(go.tier[5]);
@@ -122,6 +126,26 @@ namespace RYU._01.Script.Leaderboard
             if (rank < 31) return "Magma";     // 17~31위
             if (rank < 48) return "Dino";      // 32~48위
             return "Monkey";                   // 나머지
+        }
+        
+        [ContextMenu("Test Win 4:1")]
+        private void TestWin() => TestReport(true, 4, 1);
+
+        [ContextMenu("Test Lose 1:4")]
+        private void TestLose() => TestReport(false, 1, 4);
+
+        private async void TestReport(bool isWin, int mySets, int opponentSets)
+        {
+            try
+            {
+                var result = await MatchReporter.ReportAsync(isWin, mySets, opponentSets, null);
+                Debug.Log($"Cloud Code 결과: {result.delta:+#;-#;0}점, 현재 {result.score}점");
+                await LoadAllScore();
+            }
+            catch (CloudCodeException e)
+            {
+                Debug.LogError(e.ToString());
+            }
         }
     }
 }

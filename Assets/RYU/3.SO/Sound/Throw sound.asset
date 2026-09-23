@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Throw sound
   m_EditorClassIdentifier: SoundSystem_assembly::DevLib.SoundSystem.Runtime.SoundClipSO
   audioType: 0
-  clip: {fileID: 8300000, guid: 8ae211c1497670a42b656cfeaf9855bb, type: 3}
+  clip: {fileID: 8300000, guid: b543722e4f216d24aa9cece7c1b26286, type: 3}
   isLoop: 0
   randomizerPitch: 1
-  randomPitchModifier: 0.1
+  randomPitchModifier: 0.3
   volume: 1
-  pitch: 1
+  pitch: 2
   startTime: 0
-  endTime: 0.99455696
+  endTime: 0.3355412
