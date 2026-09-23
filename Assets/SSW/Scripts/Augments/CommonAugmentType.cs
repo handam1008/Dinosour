@@ -44,6 +44,7 @@ namespace SSW
         Versatile,
         DoubleJump,
         Minefield,
-        SlowAura 
+        SlowAura,
+        CounterAttack
     }
 }

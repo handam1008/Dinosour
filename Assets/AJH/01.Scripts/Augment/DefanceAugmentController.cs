@@ -9,7 +9,7 @@ namespace SSW
     [RequireComponent(typeof(Health))]
     [RequireComponent(typeof(AugmentDrafter))]
     [RequireComponent(typeof(Defance))]
-    public class DefanceAugmentController : MonoBehaviour,IOutgoingDamageModifier, IDamageDealtListener
+    public class DefanceAugmentController : MonoBehaviour,IOutgoingDamageModifier, IDamageDealtListener, IDamageReceivedListener
     {
         [Header("방어")]
         [SerializeField] float _guardMasteryReduction = 0.30f;
@@ -46,6 +46,8 @@ namespace SSW
         [SerializeField] float _nuclearCoolPenalty = 1.50f;
         [SerializeField] LayerMask _nuclearWallMask;   
         [SerializeField] GameObject _nuclearExplosionPrefab;
+
+        [Header("반격")] [SerializeField] private float _faintTime = 1f;
         
 
         readonly HashSet<CommonAugmentType> _acquired = new HashSet<CommonAugmentType>();
@@ -160,8 +162,26 @@ namespace SSW
 
             if (Has(CommonAugmentType.Blink))
                 StartBlink();
+
+            
         }
-        
+        public void OnDamageReceived(DamageRequest request, DamageResult result)
+        {
+            if (_defance.IsGuarding && Has(CommonAugmentType.CounterAttack))
+            {
+                CounterAttack(request);
+            }
+            
+        }
+
+        private void CounterAttack(DamageRequest request)
+        {
+            Debug.Log(request.Amount);
+            Health health = request.Source.GetComponentInParent<Health>();
+            Debug.Log(health?.gameObject.name);
+            health?.TakeDamage(100);            
+        }
+
 
         void StartBlink()
         {
@@ -284,5 +304,6 @@ namespace SSW
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, _iceAgeRadius);
         }
+
     }
 }

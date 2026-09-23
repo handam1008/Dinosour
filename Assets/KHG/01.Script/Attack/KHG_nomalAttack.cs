@@ -75,9 +75,9 @@ namespace NKY.Scripts
 
             hitTargets.Add(targetObject);
 
-            target.TakeDamage(damage);
+            DamageResult result = CombatDamage.Deal(this, target, damage, DamageTag.BasicAttack);
 
-            OnNormalAttackHit?.Invoke(targetObject, damage);
+            OnNormalAttackHit?.Invoke(targetObject, result.AppliedAmount);
         }
 
     }
