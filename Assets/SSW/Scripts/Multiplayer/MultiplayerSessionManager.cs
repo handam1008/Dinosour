@@ -42,6 +42,7 @@ namespace SSW
         public string JoinCode => _session != null ? _session.Code : string.Empty;
         public int PlayerCount => _session != null ? _session.PlayerCount : 0;
         public bool HasNetworkPlayer => _network != null && _network.HasPlayerPrefab;
+        public string OpponentPlayerId => _session?.Players.FirstOrDefault(player => player.Id != AuthenticationService.Instance.PlayerId)?.Id;
 
         public static MultiplayerSessionManager GetOrCreate()
         {
