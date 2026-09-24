@@ -13,6 +13,7 @@ namespace SSW
         public float DropTime;
         public float DropTop;
         public uint Jump;
+        public float CoyoteTime;
         public bool Grounded;
         public bool Pad;
         public float DashTime;
@@ -31,6 +32,7 @@ namespace SSW
             serializer.SerializeValue(ref DropTime);
             serializer.SerializeValue(ref DropTop);
             serializer.SerializeValue(ref Jump);
+            serializer.SerializeValue(ref CoyoteTime);
             serializer.SerializeValue(ref Grounded);
             serializer.SerializeValue(ref Pad);
             serializer.SerializeValue(ref DashTime);

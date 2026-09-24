@@ -32,10 +32,11 @@ namespace SSW
             state.SmallTime = Mathf.Max(0f, state.SmallTime - delta);
             bool jump = input.Jump > state.Jump;
             state.Jump = System.Math.Max(state.Jump, input.Jump);
+            state.CoyoteTime = Mathf.Max(0f, state.CoyoteTime - delta);
             if (!playing)
             {
                 state.Velocity = state.Surface = Vector2.zero;
-                state.External = state.DropTime = 0f;
+                state.External = state.DropTime = state.CoyoteTime = 0f;
                 state.Pad = false;
                 state.DashTime = 0f;
                 state.Grounded = _cast.Grounded(state.Position, false);
@@ -48,11 +49,12 @@ namespace SSW
                 state.DashTime = Mathf.Max(0f, state.DashTime - delta);
                 if (state.DashTime < 0.000001f) state.DashTime = 0f;
                 Vector2 dash = new Vector2(state.DashSpeed, 0f);
-                _cast.Move(ref state.Position, ref dash, travelTime, false, 0f);
+                _cast.Move(ref state.Position, ref dash, travelTime, false, 0f, state.Grounded);
                 state.Velocity = dash;
                 state.External = 0f;
                 state.Surface = Vector2.zero;
                 state.Grounded = _cast.Grounded(state.Position, false);
+                if (state.Grounded) state.CoyoteTime = _motion.CoyoteTime;
                 if (Mathf.Abs(dash.x) < 0.001f) state.DashTime = 0f;
                 return;
             }
@@ -63,9 +65,13 @@ namespace SSW
                 ? _cast.Carry(ref state.Position, state.Surface, delta, false, state.DropTop)
                 : Vector2.zero;
             state.Surface = Vector2.zero;
-            if (jump && _cast.Grounded(state.Position, dropping, state.DropTop))
+            bool grounded = velocity.y <= 0f && _cast.Grounded(state.Position, dropping, state.DropTop);
+            if (grounded) state.CoyoteTime = _motion.CoyoteTime;
+            else if (velocity.y > 0f) state.CoyoteTime = 0f;
+            if (jump && (grounded || state.CoyoteTime > 0.0001f))
             {
-                if (input.Move.y < -0.5f && _cast.Platform(state.Position))
+                state.CoyoteTime = 0f;
+                if (grounded && input.Move.y < -0.5f && _cast.Platform(state.Position))
                 {
                     state.DropTop = _cast.PlatformHeight;
                     state.DropTime = 0.5f;
@@ -89,7 +95,7 @@ namespace SSW
                 velocity.y = start.Launch;
 
             float horizontal = velocity.x;
-            _cast.Move(ref state.Position, ref velocity, delta, dropping, state.DropTop);
+            _cast.Move(ref state.Position, ref velocity, delta, dropping, state.DropTop, grounded && velocity.y <= 0f && !dropping);
             if (Mathf.Abs(horizontal) > 0.001f && Mathf.Abs(velocity.x) < 0.001f)
                 state.External = 0f;
             MotionZones.Sample end = _zones.Read(state.Position);
@@ -97,6 +103,8 @@ namespace SSW
                 velocity.y = end.Launch;
             state.Pad = end.Pad;
             state.Grounded = velocity.y <= 0f && _cast.Grounded(state.Position, dropping, state.DropTop);
+            if (state.Grounded) state.CoyoteTime = _motion.CoyoteTime;
+            else if (velocity.y > 0f || dropping) state.CoyoteTime = 0f;
             state.Surface = state.Grounded ? surface : Vector2.zero;
             state.Velocity = velocity + state.Surface;
         }
