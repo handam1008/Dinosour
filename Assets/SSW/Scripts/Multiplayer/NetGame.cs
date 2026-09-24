@@ -52,6 +52,7 @@ namespace SSW
         readonly Dictionary<ulong, PlayerJob> _jobs = new Dictionary<ulong, PlayerJob>();
         readonly List<NetPlayer> _players = new List<NetPlayer>();
         NetworkManager _manager;
+        NetworkSceneManager _scenes;
         MatchUI _menu;
         PlayerJob _localJob;
         bool _explicitJob;
@@ -68,7 +69,7 @@ namespace SSW
 
         public static NetGame Current { get; private set; }
         public NetworkManager Manager => _manager;
-        public bool Connected => _manager != null && _manager.IsListening;
+        public bool Connected => _manager != null && _manager.IsListening && !_manager.ShutdownInProgress;
         public ulong LocalId => _localId;
         public bool Ready => Connected && _manager.IsServer && _manager.ConnectedClientsIds.Count == 2 && _jobs.Count == 2;
         public MatchState State => _finished ? _result : Match != null ? Match.State : default;
@@ -108,6 +109,7 @@ namespace SSW
                     ? NetworkManager.Singleton
                     : Instantiate(_managerPrefab);
             }
+            if (_manager.ShutdownInProgress) throw new InvalidOperationException("연결을 종료하는 중입니다.");
             if (!_manager.IsListening)
             {
                 if (!_explicitJob) _localJob = PlayerJobStorage.Load();
@@ -133,6 +135,7 @@ namespace SSW
             }
             if (_bound) return;
             _bound = true;
+            _manager.OnPreShutdown += CloseChannels;
             _manager.OnServerStarted += Started;
             _manager.OnClientStarted += Started;
             _manager.OnClientConnectedCallback += Join;
@@ -221,6 +224,7 @@ namespace SSW
         {
             if (Practice == null || _leaving) return;
             _leaving = true;
+            CloseChannels();
             Time.timeScale = 1f;
             _manager.Shutdown();
             StartCoroutine(Return(scene));
@@ -237,8 +241,9 @@ namespace SSW
             }
             if (_manager.IsServer)
             {
-                _manager.SceneManager.OnLoadEventCompleted -= Loaded;
-                _manager.SceneManager.OnLoadEventCompleted += Loaded;
+                _scenes = _manager.SceneManager;
+                _scenes.OnLoadEventCompleted -= Loaded;
+                _scenes.OnLoadEventCompleted += Loaded;
             }
         }
 
@@ -309,7 +314,7 @@ namespace SSW
 
         void Loaded(string scene, LoadSceneMode mode, List<ulong> completed, List<ulong> timedOut)
         {
-            if (!_loading || Arena == null) return;
+            if (_leaving || !Connected || !_loading || Arena == null) return;
             _loading = false;
             if (timedOut.Count > 0 || completed.Count != 2)
             {
@@ -322,7 +327,7 @@ namespace SSW
 
         void TryStart()
         {
-            if (Practice != null || !_manager.IsServer || _inMatch || _jobs.Count != 2) return;
+            if (_leaving || !Connected || Practice != null || !_manager.IsServer || _inMatch || _jobs.Count != 2) return;
             if (!_sceneReady)
             {
                 if (_autoStart && !_loading) LoadScene(GameScene);
@@ -460,11 +465,9 @@ namespace SSW
 
         void Stopped(bool wasHost)
         {
-            Shots.Close();
-            Sounds.Close();
-            GameAudio.GetOrCreate().StopSfx();
+            CloseChannels();
+            if (GameAudio.Current != null) GameAudio.Current.StopSfx();
             ConnectionChanged?.Invoke();
-            _messages = false;
             if (!_leaving && _inMatch && !_finished) ShowLost();
         }
 
@@ -481,6 +484,7 @@ namespace SSW
         {
             if (_leaving) return;
             _leaving = true;
+            CloseChannels();
             CloseIntro(false);
             Time.timeScale = 1f;
             MultiplayerSessionManager session = MultiplayerSessionManager.Current;
@@ -489,13 +493,14 @@ namespace SSW
                 try { await session.LeaveRoomAsync(); }
                 catch (Exception exception) { Debug.LogWarning(exception.Message); }
             }
-            _manager.Shutdown();
+            if (this == null || !Application.isPlaying) return;
+            if (_manager != null) _manager.Shutdown();
             StartCoroutine(Return("MainMenu"));
         }
 
         IEnumerator Return(string scene)
         {
-            while (_manager.ShutdownInProgress) yield return null;
+            while (_manager != null && _manager.ShutdownInProgress) yield return null;
             Practice = null;
             Arena = null;
             _menu = null;
@@ -508,12 +513,26 @@ namespace SSW
             yield return SceneManager.LoadSceneAsync(scene);
         }
 
-        void OnDestroy()
+        void CloseChannels()
         {
+            if (_manager != null && _manager.CustomMessagingManager != null)
+                _manager.CustomMessagingManager.UnregisterNamedMessageHandler(JobMessage);
             Shots.Close();
             Sounds.Close();
+            if (_scenes != null) _scenes.OnLoadEventCompleted -= Loaded;
+            _scenes = null;
+            _messages = false;
+            _loading = false;
+            _sceneReady = false;
+        }
+
+        void OnDestroy()
+        {
+            _leaving = true;
+            CloseChannels();
             if (Current == this) Current = null;
             if (!_bound || _manager == null) return;
+            _manager.OnPreShutdown -= CloseChannels;
             _manager.OnServerStarted -= Started;
             _manager.OnClientStarted -= Started;
             _manager.OnClientConnectedCallback -= Join;

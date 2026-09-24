@@ -12,6 +12,7 @@ namespace SSW
         readonly HashSet<(ulong, uint, string)> _heard = new HashSet<(ulong, uint, string)>();
         readonly Queue<(ulong, uint, string)> _history = new Queue<(ulong, uint, string)>();
         NetworkManager _manager;
+        FastBufferWriter _writer;
         GameAudio _audio;
 
         internal void Open(NetworkManager manager, GameAudio audio)
@@ -19,6 +20,7 @@ namespace SSW
             Close();
             _manager = manager;
             _audio = audio;
+            if (manager.IsServer) _writer = new FastBufferWriter(96, Allocator.Persistent);
             _manager.CustomMessagingManager.RegisterNamedMessageHandler(Message, Receive);
         }
 
@@ -28,11 +30,13 @@ namespace SSW
                 _manager.CustomMessagingManager.UnregisterNamedMessageHandler(Message);
             _manager = null;
             _audio = null;
+            if (_writer.IsInitialized) _writer.Dispose();
             _heard.Clear();
             _history.Clear();
         }
 
-        bool Valid(SoundCue cue) => _manager != null && _manager.IsListening && _audio.Bank.Contains(cue)
+        bool Valid(SoundCue cue) => _manager != null && _manager.IsListening && !_manager.ShutdownInProgress
+            && _audio != null && _audio.Bank.Contains(cue)
             && cue.audioType == AudioType.Sfx && !cue.isLoop;
 
         internal void Predict(SoundCue cue, ulong source, uint action)
@@ -44,13 +48,14 @@ namespace SSW
         {
             if (!Valid(cue) || !_manager.IsServer) return false;
             Hear(cue, source, action);
-            using FastBufferWriter writer = new FastBufferWriter(96, Allocator.Temp);
-            writer.WriteValueSafe(new FixedString64Bytes(cue.Id));
-            writer.WriteValueSafe(source);
-            writer.WriteValueSafe(action);
+            if (_manager.IsHost && _manager.ConnectedClientsIds.Count == 1) return true;
+            _writer.Truncate(0);
+            _writer.WriteValueSafe(new FixedString64Bytes(cue.Id));
+            _writer.WriteValueSafe(source);
+            _writer.WriteValueSafe(action);
             foreach (ulong client in _manager.ConnectedClientsIds)
                 if (client != NetworkManager.ServerClientId)
-                    _manager.CustomMessagingManager.SendNamedMessage(Message, client, writer, NetworkDelivery.ReliableSequenced);
+                    _manager.CustomMessagingManager.SendNamedMessage(Message, client, _writer, NetworkDelivery.ReliableSequenced);
             return true;
         }
 

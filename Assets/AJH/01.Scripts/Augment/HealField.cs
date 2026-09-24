@@ -8,9 +8,11 @@ public class HealField : MonoBehaviour
     [SerializeField] float _chargeTime = 1f;     // 설치 후 터지기까지 시간
     [SerializeField] float _healRatio = 0.20f;   // 최대 체력의 20%
     [SerializeField] GameObject _healEffect;
+    [SerializeField] HealDial _dial;
 
     void Start()
     {
+        _dial.Play(_chargeTime, _radius);
         Invoke(nameof(Burst), _chargeTime);
     }
 
@@ -25,10 +27,9 @@ public class HealField : MonoBehaviour
         }
 
         foreach (IHealable healable in targets)
-        {
             healable.Heal(healable.Max * _healRatio);
-            Instantiate(_healEffect, ((Component)healable).transform);
-        }
+
+        Instantiate(_healEffect, transform.position, Quaternion.identity).transform.localScale = Vector3.one * _radius;
 
         Destroy(gameObject);   // 아무도 없어도 사라짐
     }

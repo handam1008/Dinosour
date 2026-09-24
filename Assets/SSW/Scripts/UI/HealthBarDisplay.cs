@@ -11,6 +11,10 @@ namespace SSW
         [SerializeField] float _shakeDuration = 0.3f;
         [SerializeField] float _shakeStrength = 0.06f;
         [SerializeField] int _shakeVibrato = 12;
+        
+        [Header("BG Health Bar")]
+        [SerializeField] Image _bgFillImage;
+        [SerializeField] float fillDelay = 0.15f;
 
         Health _health;
         Tween _shake;
@@ -23,7 +27,9 @@ namespace SSW
         void OnEnable()
         {
             _fillImage.DOKill();
-            _fillImage.fillAmount = 1f;
+            _bgFillImage.DOKill();
+            _fillImage.fillAmount = _health.Current / _health.Max;
+            _bgFillImage.fillAmount = _fillImage.fillAmount;
             _health.OnHealthChanged += HandleHealthChanged;
             _health.OnDamaged += HandleDamaged;
         }
@@ -31,6 +37,7 @@ namespace SSW
         void OnDisable()
         {
             _fillImage.DOKill();
+            _bgFillImage.DOKill();
             _shake.Kill(true);
             _health.OnHealthChanged -= HandleHealthChanged;
             _health.OnDamaged -= HandleDamaged;
@@ -40,6 +47,8 @@ namespace SSW
         {
             _fillImage.DOKill();
             _fillImage.DOFillAmount(current / max, _tweenDuration);
+            _bgFillImage.DOKill();
+            _bgFillImage.DOFillAmount(current / max, _tweenDuration).SetDelay(fillDelay);
         }
 
         void HandleDamaged()

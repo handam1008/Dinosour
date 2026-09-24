@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "\uC81C\uBAA9 \uC5C6\uB294 \uB514\uC790\uC778-Photoroom_0"
+      name: Island
       rect:
         serializedVersion: 2
         x: 67
@@ -108,7 +108,7 @@ TextureImporter:
         width: 710
         height: 682
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: a3da938ea0b9c9e41b6f6b0f281f17d1
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "\uC81C\uBAA9 \uC5C6\uB294 \uB514\uC790\uC778-Photoroom_0": -7921293826013468530
+      Island: -7921293826013468530
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
