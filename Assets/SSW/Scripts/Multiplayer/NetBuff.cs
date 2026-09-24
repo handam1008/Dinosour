@@ -11,6 +11,12 @@ namespace SSW
         [SerializeField, Range(0.1f, 1f)] float _cooldownScale = 0.8f;
         readonly HashSet<CommonAugmentType> _owned = new HashSet<CommonAugmentType>();
         float _baseMax;
+        float _maxScale = 1f;
+        public float MaxScale
+        {
+            get => _maxScale;
+            set { _maxScale = value; if (_player.IsServer) RefreshMax(); }
+        }
         float _confidenceUntil;
         bool _confident;
         public int Priority => 20;
@@ -44,7 +50,7 @@ namespace SSW
 
         void RefreshMax()
         {
-            float value = _baseMax;
+            float value = _baseMax * _maxScale;
             if (Has(CommonAugmentType.Giant)) value *= 1.8f;
             if (Has(CommonAugmentType.GlassCannon)) value *= 0.7f;
             if (_confident) value *= 1.2f;

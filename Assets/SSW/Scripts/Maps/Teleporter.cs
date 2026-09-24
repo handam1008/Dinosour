@@ -15,8 +15,15 @@ namespace SSW
             if (rb == null || _destination == null) return;
             if (Time.time < _readyTime) return;
 
+            if (rb.TryGetComponent<NetPlayer>(out var player))
+            {
+                if (!player.IsServer) return;
+                _readyTime = Time.time + _cooldown;
+                player.Drive.Teleport(_destination.position);
+                return;
+            }
             _readyTime = Time.time + _cooldown;
-            rb.transform.position = _destination.position;
+            rb.position = _destination.position;
         }
     }
 }

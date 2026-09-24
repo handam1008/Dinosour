@@ -47,7 +47,8 @@ namespace SSW
         [SerializeField] LayerMask _nuclearWallMask;   
         [SerializeField] GameObject _nuclearExplosionPrefab;
 
-        [Header("반격")] [SerializeField] private float _faintTime = 1f;
+        [Header("반격")]
+        [SerializeField] float _counterRatio = 0.6f;
         
 
         readonly HashSet<CommonAugmentType> _acquired = new HashSet<CommonAugmentType>();
@@ -167,19 +168,18 @@ namespace SSW
         }
         public void OnDamageReceived(DamageRequest request, DamageResult result)
         {
-            if (_defance.IsGuarding && Has(CommonAugmentType.CounterAttack))
-            {
-                CounterAttack(request);
-            }
-            
+            if (!Has(CommonAugmentType.CounterAttack) || !result.WasBlocked) return;
+            if (request.Source == null || request.HasTag(DamageTag.DamageOverTime)) return;
+
+            CounterAttack(request.Source, request.Amount * _counterRatio);
         }
 
-        private void CounterAttack(DamageRequest request)
+        private void CounterAttack(Component source, float amount)
         {
-            Debug.Log(request.Amount);
-            Health health = request.Source.GetComponentInParent<Health>();
-            Debug.Log(health?.gameObject.name);
-            health?.TakeDamage(100);            
+            IDamageable target = source.GetComponentInParent<IDamageable>();
+            if (target == null || ReferenceEquals(target, _health)) return;
+
+            CombatDamage.Deal(null, target, amount);
         }
 
 

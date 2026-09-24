@@ -19,12 +19,20 @@ namespace SSW
         [SerializeField] PlayerInput _input;
 
         MapSelectUI _open;
+        PauseMenu _pause;
 
         public bool IsOpen => _open != null;
 
         void Start()
         {
-            Instantiate(_pausePrefab).Initialize(_input, this);
+            _pause = Instantiate(_pausePrefab);
+            _pause.Initialize(_input, this);
+        }
+
+        public void Bind(PlayerInput input)
+        {
+            _input = input;
+            if (_pause != null) _pause.Initialize(input, this);
         }
 
         void Update()

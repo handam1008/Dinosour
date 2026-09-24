@@ -6,6 +6,8 @@ namespace SSW
     {
         readonly CapsuleCollider2D _shape;
         readonly ContactFilter2D _filter;
+        readonly Vector3 _baseScale;
+        readonly Collider2D[] _overlaps = new Collider2D[16];
         readonly RaycastHit2D[] _hits = new RaycastHit2D[32];
         Collider2D _lastHit;
         Vector2 _lastPoint;
@@ -16,7 +18,34 @@ namespace SSW
         public MotionCast(CapsuleCollider2D shape, LayerMask ground)
         {
             _shape = shape;
+            _baseScale = shape.transform.localScale;
             _filter = new ContactFilter2D { useLayerMask = true, layerMask = ground, useTriggers = false };
+        }
+
+        public void Scale(ref MotionState state, float factor)
+        {
+            float previous = state.Scale > 0f ? state.Scale : 1f;
+            float foot = (_shape.offset.y - _shape.size.y * 0.5f) * _baseScale.y;
+            Vector2 point = state.Position + Vector2.up * (foot * (previous - factor));
+            if (factor > previous)
+            {
+                Vector2 scale = Vector2.Scale(_baseScale, Vector2.one * factor);
+                Vector2 size = Vector2.Scale(_shape.size, scale) - Vector2.one * Skin * 2f;
+                Vector2 center = point + Vector2.Scale(_shape.offset, scale);
+                int count = Physics2D.OverlapCapsule(center, size, _shape.direction, 0f, _filter, _overlaps);
+                for (int i = 0; i < count; i++)
+                {
+                    Collider2D hit = _overlaps[i];
+                    if (hit == _shape || hit.bounds.max.y <= center.y - size.y * 0.5f + GroundReach
+                        || hit.TryGetComponent<PlatformEffector2D>(out var platform) && platform.useOneWay) continue;
+                    factor = previous;
+                    point = state.Position;
+                    break;
+                }
+            }
+            state.Scale = factor;
+            state.Position = point;
+            _shape.transform.localScale = _baseScale * factor;
         }
 
         public float PlatformHeight => _lastHit.bounds.max.y;

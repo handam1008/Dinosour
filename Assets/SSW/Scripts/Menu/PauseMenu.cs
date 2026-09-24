@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace SSW
@@ -60,7 +59,7 @@ namespace SSW
         public void Exit()
         {
             Resume();
-            SceneManager.LoadScene("MainMenu");
+            MapTravel.LoadScene("MainMenu");
         }
 
         void OnDisable()

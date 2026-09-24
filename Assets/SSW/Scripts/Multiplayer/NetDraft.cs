@@ -79,7 +79,9 @@ namespace SSW
             }
             _ready.Value = true;
             _watch.Close();
-            NetGame.Current.Match.Picked();
+            _offer.Value = new Vector3Int(-1, -1, -1);
+            if (NetGame.Current.Practice != null) NetGame.Current.Practice.FinishDraft();
+            else NetGame.Current.Match.Picked();
         }
 
         void Update()
@@ -169,7 +171,7 @@ namespace SSW
         }
 
         bool Valid(int slot, Vector3Int offer) =>
-            !_ready.Value && NetGame.Current.Match.State.Phase == MatchPhase.Draft
+            !_ready.Value && (NetGame.Current.Practice != null || NetGame.Current.State.Phase == MatchPhase.Draft)
             && slot >= 0 && slot < 3 && offer.Equals(_offer.Value) && _offer.Value[slot] >= 0;
 
         [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Owner)]

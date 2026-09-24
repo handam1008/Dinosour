@@ -8,7 +8,8 @@ namespace SSW
     {
         static MapLayout _next;
 
-        public static bool IsLocal => NetworkManager.Singleton == null || !NetworkManager.Singleton.IsListening;
+        public static bool IsLocal => NetGame.Current != null && NetGame.Current.Practice != null
+            || NetworkManager.Singleton == null || !NetworkManager.Singleton.IsListening;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void Clear()
@@ -20,8 +21,15 @@ namespace SSW
         {
             if (!IsLocal) return;
             _next = map;
+            LoadScene("SuperUltraLegendScene");
+        }
+
+        public static void LoadScene(string scene)
+        {
+            if (!IsLocal) return;
             Time.timeScale = 1f;
-            SceneManager.LoadScene("SuperUltraLegendScene");
+            if (NetGame.Current != null && NetGame.Current.Practice != null) NetGame.Current.OpenPracticeScene(scene);
+            else SceneManager.LoadScene(scene);
         }
 
         public static MapLayout Take()

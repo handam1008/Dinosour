@@ -933,7 +933,12 @@ MonoBehaviour:
   parryTime: 4
   reflectSpeed: 20
   parryCooldown: 12
-  parryCollider: {fileID: 0}
+  swordTransform: {fileID: 0}
+  parryBoxOffset: {x: 0, y: 0}
+  parryBoxSize: {x: 2, y: 0.5}
+  bulletLayer:
+    serializedVersion: 2
+    m_Bits: 0
   isParrying: 0
 --- !u!61 &1569450012
 BoxCollider2D:
@@ -1049,22 +1054,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3910926400017169031, guid: 67d06ae6ea5a30b4aa96d7bbcc478d17, type: 3}
-      propertyPath: cooldownDuration
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4320186075982014601, guid: 67d06ae6ea5a30b4aa96d7bbcc478d17, type: 3}
-      propertyPath: m_SortingOrder
-      value: -5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5257857994619009248, guid: 67d06ae6ea5a30b4aa96d7bbcc478d17, type: 3}
-      propertyPath: m_SortingOrder
-      value: -5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6067984116686670363, guid: 67d06ae6ea5a30b4aa96d7bbcc478d17, type: 3}
-      propertyPath: m_SortingOrder
-      value: -5
-      objectReference: {fileID: 0}
     - target: {fileID: 6657415005685737846, guid: 67d06ae6ea5a30b4aa96d7bbcc478d17, type: 3}
       propertyPath: m_Name
       value: KDH_Map 9
