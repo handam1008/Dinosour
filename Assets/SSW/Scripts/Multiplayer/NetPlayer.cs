@@ -20,6 +20,7 @@ namespace SSW
         [SerializeField] MotionView _prediction;
         [SerializeField] PlayerFx _effects;
         [SerializeField] NetBuff _buffs;
+        public PlayerInput Input => _input;
         public PlayerController Motion => _motion;
         public MotionView Drive => _prediction;
         public PlayerFx Effects => _effects;
@@ -204,7 +205,7 @@ namespace SSW
 
         void Die()
         {
-            if (IsServer) NetGame.Current.Match.CheckDeath();
+            if (IsServer && NetGame.Current.Match != null) NetGame.Current.Match.CheckDeath();
         }
 
         public override void OnNetworkDespawn()

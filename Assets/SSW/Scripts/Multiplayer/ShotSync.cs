@@ -48,7 +48,7 @@ namespace SSW
         public Vector2 Velocity => _pose.Velocity;
         internal ShotPose Pose => _pose;
         internal double ViewTime => IsServer ? NetGame.Current.PhysicsTime : _clock.Time;
-        double Now => _local ? NetworkManager.LocalTime.Time : NetworkManager.ServerTime.Time;
+        double Now => _local ? NetworkManager.LocalTime.Time : NetGame.Current.ServerTime;
 
         public void Redirect() => _turn++;
 

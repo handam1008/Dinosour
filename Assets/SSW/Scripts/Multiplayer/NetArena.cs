@@ -11,6 +11,7 @@ namespace SSW
         [SerializeField] GameObject[] _offline;
         [SerializeField] Behaviour[] _localTools;
         [SerializeField] float _fallY = -12f;
+        [SerializeField] Practice _practice;
 
         public Camera View => _view;
         public int Side { get; private set; } = 1;
@@ -19,10 +20,11 @@ namespace SSW
 
         void Awake()
         {
-            if (NetGame.Current == null || !NetGame.Current.Connected) return;
+            bool local = NetGame.Current == null || !NetGame.Current.Connected;
             foreach (GameObject item in _offline) item.SetActive(false);
             foreach (Behaviour item in _localTools) item.enabled = false;
-            NetGame.Current.Enter(this);
+            _practice.enabled = local;
+            if (!local) NetGame.Current.Enter(this);
         }
 
         public void Follow(Transform local, Transform opponent, int side)
@@ -34,7 +36,7 @@ namespace SSW
             camera.SetPositionAndRotation(position, Quaternion.Euler(0f, side < 0 ? 180f : 0f, 0f));
             _view.transparencySortMode = TransparencySortMode.CustomAxis;
             _view.transparencySortAxis = Vector3.forward;
-            _follow.SetTargets(local, opponent);
+            if (_follow != null) _follow.SetTargets(local, opponent);
         }
 
         void OnDestroy()

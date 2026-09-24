@@ -27,7 +27,12 @@ namespace SSW
             {
                 if (gen != _gen) return;
                 _health.Heal(_health.Max);
-            });
+            }).SetLink(gameObject).SetUpdate(false);
+        }
+
+        void OnDestroy()
+        {
+            _health.OnDamaged -= HandleDamaged;
         }
     }
 }

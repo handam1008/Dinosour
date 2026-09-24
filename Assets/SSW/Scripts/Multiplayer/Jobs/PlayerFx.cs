@@ -1,4 +1,4 @@
-﻿using Unity.Netcode;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace SSW
@@ -16,11 +16,11 @@ namespace SSW
         Material _mask;
         float[] _alpha;
         public int Priority => -200;
-        public bool Hidden => IsSpawned && NetworkManager.ServerTime.Time < _hide.Value;
+        public bool Hidden => IsSpawned && NetGame.Current.ServerTime < _hide.Value;
         public bool Shrunk => IsSpawned && _player.Drive.Scale < 1f;
         public bool BlindActive => IsSpawned && Now < _dark.Value;
         public bool ImmuneActive => IsSpawned && Now < _immune.Value;
-        double Now => NetworkManager.ServerTime.Time;
+        double Now => NetGame.Current.ServerTime;
 
         void Awake()
         {

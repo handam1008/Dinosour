@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using DG.Tweening;
@@ -79,7 +78,7 @@ namespace SSW
         void LoadMap(string sceneName)
         {
             RestoreTimeScale();
-            SceneManager.LoadScene(sceneName);
+            MapTravel.LoadScene(sceneName);
         }
 
         void OpenMap(MapLayout map)

@@ -145,6 +145,7 @@ MonoBehaviour:
   _sprite: {fileID: 488716241983491850}
   _melee: 0
   _offset: 0.48
+  _angle: 0
 --- !u!1 &1873449129119161273
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,6 +420,7 @@ MonoBehaviour:
   _sprite: {fileID: 634143764111216155}
   _melee: 0
   _offset: 0.48
+  _angle: 0
 --- !u!1 &5205444995995892386
 GameObject:
   m_ObjectHideFlags: 0
@@ -620,7 +622,8 @@ MonoBehaviour:
   _job: 3
   _sprite: {fileID: 3775285157266749044}
   _melee: 1
-  _offset: 0.48
+  _offset: 0.95
+  _angle: 180
 --- !u!1 &6201946456626770726
 GameObject:
   m_ObjectHideFlags: 0
@@ -731,6 +734,7 @@ MonoBehaviour:
   _sprite: {fileID: 4191551843009545297}
   _melee: 1
   _offset: 0.48
+  _angle: -90
 --- !u!1 &6441819772765154941
 GameObject:
   m_ObjectHideFlags: 0

@@ -69,7 +69,7 @@ namespace SSW
             if (Spectating || _picking || _closing || Mouse.current == null) return;
             Vector2 pointer = Mouse.current.position.ReadValue();
             RectTransformUtility.ScreenPointToLocalPointInRectangle(_screen, pointer, null, out Vector2 point);
-            if (!_screen.rect.Contains(point) || _menu.IsOpen)
+            if (!_screen.rect.Contains(point) || _menu != null && _menu.IsOpen)
             {
                 _pointer.Dispose();
                 Cursor = -Vector2.one;

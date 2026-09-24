@@ -14,12 +14,14 @@ namespace SSW
     public sealed class NetGame : MonoBehaviour, IRoundField
     {
         public double PhysicsTime { get; private set; }
+        public double ServerTime => Practice != null ? Time.timeAsDouble : _manager.ServerTime.Time;
         bool _physicsStarted;
         double _physicsOffset;
 
         void FixedUpdate()
         {
             if (!Connected || !_manager.IsServer) return;
+            if (Practice != null) { PhysicsTime = Time.fixedTimeAsDouble; return; }
             if (!_physicsStarted)
             {
                 _physicsOffset = _manager.ServerTime.Time - Time.fixedTimeAsDouble;
@@ -31,7 +33,7 @@ namespace SSW
 
         void LateUpdate()
         {
-            if (Connected && _manager.IsServer) _physicsOffset = _manager.ServerTime.Time - Time.timeAsDouble;
+            if (Connected && _manager.IsServer && Practice == null) _physicsOffset = _manager.ServerTime.Time - Time.timeAsDouble;
         }
 
         internal ShotChannel Shots { get; } = new ShotChannel();
@@ -73,10 +75,11 @@ namespace SSW
         public float IntroDuration => _introPrefab.Duration;
         public Vs Intro => _intro;
         public NetArena Arena { get; private set; }
+        public Practice Practice { get; private set; }
         public NetMatch Match { get; private set; }
         public IReadOnlyList<NetPlayer> Players => _players;
         public NetPlayer Local => _players.FirstOrDefault(player => player.IsOwner);
-        public bool CanFight => Match != null && Match.Playing && !_leaving && !_finished;
+        public bool CanFight => Connected && !_leaving && !_finished && (Practice != null || Match != null && Match.Playing);
         public bool HasPlayerPrefab => _playerPrefab != null;
         public event Action<MatchState> Ended;
         public event Action ConnectionChanged;
@@ -109,6 +112,7 @@ namespace SSW
                 if (!_explicitJob) _localJob = PlayerJobStorage.Load();
                 if (!NetMath.Supported(_localJob)) throw new ArgumentException("직업을 선택해 주세요.");
                 _physicsStarted = false;
+                Practice = null;
                 _manager.NetworkConfig.ProtocolVersion = 5;
                 _manager.NetworkConfig.PlayerPrefab = null;
                 _manager.NetworkConfig.EnableSceneManagement = true;
@@ -180,6 +184,45 @@ namespace SSW
             if (!started) throw new InvalidOperationException("로컬 연결을 시작하지 못했습니다.");
         }
 
+        internal void StartPractice(Practice practice)
+        {
+            SetLocalJob(PlayerJobStorage.Load());
+            Prepare();
+            Practice = practice;
+            Arena = practice.Arena;
+            _autoStart = false;
+            UnityTransport transport = (UnityTransport)_manager.NetworkConfig.NetworkTransport;
+            transport.SetConnectionData("127.0.0.1", 0, "127.0.0.1");
+            if (!_manager.StartHost()) throw new InvalidOperationException("샌드박스를 시작하지 못했습니다.");
+        }
+
+        internal NetPlayer SpawnPractice(PlayerJob job, int slot, IEnumerable<int> owned, int progress)
+        {
+            NetPlayer player = Instantiate(_playerPrefab, Practice.Spawn(slot), Quaternion.identity);
+            player.Init(job, slot == 0 ? 1 : -1);
+            if (slot == 0) player.NetworkObject.SpawnAsPlayerObject(_localId, true);
+            else player.NetworkObject.SpawnWithOwnership(1, true);
+            player.Draft.Restore(owned);
+            if (player.Cast.Weapon != null) player.Cast.Weapon.Progress = progress;
+            return player;
+        }
+
+        internal void ClearShots()
+        {
+            foreach (NetworkObject item in _manager.SpawnManager.SpawnedObjectsList.ToArray())
+                if (item.TryGetComponent<NetCard>(out _) || item.TryGetComponent<NetPotion>(out _)
+                    || item.TryGetComponent<NetZone>(out _) || item.TryGetComponent<NetBolt>(out _)) item.Despawn();
+        }
+
+        public void OpenPracticeScene(string scene)
+        {
+            if (Practice == null || _leaving) return;
+            _leaving = true;
+            Time.timeScale = 1f;
+            _manager.Shutdown();
+            StartCoroutine(Return(scene));
+        }
+
         void Started()
         {
             if (!_messages)
@@ -197,6 +240,11 @@ namespace SSW
 
         void Join(ulong client)
         {
+            if (Practice != null && client != NetworkManager.ServerClientId)
+            {
+                _manager.DisconnectClient(client);
+                return;
+            }
             if (_manager.IsServer && (_manager.ConnectedClientsIds.Count > 2 || _inMatch))
             {
                 if (client != NetworkManager.ServerClientId) _manager.DisconnectClient(client, "이미 대전 중입니다.");
@@ -270,7 +318,7 @@ namespace SSW
 
         void TryStart()
         {
-            if (!_manager.IsServer || _inMatch || _jobs.Count != 2) return;
+            if (Practice != null || !_manager.IsServer || _inMatch || _jobs.Count != 2) return;
             if (!_sceneReady)
             {
                 if (_autoStart && !_loading) LoadScene(GameScene);
@@ -295,6 +343,7 @@ namespace SSW
         public void Enter(NetArena arena)
         {
             Arena = arena;
+            if (Practice != null) return;
             _menu = Instantiate(_menuPrefab);
             _menu.Bind(this);
         }
@@ -433,19 +482,22 @@ namespace SSW
                 catch (Exception exception) { Debug.LogWarning(exception.Message); }
             }
             _manager.Shutdown();
-            StartCoroutine(Return());
+            StartCoroutine(Return("MainMenu"));
         }
 
-        IEnumerator Return()
+        IEnumerator Return(string scene)
         {
             while (_manager.ShutdownInProgress) yield return null;
-            yield return SceneManager.LoadSceneAsync("MainMenu");
+            Practice = null;
+            Arena = null;
+            _menu = null;
             _autoStart = false;
             _explicitJob = false;
             _inMatch = false;
             _players.Clear();
             _jobs.Clear();
             Match = null;
+            yield return SceneManager.LoadSceneAsync(scene);
         }
 
         void OnDestroy()

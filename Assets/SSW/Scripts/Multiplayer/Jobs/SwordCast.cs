@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,7 +22,7 @@ namespace SSW
         float _dashDamage;
         public override PlayerJob Job => PlayerJob.Swordsman;
         public bool Has(SwordPerk type) => _augments.Contains(type);
-        public bool Parrying => Active && NetworkManager.ServerTime.Time < _parryUntil;
+        public bool Parrying => Active && NetGame.Current.ServerTime < _parryUntil;
         int IIncomingDamageModifier.Priority => -100;
 
         protected override void Grant(Augment item)
@@ -75,7 +75,7 @@ namespace SSW
                 Drive.Dash(input.Action, _dashDirection.x * _dashSpeed, duration);
                 if (Has(SwordPerk.DashSpeed)) Motion.ApplySpeed(0.5f, duration + 3f);
             }
-            else if (input.Kind == CastKind.Parry) _parryUntil = NetworkManager.ServerTime.Time + 0.3d;
+            else if (input.Kind == CastKind.Parry) _parryUntil = NetGame.Current.ServerTime + 0.3d;
         }
 
         protected override void ServerTick()

@@ -124,7 +124,7 @@ namespace SSW
         public int DisplayHeld => IsOwner && !IsServer ? _localHeld : _potions.Value.Held;
         bool Anticipating => IsOwner && !IsServer && (_action > _confirmed || _confirmed > _version.Value) && Time.unscaledTimeAsDouble < _waitingUntil;
         float CardCooldown => _cardCooldown * CooldownScale;
-        double Now => IsOwner && !IsServer ? NetworkManager.LocalTime.Time : NetworkManager.ServerTime.Time;
+        double Now => IsOwner && !IsServer ? NetworkManager.LocalTime.Time : NetGame.Current.ServerTime;
         float ResponseTime => CastWait;
 
         public override void OnNetworkSpawn()
@@ -284,7 +284,7 @@ namespace SSW
 
         void Send(uint action, CastKind kind, Vector2 direction, uint stock = 0)
         {
-            double viewTime = NetworkManager.ServerTime.Time;
+            double viewTime = NetGame.Current.ServerTime;
             foreach (NetPlayer player in NetGame.Current.Players)
                 if (player != _player) viewTime = player.ViewTime;
             CastRpc(new CastInput
