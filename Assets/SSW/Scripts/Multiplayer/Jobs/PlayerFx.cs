@@ -58,8 +58,10 @@ namespace SSW
         {
             if (IsServer) _dark.Value = Now + duration;
             Color current = _blind.color;
-            current.a = blindAlpha * 0.01f;
+            current.a = blindAlpha;
             _blind.color = current;
+            
+            Hide(duration);
         }
 
         public float ModifyIncomingDamage(DamageRequest request, float amount) =>

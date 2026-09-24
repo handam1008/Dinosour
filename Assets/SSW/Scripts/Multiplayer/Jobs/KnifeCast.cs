@@ -85,7 +85,7 @@ namespace SSW
             {
                 _blindAt = Time.time + 17.5f;
                 foreach (NetPlayer target in NetGame.Current.Players)
-                    if (target != Player) target.Effects.Blind(2.5f, 95f);
+                    if (target != Player) target.Effects.Blind(2.5f, 1);
             }
             if (Has(AssassinAugmentType.KillingIntent) && Time.time >= _auraReady)
             {
