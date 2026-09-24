@@ -63,7 +63,11 @@ namespace SSW
         protected override void Execute(CastInput input, Vector2 origin, double lag, BoltSpec bolt)
         {
             if (input.Kind == CastKind.Press)
-                Melee(origin, input.Direction, lag, _reach, 0.45f, target => CombatDamage.Deal(this, target.Health, _damage, DamageTag.BasicAttack));
+                Melee(origin, input.Direction, lag, _reach, 0.45f, target =>
+                {
+                    CombatDamage.Deal(this, target.Health, _damage, DamageTag.BasicAttack);
+                    Player.Cast.ImpactSound();
+                });
             else if (input.Kind == CastKind.Cycle)
             {
                 float duration = _dashTime * (Has(SwordPerk.DashRange) ? 1.5f : 1f);
@@ -83,7 +87,9 @@ namespace SSW
             if (Time.time >= _dashUntil) return;
             Melee(Player.Body.position, _dashDirection, 0d, _dashSpeed * Time.deltaTime + 0.5f, 0.5f, target =>
             {
-                if (_dashHits.Add(target.NetworkObjectId)) CombatDamage.Deal(this, target.Health, _dashDamage, DamageTag.JobSkill);
+                if (!_dashHits.Add(target.NetworkObjectId)) return;
+                CombatDamage.Deal(this, target.Health, _dashDamage, DamageTag.JobSkill);
+                Player.Cast.ImpactSound();
             });
         }
 

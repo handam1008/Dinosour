@@ -183,6 +183,7 @@ namespace SSW
                         Vector2 spread = Quaternion.Euler(0f, 0f, angle) * velocity;
                         _preview.Potion(action, i, _hand.transform.position, spread, _potionPrefab.Style, _stock.At(kind).sprite, _potionPrefab.Gravity, ResponseTime, _potionPrefab.Size);
                     }
+                    PredictSound(action, CastKind.Press);
                     FeedbackAt = Time.unscaledTimeAsDouble;
                 }
                 else if (_player.Job == PlayerJob.Magician)
@@ -263,6 +264,20 @@ namespace SSW
         }
 
         public void Presented() => FeedbackAt = Time.unscaledTimeAsDouble;
+
+        public void PredictSound(uint action, CastKind kind)
+        {
+            SoundCue cue = GameAudio.Current.Bank.Cast(_player.Job, kind);
+            NetGame.Current.Sounds.Predict(cue, NetworkObjectId, action);
+        }
+
+        public void ShareSound(uint action, CastKind kind)
+        {
+            SoundCue cue = GameAudio.Current.Bank.Cast(_player.Job, kind);
+            NetGame.Current.Sounds.Play(cue, NetworkObjectId, action);
+        }
+
+        public void ImpactSound() => NetGame.Current.Sounds.Play(GameAudio.Current.Bank.Impact(_player.Job));
 
         public void PreviewBolt(uint action, Vector2 origin, Vector2 direction, BoltSpec spec)
         {
@@ -614,6 +629,7 @@ namespace SSW
             NetCard card = Instantiate(_cardPrefab, origin, Quaternion.identity);
             card.Init(_player, suit, rank, direction, effect, joker, mirror, action, lag);
             card.NetworkObject.Spawn(true);
+            ShareSound(action, CastKind.Release);
         }
 
         double Allowance => Mathf.Min(1.25f, NetworkManager.NetworkConfig.NetworkTransport.GetCurrentRtt(OwnerClientId) * 0.001f + 0.15f);
@@ -643,6 +659,7 @@ namespace SSW
                 Shots++;
                 potion.NetworkObject.Spawn(true);
             }
+            ShareSound(input.Action, CastKind.Press);
             return true;
         }
 

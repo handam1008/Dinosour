@@ -56,6 +56,7 @@ namespace SSW
         {
             Shot shot = Create(action, 0, position, life);
             shot.Feedback = shot.View.gameObject.AddComponent<MagicianCardFeedback>();
+            shot.Feedback.SoundEnabled = false;
             _cards.StylePreview(shot.View, shot.Feedback, suit, rank);
             shot.Feedback.SetTrailVisible(false);
             shot.View.transform.localScale = Vector3.one * 0.3f;
@@ -115,7 +116,7 @@ namespace SSW
             return shot;
         }
 
-        static void Start(Shot shot)
+        void Start(Shot shot)
         {
             if (shot.Started || shot.Delay > 0f) return;
             shot.Started = true;
@@ -124,6 +125,7 @@ namespace SSW
             {
                 shot.Feedback.SetTrailVisible(true);
                 shot.Feedback.PlayLaunch();
+                _caster.Cast.PredictSound(shot.Action, CastKind.Release);
             }
         }
 

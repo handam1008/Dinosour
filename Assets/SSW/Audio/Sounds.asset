@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 427c5d655b28b754eba8f8e09bbe810a, type: 3}
+  m_Name: Sounds
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.SoundBank
+  _menu: {fileID: 11400000, guid: 1cb9cbb2b7330594287ab711fdc535e4, type: 2}
+  _battle: {fileID: 11400000, guid: e485385da7f3cc342a2324a20fe14e92, type: 2}
+  _shared: []
+  _jobs:
+  - Job: 1
+    Attack: {fileID: 11400000, guid: b9eb55e792a6dce429efbb593cd9b631, type: 2}
+    Skill: {fileID: 0}
+    Parry: {fileID: 0}
+    Impact: {fileID: 11400000, guid: 86810fe4c2617e14bb43becf30abf30d, type: 2}
+  - Job: 2
+    Attack: {fileID: 11400000, guid: 652df1aff2f3d9149af47e6f452bada4, type: 2}
+    Skill: {fileID: 0}
+    Parry: {fileID: 0}
+    Impact: {fileID: 11400000, guid: 53ede362fff12fc40afe492a0631abbf, type: 2}
+  - Job: 3
+    Attack: {fileID: 11400000, guid: 829573811f5e1ac43b3b040b131f1334, type: 2}
+    Skill: {fileID: 11400000, guid: a4fa2300684e77b48b421a7d99707480, type: 2}
+    Parry: {fileID: 11400000, guid: 3756a40868cc15341a8a7e4498450f96, type: 2}
+    Impact: {fileID: 11400000, guid: 53ede362fff12fc40afe492a0631abbf, type: 2}
+  - Job: 4
+    Attack: {fileID: 11400000, guid: 17fa574e8c7d1e642827475f38c94d99, type: 2}
+    Skill: {fileID: 11400000, guid: 643530ae8aa65814ea7018a335615268, type: 2}
+    Parry: {fileID: 0}
+    Impact: {fileID: 11400000, guid: 53ede362fff12fc40afe492a0631abbf, type: 2}
+  - Job: 5
+    Attack: {fileID: 11400000, guid: 2e92a24a60a890c4d9d3bf9c24edad22, type: 2}
+    Skill: {fileID: 0}
+    Parry: {fileID: 0}
+    Impact: {fileID: 11400000, guid: 53ede362fff12fc40afe492a0631abbf, type: 2}
+  - Job: 6
+    Attack: {fileID: 11400000, guid: e3ff84781047c8b4886395d3ff134509, type: 2}
+    Skill: {fileID: 0}
+    Parry: {fileID: 0}
+    Impact: {fileID: 11400000, guid: 53ede362fff12fc40afe492a0631abbf, type: 2}

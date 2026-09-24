@@ -65,6 +65,7 @@ namespace SSW
     [DisallowMultipleComponent]
     public sealed class MagicianCardFeedback : MonoBehaviour
     {
+        public bool SoundEnabled { get; set; } = true;
         MagicianCardFeedbackSettings _settings;
         Suit _suit;
         int _number;
@@ -96,6 +97,7 @@ namespace SSW
 
         public void CopyTo(MagicianCardFeedback target, Material material)
         {
+            target.SoundEnabled = SoundEnabled;
             target.Configure(_settings, _suit, _number, material);
             target.SetIntensityMultiplier(_intensityMultiplier);
             if (_isJoker) target.MarkJoker();
@@ -288,21 +290,9 @@ namespace SSW
             trail = null;
         }
 
-        static void PlayClip(AudioClip clip, Vector3 position, float volume)
+        void PlayClip(AudioClip clip, Vector3 position, float volume)
         {
-            if (clip == null || volume <= 0f) return;
-
-            GameObject audioObject = new GameObject("MagicianCardAudio");
-            audioObject.transform.position = position;
-
-            AudioSource source = audioObject.AddComponent<AudioSource>();
-            source.playOnAwake = false;
-            source.spatialBlend = 0f;
-            source.volume = Mathf.Clamp01(volume);
-            source.clip = clip;
-            source.Play();
-
-            Destroy(audioObject, clip.length + 0.1f);
+            if (SoundEnabled) GameAudio.GetOrCreate().PlaySfx(clip, volume);
         }
     }
 }

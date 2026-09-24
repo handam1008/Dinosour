@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using NKY.Scripts;
 using NKY.Scripts.Job;
 using UnityEngine;
@@ -105,6 +105,7 @@ namespace SSW
                 info.Damage = pair.Value.ModifyDamage(_context, info);
             }
             DamageResult result = CombatDamage.Deal(this, target.Health, info.Damage, info.DamageTag | DamageTag.BasicAttack);
+            Player.Cast.ImpactSound();
             if (result.WasApplied && Has(AssassinAugmentType.Ambush) && Time.time >= _hideAt)
             {
                 _hideAt = Time.time + 5f;

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
@@ -75,6 +75,7 @@ namespace SSW
             PredictAction(input);
             if (bolt.Speed > 0f) Player.Cast.PreviewBolt(input.Action, Player.ViewPosition, input.Direction.normalized, bolt);
             Present(input.Kind, input.Direction);
+            Player.Cast.PredictSound(input.Action, input.Kind);
             Player.Cast.Presented();
         }
 
@@ -92,6 +93,7 @@ namespace SSW
             State = state;
             if (!accepted) return false;
             Execute(input, origin, lag, bolt);
+            Player.Cast.ShareSound(input.Action, input.Kind);
             if (input.Kind != CastKind.Release && input.Kind != CastKind.StopCycle && input.Kind != CastKind.Cancel)
                 PresentRpc(input.Kind, input.Direction);
             return true;

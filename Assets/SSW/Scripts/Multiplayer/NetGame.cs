@@ -37,6 +37,7 @@ namespace SSW
         }
 
         internal ShotChannel Shots { get; } = new ShotChannel();
+        public SoundChannel Sounds { get; } = new SoundChannel();
         const string JobMessage = "mushrooms.job";
         const string GameScene = "SuperUltraLegendScene";
         [SerializeField] NetworkManager _managerPrefab;
@@ -113,7 +114,7 @@ namespace SSW
                 if (!NetMath.Supported(_localJob)) throw new ArgumentException("직업을 선택해 주세요.");
                 _physicsStarted = false;
                 Practice = null;
-                _manager.NetworkConfig.ProtocolVersion = 5;
+                _manager.NetworkConfig.ProtocolVersion = 6;
                 _manager.NetworkConfig.PlayerPrefab = null;
                 _manager.NetworkConfig.EnableSceneManagement = true;
                 RegisterPrefab(_playerPrefab.gameObject);
@@ -190,6 +191,8 @@ namespace SSW
             Prepare();
             Practice = practice;
             Arena = practice.Arena;
+            GameAudio audio = GameAudio.GetOrCreate();
+            audio.PlayBgm(audio.Bank.Battle);
             _autoStart = false;
             UnityTransport transport = (UnityTransport)_manager.NetworkConfig.NetworkTransport;
             transport.SetConnectionData("127.0.0.1", 0, "127.0.0.1");
@@ -229,6 +232,7 @@ namespace SSW
             {
                 _manager.CustomMessagingManager.RegisterNamedMessageHandler(JobMessage, ReceiveJob);
                 Shots.Open(_manager);
+                Sounds.Open(_manager, GameAudio.GetOrCreate());
                 _messages = true;
             }
             if (_manager.IsServer)
@@ -343,6 +347,8 @@ namespace SSW
         public void Enter(NetArena arena)
         {
             Arena = arena;
+            GameAudio audio = GameAudio.GetOrCreate();
+            audio.PlayBgm(audio.Bank.Battle);
             if (Practice != null) return;
             _menu = Instantiate(_menuPrefab);
             _menu.Bind(this);
@@ -455,6 +461,8 @@ namespace SSW
         void Stopped(bool wasHost)
         {
             Shots.Close();
+            Sounds.Close();
+            GameAudio.GetOrCreate().StopSfx();
             ConnectionChanged?.Invoke();
             _messages = false;
             if (!_leaving && _inMatch && !_finished) ShowLost();
@@ -503,6 +511,7 @@ namespace SSW
         void OnDestroy()
         {
             Shots.Close();
+            Sounds.Close();
             if (Current == this) Current = null;
             if (!_bound || _manager == null) return;
             _manager.OnServerStarted -= Started;

@@ -142,6 +142,7 @@ namespace SSW
             float radius = _radius * _mods.Splash;
             bool target = Splash(point, radius, direct);
             ImpactRpc(point, _mods.Splash);
+            _owner.Cast.ImpactSound();
             if (_mods.LeaveZone)
             {
                 NetZone zone = Instantiate(_zonePrefab, point, Quaternion.identity);

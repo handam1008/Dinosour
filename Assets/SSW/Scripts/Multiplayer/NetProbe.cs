@@ -103,6 +103,7 @@ namespace SSW
 
         [Serializable] sealed class Snapshot
         {
+            public SoundProbe.State audio;
             public int probeVersion;
             public string build;
             public int targetFps;
@@ -151,6 +152,7 @@ namespace SSW
             public ShotState[] shots;
         }
 
+        SoundProbe _audio;
         readonly NetTrace _trace = new NetTrace();
         float _measureAt;
         float _viewDelay = -1f;
@@ -173,6 +175,7 @@ namespace SSW
 
         public void Init(string path, bool drive = true)
         {
+            _audio = gameObject.AddComponent<SoundProbe>();
             _drive = drive;
             if (drive) Application.targetFrameRate = 60;
             _path = Path.GetFullPath(path);
@@ -232,6 +235,7 @@ namespace SSW
             NetPlayer local = game.Local;
             switch (command.op)
             {
+                case "sound": _audio.Execute(command.value, command.x, command.y); break;
                 case "trace": _trace.Begin(_path + ".trace." + command.value + ".json", command.x); break;
                 case "watch": _watch = true; _captured = false; _introAt = -1f; break;
                 case "lag":
@@ -427,7 +431,7 @@ namespace SSW
             Snapshot snapshot = new Snapshot
             {
                 physicsTime = game.PhysicsTime, serverTime = game.Connected ? game.Manager.ServerTime.Time : 0d,
-                probeVersion = 3, build = Application.buildGUID,
+                audio = _audio.Read(), probeVersion = 4, build = Application.buildGUID,
                 rtt = game.Connected ? game.Manager.NetworkConfig.NetworkTransport.GetCurrentRtt(Unity.Netcode.NetworkManager.ServerClientId) : 0, targetFps = Application.targetFrameRate, frameTime = Time.unscaledDeltaTime,
                 seq = _sequence, viewDelay = _viewDelay, bodyDelay = _bodyDelay, castDelay = _castDelay, error = _error, listening = game.Connected,
                 server = game.Connected && game.Manager.IsServer, connected = game.Connected && game.Manager.IsConnectedClient,

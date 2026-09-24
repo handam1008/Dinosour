@@ -1,4 +1,4 @@
-﻿using Unity.Netcode;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace SSW
@@ -96,6 +96,7 @@ namespace SSW
             }
             if (nearest <= 1f)
             {
+                _owner.Cast.ImpactSound();
                 _body.position = point;
                 if (contact != null)
                 {

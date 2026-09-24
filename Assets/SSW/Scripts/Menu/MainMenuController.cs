@@ -17,6 +17,9 @@ namespace SSW
         [SerializeField] MultiplayerMenuUI _multiplayerMenuPrefab;
         [SerializeField] SandboxMapMenuUI _sandboxMapMenuPrefab;
         [SerializeField] string _sandboxSceneName = "SuperUltraLegendScene";
+        [SerializeField] Slider _masterVolume;
+        [SerializeField] Slider _bgmVolume;
+        [SerializeField] Slider _sfxVolume;
         [SerializeField] float _fadeDuration = 0.22f;
         [SerializeField] float _buttonStagger = 0.07f;
 
@@ -37,6 +40,9 @@ namespace SSW
 
         void Start()
         {
+            GameAudio audio = GameAudio.GetOrCreate();
+            audio.PlayBgm(audio.Bank.Menu);
+            SyncVolume();
             _mainPanel.gameObject.SetActive(false);
             _playPanel.gameObject.SetActive(false);
             _jobPanel.gameObject.SetActive(false);
@@ -73,6 +79,7 @@ namespace SSW
 
         public void ShowSettings()
         {
+            SyncVolume();
             ShowPanel(_settingsPanel);
         }
 
@@ -206,13 +213,22 @@ namespace SSW
 
         public void SetMasterVolume(float value)
         {
-            AudioListener.volume = value;
-            PlayerPrefs.SetFloat("MasterVolume", value);
+            GameAudio.GetOrCreate().SetMasterVolume(value);
         }
 
         public void SetSfxVolume(float value)
         {
-            PlayerPrefs.SetFloat("SfxVolume", value);
+            GameAudio.GetOrCreate().SetSfxVolume(value);
+        }
+
+        public void SetBgmVolume(float value) => GameAudio.GetOrCreate().SetBgmVolume(value);
+
+        void SyncVolume()
+        {
+            GameAudio audio = GameAudio.GetOrCreate();
+            _masterVolume.SetValueWithoutNotify(audio.MasterVolume);
+            _bgmVolume.SetValueWithoutNotify(audio.BgmVolume);
+            _sfxVolume.SetValueWithoutNotify(audio.SfxVolume);
         }
 
         public void SetFullscreen(bool value)
