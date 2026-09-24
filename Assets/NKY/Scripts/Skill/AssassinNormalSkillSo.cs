@@ -35,20 +35,15 @@ namespace NKY.Scripts.Skill
         public override void ExecuteReUseSkill(PlayerController player, GameObject activeSkillInstance)
         {
             if (activeSkillInstance == null) return;
+            
+            player.transform.position = activeSkillInstance.transform.position;
 
-            if (activeSkillInstance.TryGetComponent<AssassinNormalSkill>(out var skillProjectile))
+            if (player.TryGetComponent(out IForceReceiver forceReceiver))
             {
-                // 위치 이동 및 밀쳐내기
-                player.transform.position = skillProjectile.transform.position;
+                forceReceiver.ApplyForce(activeSkillInstance.transform.up * 10f, ForceMode2D.Impulse);
                 
-                Vector3 direction = skillProjectile.transform.up.normalized;
-                if (player.TryGetComponent<IForceReceiver>(out var forceReceiver))
-                {
-                    forceReceiver.ApplyForce(skillProjectile.Rb.linearVelocity.magnitude * direction, ForceMode2D.Impulse);
-                }
-
-                Destroy(skillProjectile.gameObject);
             }
+            Destroy(activeSkillInstance.gameObject);
         }
         
         

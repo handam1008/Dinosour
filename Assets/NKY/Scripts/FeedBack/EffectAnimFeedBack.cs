@@ -28,7 +28,11 @@ namespace NKY.Scripts.FeedBack
             if(effectPrefab == null) return;
             
             GameObject effect = Instantiate(effectPrefab, transform.parent);
-            if(!effect.TryGetComponent(out Animator anim)) return;
+            if (!effect.TryGetComponent(out Animator anim))
+            {
+                Destroy(effect);
+                return;
+            }
             
             effect.transform.position = transform.root.position;
             effect.SetActive(true);

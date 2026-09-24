@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -53,6 +52,7 @@ namespace KDH.Scripts.Objects
                     _timeLineEffect.StopEffect();
                     _started = false;
                     _timer = 0f;
+                    Time.timeScale = 1f;
                     
                     onTimeLineEnd?.Invoke();
                 }

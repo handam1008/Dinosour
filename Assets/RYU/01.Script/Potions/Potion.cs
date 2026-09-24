@@ -7,9 +7,11 @@ namespace RYU._01.Script.Potions
 {
     public class Potion : MonoBehaviour
     {
-        [SerializeField] private LayerMask _explodeOn;
+        [SerializeField] private LayerMask explodeOn;
         [SerializeField] private float splashRadious = 1.5f;
-        [SerializeField] private GameObject _zonePrefab;
+        [SerializeField] private GameObject zonePrefab;
+        [SerializeField] private GameObject flightEffect;
+        [SerializeField] private TrailRenderer trail;
 
         private FeedBackPlayer _feedBackPlayer;
         private AbstractPotion _data;
@@ -38,6 +40,8 @@ namespace RYU._01.Script.Potions
             _rb = GetComponent<Rigidbody2D>();
 
             if (_collider != null) _collider.enabled = false;
+            if(trail != null) trail.enabled = false;
+            if (flightEffect != null) flightEffect.SetActive(false);
         }
 
         public void Init(AbstractPotion data, PotionModifiers mods, Component owner)
@@ -58,6 +62,8 @@ namespace RYU._01.Script.Potions
         {
             _thrown = true;
             if (_collider != null) _collider.enabled = true;
+            if (trail != null) trail.enabled = true;
+            if (flightEffect != null) flightEffect.SetActive(true);
         }
 
         private void FixedUpdate()
@@ -72,7 +78,7 @@ namespace RYU._01.Script.Potions
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (_exploded) return;
-            if ((_explodeOn.value & (1 << collision.gameObject.layer)) == 0) return;
+            if ((explodeOn.value & (1 << collision.gameObject.layer)) == 0) return;
             _exploded = true;
 
             bool hitTarget = Explode();
@@ -113,9 +119,9 @@ namespace RYU._01.Script.Potions
 
         private void SpawnZone()
         {
-            if (_zonePrefab == null) return;
+            if (zonePrefab == null) return;
 
-            GameObject go = Instantiate(_zonePrefab, transform.position, Quaternion.identity);
+            GameObject go = Instantiate(zonePrefab, transform.position, Quaternion.identity);
             PotionZone zone = go.GetComponent<PotionZone>();
             if (zone != null) zone.Init(_data, _mods, _owner, Radius);
         }
