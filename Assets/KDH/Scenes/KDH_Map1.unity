@@ -1417,6 +1417,38 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2193290487251955644, guid: c3e0597caf5f1c747ba0166d85f86277, type: 3}
   m_PrefabInstance: {fileID: 540032254217900974}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1742479934
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1742479935}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1742479935
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1742479934}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3308642276444425595}
+  m_Father: {fileID: 7072059720929188287}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2110670965
 GameObject:
   m_ObjectHideFlags: 0
@@ -1648,19 +1680,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &417076673151405858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2917203566413798719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f55603b1324af3e459c1b4c60572e56c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_ChangeParent
-  topContactMinNormalY: 0.5
 --- !u!1001 &540032254217900974
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1759,32 +1778,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_ChildRotation
   targetEulerAngles: {x: 0, y: 0, z: 0}
---- !u!114 &1081902497678926769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1948291885538823175}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f55603b1324af3e459c1b4c60572e56c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_ChangeParent
-  topContactMinNormalY: 0.5
---- !u!114 &1266924388592408516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6834090907925151631}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f55603b1324af3e459c1b4c60572e56c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_ChangeParent
-  topContactMinNormalY: 0.5
+  _parent: {fileID: 0}
+  _rb: {fileID: 0}
+  _offsetFromParent: {x: 0, y: 0}
+  _lastParentAngle: 0
 --- !u!4 &1284656254546695387
 Transform:
   m_ObjectHideFlags: 0
@@ -2006,8 +2003,8 @@ GameObject:
   - component: {fileID: 9086619699575359393}
   - component: {fileID: 912620272454734238}
   - component: {fileID: 9189618727137741227}
-  - component: {fileID: 1081902497678926769}
   - component: {fileID: 7442304209385695786}
+  - component: {fileID: 9189618727137741228}
   m_Layer: 8
   m_Name: Part
   m_TagString: Untagged
@@ -6934,6 +6931,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_ChildRotation
   targetEulerAngles: {x: 0, y: 0, z: 0}
+  _parent: {fileID: 0}
+  _rb: {fileID: 0}
+  _offsetFromParent: {x: 0, y: 0}
+  _lastParentAngle: 0
 --- !u!331 &2729387566298658867
 SpriteMask:
   m_ObjectHideFlags: 0
@@ -7062,11 +7063,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3308642276444425595}
   - component: {fileID: 4088621542134469828}
-  - component: {fileID: 5631927978351238231}
   - component: {fileID: 5666306274032425339}
   - component: {fileID: 2354997094131212530}
-  - component: {fileID: 3986151942884813138}
-  - component: {fileID: 417076673151405858}
+  - component: {fileID: 5666306274032425340}
   m_Layer: 8
   m_Name: Part
   m_TagString: Untagged
@@ -7098,11 +7097,11 @@ Transform:
   m_GameObject: {fileID: 2917203566413798719}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -8, y: 0, z: 0}
+  m_LocalScale: {x: 3, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7072059720929188287}
+  m_Father: {fileID: 1742479935}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &3428233981320450144
 Rigidbody2D:
@@ -7182,19 +7181,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &3986151942884813138
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2917203566413798719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89bfc739f5559a64897b4d53d6a6e5f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_ChildRotation
-  targetEulerAngles: {x: 0, y: 0, z: 0}
 --- !u!1 &4054323976897659431
 GameObject:
   m_ObjectHideFlags: 0
@@ -7273,19 +7259,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!114 &4314313340866759310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7317005644417302651}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f55603b1324af3e459c1b4c60572e56c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_ChangeParent
-  topContactMinNormalY: 0.5
 --- !u!1 &4368427904303789773
 GameObject:
   m_ObjectHideFlags: 0
@@ -7552,6 +7525,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_ChildRotation
   targetEulerAngles: {x: 0, y: 0, z: 0}
+  _parent: {fileID: 0}
+  _rb: {fileID: 0}
+  _offsetFromParent: {x: 0, y: 0}
+  _lastParentAngle: 0
 --- !u!212 &5488795351570050436
 SpriteRenderer:
   serializedVersion: 3
@@ -7671,33 +7648,6 @@ SpriteMask:
   m_IsCustomRangeActive: 0
   m_SpriteSortPoint: 0
   m_MaskSource: 1
---- !u!50 &5631927978351238231
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2917203566413798719}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!61 &5666306274032425339
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7744,6 +7694,18 @@ BoxCollider2D:
   m_AutoTiling: 1
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &5666306274032425340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2917203566413798719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3971f0535f9b8940b0b1731b016c59a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_RideBlock
 --- !u!212 &5842540344027676734
 SpriteRenderer:
   serializedVersion: 3
@@ -8189,8 +8151,8 @@ GameObject:
   - component: {fileID: 2729387566298658867}
   - component: {fileID: 2577014299376188441}
   - component: {fileID: 1344588541081951192}
-  - component: {fileID: 1266924388592408516}
   - component: {fileID: 6267102041209272829}
+  - component: {fileID: 7777936777238404189}
   m_Layer: 8
   m_Name: Part
   m_TagString: Untagged
@@ -8211,7 +8173,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3308642276444425595}
+  - {fileID: 1742479935}
   - {fileID: 2369065320838188892}
   - {fileID: 7424741177854954544}
   - {fileID: 7777936777238404188}
@@ -8230,8 +8192,8 @@ GameObject:
   - component: {fileID: 2901946396690695811}
   - component: {fileID: 5265791212469352354}
   - component: {fileID: 8191354656707654507}
-  - component: {fileID: 4314313340866759310}
   - component: {fileID: 1811880151496261523}
+  - component: {fileID: 8191354656707654508}
   m_Layer: 8
   m_Name: Part
   m_TagString: Untagged
@@ -8393,6 +8355,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7072059720929188287}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7777936777238404189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6834090907925151631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1edb0a494830436086e774175e921499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_GearChildRotate
+  rotationSpeed: 0
+  _rb: {fileID: 0}
 --- !u!212 &8065732706142856050
 SpriteRenderer:
   serializedVersion: 3
@@ -8480,6 +8456,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &8191354656707654508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7317005644417302651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1edb0a494830436086e774175e921499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_GearChildRotate
+  rotationSpeed: 0
+  _rb: {fileID: 0}
 --- !u!4 &8203925828741946435
 Transform:
   m_ObjectHideFlags: 0
@@ -8822,6 +8812,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &9189618727137741228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948291885538823175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1edb0a494830436086e774175e921499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_GearChildRotate
+  rotationSpeed: 0
+  _rb: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
