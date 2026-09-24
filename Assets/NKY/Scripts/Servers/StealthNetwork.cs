@@ -16,7 +16,7 @@ namespace NKY.Scripts.Servers
             NetworkVariableWritePermission.Server
         );
 
-        private void Awake()
+        private void Start()
         {
             _renderers = GetComponentsInChildren<SpriteRenderer>();
             _images = GetComponentsInChildren<Image>(); // 자식의 모든 Image 컴포넌트 수집
