@@ -39,7 +39,7 @@ namespace SSW
         {
             _images = GetComponentsInChildren<Image>();
             _imageAlpha = new float[_images.Length];
-            for (int i = 0; i < _alpha.Length; i++) _imageAlpha[i] = _images[i].color.a;
+            for (int i = 0; i < _imageAlpha.Length; i++) _imageAlpha[i] = _images[i].color.a;
         }
 
         public override void OnNetworkSpawn()
