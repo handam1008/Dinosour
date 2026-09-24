@@ -8,6 +8,7 @@ namespace SSW
     {
         [SerializeField] float _moveSpeed = 7f;
         [SerializeField] float _jumpForce = 13f;
+        [SerializeField, Min(0f)] float _coyoteTime = 0.12f;
         [SerializeField] float _externalVelocityDecay = 12f;
         [SerializeField] float _counterMoveBrake = 30f;
         [SerializeField] LayerMask _whatIsGround;
@@ -18,6 +19,8 @@ namespace SSW
         bool _simulated = true;
         Rigidbody2D _rb;
         Collider2D _col;
+        GroundProbe _ground;
+        float _coyoteLeft;
         Camera _cam;
         Vector2 _move;
         float _slowMultiplier = 1f;
@@ -34,6 +37,7 @@ namespace SSW
         {
             _rb = GetComponent<Rigidbody2D>();
             _col = GetComponent<Collider2D>();
+            _ground = new GroundProbe(_col, _rb, _whatIsGround);
             _cam = Camera.main;
         }
 
@@ -50,6 +54,7 @@ namespace SSW
         public bool Predicted => _networkForce != null;
         public Vector2 Velocity => _networkForce is IMotionSource source ? source.Velocity : _rb.linearVelocity;
         public float JumpSpeed => _jumpForce;
+        public float CoyoteTime => _coyoteTime;
         public LayerMask GroundMask => _whatIsGround;
         public float KnockbackDecay => _externalVelocityDecay;
         public float CounterBrake => _counterMoveBrake;
@@ -63,6 +68,7 @@ namespace SSW
                 if (value) return;
                 _move = Vector2.zero;
                 _externalVelocityX = 0f;
+                _coyoteLeft = 0f;
                 _rb.linearVelocity = Vector2.zero;
             }
         }
@@ -77,6 +83,12 @@ namespace SSW
         public void Move(Vector2 value)
         {
             _move = value;
+        }
+
+        public void Teleport(Vector2 position)
+        {
+            _coyoteLeft = 0f;
+            _rb.position = position;
         }
 
         public float FacingSign => Mathf.Sign(_visual.localScale.x);
@@ -185,9 +197,10 @@ namespace SSW
         public void Jump()
         {
             Collider2D ground = GetGroundCollider();
-            if (ground == null) return;
+            if (ground == null && _coyoteLeft <= 0.0001f) return;
+            _coyoteLeft = 0f;
 
-            if (_move.y < -0.5f && ground.GetComponent<PlatformEffector2D>() != null)
+            if (_move.y < -0.5f && ground != null && GroundProbe.IsPlatform(ground))
             {
                 if (_dropThroughRoutine == null)
                     _dropThroughRoutine = StartCoroutine(DropThroughPlatform(ground));
@@ -221,6 +234,14 @@ namespace SSW
             _ignoredPlatform = null;
             _dropThroughRoutine = null;
             _externalVelocityX = 0f;
+            _coyoteLeft = 0f;
+        }
+
+        void FixedUpdate()
+        {
+            if (!Simulated) return;
+            _coyoteLeft = GetGroundCollider() != null ? _coyoteTime
+                : _rb.linearVelocity.y > 0f ? 0f : Mathf.Max(0f, _coyoteLeft - Time.fixedDeltaTime);
         }
 
         void Update()
@@ -257,10 +278,6 @@ namespace SSW
             _visual.localScale = scale;
         }
 
-        Collider2D GetGroundCollider()
-        {
-            Bounds b = _col.bounds;
-            return Physics2D.OverlapCircle(new Vector2(b.center.x, b.min.y), 0.12f, _whatIsGround);
-        }
+        Collider2D GetGroundCollider() => _ground.Read(_ignoredPlatform);
     }
 }

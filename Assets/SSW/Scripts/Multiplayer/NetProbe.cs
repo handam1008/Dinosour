@@ -152,6 +152,7 @@ namespace SSW
             public ShotState[] shots;
         }
 
+        GameObject _ground;
         SoundProbe _audio;
         readonly NetTrace _trace = new NetTrace();
         float _measureAt;
@@ -292,6 +293,11 @@ namespace SSW
                     break;
                 case "move": local.Move(new Vector2(command.x, command.y)); break;
                 case "jump": local.Jump(); break;
+                case "edgejump": StartCoroutine(JumpAfterEdge(local, Mathf.Clamp(command.value, 1, 20))); break;
+                case "ground":
+                case "platform":
+                    SetGround(new Vector2(command.x, command.y), command.value, command.op == "platform");
+                    break;
                 case "cast":
                     _castAt = Time.unscaledTimeAsDouble;
                     _castDelay = -1f;
@@ -465,8 +471,36 @@ namespace SSW
             return true;
         }
 
+        void SetGround(Vector2 position, float angle, bool oneWay)
+        {
+            if (_ground == null)
+            {
+                _ground = new GameObject("Probe Ground");
+                _ground.layer = 8;
+                _ground.AddComponent<BoxCollider2D>().size = new Vector2(8f, 0.6f);
+                _ground.AddComponent<PlatformEffector2D>();
+            }
+            _ground.transform.SetPositionAndRotation(position, Quaternion.Euler(0f, 0f, angle));
+            _ground.GetComponent<BoxCollider2D>().usedByEffector = oneWay;
+            _ground.GetComponent<PlatformEffector2D>().enabled = oneWay;
+            Physics2D.SyncTransforms();
+        }
+
+        IEnumerator JumpAfterEdge(NetPlayer player, int ticks)
+        {
+            float deadline = Time.unscaledTime + 5f;
+            while (player != null && player.CanAct && player.Drive.Grounded && Time.unscaledTime < deadline)
+                yield return new WaitForFixedUpdate();
+            if (player == null || !player.CanAct || player.Drive.Grounded) yield break;
+            for (int i = 1; i < ticks; i++) yield return new WaitForFixedUpdate();
+            if (player == null || !player.CanAct) yield break;
+            player.Jump();
+            player.Move(Vector2.zero);
+        }
+
         void OnDestroy()
         {
+            Destroy(_ground);
             Application.logMessageReceived -= Log;
         }
     }

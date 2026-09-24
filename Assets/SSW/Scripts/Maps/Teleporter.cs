@@ -23,7 +23,8 @@ namespace SSW
                 return;
             }
             _readyTime = Time.time + _cooldown;
-            rb.position = _destination.position;
+            if (rb.TryGetComponent<PlayerController>(out var motion)) motion.Teleport(_destination.position);
+            else rb.position = _destination.position;
         }
     }
 }
