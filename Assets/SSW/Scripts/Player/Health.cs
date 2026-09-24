@@ -112,16 +112,15 @@ namespace SSW
             current = Mathf.Clamp(value, 0f, maxHealth);
             if (Mathf.Approximately(previous, current) && Mathf.Approximately(previousMax, maximum)) return;
 
-            if (current < previous)
-            {
-                float damage = previous - current;
-                OnDamaged?.Invoke();
-                OnDamageDealt?.Invoke(damage, false);
-                SpawnDamageNumber(damage, false);
-            }
-
             OnHealthChanged?.Invoke(current, maxHealth);
             if (previous > 0f && current <= 0f) Die();
+        }
+
+        internal void ApplyNetworkDamage(float amount, bool critical)
+        {
+            OnDamaged?.Invoke();
+            OnDamageDealt?.Invoke(amount, critical);
+            SpawnDamageNumber(amount, critical);
         }
 
         float ResolveIncomingDamage(DamageRequest request, float amount)

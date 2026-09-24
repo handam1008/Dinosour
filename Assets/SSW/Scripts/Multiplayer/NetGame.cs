@@ -114,7 +114,7 @@ namespace SSW
                 if (!NetMath.Supported(_localJob)) throw new ArgumentException("직업을 선택해 주세요.");
                 _physicsStarted = false;
                 Practice = null;
-                _manager.NetworkConfig.ProtocolVersion = 6;
+                _manager.NetworkConfig.ProtocolVersion = 7;
                 _manager.NetworkConfig.PlayerPrefab = null;
                 _manager.NetworkConfig.EnableSceneManagement = true;
                 RegisterPrefab(_playerPrefab.gameObject);

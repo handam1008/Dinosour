@@ -13,6 +13,7 @@ namespace SSW
         [SerializeField] int _shakeVibrato = 12;
 
         Health _health;
+        Tween _shake;
 
         void Awake()
         {
@@ -30,7 +31,7 @@ namespace SSW
         void OnDisable()
         {
             _fillImage.DOKill();
-            transform.DOKill();
+            _shake.Kill(true);
             _health.OnHealthChanged -= HandleHealthChanged;
             _health.OnDamaged -= HandleDamaged;
         }
@@ -43,8 +44,9 @@ namespace SSW
 
         void HandleDamaged()
         {
-            transform.DOKill();
-            transform.DOShakePosition(_shakeDuration, _shakeStrength, _shakeVibrato);
+            _shake.Kill(true);
+            _shake = transform.DOShakePosition(_shakeDuration, new Vector3(_shakeStrength, _shakeStrength, 0f), _shakeVibrato)
+                .OnKill(() => _shake = null);
         }
     }
 }

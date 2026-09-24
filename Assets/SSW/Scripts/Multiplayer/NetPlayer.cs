@@ -114,7 +114,7 @@ namespace SSW
                 _cycle.performed += Cycle;
                 _cycle.canceled += Cycle;
             }
-            _animation.enabled = IsServer || IsOwner;
+            _animation.enabled = true;
             _left.OnValueChanged += Face;
             Face(false, _left.Value);
             _health.OnDied += Die;

@@ -926,9 +926,6 @@ PrefabInstance:
       addedObject: {fileID: 4718736983522598732}
     - targetCorrespondingSourceObject: {fileID: 8665040242661233106, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7009822341244484018}
-    - targetCorrespondingSourceObject: {fileID: 8665040242661233106, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 3278762098247593300}
     - targetCorrespondingSourceObject: {fileID: 8665040242661233106, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
       insertIndex: -1
@@ -1016,11 +1013,6 @@ MonoBehaviour:
 --- !u!70 &1839556105124316949 stripped
 CapsuleCollider2D:
   m_CorrespondingSourceObject: {fileID: 4251979090183284226, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
-  m_PrefabInstance: {fileID: 2487529555981852951}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1939719788459141999 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 4066255878610897528, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
   m_PrefabInstance: {fileID: 2487529555981852951}
   m_PrefabAsset: {fileID: 0}
 --- !u!212 &2079092994806419581 stripped
@@ -1130,26 +1122,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &7009822341244484018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6540654664111419589}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8d0727d5ae3244e3b569694d3912374, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.Components.NetworkAnimator
-  ShowTopMostFoldoutHeaderGroup: 1
-  NetworkAnimatorExpanded: 0
-  AuthorityMode: 0
-  m_Animator: {fileID: 1939719788459141999}
-  TransitionStateInfoList: []
-  AnimatorParameterEntries:
-    ParameterEntries: []
-  AnimatorParametersExpanded: 0
 --- !u!114 &3278762098247593300
 MonoBehaviour:
   m_ObjectHideFlags: 0
