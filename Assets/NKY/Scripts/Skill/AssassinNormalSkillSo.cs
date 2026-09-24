@@ -38,6 +38,11 @@ namespace NKY.Scripts.Skill
             
             player.transform.position = activeSkillInstance.transform.position;
 
+            if (player.TryGetComponent(out IForceReceiver forceReceiver))
+            {
+                forceReceiver.ApplyForce(activeSkillInstance.transform.up * 10f, ForceMode2D.Impulse);
+                
+            }
             Destroy(activeSkillInstance.gameObject);
         }
         
