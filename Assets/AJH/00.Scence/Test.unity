@@ -3080,7 +3080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 100
-  _disableOnDeath: 0
+  _disableOnDeath: 1
   _deathDisableDelay: 0.8
   _healthBarResourceName: HealthBarUI
   _damageNumberResourceName: DamageNumberUI
@@ -3619,7 +3619,7 @@ MonoBehaviour:
   _slamDamagePerHeight: 3
   _slamMaxDamage: 40
   _slamKnockback: 6
-  _slamEffectPrefab: {fileID: 854800978885856121, guid: 27459d648d9361142acf0b1fbc9b216b, type: 3}
+  _slamEffectPrefab: {fileID: 6985157533219657803, guid: 27459d648d9361142acf0b1fbc9b216b, type: 3}
   _minePrefab: {fileID: 4353087775972428860, guid: a1485ebf6ffb8284ca2fd454216b7423, type: 3}
   _mineInterval: 3
   _slowAuraRadius: 4.5
