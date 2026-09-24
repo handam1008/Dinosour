@@ -15,6 +15,11 @@ namespace SSW
         public uint Jump;
         public bool Grounded;
         public bool Pad;
+        public float DashTime;
+        public float DashSpeed;
+        public uint DashAction;
+        public float Scale;
+        public float SmallTime;
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
@@ -28,6 +33,11 @@ namespace SSW
             serializer.SerializeValue(ref Jump);
             serializer.SerializeValue(ref Grounded);
             serializer.SerializeValue(ref Pad);
+            serializer.SerializeValue(ref DashTime);
+            serializer.SerializeValue(ref DashSpeed);
+            serializer.SerializeValue(ref DashAction);
+            serializer.SerializeValue(ref Scale);
+            serializer.SerializeValue(ref SmallTime);
         }
     }
 }

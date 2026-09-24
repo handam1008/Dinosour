@@ -78,6 +78,15 @@ namespace SSW
             public uint action;
             public uint confirmed;
             public double readyIn;
+            public int ammo;
+            public int progress;
+            public bool hidden;
+            public bool shrunk;
+            public bool blind;
+            public bool immune;
+            public float damageScale;
+            public float size;
+            public bool parry;
         }
 
         [Serializable] sealed class ShotState
@@ -259,6 +268,12 @@ namespace SSW
                     foreach (NetPlayer player in game.Players)
                         if (player.IsOwner == (command.x < 0.5f)) player.Draft.Restore(new[] { command.value });
                     break;
+                case "progress":
+                    if (game.Manager.IsServer)
+                        foreach (NetPlayer player in game.Players)
+                            if (player.IsOwner == (command.x < 0.5f) && player.Cast.Weapon != null) player.Cast.Weapon.Progress = command.value;
+                    break;
+                case "seed": if (game.Manager.IsServer) UnityEngine.Random.InitState(command.value); break;
                 case "metrics":
                     foreach (NetPlayer player in game.Players) player.GetComponent<MotionView>().ClearMetrics();
                     break;
@@ -296,7 +311,8 @@ namespace SSW
                     });
                     break;
                 case "fire": local.Cast.Attack(command.value > 0, local.Aim); break;
-                case "cycle": local.Cast.Cycle(command.value > 0); break;
+                case "cycle": local.Cast.Cycle(command.value > 0, command.x == 0f && command.y == 0f ? local.Aim : new Vector2(command.x, command.y)); break;
+                case "parry": local.Cast.Parry(); break;
                 case "choose": local.Draft.Choose(command.value); break;
                 case "draftclick":
                     if (local.Draft.View != null)
@@ -359,6 +375,12 @@ namespace SSW
                 players.Add(new PlayerState
                 {
                     id = player.OwnerClientId, job = player.Job.ToString(), hp = player.Health.Current,
+                    ammo = player.Cast.Weapon != null ? player.Cast.Weapon.Status.Ammo : 0,
+                    progress = player.Cast.Weapon != null ? player.Cast.Weapon.Progress : 0,
+                    hidden = player.Effects.Hidden, shrunk = player.Effects.Shrunk,
+                    blind = player.Effects.BlindActive, immune = player.Effects.ImmuneActive,
+                    damageScale = player.Cast.Weapon != null ? player.Cast.Weapon.DamageScale : 1f,
+                    size = player.Drive.Scale, parry = player.Cast.Weapon is SwordCast sword && sword.Parrying,
                     name = player.Info.Name.ToString(), draftView = player.Draft.HasView,
                     spectating = player.Draft.View != null && player.Draft.View.Spectating,
                     portraitRight = player.Draft.View != null && player.Draft.View.PortraitOnRight,
@@ -396,6 +418,8 @@ namespace SSW
                         shots.Add(new ShotState { id = entry.Key, type = "card", position = obj.transform.position, rank = card.State.Rank, action = card.State.Action, caster = card.State.Caster });
                     else if (obj.TryGetComponent(out NetPotion potion))
                         shots.Add(new ShotState { id = entry.Key, type = "potion", position = obj.transform.position, kind = potion.Kind, action = potion.Action, caster = potion.Caster });
+                    else if (obj.TryGetComponent(out NetBolt bolt))
+                        shots.Add(new ShotState { id = entry.Key, type = "bolt", position = obj.transform.position, kind = bolt.Spec.Style, action = bolt.Action, caster = bolt.Caster });
                     else if (obj.TryGetComponent(out NetZone zone))
                         shots.Add(new ShotState { id = entry.Key, type = "zone", position = obj.transform.position });
                 }

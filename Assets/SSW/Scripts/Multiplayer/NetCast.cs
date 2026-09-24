@@ -18,6 +18,10 @@ namespace SSW
         [SerializeField] NetCard _cardPrefab;
         [SerializeField] NetPotion _potionPrefab;
         [SerializeField] NetStock _stock;
+        [SerializeField] NetBolt _boltPrefab;
+        [SerializeField] JobCast[] _jobs;
+        JobCast _jobCast;
+        public JobCast Weapon => _jobCast;
         [SerializeField] SpriteRenderer _hand;
         [SerializeField] SpriteRenderer _reserve;
         [SerializeField] CooldownCursorUI _cooldown;
@@ -108,7 +112,7 @@ namespace SSW
         public int ShotKind { get; private set; } = -1;
         public int Matches { get; private set; }
         public int Rejections { get; private set; }
-        public double ReadyIn => IsOwner && !IsServer
+        public double ReadyIn => _jobCast != null ? System.Math.Max(0d, ((long)_jobCast.Status.Ready - (IsOwner ? _player.CastTick : _player.InputSequence)) * Time.fixedDeltaTime) : IsOwner && !IsServer
             ? System.Math.Max(System.Math.Max(0d, _cooldownUntil - Time.unscaledTimeAsDouble), Remaining(_player.CastTick))
             : Remaining(_player.InputSequence);
         double Remaining(uint tick) => _readyTick > tick ? (_readyTick - tick) * (double)Time.fixedDeltaTime : 0d;
@@ -125,6 +129,7 @@ namespace SSW
 
         public override void OnNetworkSpawn()
         {
+            foreach (JobCast job in _jobs) if (job.Job == _player.Job) _jobCast = job;
             if (IsServer) _seed.Value = (uint)Random.Range(1, int.MaxValue);
             _cards.enabled = false;
             _suits.enabled = false;
@@ -208,6 +213,9 @@ namespace SSW
                     }
                 }
             }
+            if (!IsServer && _jobCast != null)
+                _jobCast.Predict(new CastInput { Action = action, Epoch = _player.Epoch, Tick = _player.CastTick,
+                    Kind = pressed ? CastKind.Press : CastKind.Release, Direction = direction });
             Send(action, pressed ? CastKind.Press : CastKind.Release, direction, stock);
         }
 
@@ -223,7 +231,9 @@ namespace SSW
             Send(Begin(), CastKind.Cancel, default);
         }
 
-        public void Cycle(bool pressed)
+        public void Cycle(bool pressed) => Cycle(pressed, _player.Aim);
+
+        public void Cycle(bool pressed, Vector2 direction)
         {
             if (!IsSpawned || !IsOwner || !_player.CanAct) return;
             uint action = Begin();
@@ -237,7 +247,39 @@ namespace SSW
                 _suits.ShowSuit(Suit, true);
                 FeedbackAt = Time.unscaledTimeAsDouble;
             }
-            Send(action, pressed ? CastKind.Cycle : CastKind.StopCycle, default);
+            if (!IsServer && _jobCast != null)
+                _jobCast.Predict(new CastInput { Action = action, Epoch = _player.Epoch, Tick = _player.CastTick,
+                    Kind = pressed ? CastKind.Cycle : CastKind.StopCycle, Direction = direction });
+            Send(action, pressed ? CastKind.Cycle : CastKind.StopCycle, direction);
+        }
+
+        public void Parry()
+        {
+            if (!IsSpawned || !IsOwner || !_player.CanAct || _player.Job != PlayerJob.Swordsman) return;
+            uint action = Begin();
+            if (!IsServer) _jobCast.Predict(new CastInput { Action = action, Epoch = _player.Epoch,
+                Tick = _player.CastTick, Kind = CastKind.Parry, Direction = _player.Aim });
+            Send(action, CastKind.Parry, _player.Aim);
+        }
+
+        public void Presented() => FeedbackAt = Time.unscaledTimeAsDouble;
+
+        public void PreviewBolt(uint action, Vector2 origin, Vector2 direction, BoltSpec spec)
+        {
+            _preview.Bolt(action, origin, direction, _boltPrefab.Style, _boltPrefab.Sprite(spec.Style), spec, ResponseTime);
+            FeedbackAt = Time.unscaledTimeAsDouble;
+        }
+
+        public NetBolt SpawnBolt(IBoltReceiver receiver, uint action, Vector2 origin, Vector2 direction, BoltSpec spec, double lag)
+        {
+            NetBolt bolt = Instantiate(_boltPrefab, origin, Quaternion.Euler(0f, 0f, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + (spec.Style == 3 ? -90f : 0f)));
+            bolt.Init(_player, receiver, action, direction, spec, lag);
+            Origin = origin;
+            ShotLag = lag;
+            ShotTick = _player.InputSequence;
+            Shots++;
+            bolt.NetworkObject.Spawn(true);
+            return bolt;
         }
 
         void Send(uint action, CastKind kind, Vector2 direction, uint stock = 0)
@@ -275,7 +317,7 @@ namespace SSW
                 CastInput input = pending.Input;
                 bool valid = input.Epoch == _player.Epoch
                     && (input.Kind == CastKind.Cancel || _player.CanAct)
-                    && input.Kind <= CastKind.Cancel
+                    && input.Kind <= CastKind.Parry
                     && !double.IsNaN(input.ViewTime) && !double.IsInfinity(input.ViewTime)
                     && input.Tick <= (ulong)_player.InputSequence + MotionHistory.Capacity
                     && Time.unscaledTimeAsDouble - pending.At < CastWait;
@@ -290,6 +332,13 @@ namespace SSW
 
         bool Apply(CastInput input, Vector2 origin)
         {
+            if (_jobCast != null)
+            {
+                if (!NetMath.Finite(input.Direction)) return false;
+                if (input.Kind != CastKind.Cancel && input.Direction.sqrMagnitude < 0.001f) return false;
+                input.Direction.Normalize();
+                return _jobCast.Apply(input, origin, Lag(input));
+            }
             if (input.Kind == CastKind.Cancel)
             {
                 _rollingRank = _rollingSuit = false;
@@ -350,6 +399,8 @@ namespace SSW
             if (!accepted || epoch != _player.Epoch)
             {
                 Rejections++;
+                _player.Drive.RejectDash(action);
+                _jobCast?.Reject(action);
                 _preview?.Reject(action);
             }
             if (!IsServer && epoch == _player.Epoch) SyncStock(stock);

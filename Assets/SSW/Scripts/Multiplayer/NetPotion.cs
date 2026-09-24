@@ -191,7 +191,12 @@ namespace SSW
         [Rpc(SendTo.Everyone, InvokePermission = RpcInvokePermission.Server)]
         void ImpactRpc(Vector2 point, float scale)
         {
-            foreach (AbstractFeedBack effect in _effects) effect.CreateFeedBack(point, scale);
+            if (!IsClient) return;
+            foreach (AbstractFeedBack effect in _effects)
+            {
+                try { effect.CreateFeedBack(point, scale); }
+                catch (System.Exception error) { Debug.LogException(error, effect); }
+            }
         }
     }
 }

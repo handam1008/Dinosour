@@ -16,7 +16,7 @@ namespace SSW
             string mode = Read("--net-mode", "");
             if (mode == "host" || mode == "client")
             {
-                PlayerJob job = Read("--net-job", "Magician") == "Witch" ? PlayerJob.Witch : PlayerJob.Magician;
+                PlayerJob job = Enum.TryParse(Read("--net-job", "Magician"), out PlayerJob selected) && NetMath.Supported(selected) ? selected : PlayerJob.Magician;
                 ushort port = ushort.TryParse(Read("--net-port", "7777"), out ushort parsed) ? parsed : (ushort)7777;
                 NetGame.GetOrCreate().StartLocal(mode == "host", Read("--net-address", "127.0.0.1"), job, port);
             }

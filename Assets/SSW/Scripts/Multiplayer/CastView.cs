@@ -84,6 +84,22 @@ namespace SSW
             Start(shot);
         }
 
+        public void Bolt(uint action, Vector2 position, Vector2 direction, SpriteRenderer style, Sprite sprite, BoltSpec spec, float life)
+        {
+            Shot shot = Create(action, 0, position, life);
+            shot.View.sprite = sprite;
+            shot.View.sharedMaterial = style.sharedMaterial;
+            shot.View.sortingLayerID = style.sortingLayerID;
+            shot.View.sortingOrder = style.sortingOrder;
+            shot.View.color = spec.Charged ? new Color(1f, 0.85f, 0.3f) : Color.white;
+            shot.View.transform.localScale = Vector3.one * spec.Scale;
+            shot.View.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + (spec.Style == 3 ? -90f : 0f));
+            shot.Velocity = direction * spec.Speed;
+            shot.Radius = spec.Radius;
+            shot.Spin = spec.Spin;
+            Start(shot);
+        }
+
         Shot Create(uint action, int part, Vector2 position, float life)
         {
             if (_shots.Count == 16) Remove(0);

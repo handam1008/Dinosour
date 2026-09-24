@@ -18,8 +18,18 @@ namespace SSW
                 ? gravity / Physics2D.gravity.y : shape.attachedRigidbody.gravityScale;
         }
 
+        public Vector2 Clip(Vector2 start, Vector2 end)
+        {
+            Vector2 travel = end - start;
+            _cast.Move(ref start, ref travel, 1f, false);
+            return start;
+        }
+
         public void Step(ref MotionState state, MotionFrame input, float speed, float delta, bool playing)
         {
+            float scale = playing && state.SmallTime > 0f ? 0.5f : 1f;
+            _cast.Scale(ref state, scale);
+            state.SmallTime = Mathf.Max(0f, state.SmallTime - delta);
             bool jump = input.Jump > state.Jump;
             state.Jump = System.Math.Max(state.Jump, input.Jump);
             if (!playing)
@@ -27,10 +37,25 @@ namespace SSW
                 state.Velocity = state.Surface = Vector2.zero;
                 state.External = state.DropTime = 0f;
                 state.Pad = false;
+                state.DashTime = 0f;
                 state.Grounded = _cast.Grounded(state.Position, false);
                 return;
             }
 
+            if (state.DashTime > 0f)
+            {
+                float travelTime = Mathf.Min(delta, state.DashTime);
+                state.DashTime = Mathf.Max(0f, state.DashTime - delta);
+                if (state.DashTime < 0.000001f) state.DashTime = 0f;
+                Vector2 dash = new Vector2(state.DashSpeed, 0f);
+                _cast.Move(ref state.Position, ref dash, travelTime, false, 0f);
+                state.Velocity = dash;
+                state.External = 0f;
+                state.Surface = Vector2.zero;
+                state.Grounded = _cast.Grounded(state.Position, false);
+                if (Mathf.Abs(dash.x) < 0.001f) state.DashTime = 0f;
+                return;
+            }
             state.DropTime = Mathf.Max(0f, state.DropTime - delta);
             bool dropping = state.DropTime > 0f;
             Vector2 velocity = state.Velocity - state.Surface;

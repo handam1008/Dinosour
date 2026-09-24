@@ -107,9 +107,9 @@ namespace SSW
             if (!_manager.IsListening)
             {
                 if (!_explicitJob) _localJob = PlayerJobStorage.Load();
-                if (!NetMath.Supported(_localJob)) throw new ArgumentException("온라인 직업은 마녀와 마술사 중에서 선택해 주세요.");
+                if (!NetMath.Supported(_localJob)) throw new ArgumentException("직업을 선택해 주세요.");
                 _physicsStarted = false;
-                _manager.NetworkConfig.ProtocolVersion = 4;
+                _manager.NetworkConfig.ProtocolVersion = 5;
                 _manager.NetworkConfig.PlayerPrefab = null;
                 _manager.NetworkConfig.EnableSceneManagement = true;
                 RegisterPrefab(_playerPrefab.gameObject);
@@ -155,7 +155,7 @@ namespace SSW
 
         public void SetLocalJob(PlayerJob job)
         {
-            if (!NetMath.Supported(job)) throw new ArgumentException("온라인 직업은 마녀와 마술사 중에서 선택해 주세요.");
+            if (!NetMath.Supported(job)) throw new ArgumentException("직업을 선택해 주세요.");
             _localJob = job;
             _explicitJob = true;
         }
@@ -317,11 +317,12 @@ namespace SSW
             var players = _players.Select(player => new
             {
                 Id = player.OwnerClientId, player.Job, player.Side, player.Info,
-                Owned = player.Draft.Owned.ToArray()
+                Owned = player.Draft.Owned.ToArray(),
+                Progress = player.Cast.Weapon != null ? player.Cast.Weapon.Progress : 0
             }).ToArray();
             foreach (NetworkObject item in _manager.SpawnManager.SpawnedObjectsList.ToArray())
                 if (item.TryGetComponent<NetCard>(out _) || item.TryGetComponent<NetPotion>(out _)
-                    || item.TryGetComponent<NetZone>(out _)) item.Despawn();
+                    || item.TryGetComponent<NetZone>(out _) || item.TryGetComponent<NetBolt>(out _)) item.Despawn();
             foreach (NetPlayer player in _players.ToArray()) player.NetworkObject.Despawn();
             foreach (var saved in players)
             {
@@ -329,6 +330,7 @@ namespace SSW
                 player.Init(saved.Job, saved.Side, saved.Info);
                 player.NetworkObject.SpawnAsPlayerObject(saved.Id, true);
                 player.Draft.Restore(saved.Owned);
+                if (player.Cast.Weapon != null) player.Cast.Weapon.Progress = saved.Progress;
             }
             Physics2D.IgnoreCollision(_players[0].Collider, _players[1].Collider);
         }

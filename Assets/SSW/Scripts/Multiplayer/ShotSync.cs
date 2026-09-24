@@ -52,6 +52,16 @@ namespace SSW
 
         public void Redirect() => _turn++;
 
+        public void Deflect(NetPlayer caster)
+        {
+            _caster = caster;
+            _target = new ShotContact(caster, NetGame.Current.Players);
+            _normal = Vector2.zero;
+            _contact = null;
+            _caught = false;
+            if (IsServer) Redirect();
+        }
+
         public void Bind(NetPlayer caster, uint action, int part, float radius = 0f, Vector2 size = default)
         {
             _caster = caster;
