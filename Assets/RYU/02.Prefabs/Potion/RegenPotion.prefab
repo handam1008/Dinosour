@@ -177,11 +177,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.Potion.Potion
   explodeOn:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 384
   splashRadious: 1.5
   zonePrefab: {fileID: 2434538502818078187, guid: bf3b1e1768426fd4a9bf03dae204fc22, type: 3}
-  flightEffect: {fileID: 2076077248299556849, guid: 21bf7e75c6a76af4cbe1e57da30424eb, type: 3}
-  trail: {fileID: 1601991702186876870, guid: 611c14730408d6f4eb64e3014058143d, type: 3}
+  flightEffect: {fileID: 5278270392247074345}
+  trail: {fileID: 3962639754041703561}
 --- !u!114 &-1409195573186214829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,6 +264,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 611c14730408d6f4eb64e3014058143d, type: 3}
+--- !u!96 &3962639754041703561 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 1601991702186876870, guid: 611c14730408d6f4eb64e3014058143d, type: 3}
+  m_PrefabInstance: {fileID: 2361422409946882895}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4803545089591577646 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7092302880407449441, guid: 611c14730408d6f4eb64e3014058143d, type: 3}
@@ -326,6 +331,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 21bf7e75c6a76af4cbe1e57da30424eb, type: 3}
+--- !u!1 &5278270392247074345 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2076077248299556849, guid: 21bf7e75c6a76af4cbe1e57da30424eb, type: 3}
+  m_PrefabInstance: {fileID: 6165317617414529496}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8872263220280807116 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3363916041165647636, guid: 21bf7e75c6a76af4cbe1e57da30424eb, type: 3}
