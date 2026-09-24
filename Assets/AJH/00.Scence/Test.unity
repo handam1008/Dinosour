@@ -3271,7 +3271,6 @@ GameObject:
   - component: {fileID: 1506820362}
   - component: {fileID: 9183996978096013331}
   - component: {fileID: 9183996978096013333}
-  - component: {fileID: 9183996978096013334}
   - component: {fileID: 9183996978096013335}
   m_Layer: 3
   m_Name: Gun
@@ -3484,13 +3483,15 @@ MonoBehaviour:
   _bestOffenseBonus: 2
   _bestOffenseWindow: 5
   _bestOffenseCoolPenalty: 0.5
-  _nuclearRadius: 10
+  _nuclearRadius: 5
   _nuclearDamageRatio: 0.2
   _nuclearCoolPenalty: 1.5
   _nuclearWallMask:
     serializedVersion: 2
-    m_Bits: 0
-  _nuclearExplosionPrefab: {fileID: 0}
+    m_Bits: 256
+  _nuclearChargeTime: 0.8
+  _nuclearChargePrefab: {fileID: 3583293408500826116, guid: dbafdff45df663041a7aa1acaebc41f2, type: 3}
+  _nuclearExplosionPrefab: {fileID: 4842865444481731805, guid: f5d67a942ad3aad4bb6fa416301474b4, type: 3}
   _counterRatio: 0.6
 --- !u!114 &9016132726206276957
 MonoBehaviour:
@@ -3574,38 +3575,6 @@ MonoBehaviour:
   _coolDown: 3
   _barrierContinue: 0.5
   _barrier: {fileID: 1486189628}
---- !u!114 &9183996978096013334
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7686893400798307182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5b4fbb7365141758dcb3f233f981c42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SSW.HealthAugmentController
-  _giantHpBonus: 0.55
-  _giantScaleBonus: 0.1
-  _glassCannonHpPenalty: 0.3
-  _glassCannonDamageBonus: 1.8
-  _glassCannonScalePenalty: 0.1
-  _phoenixHpPenalty: 0.25
-  _phoenixInvulnTime: 0.5
-  _phoenixScalePenalty: 0.08
-  _vampireHealRate: 0.55
-  _confidenceSpeedBonus: 0.3
-  _confidenceDuration: 2
-  _berserkerHpRatio: 0.75
-  _berserkerAtkSpeedBonus: 0.45
-  _berserkerDamageBonus: 0.6
-  _deathWaltzSpreadTime: 5
-  _tenLivesHealth: 10
-  _tenLivesDamage: 1
-  _multiscaleReduction: 0.5
-  _regenAmount: 1
-  _regenInterval: 1
 --- !u!114 &9183996978096013335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3650,7 +3619,7 @@ MonoBehaviour:
   _slamDamagePerHeight: 3
   _slamMaxDamage: 40
   _slamKnockback: 6
-  _slamEffectPrefab: {fileID: 0}
+  _slamEffectPrefab: {fileID: 854800978885856121, guid: 27459d648d9361142acf0b1fbc9b216b, type: 3}
   _minePrefab: {fileID: 4353087775972428860, guid: a1485ebf6ffb8284ca2fd454216b7423, type: 3}
   _mineInterval: 3
   _slowAuraRadius: 4.5

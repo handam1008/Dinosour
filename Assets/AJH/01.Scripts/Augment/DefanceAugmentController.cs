@@ -41,11 +41,13 @@ namespace SSW
         [SerializeField] float _bestOffenseCoolPenalty = 0.50f;
         
         [Header("뉴클리어")]
-        [SerializeField] float _nuclearRadius = 10f;
+        [SerializeField] float _nuclearRadius = 5f;
         [SerializeField] float _nuclearDamageRatio = 0.20f;
         [SerializeField] float _nuclearCoolPenalty = 1.50f;
         [SerializeField] LayerMask _nuclearWallMask;   
-        [SerializeField] GameObject _nuclearExplosionPrefab;
+        [SerializeField] float _nuclearChargeTime = 0.8f;
+        [SerializeField] NuclearCharge _nuclearChargePrefab;
+        [SerializeField] NuclearBlast _nuclearExplosionPrefab;
 
         [Header("반격")]
         [SerializeField] float _counterRatio = 0.6f;
@@ -156,7 +158,7 @@ namespace SSW
                 CastIceAge(center);
 
             if (Has(CommonAugmentType.Nuclear))
-                CastNuclear(center);
+                StartCoroutine(NuclearRoutine());
 
             if (Has(CommonAugmentType.BestOffense))
                 _empowerUntil = Time.time + _bestOffenseWindow;
@@ -260,10 +262,15 @@ namespace SSW
             }
         }
 
-        void CastNuclear(Vector2 center)
+        IEnumerator NuclearRoutine()
         {
-            if (_nuclearExplosionPrefab != null)
-                Instantiate(_nuclearExplosionPrefab, center, Quaternion.identity);
+            NuclearCharge charge = Instantiate(_nuclearChargePrefab, transform);
+            charge.Play(_nuclearChargeTime);
+            yield return new WaitForSeconds(_nuclearChargeTime);
+            Destroy(charge.gameObject);
+
+            Vector2 center = transform.position;
+            Instantiate(_nuclearExplosionPrefab, center, Quaternion.identity).Play(_nuclearRadius, _nuclearWallMask);
 
             var targets = new HashSet<IDamageable>();
             foreach (Collider2D hit in Physics2D.OverlapCircleAll(center, _nuclearRadius))
