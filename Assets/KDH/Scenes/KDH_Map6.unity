@@ -1460,7 +1460,12 @@ MonoBehaviour:
   parryTime: 4
   reflectSpeed: 20
   parryCooldown: 12
-  parryCollider: {fileID: 0}
+  swordTransform: {fileID: 0}
+  parryBoxOffset: {x: 0, y: 0}
+  parryBoxSize: {x: 2, y: 0.5}
+  bulletLayer:
+    serializedVersion: 2
+    m_Bits: 0
   isParrying: 0
 --- !u!61 &1569450012
 BoxCollider2D:
@@ -1674,11 +1679,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2319324373219635143, guid: 9407d5eec275f334db09eabc29f8bec6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2319324373219635143, guid: 9407d5eec275f334db09eabc29f8bec6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2319324373219635143, guid: 9407d5eec275f334db09eabc29f8bec6, type: 3}
       propertyPath: m_LocalPosition.z

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace KDH.Scripts.Objects
 {
@@ -15,6 +16,9 @@ namespace KDH.Scripts.Objects
         private float _applyTime;
         private bool _started;
 
+        [SerializeField] private UnityEvent onTimeLineStart;
+        [SerializeField] private UnityEvent onTimeLineEnd;
+        
         private void Awake()
         {
             _timeLineEffect = GetComponent<KDH_TimeLineEffect>();
@@ -32,6 +36,8 @@ namespace KDH.Scripts.Objects
                     Debug.Log("시작");
                     _started = true;
                     _applyTime = 0f;
+                    
+                    onTimeLineStart?.Invoke();
                 }
             }
             else
@@ -47,6 +53,8 @@ namespace KDH.Scripts.Objects
                     _timeLineEffect.StopEffect();
                     _started = false;
                     _timer = 0f;
+                    
+                    onTimeLineEnd?.Invoke();
                 }
             }
         }

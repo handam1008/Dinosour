@@ -15,6 +15,7 @@ namespace SSW
         {
             _state.OnValueChanged += Sync;
             _health.OnHealthChanged += Publish;
+            _health.OnDamageDealt += PublishDamage;
             if (IsServer) Publish(_health.Current, _health.Max);
             else Sync(default, _state.Value);
         }
@@ -22,6 +23,17 @@ namespace SSW
         void Publish(float current, float maximum)
         {
             if (IsServer) _state.Value = new Vector2(current, maximum);
+        }
+
+        void PublishDamage(float amount, bool critical)
+        {
+            if (IsServer) DamageRpc(amount, critical);
+        }
+
+        [Rpc(SendTo.NotServer, InvokePermission = RpcInvokePermission.Server)]
+        void DamageRpc(float amount, bool critical)
+        {
+            _health.ApplyNetworkDamage(amount, critical);
         }
 
         void Sync(Vector2 previous, Vector2 current)
@@ -33,6 +45,7 @@ namespace SSW
         {
             _state.OnValueChanged -= Sync;
             _health.OnHealthChanged -= Publish;
+            _health.OnDamageDealt -= PublishDamage;
         }
     }
 }

@@ -7,6 +7,15 @@ namespace SSW
     [DefaultExecutionOrder(100)]
     public sealed class MotionView : NetworkBehaviour, IForceReceiver, IMotionSource
     {
+        struct DashInput
+        {
+            public uint Action;
+            public uint Epoch;
+            public uint Tick;
+            public float Speed;
+            public float Duration;
+        }
+
         struct Snapshot
         {
             public double Time;
@@ -33,6 +42,8 @@ namespace SSW
         readonly List<Snapshot> _snapshots = new List<Snapshot>(32);
         MotionMotor _motor;
         MotionState _state;
+        DashInput _dash;
+        Vector3 _baseScale;
         MotionFrame _last;
         Vector2 _previous;
         Vector2 _offset;
@@ -84,15 +95,18 @@ namespace SSW
         public uint Buffered => IsServer && _receivedInput > _processed ? _receivedInput - _processed : 0;
         public int Resyncs { get; private set; }
         public float Speed => _speed;
+        public float Scale => _state.Scale > 0f ? _state.Scale : 1f;
 
         void Awake()
         {
+            _baseScale = transform.localScale;
             foreach (Transform part in _parts) part.SetParent(_view, true);
         }
 
         public override void OnNetworkSpawn()
         {
             _motor = new MotionMotor(_shape, _motion, Physics2D.gravity.y * _body.gravityScale);
+            _state.Scale = 1f;
             _state.Position = _previous = transform.position;
             _body.position = _state.Position;
             _shown = _view.position = transform.position;
@@ -147,6 +161,12 @@ namespace SSW
 
         void Predict(MotionFrame input, bool playing)
         {
+            if (playing && _dash.Action > _state.DashAction && _dash.Epoch == _state.Epoch && input.Tick > _dash.Tick)
+            {
+                _state.DashAction = _dash.Action;
+                _state.DashSpeed = _dash.Speed;
+                _state.DashTime = _dash.Duration;
+            }
             _rate.Advance(Time.fixedDeltaTime);
             _speed = _rate.Value;
             _motor.Step(ref _state, input, _speed, Time.fixedDeltaTime, playing);
@@ -189,6 +209,7 @@ namespace SSW
 
         void Commit()
         {
+            transform.localScale = _baseScale * Scale;
             _body.position = _state.Position;
             _body.linearVelocity = Vector2.zero;
             if (IsServer)
@@ -244,6 +265,7 @@ namespace SSW
             _rate = rate;
             _speed = rate.Value;
             bool relocated = state.Epoch != _state.Epoch;
+            if (relocated || state.DashAction >= _dash.Action) _dash = default;
             if (!IsOwner)
             {
                 if (relocated)
@@ -353,10 +375,43 @@ namespace SSW
             _state.Velocity.y += force.y * scale;
         }
 
+        public void Dash(uint action, float speed, float duration)
+        {
+            if (!IsServer || !_player.CanAct) return;
+            _state.DashAction = action;
+            _state.DashSpeed = speed;
+            _state.DashTime = duration;
+        }
+
+        public void PredictDash(uint action, uint tick, float speed, float duration)
+        {
+            if (!IsOwner || IsServer || !_player.CanAct) return;
+            _dash = new DashInput { Action = action, Epoch = _state.Epoch, Tick = tick, Speed = speed, Duration = duration };
+        }
+
+        public void RejectDash(uint action)
+        {
+            if (_dash.Action != action) return;
+            _dash = default;
+            _state.DashTime = 0f;
+        }
+
+        public void Shrink(float duration)
+        {
+            if (IsServer && _player.CanAct) _state.SmallTime = Mathf.Max(_state.SmallTime, duration);
+        }
+
+        public void Blink(Vector2 position)
+        {
+            if (IsServer && _player.CanAct) Teleport(_motor.Clip(_state.Position, position));
+        }
+
         public void Teleport(Vector2 position)
         {
             if (!IsServer || !NetMath.Finite(position)) return;
-            _state = new MotionState { Epoch = _state.Epoch + 1, Position = position, Jump = _state.Jump };
+            _state = new MotionState { Epoch = _state.Epoch + 1, Position = position, Jump = _state.Jump,
+                Scale = Scale, SmallTime = _state.SmallTime };
+            _dash = default;
             if (IsOwner) _player.ResetJump(_state.Jump);
             _previous = position;
             _offset = Vector2.zero;

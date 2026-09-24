@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace SSW
@@ -42,7 +41,7 @@ namespace SSW
 
         void OpenPractice()
         {
-            SceneManager.LoadScene(_sceneName);
+            MapTravel.LoadScene(_sceneName);
         }
     }
 }

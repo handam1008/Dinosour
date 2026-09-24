@@ -11,11 +11,15 @@ namespace SSW
         [SerializeField] CanvasGroup _jobPanel;
         [SerializeField] JobSettingsPanel _jobSettingsPanel;
         [SerializeField] CanvasGroup _settingsPanel;
+        [SerializeField] CanvasGroup _leaderboardPanel;
         [SerializeField] RectTransform _title;
         [SerializeField] Text _statusText;
         [SerializeField] MultiplayerMenuUI _multiplayerMenuPrefab;
         [SerializeField] SandboxMapMenuUI _sandboxMapMenuPrefab;
         [SerializeField] string _sandboxSceneName = "SuperUltraLegendScene";
+        [SerializeField] Slider _masterVolume;
+        [SerializeField] Slider _bgmVolume;
+        [SerializeField] Slider _sfxVolume;
         [SerializeField] float _fadeDuration = 0.22f;
         [SerializeField] float _buttonStagger = 0.07f;
 
@@ -36,10 +40,14 @@ namespace SSW
 
         void Start()
         {
+            GameAudio audio = GameAudio.GetOrCreate();
+            audio.PlayBgm(audio.Bank.Menu);
+            SyncVolume();
             _mainPanel.gameObject.SetActive(false);
             _playPanel.gameObject.SetActive(false);
             _jobPanel.gameObject.SetActive(false);
             _settingsPanel.gameObject.SetActive(false);
+            if (_leaderboardPanel != null) _leaderboardPanel.gameObject.SetActive(false);
             ShowMain();
             PlayTitleIntro();
         }
@@ -71,13 +79,19 @@ namespace SSW
 
         public void ShowSettings()
         {
+            SyncVolume();
             ShowPanel(_settingsPanel);
+        }
+
+        public void ShowLeaderboard()
+        {
+            ShowPanel(_leaderboardPanel);
         }
 
         void ShowPanel(CanvasGroup target)
         {
             if (_current == target) return;
-            _title.gameObject.SetActive(target != _jobPanel);
+            _title.gameObject.SetActive(target != _jobPanel && target != _leaderboardPanel);
             CanvasGroup previous = _current;
             if (previous != null)
             {
@@ -199,13 +213,22 @@ namespace SSW
 
         public void SetMasterVolume(float value)
         {
-            AudioListener.volume = value;
-            PlayerPrefs.SetFloat("MasterVolume", value);
+            GameAudio.GetOrCreate().SetMasterVolume(value);
         }
 
         public void SetSfxVolume(float value)
         {
-            PlayerPrefs.SetFloat("SfxVolume", value);
+            GameAudio.GetOrCreate().SetSfxVolume(value);
+        }
+
+        public void SetBgmVolume(float value) => GameAudio.GetOrCreate().SetBgmVolume(value);
+
+        void SyncVolume()
+        {
+            GameAudio audio = GameAudio.GetOrCreate();
+            _masterVolume.SetValueWithoutNotify(audio.MasterVolume);
+            _bgmVolume.SetValueWithoutNotify(audio.BgmVolume);
+            _sfxVolume.SetValueWithoutNotify(audio.SfxVolume);
         }
 
         public void SetFullscreen(bool value)

@@ -72,6 +72,7 @@ namespace SSW
             CardState state = _state.Value;
             NetPlayer owner = NetworkManager.SpawnManager.SpawnedObjects[state.Caster].GetComponent<NetPlayer>();
             _owner = owner;
+            _feedback.SoundEnabled = false;
             owner.Cast.Cards.ConfigureShot(_card, _sprite, _feedback, state, IsServer);
             transform.localScale = Vector3.one * (state.Mirror ? 0.18f : 0.3f);
             _flight.Bind(owner, state.Action, 0, Radius);
@@ -134,7 +135,9 @@ namespace SSW
 
         public void Impact(Vector2 point, float radius, bool terminal = true)
         {
-            if (IsServer) ImpactRpc(point, radius, terminal);
+            if (!IsServer) return;
+            ImpactRpc(point, radius, terminal);
+            _owner.Cast.ImpactSound();
         }
 
         [Rpc(SendTo.NotServer, InvokePermission = RpcInvokePermission.Server)]

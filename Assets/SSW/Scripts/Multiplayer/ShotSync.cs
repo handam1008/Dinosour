@@ -48,9 +48,19 @@ namespace SSW
         public Vector2 Velocity => _pose.Velocity;
         internal ShotPose Pose => _pose;
         internal double ViewTime => IsServer ? NetGame.Current.PhysicsTime : _clock.Time;
-        double Now => _local ? NetworkManager.LocalTime.Time : NetworkManager.ServerTime.Time;
+        double Now => _local ? NetworkManager.LocalTime.Time : NetGame.Current.ServerTime;
 
         public void Redirect() => _turn++;
+
+        public void Deflect(NetPlayer caster)
+        {
+            _caster = caster;
+            _target = new ShotContact(caster, NetGame.Current.Players);
+            _normal = Vector2.zero;
+            _contact = null;
+            _caught = false;
+            if (IsServer) Redirect();
+        }
 
         public void Bind(NetPlayer caster, uint action, int part, float radius = 0f, Vector2 size = default)
         {

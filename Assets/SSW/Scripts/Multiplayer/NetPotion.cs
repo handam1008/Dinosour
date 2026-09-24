@@ -142,6 +142,7 @@ namespace SSW
             float radius = _radius * _mods.Splash;
             bool target = Splash(point, radius, direct);
             ImpactRpc(point, _mods.Splash);
+            _owner.Cast.ImpactSound();
             if (_mods.LeaveZone)
             {
                 NetZone zone = Instantiate(_zonePrefab, point, Quaternion.identity);
@@ -191,7 +192,12 @@ namespace SSW
         [Rpc(SendTo.Everyone, InvokePermission = RpcInvokePermission.Server)]
         void ImpactRpc(Vector2 point, float scale)
         {
-            foreach (AbstractFeedBack effect in _effects) effect.CreateFeedBack(point, scale);
+            if (!IsClient) return;
+            foreach (AbstractFeedBack effect in _effects)
+            {
+                try { effect.CreateFeedBack(point, scale); }
+                catch (System.Exception error) { Debug.LogException(error, effect); }
+            }
         }
     }
 }

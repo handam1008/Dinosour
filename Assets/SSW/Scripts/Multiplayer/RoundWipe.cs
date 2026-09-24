@@ -9,7 +9,6 @@ namespace SSW
         [SerializeField] RectTransform _band;
         [SerializeField] UnityEngine.UI.Text _title;
         [SerializeField] CanvasGroup _words;
-        [SerializeField] AudioSource _audio;
         [SerializeField] AudioClip _slide;
         [SerializeField] AudioClip _hit;
         Sequence _motion;
@@ -31,13 +30,13 @@ namespace SSW
             _title.rectTransform.anchoredPosition = Vector2.left * 95f;
             _title.rectTransform.localScale = Vector3.one * 1.16f;
             _words.alpha = 0f;
-            _audio.PlayOneShot(_slide, 0.7f);
+            GameAudio.GetOrCreate().PlaySfx(_slide, 0.7f);
             _motion = DOTween.Sequence().SetUpdate(true).SetLink(gameObject);
             _motion.Insert(0f, _band.DOAnchorPosX(0f, 0.32f).SetEase(Ease.OutExpo));
             _motion.Insert(0.22f, _words.DOFade(1f, 0.12f));
             _motion.Insert(0.22f, _title.rectTransform.DOAnchorPosX(0f, 0.25f).SetEase(Ease.OutCubic));
             _motion.Insert(0.22f, _title.rectTransform.DOScale(1f, 0.25f).SetEase(Ease.OutBack));
-            _motion.InsertCallback(0.24f, () => _audio.PlayOneShot(_hit, 0.55f));
+            _motion.InsertCallback(0.24f, () => GameAudio.GetOrCreate().PlaySfx(_hit, 0.55f));
         }
 
         public void Reveal()
@@ -48,7 +47,7 @@ namespace SSW
             _motion = DOTween.Sequence().SetUpdate(true).SetLink(gameObject);
             _motion.Insert(0f, _words.DOFade(0f, 0.16f));
             _motion.Insert(0f, _title.rectTransform.DOAnchorPosX(90f, 0.18f).SetEase(Ease.InCubic));
-            _motion.InsertCallback(0.12f, () => _audio.PlayOneShot(_slide, 0.55f));
+            _motion.InsertCallback(0.12f, () => GameAudio.GetOrCreate().PlaySfx(_slide, 0.55f));
             _motion.Insert(0.12f, _band.DOAnchorPosX(_width + 400f, 0.35f).SetEase(Ease.InExpo));
             _motion.OnComplete(Hide);
         }

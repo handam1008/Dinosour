@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SSW
 {
-    public enum CastKind : byte { Press, Release, Cycle, StopCycle, Cancel }
+    public enum CastKind : byte { Press, Release, Cycle, StopCycle, Cancel, Parry }
 
     public struct CastInput : INetworkSerializable
     {

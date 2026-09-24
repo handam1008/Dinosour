@@ -110,9 +110,6 @@ namespace SSW
 
             if (Time.time < _hurtUntil)
                 PlayAnimation(Hurt);
-
-            if (Time.time < _hurtUntil)
-                PlayAnimation(Hurt);
             else if (_hasMotionView ? !_viewGrounded : _player != null && !_player.IsGrounded)
                 PlayAnimation(AirborneIdle);
             else if (_hasMotionView ? Mathf.Abs(_viewVelocity.x) > 0.08f : _body != null && Mathf.Abs(_body.linearVelocity.x) > 0.08f)

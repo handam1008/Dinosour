@@ -75,6 +75,6 @@ namespace SSW
             float.IsFinite(value.x) && float.IsFinite(value.y);
 
         public static bool Supported(PlayerJob job) =>
-            job == PlayerJob.Witch || job == PlayerJob.Magician;
+            job >= PlayerJob.Witch && job <= PlayerJob.Gunner;
     }
 }

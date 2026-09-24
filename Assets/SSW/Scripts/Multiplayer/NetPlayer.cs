@@ -18,6 +18,13 @@ namespace SSW
         [SerializeField] Rigidbody2D _body;
         [SerializeField] Collider2D _collider;
         [SerializeField] MotionView _prediction;
+        [SerializeField] PlayerFx _effects;
+        [SerializeField] NetBuff _buffs;
+        public PlayerInput Input => _input;
+        public PlayerController Motion => _motion;
+        public MotionView Drive => _prediction;
+        public PlayerFx Effects => _effects;
+        public NetBuff Buffs => _buffs;
         readonly NetworkVariable<Fighter> _info = new NetworkVariable<Fighter>();
         Fighter _startInfo;
         readonly NetworkVariable<PlayerJob> _job = new NetworkVariable<PlayerJob>();
@@ -107,7 +114,7 @@ namespace SSW
                 _cycle.performed += Cycle;
                 _cycle.canceled += Cycle;
             }
-            _animation.enabled = IsServer || IsOwner;
+            _animation.enabled = true;
             _left.OnValueChanged += Face;
             Face(false, _left.Value);
             _health.OnDied += Die;
@@ -120,6 +127,7 @@ namespace SSW
 
             if (!IsOwner) return;
             AimAtCursor();
+            if (!_blocked && _input.inputIsActive && Job == PlayerJob.Swordsman && Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame) _cast.Parry();
             Face(false, _aim.x < 0f);
         }
 
@@ -197,7 +205,7 @@ namespace SSW
 
         void Die()
         {
-            if (IsServer) NetGame.Current.Match.CheckDeath();
+            if (IsServer && NetGame.Current.Match != null) NetGame.Current.Match.CheckDeath();
         }
 
         public override void OnNetworkDespawn()
