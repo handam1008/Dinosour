@@ -1,4 +1,3 @@
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -28,7 +27,9 @@ namespace SSW
         void OnEnable()
         {
             _fillImage.DOKill();
-            _fillImage.fillAmount = 1f;
+            _bgFillImage.DOKill();
+            _fillImage.fillAmount = _health.Current / _health.Max;
+            _bgFillImage.fillAmount = _fillImage.fillAmount;
             _health.OnHealthChanged += HandleHealthChanged;
             _health.OnDamaged += HandleDamaged;
         }
@@ -36,6 +37,7 @@ namespace SSW
         void OnDisable()
         {
             _fillImage.DOKill();
+            _bgFillImage.DOKill();
             _shake.Kill(true);
             _health.OnHealthChanged -= HandleHealthChanged;
             _health.OnDamaged -= HandleDamaged;
@@ -45,14 +47,8 @@ namespace SSW
         {
             _fillImage.DOKill();
             _fillImage.DOFillAmount(current / max, _tweenDuration);
-            _ = BgFillAmount(current, max);
-        }
-
-        async UniTask BgFillAmount(float current, float max)
-        {
-            await UniTask.WaitForSeconds(fillDelay);
             _bgFillImage.DOKill();
-            _bgFillImage.DOFillAmount(current / max, _tweenDuration);
+            _bgFillImage.DOFillAmount(current / max, _tweenDuration).SetDelay(fillDelay);
         }
 
         void HandleDamaged()

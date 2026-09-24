@@ -24,6 +24,7 @@ namespace SSW
         Task _operation = Task.CompletedTask;
         ISession _session;
         bool _busy;
+        bool _destroyed;
         bool _cancelled;
         bool _matching;
         bool _starting;
@@ -289,6 +290,7 @@ namespace SSW
             try
             {
                 await _initializeTask;
+                CheckCancel();
                 _network.UseName(AuthenticationService.Instance.PlayerName);
             }
             catch
@@ -308,6 +310,7 @@ namespace SSW
 
         Task RunAsync(Func<Task> operation)
         {
+            if (_destroyed) return Task.FromException(new ObjectDisposedException(nameof(MultiplayerSessionManager)));
             if (_busy) return Task.FromException(new InvalidOperationException("이전 작업이 끝날 때까지 잠시 기다려주세요"));
             _busy = true;
             _cancelled = false;
@@ -338,7 +341,7 @@ namespace SSW
 
         void CheckCancel()
         {
-            if (_cancelled) throw new OperationCanceledException();
+            if (_cancelled || _destroyed) throw new OperationCanceledException();
         }
 
         static SessionOptions CreateOptions(string name, string password, bool isPrivate, string mode)
@@ -386,12 +389,7 @@ namespace SSW
 
         void SetSession(ISession session)
         {
-            if (_session != null)
-            {
-                _session.Changed -= NotifyChanged;
-                _session.RemovedFromSession -= HandleSessionEnded;
-                _session.Deleted -= HandleSessionEnded;
-            }
+            UnbindSession();
             _session = session;
             _starting = false;
             if (_session != null)
@@ -401,6 +399,14 @@ namespace SSW
                 _session.Deleted += HandleSessionEnded;
             }
             Changed?.Invoke();
+        }
+
+        void UnbindSession()
+        {
+            if (_session == null) return;
+            _session.Changed -= NotifyChanged;
+            _session.RemovedFromSession -= HandleSessionEnded;
+            _session.Deleted -= HandleSessionEnded;
         }
 
         void NotifyChanged()
@@ -435,8 +441,11 @@ namespace SSW
         void OnDestroy()
         {
             if (_instance != this) return;
+            _destroyed = true;
             _cancelled = true;
-            _network.ConnectionChanged -= NotifyChanged;
+            Changed = null;
+            UnbindSession();
+            if (_network != null) _network.ConnectionChanged -= NotifyChanged;
             _instance = null;
         }
 
