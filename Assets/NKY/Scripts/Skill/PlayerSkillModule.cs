@@ -35,27 +35,37 @@ namespace NKY.Scripts.Skill
 
             if (_skillData == null)
                 return;
-
+            
             if (Time.time - _lastUsedTime >= _skillData.SkillCooldown)
             {
+                if(_activeSkillInstance != null)
+                    Destroy(_activeSkillInstance);
                 Vector3 aimDir = GetAimDirection();
 
                 UseSkillServerRpc(aimDir);
 
                 _lastUsedTime = Time.time;
             }
+            else if (_isReUseReady)
+            {
+                if(_activeSkillInstance == null) return;
+                
+                _skillData.ExecuteReUseSkill(_player, _activeSkillInstance);
+                _isReUseReady = false;
+                _activeSkillInstance = null;
+            }
         }
         
         private void UseSkillServerRpc(Vector3 aimDirection)
         {
-            GameObject skill = _skillData.ExecuteSkill(
+            _activeSkillInstance = _skillData.ExecuteSkill(
                 _player,
                 aimDirection
             );
 
-            if (skill == null)
+            if (_activeSkillInstance == null)
                 return;
-            
+            _isReUseReady = true;
             _onSkillUsedEvent?.Raise();
         }
 

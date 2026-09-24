@@ -1,4 +1,5 @@
-﻿using SSW;
+﻿using System;
+using SSW;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -37,26 +38,24 @@ namespace NKY.Scripts.Skill
 
         public void Launch(Vector2 direction)
         {
-            if (!IsServer)
-                return;
-
             Rb.linearVelocity = direction * _speed;
+        }
+
+        private void Update()
+        {
+            _curTime += Time.deltaTime;
+            
+            if (_curTime >= _destroyTime)
+            {
+                Destroy(gameObject);
+                NetworkObject.Despawn();
+            }
         }
 
         private void FixedUpdate()
         {
-            if (!IsServer)
-                return;
-
-            _curTime += Time.fixedDeltaTime;
-
             if (Rb != null && Rb.linearVelocity.sqrMagnitude > 0.01f)
                 transform.up = Rb.linearVelocity;
-
-            if (_curTime >= _destroyTime)
-            {
-                NetworkObject.Despawn();
-            }
         }
         
         public void SetMaxBounces(int maxBounce)
@@ -66,9 +65,6 @@ namespace NKY.Scripts.Skill
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (!IsServer)
-                return;
-            
             if ((_whatIsTarget.value & (1 << other.gameObject.layer)) != 0)
             {
                 if (maxBounceCount > currentBounceCount)
@@ -80,7 +76,7 @@ namespace NKY.Scripts.Skill
                         return;
                     }
                 }
-                
+
                 if (Rb != null)
                 {
                     Rb.linearVelocity = Vector2.zero;

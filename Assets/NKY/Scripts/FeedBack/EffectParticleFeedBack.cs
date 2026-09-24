@@ -25,7 +25,11 @@ namespace NKY.Scripts.FeedBack
             if(effectPrefab == null) return;
             
             GameObject effect = Instantiate(effectPrefab, transform.root);
-            if(!effect.TryGetComponent(out ParticleSystem anim)) return;
+            if (!effect.TryGetComponent(out ParticleSystem anim))
+            {
+                Destroy(effect);
+                return;
+            }
             
             effect.transform.position = transform.root.position;
             effect.SetActive(true);
