@@ -12,6 +12,7 @@ namespace SSW
         [SerializeField] JobSettingsPanel _jobSettingsPanel;
         [SerializeField] CanvasGroup _settingsPanel;
         [SerializeField] CanvasGroup _leaderboardPanel;
+        [SerializeField] LeaderboardPanel _leaderboard;
         [SerializeField] RectTransform _title;
         [SerializeField] Text _statusText;
         [SerializeField] MultiplayerMenuUI _multiplayerMenuPrefab;
@@ -86,6 +87,7 @@ namespace SSW
         public void ShowLeaderboard()
         {
             ShowPanel(_leaderboardPanel);
+            _leaderboard.Refresh();
         }
 
         void ShowPanel(CanvasGroup target)
