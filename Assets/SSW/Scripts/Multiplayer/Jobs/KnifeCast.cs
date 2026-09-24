@@ -73,9 +73,9 @@ namespace SSW
             if (_knife != null && _knife.IsSpawned)
             {
                 Vector2 point = _knife.transform.position;
-                Vector2 velocity = _knife.Velocity;
+                Vector2 velocity = _knife.Velocity.normalized;
                 Drive.Blink(point);
-                Drive.ApplyForce(velocity, ForceMode2D.Impulse);
+                Drive.ApplyForce(velocity * 10f, ForceMode2D.Impulse);
                 _knife.Finish();
                 _knife = null;
             }
@@ -85,7 +85,7 @@ namespace SSW
             {
                 _blindAt = Time.time + 17.5f;
                 foreach (NetPlayer target in NetGame.Current.Players)
-                    if (target != Player) target.Effects.Blind(2.5f);
+                    if (target != Player) target.Effects.Blind(2.5f, 95f);
             }
             if (Has(AssassinAugmentType.KillingIntent) && Time.time >= _auraReady)
             {
