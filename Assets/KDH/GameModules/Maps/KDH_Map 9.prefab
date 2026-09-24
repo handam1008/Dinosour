@@ -2267,8 +2267,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KDH_ShakeEffect
   shakeMinDuration: 1
   shakeMaxDuration: 4
-  shakeMinAmount: 0.2
-  shakeMaxAmount: 0.5
+  shakeMinAmount: 0.1
+  shakeMaxAmount: 0.2
   onShake:
     m_PersistentCalls:
       m_Calls:
