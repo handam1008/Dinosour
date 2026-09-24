@@ -109,6 +109,7 @@ MonoBehaviour:
   _radius: 0.75
   _chargeTime: 1
   _healRatio: 0.2
+  _healEffect: {fileID: 9011913672343465848, guid: f8b56d6ec64076f49ba05a7093fe523e, type: 3}
 --- !u!114 &-7855134109455640995
 MonoBehaviour:
   m_ObjectHideFlags: 0

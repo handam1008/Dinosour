@@ -32,6 +32,7 @@ public class Mine : MonoBehaviour
     {
         _body = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
+        _explosionPrefab.SetActive(false);
     }
 
     void Start()
@@ -62,10 +63,7 @@ public class Mine : MonoBehaviour
         _landed = true;
         _body.linearVelocity = Vector2.zero;
         _body.bodyType = RigidbodyType2D.Kinematic;
-        transform.position = new Vector3(
-            transform.position.x,
-            hit.point.y + bounds.extents.y,
-            transform.position.z);
+        transform.position = new Vector3(transform.position.x, hit.point.y + bounds.extents.y, transform.position.z);
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -84,6 +82,7 @@ public class Mine : MonoBehaviour
         if (unit == null || unit.Current <= 0f) return;
         if (_ignored.Contains(unit)) return;
 
+        _explosionPrefab.SetActive(true);
         Explode();
     }
 
@@ -92,8 +91,6 @@ public class Mine : MonoBehaviour
         _exploded = true;
         Vector2 center = transform.position;
 
-        if (_explosionPrefab != null)
-            Instantiate(_explosionPrefab, center, Quaternion.identity);
 
         var targets = new HashSet<Health>();
         foreach (Collider2D hit in Physics2D.OverlapCircleAll(center, _explosionRadius))
@@ -114,7 +111,7 @@ public class Mine : MonoBehaviour
             float dir = Mathf.Sign(target.transform.position.x - center.x);
             receiver.ApplyForce(new Vector2(dir, 0.5f) * _knockback, ForceMode2D.Impulse);
         }
-
+        
         Destroy(gameObject);
     }
 

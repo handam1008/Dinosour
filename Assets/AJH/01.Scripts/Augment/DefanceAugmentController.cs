@@ -9,7 +9,7 @@ namespace SSW
     [RequireComponent(typeof(Health))]
     [RequireComponent(typeof(AugmentDrafter))]
     [RequireComponent(typeof(Defance))]
-    public class DefanceAugmentController : MonoBehaviour,IOutgoingDamageModifier, IDamageDealtListener
+    public class DefanceAugmentController : MonoBehaviour,IOutgoingDamageModifier, IDamageDealtListener, IDamageReceivedListener
     {
         [Header("방어")]
         [SerializeField] float _guardMasteryReduction = 0.30f;
@@ -46,6 +46,10 @@ namespace SSW
         [SerializeField] float _nuclearCoolPenalty = 1.50f;
         [SerializeField] LayerMask _nuclearWallMask;   
         [SerializeField] GameObject _nuclearExplosionPrefab;
+
+        [Header("반격")]
+        [SerializeField] float _counterRatio = 0.6f;
+        
 
         readonly HashSet<CommonAugmentType> _acquired = new HashSet<CommonAugmentType>();
 
@@ -159,7 +163,25 @@ namespace SSW
 
             if (Has(CommonAugmentType.Blink))
                 StartBlink();
+
+            
         }
+        public void OnDamageReceived(DamageRequest request, DamageResult result)
+        {
+            if (!Has(CommonAugmentType.CounterAttack) || !result.WasBlocked) return;
+            if (request.Source == null || request.HasTag(DamageTag.DamageOverTime)) return;
+
+            CounterAttack(request.Source, request.Amount * _counterRatio);
+        }
+
+        private void CounterAttack(Component source, float amount)
+        {
+            IDamageable target = source.GetComponentInParent<IDamageable>();
+            if (target == null || ReferenceEquals(target, _health)) return;
+
+            CombatDamage.Deal(null, target, amount);
+        }
+
 
         void StartBlink()
         {
@@ -218,7 +240,6 @@ namespace SSW
 
             if (targets.Count == 0) return;
 
-            // 완전 정지 (공중이면 공중에 그대로 멈춤)
             foreach (ISlowable slowable in targets)
             {
                 if (slowable is Component component)
@@ -283,5 +304,6 @@ namespace SSW
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, _iceAgeRadius);
         }
+
     }
 }
