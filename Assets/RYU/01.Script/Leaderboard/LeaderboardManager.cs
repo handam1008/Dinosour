@@ -58,7 +58,7 @@ namespace RYU._01.Script.Leaderboard
             SceneManager.LoadScene("Login");
         }
 
-        private async Task LoadAllScore()
+        public async Task LoadAllScore()
         {
             RemoveScores();
         
