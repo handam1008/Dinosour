@@ -1038,7 +1038,12 @@ MonoBehaviour:
   parryTime: 4
   reflectSpeed: 20
   parryCooldown: 12
-  parryCollider: {fileID: 0}
+  swordTransform: {fileID: 0}
+  parryBoxOffset: {x: 0, y: 0}
+  parryBoxSize: {x: 2, y: 0.5}
+  bulletLayer:
+    serializedVersion: 2
+    m_Bits: 0
   isParrying: 0
 --- !u!61 &1569450012
 BoxCollider2D:
