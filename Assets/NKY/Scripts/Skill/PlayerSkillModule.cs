@@ -1,13 +1,11 @@
-﻿using System;
-using NKY.Lib.EventChannel;
+﻿using NKY.Lib.EventChannel;
 using SSW;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace NKY.Scripts.Skill
 {
-    public class PlayerSkillModule : NetworkBehaviour
+    public class PlayerSkillModule : MonoBehaviour
     {
         [SerializeField] private AbstractPlayerSkillSo _skillData;
         [SerializeField] private VoidEventChannelSO _onSkillUsedEvent;
@@ -34,8 +32,6 @@ namespace NKY.Scripts.Skill
 
         public void TryUseSkill()
         {
-            if (!IsOwner)
-                return;
 
             if (_skillData == null)
                 return;
@@ -50,7 +46,6 @@ namespace NKY.Scripts.Skill
             }
         }
         
-        [ServerRpc]
         private void UseSkillServerRpc(Vector3 aimDirection)
         {
             GameObject skill = _skillData.ExecuteSkill(
@@ -60,18 +55,7 @@ namespace NKY.Scripts.Skill
 
             if (skill == null)
                 return;
-
-            NetworkObject networkObject =
-                skill.GetComponent<NetworkObject>();
-
-            if (networkObject == null)
-            {
-                Debug.LogError("스킬 프리팹에 NetworkObject가 없습니다.");
-                Destroy(skill);
-                return;
-            }
-
-            networkObject.Spawn();
+            
             _onSkillUsedEvent?.Raise();
         }
 

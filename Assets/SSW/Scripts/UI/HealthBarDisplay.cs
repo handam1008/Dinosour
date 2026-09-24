@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -11,6 +12,10 @@ namespace SSW
         [SerializeField] float _shakeDuration = 0.3f;
         [SerializeField] float _shakeStrength = 0.06f;
         [SerializeField] int _shakeVibrato = 12;
+        
+        [Header("BG Health Bar")]
+        [SerializeField] Image _bgFillImage;
+        [SerializeField] float fillDelay = 0.15f;
 
         Health _health;
 
@@ -39,6 +44,14 @@ namespace SSW
         {
             _fillImage.DOKill();
             _fillImage.DOFillAmount(current / max, _tweenDuration);
+            _ = BgFillAmount(current, max);
+        }
+
+        async UniTask BgFillAmount(float current, float max)
+        {
+            await UniTask.WaitForSeconds(fillDelay);
+            _bgFillImage.DOKill();
+            _bgFillImage.DOFillAmount(current / max, _tweenDuration);
         }
 
         void HandleDamaged()
