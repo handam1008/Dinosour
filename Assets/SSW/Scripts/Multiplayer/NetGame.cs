@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Unity.Collections;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -147,6 +148,28 @@ namespace SSW
             _manager.OnClientStopped += Stopped;
             _manager.OnServerStopped += Stopped;
             if (_manager.IsListening) Started();
+        }
+
+        public async Task PrepareSessionAsync()
+        {
+            if (_manager != null && (_manager.IsListening || _manager.ShutdownInProgress))
+            {
+                _leaving = true;
+                CloseChannels();
+                CloseIntro(false);
+                _manager.Shutdown();
+                double deadline = Time.realtimeSinceStartupAsDouble + 5d;
+                while (_manager.ShutdownInProgress)
+                {
+                    if (Time.realtimeSinceStartupAsDouble >= deadline)
+                        throw new InvalidOperationException("이전 연결을 종료하지 못했습니다. 다시 시도해주세요.");
+                    await Task.Yield();
+                }
+            }
+            _autoStart = false;
+            Arena = null;
+            _menu = null;
+            Prepare();
         }
 
         void RegisterPrefab(GameObject prefab)
@@ -366,7 +389,12 @@ namespace SSW
 
         public void Leave(NetArena arena)
         {
-            if (Arena == arena) Arena = null;
+            if (Arena != arena) return;
+            Arena = null;
+            if (_leaving || !Connected) return;
+            _leaving = true;
+            CloseChannels();
+            _manager.Shutdown();
         }
 
         public void SetMatch(NetMatch match)
@@ -418,8 +446,7 @@ namespace SSW
         {
             NetPlayer local = Local;
             if (local == null || Arena == null) return;
-            NetPlayer opponent = _players.FirstOrDefault(player => !player.IsOwner);
-            Arena.Follow(local.View, opponent != null ? opponent.View : local.View, local.Side);
+            Arena.Orient(local.Side);
         }
 
         void ShowIntro()

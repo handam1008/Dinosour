@@ -1,0 +1,24 @@
+# 씬 이동·고정 카메라 검증
+
+SandboxCameraFollow는 맵 Bounds의 중심과 화면 비율로 전체 맵을 표시한다. 캐릭터 이동·점프·피격·카메라 흔들림 요청은 위치와 배율에 영향을 주지 않는다. 맵이나 화면 비율이 바뀔 때만 프레임을 다시 계산하며 접속자의 좌우 반전은 유지한다.
+
+SSW Player의 기존 FeedBackModule은 공용 피격 채널 구독을 해제하지 않아, 리스폰이나 씬 이동 후 파괴된 CinemachineImpulseSource를 호출했다. HitFeedback은 해당 플레이어의 Health만 구독하고 비활성화 시 해제한다. 피격 파티클은 유지하고 카메라 흔들림 컴포넌트를 제거했다.
+
+외부 SceneManager.LoadScene으로 대전·샌드박스를 나가도 이전 NGO 연결을 종료한다. 새 UGS 세션을 시작하기 전에 종료 완료를 기다린다. 퇴장 실패 시 앱의 세션 참조를 먼저 해제하고 SDK에 남은 세션은 다음 요청에서 다시 정리한다. 빠른 매칭 대기 중 연결이 종료되면 새 매칭을 시작한다.
+
+MPS 2.2.4는 퇴장 HTTP 응답 유실 후 클라이언트의 내부 세션 등록을 명시적으로 제거하는 공개 API가 없다. 서버상 가입이 없고 NGO와 세션 네트워크가 모두 종료된 경우에만 새 로컬 Type을 사용한다. 이 경우 오래된 SDK 등록은 남을 수 있다. 일반적인 퇴장 실패에는 기존 등록으로 정리를 재시도하며 런타임에서 SDK 비공개 필드를 수정하지 않는다.
+
+플레이 모드를 종료한 뒤 실행한다. StartMenu가 이미 열려 있으면 미저장 상태를 유지한다. 다른 씬에 미저장 변경이 있으면 테스트가 중단된다. StartMenu의 기존 로그인 세션을 사용하며 개발 빌드에 StartMenu·MainMenu·SuperUltraLegendScene을 포함해야 한다.
+
+```powershell
+unity command eval_file --project-path (Get-Location).Path --caller plugin --skill unity-cli --format json --file ((Get-Location).Path + '/Assets/SSW/Tests/SceneMatch~/Checks.cs')
+& './Assets/SSW/Tests/SceneMatch~/Verify.ps1' -Run VerifyNew -Build 'Builds/SceneMatch/Game.exe'
+```
+
+Checks.cs는 14개 맵을 네 가지 화면 비율과 양쪽 시점에서 검사하고 네 씬의 스크립트 연결과 Player 피격 참조를 확인한다. Repro.cs는 변경 전 f9cefc2에서 실행한 과거 재현 스크립트다. 별도의 임시 이벤트 채널에 기존 피드백 모듈을 연결해, 제거된 카메라 컴포넌트 호출 예외를 재현한다. 예상 예외는 잡아서 파일에 기록한다.
+
+Verify.ps1은 같은 PC의 에디터와 개발 빌드를 실제 UGS Relay로 연결한다. 샌드박스 리스폰, 직접 씬 이동, 연결 중단 후 빠른 매칭 재시작, 양쪽 카메라 고정, 라운드 변경, 메뉴 왕복 후 재매칭을 확인한다. SessionFault는 에디터 전용으로 SDK의 RemovePlayerAsync 한 번만 실패시키며 즉시 원래 서비스를 복원한다. 요청 전 실패와 요청 성공 후 응답 유실을 각각 시험한다. 종료 시 테스트 접속자와 플레이 모드를 정리한다.
+
+결과는 Logs/SceneMatch25/<Run>에 기록한다. 실행 이름은 이전 기록과 겹치지 않아야 한다. 별도 물리 PC나 실제 패킷 손실 환경을 검증하는 테스트는 아니다.
+
+2026-09-25 Relay2: 샌드박스 반복 리스폰, 직접 씬 이동 후 매칭, 대기 중 NGO 종료 후 재시작, 양쪽 카메라 고정, 라운드 변경, 메뉴 왕복 재매칭, 퇴장 요청 전 실패와 성공 응답 유실 후 복구를 통과했다. 테스트 중 양쪽 런타임 예외는 없었다.
