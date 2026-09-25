@@ -122,6 +122,14 @@ namespace SSW
             public int peers;
             public bool readyToStart;
             public string scene;
+            public Vector3 cameraPosition;
+            public Quaternion cameraRotation;
+            public float cameraSize;
+            public float cameraAspect;
+            public string map;
+            public ulong mapObject;
+            public Vector3[] mapSpawns;
+            public Vector2[] mapBodies;
             public bool menuOpen;
             public bool canResume;
             public string title;
@@ -347,7 +355,7 @@ namespace SSW
                 case "capture": ScreenCapture.CaptureScreenshot(_path + ".png"); break;
                 case "escape": StartCoroutine(Escape()); break;
                 case "resume": game.Menu.Resume(); break;
-                case "exit": game.Menu.Exit(); break;
+                case "exit": game.Exit(); break;
                 case "start":
                     game.StartLocal(command.value > 0, "127.0.0.1",
                         command.x < 0.5f ? PlayerJob.Witch : PlayerJob.Magician, (ushort)command.y);
@@ -434,6 +442,11 @@ namespace SSW
                         shots.Add(new ShotState { id = entry.Key, type = "zone", position = obj.transform.position });
                 }
             MatchState state = game.State;
+            BattleMap map = game.Arena != null ? game.Arena.Map : null;
+            var mapBodies = new List<Vector2>();
+            if (map != null)
+                foreach (Rigidbody2D body in map.GetComponentsInChildren<Rigidbody2D>(true))
+                    if (body.bodyType != RigidbodyType2D.Static) mapBodies.Add(body.position);
             Snapshot snapshot = new Snapshot
             {
                 physicsTime = game.PhysicsTime, serverTime = game.Connected ? game.Manager.ServerTime.Time : 0d,
@@ -443,6 +456,14 @@ namespace SSW
                 server = game.Connected && game.Manager.IsServer, connected = game.Connected && game.Manager.IsConnectedClient,
                 peers = game.Connected && game.Manager.IsServer ? game.Manager.ConnectedClientsIds.Count : 0,
                 readyToStart = game.Ready, scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name,
+                cameraPosition = game.Arena != null ? game.Arena.View.transform.position : Vector3.zero,
+                cameraRotation = game.Arena != null ? game.Arena.View.transform.rotation : Quaternion.identity,
+                cameraSize = game.Arena != null ? game.Arena.View.orthographicSize : 0f,
+                cameraAspect = game.Arena != null ? game.Arena.View.aspect : 0f,
+                map = map != null ? map.Title : string.Empty,
+                mapObject = map != null ? map.NetworkObjectId : 0,
+                mapSpawns = map != null ? new[] { map.Spawn(0), map.Spawn(1) } : Array.Empty<Vector3>(),
+                mapBodies = mapBodies.ToArray(),
                 menuOpen = game.Menu != null && game.Menu.IsOpen,
                 canResume = game.Menu != null && game.Menu.CanResume,
                 title = game.Menu != null ? game.Menu.Title : string.Empty,

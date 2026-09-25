@@ -27,11 +27,13 @@ namespace SSW
         [SerializeField] float _nomDamage = 3f;
         [SerializeField] float _nomHealRate = 1f;
         [SerializeField] float _nomInterval = 1f;
+        [SerializeField] GameObject _nomAuraObject;
 
         [Header("자석")]
-        [SerializeField] float _magnetRadius = 8.5f;
+        [SerializeField] float _magnetRadius = 5f;
         [SerializeField] float _magnetStrength = 2f;
         [SerializeField] float _magnetInterval = 1f;
+        [SerializeField] GameObject _magnetAuraObject;
 
         [Header("축소 엔진")]
         [SerializeField] float _shrinkScale = 0.25f;
@@ -104,6 +106,8 @@ namespace SSW
             _defance = GetComponent<Defance>();
             
             if (_slowAuraObject != null) _slowAuraObject.SetActive(false);
+            if (_magnetAuraObject != null) _magnetAuraObject.SetActive(false);
+            if (_nomAuraObject != null) _nomAuraObject.SetActive(false);
             if (_swiftTether != null) _swiftTether.enabled = false;
         }
 
@@ -133,6 +137,12 @@ namespace SSW
                     break;
                 case CommonAugmentType.SlowAura:
                     if (_slowAuraObject != null) _slowAuraObject.SetActive(true);
+                    break;
+                case CommonAugmentType.Magnet:
+                    if (_magnetAuraObject != null) _magnetAuraObject.SetActive(true);
+                    break;
+                case CommonAugmentType.NomNom:
+                    if (_nomAuraObject != null) _nomAuraObject.SetActive(true);
                     break;
             }
         }
@@ -420,7 +430,7 @@ namespace SSW
             Vector3 p = transform.position;
             Gizmos.color = Color.cyan;    Gizmos.DrawWireSphere(p, _swiftRange);
             Gizmos.color = Color.red;     Gizmos.DrawWireSphere(p, _nomRadius);
-            Gizmos.color = Color.magenta; Gizmos.DrawWireSphere(p, _magnetRadius);
+            Gizmos.color = Color.gray; Gizmos.DrawWireSphere(p, _magnetRadius);
             Gizmos.color = Color.blue;    Gizmos.DrawWireSphere(p, _slowAuraRadius);
 
             Gizmos.color = Color.yellow;

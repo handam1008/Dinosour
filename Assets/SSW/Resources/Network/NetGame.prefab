@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5365077104844236530}
   - component: {fileID: 292964414745111157}
+  - component: {fileID: 6528377237644933297}
   m_Layer: 0
   m_Name: NetGame
   m_TagString: Untagged
@@ -47,6 +48,7 @@ MonoBehaviour:
   _managerPrefab: {fileID: 1142685941192645643, guid: 46e37f2ffd454394698d8376eb0fcb09, type: 3}
   _playerPrefab: {fileID: 3278762098247593300, guid: 8c967834a16d86c4a910ce2a84860771, type: 3}
   _matchPrefab: {fileID: 3118616020688493788, guid: fe17ee2598bf5c74386ee107f38b8933, type: 3}
+  _maps: {fileID: 6528377237644933297}
   _shots:
   - {fileID: 7687144316599026220, guid: 10388f0e84697a64f9692a174255b541, type: 3}
   - {fileID: 3426517256819113306, guid: b0f9b480c34c3784096c8ad5b73152bd, type: 3}
@@ -54,3 +56,30 @@ MonoBehaviour:
   - {fileID: 971197956479142661, guid: fec86aa0213b91e4fb85390412158f2f, type: 3}
   _menuPrefab: {fileID: 8041016769084939697, guid: e706dbea2a3c1af42b379418b9b10485, type: 3}
   _introPrefab: {fileID: 1688307513721857620, guid: 6be933312588ea14990503a887b2d1ca, type: 3}
+--- !u!114 &6528377237644933297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4817323057203609915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95a02f72a235b9245bb2d285733079ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.MapRotation
+  _maps:
+  - {fileID: 3872933372213022938, guid: e6cde61180ea23a488b2f88a73c7bad7, type: 3}
+  - {fileID: 3112467483008516009, guid: 02ee08bdbc13040488b6cba34f4d0e94, type: 3}
+  - {fileID: 8100147251840566307, guid: 2176b1ac602790d4b88f5904a53bb924, type: 3}
+  - {fileID: 5015411431187250757, guid: f3035a2b7ce013d4992759d81dae0448, type: 3}
+  - {fileID: 342166864353722772, guid: 6a68c24aa6b070e4b8455b923a75cd83, type: 3}
+  - {fileID: 6961718241806662832, guid: 32edf7aeb1320c542843d8322bc9df7b, type: 3}
+  - {fileID: 2170671430041471182, guid: a56dd72dc29014543a3153ba4749e459, type: 3}
+  - {fileID: 1627935749123273244, guid: 4d7b4c1350373c941a19577ff6e3dc9c, type: 3}
+  - {fileID: 3158775690364542292, guid: 226e27658534a9746a2308e13b931e76, type: 3}
+  - {fileID: 9010145468765153890, guid: 9a84d3922e9b7d845afcd859a64b02f1, type: 3}
+  - {fileID: 8275242113569260374, guid: 75de1dedfa5d44a4696b5e13544a5e22, type: 3}
+  - {fileID: 785268417693363241, guid: 688d96423f1748a42ba8430dc136e5b9, type: 3}
+  - {fileID: 4816749823819931815, guid: a71f25eb2619e254ea69500298156538, type: 3}
+  - {fileID: 2322056930740099191, guid: 5910b1e16aa78354eb8e7779a66324f2, type: 3}

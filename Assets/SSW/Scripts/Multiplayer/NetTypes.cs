@@ -22,6 +22,7 @@ namespace SSW
 
     public interface IRoundField
     {
+        bool MapReady { get; }
         void ResetRound();
     }
 

@@ -34,6 +34,8 @@ namespace SSW
         [SerializeField] float _iceAgeSlowAmount = 0.65f;
         [SerializeField] float _iceAgeSlowTime = 2.5f;
         [SerializeField] float _iceAgeCoolPenalty = 0.15f;
+        [SerializeField] GameObject _iceAgeBlastPrefab;
+        [SerializeField] GameObject _iceAgeFreezePrefab;
 
         [Header("일격 필살")]
         [SerializeField] float _bestOffenseBonus = 2f;
@@ -232,6 +234,8 @@ namespace SSW
 
         void CastIceAge(Vector2 center)
         {
+            Instantiate(_iceAgeBlastPrefab, center, Quaternion.identity);
+
             var targets = new HashSet<ISlowable>();
             foreach (Collider2D hit in Physics2D.OverlapCircleAll(center, _iceAgeRadius))
             {
@@ -245,7 +249,10 @@ namespace SSW
             foreach (ISlowable slowable in targets)
             {
                 if (slowable is Component component)
+                {
                     FreezeEffect.Apply(component.gameObject, _iceAgeFreezeTime);
+                    Instantiate(_iceAgeFreezePrefab, component.transform);
+                }
             }
 
             StartCoroutine(IceAgeSlowRoutine(targets));

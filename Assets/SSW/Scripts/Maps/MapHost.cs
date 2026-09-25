@@ -18,15 +18,9 @@ namespace SSW
             enabled = Map != null;
             if (!enabled) return;
             _baseMap.SetActive(false);
-            _follow.enabled = false;
+            _follow.SetBounds(new Bounds(Map.ViewCenter, Map.ViewSize));
             _camera.backgroundColor = Map.Background;
             Map.ResetMap();
-        }
-
-        void LateUpdate()
-        {
-            _camera.transform.position = new Vector3(Map.ViewCenter.x, Map.ViewCenter.y, -10f);
-            _camera.orthographicSize = Mathf.Max(Map.ViewSize.y * 0.5f, Map.ViewSize.x / (2f * _camera.aspect));
         }
     }
 }

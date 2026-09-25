@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using NKY.Lib.EventChannel;
-using NKY.Lib.EventChannel.EventChannelAsset; // ¹Ù²Þ
+using NKY.Lib.EventChannel.EventChannelAsset; // ï¿½Ù²ï¿½
 using UnityEngine;
 
 namespace SSW
@@ -15,8 +15,8 @@ namespace SSW
         [SerializeField] string _healthBarResourceName = "HealthBarUI";
         [SerializeField] string _damageNumberResourceName = "DamageNumberUI";
         [SerializeField] float _healthBarPadding = 0.15f;
-        [SerializeField] private DoubleFloatEventChannelSO healthChangeEvent;//¹Ù²Þ NKY
-        [SerializeField] private VoidEventChannelSO hitEvent;//¹Ù²Þ NKY
+        [SerializeField] private DoubleFloatEventChannelSO healthChangeEvent;//ï¿½Ù²ï¿½ NKY
+        [SerializeField] private VoidEventChannelSO hitEvent;//ï¿½Ù²ï¿½ NKY
         public event System.Action OnDamaged;
         public event System.Action OnDied;
         public event System.Action<float, float> OnHealthChanged;
@@ -24,6 +24,8 @@ namespace SSW
 
         float current;
         IHealthAuthority _authority;
+        public VoidEventChannelSO HitEvent { get; private set; }
+        public DoubleFloatEventChannelSO HealthChangeEvent { get; private set; }
 
         public float Current => current;
         public float Max => maxHealth;
@@ -33,14 +35,18 @@ namespace SSW
             _authority = GetComponent<IHealthAuthority>();
             current = maxHealth;
             SpawnHealthBar();
-            if(healthChangeEvent != null) OnHealthChanged += healthChangeEvent.ChangeTupleRaise; // ¹Ù²Þ NKY
-            if(hitEvent != null) OnDamaged += hitEvent.Raise; //¹Ù²Þ NKY
+            HitEvent = hitEvent != null ? Instantiate(hitEvent) : null;
+            HealthChangeEvent = healthChangeEvent != null ? Instantiate(healthChangeEvent) : null;
+            if(HealthChangeEvent != null) OnHealthChanged += HealthChangeEvent.ChangeTupleRaise; // ï¿½Ù²ï¿½ NKY
+            if(HitEvent != null) OnDamaged += HitEvent.Raise; //ï¿½Ù²ï¿½ NKY
         }
 
-        private void OnDestroy() // Ãß°¡ÇÔ NKY
+        private void OnDestroy() // ï¿½ß°ï¿½ï¿½ï¿½ NKY
         {
-            if(healthChangeEvent != null) OnHealthChanged -= healthChangeEvent.ChangeTupleRaise; // ¹Ù²Þ NKY
-            if(hitEvent != null) OnDamaged -= hitEvent.Raise; //¹Ù²Þ NKY
+            if(HealthChangeEvent != null) OnHealthChanged -= HealthChangeEvent.ChangeTupleRaise; // ï¿½Ù²ï¿½ NKY
+            if(HitEvent != null) OnDamaged -= HitEvent.Raise; //ï¿½Ù²ï¿½ NKY
+            Destroy(HitEvent);
+            Destroy(HealthChangeEvent);
         }
 
         public void TakeDamage(float amount)

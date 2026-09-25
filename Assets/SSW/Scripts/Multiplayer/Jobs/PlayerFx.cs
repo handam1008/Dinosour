@@ -61,7 +61,7 @@ namespace SSW
             current.a = blindAlpha;
             _blind.color = current;
             
-            Hide(duration);
+            
         }
 
         public float ModifyIncomingDamage(DamageRequest request, float amount) =>

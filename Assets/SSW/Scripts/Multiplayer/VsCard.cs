@@ -19,7 +19,7 @@ namespace SSW
         {
             if (!_jobs.TryGet(job, out JobDefinition definition))
                 throw new System.ArgumentException("직업 정보를 찾을 수 없습니다.");
-            _name.text = info.Name.IsEmpty ? $"플레이어 {slot}" : info.Name.ToString();
+            _name.text = info.DisplayName(slot);
             _job.text = definition.KoreanName;
             _tag.text = $"“{_line}”";
             _preview.Show(definition);

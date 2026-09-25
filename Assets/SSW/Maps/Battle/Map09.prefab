@@ -1,0 +1,290 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6884771571507227970
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7813047802773048826}
+  - component: {fileID: 5917124271093494096}
+  - component: {fileID: 2170671430041471182}
+  - component: {fileID: 819201778533894055}
+  - component: {fileID: 49314228361280420}
+  m_Layer: 0
+  m_Name: Map09
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7813047802773048826
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6884771571507227970}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1934740809030993476}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5917124271093494096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6884771571507227970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
+--- !u!114 &2170671430041471182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6884771571507227970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61c916fb6fbf1ae4a8133472e61ae5bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.BattleMap
+  ShowTopMostFoldoutHeaderGroup: 1
+  _title: KDH_Map 9
+  _spawns: {fileID: 49314228361280420}
+  _bounds:
+    m_Center: {x: 0, y: -1.5, z: 0}
+    m_Extent: {x: 20, y: 10, z: 0.1}
+  _fallY: -14.5
+  _serverOnly:
+  - {fileID: 6604539811190818731}
+  - {fileID: 796898500367204760}
+  - {fileID: 6953199124436424262}
+  - {fileID: 6591019904929257976}
+  - {fileID: 5731709812184933598}
+--- !u!114 &819201778533894055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6884771571507227970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1016e7b774056a74f999c7635385c368, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.MapMotion
+  ShowTopMostFoldoutHeaderGroup: 1
+  _bodies: []
+  _moving:
+  - {fileID: 993058000155741627}
+  _pins: []
+  _joints: []
+--- !u!114 &49314228361280420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6884771571507227970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daed3a5b2a68b5a4eb1d6d62800182f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.SpawnPoints
+  _first: {fileID: 4829601862258480918}
+  _second: {fileID: 890454852597625103}
+--- !u!1001 &8776804711457037913
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7813047802773048826}
+    m_Modifications:
+    - target: {fileID: 3910926400017169031, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+      propertyPath: onShake.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6657415005685737846, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+      propertyPath: m_Name
+      value: KDH_Map 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7139592863937042461, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7139592863937042461, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7139592863937042461, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7139592863937042461, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7139592863937042461, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7139592863937042461, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7139592863937042461, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7139592863937042461, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7139592863937042461, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7139592863937042461, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6257107243176057362, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2668619807279265673, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 12614353013895042}
+  m_SourcePrefab: {fileID: 100100000, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+--- !u!114 &796898500367204760 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8269276959179202497, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+  m_PrefabInstance: {fileID: 8776804711457037913}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cc44ad62db685045963748b0b93505a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
+--- !u!4 &890454852597625103 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8473239687543500630, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+  m_PrefabInstance: {fileID: 8776804711457037913}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &993058000155741627 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8360217610888647650, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+  m_PrefabInstance: {fileID: 8776804711457037913}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1934740809030993476 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7139592863937042461, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+  m_PrefabInstance: {fileID: 8776804711457037913}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &4237508706145400986 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4828948235021510339, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+  m_PrefabInstance: {fileID: 8776804711457037913}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4829601862258480918 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4236559228810316111, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+  m_PrefabInstance: {fileID: 8776804711457037913}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5731709812184933598 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3910926400017169031, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+  m_PrefabInstance: {fileID: 8776804711457037913}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eff49d8531fc3a41b732af01edd9128, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KDH_ShakeEffect
+--- !u!114 &6591019904929257976 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2501037989896472481, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+  m_PrefabInstance: {fileID: 8776804711457037913}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cc44ad62db685045963748b0b93505a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
+--- !u!114 &6604539811190818731 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2478510957197482482, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+  m_PrefabInstance: {fileID: 8776804711457037913}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cc44ad62db685045963748b0b93505a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
+--- !u!1 &6684941573423933904 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2668619807279265673, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+  m_PrefabInstance: {fileID: 8776804711457037913}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &12614353013895042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6684941573423933904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e46737e6ce356e049bae8c4dbc598971, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.MapTint
+  _sprite: {fileID: 4237508706145400986}
+  _start: {r: 0.5849056, g: 0.13533111, b: 0, a: 1}
+  _end: {r: 0.078431375, g: 0.078431375, b: 0.078431375, a: 1}
+  _duration: 1
+  _hold: 0
+  _once: 1
+--- !u!114 &6953199124436424262 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1852035672350132255, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+  m_PrefabInstance: {fileID: 8776804711457037913}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cc44ad62db685045963748b0b93505a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
