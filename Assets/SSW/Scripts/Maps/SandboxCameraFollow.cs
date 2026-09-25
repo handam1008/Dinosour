@@ -29,6 +29,21 @@ namespace SSW
             _opponent = opponent;
         }
 
+        public void SetBounds(Bounds bounds)
+        {
+            RemoveShakeOffset();
+            _minimum = bounds.min;
+            _maximum = bounds.max;
+            Camera camera = GetComponent<Camera>();
+            _maximumSize = Mathf.Max(_minimumSize, bounds.extents.y + 1f);
+            _introSize = Mathf.Max(_maximumSize, (bounds.extents.x + 1f) / camera.aspect);
+            _introStartedAt = Time.unscaledTime;
+            _velocity = Vector3.zero;
+            _sizeVelocity = 0f;
+            transform.position = new Vector3(bounds.center.x, bounds.center.y, transform.position.z);
+            camera.orthographicSize = _introSize;
+        }
+
         void OnEnable()
         {
             _introStartedAt = Time.unscaledTime;
