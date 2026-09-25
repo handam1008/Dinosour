@@ -1,23 +1,27 @@
 using System;
+using SSW;
 using Unity.Cinemachine;
 using UnityEngine;
 
 namespace NKY.Scripts.FeedBack
 {
-    [RequireComponent(typeof(CinemachineImpulseSource))]
     public class CameraShakeFeedBack : AbstractFeedBack
     {
         [SerializeField] private float force;
-        private CinemachineImpulseSource _impulseSource;
+        [SerializeField] private float duration;
+        private SandboxCameraFollow _impulseSource;
 
         private void Awake()
         {
-            _impulseSource = GetComponent<CinemachineImpulseSource>();
+            if(Camera.main != null)
+                _impulseSource = Camera.main.GetComponent<SandboxCameraFollow>();
         }
 
         public override void OnFeedBack()
         {
-            _impulseSource.GenerateImpulse(force);
+            if(_impulseSource == null) return;
+            
+            _impulseSource.Shake(force, duration);
         }
     }
 }

@@ -125,8 +125,11 @@ try {
     Check ($fx.local -eq 0 -and $fx.target -eq 1) 'hit particles only appear on damaged player'
     for($i=0;$i -lt 2;$i++){
         $id=($h.players|Where-Object {-not $_.owner}).objectId
+        Eval 'var health=SSW.NetGame.Current.Practice.Target.Health;System.AppDomain.CurrentDomain.SetData("SceneMatchHealthChannels",new UnityEngine.Object[]{health.HitEvent,health.HealthChangeEvent});return true;'|Out-Null
         Send host remote 100000
         Await 'sandbox target respawns' {($h.players|Where-Object {-not $_.owner}).objectId -ne $id}
+        $released=Eval 'var channels=(UnityEngine.Object[])System.AppDomain.CurrentDomain.GetData("SceneMatchHealthChannels");bool released=channels[0]==null&&channels[1]==null;System.AppDomain.CurrentDomain.SetData("SceneMatchHealthChannels",null);return released;'
+        Check $released 'respawn releases per-player event channels'
         Send host remote 1
     }
     Check ($true) 'damage still works after repeated respawns'
