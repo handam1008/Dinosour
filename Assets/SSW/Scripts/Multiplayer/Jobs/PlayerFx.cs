@@ -61,7 +61,7 @@ namespace SSW
             current.a = blindAlpha;
             _blind.color = current;
             
-            Hide(duration);
+            //마스킹으로 밖에있는적 안보이도록
         }
 
         public float ModifyIncomingDamage(DamageRequest request, float amount) =>
