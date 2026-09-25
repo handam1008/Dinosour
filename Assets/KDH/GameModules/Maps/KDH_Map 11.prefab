@@ -2659,6 +2659,7 @@ GameObject:
   - component: {fileID: 852461172086411216}
   - component: {fileID: 1303369418685640170}
   - component: {fileID: 7713472932193107387}
+  - component: {fileID: 6464780756707350884}
   m_Layer: 0
   m_Name: PW_2D_Wind02_Leaf
   m_TagString: Untagged
@@ -2704,7 +2705,7 @@ ParticleSystem:
   startDelay:
     serializedVersion: 2
     minMaxState: 0
-    scalar: 0
+    scalar: 1
     minScalar: 0
     maxCurve:
       serializedVersion: 2
@@ -7414,6 +7415,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KDH_SakuraMode
   timeApplySpeed: 0.5
   speedAmount: 0.2
+--- !u!114 &6464780756707350884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5475176147983134841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e987e7c88879f304e86b095912123815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KDH_SakuraAbility
+  effectPrefab: {fileID: 5420612339365902561, guid: 5ea0c4d55b3630947bcfa89b52459fc5, type: 3}
 --- !u!1 &5696283315167120464
 GameObject:
   m_ObjectHideFlags: 0

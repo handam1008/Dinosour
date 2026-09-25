@@ -18,6 +18,7 @@ namespace SSW
         const string ModeProperty = "mode";
         const int PlayerLimit = 2;
         static MultiplayerSessionManager _instance;
+        string _sessionType = SessionType;
         readonly List<MultiplayerRoomInfo> _rooms = new List<MultiplayerRoomInfo>();
         NetGame _network;
         Task _initializeTask;
@@ -88,7 +89,7 @@ namespace SSW
                 SetStatus("방을 만드는 중...");
                 await EnsureInitializedAsync();
                 CheckCancel();
-                _network.Prepare();
+                await PrepareNetwork();
                 string name = string.IsNullOrWhiteSpace(request.Name) ? "새로운 방" : request.Name.Trim();
                 var session = await MultiplayerService.Instance.CreateSessionAsync(
                     CreateOptions(name, request.Password, request.HiddenFromList, "room"));
@@ -105,7 +106,7 @@ namespace SSW
                 SetStatus("방에 참가하는 중...");
                 await EnsureInitializedAsync();
                 CheckCancel();
-                _network.Prepare();
+                await PrepareNetwork();
                 var session = await MultiplayerService.Instance.JoinSessionByIdAsync(roomId, JoinOptions(password));
                 await Accept(session);
                 SetStatus(string.Empty);
@@ -120,7 +121,7 @@ namespace SSW
                 SetStatus("참가 코드로 연결하는 중...");
                 await EnsureInitializedAsync();
                 CheckCancel();
-                _network.Prepare();
+                await PrepareNetwork();
                 var session = await MultiplayerService.Instance.JoinSessionByCodeAsync(
                     joinCode.Trim().ToUpperInvariant(), JoinOptions(password));
                 await Accept(session);
@@ -137,20 +138,36 @@ namespace SSW
                 try
                 {
                     await EnsureInitializedAsync();
+                    await PrepareNetwork();
                     double nextSearch = 0;
+                    int failures = 0;
                     while (_network.Arena == null)
                     {
                         CheckCancel();
-                        if (_session == null) await FindMatch();
-                        if (IsHost && _network.Ready)
+                        try
                         {
-                            await BeginGame(sceneName);
-                            return;
+                            if (_session != null && !_network.Connected)
+                                throw new SessionException("대기 중 연결이 끊어졌습니다.", SessionError.NetworkManagerStartFailed, null);
+                            if (_session == null) await FindMatch();
+                            if (IsHost && _network.Ready)
+                            {
+                                await BeginGame(sceneName);
+                                return;
+                            }
+                            if (IsHost && PlayerCount == 1 && Time.unscaledTimeAsDouble >= nextSearch)
+                            {
+                                nextSearch = Time.unscaledTimeAsDouble + 2.5;
+                                await MergeMatch();
+                            }
                         }
-                        if (IsHost && PlayerCount == 1 && Time.unscaledTimeAsDouble >= nextSearch)
+                        catch (SessionException error) when (failures < 2 && CanRetry(error))
                         {
-                            nextSearch = Time.unscaledTimeAsDouble + 2.5;
-                            await MergeMatch();
+                            failures++;
+                            await Drop();
+                            CheckCancel();
+                            SetStatus("연결을 다시 시도하는 중...");
+                            await Task.Delay(500 * failures);
+                            nextSearch = 0;
                         }
                         await Task.Delay(100);
                     }
@@ -172,7 +189,7 @@ namespace SSW
         async Task FindMatch()
         {
             CheckCancel();
-            _network.Prepare();
+            await PrepareNetwork();
             var options = new QuickJoinOptions
             {
                 CreateSession = true,
@@ -182,6 +199,12 @@ namespace SSW
             ISession session = await MultiplayerService.Instance.MatchmakeSessionAsync(
                 options, CreateOptions("빠른 대전", null, false, "quick"));
             await Accept(session);
+        }
+
+        static bool CanRetry(SessionException error)
+        {
+            return error.Error == SessionError.NetworkManagerStartFailed ||
+                error.Error == SessionError.NetworkSetupFailed;
         }
 
         async Task MergeMatch()
@@ -196,7 +219,7 @@ namespace SSW
             if (target == null) return;
             await Drop();
             CheckCancel();
-            _network.Prepare();
+            await PrepareNetwork();
             try
             {
                 await Accept(await MultiplayerService.Instance.JoinSessionByIdAsync(target.Id, JoinOptions(null)));
@@ -230,7 +253,7 @@ namespace SSW
                 try { await _operation; }
                 catch (Exception) { }
             }
-            if (_session != null) await LeaveRoomAsync();
+            await LeaveRoomAsync();
             SetStatus(string.Empty);
         }
 
@@ -276,12 +299,42 @@ namespace SSW
             if (_matching) SetStatus("상대를 찾는 중...");
         }
 
+        async Task PrepareNetwork()
+        {
+            await Drop();
+            CheckCancel();
+            await _network.PrepareSessionAsync();
+            CheckCancel();
+        }
+
         async Task Drop()
         {
-            if (_session == null) return;
             ISession leaving = _session;
-            await leaving.LeaveAsync();
+            if (leaving == null && UnityServices.State == ServicesInitializationState.Initialized)
+                MultiplayerService.Instance.Sessions.TryGetValue(_sessionType, out leaving);
+            if (leaving == null) return;
             SetSession(null);
+            try
+            {
+                await leaving.LeaveAsync();
+            }
+            catch (SessionException error) when (
+                error.Error == SessionError.SessionNotFound ||
+                error.Error == SessionError.SessionDeleted ||
+                error.Error == SessionError.InvalidOperation && !leaving.IsMember)
+            {
+                await Task.Yield();
+                if (!MultiplayerService.Instance.Sessions.ContainsKey(leaving.Type)) return;
+                if (leaving.IsHost)
+                {
+                    await leaving.AsHost().DeleteAsync();
+                    return;
+                }
+                var joined = await MultiplayerService.Instance.GetJoinedSessionIdsAsync();
+                if (joined.Contains(leaving.Id) || leaving.Network.State != NetworkState.Stopped ||
+                    _network.Connected || _network.Manager.ShutdownInProgress) throw;
+                _sessionType = SessionType + "-" + Guid.NewGuid().ToString("N");
+            }
         }
 
         async Task EnsureInitializedAsync()
@@ -344,11 +397,11 @@ namespace SSW
             if (_cancelled || _destroyed) throw new OperationCanceledException();
         }
 
-        static SessionOptions CreateOptions(string name, string password, bool isPrivate, string mode)
+        SessionOptions CreateOptions(string name, string password, bool isPrivate, string mode)
         {
             return new SessionOptions
             {
-                Type = SessionType,
+                Type = _sessionType,
                 Name = name,
                 MaxPlayers = PlayerLimit,
                 Password = EmptyToNull(password),
@@ -361,9 +414,9 @@ namespace SSW
             }.WithRelayNetwork();
         }
 
-        static JoinSessionOptions JoinOptions(string password)
+        JoinSessionOptions JoinOptions(string password)
         {
-            return new JoinSessionOptions { Type = SessionType, Password = EmptyToNull(password) };
+            return new JoinSessionOptions { Type = _sessionType, Password = EmptyToNull(password) };
         }
 
         static List<FilterOption> Filters(string mode)

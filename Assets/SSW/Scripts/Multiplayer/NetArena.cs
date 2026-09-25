@@ -36,16 +36,12 @@ namespace SSW
             if (!local) NetGame.Current.Enter(this);
         }
 
-        public void Follow(Transform local, Transform opponent, int side)
+        public void Orient(int side)
         {
             Side = side;
-            Transform camera = _view.transform;
-            Vector3 position = camera.position;
-            position.z = -Mathf.Abs(position.z) * side;
-            camera.SetPositionAndRotation(position, Quaternion.Euler(0f, side < 0 ? 180f : 0f, 0f));
+            _follow.SetSide(side);
             _view.transparencySortMode = TransparencySortMode.CustomAxis;
             _view.transparencySortAxis = Vector3.forward;
-            if (_follow != null) _follow.SetTargets(local, opponent);
         }
 
         void OnDestroy()
