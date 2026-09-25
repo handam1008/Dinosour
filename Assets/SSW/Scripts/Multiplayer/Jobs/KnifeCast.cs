@@ -56,7 +56,8 @@ namespace SSW
                 state.Ammo = 1;
                 state.Skill = input.Tick + Cooldown(_skillCooldown);
                 bolt = new BoltSpec { Style = 3, Speed = _throwSpeed, Damage = _throwDamage, Life = 5f,
-                    Radius = 0.12f, Scale = 0.65f, Stick = true, Bounce = Has(AssassinAugmentType.ConcealedWeapon) ? 1 : 0 };
+                    Radius = 0.12f, Scale = 0.65f, Stick = true, Bounce = Has(AssassinAugmentType.ConcealedWeapon) ? 1 : 0,
+                    CanPenetrate = true};
                 return true;
             }
             return input.Kind == CastKind.Release || input.Kind == CastKind.StopCycle || input.Kind == CastKind.Cancel;

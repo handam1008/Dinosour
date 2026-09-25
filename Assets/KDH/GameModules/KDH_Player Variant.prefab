@@ -640,6 +640,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH_SpawnBullet
   <bulletCount>k__BackingField: 10
+--- !u!1 &8912546757338109418
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8691350773010752351}
+  - component: {fileID: 3847975037427818091}
+  m_Layer: 0
+  m_Name: EffectPoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8691350773010752351
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8912546757338109418}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 10, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7786885853643785633}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3847975037427818091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8912546757338109418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d2b778b22c20df418ccc8d6d15bda44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KDH_EffectPoolManager
+  effectPoolList: {fileID: 11400000, guid: 091724a83ec39bc4d9722302fab4db31, type: 2}
+  spawnCount: 15
 --- !u!1 &9154932163669566517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1371,7 +1417,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1216256812639386780, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 1216256812639386780, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1457,6 +1503,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1216256812639386780, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9018353824814297217}
+    - targetCorrespondingSourceObject: {fileID: 1216256812639386780, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8691350773010752351}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7686893401743090280, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       insertIndex: -1
@@ -1516,7 +1565,7 @@ MonoBehaviour:
   playerAttackModule: {fileID: 7650639093472897550}
   <Tanchang>k__BackingField: {fileID: 4165933402086859106}
   <UpgradeList>k__BackingField: {fileID: 1288949259638618496}
-  <EffectPoolList>k__BackingField: {fileID: 0}
+  <EffectPoolList>k__BackingField: {fileID: 3847975037427818091}
   <CurrentAmmo>k__BackingField: 0
   <ChargeTimer>k__BackingField: 0
   <CanAttack>k__BackingField: 0

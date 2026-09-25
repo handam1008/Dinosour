@@ -480,6 +480,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _moveSpeed: 0
   _jumpForce: 0
+  _coyoteTime: 0.12
   _externalVelocityDecay: 0
   _counterMoveBrake: 30
   _whatIsGround:
@@ -1212,7 +1213,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!1001 &119445349725516286
+--- !u!1001 &5370186516155511841
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1220,62 +1221,62 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5249597153496851456, guid: 041f5aa82e58c084fb9c2fed44fff533, type: 3}
-      propertyPath: m_Name
-      value: KDH_Map 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8009806390590224803, guid: 041f5aa82e58c084fb9c2fed44fff533, type: 3}
+    - target: {fileID: 635392171514940247, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8009806390590224803, guid: 041f5aa82e58c084fb9c2fed44fff533, type: 3}
+    - target: {fileID: 635392171514940247, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8009806390590224803, guid: 041f5aa82e58c084fb9c2fed44fff533, type: 3}
+    - target: {fileID: 635392171514940247, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8009806390590224803, guid: 041f5aa82e58c084fb9c2fed44fff533, type: 3}
+    - target: {fileID: 635392171514940247, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 8009806390590224803, guid: 041f5aa82e58c084fb9c2fed44fff533, type: 3}
+    - target: {fileID: 635392171514940247, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8009806390590224803, guid: 041f5aa82e58c084fb9c2fed44fff533, type: 3}
+    - target: {fileID: 635392171514940247, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8009806390590224803, guid: 041f5aa82e58c084fb9c2fed44fff533, type: 3}
+    - target: {fileID: 635392171514940247, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8009806390590224803, guid: 041f5aa82e58c084fb9c2fed44fff533, type: 3}
+    - target: {fileID: 635392171514940247, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8009806390590224803, guid: 041f5aa82e58c084fb9c2fed44fff533, type: 3}
+    - target: {fileID: 635392171514940247, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8009806390590224803, guid: 041f5aa82e58c084fb9c2fed44fff533, type: 3}
+    - target: {fileID: 635392171514940247, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8754078865993359570, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}
+      propertyPath: m_Name
+      value: KDH_Map 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 041f5aa82e58c084fb9c2fed44fff533, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1012241359}
   - {fileID: 42579196}
-  - {fileID: 119445349725516286}
+  - {fileID: 5370186516155511841}
   - {fileID: 459068454}
   - {fileID: 647222118}
   - {fileID: 1456696533}

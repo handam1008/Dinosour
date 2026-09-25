@@ -6953,6 +6953,7 @@ GameObject:
   - component: {fileID: 8335061504678351094}
   - component: {fileID: 7385622556593818025}
   - component: {fileID: 3597863303039860279}
+  - component: {fileID: 4346587353354917265}
   m_Layer: 0
   m_Name: PW_2D_Wind02_Leaf
   m_TagString: Untagged
@@ -6998,7 +6999,7 @@ ParticleSystem:
   startDelay:
     serializedVersion: 2
     minMaxState: 0
-    scalar: 0
+    scalar: 1
     minScalar: 0
     maxCurve:
       serializedVersion: 2
@@ -10479,13 +10480,7 @@ ParticleSystem:
     multiplyColliderForceByParticleSize: 0
     multiplyColliderForceByParticleSpeed: 0
     multiplyColliderForceByCollisionAngle: 1
-    m_Planes:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    m_Planes: []
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
@@ -11714,6 +11709,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KDH_SakuraMode
   timeApplySpeed: 0.5
   speedAmount: 0.2
+--- !u!114 &4346587353354917265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6667651807678808758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e987e7c88879f304e86b095912123815, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KDH_SakuraEffectPooling
+  effectPrefab: {fileID: 5420612339365902561, guid: 5ea0c4d55b3630947bcfa89b52459fc5, type: 3}
 --- !u!1 &6698635663367114261
 GameObject:
   m_ObjectHideFlags: 0

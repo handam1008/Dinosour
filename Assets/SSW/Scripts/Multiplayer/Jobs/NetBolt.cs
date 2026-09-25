@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ namespace SSW
         readonly NetworkVariable<ulong> _caster = new NetworkVariable<ulong>();
         readonly NetworkVariable<uint> _action = new NetworkVariable<uint>();
         readonly NetworkVariable<BoltSpec> _spec = new NetworkVariable<BoltSpec>();
+        readonly HashSet<ulong> _hitPlayers = new HashSet<ulong>();
         NetPlayer _owner;
         IBoltReceiver _receiver;
         BoltSpec _start;
@@ -89,6 +91,9 @@ namespace SSW
             foreach (NetPlayer target in NetGame.Current.Players)
             {
                 if (target == _owner || !target.CanAct) continue;
+                
+                if (_hitPlayers.Contains(target.NetworkObjectId)) continue;
+                
                 if (!target.SweepHit(_previous, next, _previousTime - _lag, time - _lag, Spec.Radius, out float fraction) || fraction >= nearest) continue;
                 nearest = fraction;
                 contact = target;
@@ -112,7 +117,9 @@ namespace SSW
                         DeflectRpc(contact.NetworkObjectId);
                         return;
                     }
+                    _hitPlayers.Add(contact.NetworkObjectId);
                     _receiver.Hit(contact, this);
+                    if(Spec.CanPenetrate) return;
                     Finish(true);
                     return;
                 }

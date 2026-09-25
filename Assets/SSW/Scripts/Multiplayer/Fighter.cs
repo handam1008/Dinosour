@@ -15,6 +15,14 @@ namespace SSW
             Tag = new FixedString128Bytes(Clip(tag))
         };
 
+        public string DisplayName(int slot)
+        {
+            string value = Name.ToString();
+            int separator = value.LastIndexOf('#');
+            if (separator >= 0) value = value.Substring(0, separator).TrimEnd();
+            return string.IsNullOrEmpty(value) ? $"플레이어 {slot}" : value;
+        }
+
         static string Clip(string value)
         {
             if (string.IsNullOrWhiteSpace(value)) return "";

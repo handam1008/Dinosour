@@ -344,14 +344,106 @@
     "round": 3,
     "hostObject": 10,
     "clientObject": 10,
-    "expectedY": 0.3100004196166992,
+    "expectedY": 0.31000041961669922,
     "hostBody": {
       "x": 0.0,
-      "y": 0.3100004196166992
+      "y": 0.31000041961669922
     },
     "clientBody": {
       "x": 0.0,
-      "y": 0.3100004196166992
+      "y": 0.31000041961669922
     }
+  },
+  "Terrain25": {
+    "before": {
+      "finalY": -372.755066,
+      "minFoot": -373.797028,
+      "penetrations": 298
+    },
+    "after": {
+      "finalY": 1.10748053,
+      "minFoot": -0.005000055,
+      "penetrations": 0
+    },
+    "checks": [
+      "PASS StartMenu quick match connected through Relay",
+      "PASS VS labels remove account tags",
+      "PASS neither peer falls through shaking floor for eight seconds",
+      "PASS shaking floor client prediction stays bounded",
+      "PASS client can jump from shaking floor",
+      "PASS KDH_Map 2 waterfall lifts server and client",
+      "PASS KDH_Map 2 gravity resumes outside waterfall",
+      "PASS KDH_Map 15 waterfall lifts server and client",
+      "PASS KDH_Map 15 gravity resumes outside waterfall",
+      "PASS victory banners remove account tags"
+    ],
+    "floor": -6.4618515968322754,
+    "protocol": 10
+  },
+  "RelayFlow5": {
+    "checks": [
+      "21 rounds end at 4:3 sets",
+      "14 distinct maps before refilling",
+      "No immediate repeated map after refilling",
+      "Every round changes map on both peers",
+      "Both spawn markers and health reset",
+      "Augments preserved; no draft within a set",
+      "Only the set loser selects cards",
+      "Old map and projectiles despawn",
+      "No extra map after final result"
+    ],
+    "maps": [
+      "KDH_Map 16",
+      "KDH_Map 13",
+      "RYU_MAP 1",
+      "KDH_Map 6",
+      "KDH_Map 3",
+      "KDH_Map 2",
+      "KDH_Map 9",
+      "KDH_Map 14",
+      "KDH_Map 7",
+      "KDH_Map 17",
+      "KDH_Map 15",
+      "KDH_Map 10",
+      "KDH_Map 5",
+      "KDH_Map 4",
+      "KDH_Map 5",
+      "KDH_Map 4",
+      "KDH_Map 16",
+      "KDH_Map 2",
+      "KDH_Map 17",
+      "RYU_MAP 1",
+      "KDH_Map 3"
+    ],
+    "rounds": 21,
+    "score": "4:3",
+    "transport": "UGS Relay",
+    "topology": "Editor host and one local development player",
+    "runtimeErrors": [
+      "",
+      ""
+    ]
+  },
+  "LatestTerrain8": {
+    "checks": [
+      "PASS StartMenu quick match connected through Relay",
+      "PASS VS labels remove account tags",
+      "PASS neither peer falls through shaking floor for eight seconds",
+      "PASS shaking floor client prediction stays bounded",
+      "PASS client can jump from shaking floor",
+      "PASS KDH_Map 2 waterfall lifts server and client",
+      "PASS KDH_Map 2 gravity resumes outside waterfall",
+      "PASS KDH_Map 15 waterfall lifts server and client",
+      "PASS KDH_Map 15 gravity resumes outside waterfall"
+    ],
+    "map15Source": "40d467e9467a8e34ab4d424fd93d7594",
+    "base": "34691ed",
+    "minimumFloorY": -6.4718079566955566,
+    "transport": "UGS Relay",
+    "topology": "Editor host and one local development player",
+    "runtimeErrors": [
+      "",
+      ""
+    ]
   }
 }

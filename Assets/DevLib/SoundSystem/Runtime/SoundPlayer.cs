@@ -58,7 +58,16 @@ namespace DevLib.SoundSystem.Runtime
 
         private async Task DisableSoundTimer(float time)
         {
-            await Awaitable.WaitForSecondsAsync(time);
+            try
+            {
+                // 오브젝트가 먼저 파괴되면 대기를 취소한다 (파괴된 AudioSource 접근 방지)
+                await Awaitable.WaitForSecondsAsync(time, destroyCancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+
             _audioSource.Stop();
             OnSoundFinished?.Invoke(this);
         }

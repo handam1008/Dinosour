@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Unity.Collections;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -40,6 +41,7 @@ namespace SSW
         public SoundChannel Sounds { get; } = new SoundChannel();
         const string JobMessage = "mushrooms.job";
         const string GameScene = "SuperUltraLegendScene";
+        public const ushort Protocol = 11;
         [SerializeField] NetworkManager _managerPrefab;
         [SerializeField] NetPlayer _playerPrefab;
         [SerializeField] NetMatch _matchPrefab;
@@ -118,7 +120,7 @@ namespace SSW
                 if (!NetMath.Supported(_localJob)) throw new ArgumentException("직업을 선택해 주세요.");
                 _physicsStarted = false;
                 Practice = null;
-                _manager.NetworkConfig.ProtocolVersion = 9;
+                _manager.NetworkConfig.ProtocolVersion = Protocol;
                 _manager.NetworkConfig.PlayerPrefab = null;
                 _manager.NetworkConfig.EnableSceneManagement = true;
                 RegisterPrefab(_playerPrefab.gameObject);
@@ -146,6 +148,28 @@ namespace SSW
             _manager.OnClientStopped += Stopped;
             _manager.OnServerStopped += Stopped;
             if (_manager.IsListening) Started();
+        }
+
+        public async Task PrepareSessionAsync()
+        {
+            if (_manager != null && (_manager.IsListening || _manager.ShutdownInProgress))
+            {
+                _leaving = true;
+                CloseChannels();
+                CloseIntro(false);
+                _manager.Shutdown();
+                double deadline = Time.realtimeSinceStartupAsDouble + 5d;
+                while (_manager.ShutdownInProgress)
+                {
+                    if (Time.realtimeSinceStartupAsDouble >= deadline)
+                        throw new InvalidOperationException("이전 연결을 종료하지 못했습니다. 다시 시도해주세요.");
+                    await Task.Yield();
+                }
+            }
+            _autoStart = false;
+            Arena = null;
+            _menu = null;
+            Prepare();
         }
 
         void RegisterPrefab(GameObject prefab)
@@ -365,7 +389,12 @@ namespace SSW
 
         public void Leave(NetArena arena)
         {
-            if (Arena == arena) Arena = null;
+            if (Arena != arena) return;
+            Arena = null;
+            if (_leaving || !Connected) return;
+            _leaving = true;
+            CloseChannels();
+            _manager.Shutdown();
         }
 
         public void SetMatch(NetMatch match)
@@ -388,7 +417,7 @@ namespace SSW
                 if (item.TryGetComponent<NetCard>(out _) || item.TryGetComponent<NetPotion>(out _)
                     || item.TryGetComponent<NetZone>(out _) || item.TryGetComponent<NetBolt>(out _)) item.Despawn();
             foreach (NetPlayer player in _players.ToArray()) player.NetworkObject.Despawn();
-            _maps.Restart(Match.State.Phase == MatchPhase.SetEnd);
+            _maps.Restart(true);
             foreach (var saved in players)
             {
                 NetPlayer player = Instantiate(_playerPrefab, Arena.Spawn(saved.Side == 1 ? 0 : 1), Quaternion.identity);
@@ -417,8 +446,7 @@ namespace SSW
         {
             NetPlayer local = Local;
             if (local == null || Arena == null) return;
-            NetPlayer opponent = _players.FirstOrDefault(player => !player.IsOwner);
-            Arena.Follow(local.View, opponent != null ? opponent.View : local.View, local.Side);
+            Arena.Orient(local.Side);
         }
 
         void ShowIntro()

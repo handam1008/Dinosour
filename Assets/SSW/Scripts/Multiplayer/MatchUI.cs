@@ -41,7 +41,7 @@ namespace SSW
                 string winner = "";
                 foreach (NetPlayer player in _game.Players)
                     if (player.OwnerClientId == state.Winner)
-                        winner = player.Info.Name.IsEmpty ? $"플레이어 {(player.Side > 0 ? 1 : 2)}" : player.Info.Name.ToString();
+                        winner = player.Info.DisplayName(player.Side > 0 ? 1 : 2);
                 _wipe.Show(state.Reason == MatchEnd.Draw ? "무승부" : $"{winner} 승리!");
             }
             else _wipe.Reveal();

@@ -13,6 +13,10 @@ namespace KDH.Scripts.Objects
             if (go.TryGetComponent(out ISpeedable speedable))
             {
                 speedable.ApplySpeed(speedAmount, timeApplySpeed);
+
+                GameObject entity = KDH_SakuraEffectPooling.Instance.effects.Pop();
+                entity.transform.position = go.transform.position;
+                entity.SetActive(true);
             }
         }
     }

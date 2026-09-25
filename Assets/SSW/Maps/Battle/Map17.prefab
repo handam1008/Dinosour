@@ -141,6 +141,8 @@ MonoBehaviour:
   _maximum: 1.5
   _clock: {fileID: 6742333675754055414}
   _clockSize: 34
+  _startTint: {fileID: 3914969063121771331}
+  _endTint: {fileID: 6928418958440695460}
 --- !u!1001 &979028455247439281
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -246,6 +248,7 @@ MonoBehaviour:
   _duration: 1
   _hold: 0
   _once: 1
+  _playOnAwake: 0
 --- !u!114 &6928418958440695460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,6 +267,7 @@ MonoBehaviour:
   _duration: 1
   _hold: 0
   _once: 1
+  _playOnAwake: 0
 --- !u!4 &4128276142798291570 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3809095817377327043, guid: 845ac9a4cb5fe5046b6fdddd0323aca8, type: 3}

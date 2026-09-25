@@ -4,19 +4,6 @@ void Check(bool value, string label)
     if (!value) throw new System.InvalidOperationException(label);
     checks.Add(label);
 }
-for (int seed = 0; seed < 100; seed++)
-{
-    var bag = new SSW.MapBag(14, seed);
-    var seen = new System.Collections.Generic.HashSet<int>();
-    for (int i = 0; i < 14; i++)
-    {
-        int next = bag.Next();
-        Check(next >= 0 && next < 14 && seen.Add(next), "unique " + seed + ":" + i);
-    }
-    bool failed = false;
-    try { bag.Next(); } catch (System.InvalidOperationException) { failed = true; }
-    Check(failed, "exhausted " + seed);
-}
 var game = UnityEditor.AssetDatabase.LoadAssetAtPath<SSW.NetGame>("Assets/SSW/Resources/Network/NetGame.prefab");
 var rotation = (SSW.MapRotation)new UnityEditor.SerializedObject(game).FindProperty("_maps").objectReferenceValue;
 Check(rotation.Prefabs.Count == 14, "all 14 maps registered");

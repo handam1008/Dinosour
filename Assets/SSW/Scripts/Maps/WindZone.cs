@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SSW
 {
-    public sealed class WindZone : MonoBehaviour, IMapAction, IMapReset
+    public sealed class WindZone : MonoBehaviour, IMapAction, IMapReset, ILiftZone
     {
         [SerializeField] Transform[] _arrows;
         [SerializeField] SpriteRenderer _field;
@@ -14,6 +14,7 @@ namespace SSW
         [SerializeField] float _acceleration = 65f;
 
         public bool IsOn { get; private set; } = true;
+        public bool Active => isActiveAndEnabled && IsOn;
         public float RiseSpeed => _riseSpeed;
         public float Acceleration => Mathf.Max(0f, _acceleration);
 
