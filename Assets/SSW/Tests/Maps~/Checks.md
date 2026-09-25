@@ -1,23 +1,22 @@
-# 맵 전환 검증
+# 맵·이동 검증
 
-최대 7세트 동안 맵 14개를 중복 없이 사용한다. 세트가 끝나면 패자의 증강 선택 전에 다음 맵을 생성하며, 같은 세트의 다음 라운드는 같은 맵을 초기화한다. 두 클라이언트가 맵을 불러온 뒤 전투를 시작한다.
+작은 라운드가 끝날 때마다 새 맵을 생성한다. 14개를 한 번씩 사용한 뒤 다시 섞으며 직전 맵의 연속 등장은 막는다. 최대 21라운드에서도 목록이 소진되지 않는다. 증강 선택은 세트 패자에게만 제공하고, 세트 안에서는 증강을 유지한 채 체력·위치·맵 오브젝트를 초기화한다.
 
-원본은 Assets/MapPrefab, 멀티플레이용 참조 프리팹은 Assets/SSW/Maps/Battle에 있다. 원본 배치는 유지하고 스폰 두 곳과 맵 기믹 동기화를 연결했다. Map02만 원본에 없던 스폰 마커 두 개를 추가했다. Map16·Map17·SwingMap의 줄 23개는 초기 배치의 실제 길이로 맞춰 생성 직후 발판이 밀리는 현상을 방지했다.
+원본 Assets/MapPrefab은 수정하지 않는다. Assets/SSW/Maps/Battle의 참조 프리팹에서 폭포를 LiftZone에 연결하고 화산의 흔들림을 서버에서 동기화한다. MotionCast는 움직이는 지형과 겹쳤을 때 실제 접촉 방향으로 위치를 복원하며 점프·경사·단방향 발판 내려가기를 유지한다.
 
-프로젝트 루트에서 Unity CLI에 연결된 에디터를 사용한다. 시작 전에 MainMenu 씬의 편집 내용을 저장하고 플레이 모드를 종료한다.
+편집 중인 씬을 저장하고 플레이 모드를 종료한 뒤 실행한다. Verify.ps1은 StartMenu의 저장된 로그인 세션을 사용한다. 개발 빌드에 MainMenu·SuperUltraLegendScene·StartMenu와 대전 맵을 포함해야 한다.
 
 ```powershell
 unity command eval_file --project-path (Get-Location).Path --caller plugin --skill unity-cli --format json --file ((Get-Location).Path + '/Assets/SSW/Tests/Maps~/Checks.cs')
-& './Assets/SSW/Tests/Maps~/Verify.ps1' -Mode Catalog -Run CatalogNew
-& './Assets/SSW/Tests/Maps~/Verify.ps1' -Mode Flow -Run FlowNew
-& './Assets/SSW/Tests/Maps~/Verify.ps1' -Mode Effects -Run EffectsNew
+unity command eval_file --project-path (Get-Location).Path --caller plugin --skill unity-cli --format json --file ((Get-Location).Path + '/Assets/SSW/Tests/Maps~/Terrain.cs')
+& './Assets/SSW/Tests/Maps~/Verify.ps1' -Run VerifyNew
 ```
 
-Verify.ps1은 에디터 호스트와 개발 빌드 접속자를 실행한다. 기본 접속자 경로는 Builds/MapRotation/Game.exe이며 -Build로 바꿀 수 있다. 포트는 7797이다. 결과와 양쪽 상태는 Logs/MapRotation25/<Run>에 저장한다. 종료 시 테스트 접속자와 플레이 모드를 정리한다.
+Verify.ps1은 같은 PC의 에디터 호스트와 개발 빌드 접속자를 실제 UGS Relay 빠른 매칭으로 연결한다. 기본 빌드는 Builds/TerrainFix/Game.exe이며 -Build로 변경한다. 결과는 Logs/StartMenu25/<Run>에 저장하며 종료 시 방·접속자·플레이 모드를 정리한다. 이미 확인한 지형 검증을 생략하고 전체 경기만 확인하려면 -SkipTerrain을 사용한다.
 
-2026-09-25 검증:
-- Catalog1: 맵 14개 모두 양쪽 생성, 스폰, 이전 투사체 정리, 움직이는 발판 위치 일치.
-- Flow2: 4:3으로 끝나는 7세트에서 중복 없음, 세트 도중 맵 유지, 세트 종료 후 변경, 패자만 증강 선택, 기존 증강 유지, 체력 초기화.
-- Effects9: 시간 변화 동기화 및 정상 배속 복원, 접속자의 발판 탑승과 이동 예측, 발판 파괴 후 낙하 동기화, 작은 라운드 종료 후 같은 맵의 모든 핀·줄 복구 및 양쪽 발판 위치 복원.
+2026-09-25 확인:
+- 기존 이동 코드에서 흔들리는 바닥 관통을 재현했다. 수정 후 300회 연속 이동, 45도 경사 점프, 단방향 발판 통과·착지·내려가기, 위치 복원, 폭포 진입·이탈을 통과했다.
+- RelayTerrain4: StartMenu에서 빠른 매칭과 전투 씬 진입, 양쪽 화산 바닥 착지·점프, 두 폭포의 상승과 이탈, VS·승리 닉네임 태그 제거를 확인했다.
+- RelayFlow5: 최대 21라운드 4:3 경기에서 라운드마다 맵 변경, 최초 14개 중복 없음, 재순환 시 연속 중복 없음, 작은 라운드 카드 선택 생략, 세트 패자만 선택, 증강 유지·체력·스폰 초기화를 확인했다.
 
-같은 PC의 두 프로세스로 검증했다. 별도 PC 및 Relay 지연 환경은 이번 검증에 포함하지 않았다. 이번 맵 네트워크 구성부터 프로토콜 9를 사용하므로 양쪽 모두 같은 최신 빌드가 필요하다.
+별도 PC 테스트는 하지 않았다. 네트워크 프로토콜 10과 같은 버전의 방 검색 키를 사용하므로 양쪽을 함께 갱신해야 한다. Results.json의 Catalog1·Flow2·Effects9는 규칙 변경 전의 과거 검증 기록이다.

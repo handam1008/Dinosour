@@ -15,8 +15,8 @@ namespace SSW
 
         public void Begin()
         {
-            if (_maps.Length < Rounds.SetsToWin * 2 - 1)
-                throw new InvalidOperationException("대전 맵은 7개 이상 필요합니다.");
+            if (_maps.Length < 2)
+                throw new InvalidOperationException("대전 맵은 2개 이상 필요합니다.");
             _bag = new MapBag(_maps.Length, UnityEngine.Random.Range(0, int.MaxValue));
             Restart(true);
         }

@@ -170,10 +170,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7172238538377401424, guid: 52b4458bda7f641478b95e948000455a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4893044512959287938, guid: 52b4458bda7f641478b95e948000455a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8083672117443426503}
   m_SourcePrefab: {fileID: 100100000, guid: 52b4458bda7f641478b95e948000455a, type: 3}
 --- !u!114 &676958762349721602 stripped
 MonoBehaviour:
@@ -234,3 +238,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6894399760648716534, guid: 52b4458bda7f641478b95e948000455a, type: 3}
   m_PrefabInstance: {fileID: 3769975922285336818}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8626138417166223984 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4893044512959287938, guid: 52b4458bda7f641478b95e948000455a, type: 3}
+  m_PrefabInstance: {fileID: 3769975922285336818}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8083672117443426503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8626138417166223984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54db24d81e3cda64bb4d21f8ab55686c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.LiftZone
+  _riseSpeed: 15
+  _acceleration: 90

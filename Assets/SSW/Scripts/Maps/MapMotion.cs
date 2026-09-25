@@ -51,6 +51,7 @@ namespace SSW
             double now = NetworkManager.ServerTime.Time;
             if (IsServer)
             {
+                if (_moving.Length > 0) Physics2D.SyncTransforms();
                 if (_poses.Length + _positions.Length + _cuts.Length == 0 || now < _sentAt + 1.0 / 30.0) return;
                 _sentAt = now;
                 for (int i = 0; i < _bodies.Length; i++)
@@ -77,6 +78,7 @@ namespace SSW
                     body.angularVelocity = pose.Spin;
                 }
                 for (int i = 0; i < _moving.Length; i++) _moving[i].localPosition = _positions[i];
+                if (_moving.Length > 0) Physics2D.SyncTransforms();
             }
         }
 

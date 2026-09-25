@@ -40,6 +40,7 @@ namespace SSW
         public SoundChannel Sounds { get; } = new SoundChannel();
         const string JobMessage = "mushrooms.job";
         const string GameScene = "SuperUltraLegendScene";
+        public const ushort Protocol = 10;
         [SerializeField] NetworkManager _managerPrefab;
         [SerializeField] NetPlayer _playerPrefab;
         [SerializeField] NetMatch _matchPrefab;
@@ -118,7 +119,7 @@ namespace SSW
                 if (!NetMath.Supported(_localJob)) throw new ArgumentException("직업을 선택해 주세요.");
                 _physicsStarted = false;
                 Practice = null;
-                _manager.NetworkConfig.ProtocolVersion = 9;
+                _manager.NetworkConfig.ProtocolVersion = Protocol;
                 _manager.NetworkConfig.PlayerPrefab = null;
                 _manager.NetworkConfig.EnableSceneManagement = true;
                 RegisterPrefab(_playerPrefab.gameObject);
@@ -388,7 +389,7 @@ namespace SSW
                 if (item.TryGetComponent<NetCard>(out _) || item.TryGetComponent<NetPotion>(out _)
                     || item.TryGetComponent<NetZone>(out _) || item.TryGetComponent<NetBolt>(out _)) item.Despawn();
             foreach (NetPlayer player in _players.ToArray()) player.NetworkObject.Despawn();
-            _maps.Restart(Match.State.Phase == MatchPhase.SetEnd);
+            _maps.Restart(true);
             foreach (var saved in players)
             {
                 NetPlayer player = Instantiate(_playerPrefab, Arena.Spawn(saved.Side == 1 ? 0 : 1), Quaternion.identity);

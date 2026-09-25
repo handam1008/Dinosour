@@ -45,7 +45,7 @@ namespace SSW
                     sample.Launch = sample.Pad ? Mathf.Max(sample.Launch, pad.LaunchVelocity) : pad.LaunchVelocity;
                     sample.Pad = true;
                 }
-                if (hit.TryGetComponent<WindZone>(out var wind) && wind.isActiveAndEnabled && wind.IsOn)
+                if (hit.TryGetComponent<ILiftZone>(out var wind) && wind.Active)
                 {
                     sample.Rise = sample.Acceleration > 0f ? Mathf.Max(sample.Rise, wind.RiseSpeed) : wind.RiseSpeed;
                     sample.Acceleration = Mathf.Max(sample.Acceleration, wind.Acceleration);

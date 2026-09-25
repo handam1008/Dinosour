@@ -234,10 +234,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3132137855622305607, guid: 07524295b11a54b43a1d5f40404ef481, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 187602428918082575, guid: 07524295b11a54b43a1d5f40404ef481, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9164202095859994129}
   m_SourcePrefab: {fileID: 100100000, guid: 07524295b11a54b43a1d5f40404ef481, type: 3}
 --- !u!114 &1140431555507748681 stripped
 MonoBehaviour:
@@ -266,6 +270,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cc44ad62db685045963748b0b93505a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
+--- !u!1 &6912064378582091736 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 187602428918082575, guid: 07524295b11a54b43a1d5f40404ef481, type: 3}
+  m_PrefabInstance: {fileID: 6734828147460402135}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9164202095859994129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6912064378582091736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54db24d81e3cda64bb4d21f8ab55686c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.LiftZone
+  _riseSpeed: 5.5
+  _acceleration: 90
 --- !u!114 &7277558805860764561 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4146126031271829574, guid: 07524295b11a54b43a1d5f40404ef481, type: 3}

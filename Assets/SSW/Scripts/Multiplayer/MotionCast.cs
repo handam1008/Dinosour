@@ -48,6 +48,47 @@ namespace SSW
             _shape.transform.localScale = _baseScale * factor;
         }
 
+        public void Recover(ref Vector2 position, ref Vector2 velocity, bool dropping, float dropTop)
+        {
+            Vector2 scale = _shape.transform.lossyScale;
+            scale = new Vector2(Mathf.Abs(scale.x), Mathf.Abs(scale.y));
+            Vector2 size = Vector2.Scale(_shape.size, scale);
+            Vector2 offset = _shape.transform.TransformVector(_shape.offset);
+            float angle = _shape.transform.eulerAngles.z;
+            for (int pass = 0; pass < 4; pass++)
+            {
+                int count = Physics2D.OverlapCapsule(position + offset, size, _shape.direction, angle, _filter, _overlaps);
+                bool moved = false;
+                for (int i = 0; i < count; i++)
+                {
+                    Collider2D hit = _overlaps[i];
+                    if (hit == _shape || hit.attachedRigidbody == _shape.attachedRigidbody) continue;
+                    ColliderDistance2D contact = Contact(position, hit);
+                    if (!contact.isValid || !contact.isOverlapped) continue;
+                    Vector2 normal = -contact.normal;
+                    if (GroundProbe.IsPlatform(hit) && (velocity.y > 0f || normal.y < GroundProbe.MinNormal
+                        || dropping && Mathf.Abs(hit.bounds.max.y - dropTop) < 0.1f)) continue;
+                    position += normal * (-contact.distance + 0.001f);
+                    float inward = Vector2.Dot(velocity, normal);
+                    if (inward < 0f) velocity -= normal * inward;
+                    moved = true;
+                }
+                if (!moved) break;
+            }
+        }
+
+        ColliderDistance2D Contact(Vector2 position, Collider2D other)
+        {
+            Rigidbody2D body = _shape.attachedRigidbody;
+            Vector2 saved = body.position;
+            try
+            {
+                body.position = position;
+                return _shape.Distance(other);
+            }
+            finally { body.position = saved; }
+        }
+
         public float PlatformHeight => _lastHit.bounds.max.y;
 
         public bool Grounded(Vector2 position, bool dropping, float dropTop = 0f)

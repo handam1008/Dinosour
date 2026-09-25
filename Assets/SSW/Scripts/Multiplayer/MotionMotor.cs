@@ -30,6 +30,7 @@ namespace SSW
             float scale = playing && state.SmallTime > 0f ? 0.5f : 1f;
             _cast.Scale(ref state, scale);
             state.SmallTime = Mathf.Max(0f, state.SmallTime - delta);
+            if (playing) _cast.Recover(ref state.Position, ref state.Velocity, state.DropTime > 0f, state.DropTop);
             bool jump = input.Jump > state.Jump;
             state.Jump = System.Math.Max(state.Jump, input.Jump);
             state.CoyoteTime = Mathf.Max(0f, state.CoyoteTime - delta);
