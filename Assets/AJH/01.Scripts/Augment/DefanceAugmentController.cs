@@ -6,9 +6,6 @@ using UnityEngine.InputSystem;
 
 namespace SSW
 {
-    [RequireComponent(typeof(Health))]
-    [RequireComponent(typeof(AugmentDrafter))]
-    [RequireComponent(typeof(Defance))]
     public class DefanceAugmentController : MonoBehaviour,IOutgoingDamageModifier, IDamageDealtListener, IDamageReceivedListener
     {
         [Header("방어")]
@@ -27,6 +24,7 @@ namespace SSW
         [Header("점멸")]
         [SerializeField] float _blinkDistance = 4f;
         [SerializeField] float _blinkDuration = 0.15f;
+        [SerializeField] float _blinkCoolPenalty = 0.2f;
 
         [Header("아이스 에이지")]
         [SerializeField] float _iceAgeRadius = 5f;
@@ -124,6 +122,9 @@ namespace SSW
                     break;
                 case CommonAugmentType.BestOffense:
                     _defance.CoolDown *= 1f + _bestOffenseCoolPenalty;
+                    break;
+                case CommonAugmentType.Blink:
+                    _defance.CoolDown *= 1f + _blinkCoolPenalty;
                     break;
                 case CommonAugmentType.Nuclear:
                     _defance.CoolDown *= 1f + _nuclearCoolPenalty;

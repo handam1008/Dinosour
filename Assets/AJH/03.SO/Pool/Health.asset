@@ -13,7 +13,5 @@ MonoBehaviour:
   m_Name: Health
   m_EditorClassIdentifier: 
   augments:
-  - {fileID: 11400000, guid: 81ad4213cebc6bb4d962c08fc7b02fbb, type: 2}
   - {fileID: 11400000, guid: ef604d959828179419e05b7344755241, type: 2}
-  - {fileID: 11400000, guid: b40d8dae17810f24baeb9643c2a55473, type: 2}
-  - {fileID: 11400000, guid: 06a97833084c8c6488a519668ae1d6a5, type: 2}
+  - {fileID: 11400000, guid: 81ad4213cebc6bb4d962c08fc7b02fbb, type: 2}

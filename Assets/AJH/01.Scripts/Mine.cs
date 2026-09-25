@@ -9,9 +9,8 @@ public class Mine : MonoBehaviour
     [SerializeField] LayerMask _groundMask;
     [SerializeField] float _groundCheckDistance = 0.1f;
     [SerializeField] float _explosionRadius = 2f;
-    [SerializeField] float _damage = 20f;
+    [SerializeField] float _damage = 10f;
     [SerializeField] float _knockback = 6f;
-    [SerializeField] float _lifeTime = 15f;
     [SerializeField] GameObject _explosionPrefab;
 
     readonly HashSet<Health> _ignored = new HashSet<Health>();
@@ -32,7 +31,6 @@ public class Mine : MonoBehaviour
     {
         _body = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
-        _explosionPrefab.SetActive(false);
     }
 
     void Start()
@@ -43,8 +41,6 @@ public class Mine : MonoBehaviour
             Health unit = hit.GetComponentInParent<Health>();
             if (unit != null) _ignored.Add(unit);
         }
-
-        Destroy(gameObject, _lifeTime);
     }
 
     void FixedUpdate()
@@ -82,7 +78,6 @@ public class Mine : MonoBehaviour
         if (unit == null || unit.Current <= 0f) return;
         if (_ignored.Contains(unit)) return;
 
-        _explosionPrefab.SetActive(true);
         Explode();
     }
 
@@ -90,7 +85,7 @@ public class Mine : MonoBehaviour
     {
         _exploded = true;
         Vector2 center = transform.position;
-
+        Instantiate(_explosionPrefab, center, Quaternion.identity);
 
         var targets = new HashSet<Health>();
         foreach (Collider2D hit in Physics2D.OverlapCircleAll(center, _explosionRadius))

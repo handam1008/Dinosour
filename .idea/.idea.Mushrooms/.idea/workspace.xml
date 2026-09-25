@@ -12,12 +12,14 @@
   <component name="ChangeListManager">
     <list default="true" id="6fb1d2c4-7096-4d2f-81e7-2333f2fed1f9" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RYU/00.Scene/Login.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RYU/00.Scene/Login.unity.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RYU/01.Script/Auth/AuthBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RYU/01.Script/Auth/AuthBase.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RYU/01.Script/Auth/AuthUnityPlayerAccount.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RYU/01.Script/Auth/AuthUnityPlayerAccount.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/RYU/01.Script/Leaderboard/LeaderboardManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/RYU/01.Script/Leaderboard/LeaderboardManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/SSW/MainMenu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SSW/MainMenu.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AJH/00.Scence/Test.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AJH/00.Scence/Test.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AJH/01.Scripts/Augment/DefanceAugmentController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AJH/01.Scripts/Augment/DefanceAugmentController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AJH/01.Scripts/Augment/HealthAugmentController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AJH/01.Scripts/Augment/HealthAugmentController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AJH/01.Scripts/Augment/SkillAugmentController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AJH/01.Scripts/Augment/SkillAugmentController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AJH/01.Scripts/Mine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AJH/01.Scripts/Mine.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AJH/02.Prefabs/Mine.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AJH/02.Prefabs/Mine.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AJH/02.Prefabs/NuclearCharge.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AJH/02.Prefabs/NuclearCharge.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AJH/03.SO/Pool/Health.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AJH/03.SO/Pool/Health.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -183,7 +185,7 @@
     "cidr.known.project.marker": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "RYU",
+    "git-widget-placeholder": "AJH",
     "junie.onboarding.icon.badge.shown": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
