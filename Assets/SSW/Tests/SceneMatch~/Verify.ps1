@@ -1,4 +1,4 @@
-param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/SceneMatch/Game.exe')
+param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/SceneMatch/Game.exe',[switch]$ConnectionsOnly)
 $ErrorActionPreference='Stop'
 $Project=[IO.Path]::GetFullPath($Project).Replace('\','/')
 $root="$Project/Logs/SceneMatch25/$Run"
@@ -22,7 +22,7 @@ function Await($label, [scriptblock]$condition, $timeout = 35) {
     do {
         $script:h = Read host
         $script:c = Read client
-        if ($h.error -or $c.error) { throw "Runtime error: $($h.error) $($c.error)" }
+        if ($h.error -or $c.error) { @{label=$label;host=$h;client=$c}|ConvertTo-Json -Depth 14|Set-Content "$root/Failure.json"; throw "Runtime error: $($h.error) $($c.error)" }
         if ($h -and $c -and (& $condition)) { return }
         Start-Sleep -Milliseconds 50
     } while ([DateTime]::UtcNow -lt $until)
@@ -77,7 +77,7 @@ function Map($title){
 function ReadyMenus {
     Await 'both MainMenu ready' {(Menu host).scene -eq 'MainMenu' -and (Menu client).scene -eq 'MainMenu' -and @((Menu host).buttons|Where-Object {$_.name -eq 'Button_Play' -and $_.enabled}).Count -eq 1 -and @((Menu client).buttons|Where-Object {$_.name -eq 'Button_Play' -and $_.enabled}).Count -eq 1}
 }
-function BeginMatch([switch]$Reverse,[switch]$Restart) {
+function BeginMatch([switch]$Reverse,[switch]$Restart,[switch]$FailStart) {
     ReadyMenus
     Click host 'Button_Play'
     Click client 'Button_Play'
@@ -91,6 +91,7 @@ function BeginMatch([switch]$Reverse,[switch]$Restart) {
         Await 'quick matching restarts after network stops' {(Menu host).joined -and (Menu host).code -ne $code -and $h.listening} 90
         Check ($true) 'waiting matchmaking recovers after local network stops'
     }
+    if($FailStart){Eval 'SSW.NetGame.Current.Prepare();SSW.SessionFault.ArmStart(SSW.NetGame.Current.Manager);return true;'|Out-Null}
     Click $second 'Button_매치메이킹'
     Await 'Relay scene loaded' {$h.phase -eq 'Draft' -and $c.phase -eq 'Draft' -and $h.map -eq $c.map} 90
     PickAll
@@ -119,6 +120,7 @@ try {
     $menuSeq.client++
     [IO.File]::WriteAllText("$root/client.menu.cmd.json",(@{seq=$menuSeq.client;op='job';value=2}|ConvertTo-Json -Compress))
     Await 'client job selected' {(Menu client).seq -ge $menuSeq.client}
+    if(-not $ConnectionsOnly){
     Eval 'SSW.MapTravel.LoadScene("SuperUltraLegendScene");return true;'|Out-Null
     Await 'sandbox spawned' {$h.scene -eq 'SuperUltraLegendScene' -and $h.players.Count -eq 2 -and $h.cameraSize -gt 0}
     $fx=Eval 'var p=SSW.NetGame.Current.Practice;int a=p.Player.GetComponentsInChildren<UnityEngine.ParticleSystem>(true).Length,b=p.Target.GetComponentsInChildren<UnityEngine.ParticleSystem>(true).Length;p.Target.Health.TakeDamage(1);return new{local=p.Player.GetComponentsInChildren<UnityEngine.ParticleSystem>(true).Length-a,target=p.Target.GetComponentsInChildren<UnityEngine.ParticleSystem>(true).Length-b};'
@@ -179,6 +181,12 @@ try {
     Check ($true) 'second Relay match succeeds after both return to menu'
     Send host remote 1
     CheckFrame 'rematch'
+    }else{
+        BeginMatch -Reverse -FailStart
+        $starts=Eval 'return SSW.SessionFault.StartCount;'
+        Check ($starts -eq 1) 'network start interrupted once'
+        Check ($h.connected -and $c.connected) 'quick matching retries a failed network start'
+    }
     foreach($after in @($false,$true)){
         Send client exit
         Send host exit

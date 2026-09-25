@@ -140,20 +140,34 @@ namespace SSW
                     await EnsureInitializedAsync();
                     await PrepareNetwork();
                     double nextSearch = 0;
+                    int failures = 0;
                     while (_network.Arena == null)
                     {
                         CheckCancel();
-                        if (_session != null && !_network.Connected) await Drop();
-                        if (_session == null) await FindMatch();
-                        if (IsHost && _network.Ready)
+                        try
                         {
-                            await BeginGame(sceneName);
-                            return;
+                            if (_session != null && !_network.Connected)
+                                throw new SessionException("대기 중 연결이 끊어졌습니다.", SessionError.NetworkManagerStartFailed, null);
+                            if (_session == null) await FindMatch();
+                            if (IsHost && _network.Ready)
+                            {
+                                await BeginGame(sceneName);
+                                return;
+                            }
+                            if (IsHost && PlayerCount == 1 && Time.unscaledTimeAsDouble >= nextSearch)
+                            {
+                                nextSearch = Time.unscaledTimeAsDouble + 2.5;
+                                await MergeMatch();
+                            }
                         }
-                        if (IsHost && PlayerCount == 1 && Time.unscaledTimeAsDouble >= nextSearch)
+                        catch (SessionException error) when (failures < 2 && CanRetry(error))
                         {
-                            nextSearch = Time.unscaledTimeAsDouble + 2.5;
-                            await MergeMatch();
+                            failures++;
+                            await Drop();
+                            CheckCancel();
+                            SetStatus("연결을 다시 시도하는 중...");
+                            await Task.Delay(500 * failures);
+                            nextSearch = 0;
                         }
                         await Task.Delay(100);
                     }
@@ -185,6 +199,12 @@ namespace SSW
             ISession session = await MultiplayerService.Instance.MatchmakeSessionAsync(
                 options, CreateOptions("빠른 대전", null, false, "quick"));
             await Accept(session);
+        }
+
+        static bool CanRetry(SessionException error)
+        {
+            return error.Error == SessionError.NetworkManagerStartFailed ||
+                error.Error == SessionError.NetworkSetupFailed;
         }
 
         async Task MergeMatch()

@@ -11,6 +11,27 @@ namespace SSW
     {
         public static int Count { get; private set; }
 
+        public static int StartCount { get; private set; }
+
+        public static void ArmStart(Unity.Netcode.NetworkManager manager)
+        {
+            if (manager == null) throw new ArgumentNullException(nameof(manager));
+            UnityEditor.EditorApplication.CallbackFunction tick = null;
+            tick = () =>
+            {
+                if (!UnityEditor.EditorApplication.isPlaying)
+                {
+                    UnityEditor.EditorApplication.update -= tick;
+                    return;
+                }
+                if (!manager.IsListening || !manager.IsClient || manager.IsServer || manager.IsConnectedClient) return;
+                UnityEditor.EditorApplication.update -= tick;
+                StartCount++;
+                manager.Shutdown();
+            };
+            UnityEditor.EditorApplication.update += tick;
+        }
+
         public static void Arm(ISession session, bool after)
         {
             var flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;

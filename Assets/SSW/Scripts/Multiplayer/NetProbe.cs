@@ -355,7 +355,7 @@ namespace SSW
                 case "capture": ScreenCapture.CaptureScreenshot(_path + ".png"); break;
                 case "escape": StartCoroutine(Escape()); break;
                 case "resume": game.Menu.Resume(); break;
-                case "exit": game.Menu.Exit(); break;
+                case "exit": game.Exit(); break;
                 case "start":
                     game.StartLocal(command.value > 0, "127.0.0.1",
                         command.x < 0.5f ? PlayerJob.Witch : PlayerJob.Magician, (ushort)command.y);
