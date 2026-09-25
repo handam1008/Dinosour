@@ -1190,10 +1190,26 @@ namespace _02.Script
             playerNameIF.gameObject.SetActive(false);
         }
 
+        // UGS 초기화가 끝난 뒤에 불림 (AuthBase.Awake에서 호출)
+        protected override async Task OnServicesReadyAsync()
+        {
+            if (await TrySignInWithCachedSessionAsync()) CheckLogin();
+        }
+
         private void BindingUIEvents()
         {
             loginButton.onClick.AddListener(async () => await Login());
             savePlayerNameButton.onClick.AddListener(async () => await SavePlayerName(playerNameIF.text));
+        }
+
+        private void CheckLogin()
+        { 
+            if (AuthenticationService.Instance.IsSignedIn)
+            {
+                Debug.Log($"[자동 로그인 성공] 플레이어 ID: {AuthenticationService.Instance.PlayerId}");
+                 SceneManager.LoadScene(SceneName);
+            }
+          
         }
         
 
@@ -1221,6 +1237,7 @@ namespace _02.Script
                 await PlayerAccountService.Instance.StartSignInAsync();
                 savePlayerNameButton.gameObject.SetActive(true);
                 playerNameIF.gameObject.SetActive(true);
+                loginButton.gameObject.SetActive(false);
             }
             catch (PlayerAccountsException e)
             {
@@ -1236,7 +1253,7 @@ namespace _02.Script
         {
             foreach (var name  in korean)
             {
-                if (name == playerName)
+                if (playerName.Contains(name))
                 {
                     StartCoroutine(textCO());
                     return;

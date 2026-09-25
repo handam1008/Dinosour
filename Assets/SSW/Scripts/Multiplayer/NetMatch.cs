@@ -80,9 +80,15 @@ namespace SSW
                 }
                 return;
             }
+            if (State.Phase == MatchPhase.Draft)
+            {
+                Picked();
+                return;
+            }
             if (State.Phase == MatchPhase.Countdown)
             {
-                if (Time.unscaledTimeAsDouble >= _nextRound) SetPhase(MatchPhase.Playing);
+                if (!_field.MapReady) _nextRound = Time.unscaledTimeAsDouble + _readyPause;
+                else if (Time.unscaledTimeAsDouble >= _nextRound) SetPhase(MatchPhase.Playing);
                 return;
             }
             if (State.Phase != MatchPhase.Intro || _shown.Count != 2) return;
@@ -93,7 +99,7 @@ namespace SSW
 
         public void Picked()
         {
-            if (!IsServer || State.Phase != MatchPhase.Draft) return;
+            if (!IsServer || State.Phase != MatchPhase.Draft || !_field.MapReady) return;
             foreach (NetPlayer player in NetGame.Current.Players)
                 if (!player.Draft.Ready) return;
             Ready();
