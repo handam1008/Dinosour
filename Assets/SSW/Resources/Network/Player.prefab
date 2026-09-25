@@ -408,7 +408,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c94b92c7250470fb54d9dfaf51b4655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.FeedBack.CameraShakeFeedBack
-  force: 2.5
+  force: 0.5
+  duration: 0.3
 --- !u!1 &4068209988557695415
 GameObject:
   m_ObjectHideFlags: 0
@@ -1010,7 +1011,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c2f468e2c64970a9935c9972bca843, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.FeedBack.FeedBackModule
-  feedBackEventChannel: {fileID: 11400000, guid: ba1b79262c399f14ca5594cd639dfcfd, type: 2}
 --- !u!1001 &2487529555981852951
 PrefabInstance:
   m_ObjectHideFlags: 0

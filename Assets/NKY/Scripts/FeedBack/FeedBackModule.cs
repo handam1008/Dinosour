@@ -2,23 +2,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NKY.Lib.EventChannel;
+using SSW;
 using UnityEngine;
 
 namespace NKY.Scripts.FeedBack
 {
     public class FeedBackModule : MonoBehaviour
     {
-        [SerializeField] private VoidEventChannelSO feedBackEventChannel;
-
+        private VoidEventChannelSO _feedBackEventChannel;
         private List<AbstractFeedBack> _feedBacks;
 
         private void Awake()
         {
-            feedBackEventChannel.OnEventRaised += FeedBack;
+            
         }
 
         private void Start()
         {
+            _feedBackEventChannel = GetComponentInParent<Health>().HitEvent;
+            if(_feedBackEventChannel == null) { Debug.LogError("Feed Back Channel Not Found"); return; } 
+            
+            _feedBackEventChannel.OnEventRaised += FeedBack;
             _feedBacks = GetComponentsInChildren<AbstractFeedBack>().ToList();
             Debug.Assert(_feedBacks.Count >= 0, "not equip feedback");
         }
