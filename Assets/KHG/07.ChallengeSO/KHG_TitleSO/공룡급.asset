@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e50fd0a98f20be418bf2553edcedb69, type: 3}
+  m_Name: "\uACF5\uB8E1\uAE09"
+  m_EditorClassIdentifier: Assembly-CSharp::KHG_TitleData
+  id: Dino_Tier
+  titleName: "\uACF5\uB8E1"
+  description: "\uACF5\uB8E1 \uD2F0\uC5B4\uB97C \uB2EC\uC131"
+  icon: {fileID: 0}
