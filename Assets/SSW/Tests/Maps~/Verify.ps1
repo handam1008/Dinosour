@@ -1,8 +1,8 @@
-param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/TerrainFix/Game.exe',[switch]$SkipTerrain)
+param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/TerrainFix/Game.exe',[switch]$SkipTerrain,[switch]$TerrainOnly)
 $ErrorActionPreference='Stop'
 $Project=[IO.Path]::GetFullPath($Project).Replace('\','/')
 $root="$Project/Logs/StartMenu25/$Run"
-if(Test-Path "$root/host.json"){throw 'Use a new run name.'}
+if(Test-Path $root){throw 'Use a new run name.'}
 [IO.Directory]::CreateDirectory($root)|Out-Null
 $seq=@{host=0;client=0}
 $menuSeq=@{host=0;client=0}
@@ -102,7 +102,7 @@ function Visit($label){
     [IO.File]::WriteAllText("$root/Maps.json",($visited|ConvertTo-Json))
 }
 try {
-    Eval 'for(int i=0;i<UnityEngine.SceneManagement.SceneManager.sceneCount;i++)if(UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).isDirty)throw new System.InvalidOperationException("Save scene changes before testing.");UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/RYU/00.Scene/StartMenu.unity");return true;'|Out-Null
+    Eval 'if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().path=="Assets/RYU/00.Scene/StartMenu.unity")return true;for(int i=0;i<UnityEngine.SceneManagement.SceneManager.sceneCount;i++)if(UnityEngine.SceneManagement.SceneManager.GetSceneAt(i).isDirty)throw new System.InvalidOperationException("Save scene changes before testing.");UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/RYU/00.Scene/StartMenu.unity");return true;'|Out-Null
     unity command editor_play --caller plugin --skill unity-cli --project-path $Project --format json|Out-Null
     $until=[DateTime]::UtcNow.AddSeconds(35)
     do {
@@ -155,16 +155,17 @@ try {
     Check ($true) 'client can jump from shaking floor'
     foreach($title in @('KDH_Map 2','KDH_Map 15')){
         Map $title
-        $zone=Eval 'var g=SSW.NetGame.Current;var zone=g.Arena.Map.GetComponentInChildren<SSW.LiftZone>().GetComponent<UnityEngine.Collider2D>().bounds;float y=zone.min.y+1;foreach(var p in g.Players)p.Drive.Teleport(new UnityEngine.Vector2(zone.center.x+p.Side*zone.size.x*0.3f,y));return new{y,x=zone.center.x,right=UnityEngine.Mathf.Min(zone.max.x,g.Arena.Map.Bounds.max.x-4),top=zone.max.y};'
+        $zone=Eval 'var g=SSW.NetGame.Current;var zone=g.Arena.Map.GetComponentInChildren<SSW.LiftZone>().GetComponent<UnityEngine.Collider2D>().bounds;float y=zone.min.y+1;foreach(var p in g.Players)p.Drive.Teleport(new UnityEngine.Vector2(zone.center.x+p.Side*zone.size.x*0.225f,y));return new{y,x=zone.center.x,exitX=zone.center.x+zone.size.x*0.225f,top=zone.max.y};'
         Send client metrics
         Await 'waterfall lifts both peers' {($h.players|Where-Object owner).position.y -gt $zone.y+0.5 -and ($c.players|Where-Object owner).position.y -gt $zone.y+0.5 -and ($c.players|Where-Object owner).velocity.y -gt 0} 5
         Check ($true) "$title waterfall lifts server and client"
         @{zone=$zone;host=$h;client=$c}|ConvertTo-Json -Depth 14|Set-Content "$root/Water$($title.Split(' ')[-1]).json"
-        Eval ('foreach(var p in SSW.NetGame.Current.Players)p.Drive.Teleport(new UnityEngine.Vector2('+($zone.right+2).ToString([Globalization.CultureInfo]::InvariantCulture)+',2));return true;')|Out-Null
+        Eval ('foreach(var p in SSW.NetGame.Current.Players)p.Drive.Teleport(new UnityEngine.Vector2('+($zone.exitX).ToString([Globalization.CultureInfo]::InvariantCulture)+'f,2));return true;')|Out-Null
         Await 'leaving water restores gravity' {($h.players|Where-Object owner).velocity.y -lt -1 -and ($c.players|Where-Object owner).velocity.y -lt -1} 4
         Check ($true) "$title gravity resumes outside waterfall"
     }
     }
+    if($TerrainOnly){@{checks=$checks.Count;host=$h;client=$c}|ConvertTo-Json -Depth 14|Set-Content "$root/Result.json";Write-Output "PASS terrain $($checks.Count) checks";return}
     $initial=Eval 'var g=SSW.NetGame.Current;var r=g.GetComponent<SSW.MapRotation>();r.Begin();foreach(var p in g.Players)p.Drive.Teleport(g.Arena.Spawn(p.Side==1?0:1));return new{id=g.Arena.Map.NetworkObjectId,title=g.Arena.Map.Title};'
     Await 'new map snapshot received' {$h.mapObject -eq $initial.id -and $c.mapObject -eq $initial.id}
     $visited.Clear()

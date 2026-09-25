@@ -423,5 +423,27 @@
       "",
       ""
     ]
+  },
+  "LatestTerrain8": {
+    "checks": [
+      "PASS StartMenu quick match connected through Relay",
+      "PASS VS labels remove account tags",
+      "PASS neither peer falls through shaking floor for eight seconds",
+      "PASS shaking floor client prediction stays bounded",
+      "PASS client can jump from shaking floor",
+      "PASS KDH_Map 2 waterfall lifts server and client",
+      "PASS KDH_Map 2 gravity resumes outside waterfall",
+      "PASS KDH_Map 15 waterfall lifts server and client",
+      "PASS KDH_Map 15 gravity resumes outside waterfall"
+    ],
+    "map15Source": "40d467e9467a8e34ab4d424fd93d7594",
+    "base": "34691ed",
+    "minimumFloorY": -6.4718079566955566,
+    "transport": "UGS Relay",
+    "topology": "Editor host and one local development player",
+    "runtimeErrors": [
+      "",
+      ""
+    ]
   }
 }
