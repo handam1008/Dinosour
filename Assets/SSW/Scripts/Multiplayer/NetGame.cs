@@ -43,6 +43,7 @@ namespace SSW
         [SerializeField] NetworkManager _managerPrefab;
         [SerializeField] NetPlayer _playerPrefab;
         [SerializeField] NetMatch _matchPrefab;
+        [SerializeField] MapRotation _maps;
         [SerializeField] NetworkObject[] _shots;
         [SerializeField] MatchUI _menuPrefab;
         [SerializeField] Vs _introPrefab;
@@ -83,6 +84,7 @@ namespace SSW
         public NetPlayer Local => _players.FirstOrDefault(player => player.IsOwner);
         public bool CanFight => Connected && !_leaving && !_finished && (Practice != null || Match != null && Match.Playing);
         public bool HasPlayerPrefab => _playerPrefab != null;
+        public bool MapReady => Arena.Map != null && Arena.Map.Ready;
         public event Action<MatchState> Ended;
         public event Action ConnectionChanged;
 
@@ -116,12 +118,13 @@ namespace SSW
                 if (!NetMath.Supported(_localJob)) throw new ArgumentException("직업을 선택해 주세요.");
                 _physicsStarted = false;
                 Practice = null;
-                _manager.NetworkConfig.ProtocolVersion = 8;
+                _manager.NetworkConfig.ProtocolVersion = 9;
                 _manager.NetworkConfig.PlayerPrefab = null;
                 _manager.NetworkConfig.EnableSceneManagement = true;
                 RegisterPrefab(_playerPrefab.gameObject);
                 RegisterPrefab(_matchPrefab.gameObject);
                 foreach (NetworkObject prefab in _shots) RegisterPrefab(prefab.gameObject);
+                foreach (BattleMap prefab in _maps.Prefabs) RegisterPrefab(prefab.gameObject);
                 _jobs.Clear();
                 _fighters.Clear();
                 _players.Clear();
@@ -334,6 +337,7 @@ namespace SSW
                 return;
             }
             _inMatch = true;
+            _maps.Begin();
             NetMatch match = Instantiate(_matchPrefab);
             match.NetworkObject.Spawn(true);
             int slot = 0;
@@ -384,6 +388,7 @@ namespace SSW
                 if (item.TryGetComponent<NetCard>(out _) || item.TryGetComponent<NetPotion>(out _)
                     || item.TryGetComponent<NetZone>(out _) || item.TryGetComponent<NetBolt>(out _)) item.Despawn();
             foreach (NetPlayer player in _players.ToArray()) player.NetworkObject.Despawn();
+            _maps.Restart(Match.State.Phase == MatchPhase.SetEnd);
             foreach (var saved in players)
             {
                 NetPlayer player = Instantiate(_playerPrefab, Arena.Spawn(saved.Side == 1 ? 0 : 1), Quaternion.identity);

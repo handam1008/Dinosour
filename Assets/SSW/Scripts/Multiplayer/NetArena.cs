@@ -8,6 +8,7 @@ namespace SSW
         [SerializeField] Camera _view;
         [SerializeField] SandboxCameraFollow _follow;
         [SerializeField] SpawnPoints _spawnPoints;
+        [SerializeField] GameObject _baseMap;
         [SerializeField] GameObject[] _offline;
         [SerializeField] Behaviour[] _localTools;
         [SerializeField] float _fallY = -12f;
@@ -15,8 +16,16 @@ namespace SSW
 
         public Camera View => _view;
         public int Side { get; private set; } = 1;
-        public float FallY => _fallY;
-        public Vector3 Spawn(int slot) => _spawnPoints.At(slot);
+        public BattleMap Map { get; private set; }
+        public float FallY => Map != null ? Map.FallY : _fallY;
+        public Vector3 Spawn(int slot) => Map != null ? Map.Spawn(slot) : _spawnPoints.At(slot);
+
+        public void UseMap(BattleMap map)
+        {
+            Map = map;
+            _baseMap.SetActive(false);
+            _follow.SetBounds(map.Bounds);
+        }
 
         void Awake()
         {
