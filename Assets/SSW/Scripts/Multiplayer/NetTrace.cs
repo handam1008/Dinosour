@@ -15,6 +15,7 @@ namespace SSW
             public int part;
             public bool preview;
             public bool ending;
+            public Vector2 end;
             public bool blocked;
             public float age;
             public uint turn;
@@ -109,7 +110,7 @@ namespace SSW
                     shots.Add(new Shot
                     {
                         caster = caster.NetworkObjectId, action = tail.Action, part = tail.Part,
-                        ending = true, position = tail.transform.position
+                        ending = true, position = tail.transform.position, end = tail.Point
                     });
             var map = game.Arena.Map;
             var gust = map == null ? null : map.GetComponentInChildren<MapGust>();

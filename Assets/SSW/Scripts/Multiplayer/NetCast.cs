@@ -302,11 +302,13 @@ namespace SSW
             double viewTime = NetGame.Current.ServerTime;
             foreach (NetPlayer player in NetGame.Current.Players)
                 if (player != _player) viewTime = player.ViewTime;
-            CastRpc(new CastInput
+            var input = new CastInput
             {
                 Action = action, Epoch = _player.Epoch, Tick = _player.CastTick,
                 Kind = kind, Direction = direction, ViewTime = viewTime, Stock = stock
-            }, _player.CastPacket);
+            };
+            if (_jobCast != null) _jobCast.Prepare(ref input);
+            CastRpc(input, _player.CastPacket);
         }
 
         [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Owner)]
@@ -439,6 +441,10 @@ namespace SSW
         }
 
         public void ReadPreviews(System.Action<uint, int, Vector2, bool> read) => _preview?.Read(read);
+
+        internal bool PreviewPoint(uint action, out Vector2 point) => _preview.Point(action, out point);
+        internal void HoldPreview(uint action, bool hold) => _preview.Hold(action, hold);
+        internal float RecallWindow => (float)Allowance;
 
         uint Draw(uint tick, uint start, uint salt)
         {

@@ -79,7 +79,9 @@ namespace SSW
             Player.Cast.Presented();
         }
 
-        public void Reject(uint action) => _pending.RemoveAll(input => input.Action == action);
+        public virtual void Reject(uint action) => _pending.RemoveAll(input => input.Action == action);
+
+        public virtual void Prepare(ref CastInput input) { }
 
         protected virtual void PredictAction(CastInput input) { }
 

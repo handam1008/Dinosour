@@ -23,6 +23,7 @@ namespace SSW
             public float Age;
             public float Life;
             public bool Started;
+            public bool Held;
         }
 
         readonly List<Shot> _shots = new List<Shot>(8);
@@ -136,6 +137,7 @@ namespace SSW
                 Shot shot = _shots[i];
                 if (shot.Action != action || shot.Part != part) continue;
                 target.Adopt(shot.View.transform, shot.Normal, shot.Contact, shot.Target);
+                target.Hold(shot.Held);
                 Remove(i);
                 return true;
             }
@@ -147,6 +149,24 @@ namespace SSW
             foreach (Shot shot in _shots)
                 if (shot.Started && shot.View.enabled)
                     read(shot.Action, shot.Part, shot.View.transform.position, shot.Normal.sqrMagnitude > 0f || shot.Target.Blocked);
+        }
+
+        public bool Point(uint action, out Vector2 point)
+        {
+            foreach (Shot shot in _shots)
+                if (shot.Action == action && shot.Started && shot.View.enabled)
+                {
+                    point = shot.View.transform.position;
+                    return true;
+                }
+            point = default;
+            return false;
+        }
+
+        public void Hold(uint action, bool hold)
+        {
+            foreach (Shot shot in _shots)
+                if (shot.Action == action) shot.Held = hold;
         }
 
         public void Reject(uint action)
@@ -168,6 +188,7 @@ namespace SSW
                 }
                 shot.Age += delta;
                 if (shot.Age >= shot.Life) { Remove(i); continue; }
+                if (shot.Held) continue;
                 Vector2 before = shot.View.transform.position;
                 Vector2 next = before;
                 if (shot.Normal.sqrMagnitude > 0f && !ShotQuery.Touches(shot.Contact, before, shot.Radius, shot.Size))

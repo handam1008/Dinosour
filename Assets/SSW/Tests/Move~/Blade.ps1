@@ -29,10 +29,19 @@ function Await($label, [scriptblock]$condition, $timeout = 35) {
     @{label=$label;host=$h;client=$c}|ConvertTo-Json -Depth 14|Set-Content "$root/Failure.json"
     throw "Timeout: $label (host $($h.phase) set $($h.set); client $($c.phase) set $($c.set))"
 }
+function WriteCommand($path,$json) {
+    $temporary=$path+'.tmp'
+    [IO.File]::WriteAllText($temporary,$json)
+    $until=[DateTime]::UtcNow.AddSeconds(3)
+    do{
+        try{[IO.File]::Move($temporary,$path,$true);return}
+        catch [IO.IOException]{if([DateTime]::UtcNow -ge $until){throw};Start-Sleep -Milliseconds 20}
+    }while($true)
+}
 function Send($peer, $op, $value = 0, $x = 0, $y = 0) {
     $seq[$peer]++
     $json = @{ seq=$seq[$peer]; op=$op; value=$value; x=$x; y=$y } | ConvertTo-Json -Compress
-    [IO.File]::WriteAllText("$root/$peer.cmd.json", $json)
+    WriteCommand "$root/$peer.cmd.json" $json
     if ($op -eq 'quit') { return }
     $until = [DateTime]::UtcNow.AddSeconds(5)
     while ((Read $peer).seq -lt $seq[$peer]) {
@@ -66,17 +75,17 @@ function Click($peer,$target){
     $until=[DateTime]::UtcNow.AddSeconds(8)
     while(@((Menu $peer).buttons|Where-Object {$_.name -eq $target -and $_.enabled}).Count -eq 0){if([DateTime]::UtcNow -gt $until){throw "Button unavailable $target"};Start-Sleep -Milliseconds 80}
     $menuSeq[$peer]++
-    [IO.File]::WriteAllText("$root/$peer.menu.cmd.json",(@{seq=$menuSeq[$peer];op='click';target=$target}|ConvertTo-Json -Compress))
+    WriteCommand "$root/$peer.menu.cmd.json" (@{seq=$menuSeq[$peer];op='click';target=$target}|ConvertTo-Json -Compress)
     $until=[DateTime]::UtcNow.AddSeconds(6)
     while((Menu $peer).seq -lt $menuSeq[$peer]){if([DateTime]::UtcNow -gt $until){throw "Click timeout $target"};Start-Sleep -Milliseconds 70}
 }
 function Map($title){
-    Eval ('var game=SSW.NetGame.Current;var rotation=game.GetComponent<SSW.MapRotation>();int index=0;while(rotation.Prefabs[index].Title!="'+$title+'")index++;typeof(SSW.MapRotation).GetField("_index",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).SetValue(rotation,index);rotation.Restart(false);foreach(var p in game.Players)p.Drive.Teleport(game.Arena.Spawn(p.Side==1?0:1));return true;')|Out-Null
+    Eval ('var game=SSW.NetGame.Current;var rotation=game.GetComponent<SSW.MapRotation>();int index=0;while(rotation.Prefabs[index].Title!="'+$title+'")index++;typeof(SSW.MapRotation).GetField("_index",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).SetValue(rotation,index);rotation.Restart(false);typeof(SSW.BattleMap).GetField("_fallY",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).SetValue(game.Arena.Map,-100000f);foreach(var p in game.Players)p.Drive.Teleport(game.Arena.Spawn(p.Side==1?0:1));return true;')|Out-Null
     Await 'test map loaded' {$h.map -eq $title -and $c.map -eq $title -and $h.mapObject -eq $c.mapObject}
 }
 function MenuCmd($peer,$op,$target='',$text='',$value=0){
     $menuSeq[$peer]++
-    [IO.File]::WriteAllText("$root/$peer.menu.cmd.json",(@{seq=$menuSeq[$peer];op=$op;target=$target;text=$text;value=$value}|ConvertTo-Json -Compress))
+    WriteCommand "$root/$peer.menu.cmd.json" (@{seq=$menuSeq[$peer];op=$op;target=$target;text=$text;value=$value}|ConvertTo-Json -Compress)
     $until=[DateTime]::UtcNow.AddSeconds(6)
     while((Menu $peer).seq -lt $menuSeq[$peer]){if([DateTime]::UtcNow -gt $until){throw 'Menu command timeout'};Start-Sleep -Milliseconds 50}
 }
@@ -110,6 +119,8 @@ try{
     Map 'KDH_Map 2'
     Eval 'foreach(var p in SSW.NetGame.Current.Players){typeof(SSW.Health).GetMethod("SetMax",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).Invoke(p.Health,new object[]{10000f});p.Health.Heal(10000);}return true;'|Out-Null
     Check ((Player $h host).job -eq 'Assassin' -and (Player $c client).job -eq 'Assassin') 'both peers use assassin'
+    $released=Eval 'var obj=new UnityEngine.GameObject("Hold Check");try{var shot=obj.AddComponent<SSW.ShotSync>();shot.Hold(true);shot.Deflect(SSW.NetGame.Current.Local);return !(bool)typeof(SSW.ShotSync).GetField("_held",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).GetValue(shot);}finally{UnityEngine.Object.Destroy(obj);}'
+    Check $released 'reflected blade releases recall hold'
     if(-not $SkipSlopes){foreach($kind in @('ground','platform')){
         foreach($angle in @(45,-45)){
             Fixture $kind $angle
@@ -151,7 +162,7 @@ try{
             (Read host)|ConvertTo-Json -Depth 14|Set-Content "$root/Before-$angle-$owner.json"
             if($angle -eq 90){Send $owner cycle 1 1 0}else{Send $owner cycle 1 0 -1}
             $until=[DateTime]::UtcNow.AddSeconds(3)
-            do{$knife=Blade $owner; $knife|ConvertTo-Json|Add-Content "$root/Knife-$angle-$owner-Samples.json";if($knife -and $knife.speed -lt 0.01){break};if([DateTime]::UtcNow -gt $until){throw "Knife did not stick: $angle $owner"};Start-Sleep -Milliseconds 60}while($true)
+            do{$knife=Blade $owner; $knife|ConvertTo-Json|Add-Content "$root/Knife-$angle-$owner-Samples.json";if($knife -and $knife.speed -lt 0.01){break};if([DateTime]::UtcNow -gt $until){(Read host)|ConvertTo-Json -Depth 14|Set-Content "$root/Knife-$angle-$owner-Failure.json";throw "Knife did not stick: $angle $owner"};Start-Sleep -Milliseconds 60}while($true)
             Check ($knife.fits) "$owner $angle knife destination fits"
             $knife|ConvertTo-Json|Set-Content "$root/Knife-$angle-$owner.json"
             $trace++
@@ -170,8 +181,9 @@ try{
     Fixture ground 0
     foreach($owner in @('host','client')){
         Eval 'foreach(var p in SSW.NetGame.Current.Players){var field=typeof(SSW.JobCast).GetField("_state",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);var value=(Unity.Netcode.NetworkVariable<SSW.WeaponState>)field.GetValue(p.Cast.Weapon);var state=value.Value;state.Skill=0;state.Ammo=0;value.Value=state;}return true;'|Out-Null
-        Warp $owner 1000 7
-        Await 'air warp synchronized' {(Player $h $owner).epoch -eq (Player $c $owner).epoch} 3
+        Warp $owner 1000 3
+        Await 'air warp synchronized' {(Player $h $owner).epoch -eq (Player $c $owner).epoch -and (Player $h $owner).grounded -and (Player $c $owner).grounded} 3
+        Start-Sleep -Milliseconds 400
         $epoch=(Player $h $owner).epoch
         $caster=(Player $h $owner).objectId
         $trace++
@@ -179,17 +191,27 @@ try{
         Send $owner cycle 1 1 0
         Start-Sleep -Milliseconds 160
         Send $owner cycle 1 1 0
+        $recallAt=[DateTime]::UtcNow.Ticks
         Await 'air blink' {(Player $h $owner).epoch -gt $epoch -and (Player $c $owner).epoch -gt $epoch} 4
         Await 'air trace saved' {(Test-Path "$root/$owner.trace.$trace.json")} 4
         $frames=(Get-Content "$root/$owner.trace.$trace.json" -Raw|ConvertFrom-Json).frames
-        $frame=@($frames|Where-Object {$_.epoch -gt $epoch -and @($_.shots|Where-Object {$_.caster -eq $caster -and $_.ending}).Count -gt 0})[0]
-        if($frame){
-            $tail=@($frame.shots|Where-Object {$_.caster -eq $caster -and $_.ending})[0]
-            $error=[Math]::Sqrt([Math]::Pow($frame.body.x-$tail.position.x,2)+[Math]::Pow($frame.body.y-$tail.position.y,2))
-            Check ($error -lt 0.4) "$owner airborne blink matches consumed blade ($error)"
+        $frame=@($frames|Where-Object {$_.epoch -gt $epoch})[0]
+        $tail=@($frames|ForEach-Object {$_.shots}|Where-Object {$_.caster -eq $caster -and $_.ending})[0]
+        if($frame -and $tail){
+            $error=[Math]::Sqrt([Math]::Pow($frame.body.x-$tail.end.x,2)+[Math]::Pow($frame.body.y-$tail.end.y,2))
+            Check ($error -lt 0.65) "$owner airborne blink matches authoritative blade end ($error)"
+            $held=@($frames|Where-Object {$_.utc -ge $recallAt -and $_.epoch -eq $epoch})
+            $points=@($held|ForEach-Object {$_.shots|Where-Object {$_.caster -eq $caster -and -not $_.ending}})
+            Check ($points.Count -ge 2) "$owner recall hold spans network wait"
+            $travel=0.0
+            foreach($point in $points){$distance=[Math]::Sqrt([Math]::Pow($point.position.x-$points[0].position.x,2)+[Math]::Pow($point.position.y-$points[0].position.y,2));$travel=[Math]::Max($travel,$distance)}
+            Check ($travel -lt 0.05) "$owner recalled blade stays at selected point ($travel)"
         }else{
-            Check ($owner -eq 'host') "$owner airborne blink has authoritative blade end"
-            Check ($true) 'host airborne knife recall increments teleport epoch'
+            $prior=@($frames|Where-Object {$_.epoch -eq $epoch}|ForEach-Object {$_.shots}|Where-Object {$_.caster -eq $caster -and -not $_.ending -and -not $_.preview})
+            Check ($owner -eq 'host' -and $frame -and $prior.Count -gt 0) "$owner airborne blink has server flight trace"
+            $last=$prior[-1]
+            $error=[Math]::Sqrt([Math]::Pow($frame.body.x-$last.position.x,2)+[Math]::Pow($frame.body.y-$last.position.y,2))
+            Check ($error -lt 0.85) "host first airborne blink frame matches last server blade frame ($error)"
         }
     }
     @{checks=$checks.Count;host=$h;client=$c;build=$Build}|ConvertTo-Json -Depth 14|Set-Content "$root/Result.json"
