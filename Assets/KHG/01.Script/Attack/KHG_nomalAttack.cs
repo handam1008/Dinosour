@@ -7,6 +7,10 @@ namespace NKY.Scripts
 {
     public class KHG_nomalAttack : MonoBehaviour
     {
+        [Header("애니메이션 설정")]
+        [SerializeField] private Animator swordAnimator; 
+        [SerializeField] private string attackTriggerName = "Attack";
+        
         [Header("공격 설정")] [SerializeField] private float damage = 30f;
         [SerializeField] private float attackDuration = 0.1f;
         [SerializeField] private float attackCooldown = 0.3f;
@@ -22,6 +26,9 @@ namespace NKY.Scripts
 
         private void Awake()
         {
+            if (swordAnimator == null)
+                swordAnimator = GetComponent<Animator>();
+            
             if (attackCollider == null)
                 attackCollider = GetComponent<Collider2D>();
 
@@ -45,6 +52,11 @@ namespace NKY.Scripts
         private IEnumerator NormalAttack()
         {
             isAttacking = true;
+
+            if (swordAnimator != null)
+            {
+                swordAnimator.SetTrigger(attackTriggerName);
+            }
 
             hitTargets.Clear();
 
