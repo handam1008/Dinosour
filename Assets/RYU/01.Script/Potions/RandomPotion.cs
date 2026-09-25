@@ -194,12 +194,42 @@ public class RandomPotion : MonoBehaviour
     
     private AbstractPotion PickPotion()
     {
-        int extra = _augment != null ? _augment.Unlocked.Count : 0;
-        int total = potions.Count + extra;
-        if (total <= 0) return null;
+        IReadOnlyList<AbstractPotion> unlocked = _augment != null ? _augment.Unlocked : null;
 
-        int i = Random.Range(0, total);
-        return i < potions.Count ? potions[i] : _augment.Unlocked[i - potions.Count];
+        float total = TotalWeight(potions) + TotalWeight(unlocked);
+        if (total <= 0f) return null;
+
+        float pick = Random.Range(0f, total);
+
+        AbstractPotion result = Take(potions, ref pick);
+        if (result == null) result = Take(unlocked, ref pick);
+
+        return result;
+    }
+
+    private static float TotalWeight(IReadOnlyList<AbstractPotion> list)
+    {
+        if (list == null) return 0f;
+
+        float total = 0f;
+        for (int i = 0; i < list.Count; i++)
+            if (list[i] != null) total += list[i].weight;
+
+        return total;
+    }
+
+    private static AbstractPotion Take(IReadOnlyList<AbstractPotion> list, ref float pick)
+    {
+        if (list == null) return null;
+
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (list[i] == null) continue;
+
+            pick -= list[i].weight;
+            if (pick <= 0f) return list[i];
+        }
+        return null;
     }
 
     private PotionModifiers BuildMods()

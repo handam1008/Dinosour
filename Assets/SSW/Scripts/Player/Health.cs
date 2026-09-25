@@ -35,8 +35,8 @@ namespace SSW
             _authority = GetComponent<IHealthAuthority>();
             current = maxHealth;
             SpawnHealthBar();
-            HitEvent = Instantiate(hitEvent);
-            HealthChangeEvent = Instantiate(healthChangeEvent);
+            HitEvent = hitEvent != null ? Instantiate(hitEvent) : null;
+            HealthChangeEvent = healthChangeEvent != null ? Instantiate(healthChangeEvent) : null;
             if(HealthChangeEvent != null) OnHealthChanged += HealthChangeEvent.ChangeTupleRaise; // �ٲ� NKY
             if(HitEvent != null) OnDamaged += HitEvent.Raise; //�ٲ� NKY
         }
@@ -45,6 +45,8 @@ namespace SSW
         {
             if(HealthChangeEvent != null) OnHealthChanged -= HealthChangeEvent.ChangeTupleRaise; // �ٲ� NKY
             if(HitEvent != null) OnDamaged -= HitEvent.Raise; //�ٲ� NKY
+            Destroy(HitEvent);
+            Destroy(HealthChangeEvent);
         }
 
         public void TakeDamage(float amount)

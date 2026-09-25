@@ -347,11 +347,6 @@ CapsuleCollider2D:
   m_CorrespondingSourceObject: {fileID: 5480971253375532829, guid: b89645d7b3c954847a11576c13269860, type: 3}
   m_PrefabInstance: {fileID: 17800838}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &17800840 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3017196835076093405, guid: b89645d7b3c954847a11576c13269860, type: 3}
-  m_PrefabInstance: {fileID: 17800838}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &17800843 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2839131585592196339, guid: b89645d7b3c954847a11576c13269860, type: 3}
@@ -1527,11 +1522,6 @@ CapsuleCollider2D:
   m_CorrespondingSourceObject: {fileID: 4251979090183284226, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
   m_PrefabInstance: {fileID: 950844762}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &950844764 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 147562990663470886, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
-  m_PrefabInstance: {fileID: 950844762}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &960969405
 GameObject:
   m_ObjectHideFlags: 0
@@ -1982,15 +1972,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed463b7081238b444baae8673dd43523, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SSW.SandboxCameraFollow
-  _player: {fileID: 950844764}
-  _opponent: {fileID: 17800840}
   _minimum: {x: -17, y: -4}
   _maximum: {x: 17, y: 7}
-  _smoothTime: 0.18
-  _minimumSize: 6.2
-  _maximumSize: 10
-  _introSize: 13
-  _introDuration: 2.4
+  _padding: 1
 --- !u!114 &1467973679
 MonoBehaviour:
   m_ObjectHideFlags: 0
