@@ -26,6 +26,7 @@ namespace SSW
         float _age;
         int _bounces;
         bool _stuck;
+        Vector2 _normal;
         public BoltSpec Spec => _spec.Value;
         public uint Action => _action.Value;
         public ulong Caster => _caster.Value;
@@ -33,6 +34,8 @@ namespace SSW
         public Sprite Sprite(int style) => _styles[style];
         public NetPlayer Owner => _owner;
         public Vector2 Velocity => _body.linearVelocity;
+        public Vector2 Position => _body.position;
+        public Vector2 Normal => _normal;
 
         public void Init(NetPlayer owner, IBoltReceiver receiver, uint action, Vector2 direction, BoltSpec spec, double lag)
         {
@@ -133,6 +136,7 @@ namespace SSW
                 else if (Spec.Stick)
                 {
                     _stuck = true;
+                    _normal = normal;
                     _body.linearVelocity = Vector2.zero;
                     _body.angularVelocity = 0f;
                     _flight.Redirect();

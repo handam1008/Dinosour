@@ -73,10 +73,9 @@ namespace SSW
             if (input.Kind != CastKind.Cycle) return;
             if (_knife != null && _knife.IsSpawned)
             {
-                Vector2 point = _knife.transform.position;
                 Vector2 velocity = _knife.Velocity.normalized;
-                Drive.Blink(point);
-                Drive.ApplyForce(velocity * 10f, ForceMode2D.Impulse);
+                if (Drive.Blink(_knife.Position, _knife.Normal, _knife.Spec.Radius))
+                    Drive.ApplyForce(velocity * 10f, ForceMode2D.Impulse);
                 _knife.Finish();
                 _knife = null;
             }
