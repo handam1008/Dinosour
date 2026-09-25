@@ -331,6 +331,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Trail Effect
       objectReference: {fileID: 0}
+    - target: {fileID: 2076077248299556849, guid: 21bf7e75c6a76af4cbe1e57da30424eb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3363916041165647636, guid: 21bf7e75c6a76af4cbe1e57da30424eb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
