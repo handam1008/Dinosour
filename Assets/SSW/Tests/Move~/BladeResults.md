@@ -35,11 +35,14 @@
 
 ## 빌드
 
-- 배포용 빌드 build_acabdc734d6f 진행 중. 출력: Builds/Play/Game.exe.
-- 완료 후 시작 확인 및 Base/SSW 반영 예정. 다른 팀원 폴더와 기존 사용자 변경은 수정하지 않는다.
+- 배포용 빌드 build_acabdc734d6f: 성공, 오류 0, 경고 10. 출력: Builds/Play/Game.exe. 소스 커밋: a2516e9b05ff02b618ed2b1c1a42b34fd3bc7642.
+- 배포 DLL에서 Protocol 13, 반사 시 회수 고정 해제, 개발 전용 NetProbe 미포함을 확인했다.
+- 배포 실행 파일을 별도 프로필로 10초 실행했다. 엔진·입력·GameAudio 초기화를 확인했고 프로세스 조기 종료나 시작 로그의 런타임 예외는 없었다. 배포 빌드 검사는 시작 확인이며, 멀티 동작은 위 개발 빌드의 Relay 검사 결과다.
+- 경고 10개는 Unity Services·Pipeline 설정 안내 2개와 팀원 코드의 컴파일 경고 8개다. 다른 팀원 폴더와 기존 사용자 변경은 수정하지 않았다.
+- 양쪽 PC에서 Play 폴더 전체를 동일 버전으로 교체해야 한다.
 
 ## 재실행
 
 연결된 에디터에서 JumpChecks.cs·Placement.cs·Recall.cs는 eval_file, MotionChecks.cs는 run_script의 MotionChecks.Main으로 실행한다. 프로젝트 루트에서 Move~/Blade.ps1에 새 Run 이름을 지정하면 비공개 Relay 검사와 종료 정리를 실행한다. 공중 회수만 확인할 때는 -SkipSlopes -Angles @()를 사용한다.
 
-증거: Logs/Blade26의 JumpBefore.json, SlopeBefore.json, OverlapBefore.json, JumpChecks.cs.json, Placement.cs.json, Water.cs.json, Recall.json, Recall.txt, Build2.json, Build3.json, HoldRead3.json, ReleaseStart.json 및 Relay1~Relay8 디렉터리.
+증거: Logs/Blade26의 JumpBefore.json, SlopeBefore.json, OverlapBefore.json, JumpChecks.cs.json, Placement.cs.json, Water.cs.json, Recall.json, Recall.txt, Build2.json, Build3.json, HoldRead3.json, ReleaseStart.json, Release.json, ReleaseAssembly.json, ReleaseSmoke.json, ReleaseSmoke.log 및 Relay1~Relay8 디렉터리.
