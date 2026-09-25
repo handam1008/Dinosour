@@ -11,12 +11,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6fb1d2c4-7096-4d2f-81e7-2333f2fed1f9" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/AJH/01.Scripts/Barrier/BarrierHitbox.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/AJH/01.Scripts/Barrier/BarrierHitbox.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AJH/00.Scence/Test.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AJH/00.Scence/Test.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AJH/01.Scripts/Augment/DefanceAugmentController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AJH/01.Scripts/Augment/DefanceAugmentController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AJH/01.Scripts/Augment/FreezeEffect.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AJH/01.Scripts/Augment/FreezeEffect.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AJH/01.Scripts/Augment/SkillAugmentController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AJH/01.Scripts/Augment/SkillAugmentController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/AJH/01.Scripts/Barrier/Defance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AJH/01.Scripts/Barrier/Defance.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AJH/02.Prefabs/Barrier.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AJH/02.Prefabs/Barrier.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AJH/02.Prefabs/Explosion.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AJH/02.Prefabs/Explosion.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AJH/02.Prefabs/Line.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AJH/02.Prefabs/Line.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/AJH/02.Prefabs/SlowArea.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/AJH/02.Prefabs/SlowArea.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AJH/02.Prefabs/vfx.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/AJH/02.Prefabs/vfx.prefab.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,6 +91,7 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@cfd429cc91ec/Runtime/Core/NetworkBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@cfd429cc91ec/Runtime/Core/NetworkObject.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.netcode.gameobjects@cfd429cc91ec/Runtime/Transports/UTP/UnityTransport.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.pipeline@ab05e9cd7f74/Runtime/Common/BasePipelineServer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.render-pipelines.universal@748d7458cc62/Editor/Overrides/BloomEditor.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.services.authentication@9a8b7a204688/Player Accounts/Runtime/PlayerAccountService.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.services.leaderboards@4afe9822e038/Runtime/Models/LeaderboardsModels.cs" root0="FORCE_HIGHLIGHTING" />

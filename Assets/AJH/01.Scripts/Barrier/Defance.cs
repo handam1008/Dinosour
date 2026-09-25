@@ -7,7 +7,7 @@ public class Defance : MonoBehaviour, IIncomingDamageModifier
 {
     [SerializeField] float _coolDown = 3f;
     [SerializeField] float _barrierContinue = 0.5f;
-    [SerializeField] Health _health;
+    Health _health;
     [SerializeField] BarrierHitbox _barrier;
 
     public event Action OnBarrierUsed;
@@ -34,13 +34,14 @@ public class Defance : MonoBehaviour, IIncomingDamageModifier
 
     void Awake()
     {
-        //if (_barrier != null) _barrier.SetActive(false);
+        _barrier.Bind(GetComponent<Health>());
+        _barrier.gameObject.SetActive(false);
     }
 
     void Update()
     {
-        //if (_barrier != null && _barrier.activeSelf != IsGuarding)
-         //   _barrier.SetActive(IsGuarding);
+        if (_barrier.gameObject.activeSelf != IsGuarding)
+            _barrier.gameObject.SetActive(IsGuarding);
 
         if (Mouse.current == null) return;
         if (!Mouse.current.rightButton.wasPressedThisFrame) return;
