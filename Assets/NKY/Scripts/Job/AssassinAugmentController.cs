@@ -16,12 +16,20 @@ namespace NKY.Scripts.Job
         [SerializeField] private List<AbstractAssassinAugmentSO> _augmentDatabase;
 
         [Header("Event Channels")]
-        [SerializeField] private VoidEventChannelSO _onSkillUsedChannel;
-        [SerializeField] private VoidEventChannelSO _onHitChannel;
-        [SerializeField] private GameObjectEventChannelSO _onBasicAttackChannel;
-        [SerializeField] private DamageInfoEventChannelSO _onDamageCalculateChannel;
-        [SerializeField] private DoubleFloatEventChannelSO _onHealthChangedChannel;
-        [SerializeField] private VoidEventChannelSO _onRoundStart;
+        [SerializeField] private VoidEventChannelSO onSkillUsedChannel;
+        [SerializeField] private VoidEventChannelSO onHitChannel;
+        [SerializeField] private GameObjectEventChannelSO onBasicAttackChannel;
+        [SerializeField] private DamageInfoEventChannelSO onDamageCalculateChannel;
+        [SerializeField] private DoubleFloatEventChannelSO onHealthChangedChannel;
+        [SerializeField] private VoidEventChannelSO onRoundStart;
+        
+        private VoidEventChannelSO _onSkillUsedChannel;
+        private VoidEventChannelSO _onHitChannel;
+        private GameObjectEventChannelSO _onBasicAttackChannel;
+        private DamageInfoEventChannelSO _onDamageCalculateChannel;
+        private DoubleFloatEventChannelSO _onHealthChangedChannel;
+        private VoidEventChannelSO _onRoundStart;
+
 
         // 현재 '활성화(보유)'된 증강만 담는 딕셔너리
         private readonly Dictionary<AssassinAugmentType, AbstractAssassinAugmentSO> _activeAugments = new();
@@ -59,6 +67,16 @@ namespace NKY.Scripts.Job
         {
             base.Awake();
             _context = new AugmentContext(transform.parent.gameObject, this);
+        }
+
+        private void Start()
+        {
+            _onSkillUsedChannel = Instantiate(onSkillUsedChannel); 
+            _onHitChannel = Instantiate(onHitChannel); 
+            _onBasicAttackChannel = Instantiate(onBasicAttackChannel); 
+            _onDamageCalculateChannel = Instantiate(onDamageCalculateChannel);
+            _onHealthChangedChannel = GetComponent<Health>().HealthChangeEvent;
+            _onRoundStart = Instantiate(onRoundStart);
         }
 
         public override bool TryReceive(Augment augment)
