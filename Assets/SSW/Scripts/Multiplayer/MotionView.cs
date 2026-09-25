@@ -16,6 +16,14 @@ namespace SSW
             public float Duration;
         }
 
+        struct PulseInput
+        {
+            public uint Id;
+            public uint Epoch;
+            public double At;
+            public Vector2 Force;
+        }
+
         struct Snapshot
         {
             public double Time;
@@ -43,6 +51,7 @@ namespace SSW
         MotionMotor _motor;
         MotionState _state;
         DashInput _dash;
+        PulseInput _pulse;
         Vector3 _baseScale;
         MotionFrame _last;
         Vector2 _previous;
@@ -85,6 +94,7 @@ namespace SSW
         public uint Epoch => _state.Epoch;
         public uint Processed => _processed;
         public uint JumpSequence => _state.Jump;
+        public uint PulseSequence => _state.Pulse;
         public uint Tick => _tick;
         public float InputDelay => IsOwner && !IsServer ? Mathf.Max(0f, (long)_tick - _processed) * Time.fixedDeltaTime : 0f;
         public float Correction { get; private set; }
@@ -129,6 +139,7 @@ namespace SSW
             if (IsOwner)
             {
                 MotionFrame input = _player.ReadInput(++_tick);
+                input.Pulse = System.Math.Max(_state.Pulse, _pulse.Id);
                 _history.Store(input);
                 if (IsServer)
                 {
@@ -161,6 +172,7 @@ namespace SSW
 
         void Predict(MotionFrame input, bool playing)
         {
+            AdvancePulse(input, playing);
             if (playing && _dash.Action > _state.DashAction && _dash.Epoch == _state.Epoch && input.Tick > _dash.Tick)
             {
                 _state.DashAction = _dash.Action;
@@ -189,6 +201,7 @@ namespace SSW
                 _rate = _motion.Rate;
                 _speed = _rate.Value;
                 _player.ApplyInput(input);
+                AdvancePulse(input, _player.CanAct);
                 _motor.Step(ref _state, input, _speed, Time.fixedDeltaTime, _player.CanAct);
                 _processed = tick;
                 _inputBudget.Spend(Time.fixedDeltaTime);
@@ -204,6 +217,7 @@ namespace SSW
             MotionFrame input = _last;
             if (Time.realtimeSinceStartupAsDouble - _lastInputAt > 0.12d) input.Move = Vector2.zero;
             input.Jump = _state.Jump;
+            AdvancePulse(input, _player.CanAct);
             _motor.Step(ref _state, input, _speed, Time.fixedDeltaTime, _player.CanAct);
         }
 
@@ -266,6 +280,7 @@ namespace SSW
             _speed = rate.Value;
             bool relocated = state.Epoch != _state.Epoch;
             if (relocated || state.DashAction >= _dash.Action) _dash = default;
+            if (relocated || state.Pulse >= _pulse.Id) _pulse = default;
             if (!IsOwner)
             {
                 if (relocated)
@@ -370,6 +385,28 @@ namespace SSW
         public void ApplyForce(Vector2 force, ForceMode2D mode)
         {
             if (!IsServer || !_player.CanAct || !NetMath.Finite(force)) return;
+            Push(force, mode);
+        }
+
+        public void Pulse(uint id, Vector2 force)
+        {
+            if ((!IsServer && !IsOwner) || !_player.CanAct || id <= _state.Pulse || !NetMath.Finite(force)) return;
+            _pulse = new PulseInput { Id = id, Epoch = _state.Epoch, At = Time.realtimeSinceStartupAsDouble, Force = force };
+            if (IsServer && !IsOwner) return;
+            _state.Pulse = id;
+            Push(force, ForceMode2D.Impulse);
+        }
+
+        void AdvancePulse(MotionFrame input, bool playing)
+        {
+            if (!playing || _pulse.Id <= _state.Pulse || _pulse.Epoch != _state.Epoch) return;
+            if (input.Pulse < _pulse.Id && (!IsServer || Time.realtimeSinceStartupAsDouble - _pulse.At < 0.5d)) return;
+            _state.Pulse = _pulse.Id;
+            Push(_pulse.Force, ForceMode2D.Impulse);
+        }
+
+        void Push(Vector2 force, ForceMode2D mode)
+        {
             float scale = (mode == ForceMode2D.Impulse ? 1f : Time.fixedDeltaTime) / Mathf.Max(0.0001f, _body.mass);
             if (Mathf.Abs(force.x) > 0.0001f) _state.External = force.x * scale;
             _state.Velocity.y += force.y * scale;
@@ -409,9 +446,10 @@ namespace SSW
         public void Teleport(Vector2 position)
         {
             if (!IsServer || !NetMath.Finite(position)) return;
-            _state = new MotionState { Epoch = _state.Epoch + 1, Position = position, Jump = _state.Jump,
+            _state = new MotionState { Epoch = _state.Epoch + 1, Position = position, Jump = _state.Jump, Pulse = System.Math.Max(_state.Pulse, _pulse.Id),
                 Scale = Scale, SmallTime = _state.SmallTime };
             _dash = default;
+            _pulse = default;
             if (IsOwner) _player.ResetJump(_state.Jump);
             _previous = position;
             _offset = Vector2.zero;

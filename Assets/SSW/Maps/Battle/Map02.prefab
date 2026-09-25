@@ -287,8 +287,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54db24d81e3cda64bb4d21f8ab55686c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SSW.LiftZone
-  _riseSpeed: 5.5
-  _acceleration: 90
+  _riseSpeed: 22
+  _acceleration: 130
 --- !u!114 &7277558805860764561 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4146126031271829574, guid: 07524295b11a54b43a1d5f40404ef481, type: 3}

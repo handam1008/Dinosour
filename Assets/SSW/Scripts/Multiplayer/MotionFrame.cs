@@ -7,6 +7,7 @@ namespace SSW
     {
         public uint Tick;
         public uint Jump;
+        public uint Pulse;
         public Vector2 Move;
         public Vector2 Aim;
 
@@ -17,6 +18,7 @@ namespace SSW
         {
             serializer.SerializeValue(ref Tick);
             serializer.SerializeValue(ref Jump);
+            serializer.SerializeValue(ref Pulse);
             serializer.SerializeValue(ref Move);
             serializer.SerializeValue(ref Aim);
         }

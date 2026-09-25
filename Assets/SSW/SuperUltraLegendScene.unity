@@ -1929,7 +1929,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10.45
+  orthographic size: 9
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1974,7 +1974,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SSW.SandboxCameraFollow
   _minimum: {x: -17, y: -4}
   _maximum: {x: 17, y: 7}
-  _padding: 1
+  _size: 9
 --- !u!114 &1467973679
 MonoBehaviour:
   m_ObjectHideFlags: 0
