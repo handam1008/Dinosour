@@ -43,3 +43,5 @@ unity command eval_file --file "D:/unity_project/Mushrooms/Assets/SSW/Tests/MapF
 
 원본 증거는 Logs/MapFeel25/AssetsChecks.json, Camera.json, Water.json, Relay3/Checks.txt, Relay3/Gust.json, Relay3/*.trace.*.json, Build3.json에 있다. Relay1은 테스트 배치 좌표 오류, Relay2는 수정 전 접속자 상승 튐 재현 기록이다.
 플레이용 빌드 build_69c02529f6e1 성공: 오류 0, 경고 10. 출력 경로 Builds/Play/Game.exe.
+
+최종 통합에서 Base 53fbedb의 칼 공격 변경을 보존했다. 재컴파일과 Packets.cs의 BoltSpec·MotionFrame·MotionState 직렬화 왕복 3건이 통과했다. 위 Relay3 수치는 해당 팀원 변경을 합치기 전 맵 수정 빌드의 기록이다.
