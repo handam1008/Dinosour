@@ -31,6 +31,10 @@ public class RandomPotion : MonoBehaviour
     
     public AbstractPotion Pocket => _pocket;
 
+    // UI 표시용
+    public bool PocketUsed => _pocketUsed;
+    public bool HasPocketAugment => _augment != null && _augment.Has(WitchAugmentType.Pocket);
+
     [SerializeField] private bool canCreate = false;
     [SerializeField] private bool canHand = false;
 

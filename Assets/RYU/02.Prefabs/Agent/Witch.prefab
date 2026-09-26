@@ -163,6 +163,7 @@ MonoBehaviour:
   Angle: 0.3
   cycleTime: 1.5
   spreadAngle: 24
+  throwSound: {fileID: 0}
   canCreate: 0
   canHand: 0
 --- !u!1 &5068830034246446362
@@ -322,7 +323,6 @@ GameObject:
   - component: {fileID: 5584472989402170578}
   - component: {fileID: 7894245468821844901}
   - component: {fileID: 7446115595534520450}
-  - component: {fileID: 4329336291441170311}
   m_Layer: 3
   m_Name: Witch
   m_TagString: Player
@@ -430,6 +430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _moveSpeed: 7
   _jumpForce: 12
+  _coyoteTime: 0.12
   _externalVelocityDecay: 12
   _counterMoveBrake: 30
   _whatIsGround:
@@ -590,19 +591,6 @@ MonoBehaviour:
   _multiscaleReduction: 0.5
   _regenAmount: 1
   _regenInterval: 1
---- !u!114 &4329336291441170311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8344356039665309093}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90b9676cda586e14d92551d35bf292a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.FeedBack.BoneDeathFX
-  _deathFeedBack: {fileID: 0}
 --- !u!1 &8387797616486615991
 GameObject:
   m_ObjectHideFlags: 0
