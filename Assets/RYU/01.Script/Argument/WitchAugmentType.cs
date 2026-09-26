@@ -11,5 +11,6 @@ namespace RYU._01.Script.Argument
         PrecisionDispensing,
         brokenGlass,
         AllUnlock,
+        Pocket,
     }
 }
