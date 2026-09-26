@@ -94,8 +94,10 @@ try
     Check(view.VisibleAmmo == 9 && view.ChargedAmmo == 9, "all nine loaded rounds are visible and charged");
     var muzzle = view.Muzzle(UnityEngine.Vector2.zero, UnityEngine.Vector2.right, 1f);
     var reversed = view.Muzzle(UnityEngine.Vector2.zero, UnityEngine.Vector2.left, 1f);
-    Check(UnityEngine.Vector2.Distance(muzzle, new UnityEngine.Vector2(1f, 0.7f)) < 0.001f, "muzzle preserves original right facing offset");
-    Check(UnityEngine.Vector2.Distance(reversed, new UnityEngine.Vector2(-1f, 0.7f)) < 0.001f, "muzzle mirrors above gun for left facing shots");
+    var sourceGun = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.GameObject>("Assets/KDH/GameModules/KDH_Player Variant.prefab").GetComponent<KDH.Scripts.Gun.KDH_Gun>();
+    UnityEngine.Vector2 sourceMuzzle = sourceGun.GunPos.localPosition;
+    Check(UnityEngine.Vector2.Distance(muzzle, sourceMuzzle) < 0.001f, "muzzle preserves original right facing offset");
+    Check(UnityEngine.Vector2.Distance(reversed, new UnityEngine.Vector2(-sourceMuzzle.x, sourceMuzzle.y)) < 0.001f, "muzzle mirrors above gun for left facing shots");
     Check(UnityEngine.Vector2.Distance(view.Muzzle(UnityEngine.Vector2.zero, UnityEngine.Vector2.right, 0.5f), muzzle * 0.5f) < 0.001f, "muzzle follows shrink scale");
     Set(player.Drive, "_state", new SSW.MotionState { Scale = 1f });
     var wall = new UnityEngine.GameObject("Gun wall");
