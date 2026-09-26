@@ -20,6 +20,8 @@ namespace SSW
         [SerializeField] MotionView _prediction;
         [SerializeField] PlayerFx _effects;
         [SerializeField] NetBuff _buffs;
+        [SerializeField] BuffGuard _guard;
+        public BuffGuard Guard => _guard;
         public PlayerInput Input => _input;
         public PlayerController Motion => _motion;
         public MotionView Drive => _prediction;
@@ -81,8 +83,9 @@ namespace SSW
         public Vector2 Velocity => _prediction.Velocity;
         public float ResponseTime => Mathf.Clamp(0.2f + 1.5f * Mathf.Max(_prediction.InputDelay,
             NetworkManager.NetworkConfig.NetworkTransport.GetCurrentRtt(NetworkManager.ServerClientId) * 0.001f), 0.8f, 2.5f);
-        public Vector2 Aim => _aim;
+        public Vector2 Aim => IsOwner || IsServer ? _aim : _prediction.Aim;
         public int Side => _side.Value;
+        public bool CanAttack => CanAct && !_prediction.Frozen;
         public bool CanAct => IsSpawned && _health.Current > 0f && NetGame.Current.CanFight;
 
         public void Init(PlayerJob job, int side, Fighter info = default)
@@ -127,6 +130,7 @@ namespace SSW
 
             if (!IsOwner) return;
             AimAtCursor();
+            if (!_blocked && _input.inputIsActive && CanAttack && Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame) _guard.Guard();
             if (!_blocked && _input.inputIsActive && Job == PlayerJob.Swordsman && Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame) _cast.Parry();
             Face(false, _aim.x < 0f);
         }
@@ -159,7 +163,7 @@ namespace SSW
 
         public void Jump()
         {
-            if (!IsOwner || _blocked || !_input.inputIsActive || !CanAct) return;
+            if (!IsOwner || _blocked || !_input.inputIsActive || !CanAttack) return;
             _sentJump++;
         }
 
@@ -183,7 +187,7 @@ namespace SSW
         public MotionFrame ReadInput(uint tick)
         {
             Vector2 move = new Vector2(_move.x * Side, _move.y);
-            if (_blocked || !_input.inputIsActive || !CanAct) move = Vector2.zero;
+            if (_blocked || !_input.inputIsActive || !CanAttack) move = Vector2.zero;
             return new MotionFrame
             {
                 Tick = tick, Jump = _sentJump, Move = Vector2.ClampMagnitude(move, 1f), Aim = _aim

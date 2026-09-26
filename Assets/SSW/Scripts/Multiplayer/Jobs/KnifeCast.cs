@@ -146,7 +146,7 @@ namespace SSW
             }
             DamageResult result = CombatDamage.Deal(this, target.Health, info.Damage, info.DamageTag | DamageTag.BasicAttack);
             Player.Cast.ImpactSound();
-            if (result.WasApplied && Has(AssassinAugmentType.Ambush) && Time.time >= _hideAt)
+            if (result.WasAccepted && Has(AssassinAugmentType.Ambush) && Time.time >= _hideAt)
             {
                 _hideAt = Time.time + 5f;
                 Player.Effects.Hide(0.8f);

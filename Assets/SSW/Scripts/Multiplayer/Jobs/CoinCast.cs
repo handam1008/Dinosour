@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using JJW.Script.Augments;
 using JJW.Script.Jackpot;
 using UnityEngine;
 
 namespace SSW
 {
-    public sealed class CoinCast : JobCast
+    public sealed class CoinCast : JobCast, IDamageDealtListener
     {
         [SerializeField] float _damage = 10f;
         [SerializeField] float _speed = 15f;
@@ -143,13 +143,21 @@ namespace SSW
             }
         }
 
+        public void OnDamageDealt(DamageRequest request, DamageResult result)
+        {
+            if (Active && IsServer && request.Source == this && request.HasTag(DamageTag.Drain) && result.WasApplied)
+                Player.Health.Heal(result.AppliedAmount * 0.2f);
+        }
+
         public override void Hit(NetPlayer target, NetBolt bolt)
         {
-            DamageResult result = CombatDamage.Deal(this, target.Health, bolt.Spec.Damage, DamageTag.BasicAttack | DamageTag.Projectile);
-            if (!result.WasApplied || !Has(GamblerAugmentType.CoinUpgrade)) return;
+            DamageTag tags = DamageTag.BasicAttack | DamageTag.Projectile;
+            if (Has(GamblerAugmentType.CoinUpgrade) && Time.time < _stealUntil) tags |= DamageTag.Drain;
+            DamageResult result = CombatDamage.Deal(this, target.Health, bolt.Spec.Damage, tags);
+            if (!result.WasAccepted || !Has(GamblerAugmentType.CoinUpgrade)) return;
             if (Time.time < _slowUntil) target.Motion.ApplySlow(0.2f, 0.5f);
             if (_damageUntil.Count > 0) StartCoroutine(DamageOverTime(target, 2f, 4, 0.5f));
-            if (Time.time < _stealUntil) Player.Health.Heal(result.AppliedAmount * 0.2f);
+
         }
     }
 }

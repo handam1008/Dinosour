@@ -102,7 +102,7 @@ public class KHG_Paring : MonoBehaviour
 
             bulletRb.linearVelocity = reflectDirection * reflectSpeed;
 
-            Debug.Log($"패링 성공! 반사 방향 = {reflectDirection}");
+            Debug.Log($"패링 성공!");
             OnParrySuccess?.Invoke();
         }
     }

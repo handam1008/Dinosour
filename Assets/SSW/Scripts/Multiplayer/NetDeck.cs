@@ -7,6 +7,8 @@ namespace SSW
     public sealed class NetDeck : ScriptableObject
     {
         [SerializeField] Augment[] _augments;
+        [SerializeField] AugmentPool _commonPool;
+        public bool IsCommon(Augment item) => System.Array.IndexOf(_commonPool.augments, item) >= 0;
         public int Count => _augments.Length;
         public Augment At(int index) => _augments[index];
 
@@ -19,7 +21,7 @@ namespace SSW
                 if (held.Contains(i)) continue;
                 Augment item = _augments[i];
                 bool eligible = common
-                    ? item is CommonAugment
+                    ? IsCommon(item)
                     : item is IJobRestrictedAugment restricted && restricted.RequiredJob == job;
                 if (eligible) result.Add(i);
             }

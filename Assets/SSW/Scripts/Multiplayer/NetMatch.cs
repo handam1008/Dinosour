@@ -131,7 +131,7 @@ namespace SSW
             if (!IsServer || !Playing) return;
             foreach (NetPlayer player in NetGame.Current.Players)
                 if (player.transform.position.y < NetGame.Current.Arena.FallY && player.Health.Current > 0f)
-                    player.Health.TakeDamage(player.Health.Max * 10f);
+                    player.Health.ReceiveDamage(new DamageRequest(null, player.Health.Max * 10f, DamageTag.Environment | DamageTag.IgnoreDefense));
             if (!_checkDeath) return;
             _checkDeath = false;
             int alive = 0;

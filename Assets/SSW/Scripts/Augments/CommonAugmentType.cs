@@ -45,6 +45,7 @@ namespace SSW
         DoubleJump,
         Minefield,
         SlowAura,
-        CounterAttack
+        CounterAttack,
+        LeapBomb = 100
     }
 }

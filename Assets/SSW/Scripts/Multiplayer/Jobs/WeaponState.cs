@@ -47,6 +47,7 @@ namespace SSW
     {
         public int Style;
         public float Speed;
+        public float Gravity;
         public float Damage;
         public float Life;
         public float Radius;
@@ -61,6 +62,7 @@ namespace SSW
         {
             serializer.SerializeValue(ref Style);
             serializer.SerializeValue(ref Speed);
+            serializer.SerializeValue(ref Gravity);
             serializer.SerializeValue(ref Damage);
             serializer.SerializeValue(ref Life);
             serializer.SerializeValue(ref Radius);
@@ -72,7 +74,7 @@ namespace SSW
             serializer.SerializeValue(ref CanPenetrate);
         }
 
-        public bool Equals(BoltSpec other) => Style == other.Style && Speed == other.Speed && Damage == other.Damage
+        public bool Equals(BoltSpec other) => Style == other.Style && Speed == other.Speed && Gravity == other.Gravity && Damage == other.Damage
             && Life == other.Life && Radius == other.Radius && Scale == other.Scale && Bounce == other.Bounce
             && Stick == other.Stick && Charged == other.Charged && Spin == other.Spin && CanPenetrate == other.CanPenetrate;
     }

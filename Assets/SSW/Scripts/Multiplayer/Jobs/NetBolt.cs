@@ -60,11 +60,14 @@ namespace SSW
             _sprite.sprite = _styles[Spec.Style];
             _sprite.color = Spec.Charged ? new Color(1f, 0.85f, 0.3f) : Color.white;
             transform.localScale = Vector3.one * Spec.Scale;
+            _flight.AlignVelocity = Spec.Gravity != 0f && Spec.Spin == 0f;
             _flight.Bind(_owner, _action.Value, 0, Spec.Radius);
+            if (_owner.Cast.Weapon is GunCast gun) gun.Effects.Attach(_sprite, Spec.Charged);
             if (!IsServer && _owner.IsOwner && Spec.Stick && _owner.Cast.Weapon is KnifeCast knife) knife.Track(this);
             if (!IsServer) return;
             _previous = _body.position;
             _previousTime = NetGame.Current.PhysicsTime;
+            _body.gravityScale = Spec.Gravity;
             _body.linearVelocity = _velocity;
             _body.angularVelocity = Spec.Spin;
         }
@@ -79,6 +82,8 @@ namespace SSW
         void FixedUpdate()
         {
             if (!IsServer || !IsSpawned || _stuck || !NetGame.Current.CanFight) return;
+            if (_flight.AlignVelocity && _body.linearVelocity.sqrMagnitude > 0.000001f)
+                _body.rotation = Mathf.Atan2(_body.linearVelocity.y, _body.linearVelocity.x) * Mathf.Rad2Deg;
             Vector2 next = _body.position;
             double time = NetGame.Current.PhysicsTime;
             float nearest = float.PositiveInfinity;

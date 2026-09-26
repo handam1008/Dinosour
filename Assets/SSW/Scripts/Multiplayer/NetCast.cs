@@ -161,7 +161,7 @@ namespace SSW
 
         public void Attack(bool pressed, Vector2 direction)
         {
-            if (!IsSpawned || !IsOwner || !_player.CanAct || !NetMath.Finite(direction) || direction.sqrMagnitude < 0.001f) return;
+            if (!IsSpawned || !IsOwner || !_player.CanAttack || !NetMath.Finite(direction) || direction.sqrMagnitude < 0.001f) return;
             direction.Normalize();
             uint action = Begin();
             uint stock = _player.Job == PlayerJob.Witch && pressed ? (IsServer ? _potions.Value.HeldId : _localHeldId) : 0;
@@ -236,7 +236,7 @@ namespace SSW
 
         public void Cycle(bool pressed, Vector2 direction)
         {
-            if (!IsSpawned || !IsOwner || !_player.CanAct) return;
+            if (!IsSpawned || !IsOwner || !_player.CanAttack) return;
             uint action = Begin();
             if (!IsServer && _player.Job == PlayerJob.Magician && !_rollingRank)
             {
@@ -256,7 +256,7 @@ namespace SSW
 
         public void Parry()
         {
-            if (!IsSpawned || !IsOwner || !_player.CanAct || _player.Job != PlayerJob.Swordsman) return;
+            if (!IsSpawned || !IsOwner || !_player.CanAttack || _player.Job != PlayerJob.Swordsman) return;
             uint action = Begin();
             if (!IsServer) _jobCast.Predict(new CastInput { Action = action, Epoch = _player.Epoch,
                 Tick = _player.CastTick, Kind = CastKind.Parry, Direction = _player.Aim });
@@ -333,7 +333,7 @@ namespace SSW
                 Pending pending = _commands.Peek();
                 CastInput input = pending.Input;
                 bool valid = input.Epoch == _player.Epoch
-                    && (input.Kind == CastKind.Cancel || _player.CanAct)
+                    && (input.Kind == CastKind.Cancel || _player.CanAttack)
                     && input.Kind <= CastKind.Parry
                     && !double.IsNaN(input.ViewTime) && !double.IsInfinity(input.ViewTime)
                     && input.Tick <= (ulong)_player.InputSequence + MotionHistory.Capacity
@@ -489,12 +489,13 @@ namespace SSW
         {
             if (!IsSpawned) return;
             SyncEpoch();
-            if (!_player.CanAct)
+            if (!_player.CanAttack)
             {
                 _battle++;
                 _preview?.Clear();
                 _rollingRank = _rollingSuit = false;
                 _localShow = 0d;
+                if (IsServer) _showUntil.Value = 0d;
             }
             else if (IsOwner && !IsServer && _action > _confirmed && Time.unscaledTimeAsDouble >= _waitingUntil)
             {
@@ -511,7 +512,7 @@ namespace SSW
             bool magician = _player.Job == PlayerJob.Magician;
             bool anticipating = Anticipating;
             double show = anticipating ? _localShow : _showUntil.Value;
-            bool visible = magician && _player.CanAct && (Now < show || IsOwner && (_rollingRank || _rollingSuit));
+            bool visible = magician && _player.CanAttack && (Now < show || IsOwner && (_rollingRank || _rollingSuit));
             _cards.ShowRank(Rank, visible);
             _suits.ShowSuit(Suit, visible);
             ShowPotion(_hand, DisplayHeld);
@@ -529,7 +530,7 @@ namespace SSW
 
         void Tick()
         {
-            if (!_player.CanAct)
+            if (!_player.CanAttack)
             {
                 _rollingRank = false;
                 _rollingSuit = false;
@@ -609,7 +610,7 @@ namespace SSW
         {
             uint battle = _battle;
             if (_magic.FireDelay > 0f) yield return new WaitForSeconds(_magic.FireDelay);
-            if (!_player.CanAct || battle != _battle)
+            if (!_player.CanAttack || battle != _battle)
             {
                 RevokeRpc(input.Action);
                 yield break;
