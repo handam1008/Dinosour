@@ -18,6 +18,7 @@ public class KHG_Paring : MonoBehaviour
     [SerializeField] private LayerMask bulletLayer;
 
     public bool isParrying = false;
+
     private bool isCooldown = false;
 
     private readonly HashSet<Rigidbody2D> reflectedBullets = new();
@@ -38,13 +39,16 @@ public class KHG_Paring : MonoBehaviour
     private void FixedUpdate()
     {
         if (isParrying)
+        {
             CheckParryBox();
+        }
     }
 
     private IEnumerator ParryRoutine()
     {
         isParrying = true;
         isCooldown = true;
+
         reflectedBullets.Clear();
 
         Debug.Log("패링 시작");
@@ -55,10 +59,13 @@ public class KHG_Paring : MonoBehaviour
 
         Debug.Log("패링 판정 종료");
 
-        float remainingCooldown = parryCooldown - parryTime;
+        float remainingCooldown =
+            parryCooldown - parryTime;
 
         if (remainingCooldown > 0f)
+        {
             yield return new WaitForSeconds(remainingCooldown);
+        }
 
         isCooldown = false;
 
@@ -69,40 +76,57 @@ public class KHG_Paring : MonoBehaviour
     {
         if (swordTransform == null)
         {
-            Debug.LogWarning("Sword Transform을 Inspector에 지정하세요.");
+            Debug.LogWarning(
+                "Sword Transform을 Inspector에 지정하세요."
+            );
+
             return;
         }
 
-        Vector2 boxCenter = swordTransform.TransformPoint(parryBoxOffset);
-        float boxAngle = swordTransform.eulerAngles.z;
+        Vector2 boxCenter =
+            swordTransform.TransformPoint(parryBoxOffset);
 
-        Collider2D[] hits = Physics2D.OverlapBoxAll(
-            boxCenter,
-            parryBoxSize,
-            boxAngle,
-            bulletLayer
-        );
+        float boxAngle =
+            swordTransform.eulerAngles.z;
+
+        Collider2D[] hits =
+            Physics2D.OverlapBoxAll(
+                boxCenter,
+                parryBoxSize,
+                boxAngle,
+                bulletLayer
+            );
 
         foreach (Collider2D other in hits)
         {
             if (!other.CompareTag("Bullet"))
                 continue;
 
-            Rigidbody2D bulletRb = other.attachedRigidbody;
+            Rigidbody2D bulletRb =
+                other.attachedRigidbody;
 
-            if (bulletRb == null || reflectedBullets.Contains(bulletRb))
+            if (bulletRb == null)
+                continue;
+
+            if (reflectedBullets.Contains(bulletRb))
                 continue;
 
             reflectedBullets.Add(bulletRb);
 
-            Vector2 reflectDirection = -bulletRb.linearVelocity.normalized;
+            Vector2 reflectDirection =
+                -bulletRb.linearVelocity.normalized;
 
             if (reflectDirection == Vector2.zero)
-                reflectDirection = -swordTransform.right;
+            {
+                reflectDirection =
+                    -swordTransform.right;
+            }
 
-            bulletRb.linearVelocity = reflectDirection * reflectSpeed;
+            bulletRb.linearVelocity =
+                reflectDirection * reflectSpeed;
 
-            Debug.Log($"패링 성공!");
+            Debug.Log("패링 성공!");
+
             OnParrySuccess?.Invoke();
         }
     }
@@ -114,15 +138,22 @@ public class KHG_Paring : MonoBehaviour
 
         Gizmos.color = Color.cyan;
 
-        Vector3 boxCenter = swordTransform.TransformPoint(parryBoxOffset);
+        Vector3 boxCenter =
+            swordTransform.TransformPoint(parryBoxOffset);
 
-        Gizmos.matrix = Matrix4x4.TRS(
-            boxCenter,
-            swordTransform.rotation,
-            Vector3.one
+        Gizmos.matrix =
+            Matrix4x4.TRS(
+                boxCenter,
+                swordTransform.rotation,
+                Vector3.one
+            );
+
+        Gizmos.DrawWireCube(
+            Vector3.zero,
+            parryBoxSize
         );
 
-        Gizmos.DrawWireCube(Vector3.zero, parryBoxSize);
-        Gizmos.matrix = Matrix4x4.identity;
+        Gizmos.matrix =
+            Matrix4x4.identity;
     }
 }
