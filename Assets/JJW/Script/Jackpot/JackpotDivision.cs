@@ -51,6 +51,8 @@ namespace JJW.Script.Jackpot
         [SerializeField] private float instantKillDamage = 4444f;
         [SerializeField] private float jackpotHealAmount = 30f;
         [SerializeField] private float jackpotDuration = 15f;
+        
+        private global::Jackpot777 jackpotState;
 
         private float probabilityShiftBonus;
         private int guaranteedWinningCount;
@@ -86,6 +88,11 @@ namespace JJW.Script.Jackpot
             {
                 health = GetComponentInParent<Health>();
             }
+            if (jackpotState == null)
+            {
+                jackpotState =
+                    GetComponentInParent<global::Jackpot777>();
+            }
         }
 
         private void OnEnable()
@@ -113,30 +120,26 @@ namespace JJW.Script.Jackpot
                 health.OnDied -= ResetProbabilityShift;
             }
         }
+        private bool IsJackpotActive()
+        {
+            return jackpotState != null
+                   && jackpotState.IsActive;
+        }
 
         private void Roulette()
         {
-            Debug.Log(
-                $"[룰렛 증강 검사] " +
-                $"컨트롤러 연결: {augmentController != null} / " +
-                $"행운 적용: {HasAugment(GamblerAugmentType.Luck)}",
+            Debug.Log($"룰렛 증강 검사 " +
+                      $"컨트롤러 연결: {augmentController != null} / " +
+                      $"행운 적용: {HasAugment(GamblerAugmentType.Luck)}",
                 this);
-            bool usedGuaranteedJackpot =
-                HasAugment(GamblerAugmentType.GuaranteedJackpot)
-                && guaranteedWinningCount >= requiredWinningCount;
+            bool usedGuaranteedJackpot = !IsJackpotActive() && HasAugment(GamblerAugmentType.GuaranteedJackpot)
+                                                            && guaranteedWinningCount >= requiredWinningCount;
 
-            JackpotResultType mainResult =
-                usedGuaranteedJackpot
-                    ? JackpotResultType.Jackpot777
-                    : RollMainResult();
+            JackpotResultType mainResult = usedGuaranteedJackpot ? JackpotResultType.Jackpot777 : RollMainResult();
 
-            bool rolledOldCoin =
-                HasAugment(GamblerAugmentType.OldCoin);
+            bool rolledOldCoin = HasAugment(GamblerAugmentType.OldCoin);
 
-            JackpotResultType oldCoinResult =
-                rolledOldCoin
-                    ? RollOldCoinResult()
-                    : JackpotResultType.None;
+            JackpotResultType oldCoinResult = rolledOldCoin ? RollOldCoinResult() : JackpotResultType.None;
 
             if (usedGuaranteedJackpot)
             {
@@ -144,13 +147,10 @@ namespace JJW.Script.Jackpot
             }
             else
             {
-                AddGuaranteedJackpotProgress(
-                    mainResult,
-                    oldCoinResult);
+                AddGuaranteedJackpotProgress(mainResult, oldCoinResult);
             }
 
-            if (mainResult == JackpotResultType.Jackpot777
-                || oldCoinResult == JackpotResultType.Jackpot777)
+            if (mainResult == JackpotResultType.Jackpot777 || oldCoinResult == JackpotResultType.Jackpot777)
             {
                 IncreaseProbabilityShift();
             }
@@ -158,17 +158,12 @@ namespace JJW.Script.Jackpot
 
             ApplyResult(mainResult);
 
-            if (ShouldApplyOldCoinResult(
-                    mainResult,
-                    oldCoinResult))
+            if (ShouldApplyOldCoinResult(mainResult, oldCoinResult))
             {
                 ApplyResult(oldCoinResult);
             }
 
-            string oldResultText =
-                rolledOldCoin
-                    ? oldCoinResult.ToString()
-                    : "사용 안 함";
+            string oldResultText = rolledOldCoin ? oldCoinResult.ToString() : "사용 안 함";
 
             Debug.Log(
                 $"메인 룰렛: {mainResult} / " +
@@ -205,7 +200,9 @@ namespace JJW.Script.Jackpot
             float luckBonus = GetLuckBonus();
             float chance = oldCoinChance + luckBonus;
 
-            return RollTable(chance, chance, chance, chance, 0f, chance);
+            float jackpotChance = IsJackpotActive() ? 0f : chance;
+
+            return RollTable(chance, chance, chance, chance, 0f, jackpotChance);
         }
 
         private JackpotResultType RollTable(
@@ -219,50 +216,32 @@ namespace JJW.Script.Jackpot
             float roll = Random.Range(0f, 100f);
             float accumulatedChance = 0f;
 
-            if (IsSelected(
-                    roll,
-                    ref accumulatedChance,
-                    damageChance))
+            if (IsSelected(roll, ref accumulatedChance, damageChance))
             {
                 return JackpotResultType.DamageUp;
             }
 
-            if (IsSelected(
-                    roll,
-                    ref accumulatedChance,
-                    healChance))
+            if (IsSelected(roll, ref accumulatedChance, healChance))
             {
                 return JackpotResultType.Heal;
             }
 
-            if (IsSelected(
-                    roll,
-                    ref accumulatedChance,
-                    invincibleChance))
+            if (IsSelected(roll, ref accumulatedChance, invincibleChance))
             {
                 return JackpotResultType.Invincible;
             }
 
-            if (IsSelected(
-                    roll,
-                    ref accumulatedChance,
-                    speedChance))
+            if (IsSelected(roll, ref accumulatedChance, speedChance))
             {
                 return JackpotResultType.SpeedUp;
             }
 
-            if (IsSelected(
-                    roll,
-                    ref accumulatedChance,
-                    instantKillChance))
+            if (IsSelected(roll, ref accumulatedChance, instantKillChance))
             {
                 return JackpotResultType.InstantKill;
             }
 
-            if (IsSelected(
-                    roll,
-                    ref accumulatedChance,
-                    jackpotChance))
+            if (IsSelected(roll, ref accumulatedChance, jackpotChance))
             {
                 return JackpotResultType.Jackpot777;
             }
@@ -270,10 +249,7 @@ namespace JJW.Script.Jackpot
             return JackpotResultType.None;
         }
 
-        private bool IsSelected(
-            float roll,
-            ref float accumulatedChance,
-            float chance)
+        private bool IsSelected(float roll, ref float accumulatedChance, float chance)
         {
             accumulatedChance += Mathf.Max(0f, chance);
             return roll < accumulatedChance;
@@ -281,31 +257,25 @@ namespace JJW.Script.Jackpot
 
         private float GetLuckBonus()
         {
-            return HasAugment(GamblerAugmentType.Luck)
-                ? luckChanceBonus
-                : 0f;
+            return HasAugment(GamblerAugmentType.Luck) ? luckChanceBonus : 0f;
         }
 
         private float GetCurrent777Chance()
         {
-            bool hasMoreChances =
-                HasAugment(GamblerAugmentType.MoreChances);
+            if (IsJackpotActive())
+            {
+                return 0f;
+            }
+            bool hasMoreChances = HasAugment(GamblerAugmentType.MoreChances);
 
-            float baseChance =
-                hasMoreChances
-                    ? more777Chance
-                    : normal777Chance;
+            float baseChance = hasMoreChances ? more777Chance : normal777Chance;
 
-            float currentChance =
-                baseChance + GetLuckBonus();
+            float currentChance = baseChance + GetLuckBonus();
 
-            if (HasAugment(
-                    GamblerAugmentType.ProbabilityShift))
+            if (HasAugment(GamblerAugmentType.ProbabilityShift))
             {
                 currentChance += probabilityShiftBonus;
-                currentChance = Mathf.Min(
-                    currentChance,
-                    maximum777Chance);
+                currentChance = Mathf.Min(currentChance, maximum777Chance);
             }
 
             return currentChance;
@@ -313,16 +283,13 @@ namespace JJW.Script.Jackpot
 
         private void IncreaseProbabilityShift()
         {
-            if (!HasAugment(
-                    GamblerAugmentType.ProbabilityShift))
+            if (!HasAugment(GamblerAugmentType.ProbabilityShift))
             {
                 return;
             }
 
             probabilityShiftBonus += probabilityIncrease;
-            probabilityShiftBonus = Mathf.Min(
-                probabilityShiftBonus,
-                maximum777Chance);
+            probabilityShiftBonus = Mathf.Min(probabilityShiftBonus, maximum777Chance);
         }
 
         private void ResetProbabilityShift()
@@ -330,12 +297,9 @@ namespace JJW.Script.Jackpot
             probabilityShiftBonus = 0f;
         }
 
-        private void AddGuaranteedJackpotProgress(
-            JackpotResultType mainResult,
-            JackpotResultType oldCoinResult)
+        private void AddGuaranteedJackpotProgress(JackpotResultType mainResult, JackpotResultType oldCoinResult)
         {
-            if (!HasAugment(
-                    GamblerAugmentType.GuaranteedJackpot))
+            if (!HasAugment(GamblerAugmentType.GuaranteedJackpot))
             {
                 return;
             }
@@ -350,14 +314,11 @@ namespace JJW.Script.Jackpot
                 guaranteedWinningCount++;
             }
 
-            guaranteedWinningCount = Mathf.Min(
-                guaranteedWinningCount,
-                requiredWinningCount);
+            guaranteedWinningCount = Mathf.Min(guaranteedWinningCount, requiredWinningCount);
         }
 
         private bool ShouldApplyOldCoinResult(
-            JackpotResultType mainResult,
-            JackpotResultType oldCoinResult)
+            JackpotResultType mainResult, JackpotResultType oldCoinResult)
         {
             if (oldCoinResult == JackpotResultType.None)
             {
@@ -369,46 +330,34 @@ namespace JJW.Script.Jackpot
                 return true;
             }
 
-            return oldCoinResult == JackpotResultType.DamageUp
-                || oldCoinResult == JackpotResultType.Heal;
+            return oldCoinResult == JackpotResultType.DamageUp || oldCoinResult == JackpotResultType.Heal;
         }
 
         private bool HasAugment(GamblerAugmentType type)
         {
-            return augmentController != null
-                && augmentController.Has(type);
+            return augmentController != null && augmentController.Has(type);
         }
 
         private void ApplyResult(JackpotResultType result)
         {
             switch (result)
             {
-                case JackpotResultType.DamageUp:
-                    DamageJackpot?.Invoke(damageMultiplier);
+                case JackpotResultType.DamageUp: DamageJackpot?.Invoke(damageMultiplier);
                     break;
 
-                case JackpotResultType.Heal:
-                    HealJackpot?.Invoke(healAmount);
+                case JackpotResultType.Heal: HealJackpot?.Invoke(healAmount);
                     break;
 
-                case JackpotResultType.Invincible:
-                    StarJackpot?.Invoke(invincibleDuration);
+                case JackpotResultType.Invincible: StarJackpot?.Invoke(invincibleDuration);
                     break;
 
-                case JackpotResultType.SpeedUp:
-                    SpeedJackpot?.Invoke(
-                        speedIncreaseAmount,
-                        speedDuration);
+                case JackpotResultType.SpeedUp: SpeedJackpot?.Invoke(speedIncreaseAmount, speedDuration);
                     break;
 
-                case JackpotResultType.InstantKill:
-                    Jackpot444?.Invoke(instantKillDamage);
+                case JackpotResultType.InstantKill: Jackpot444?.Invoke(instantKillDamage);
                     break;
 
-                case JackpotResultType.Jackpot777:
-                    Jackpot777?.Invoke(
-                        jackpotHealAmount,
-                        jackpotDuration);
+                case JackpotResultType.Jackpot777: Jackpot777?.Invoke(jackpotHealAmount, jackpotDuration);
                     break;
             }
 

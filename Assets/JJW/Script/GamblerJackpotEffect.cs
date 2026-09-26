@@ -13,10 +13,18 @@ public class GamblerJackpotEffect : MonoBehaviour
 
     [Header("Overlay")]
     [SerializeField] private Image jackpotOverlay;
-    [SerializeField, Range(0f, 1f)] private float minOverlayAlpha = 0.15f;
-    [SerializeField, Range(0f, 1f)] private float maxOverlayAlpha = 0.45f;
-    [SerializeField, Min(0.01f)] private float overlayDuration = 0.4f;
-    [SerializeField, Min(0.01f)] private float overlayFadeOutDuration = 0.15f;
+
+    [SerializeField, Range(0f, 1f)]
+    private float minOverlayAlpha = 0.2f;
+
+    [SerializeField, Range(0f, 1f)]
+    private float maxOverlayAlpha = 0.7f;
+
+    [SerializeField, Min(0.01f)]
+    private float overlayDuration = 0.4f;
+
+    [SerializeField, Min(0.01f)]
+    private float overlayFadeOutDuration = 0.15f;
 
     [Header("Particles")]
     [SerializeField] private ParticleSystem[] jackpotParticles;
@@ -61,7 +69,7 @@ public class GamblerJackpotEffect : MonoBehaviour
         StopAllEffectsImmediately();
     }
 
-    private void HandleJackpotStarted(float duration)
+    private void HandleJackpotStarted(float _)
     {
         PlayJackpotUI();
         StartOverlay();
