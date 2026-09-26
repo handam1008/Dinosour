@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 2524947148
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -157,16 +157,16 @@ MonoBehaviour:
   _edges:
   - Shape: {fileID: 2836056385567811321}
     Damage: 5
-    Force: {x: 0, y: 150}
+    Force: {x: 0, y: 20}
   - Shape: {fileID: 7883160295160699140}
     Damage: 5
-    Force: {x: 0, y: -150}
+    Force: {x: 0, y: -20}
   - Shape: {fileID: 770455420444396783}
     Damage: 5
-    Force: {x: 150, y: 0}
+    Force: {x: 20, y: 0}
   - Shape: {fileID: 4215419891830344344}
     Damage: 5
-    Force: {x: -150, y: 0}
+    Force: {x: -20, y: 0}
 --- !u!1001 &979028455247439281
 PrefabInstance:
   m_ObjectHideFlags: 0

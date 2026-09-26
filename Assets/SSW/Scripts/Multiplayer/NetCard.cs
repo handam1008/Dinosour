@@ -50,7 +50,7 @@ namespace SSW
 
         public CardState State => _state.Value;
         public float Gravity => _body.gravityScale;
-        public float PreviewRadius => ((CircleCollider2D)_collider).radius * 0.3f;
+        public float PreviewRadius(float scale) => ((CircleCollider2D)_collider).radius * scale;
         public float Radius => ((CircleCollider2D)_collider).radius * Mathf.Abs(transform.lossyScale.x);
 
         public void Init(NetPlayer owner, Suit suit, int rank, Vector2 direction, float effect, bool joker, bool mirror, uint action = 0, double lag = 0d)
@@ -61,9 +61,8 @@ namespace SSW
                 Caster = owner.NetworkObjectId, Action = action, Suit = suit, Rank = rank,
                 Effect = effect, Joker = joker, Mirror = mirror
             };
-            _velocity = direction * 12f;
-            _spin = direction.x < 0f ? -720f : 720f;
-            transform.localScale = Vector3.one * (mirror ? 0.18f : 0.3f);
+            _velocity = direction * owner.Stats.Flight.Speed;
+            _spin = (direction.x < 0f ? -1f : 1f) * owner.Stats.Flight.Spin;
         }
 
         public override void OnNetworkSpawn()
@@ -74,7 +73,12 @@ namespace SSW
             _owner = owner;
             _feedback.SoundEnabled = false;
             owner.Cast.Cards.ConfigureShot(_card, _sprite, _feedback, state, IsServer);
-            transform.localScale = Vector3.one * (state.Mirror ? 0.18f : 0.3f);
+            FlightStats stats = owner.Stats.Flight;
+            transform.localScale = new Vector3(stats.Scale, stats.Scale * stats.Aspect, 1f)
+                * (state.Mirror ? owner.Stats.MirrorScale : 1f);
+            _body.gravityScale = stats.Gravity;
+            _card.SetLifetime(stats.Life);
+            _card.SetDamage(owner.Stats.Damage);
             _flight.Bind(owner, state.Action, 0, Radius);
             _card.SetLife(this);
             _card.enabled = IsServer;
@@ -101,7 +105,7 @@ namespace SSW
             Collider2D contact = null;
             float nearest = float.PositiveInfinity;
             Vector2 point = next;
-            if (!_returning && ShotQuery.Ground(_previous, next, Radius, _owner.GroundMask, out RaycastHit2D ground))
+            if (MapCombat.Sweep(_previous, next, Radius, _returning ? 0 : _owner.GroundMask, out RaycastHit2D ground))
             {
                 contact = ground.collider;
                 float distance = Vector2.Distance(_previous, next);

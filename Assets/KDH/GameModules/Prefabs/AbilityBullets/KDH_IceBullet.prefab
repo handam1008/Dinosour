@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f97e6152e89e41e5ac3d4275dcc7c9c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Upgrade.KDH_IceBullet
-  slowAmount: 0.2
+  slowAmount: 0.3
   slowDuration: 1.5
   <BulletAbilityData>k__BackingField: {fileID: 11400000, guid: 9be95c4a54f705c4a940f8fb516956be, type: 2}
   onHitPlayer:

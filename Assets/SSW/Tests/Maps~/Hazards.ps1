@@ -1,4 +1,4 @@
-param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges,[switch]$LavaOnly,[switch]$HealOnly,[switch]$EdgeMotion,[switch]$WitchOnly,[string[]]$EdgeModes=@('move','dash'))
+param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges,[switch]$LavaOnly,[switch]$HealOnly,[switch]$EdgeMotion,[switch]$WitchOnly,[switch]$StatsOnly,[switch]$StatsProfiles,[switch]$MaterialsOnly,[switch]$MapRefreshOnly,[switch]$MapResume,[switch]$MapCycle,[switch]$MapAreas,[ValidateRange(0,5)][int]$MapFrom=0,[switch]$EffectsOnly,[string[]]$EdgeModes=@('move','dash'),[int[]]$EdgeMaps=@(),[switch]$SwingOnly,[switch]$SwingCutOnly,[int[]]$SwingMaps=@(11,12,14,15,16),[string]$SwingJob='Gunner',[switch]$CombatOnly,[string[]]$CombatJobs=@('Gunner','Gambler','Magician','Witch','Swordsman','Assassin','Knife'))
 $ErrorActionPreference='Stop'
 $Project=[IO.Path]::GetFullPath($Project).Replace('\','/')
 $root="$Project/Logs/Boundary/$Run"
@@ -13,12 +13,21 @@ function Eval([string]$code){
     if(-not $reply.success -or -not $reply.data.result.success){throw ($reply|ConvertTo-Json -Depth 8)}
     return $reply.data.result.result
 }
-function Read($peer){try{return Get-Content -LiteralPath "$root/$peer.json" -Raw|ConvertFrom-Json}catch{return $null}}
+function Read($peer){
+    for($attempt=0;$attempt -lt 5;$attempt++){
+        try{
+            $snapshot=[IO.File]::ReadAllText("$root/$peer.json")|ConvertFrom-Json
+            if($snapshot -and $snapshot -isnot [array]){return $snapshot}
+        }catch{}
+        Start-Sleep -Milliseconds 10
+    }
+    return $null
+}
 function Await($label,[scriptblock]$condition,$timeout=35){
     $until=[DateTime]::UtcNow.AddSeconds($timeout)
     do{
         $script:h=Read host;$script:c=Read client
-        if($h.error -or $c.error){throw "Runtime error: $($h.error) $($c.error)"}
+        if($h.error -or $c.error){@{label=$label;host=$h;client=$c}|ConvertTo-Json -Depth 14|Set-Content "$root/RuntimeFailure.json";throw "Runtime error: $($h.error) $($c.error)"}
         if($h -and $c -and (& $condition)){return}
         Start-Sleep -Milliseconds 50
     }while([DateTime]::UtcNow -lt $until)
@@ -47,17 +56,22 @@ try{
     unity command editor_play --caller plugin --skill unity-cli --project-path $Project --format json|Out-Null
     $until=[DateTime]::UtcNow.AddSeconds(50)
     do{try{$scene=Eval 'return UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;'}catch{$scene=''};if($scene -eq 'MainMenu'){break};Start-Sleep -Milliseconds 500}while([DateTime]::UtcNow -lt $until)
-    $job=if($WitchOnly){'Witch'}else{'Swordsman'}
+    $job=if($WitchOnly){'Witch'}elseif($SwingOnly){$SwingJob}else{'Swordsman'}
     Eval ('var g=SSW.NetGame.GetOrCreate();g.gameObject.AddComponent<SSW.NetProbe>().Init("'+$root+'/host");g.StartLocal(true,"127.0.0.1",SSW.PlayerJob.'+$job+',30716);return true;')|Out-Null
     $clientProcess=Start-Process -FilePath (Join-Path $Project $Build) -WorkingDirectory $Project -ArgumentList @('--net-mode','client','--net-address','127.0.0.1','--net-port','30716','--net-job',$job,'--net-probe',"$root/client",'-logFile',"$root/client.log",'-screen-fullscreen','0','-screen-width','800','-screen-height','450') -WindowStyle Hidden -PassThru
     Await 'both drafts' {$h.phase -eq 'Draft' -and $c.phase -eq 'Draft'} 90
     Eval 'foreach(var p in SSW.NetGame.Current.Players)p.Draft.Restore(System.Array.Empty<int>());SSW.NetGame.Current.Match.Picked();return true;'|Out-Null
     Await 'playing' {$h.phase -eq 'Playing' -and $c.phase -eq 'Playing'}
     $step=Eval 'return UnityEngine.Time.fixedDeltaTime;'
+    if($StatsOnly -or $StatsProfiles -or $MaterialsOnly){. "$PSScriptRoot/../Stats~/Runtime.ps1";return}
     Eval 'foreach(var p in SSW.NetGame.Current.Players){typeof(SSW.Health).GetMethod("SetMax",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).Invoke(p.Health,new object[]{10000f});p.Health.Heal(10000f);}return true;'|Out-Null
     if($HealOnly){. "$PSScriptRoot/../Common~/Healing.ps1";return}
     if($WitchOnly){. "$PSScriptRoot/../Augments~/Witch.ps1";return}
+    if($MapRefreshOnly){. "$PSScriptRoot/RefreshRun.ps1" -SkipLoads:$MapResume -OnlyCycle:$MapCycle -AreasOnly:$MapAreas -From $MapFrom;return}
+    if($EffectsOnly){. "$PSScriptRoot/../Augments~/EffectsRun.ps1";return}
     if($EdgeMotion){. "$PSScriptRoot/EdgesRun.ps1";return}
+    if($SwingOnly){. "$PSScriptRoot/SwingRun.ps1";return}
+    if($CombatOnly){. "$PSScriptRoot/CombatRun.ps1";return}
     if(-not $SkipEdges -and -not $LavaOnly){
         for($index=0;$index -lt 14;$index++){
             $map=Map $index
@@ -172,7 +186,7 @@ return new{name=selected.name,index=System.Array.IndexOf(blocks,selected),x=body
     Check ($fell.cut -and $fell.y -lt $cut.y-0.2) 'cut rope releases suspended block'
     Map 13|Out-Null
     $reset=Eval 'return System.Linq.Enumerable.All(SSW.NetGame.Current.Arena.Map.GetComponentsInChildren<SSW.Swing>(),b=>!b.IsCut);'
-    Check $reset 'new round restores every rope and block'
+    Check $reset 'map reload restores every rope and block'
     foreach($peer in @('host','client')){Send $peer wideground 0 0 2}
     Eval 'var g=SSW.NetGame.Current;foreach(var p in g.Players){float foot=p.Body.position.y-p.Collider.bounds.min.y;p.Drive.Teleport(new UnityEngine.Vector2(p.IsOwner?-2f:-0.8f,2.3f+foot+0.03f));}return true;'|Out-Null
     Await 'sword test players on floor' {$h.players[0].grounded -and $h.players[1].grounded} 4

@@ -21,6 +21,9 @@ namespace SSW
         [SerializeField] PlayerFx _effects;
         [SerializeField] NetBuff _buffs;
         [SerializeField] BuffGuard _guard;
+        [SerializeField] StatsBook _statsBook;
+        readonly NetworkVariable<FighterStats> _stats = new NetworkVariable<FighterStats>();
+        public FighterStats Stats => _stats.Value;
         public BuffGuard Guard => _guard;
         public PlayerInput Input => _input;
         public PlayerController Motion => _motion;
@@ -58,6 +61,18 @@ namespace SSW
 
         public bool SweepView(Vector2 from, Vector2 to, float radius, float half, out float fraction)
             => Sweep(from, to, View.position, View.position, radius, half, out fraction);
+
+        public bool BoxHit(Vector2 center, Vector2 axis, Vector2 size, double time, out Vector2 point)
+        {
+            point = default;
+            if (!_prediction.ReadHit(time, out Vector2 position)) return false;
+            Vector2 body = _prediction.HitSize;
+            float width = _prediction.Vertical ? body.x : body.y;
+            float height = _prediction.Vertical ? body.y : body.x;
+            Vector2 half = _prediction.HitAxis * Mathf.Max(0f, (height - width) * 0.5f);
+            position += _prediction.HitOffset;
+            return ShotQuery.BoxCapsule(center, axis, size, position - half, position + half, width * 0.5f, out point);
+        }
 
         bool Sweep(Vector2 from, Vector2 to, Vector2 a, Vector2 b, float radius, float half, out float fraction)
         {
@@ -103,7 +118,11 @@ namespace SSW
                 _job.Value = _startJob;
                 _side.Value = _startSide;
                 _left.Value = _startSide < 0;
+                _stats.Value = _statsBook.At(_startJob == PlayerJob.None ? PlayerJob.Magician : _startJob);
             }
+            _motion.Configure(Stats);
+            _body.gravityScale = Stats.Gravity;
+            _buffs.SetBaseHealth(Stats.Health);
             _identity.SetJob(_job.Value);
             _aim = new Vector2(Side, 0f);
             _motion.Bind(this, false, _prediction);

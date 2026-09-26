@@ -1190,7 +1190,6 @@ namespace _02.Script
             playerNameIF.gameObject.SetActive(false);
         }
 
-        // UGS 초기화가 끝난 뒤에 불림 (AuthBase.Awake에서 호출)
         protected override async Task OnServicesReadyAsync()
         {
             if (await TrySignInWithCachedSessionAsync()) CheckLogin();

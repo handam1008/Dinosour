@@ -16,7 +16,6 @@ namespace SSW
         [SerializeField] Collider2D _collider;
         [SerializeField] SpriteRenderer _sprite;
         [SerializeField] FeedBackPlayer _feedback;
-        [SerializeField] float _radius = 1.5f;
         readonly NetworkVariable<int> _kind = new NetworkVariable<int>();
         readonly NetworkVariable<ulong> _caster = new NetworkVariable<ulong>();
         readonly NetworkVariable<uint> _action = new NetworkVariable<uint>();
@@ -45,6 +44,8 @@ namespace SSW
         public uint Action => _action.Value;
         public Vector2 Size => Vector2.Scale(((CapsuleCollider2D)_collider).size,
             new Vector2(Mathf.Abs(transform.lossyScale.x), Mathf.Abs(transform.lossyScale.y)));
+        public Vector2 PreviewSize(FlightStats stats) => Vector2.Scale(((CapsuleCollider2D)_collider).size,
+            new Vector2(stats.Scale, stats.Scale * stats.Aspect));
 
         public void Init(NetPlayer owner, int kind, Vector2 velocity, PotionModifiers mods, uint action = 0, int part = 0, double lag = 0d)
         {
@@ -71,20 +72,24 @@ namespace SSW
             _sprite.sprite = _stock.At(_kind.Value).sprite;
             _collider.enabled = IsServer;
             NetPlayer caster = NetworkManager.SpawnManager.SpawnedObjects[_caster.Value].GetComponent<NetPlayer>();
+            _owner = caster;
+            FlightStats stats = caster.Stats.Flight;
+            transform.localScale = new Vector3(stats.Scale, stats.Scale * stats.Aspect, 1f);
+            _body.gravityScale = stats.Gravity;
             _flight.Bind(caster, _action.Value, _part.Value, Size.x * 0.5f, Size);
             if (!IsServer) return;
             Physics2D.IgnoreCollision(_collider, _ownerCollider);
             _previous = _body.position;
             _previousTime = NetGame.Current.PhysicsTime;
             _body.linearVelocity = _velocity;
-            _body.angularVelocity = -360f;
+            _body.angularVelocity = stats.Spin;
         }
 
         void Update()
         {
             if (!IsServer || !IsSpawned) return;
             _age += Time.deltaTime;
-            if (_age >= 6f || !NetGame.Current.CanFight) Finish(false);
+            if (_age >= _owner.Stats.Flight.Life || !NetGame.Current.CanFight) Finish(false);
         }
 
         void FixedUpdate()
@@ -102,13 +107,14 @@ namespace SSW
             float nearest = float.PositiveInfinity;
             Vector2 point = next;
             Vector2 normal = Vector2.zero;
-            Health direct = null;
-            if (ShotQuery.Ground(_previous, next, size.x * 0.5f, size, _owner.GroundMask, out RaycastHit2D ground))
+            IDamageable direct = null;
+            if (MapCombat.Sweep(_previous, next, size.x * 0.5f, size, _owner.GroundMask, out RaycastHit2D ground))
             {
                 float distance = Vector2.Distance(_previous, next);
                 nearest = distance > 0.000001f ? ground.distance / distance : 0f;
                 point = ground.centroid;
                 normal = ground.normal;
+                direct = ground.collider.GetComponent<Pin>();
             }
             foreach (NetPlayer target in NetGame.Current.Players)
             {
@@ -130,16 +136,16 @@ namespace SSW
         {
             if (!IsServer || !IsSpawned || _hit || !NetGame.Current.CanFight) return;
             if (other.GetComponentInParent<NetPlayer>() != null) return;
-            Health direct = other.GetComponentInParent<Health>();
+            IDamageable direct = other.GetComponentInParent<IDamageable>();
             if (other.isTrigger && direct == null) return;
             Contact(_body.position, -_collider.Distance(other).normal, direct);
         }
 
-        void Contact(Vector2 point, Vector2 normal, Health direct)
+        void Contact(Vector2 point, Vector2 normal, IDamageable direct)
         {
             _hit = true;
             _body.position = point;
-            float radius = _radius * _mods.Splash;
+            float radius = _owner.Stats.Splash * _mods.Splash;
             bool target = Splash(point, radius, direct);
             ImpactRpc(point, _mods.Splash);
             _owner.Cast.ImpactSound();
@@ -163,19 +169,19 @@ namespace SSW
             Finish(true);
         }
 
-        bool Splash(Vector2 point, float radius, Health direct)
+        bool Splash(Vector2 point, float radius, IDamageable direct)
         {
-            HashSet<Health> applied = new HashSet<Health>();
+            HashSet<IDamageable> applied = new HashSet<IDamageable>();
             if (direct != null)
             {
                 applied.Add(direct);
-                _stock.At(_kind.Value).Use(direct.gameObject, _owner, _mods);
+                _stock.At(_kind.Value).Use(((Component)direct).gameObject, _owner, _mods);
             }
             foreach (Collider2D hit in Physics2D.OverlapCircleAll(point, radius))
             {
-                Health health = hit.GetComponentInParent<Health>();
+                IDamageable health = hit.GetComponentInParent<IDamageable>();
                 if (health == null || !applied.Add(health)) continue;
-                _stock.At(_kind.Value).Use(health.gameObject, _owner, _mods);
+                _stock.At(_kind.Value).Use(((Component)health).gameObject, _owner, _mods);
             }
             return applied.Count > 0;
         }

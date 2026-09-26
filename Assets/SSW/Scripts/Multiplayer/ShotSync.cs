@@ -41,7 +41,11 @@ namespace SSW
         public float Age => IsServer ? 0f : (float)(_clock.Time - _pose.Time);
         public uint Turn => _pose.Turn;
         public bool Terrain { get; set; } = true;
+        public bool Piercing { get; set; }
         public bool AlignVelocity { get; set; }
+        public float AngleOffset { get; set; }
+        public float ExtraGravity { get; set; }
+        public float GravityDelay { get; set; }
         public SpriteRenderer Sprite => _sprite;
         public bool Blocked => _normal.sqrMagnitude > 0f || _caught || _target != null && _target.Blocked;
         public ulong Caster => _caster.NetworkObjectId;
@@ -101,8 +105,8 @@ namespace SSW
         float Angle(ShotPose pose, double time)
         {
             if (!AlignVelocity) return pose.Rotation(time);
-            Vector2 velocity = pose.Velocity + pose.Gravity * Mathf.Clamp((float)(time - pose.Time), 0f, 1f);
-            return velocity.sqrMagnitude > 0.000001f ? Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg : pose.Angle;
+            Vector2 velocity = pose.VelocityAt(time);
+            return velocity.sqrMagnitude > 0.000001f ? Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg + AngleOffset : pose.Angle;
         }
 
         ShotPose Capture(double time)
@@ -111,6 +115,7 @@ namespace SSW
             {
                 Time = time, Position = _body.position, Velocity = _body.linearVelocity,
                 Gravity = Physics2D.gravity * _body.gravityScale,
+                ExtraGravity = ExtraGravity, GravityDelay = GravityDelay,
                 Angle = _body.rotation, Spin = _body.angularVelocity, Terrain = Terrain, Turn = _turn
             };
         }
@@ -146,7 +151,8 @@ namespace SSW
             bool escaped = pose.Time >= _blockedAt && Vector2.Dot(pose.Velocity, _normal) > 0.01f
                 && Vector2.Dot(pose.Position - _stop, _normal) > _radius
                 && Vector2.Dot(pose.Position - _stop, _pose.Velocity) >= 0f;
-            if (_normal.sqrMagnitude > 0f && (!pose.Terrain || pose.Turn != _pose.Turn || cleared || escaped))
+            if (_normal.sqrMagnitude > 0f && (cleared || pose.Turn != _pose.Turn
+                || !pose.Terrain && !_contact.TryGetComponent<Pin>(out _) || escaped))
                 Release(pose, time);
             if (_caught && pose.Time >= _caughtAt && Vector2.Distance(pose.Position, _caster.View.position) > 0.5f) _caught = false;
             if (_target != null && _target.Advance(pose, _seed.Value.Time))
@@ -218,7 +224,7 @@ namespace SSW
             else if (_normal.sqrMagnitude > 0f) point = _stop;
             else
             {
-                if (_pose.Terrain && ShotQuery.Ground(transform.position, point, _radius, _size, _ground, out RaycastHit2D hit))
+                if (MapCombat.Sweep(transform.position, point, _radius, _size, _pose.Terrain ? _ground : 0, out RaycastHit2D hit, pins: !Piercing))
                 {
                     _normal = hit.normal;
                     _contact = hit.collider;

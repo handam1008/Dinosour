@@ -77,6 +77,12 @@ namespace SSW
 
         bool Has(CommonAugmentType type) => _owned.Contains(type);
 
+        public void SetBase(float value)
+        {
+            _baseMax = value;
+            RefreshMax();
+        }
+
         void Granted(Augment augment)
         {
             if (augment is not CommonAugment common || !_owned.Add(common.type)) return;

@@ -69,7 +69,7 @@ namespace SSW
         public static bool Touches(Collider2D contact, Vector2 point, float radius, Vector2 size)
         {
             if (contact == null || !contact.enabled || !contact.gameObject.activeInHierarchy) return false;
-            var filter = new ContactFilter2D { useTriggers = false };
+            var filter = new ContactFilter2D { useTriggers = contact.isTrigger };
             filter.SetLayerMask(1 << contact.gameObject.layer);
             int count = size.sqrMagnitude > 0f
                 ? Physics2D.OverlapCapsule(point, size + Vector2.one * 0.04f, CapsuleDirection2D.Vertical, 0f, filter, Contacts)
@@ -91,6 +91,29 @@ namespace SSW
             if (Circle(point - Vector2.up * half, delta, radius, out float top)) fraction = Mathf.Min(fraction, top);
             if (Circle(point + Vector2.up * half, delta, radius, out float bottom)) fraction = Mathf.Min(fraction, bottom);
             return fraction <= 1f;
+        }
+
+        public static bool BoxCapsule(Vector2 center, Vector2 axis, Vector2 size,
+            Vector2 first, Vector2 last, float radius, out Vector2 contact)
+        {
+            Vector2 up = new Vector2(-axis.y, axis.x);
+            Vector2 offset = first - center;
+            Vector2 travel = last - first;
+            Vector2 point = new Vector2(Vector2.Dot(offset, axis), Vector2.Dot(offset, up));
+            Vector2 delta = new Vector2(Vector2.Dot(travel, axis), Vector2.Dot(travel, up));
+            Vector2 half = size * 0.5f;
+            float fraction = float.PositiveInfinity;
+            if (Box(point, delta, half + Vector2.right * radius, out float horizontal)) fraction = horizontal;
+            if (Box(point, delta, half + Vector2.up * radius, out float vertical)) fraction = Mathf.Min(fraction, vertical);
+            for (int x = -1; x <= 1; x += 2)
+                for (int y = -1; y <= 1; y += 2)
+                    if (Circle(point - new Vector2(half.x * x, half.y * y), delta, radius, out float corner))
+                        fraction = Mathf.Min(fraction, corner);
+            contact = default;
+            if (fraction > 1f) return false;
+            Vector2 hit = point + delta * fraction;
+            contact = center + axis * Mathf.Clamp(hit.x, -half.x, half.x) + up * Mathf.Clamp(hit.y, -half.y, half.y);
+            return true;
         }
 
         static bool Circle(Vector2 point, Vector2 delta, float radius, out float fraction)

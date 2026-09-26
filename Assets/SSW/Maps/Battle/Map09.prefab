@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 3977190542
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -84,8 +84,7 @@ MonoBehaviour:
     m_Extent: {x: 20, y: 10, z: 0.1}
   _fallY: -14.5
   _edges: {fileID: 2626677787195507892}
-  _serverOnly:
-  - {fileID: 5731709812184933598}
+  _serverOnly: []
 --- !u!114 &819201778533894055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,16 +133,16 @@ MonoBehaviour:
   _edges:
   - Shape: {fileID: 2266911971996629470}
     Damage: 5
-    Force: {x: 0, y: 150}
+    Force: {x: 0, y: 20}
   - Shape: {fileID: 934776734232632393}
     Damage: 5
-    Force: {x: 0, y: -150}
+    Force: {x: 0, y: -20}
   - Shape: {fileID: 5107572848725005680}
     Damage: 5
-    Force: {x: 150, y: 0}
+    Force: {x: 20, y: 0}
   - Shape: {fileID: 6945628162015169097}
     Damage: 5
-    Force: {x: -150, y: 0}
+    Force: {x: -20, y: 0}
 --- !u!1001 &8776804711457037913
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -223,12 +222,19 @@ PrefabInstance:
     - {fileID: 1852035672350132255, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
     - {fileID: 2501037989896472481, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
     - {fileID: 9215714471333671827, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+    - {fileID: 3910926400017169031, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2668619807279265673, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 12614353013895042}
+    - targetCorrespondingSourceObject: {fileID: 2668619807279265673, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4746368576830064344}
+    - targetCorrespondingSourceObject: {fileID: 5643774034607508916, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8642638191704154372}
     - targetCorrespondingSourceObject: {fileID: 6892252905831850284, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2174923390260309790}
@@ -283,6 +289,43 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   _effect: {fileID: 1054962782180952180}
   _damage: 20
+--- !u!1 &4008150853885465581 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5643774034607508916, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
+  m_PrefabInstance: {fileID: 8776804711457037913}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8642638191704154372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4008150853885465581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a68c4f6aab4ffe54fa034d9bc2be8853, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.MapShake
+  ShowTopMostFoldoutHeaderGroup: 1
+  _target: {fileID: 993058000155741627}
+  _axis: {x: 1, y: 1, z: 1}
+  _duration: {x: 1, y: 4}
+  _amount: {x: 0.1, y: 0.2}
+  onShake:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4746368576830064344}
+        m_TargetAssemblyTypeName: SSW.MapFlash, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!212 &4237508706145400986 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 4828948235021510339, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
@@ -298,17 +341,6 @@ BoxCollider2D:
   m_CorrespondingSourceObject: {fileID: 4552232211305204521, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
   m_PrefabInstance: {fileID: 8776804711457037913}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5731709812184933598 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3910926400017169031, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
-  m_PrefabInstance: {fileID: 8776804711457037913}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2eff49d8531fc3a41b732af01edd9128, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH_ShakeEffect
 --- !u!1 &6684941573423933904 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2668619807279265673, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
@@ -332,7 +364,21 @@ MonoBehaviour:
   _duration: 1
   _hold: 0
   _once: 1
-  _playOnAwake: 1
+  _playOnAwake: 0
+--- !u!114 &4746368576830064344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6684941573423933904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bf59e2e8c356bf419cd1952777944d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.MapFlash
+  ShowTopMostFoldoutHeaderGroup: 1
+  _tint: {fileID: 12614353013895042}
 --- !u!61 &6945628162015169097 stripped
 BoxCollider2D:
   m_CorrespondingSourceObject: {fileID: 1850607132165149712, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
