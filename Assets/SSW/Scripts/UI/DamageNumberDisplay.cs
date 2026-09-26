@@ -26,7 +26,7 @@ namespace SSW
 
         public void ShowHeal(float amount)
         {
-            _text.text = "+" + amount.ToString("0.######", System.Globalization.CultureInfo.InvariantCulture);
+            _text.text = amount.ToString("0.######", System.Globalization.CultureInfo.InvariantCulture);
             _text.color = _healColor;
             Animate();
         }
