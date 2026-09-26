@@ -26,12 +26,12 @@ namespace SSW
         [SerializeField] float _berserkerDamage = 0.6f;
         [SerializeField] float _waltzDuration = 5f;
         [SerializeField] float _waltzHpBonus = 0.3f;
-        [SerializeField] float _tenLivesHealth = 10f;
+        [SerializeField] float _tenLivesHealth = 3f;
         [SerializeField] float _tenLivesDamage = 1f;
         [SerializeField] float _multiscaleReduction = 0.5f;
         [SerializeField] float _regenAmount = 1f;
         [SerializeField] float _regenInterval = 1f;
-        [SerializeField] float _versatileHpBonus = 0.1f;
+        [SerializeField] float _versatileHpBonus = 0.05f;
         readonly HashSet<CommonAugmentType> _owned = new HashSet<CommonAugmentType>();
         readonly List<Pending> _pending = new List<Pending>();
         float _baseMax;
