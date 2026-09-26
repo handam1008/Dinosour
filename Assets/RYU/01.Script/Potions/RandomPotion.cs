@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DevLib.ServiceLocator;
 using DevLib.SoundSystem.Runtime;
+using RYU._01.Script;
 using RYU._01.Script.Argument;
 using RYU._01.Script.Potions;
 using UnityEngine;
@@ -21,6 +22,7 @@ public class RandomPotion : MonoBehaviour
     [SerializeField] private SoundClipSO switchSound;
 
     private WitchAugmentController _augment;
+    private PotionHUD _potionUI;
 
   
     private readonly List<GameObject> currentPotions = new List<GameObject>();
@@ -33,7 +35,6 @@ public class RandomPotion : MonoBehaviour
     public AbstractPotion Pocket => _pocket;
 
     public bool PocketUsed => _pocketUsed;
-    public bool HasPocketAugment => _augment != null && _augment.Has(WitchAugmentType.Pocket);
 
     [SerializeField] private bool canCreate = false;
     [SerializeField] private bool canHand = false;
@@ -41,6 +42,7 @@ public class RandomPotion : MonoBehaviour
     private void Awake()
     {
         _augment = GetComponentInParent<WitchAugmentController>();
+        _potionUI = GetComponentInChildren<PotionHUD>();
         _camera = Camera.main;
     }
 
@@ -54,16 +56,13 @@ public class RandomPotion : MonoBehaviour
     public void ResetPocket()
     {
         _pocket = null;
+        if (_potionUI != null) _potionUI.SetPocket(null);
         _pocketUsed = false;
     }
 
     private void Update()
     {
-        if (ShiftPressed())
-        {
-            ServiceLocator.Get<IAudioService>().PlaySfx(switchSound);
-            SwapPocket();
-        }
+        if (ShiftPressed()) SwapPocket();
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
@@ -72,7 +71,6 @@ public class RandomPotion : MonoBehaviour
             Vector3 mouseWorld = _camera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             Vector2 dir = ((Vector2)mouseWorld - (Vector2)Hand.position).normalized;
             Shoot(dir);
-            ServiceLocator.Get<IAudioService>().PlaySfx(throwSound);
         }
 
         if (currentPotions.Count > 2)
@@ -101,14 +99,13 @@ public class RandomPotion : MonoBehaviour
     private bool ShiftPressed()
     {
         if (Keyboard.current == null) return false;
-        return Keyboard.current.leftShiftKey.wasPressedThisFrame
-            || Keyboard.current.rightShiftKey.wasPressedThisFrame;
+        return Keyboard.current.leftShiftKey.wasPressedThisFrame;
+
     }
 
 
     private void SwapPocket()
     {
-        if (_augment == null || !_augment.Has(WitchAugmentType.Pocket)) return;
         if (_pocketUsed) return; 
 
         AbstractPotion heldData = null;
@@ -129,7 +126,8 @@ public class RandomPotion : MonoBehaviour
             if (taken != null) currentPotions.Insert(0, taken);
         }
 
-        _pocket = heldData;  
+        _pocket = heldData;
+        if (_potionUI != null) _potionUI.SetPocket(_pocket);  
         _pocketUsed = true;
 
         canHand = true;       

@@ -1,0 +1,267 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cfe87b606c2a3140a9586e772a2b475, type: 3}
+  m_Name: Stats
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.StatsBook
+  _fighters:
+  - Job: 1
+    Health: 100
+    MoveSpeed: 7
+    JumpSpeed: 12
+    Gravity: 3
+    Coyote: 0.12
+    Decay: 12
+    Brake: 30
+    Damage: 0
+    AttackInterval: 0.15
+    HitSize: {x: 0, y: 0}
+    HitOffset: {x: 0, y: 0}
+    AttackTime: 0
+    Flight:
+      Speed: 15
+      Gravity: 3
+      Life: 6
+      Spin: -360
+      Scale: 0.6
+      Aspect: 1
+    SkillCooldown: 0
+    SkillDamage: 0
+    DashSpeed: 0
+    DashTime: 0
+    DashCooldown: 0
+    DashDamage: 0
+    DashRadius: 0
+    ParryTime: 0
+    ParryCooldown: 0
+    ReflectSpeed: 0
+    Capacity: 2
+    Reload: 0
+    ChargeTime: 0
+    ChargeDamage: 0
+    RollInterval: 0
+    MirrorScale: 0
+    BrewTime: 1.5
+    ThrowLift: 4.5
+    Spread: -1
+    Splash: 1.5
+    GravityDelay: 0
+    ExtraGravity: 0
+  - Job: 2
+    Health: 80
+    MoveSpeed: 7
+    JumpSpeed: 12
+    Gravity: 3
+    Coyote: 0.12
+    Decay: 12
+    Brake: 30
+    Damage: 5
+    AttackInterval: 1.5
+    HitSize: {x: 0, y: 0}
+    HitOffset: {x: 0, y: 0}
+    AttackTime: 0
+    Flight:
+      Speed: 12
+      Gravity: 0.1
+      Life: 3
+      Spin: 420
+      Scale: 0.3
+      Aspect: 1
+    SkillCooldown: 0
+    SkillDamage: 0
+    DashSpeed: 0
+    DashTime: 0
+    DashCooldown: 0
+    DashDamage: 0
+    DashRadius: 0
+    ParryTime: 0
+    ParryCooldown: 0
+    ReflectSpeed: 0
+    Capacity: 0
+    Reload: 0
+    ChargeTime: 0
+    ChargeDamage: 0
+    RollInterval: 0.15
+    MirrorScale: 0.6
+    BrewTime: 0
+    ThrowLift: 0
+    Spread: 0
+    Splash: 0
+    GravityDelay: 0
+    ExtraGravity: 0
+  - Job: 3
+    Health: 100
+    MoveSpeed: 7
+    JumpSpeed: 12
+    Gravity: 3
+    Coyote: 0.12
+    Decay: 12
+    Brake: 30
+    Damage: 15
+    AttackInterval: 2
+    HitSize: {x: 1.4562652, y: 1.6219169}
+    HitOffset: {x: 0.9098686, y: 0.36179882}
+    AttackTime: 1
+    Flight:
+      Speed: 0
+      Gravity: 0
+      Life: 0
+      Spin: 0
+      Scale: 0
+      Aspect: 1
+    SkillCooldown: 0
+    SkillDamage: 0
+    DashSpeed: 20
+    DashTime: 0.2
+    DashCooldown: 7
+    DashDamage: 5
+    DashRadius: 0.26
+    ParryTime: 0.5
+    ParryCooldown: 6
+    ReflectSpeed: 20
+    Capacity: 0
+    Reload: 0
+    ChargeTime: 0
+    ChargeDamage: 0
+    RollInterval: 0
+    MirrorScale: 0
+    BrewTime: 0
+    ThrowLift: 0
+    Spread: 0
+    Splash: 0
+    GravityDelay: 0
+    ExtraGravity: 0
+  - Job: 4
+    Health: 70
+    MoveSpeed: 7
+    JumpSpeed: 12
+    Gravity: 3
+    Coyote: 0.12
+    Decay: 12
+    Brake: 30
+    Damage: 20
+    AttackInterval: 0.7
+    HitSize: {x: 1.39, y: 1}
+    HitOffset: {x: 1, y: 0}
+    AttackTime: 0
+    Flight:
+      Speed: 25
+      Gravity: 1.5
+      Life: 3
+      Spin: 0
+      Scale: 1
+      Aspect: 1.3
+    SkillCooldown: 4
+    SkillDamage: 20
+    DashSpeed: 0
+    DashTime: 0
+    DashCooldown: 0
+    DashDamage: 0
+    DashRadius: 0
+    ParryTime: 0
+    ParryCooldown: 0
+    ReflectSpeed: 0
+    Capacity: 0
+    Reload: 0
+    ChargeTime: 0
+    ChargeDamage: 0
+    RollInterval: 0
+    MirrorScale: 0
+    BrewTime: 0
+    ThrowLift: 0
+    Spread: 0
+    Splash: 0
+    GravityDelay: 0
+    ExtraGravity: 0
+  - Job: 5
+    Health: 100
+    MoveSpeed: 7
+    JumpSpeed: 12
+    Gravity: 3
+    Coyote: 0.12
+    Decay: 12
+    Brake: 30
+    Damage: 10
+    AttackInterval: 0.2
+    HitSize: {x: 0, y: 0}
+    HitOffset: {x: 0, y: 0}
+    AttackTime: 0
+    Flight:
+      Speed: 20
+      Gravity: 0
+      Life: 5
+      Spin: 720
+      Scale: 1
+      Aspect: 1
+    SkillCooldown: 0
+    SkillDamage: 0
+    DashSpeed: 0
+    DashTime: 0
+    DashCooldown: 0
+    DashDamage: 0
+    DashRadius: 0
+    ParryTime: 0
+    ParryCooldown: 0
+    ReflectSpeed: 0
+    Capacity: 3
+    Reload: 1.5
+    ChargeTime: 0
+    ChargeDamage: 0
+    RollInterval: 0
+    MirrorScale: 0
+    BrewTime: 0
+    ThrowLift: 0
+    Spread: 0
+    Splash: 0
+    GravityDelay: 0.15
+    ExtraGravity: 30
+  - Job: 6
+    Health: 100
+    MoveSpeed: 7
+    JumpSpeed: 12
+    Gravity: 3
+    Coyote: 0.12
+    Decay: 12
+    Brake: 30
+    Damage: 15
+    AttackInterval: 0
+    HitSize: {x: 0, y: 0}
+    HitOffset: {x: 0, y: 0}
+    AttackTime: 0
+    Flight:
+      Speed: 30
+      Gravity: 2
+      Life: 3
+      Spin: 0
+      Scale: 1
+      Aspect: 1
+    SkillCooldown: 0
+    SkillDamage: 0
+    DashSpeed: 0
+    DashTime: 0
+    DashCooldown: 0
+    DashDamage: 0
+    DashRadius: 0
+    ParryTime: 0
+    ParryCooldown: 0
+    ReflectSpeed: 0
+    Capacity: 9
+    Reload: 2.5
+    ChargeTime: 3
+    ChargeDamage: 2
+    RollInterval: 0
+    MirrorScale: 0
+    BrewTime: 0
+    ThrowLift: 0
+    Spread: 0
+    Splash: 0
+    GravityDelay: 0
+    ExtraGravity: 0

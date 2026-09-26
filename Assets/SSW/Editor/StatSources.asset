@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45d79a47907f9244dab623ef5443ad98, type: 3}
+  m_Name: StatSources
+  m_EditorClassIdentifier: Assembly-CSharp-Editor::SSW.StatSources
+  _book: {fileID: 11400000, guid: 79577eb3679230a4ea018a1cc4d16c6d, type: 2}
+  _stock: {fileID: 11400000, guid: fc2174970fe100641976ef59210351c5, type: 2}
+  _entries:
+  - Job: 1
+    Prefab: {fileID: 8344356039665309093, guid: e54ec2723d3f63a488156219bf284104, type: 3}
+    Scene: {fileID: 0}
+    Root: 
+  - Job: 2
+    Prefab: {fileID: 8665040242661233106, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+    Scene: {fileID: 0}
+    Root: 
+  - Job: 3
+    Prefab: {fileID: 3715203694468558584, guid: 5345c9b323559874d950f11f50ecb92e, type: 3}
+    Scene: {fileID: 0}
+    Root: 
+  - Job: 4
+    Prefab: {fileID: 1637142997079766566, guid: 546eae5b55a4cf64c8761a3df9d269dc, type: 3}
+    Scene: {fileID: 0}
+    Root: 
+  - Job: 5
+    Prefab: {fileID: 0}
+    Scene: {fileID: 102900000, guid: 2982be37a0ee5a5488805dedd743306f, type: 3}
+    Root: Player (1)
+  - Job: 6
+    Prefab: {fileID: 1611378956970744661, guid: 091c9ece2677ec6438dbe7c5d990d321, type: 3}
+    Scene: {fileID: 0}
+    Root: 

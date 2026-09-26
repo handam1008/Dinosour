@@ -26,7 +26,7 @@ namespace SSW
         [SerializeField] float _berserkerDamage = 0.6f;
         [SerializeField] float _waltzDuration = 5f;
         [SerializeField] float _waltzHpBonus = 0.3f;
-        [SerializeField] float _tenLivesHealth = 10f;
+        [SerializeField] float _tenLivesHealth = 3f;
         [SerializeField] float _tenLivesDamage = 1f;
         [SerializeField] float _multiscaleReduction = 0.5f;
         [SerializeField] float _regenAmount = 1f;
@@ -76,6 +76,12 @@ namespace SSW
         }
 
         bool Has(CommonAugmentType type) => _owned.Contains(type);
+
+        public void SetBase(float value)
+        {
+            _baseMax = value;
+            RefreshMax();
+        }
 
         void Granted(Augment augment)
         {

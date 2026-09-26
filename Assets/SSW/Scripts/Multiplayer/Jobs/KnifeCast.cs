@@ -8,14 +8,10 @@ namespace SSW
 {
     public sealed class KnifeCast : JobCast, IDamageReceivedListener
     {
-        [SerializeField] float _damage = 15f;
-        [SerializeField] float _reach = 1.6f;
-        [SerializeField] float _interval = 0.5f;
-        [SerializeField] float _skillCooldown = 3f;
-        [SerializeField] float _throwDamage = 15f;
-        [SerializeField] float _throwSpeed = 25f;
         readonly Dictionary<AssassinAugmentType, AbstractAssassinAugmentSO> _augments = new Dictionary<AssassinAugmentType, AbstractAssassinAugmentSO>();
         AugmentContext _context;
+        KnifeTuning.Escape _escape;
+        KnifeTuning.Aura _aura;
         NetBolt _knife;
         uint _throwAction;
         uint _recallAction;
@@ -39,16 +35,19 @@ namespace SSW
 
         protected override void Grant(Augment item)
         {
-            if (item is AbstractAssassinAugmentSO augment) _augments.TryAdd(augment.type, augment);
+            if (item is not AbstractAssassinAugmentSO augment || !_augments.TryAdd(augment.type, augment)) return;
+            if (augment.type == AssassinAugmentType.Escape) _escape = KnifeTuning.Read<KnifeTuning.Escape>(augment);
+            if (augment.type == AssassinAugmentType.KillingIntent) _aura = KnifeTuning.Read<KnifeTuning.Aura>(augment);
         }
 
         protected override bool Plan(ref WeaponState state, CastInput input, out BoltSpec bolt)
         {
+            FighterStats stats = Stats;
             bolt = default;
             if (input.Kind == CastKind.Press)
             {
                 if (input.Tick < state.Ready) return false;
-                state.Ready = input.Tick + Cooldown(_interval);
+                state.Ready = input.Tick + Cooldown(stats.AttackInterval);
                 return true;
             }
             if (input.Kind == CastKind.Cycle)
@@ -57,9 +56,10 @@ namespace SSW
                 if (!recall && input.Tick < state.Skill) return false;
                 if (recall) { state.Ammo = 0; return true; }
                 state.Ammo = 1;
-                state.Skill = input.Tick + Cooldown(_skillCooldown);
-                bolt = new BoltSpec { Style = 3, Speed = _throwSpeed, Damage = _throwDamage, Life = 5f,
-                    Radius = 0.12f, Scale = 0.65f, Stick = true, Bounce = Has(AssassinAugmentType.ConcealedWeapon) ? 1 : 0,
+                state.Skill = input.Tick + Cooldown(stats.SkillCooldown);
+                bolt = new BoltSpec { Style = 3, Speed = stats.Flight.Speed, Damage = stats.SkillDamage, Life = stats.Flight.Life,
+                    Gravity = stats.Flight.Gravity, Spin = stats.Flight.Spin, Radius = 0.12f, Scale = stats.Flight.Scale,
+                    Aspect = stats.Flight.Aspect, Stick = true, Bounce = Has(AssassinAugmentType.ConcealedWeapon) ? 1 : 0,
                     CanPenetrate = true};
                 return true;
             }
@@ -100,7 +100,8 @@ namespace SSW
         {
             if (input.Kind == CastKind.Press)
             {
-                Melee(origin, input.Direction, lag, _reach, 0.45f, Strike);
+                FighterStats stats = Stats;
+                Melee(origin, input.Direction, lag, stats.HitSize, stats.HitOffset, Strike);
                 return;
             }
             if (input.Kind != CastKind.Cycle) return;
@@ -130,15 +131,15 @@ namespace SSW
             }
             if (Has(AssassinAugmentType.KillingIntent) && Time.time >= _auraReady)
             {
-                _auraUntil = Time.time + 6f;
-                _auraReady = Time.time + 12f;
+                _auraUntil = Time.time + _aura.Duration;
+                _auraReady = _auraUntil + _aura.Cooldown;
                 _auraStart = Time.time;
             }
         }
 
         void Strike(NetPlayer target)
         {
-            var info = new DamageInfo { Damage = _damage, Target = target.gameObject, IsBasicAttack = true, DamageTag = DamageTag.BasicAttack };
+            var info = new DamageInfo { Damage = Stats.Damage, Target = target.gameObject, IsBasicAttack = true, DamageTag = DamageTag.BasicAttack };
             foreach (var pair in _augments)
             {
                 if (pair.Key == AssassinAugmentType.Ambush || pair.Key == AssassinAugmentType.TacticalShift || pair.Key == AssassinAugmentType.KillingIntent) continue;
@@ -159,7 +160,11 @@ namespace SSW
         public void OnDamageReceived(DamageRequest request, DamageResult result)
         {
             if (!Active || !IsServer || !result.WasApplied) return;
-            if (_augments.TryGetValue(AssassinAugmentType.Escape, out AbstractAssassinAugmentSO escape)) escape.OnHit(_context);
+            if (Has(AssassinAugmentType.Escape) && !_context.IsOnCooldown(AssassinAugmentType.Escape))
+            {
+                Motion.ApplySpeed(_escape.Speed, _escape.Duration);
+                _context.SetCooldown(AssassinAugmentType.Escape, _escape.Duration + _escape.Cooldown);
+            }
             if (!_shifted && Player.Health.Current > 0f && Player.Health.Current <= Player.Health.Max * 0.3f && Has(AssassinAugmentType.TacticalShift))
             {
                 _shifted = true;
@@ -180,12 +185,12 @@ namespace SSW
             }
             if (Time.time >= _auraUntil || Time.time < _auraAt) return;
             _auraAt = Time.time + 0.1f;
-            float amount = Mathf.Clamp01((Time.time - _auraStart) / 3f) * 0.3f;
+            float elapsed = Time.time - _auraStart;
             foreach (NetPlayer target in NetGame.Current.Players)
             {
-                if (target == Player || Vector2.Distance(Player.Body.position, target.Body.position) > 3f) continue;
-                target.Motion.ApplySlow(amount, 0.2f);
-                target.Motion.ApplyAttackWeaken(amount, 0.2f);
+                if (target == Player || Vector2.Distance(Player.Body.position, target.Body.position) > _aura.Radius) continue;
+                target.Motion.ApplySlow(_aura.Slow(elapsed), 0.2f);
+                target.Motion.ApplyAttackWeaken(_aura.Weaken(elapsed), 0.2f);
             }
         }
     }

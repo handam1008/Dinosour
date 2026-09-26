@@ -8,7 +8,7 @@ namespace SSW
     {
         [SerializeField] Augment[] _augments;
         [SerializeField] AugmentPool _commonPool;
-        public bool IsCommon(Augment item) => System.Array.IndexOf(_commonPool.augments, item) >= 0;
+        public bool IsCommon(Augment item) => item != null && System.Array.IndexOf(_commonPool.augments, item) >= 0;
         public int Count => _augments.Length;
         public Augment At(int index) => _augments[index];
 
@@ -20,6 +20,7 @@ namespace SSW
             {
                 if (held.Contains(i)) continue;
                 Augment item = _augments[i];
+                if (item == null) continue;
                 bool eligible = common
                     ? IsCommon(item)
                     : item is IJobRestrictedAugment restricted && restricted.RequiredJob == job;

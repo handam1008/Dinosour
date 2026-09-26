@@ -1,5 +1,8 @@
+if (UnityEditor.EditorApplication.isPlaying) throw new System.InvalidOperationException("Stop play mode first");
 var previous = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+var random = UnityEngine.Random.state;
 var scene = UnityEditor.SceneManagement.EditorSceneManager.NewScene(UnityEditor.SceneManagement.NewSceneSetup.EmptyScene, UnityEditor.SceneManagement.NewSceneMode.Additive);
+UnityEngine.SceneManagement.SceneManager.SetActiveScene(scene);
 var checks = new System.Collections.Generic.List<string>();
 const System.Reflection.BindingFlags flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public;
 void Check(bool ok, string label)
@@ -19,7 +22,7 @@ System.Reflection.FieldInfo Field(object target, string name)
 object Read(object target, string name) => Field(target, name).GetValue(target);
 void Set(object target, string name, object value) => Field(target, name).SetValue(target, value);
 object Call(object target, string name, params object[] args) => target.GetType().GetMethod(name, flags).Invoke(target, args);
-uint Ticks(float seconds) => (uint)UnityEngine.Mathf.CeilToInt(seconds / UnityEngine.Time.fixedDeltaTime);
+uint Ticks(float seconds) => (uint)UnityEngine.Mathf.CeilToInt(UnityEngine.Mathf.Max(0.001f, seconds) / UnityEngine.Time.fixedDeltaTime);
 bool Near(float left, float right) => UnityEngine.Mathf.Abs(left - right) < 0.001f;
 try
 {
@@ -27,11 +30,17 @@ try
     var obj = (UnityEngine.GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(prefab, scene);
     var player = obj.GetComponent<SSW.NetPlayer>();
     var gun = obj.GetComponent<SSW.GunCast>();
+    var book = UnityEditor.AssetDatabase.LoadAssetAtPath<SSW.StatsBook>("Assets/SSW/Resources/Network/Stats.asset");
+    Check(book != null, "baked job stats exist");
+    var stats = book.At(SSW.PlayerJob.Gunner);
+    Set(Read(player, "_stats"), "m_InternalValue", stats);
+    Set(Read(player, "_job"), "m_InternalValue", SSW.PlayerJob.Gunner);
+    var sourceGun = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.GameObject>("Assets/KDH/GameModules/KDH_Player Variant.prefab").GetComponent<KDH.Scripts.Gun.KDH_Gun>();
     var view = gun.View;
     var effects = gun.Effects;
     var pool = effects.Pool;
     Check(view != null && effects != null && pool != null, "gun presentation and explicit pool references exist");
-    Check((int)Read(gun, "_capacity") == 9 && Near((float)Read(gun, "_reload"), 2.5f), "original nine round magazine and recharge rate");
+    Check(gun.Capacity == sourceGun.MaxAmmo && Near(stats.Reload, sourceGun.ChargeSpeed), "baked magazine capacity and recharge rate match original gun");
     Check(gun.QuestHits == 2 && Near((float)Read(gun, "_shrinkCooldown"), 5f), "original evolution requirement and shrink cooldown");
     player.Cast.CooldownScale = 1f;
     SSW.WeaponState Advance(SSW.WeaponState state, uint tick)
@@ -46,55 +55,60 @@ try
         bool accepted = (bool)Call(gun, "Plan", args);
         return (accepted, (SSW.WeaponState)args[0], (SSW.BoltSpec)args[2]);
     }
-    var state = new SSW.WeaponState { Reload = Ticks(2.5f) };
+    uint reloadTick = Ticks(stats.Reload);
+    uint chargeTick = Ticks(stats.ChargeTime);
+    var state = new SSW.WeaponState { Reload = reloadTick };
     Check(!Plan(state, 0).Accepted, "empty magazine cannot fire");
-    state = Advance(state, Ticks(2.5f));
+    state = Advance(state, reloadTick);
     Check(state.Ammo == 1 && state.Loaded.Length == 1, "recharge stores each loaded round once");
-    var ordinary = Plan(state, Ticks(2.5f));
-    Check(ordinary.Accepted && Near(ordinary.Bolt.Damage, 15f) && !ordinary.Bolt.Charged, "ordinary round applies fifteen damage");
-    Check(Near(ordinary.Bolt.Speed, 30f) && Near(ordinary.Bolt.Gravity, 2f) && Near(ordinary.Bolt.Scale, 1f), "original speed gravity and bullet scale");
-    var chargedState = new SSW.WeaponState { Ammo = 1, Reload = Ticks(10f) };
+    var ordinary = Plan(state, reloadTick);
+    Check(ordinary.Accepted && Near(ordinary.Bolt.Damage, stats.Damage) && !ordinary.Bolt.Charged, "ordinary round applies baked base damage once");
+    Check(Near(ordinary.Bolt.Speed, stats.Flight.Speed) && Near(ordinary.Bolt.Gravity, stats.Flight.Gravity)
+        && Near(ordinary.Bolt.Scale, stats.Flight.Scale) && Near(ordinary.Bolt.Aspect, stats.Flight.Aspect), "baked speed gravity and bullet dimensions");
+    var chargedState = new SSW.WeaponState { Ammo = 1, Reload = chargeTick + reloadTick * (uint)(stats.Capacity + 1) };
     chargedState.Loaded.Add(0);
-    var charged = Plan(chargedState, Ticks(3f));
-    Check(charged.Accepted && charged.Bolt.Charged && Near(charged.Bolt.Damage, 30f), "charged round doubles basic damage");
-    var released = Plan(chargedState, Ticks(3f), SSW.CastKind.Release);
+    var charged = Plan(chargedState, chargeTick);
+    Check(charged.Accepted && charged.Bolt.Charged && Near(charged.Bolt.Damage, stats.Damage * stats.ChargeDamage), "charged round applies baked damage multiplier once");
+    var released = Plan(chargedState, chargeTick, SSW.CastKind.Release);
     Check(released.Accepted && released.State.Ammo == 1 && Near(released.Bolt.Speed, 0f), "release neither fires nor consumes ammunition");
-    Check(!Plan(charged.State, Ticks(3f)).Accepted, "second press cannot reuse consumed round");
+    Check(!Plan(charged.State, chargeTick).Accepted, "second press cannot reuse consumed round");
     var rapidState = chargedState;
     rapidState.Ammo = 2;
     rapidState.Loaded.Add(0);
-    var rapid = Plan(rapidState, Ticks(3f));
-    Check(!Plan(rapid.State, Ticks(3f)).Accepted && Plan(rapid.State, Ticks(3f) + 1).Accepted, "rapid clicks are limited only by one physics tick");
-    state = Advance(new SSW.WeaponState { Reload = Ticks(2.5f) }, Ticks(30f));
-    Check(state.Ammo == 9 && state.Loaded.Length == 9, "long recharge never exceeds magazine capacity");
-    var fullShot = Plan(state, Ticks(35f));
-    state = Advance(fullShot.State, Ticks(35f));
-    Check(state.Ammo == 9 && state.Loaded[state.Loaded.Length - 1] == Ticks(35f), "full magazine preserves accumulated recharge for one replacement");
-    var evolved = Advance(new SSW.WeaponState { Progress = 2, Reload = 1 }, 1);
-    Check(evolved.Reload == 1 + Ticks(1.25f), "evolution halves recharge interval");
+    var rapid = Plan(rapidState, chargeTick);
+    Check(!Plan(rapid.State, rapid.State.Ready - 1).Accepted && Plan(rapid.State, rapid.State.Ready).Accepted
+        && rapid.State.Ready == chargeTick + Ticks(stats.AttackInterval), "rapid clicks respect baked attack interval and one tick minimum");
+    uint fullTick = reloadTick * (uint)(stats.Capacity + 2);
+    state = Advance(new SSW.WeaponState { Reload = reloadTick }, fullTick);
+    Check(state.Ammo == stats.Capacity && state.Loaded.Length == stats.Capacity, "long recharge never exceeds magazine capacity");
+    uint replaceTick = fullTick + chargeTick + reloadTick;
+    var fullShot = Plan(state, replaceTick);
+    state = Advance(fullShot.State, replaceTick);
+    Check(state.Ammo == stats.Capacity && state.Loaded[state.Loaded.Length - 1] == replaceTick, "full magazine preserves accumulated recharge for one replacement");
+    var evolved = Advance(new SSW.WeaponState { Progress = gun.QuestHits, Reload = 1 }, 1);
+    Check(evolved.Reload == 1 + Ticks(stats.Reload * 0.5f), "evolution halves recharge interval");
     var restored = (SSW.WeaponState)Call(gun, "Initial");
-    restored.Progress = 2;
+    restored.Progress = gun.QuestHits;
     object[] progressArgs = { restored };
     Call(gun, "ProgressChanged", progressArgs);
     restored = (SSW.WeaponState)progressArgs[0];
-    Check(restored.Reload == restored.Filled + Ticks(1.25f), "restored evolution applies to the first reload after respawn");
+    Check(restored.Reload == restored.Filled + Ticks(stats.Reload * 0.5f), "restored evolution applies to the first reload after respawn");
     Check(Advance(restored, restored.Reload).Ammo == 1, "restored evolved player loads first round on time");
-    Check(Near(SSW.GunCast.Charge(100, 99), 0f), "future load tick cannot underflow charge display");
-    Check(Near(SSW.GunCast.Charge(0, Ticks(3f)), 1f), "charge display reaches full with charged attack threshold");
+    Check(Near(gun.Charge(100, 99), 0f), "future load tick cannot underflow charge display");
+    Check(Near(gun.Charge(0, chargeTick), 1f), "charge display reaches full with charged attack threshold");
     var displayed = new SSW.WeaponState { Ammo = 3 };
-    uint displayTick = Ticks(6f);
+    uint displayTick = chargeTick * 2;
     displayed.Loaded.Add(0);
-    displayed.Loaded.Add(displayTick - Ticks(1.5f));
+    displayed.Loaded.Add(displayTick - chargeTick / 2);
     displayed.Loaded.Add(displayTick);
     view.Draw(true, displayed, displayTick);
     Check(view.VisibleAmmo == 3 && view.ChargedAmmo == 1, "ammo display uses per round authoritative load times");
     view.Draw(false, displayed, displayTick);
     Check(view.VisibleAmmo == 0 && view.ChargedAmmo == 0, "ammo display disappears outside combat");
-    view.Draw(true, state, Ticks(40f));
-    Check(view.VisibleAmmo == 9 && view.ChargedAmmo == 9, "all nine loaded rounds are visible and charged");
+    view.Draw(true, state, replaceTick + chargeTick);
+    Check(view.VisibleAmmo == stats.Capacity && view.ChargedAmmo == stats.Capacity, "every loaded round is visible and charged");
     var muzzle = view.Muzzle(UnityEngine.Vector2.zero, UnityEngine.Vector2.right, 1f);
     var reversed = view.Muzzle(UnityEngine.Vector2.zero, UnityEngine.Vector2.left, 1f);
-    var sourceGun = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.GameObject>("Assets/KDH/GameModules/KDH_Player Variant.prefab").GetComponent<KDH.Scripts.Gun.KDH_Gun>();
     UnityEngine.Vector2 sourceMuzzle = sourceGun.GunPos.localPosition;
     Check(UnityEngine.Vector2.Distance(muzzle, sourceMuzzle) < 0.001f, "muzzle preserves original right facing offset");
     Check(UnityEngine.Vector2.Distance(reversed, new UnityEngine.Vector2(-sourceMuzzle.x, sourceMuzzle.y)) < 0.001f, "muzzle mirrors above gun for left facing shots");
@@ -127,7 +141,7 @@ try
         try
         {
             reader.ReadNetworkSerializable(out SSW.BoltSpec received);
-            Check(received.Equals(charged.Bolt) && Near(received.Gravity, 2f), "charged ballistic specification survives network serialization");
+            Check(received.Equals(charged.Bolt) && Near(received.Gravity, stats.Flight.Gravity), "charged ballistic specification survives network serialization");
         }
         finally { reader.Dispose(); }
     }
@@ -138,7 +152,7 @@ try
         try
         {
             reader.ReadNetworkSerializable(out SSW.WeaponState received);
-            Check(received.Equals(state) && received.Loaded.Length == 9, "all nine charge timestamps survive network serialization");
+            Check(received.Equals(state) && received.Loaded.Length == stats.Capacity, "every charge timestamp survives network serialization");
         }
         finally { reader.Dispose(); }
     }
@@ -215,10 +229,11 @@ try
     pool.Play(visual, UnityEngine.Vector3.one, 3f);
     pool.Clear();
     Check(pool.ActiveCount == 0 && pool.PooledCount == pool.CreatedCount, "round cleanup returns every active effect");
-    return new { passed = checks.Count, checks };
 }
 finally
 {
     UnityEditor.SceneManagement.EditorSceneManager.CloseScene(scene, true);
-    UnityEngine.SceneManagement.SceneManager.SetActiveScene(previous);
+    if (previous.IsValid()) UnityEngine.SceneManagement.SceneManager.SetActiveScene(previous);
+    UnityEngine.Random.state = random;
 }
+if (checks.Count > 0) return new { passed = checks.Count, checks };

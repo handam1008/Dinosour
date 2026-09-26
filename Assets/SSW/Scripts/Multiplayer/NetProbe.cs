@@ -37,8 +37,13 @@ namespace SSW
             public float hp;
             public float[] heals;
             public float max;
+            public FighterStats stats;
+            public float jumpSpeed;
+            public string bodyMaterial;
+            public string colliderMaterial;
             public Vector2 position;
             public Vector2 viewPosition;
+            public double viewTime;
             public bool viewLinked;
             public Vector2 velocity;
             public ulong objectId;
@@ -112,6 +117,7 @@ namespace SSW
             public int kind;
             public uint action;
             public ulong caster;
+            public BoltSpec spec;
         }
 
         [Serializable] sealed class EmberState
@@ -149,6 +155,7 @@ namespace SSW
             public ulong mapObject;
             public Vector3[] mapSpawns;
             public Vector2[] mapBodies;
+            public MapProbe.State mapState;
             public EmberState[] embers;
             public bool menuOpen;
             public bool canResume;
@@ -328,6 +335,11 @@ namespace SSW
                     SetGround(new Vector2(command.x, command.y), 0f, false);
                     _ground.GetComponent<BoxCollider2D>().size = new Vector2(60f, 0.6f);
                     break;
+                case "isolate":
+                    foreach (Collider2D shape in game.Arena.Map.GetComponentsInChildren<Collider2D>(true)) shape.enabled = false;
+                    foreach (ParticleSystem effect in game.Arena.Map.GetComponentsInChildren<ParticleSystem>())
+                        effect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                    break;
                 case "ground":
                 case "platform":
                     SetGround(new Vector2(command.x, command.y), command.value, command.op == "platform");
@@ -438,6 +450,9 @@ namespace SSW
                 {
                     id = player.OwnerClientId, job = player.Job.ToString(), hp = player.Health.Current,
                     heals = heals.ToArray(),
+                    stats = player.Stats, jumpSpeed = player.Motion.JumpSpeed,
+                    bodyMaterial = player.Body.sharedMaterial != null ? player.Body.sharedMaterial.name : string.Empty,
+                    colliderMaterial = player.Collider.sharedMaterial != null ? player.Collider.sharedMaterial.name : string.Empty,
                     ammo = player.Cast.Weapon != null ? player.Cast.Weapon.Status.Ammo : 0,
                     progress = player.Cast.Weapon != null ? player.Cast.Weapon.Progress : 0,
                     skillReady = player.Cast.Weapon != null ? player.Cast.Weapon.Status.Skill : 0,
@@ -460,6 +475,7 @@ namespace SSW
                     trail = player.Draft.View != null ? player.Draft.View.Particles : 0,
                     watchOffer = player.Draft.WatchPose.Offer, watchPick = player.Draft.WatchPose.Pick,
                     max = player.Health.Max, position = player.transform.position, viewPosition = player.View.position, viewLinked = player.GetComponentInChildren<DinosaurVisualController>().transform.IsChildOf(player.View), velocity = player.Velocity,
+                    viewTime = player.Drive.ViewTime,
                     objectId = player.NetworkObjectId, epoch = player.GetComponent<MotionView>().Epoch,
                     tick = player.GetComponent<MotionView>().Tick, processed = player.InputSequence,
                     grounded = player.GetComponent<MotionView>().Grounded, correction = player.GetComponent<MotionView>().Correction,
@@ -491,7 +507,7 @@ namespace SSW
                     else if (obj.TryGetComponent(out NetPotion potion))
                         shots.Add(new ShotState { id = entry.Key, type = "potion", position = obj.transform.position, kind = potion.Kind, action = potion.Action, caster = potion.Caster });
                     else if (obj.TryGetComponent(out NetBolt bolt))
-                        shots.Add(new ShotState { id = entry.Key, type = "bolt", position = obj.transform.position, kind = bolt.Spec.Style, action = bolt.Action, caster = bolt.Caster });
+                        shots.Add(new ShotState { id = entry.Key, type = "bolt", position = obj.transform.position, kind = bolt.Spec.Style, action = bolt.Action, caster = bolt.Caster, spec = bolt.Spec });
                     else if (obj.TryGetComponent(out NetZone zone))
                         shots.Add(new ShotState { id = entry.Key, type = "zone", position = obj.transform.position });
                 }
@@ -514,7 +530,7 @@ namespace SSW
             Snapshot snapshot = new Snapshot
             {
                 physicsTime = game.PhysicsTime, serverTime = game.Connected ? game.Manager.ServerTime.Time : 0d,
-                audio = _audio.Read(), probeVersion = 4, build = Application.buildGUID,
+                audio = _audio.Read(), probeVersion = 5, build = Application.buildGUID,
                 rtt = game.Connected ? game.Manager.NetworkConfig.NetworkTransport.GetCurrentRtt(Unity.Netcode.NetworkManager.ServerClientId) : 0, targetFps = Application.targetFrameRate, frameTime = Time.unscaledDeltaTime,
                 seq = _sequence, viewDelay = _viewDelay, bodyDelay = _bodyDelay, castDelay = _castDelay, error = _error, listening = game.Connected,
                 server = game.Connected && game.Manager.IsServer, connected = game.Connected && game.Manager.IsConnectedClient,
@@ -528,6 +544,7 @@ namespace SSW
                 mapObject = map != null ? map.NetworkObjectId : 0,
                 mapSpawns = map != null ? new[] { map.Spawn(0), map.Spawn(1) } : Array.Empty<Vector3>(),
                 mapBodies = mapBodies.ToArray(),
+                mapState = MapProbe.Read(game, map),
                 embers = embers.ToArray(),
                 menuOpen = game.Menu != null && game.Menu.IsOpen,
                 canResume = game.Menu != null && game.Menu.CanResume,

@@ -7,9 +7,6 @@ namespace SSW
 {
     public sealed class CoinCast : JobCast, IDamageDealtListener
     {
-        [SerializeField] float _damage = 10f;
-        [SerializeField] float _speed = 15f;
-        [SerializeField] float _reload = 1.5f;
         readonly HashSet<GamblerAugmentType> _augments = new HashSet<GamblerAugmentType>();
         readonly List<float> _damageUntil = new List<float>();
         float _jackpotUntil;
@@ -34,12 +31,12 @@ namespace SSW
             if (item is GamblerAugment augment) _augments.Add(augment.type);
         }
 
-        protected override WeaponState Initial() => new WeaponState { Ammo = 3, Filled = (uint)Random.Range(1, int.MaxValue) };
+        protected override WeaponState Initial() => new WeaponState { Ammo = Stats.Capacity, Filled = (uint)Random.Range(1, int.MaxValue) };
 
         protected override void Advance(ref WeaponState state, uint tick)
         {
             if (state.Reload == 0 || tick < state.Reload) return;
-            state.Ammo = 3;
+            state.Ammo = Stats.Capacity;
             state.Filled = unchecked(state.Filled * 1664525u + 1013904223u);
             state.Reload = 0;
         }
@@ -49,11 +46,14 @@ namespace SSW
             bolt = default;
             if (input.Kind != CastKind.Press) return input.Kind != CastKind.Parry;
             if (input.Tick < state.Ready || state.Ammo <= 0) return false;
-            bool roulette = state.Ammo == 1 + state.Filled % 3 || Has(GamblerAugmentType.MoreChances);
+            FighterStats stats = Stats;
+            bool roulette = state.Ammo == 1 + state.Filled % (uint)stats.Capacity || Has(GamblerAugmentType.MoreChances);
             state.Ammo--;
-            state.Ready = input.Tick + Cooldown(0.2f);
-            state.Reload = input.Tick + Cooldown(_reload);
-            bolt = new BoltSpec { Style = roulette ? 2 : 1, Speed = _speed, Damage = _damage, Life = 4f, Radius = 0.14f, Scale = 0.7f, Spin = 720f };
+            state.Ready = input.Tick + Cooldown(stats.AttackInterval);
+            state.Reload = input.Tick + Cooldown(stats.Reload);
+            bolt = new BoltSpec { Style = roulette ? 2 : 1, Speed = stats.Flight.Speed, Damage = stats.Damage,
+                Life = stats.Flight.Life, Radius = 0.14f, Scale = stats.Flight.Scale, Aspect = stats.Flight.Aspect,
+                Spin = stats.Flight.Spin, Gravity = stats.Flight.Gravity, GravityDelay = stats.GravityDelay, ExtraGravity = stats.ExtraGravity };
             return true;
         }
 
@@ -67,11 +67,12 @@ namespace SSW
         void Roll()
         {
             WeaponState state = State;
-            bool guaranteed = Has(GamblerAugmentType.GuaranteedJackpot) && state.Progress >= 20;
+            bool available = !Jackpot;
+            bool guaranteed = available && Has(GamblerAugmentType.GuaranteedJackpot) && state.Progress >= 20;
             float luck = Has(GamblerAugmentType.Luck) ? 0.5f : 0f;
             float common = (Has(GamblerAugmentType.MoreChances) ? 5f : 7f) + luck;
-            JackpotResultType main = guaranteed ? JackpotResultType.Jackpot777 : RollTable(common, 1f + luck, Probability);
-            JackpotResultType old = Has(GamblerAugmentType.OldCoin) ? RollTable(1f + luck, 0f, 1f + luck) : JackpotResultType.None;
+            JackpotResultType main = guaranteed ? JackpotResultType.Jackpot777 : RollTable(common, 1f + luck, available ? Probability : 0f);
+            JackpotResultType old = Has(GamblerAugmentType.OldCoin) ? RollTable(1f + luck, 0f, available ? 1f + luck : 0f) : JackpotResultType.None;
             if (guaranteed) state.Progress = 0;
             else if (Has(GamblerAugmentType.GuaranteedJackpot)) state.Progress = Mathf.Min(20, state.Progress
                 + (main != JackpotResultType.None ? 1 : 0) + (old != JackpotResultType.None ? 1 : 0));

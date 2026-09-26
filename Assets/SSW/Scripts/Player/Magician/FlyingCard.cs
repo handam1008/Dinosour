@@ -58,6 +58,8 @@ namespace SSW
             _lifetime = lifetime;
         }
 
+        public void SetDamage(float damage) => _baseDamage = damage;
+
         public void SetEffectMultiplier(float multiplier)
         {
             _effectMultiplier = multiplier;
