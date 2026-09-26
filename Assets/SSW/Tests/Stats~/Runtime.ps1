@@ -49,6 +49,10 @@ try{
             Check ($p.bodyMaterial -eq 'Player Physics' -and $p.colliderMaterial -eq 'Player Physics') "$job player $($p.id) body and collider material"
             Check ([Math]::Abs($p.jumpSpeed-$entry.stats.JumpSpeed) -lt 0.001) "$job player $($p.id) jump setting"
         }
+        if($MaterialsOnly){
+            @{host=(Read host);client=(Read client)}|ConvertTo-Json -Depth 14|Set-Content "$root/$job.json"
+            continue
+        }
         Await "$job grounded" {$h.players[0].grounded -and $h.players[1].grounded} 6
         foreach($peer in @('host','client')){
             $actor=(Read $peer).players|Where-Object owner
@@ -94,6 +98,11 @@ try{
             }
         }
         @{host=(Read host);client=(Read client)}|ConvertTo-Json -Depth 14|Set-Content "$root/$job.json"
+    }
+    if($MaterialsOnly){
+        @{checks=$checks.Count;scope='Six jobs: fresh network spawns, source profiles, Rigidbody2D and Collider2D materials';host=(Read host);client=(Read client)}|ConvertTo-Json -Depth 14|Set-Content "$root/Result.json"
+        Write-Output "PASS $($checks.Count) material and profile checks: $root"
+        return
     }
     $changed=(Eval 'var book=UnityEditor.AssetDatabase.LoadAssetAtPath<SSW.StatsBook>("Assets/SSW/Resources/Network/Stats.asset");var values=(SSW.FighterStats[])typeof(SSW.StatsBook).GetField("_fighters",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).GetValue(book);values=(SSW.FighterStats[])values.Clone();for(int i=0;i<values.Length;i++){if(values[i].Job==SSW.PlayerJob.Swordsman){values[i].Health=137f;values[i].MoveSpeed=8.5f;values[i].JumpSpeed=15f;}if(values[i].Job==SSW.PlayerJob.Gunner){values[i].Capacity=15;values[i].Reload=0.12f;values[i].ChargeTime=0.2f;}}book.Replace(values);return UnityEngine.JsonUtility.ToJson(book.At(SSW.PlayerJob.Swordsman));')|ConvertFrom-Json
     SpawnJob Swordsman|Out-Null
