@@ -13,7 +13,16 @@ function Eval([string]$code){
     if(-not $reply.success -or -not $reply.data.result.success){throw ($reply|ConvertTo-Json -Depth 8)}
     return $reply.data.result.result
 }
-function Read($peer){for($attempt=0;$attempt -lt 5;$attempt++){try{return Get-Content -LiteralPath "$root/$peer.json" -Raw|ConvertFrom-Json}catch{Start-Sleep -Milliseconds 10}};return $null}
+function Read($peer){
+    for($attempt=0;$attempt -lt 5;$attempt++){
+        try{
+            $snapshot=[IO.File]::ReadAllText("$root/$peer.json")|ConvertFrom-Json
+            if($snapshot -and $snapshot -isnot [array]){return $snapshot}
+        }catch{}
+        Start-Sleep -Milliseconds 10
+    }
+    return $null
+}
 function Await($label,[scriptblock]$condition,$timeout=35){
     $until=[DateTime]::UtcNow.AddSeconds($timeout)
     do{
