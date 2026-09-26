@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 9010145468765153890}
   - component: {fileID: 3511451750341676762}
   - component: {fileID: 2274961697393603766}
+  - component: {fileID: 2990356596623498525}
   m_Layer: 0
   m_Name: Map14
   m_TagString: Untagged
@@ -82,11 +83,8 @@ MonoBehaviour:
     m_Center: {x: 17.5, y: 0.881444, z: 0}
     m_Extent: {x: 18, y: 10.618556, z: 0.1}
   _fallY: -12.737112
+  _edges: {fileID: 2990356596623498525}
   _serverOnly:
-  - {fileID: 7330802092157522950}
-  - {fileID: 7787578299793166243}
-  - {fileID: 4758882031643201241}
-  - {fileID: 1049489279669690590}
   - {fileID: 6264490250786471711}
   - {fileID: 3081798568339624912}
   - {fileID: 3427777857676941882}
@@ -126,6 +124,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SSW.SpawnPoints
   _first: {fileID: 4960479401608587938}
   _second: {fileID: 3182526754948505090}
+--- !u!114 &2990356596623498525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056010597939510158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 087dd1eb47f7e9b4d8a336fb5722248b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.MapEdges
+  _map: {fileID: 9010145468765153890}
+  _edges:
+  - Shape: {fileID: 2014108065739889335}
+    Damage: 5
+    Force: {x: 0, y: 150}
+  - Shape: {fileID: 2268691068000775554}
+    Damage: 5
+    Force: {x: 0, y: -150}
+  - Shape: {fileID: 614876156214694401}
+    Damage: 5
+    Force: {x: 150, y: 0}
+  - Shape: {fileID: 6547843098610385418}
+    Damage: 5
+    Force: {x: -150, y: 0}
 --- !u!1001 &3705432232350105886
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -180,6 +204,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 914065251454546067, guid: d0fb597a6eb741c4fa55f3cfc51e1a48, type: 3}
+    - {fileID: 6255617883175359768, guid: d0fb597a6eb741c4fa55f3cfc51e1a48, type: 3}
+    - {fileID: 6881324101113515709, guid: d0fb597a6eb741c4fa55f3cfc51e1a48, type: 3}
+    - {fileID: 8171402214575165383, guid: d0fb597a6eb741c4fa55f3cfc51e1a48, type: 3}
+    - {fileID: 4466689072807027136, guid: d0fb597a6eb741c4fa55f3cfc51e1a48, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -192,17 +220,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3781399408997137049, guid: d0fb597a6eb741c4fa55f3cfc51e1a48, type: 3}
   m_PrefabInstance: {fileID: 3705432232350105886}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1049489279669690590 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4466689072807027136, guid: d0fb597a6eb741c4fa55f3cfc51e1a48, type: 3}
+--- !u!61 &614876156214694401 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 4315623136248337183, guid: d0fb597a6eb741c4fa55f3cfc51e1a48, type: 3}
   m_PrefabInstance: {fileID: 3705432232350105886}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cc44ad62db685045963748b0b93505a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
+--- !u!61 &2014108065739889335 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 2927298418616179625, guid: d0fb597a6eb741c4fa55f3cfc51e1a48, type: 3}
+  m_PrefabInstance: {fileID: 3705432232350105886}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &2268691068000775554 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 3175130621094358172, guid: d0fb597a6eb741c4fa55f3cfc51e1a48, type: 3}
+  m_PrefabInstance: {fileID: 3705432232350105886}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2490423374015484671 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1289036811569927137, guid: d0fb597a6eb741c4fa55f3cfc51e1a48, type: 3}
@@ -251,17 +283,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e3b5a35cef0e4b40a2195b2c8f3f939, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_Shaking
---- !u!114 &4758882031643201241 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8171402214575165383, guid: d0fb597a6eb741c4fa55f3cfc51e1a48, type: 3}
-  m_PrefabInstance: {fileID: 3705432232350105886}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cc44ad62db685045963748b0b93505a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
 --- !u!4 &4960479401608587938 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8627629425154288572, guid: d0fb597a6eb741c4fa55f3cfc51e1a48, type: 3}
@@ -293,28 +314,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7696465838379035997, guid: d0fb597a6eb741c4fa55f3cfc51e1a48, type: 3}
   m_PrefabInstance: {fileID: 3705432232350105886}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7330802092157522950 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6255617883175359768, guid: d0fb597a6eb741c4fa55f3cfc51e1a48, type: 3}
+--- !u!61 &6547843098610385418 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 7616372436139279124, guid: d0fb597a6eb741c4fa55f3cfc51e1a48, type: 3}
   m_PrefabInstance: {fileID: 3705432232350105886}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cc44ad62db685045963748b0b93505a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
---- !u!114 &7787578299793166243 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6881324101113515709, guid: d0fb597a6eb741c4fa55f3cfc51e1a48, type: 3}
-  m_PrefabInstance: {fileID: 3705432232350105886}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cc44ad62db685045963748b0b93505a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
 --- !u!1 &8920857851674239926 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5233488466138817192, guid: d0fb597a6eb741c4fa55f3cfc51e1a48, type: 3}
@@ -338,3 +342,4 @@ MonoBehaviour:
   _duration: 2
   _hold: 3
   _once: 0
+  _playOnAwake: 1

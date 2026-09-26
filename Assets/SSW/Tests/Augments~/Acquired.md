@@ -1,0 +1,34 @@
+# 획득 증강 표시
+
+2026-09-26, Unity 6000.5.2f1. 통합 기준 Base `c7b1db0b7c2f1c787f99b747795f575b4333b83e`는 리더보드 `262955a`, 맵·물리 `998aa24`, 회복 표시 `5e7c286`을 포함한다.
+
+## 변경
+
+- NetDraft가 네트워크 보유 ID를 기존 AugmentDrafter에 적용한 뒤, 로컬 소유자의 HUD를 그 보유 목록에 연결한다. 원격 플레이어와 연습 표적에는 HUD를 만들지 않는다.
+- 마법사 전용 수신 경로에만 의존하던 표시를 공용·6개 직업의 실제 획득 목록으로 확장했다. 현재 보유 규칙은 중복 없는 목록이며 별도 중첩 수를 만들지 않는다.
+- 기존 Augment의 icon, displayName, description을 사용한다. 마법사 쿨다운 공급자도 유지한다. 보유 목록/구독, 격자·스크롤, 툴팁 배치를 분리했다.
+- 화면 우측 상단에 최대 3줄을 표시하고 넘치는 항목은 스크롤한다. 툴팁은 화면 안에 배치하며 레이캐스트를 받지 않는다. 스크롤·포인터 이탈·비활성화·재연결 때 이전 툴팁을 닫는다.
+
+## 실행 검증
+
+Unity CLI로 `Assets/SSW/SuperUltraLegendScene.unity`의 실제 연습 모드를 실행한 뒤 `command eval_file --file Assets/SSW/Tests/Augments~/HudRun.cs`로 검사했다. 테스트 종료 시 직업 선택과 Game View 크기를 복원하며 임시 사용자 해상도를 제거한다.
+
+`Logs/Augment26/checks.json`: 240개 통과, 검사 중 런타임 오류 0.
+
+- 6개 직업에서 실제 공용/직업 선택 RPC, 보유 ID와 표시 목록 일치, 정확한 원본 스프라이트, 중복 복원, HUD 재활성화, 실제 연습 플레이어 리스폰을 검사했다.
+- 실제 원격 소유 마법사에게 증강을 부여해도 별도 HUD가 생기지 않는다. 스폰 전에 채운 NetworkList는 최초 스폰에서 복원된다. 이는 초기 상태 픽스처이며 외부 클라이언트 재접속 검증이 아니다.
+- 실제 마법사 응급 마술의 쿨다운 오버레이와 일시정지 중 호버를 검사했다.
+- 실제 카탈로그 82개를 가진 별도 UI 픽스처로 다중 항목·중복 이벤트·구독 해제·재바인딩·마지막 항목까지 스크롤·포인터 레이캐스트를 검사했다. 실제 게임에서 전체 카탈로그를 지급하는 코드는 없다.
+- Game View 1920×1080, 1366×768, 2560×1440, 1024×768, 600×900, 1920×600에서 범위·넘침·툴팁을 검사했다.
+- `Logs/Augment26/missing-icon-hover.json`: 원본 이미지가 없는 실제 획득 항목의 툴팁 표시와 임의 스프라이트 미사용도 확인했다.
+- `Logs/Augment26/acquired-hover.png`, `overflow-tooltip.png`: 실제 Game View 캡처를 확인했다.
+
+## 제한과 원본 데이터
+
+`MissingIcons.json`에 당시 카탈로그 중 icon 참조가 없는 40개를 자산 경로와 원래 이름으로 기록했다. AJH 11개, JJW 9개, SSW 20개다. 해당 항목은 빈 아이콘 칸과 실제 이름·설명 툴팁을 표시한다. 증강 풀·효과·아이콘 원본은 이 변경에서 수정하지 않았다.
+
+처음 사용한 구형 Map_Basic 씬은 NetArena의 _follow 참조가 비어 있어 카메라 오류가 발생했다. `checks-legacy-map.json`은 별도 보존했고 최종 240개 검증은 메뉴가 사용하는 SuperUltraLegendScene에서 오류 없이 다시 실행했다. 구형 씬의 참조를 이 UI 변경에서 수정하지 않았다.
+
+별도 플레이어 빌드, 실제 호스트/접속자 두 프로세스, 두 PC UGS 재접속 및 대전 라운드 전환은 이번 UI 검증에 포함하지 않았다. 연습 리스폰과 초기 복원 경로를 이 범위와 구분한다.
+
+Game View 임시 해상도 제거는 Unity의 [GameViewSizeGroup 구현](https://github.com/Unity-Technologies/UnityCsReference/blob/master/Editor/Mono/GameView/GameViewSizeGroup.cs)을 확인해 기존 항목을 보존하도록 구성했다.

@@ -60,7 +60,7 @@ Transform:
   m_GameObject: {fileID: 616466340268410451}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.5, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -924,12 +924,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 15
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -1493577732303177066, guid: 623dcb9525cf9644285d5649f88e77f3, type: 3}
+  m_Sprite: {fileID: -5236231211553611101, guid: 623dcb9525cf9644285d5649f88e77f3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.275, y: 1.1}
+  m_Size: {x: 0.11, y: 0.44}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -979,7 +979,7 @@ Transform:
   m_GameObject: {fileID: 6373004464246189320}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0.7, z: 0}
+  m_LocalPosition: {x: 1, y: 0.19999999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1256,6 +1256,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2687422068019725755, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: a8fca4245ed7ded41946c5499acb5650, type: 2}
+    - target: {fileID: 2687422068019725755, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
       propertyPath: m_Interpolate
       value: 0
       objectReference: {fileID: 0}
@@ -1267,6 +1271,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4251979090183284226, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: a8fca4245ed7ded41946c5499acb5650, type: 2}
     - target: {fileID: 6163778109499660571, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -1391,6 +1399,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8665040242661233106, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6182080824608296281}
+    - targetCorrespondingSourceObject: {fileID: 8665040242661233106, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4300457932101654758}
     - targetCorrespondingSourceObject: {fileID: 7908119194814755663, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1303029682626402728}
@@ -1570,7 +1581,7 @@ MonoBehaviour:
   _prediction: {fileID: 287128325285748208}
   _effects: {fileID: 7246764531032309791}
   _buffs: {fileID: 5655579847218021524}
-  _guard: {fileID: 7006365575554843359}
+  _guard: {fileID: 0}
 --- !u!114 &7472672372006785603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1635,6 +1646,7 @@ MonoBehaviour:
   _deck: {fileID: 11400000, guid: a6f7ec0ef4b66634db8915c29fba2521, type: 2}
   _viewPrefab: {fileID: 8211736762152288321, guid: e1f2e1e390d028549b6185e3bce2814a, type: 3}
   _watch: {fileID: 8225474943694386178}
+  _hud: {fileID: 4300457932101654758}
 --- !u!114 &5655579847218021524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1844,12 +1856,13 @@ MonoBehaviour:
   Player: {fileID: 3278762098247593300}
   _source: {fileID: 4814471823624826006}
   _view: {fileID: 7242114013962689088}
-  _damage: 30
+  _damage: 10
   _reach: 2
   _interval: 0.3
   _dashSpeed: 20
   _dashTime: 0.2
-  _dashCooldown: 1
+  _dashCooldown: 7
+  _parryCooldown: 6
 --- !u!114 &8193348028431366631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2124,6 +2137,18 @@ MonoBehaviour:
   - {fileID: 488716241983491850}
   - {fileID: 4191551843009545297}
   - {fileID: 3775285157266749044}
+--- !u!114 &4300457932101654758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6540654664111419589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45dddefcf7fb6b94fa27b73ce4813484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.JobAugmentHUD
 --- !u!114 &6565787615336301160 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8762641476993868671, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}

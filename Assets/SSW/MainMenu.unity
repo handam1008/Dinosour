@@ -8357,8 +8357,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1309350711}
   - component: {fileID: 1309350712}
-  - component: {fileID: 1309350713}
   - component: {fileID: 1309350714}
+  - component: {fileID: 1309350715}
   m_Layer: 0
   m_Name: LeaderboardPanel
   m_TagString: Untagged
@@ -8399,24 +8399,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &1309350713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1309350710}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 010b4a5301d331c4faca90909ae044c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.Leaderboard.LeaderboardManager
-  saveScoreBtn: {fileID: 0}
-  logoutBtn: {fileID: 0}
-  scoreIf: {fileID: 0}
-  fetchAllScoreBtn: {fileID: 0}
-  rankUserInfoParent: {fileID: 1980720485}
-  rankUserInfoPrefab: {fileID: 5938430065666758981, guid: ffbe04427785e4e4992028020a54061f, type: 3}
 --- !u!114 &1309350714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8429,10 +8411,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e7edf53d27038e4aa7fe7cba55cbb4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SSW.LeaderboardPanel
-  _scores: {fileID: 1309350713}
+  _rows: {fileID: 1309350715}
   _refresh: {fileID: 1034330181}
   _scroll: {fileID: 782311423}
   _status: {fileID: 904183989}
+  _timeout: 15
+--- !u!114 &1309350715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309350710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4e78bf2cebe8f48839c8b282a118de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.RankList
+  _prefab: {fileID: 1357670624032648711, guid: ffbe04427785e4e4992028020a54061f, type: 3}
+  _content: {fileID: 1980720485}
 --- !u!1 &1353789092
 GameObject:
   m_ObjectHideFlags: 0

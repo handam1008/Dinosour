@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98b23b2bcc8442b78a2ac17c5a44a349, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Upgrade.Instances.KDH_WaterBullet
+  damage: 1
+  standardDistance: 10
+  <BulletAbilityData>k__BackingField: {fileID: 11400000, guid: b13c63cba68fc264fb71406e594ce613, type: 2}
   onHitPlayer:
     m_PersistentCalls:
       m_Calls:
@@ -61,9 +64,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  damage: 3
-  standardDistance: 10
-  <BulletAbilityData>k__BackingField: {fileID: 11400000, guid: b13c63cba68fc264fb71406e594ce613, type: 2}
 --- !u!1 &5708697399241599853
 GameObject:
   m_ObjectHideFlags: 0

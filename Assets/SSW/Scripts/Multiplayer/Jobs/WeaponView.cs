@@ -32,7 +32,10 @@ namespace SSW
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + _angle;
             if (_melee && phase > 0f) angle += Mathf.Lerp(-65f, 70f, phase) * Mathf.Sign(direction.x);
             transform.rotation = Quaternion.Euler(0f, 0f, angle);
-            _sprite.flipY = direction.x < 0f;
+            if(_job != PlayerJob.Assassin)
+                _sprite.flipY = direction.x < 0f;
+            else
+                _sprite.flipX = direction.x < 0f;
             Vector2 center = _sprite.sprite.bounds.center;
             if (_sprite.flipY) center.y = -center.y;
             transform.position = (Vector2)_player.View.position
