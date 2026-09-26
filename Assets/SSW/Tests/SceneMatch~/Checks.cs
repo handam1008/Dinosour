@@ -12,10 +12,8 @@ var prefab=UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.GameObject>(Uni
 var map=prefab.GetComponent<SSW.BattleMap>();if(map==null)continue;maps++;
 foreach(float aspect in new[]{4f/3f,16f/9f,21f/9f,9f/16f})foreach(int side in new[]{1,-1}){
 view.aspect=aspect;framing.SetBounds(map.Bounds);framing.SetSide(side);
-for(int x=0;x<2;x++)for(int y=0;y<2;y++){
-var point=new UnityEngine.Vector3(x==0?map.Bounds.min.x:map.Bounds.max.x,y==0?map.Bounds.min.y:map.Bounds.max.y,0);
-var p=view.WorldToViewportPoint(point);Check(p.z>0&&p.x>=0&&p.x<=1&&p.y>=0&&p.y<=1,map.Title+" clipped");
-}
+Check(view.orthographic&&UnityEngine.Mathf.Approximately(view.orthographicSize,9f),map.Title+" size must be nine");
+Check(UnityEngine.Vector2.Distance(root.transform.position,map.Bounds.center)<0.001f,map.Title+" center changed");
 var position=root.transform.position;float size=view.orthographicSize;framing.Shake(10,2);
 typeof(SSW.SandboxCameraFollow).GetMethod("LateUpdate",flags).Invoke(framing,null);
 Check(root.transform.position==position&&view.orthographicSize==size,map.Title+" camera moved");
@@ -39,5 +37,5 @@ Check(player.GetComponentsInChildren<Unity.Cinemachine.CinemachineImpulseSource>
 var effects=player.GetComponentsInChildren<SSW.HitFeedback>(true);Check(effects.Length==1,"Local feedback missing");
 var data=new UnityEditor.SerializedObject(effects[0]);Check(data.FindProperty("_health").objectReferenceValue==player.GetComponent<SSW.Health>(),"Health binding wrong");
 Check(data.FindProperty("_effects").arraySize==1,"Hit particle missing");
-System.IO.File.WriteAllText("Logs/SceneMatch25/Static.json",Newtonsoft.Json.JsonConvert.SerializeObject(new{checks}));
+System.IO.File.WriteAllText("Logs/MapFeel25/Camera.json",Newtonsoft.Json.JsonConvert.SerializeObject(new{checks}));
 return new{checks};

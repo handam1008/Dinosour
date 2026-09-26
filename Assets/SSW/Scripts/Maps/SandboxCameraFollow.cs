@@ -9,7 +9,7 @@ namespace SSW
     {
         [SerializeField] Vector2 _minimum = new(-27f, -5f);
         [SerializeField] Vector2 _maximum = new(27f, 10f);
-        [SerializeField, Min(0f)] float _padding = 1f;
+        [SerializeField, Min(0.1f)] float _size = 9f;
 
         Camera _camera;
         float _depth;
@@ -43,12 +43,11 @@ namespace SSW
         void Frame()
         {
             Vector2 center = (_minimum + _maximum) * 0.5f;
-            Vector2 half = (_maximum - _minimum) * 0.5f + Vector2.one * _padding;
             transform.SetPositionAndRotation(
                 new Vector3(center.x, center.y, -_depth * _side),
                 Quaternion.Euler(0f, _side < 0 ? 180f : 0f, 0f));
             _camera.orthographic = true;
-            _camera.orthographicSize = Mathf.Max(half.y, half.x / _camera.aspect);
+            _camera.orthographicSize = _size;
         }
     }
 }
