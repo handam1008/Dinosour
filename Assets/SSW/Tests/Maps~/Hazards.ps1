@@ -1,4 +1,4 @@
-param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges,[switch]$LavaOnly)
+param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges,[switch]$LavaOnly,[switch]$HealOnly)
 $ErrorActionPreference='Stop'
 $Project=[IO.Path]::GetFullPath($Project).Replace('\','/')
 $root="$Project/Logs/Boundary/$Run"
@@ -54,6 +54,7 @@ try{
     Await 'playing' {$h.phase -eq 'Playing' -and $c.phase -eq 'Playing'}
     $step=Eval 'return UnityEngine.Time.fixedDeltaTime;'
     Eval 'foreach(var p in SSW.NetGame.Current.Players){typeof(SSW.Health).GetMethod("SetMax",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).Invoke(p.Health,new object[]{10000f});p.Health.Heal(10000f);}return true;'|Out-Null
+    if($HealOnly){. "$PSScriptRoot/../Common~/Healing.ps1";return}
     if(-not $SkipEdges -and -not $LavaOnly){
         for($index=0;$index -lt 14;$index++){
             $map=Map $index

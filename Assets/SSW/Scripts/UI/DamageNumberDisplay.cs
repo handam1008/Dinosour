@@ -13,6 +13,7 @@ namespace SSW
         [SerializeField] float _verticalJitter = 0.25f;
         [SerializeField] Color _normalColor = Color.white;
         [SerializeField] Color _criticalColor = new Color(1f, 0.15f, 0.15f);
+        [SerializeField] Color _healColor = new Color(0.25f, 1f, 0.4f);
         [SerializeField] float _criticalScale = 1.4f;
 
         public void Show(float amount, bool isCritical)
@@ -20,6 +21,18 @@ namespace SSW
             _text.text = Mathf.RoundToInt(amount).ToString();
             _text.color = isCritical ? _criticalColor : _normalColor;
             transform.localScale *= isCritical ? _criticalScale : 1f;
+            Animate();
+        }
+
+        public void ShowHeal(float amount)
+        {
+            _text.text = "+" + amount.ToString("0.######", System.Globalization.CultureInfo.InvariantCulture);
+            _text.color = _healColor;
+            Animate();
+        }
+
+        void Animate()
+        {
             Vector3 baseScale = transform.localScale;
 
             Vector3 start = transform.position + new Vector3(Random.Range(-_horizontalJitter, _horizontalJitter), Random.Range(-_verticalJitter, _verticalJitter), 0f);
@@ -33,6 +46,12 @@ namespace SSW
             _text.DOColor(fadeTarget, _duration * 0.4f).SetDelay(_duration * 0.6f);
 
             Destroy(gameObject, _duration + 0.1f);
+        }
+
+        void OnDestroy()
+        {
+            transform.DOKill();
+            _text.DOKill();
         }
     }
 }

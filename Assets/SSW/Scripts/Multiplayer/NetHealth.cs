@@ -16,6 +16,7 @@ namespace SSW
             _state.OnValueChanged += Sync;
             _health.OnHealthChanged += Publish;
             _health.OnDamageDealt += PublishDamage;
+            _health.OnHealed += PublishHeal;
             if (IsServer) Publish(_health.Current, _health.Max);
             else Sync(default, _state.Value);
         }
@@ -29,6 +30,14 @@ namespace SSW
         {
             if (IsServer) DamageRpc(amount, critical);
         }
+
+        void PublishHeal(float amount)
+        {
+            if (IsServer) HealRpc(amount);
+        }
+
+        [Rpc(SendTo.NotServer, InvokePermission = RpcInvokePermission.Server)]
+        void HealRpc(float amount) => _health.ApplyNetworkHeal(amount);
 
         [Rpc(SendTo.NotServer, InvokePermission = RpcInvokePermission.Server)]
         void DamageRpc(float amount, bool critical)
@@ -46,6 +55,7 @@ namespace SSW
             _state.OnValueChanged -= Sync;
             _health.OnHealthChanged -= Publish;
             _health.OnDamageDealt -= PublishDamage;
+            _health.OnHealed -= PublishHeal;
         }
     }
 }
