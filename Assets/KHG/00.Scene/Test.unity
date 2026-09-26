@@ -744,37 +744,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3e0597caf5f1c747ba0166d85f86277, type: 3}
---- !u!1 &971267653
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 971267654}
-  m_Layer: 3
-  m_Name: dashEffect
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &971267654
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 971267653}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6289725172769221301}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &971714686
 GameObject:
   m_ObjectHideFlags: 0
@@ -6754,8 +6723,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.KHG_nomalAttack
   swordAnimator: {fileID: 9216483832401204249}
   attackTriggerName: Attack
-  damage: 30
-  attackDuration: 0.1
+  damage: 20
+  attackDuration: 1
   attackCooldown: 0.8
   attackCollider: {fileID: 5068670614670424571}
 --- !u!114 &2305629246531404489
@@ -7153,7 +7122,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8081399958775800874}
-  - {fileID: 971267654}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6289943618798892242
@@ -7302,7 +7270,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5707524000837098278}
   - component: {fileID: 9216483832401204249}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: nomarAttack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
