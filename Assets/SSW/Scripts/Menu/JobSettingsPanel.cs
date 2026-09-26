@@ -22,6 +22,7 @@ namespace SSW
         bool _initialized;
 
         public event System.Action BackRequested;
+        public event System.Action<PlayerJob> Equipped;
 
         public PlayerJob SelectedJob => _selectedSlot != null && _selectedSlot.Definition != null
             ? _selectedSlot.Definition.Job
@@ -66,6 +67,7 @@ namespace SSW
             PlayerJobStorage.Save(_equippedJob);
             UpdateEquippedMarkers();
             UpdateTooltip(_selectedSlot.Definition);
+            Equipped?.Invoke(_equippedJob);
         }
 
         public void Back()
