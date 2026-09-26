@@ -8,10 +8,10 @@ namespace SSW
         static readonly List<RaycastHit2D> Hits = new List<RaycastHit2D>(16);
         static readonly List<Collider2D> Contacts = new List<Collider2D>(8);
 
-        public static bool Sweep(Vector2 from, Vector2 to, float radius, int ground, out RaycastHit2D hit, ISet<Pin> ignored = null)
-            => Sweep(from, to, radius, default, ground, out hit, ignored);
+        public static bool Sweep(Vector2 from, Vector2 to, float radius, int ground, out RaycastHit2D hit, ISet<Pin> ignored = null, bool pins = true)
+            => Sweep(from, to, radius, default, ground, out hit, ignored, pins);
 
-        public static bool Sweep(Vector2 from, Vector2 to, float radius, Vector2 size, int ground, out RaycastHit2D hit, ISet<Pin> ignored = null)
+        public static bool Sweep(Vector2 from, Vector2 to, float radius, Vector2 size, int ground, out RaycastHit2D hit, ISet<Pin> ignored = null, bool pins = true)
         {
             Vector2 travel = to - from;
             var filter = new ContactFilter2D { useTriggers = true };
@@ -23,7 +23,7 @@ namespace SSW
             foreach (RaycastHit2D candidate in Hits)
             {
                 Collider2D shape = candidate.collider;
-                bool target = shape.TryGetComponent<Pin>(out var pin) && pin.Current > 0f;
+                bool target = shape.TryGetComponent<Pin>(out var pin) && pins && pin.Current > 0f;
                 if (target && ignored != null && ignored.Contains(pin)) continue;
                 bool terrain = !shape.isTrigger && (ground & 1 << shape.gameObject.layer) != 0;
                 if (!terrain && !target) continue;

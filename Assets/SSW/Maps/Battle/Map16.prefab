@@ -84,8 +84,7 @@ MonoBehaviour:
     m_Extent: {x: 18, y: 10, z: 0.1}
   _fallY: -14.5
   _edges: {fileID: 1385503348804595376}
-  _serverOnly:
-  - {fileID: 0}
+  _serverOnly: []
 --- !u!114 &7487125477006070464
 MonoBehaviour:
   m_ObjectHideFlags: 0

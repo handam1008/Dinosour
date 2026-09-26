@@ -38,6 +38,7 @@ try
         obstacle.transform.position=center+UnityEngine.Vector2.left;
         UnityEngine.Physics2D.SyncTransforms();
         Check(SSW.MapCombat.Sweep(from,to,0.125f,mask,out var near)&&near.collider==solid,prefab.Title+" nearer wall wins over pin");
+        Check(SSW.MapCombat.Sweep(from,to,0.125f,mask,out var piercingNear,pins:false)&&piercingNear.collider==solid,prefab.Title+" piercing preview keeps terrain contact");
         Check(SSW.MapCombat.Sweep(from,to,0.125f,0,out var returning)&&returning.collider==shape,prefab.Title+" returning card ignores wall and still finds pin");
         var ignored=new System.Collections.Generic.HashSet<SSW.Pin>{pin};
         Check(!SSW.MapCombat.Sweep(from,to,0.125f,0,out _,ignored),prefab.Title+" zero-damage penetrating shot cannot hit same pin twice");
@@ -54,6 +55,7 @@ try
         obstacle.transform.position=center+UnityEngine.Vector2.right;
         UnityEngine.Physics2D.SyncTransforms();
         Check(SSW.MapCombat.Sweep(from,to,0.125f,mask,out var far)&&far.collider==shape,prefab.Title+" pin wins over farther wall");
+        Check(SSW.MapCombat.Sweep(from,to,0.125f,mask,out var piercingFar,pins:false)&&piercingFar.collider==solid,prefab.Title+" piercing preview crosses live pin to farther wall");
         SSW.MapCombat.Strike(null,from,center,UnityEngine.Vector2.right,UnityEngine.Vector2.one,mask,10f);
         Check(pin.Current==0f&&!shape.enabled,prefab.Title+" unblocked melee cuts pin once");
         Check(!SSW.ShotQuery.Touches(shape,center,0.125f,default),prefab.Title+" cut pin releases predicted projectile");

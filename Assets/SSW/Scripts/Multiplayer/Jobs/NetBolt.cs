@@ -66,6 +66,7 @@ namespace SSW
             _flight.AngleOffset = Spec.Style == 3 ? -90f : 0f;
             _flight.ExtraGravity = Spec.ExtraGravity;
             _flight.GravityDelay = Spec.GravityDelay;
+            _flight.Piercing = Spec.CanPenetrate;
             _flight.Bind(_owner, _action.Value, 0, Spec.Radius);
             if (_owner.Cast.Weapon is GunCast gun) gun.Effects.Attach(_sprite, Spec.Charged);
             if (!IsServer && _owner.IsOwner && Spec.Stick && _owner.Cast.Weapon is KnifeCast knife) knife.Track(this);

@@ -1,4 +1,4 @@
-function CombatSpawn($job){
+function CombatSpawn($job,[bool]$zeroDamage=$false){
     $code=@'
 var g=SSW.NetGame.Current;var flags=System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic;
 var prefab=(SSW.NetPlayer)new UnityEditor.SerializedObject(g).FindProperty("_playerPrefab").objectReferenceValue;
@@ -10,7 +10,7 @@ foreach(var previous in old)
     var p=UnityEngine.Object.Instantiate(prefab);
     var settings=new UnityEditor.SerializedObject(p);
     var book=UnityEngine.Object.Instantiate((SSW.StatsBook)settings.FindProperty("_statsBook").objectReferenceValue);
-    var stats=book.At(SSW.PlayerJob.@JOB@);stats.Gravity=0f;book.Replace(new[]{stats});
+    var stats=book.At(SSW.PlayerJob.@JOB@);stats.Gravity=0f;if(@ZERO@)stats.SkillDamage=0f;book.Replace(new[]{stats});
     settings.FindProperty("_statsBook").objectReferenceValue=book;settings.ApplyModifiedPropertiesWithoutUndo();
     p.Init(SSW.PlayerJob.@JOB@,previous.Side,previous.Info);p.NetworkObject.SpawnAsPlayerObject(previous.OwnerClientId,true);p.Draft.Restore(System.Array.Empty<int>());
     p.Drive.Teleport(g.Arena.Spawn(p.Side==1?0:1));
@@ -18,7 +18,7 @@ foreach(var previous in old)
 UnityEngine.Physics2D.IgnoreCollision(g.Players[0].Collider,g.Players[1].Collider);
 return System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Select(g.Players,p=>new{id=p.OwnerClientId,objectId=p.NetworkObjectId}));
 '@
-    $spawn=Eval $code.Replace('@JOB@',$job)
+    $spawn=Eval $code.Replace('@JOB@',$job).Replace('@ZERO@',$zeroDamage.ToString().ToLowerInvariant())
     Await "$job attack fixture spawns on both peers" {foreach($s in $spawn){$p=$c.players|Where-Object id -eq $s.id;if($p.objectId -ne $s.objectId -or $p.job -ne $job -or $p.stats.Gravity -ne 0){return $false}};return $true} 10
 }
 function CombatAim($peer,$mode='basic'){
@@ -63,7 +63,9 @@ if(p.Job==SSW.PlayerJob.Witch)
     int damage=-1;for(int i=0;i<stock.BaseCount;i++)if(stock.At(stock.BaseAt(i)) is DamagePotion)damage=stock.BaseAt(i);
     if(damage<0)throw new System.InvalidOperationException("Damage potion missing");
     var bag=(SSW.CastStock)typeof(SSW.NetCast).GetField("_inventory",flags).GetValue(p.Cast);
-    while(bag.Held.Id!=0)bag.Take(bag.Held.Id,p.Epoch,g.ServerTime,out _);
+    typeof(SSW.NetCast).GetMethod("SyncEpoch",flags).Invoke(p.Cast,null);
+    for(int i=0;i<2&&bag.Held.Id!=0;i++)
+        if(!bag.Take(bag.Held.Id,p.Epoch,g.ServerTime,out _))throw new System.InvalidOperationException("Potion fixture epoch mismatch");
     bag.Add(damage,g.ServerTime,1.25);
     typeof(SSW.NetCast).GetField("_brewAt",flags).SetValue(p.Cast,g.ServerTime+1000d);
     typeof(SSW.NetCast).GetMethod("PublishStock",flags).Invoke(p.Cast,null);
@@ -74,7 +76,8 @@ if(SSW.ShotQuery.Ground(p.Body.position,point,0.1f,p.GroundMask,out var wall))th
 return new{map=g.Arena.Map.Title,index=System.Array.IndexOf(pins,pin),count=pins.Length,id=p.OwnerClientId,objectId=p.NetworkObjectId,job=p.Job.ToString(),x=body.position.x,y=body.position.y,angle=body.rotation,ax=direction.x,ay=direction.y,px=point.x,py=point.y};
 '@
     $setup=Eval $code.Replace('@OWNER@',$(if($peer -eq 'host'){'true'}else{'false'})).Replace('@MODE@',$mode)
-    Await 'fixture positions settled' {$a=$h.players|Where-Object id -eq $setup.id;$b=$c.players|Where-Object id -eq $setup.id;[Math]::Abs($a.position.x-$b.position.x) -lt 0.1 -and [Math]::Abs($a.position.y-$b.position.y) -lt 0.1} 5
+    Await 'fixture positions and epochs settled' {$a=$h.players|Where-Object id -eq $setup.id;$b=$c.players|Where-Object id -eq $setup.id;$a.epoch -eq $b.epoch -and [Math]::Abs($a.position.x-$b.position.x) -lt 0.1 -and [Math]::Abs($a.position.y-$b.position.y) -lt 0.1} 5
+    Start-Sleep -Milliseconds 500
     if($setup.job -eq 'Gunner'){Await 'gun has a naturally loaded round' {($h.players|Where-Object id -eq $setup.id).ammo -gt 0 -and ($c.players|Where-Object id -eq $setup.id).ammo -gt 0} 6}
     if($setup.job -eq 'Witch'){Await 'damage potion fixture reaches owner' {($c.players|Where-Object id -eq $setup.id).heldView -ge 0 -and ($h.players|Where-Object id -eq $setup.id).potion -eq ($c.players|Where-Object id -eq $setup.id).potion} 5}
     return $setup

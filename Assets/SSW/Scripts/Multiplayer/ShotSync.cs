@@ -41,6 +41,7 @@ namespace SSW
         public float Age => IsServer ? 0f : (float)(_clock.Time - _pose.Time);
         public uint Turn => _pose.Turn;
         public bool Terrain { get; set; } = true;
+        public bool Piercing { get; set; }
         public bool AlignVelocity { get; set; }
         public float AngleOffset { get; set; }
         public float ExtraGravity { get; set; }
@@ -223,7 +224,7 @@ namespace SSW
             else if (_normal.sqrMagnitude > 0f) point = _stop;
             else
             {
-                if (MapCombat.Sweep(transform.position, point, _radius, _size, _pose.Terrain ? _ground : 0, out RaycastHit2D hit))
+                if (MapCombat.Sweep(transform.position, point, _radius, _size, _pose.Terrain ? _ground : 0, out RaycastHit2D hit, pins: !Piercing))
                 {
                     _normal = hit.normal;
                     _contact = hit.collider;

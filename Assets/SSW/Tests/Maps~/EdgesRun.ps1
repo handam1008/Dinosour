@@ -35,19 +35,24 @@ foreach(var p in g.Players)
     float x=surface+@NORMAL@*(p.Collider.bounds.extents.x+@DISTANCE@f);
     float y=wall.bounds.max.y-(p.IsOwner?2.5f:5f);
     p.Drive.Teleport(new UnityEngine.Vector2(x,y));
-    result.Add(new{id=p.OwnerClientId,side=p.Side,hp=p.Health.Current,start=x,edge=surface,damage,force,wall=wall.name,center=wall.bounds.center.ToString(),size=wall.bounds.size.ToString()});
+    result.Add(new{id=p.OwnerClientId,owner=p.IsOwner,side=p.Side,hp=p.Health.Current,start=x,edge=surface,damage,force,wall=wall.name,center=wall.bounds.center.ToString(),size=wall.bounds.size.ToString()});
 }
 return result;
 '@
             $distance='0.8'
             $actors=Eval $setup.Replace('@NORMAL@',"($normal)").Replace('@DISTANCE@',$distance)
+            Await 'movement fixture epochs settled' {foreach($actor in $actors){$a=$h.players|Where-Object id -eq $actor.id;$b=$c.players|Where-Object id -eq $actor.id;if(-not $a -or -not $b -or $a.epoch -ne $b.epoch){return $false}};return $true} 5
             Start-Sleep -Milliseconds 200
+            $commands=[Collections.Generic.List[object]]::new()
             foreach($peer in @('host','client')){
-                $actor=(Read $peer).players|Where-Object owner
+                $actor=$actors|Where-Object owner -eq ($peer -eq 'host')
+                if(-not $actor -or [Math]::Abs($actor.side) -ne 1){throw 'Missing movement fixture actor'}
                 $seq[$peer]++
                 $op=if($mode -eq 'dash'){'dashout'}else{'move'}
                 $x=if($mode -eq 'dash'){-1*$normal}else{-1*$normal*$actor.side}
-                [IO.File]::WriteAllText("$root/$peer.cmd.json",(@{seq=$seq[$peer];op=$op;value=1;x=$x;y=0}|ConvertTo-Json -Compress))
+                $command=@{seq=$seq[$peer];op=$op;value=1;x=$x;y=0}
+                $commands.Add(@{peer=$peer;command=$command})
+                [IO.File]::WriteAllText("$root/$peer.cmd.json",($command|ConvertTo-Json -Compress))
             }
             $observed=@{}
             foreach($peer in @('host','client')){foreach($actor in $actors){$observed["$peer-$($actor.id)"]=@{hit=$false;inward=$false;peak=0.0}}}
@@ -71,7 +76,7 @@ return result;
                 Start-Sleep -Milliseconds 25
             }while([DateTime]::UtcNow -lt $until)
             $h=Read host;$c=Read client
-            $cases.Add(@{map=$map.title;mode=$mode;normal=$normal;actors=$actors;observed=$observed;host=$h;client=$c})
+            $cases.Add(@{map=$map.title;mode=$mode;normal=$normal;actors=$actors;commands=$commands;observed=$observed;host=$h;client=$c})
             $cases|ConvertTo-Json -Depth 15|Set-Content "$root/EdgesMotion.json"
             Check (@($observed.Values|Where-Object {-not $_.hit -or -not $_.inward}).Count -eq 0) "$($map.title) $mode inward=$normal both actors rebound on both peers while holding outward input"
         }

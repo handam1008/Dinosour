@@ -177,7 +177,7 @@ return new{name=selected.name,index=System.Array.IndexOf(blocks,selected),x=body
     Check ($fell.cut -and $fell.y -lt $cut.y-0.2) 'cut rope releases suspended block'
     Map 13|Out-Null
     $reset=Eval 'return System.Linq.Enumerable.All(SSW.NetGame.Current.Arena.Map.GetComponentsInChildren<SSW.Swing>(),b=>!b.IsCut);'
-    Check $reset 'new round restores every rope and block'
+    Check $reset 'map reload restores every rope and block'
     foreach($peer in @('host','client')){Send $peer wideground 0 0 2}
     Eval 'var g=SSW.NetGame.Current;foreach(var p in g.Players){float foot=p.Body.position.y-p.Collider.bounds.min.y;p.Drive.Teleport(new UnityEngine.Vector2(p.IsOwner?-2f:-0.8f,2.3f+foot+0.03f));}return true;'|Out-Null
     Await 'sword test players on floor' {$h.players[0].grounded -and $h.players[1].grounded} 4
