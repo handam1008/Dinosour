@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Upgrade.Instances.Bullets.KDH_GravityBullet
   <BulletAbilityData>k__BackingField: {fileID: 11400000, guid: bcd395a48a3fd4742a4998c44773bf0b, type: 2}
-  forceAmount: 50
+  forceAmount: 25
   onHitPlayer:
     m_PersistentCalls:
       m_Calls:
