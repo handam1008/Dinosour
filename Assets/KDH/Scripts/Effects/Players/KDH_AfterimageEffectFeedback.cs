@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using KDH.Scripts.Gun;
 using KDH.Scripts.System.FeedbackSystem;
 using KDH.Scripts.Upgrade.Instances.Players;
 using UnityEngine;
@@ -9,23 +8,23 @@ namespace KDH.Scripts.Effects
 {
     public class KDH_AfterimageEffectFeedback : KDH_AbstractFeedback
     {
-        [SerializeField] private float _spawnInterval = 0.25f;
-        [SerializeField] private Color _afterimageColor = new Color(1f, 1f, 1f, 0.5f);
-        private Transform _characterRoot;
-        private float _fadeDuration;
+        [SerializeField] private float _spawnInterval = 0.25f; // 이게 한 틱
+        [SerializeField] private Color _afterimageColor = new Color(1f, 1f, 1f, 0.5f); // 색의 투명도 설정
+        private Transform _characterRoot; // 최상의 부모
+        private float _fadeDuration; // 총 지속시간
 
-        private SpriteRenderer[] _renderers;
-        private float _timer;
-        public bool IsActive { get; set; }
+        private SpriteRenderer[] _renderers; // 내가 가진 모양을 저장할 배열
+        private float _timer; // 타이머
+        public bool IsActive { get; set; } // 현재 이펙트가 켜질지 말지 정하는 bool값 (이걸 잘 조절해야 쓸 수 있음)
 
         private void Awake()
         {
             _characterRoot = gameObject.transform.root.gameObject.transform;
-            _fadeDuration = GetComponentInParent<KDH_BeautifulFootStep>().Duration;
+            _fadeDuration = GetComponentInParent<KDH_BeautifulFootStep>().Duration; // 이거는 지속시간 건드는 거라 이렇게 안해도 되고 내가 상수로 정해서 써도 됨
             _renderers = _characterRoot.GetComponentsInChildren<SpriteRenderer>();
         }
 
-        private void Update()
+        private void Update() // 이펙트 적용되는 부분
         {
             if (!IsActive) return;
 
@@ -37,7 +36,7 @@ namespace KDH.Scripts.Effects
             }
         }
 
-        private void SpawnAfterimage()
+        private void SpawnAfterimage() // 이펙트 부분
         {
             GameObject ghostRoot = new GameObject("AfterimageSet");
             ghostRoot.transform.SetPositionAndRotation(_characterRoot.position, _characterRoot.rotation);
@@ -67,7 +66,7 @@ namespace KDH.Scripts.Effects
             StartCoroutine(FadeAndDestroy(ghostRoot, ghostRenderers));
         }
 
-        private IEnumerator FadeAndDestroy(GameObject root, List<SpriteRenderer> renderers)
+        private IEnumerator FadeAndDestroy(GameObject root, List<SpriteRenderer> renderers) // 이펙트 적용되게 시간으로 나눠서 키게 하기
         {
             float elapsed = 0f;
 
@@ -89,7 +88,7 @@ namespace KDH.Scripts.Effects
             Destroy(root);
         }
 
-        public override void CreateFeedBack()
+        public override void CreateFeedBack() // <- 이게 아 이게 아마 근데 내 구조가 추상클래스토 된거라 그냥 복사해서 이름 바꿔서 니가 원할 때 bool값을 true 바꾸고 시간 지나면 끝나게 하는 게 맞는 듯?
         {
             IsActive = true;
         }
