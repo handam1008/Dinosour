@@ -2655,22 +2655,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: KDH_Player
       objectReference: {fileID: 0}
-    - target: {fileID: 2704316197961895077, guid: 091c9ece2677ec6438dbe7c5d990d321, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2704316197961895077, guid: 091c9ece2677ec6438dbe7c5d990d321, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.19999999
-      objectReference: {fileID: 0}
-    - target: {fileID: 4626570182886486550, guid: 091c9ece2677ec6438dbe7c5d990d321, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4626570182886486550, guid: 091c9ece2677ec6438dbe7c5d990d321, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 6855768346240308175, guid: 091c9ece2677ec6438dbe7c5d990d321, type: 3}
       propertyPath: <Cam>k__BackingField
       value: 
