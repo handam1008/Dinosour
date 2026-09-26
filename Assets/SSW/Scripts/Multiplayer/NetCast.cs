@@ -256,7 +256,7 @@ namespace SSW
             uint action = Begin();
             uint stock = _player.Job == PlayerJob.Witch ? (IsServer ? _potions.Value.HeldId : _localHeldId) : 0;
             int potion = _localHeld;
-            if (!IsServer && _player.Job == PlayerJob.Witch && pressed && _witch.Has(WitchAugmentType.Pocket) && SwapLocal(stock, potion, false))
+            if (!IsServer && _player.Job == PlayerJob.Witch && pressed && SwapLocal(stock, potion, false))
             {
                 _stockPending.Add(new StockInput { Input = new CastInput { Action = action, Epoch = _player.Epoch, Stock = stock, Kind = CastKind.Cycle }, Kind = potion });
                 PredictSound(action, CastKind.Cycle);
@@ -391,7 +391,7 @@ namespace SSW
                 if (_player.Job == PlayerJob.Witch)
                 {
                     if (input.Kind == CastKind.StopCycle) return true;
-                    if (!_witch.Has(WitchAugmentType.Pocket) || !_inventory.Swap(input.Stock, input.Epoch, Now)) return false;
+                    if (!_inventory.Swap(input.Stock, input.Epoch, Now)) return false;
                     ShareSound(input.Action, CastKind.Cycle);
                     return true;
                 }
