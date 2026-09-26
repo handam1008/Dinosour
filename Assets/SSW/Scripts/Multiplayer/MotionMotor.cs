@@ -23,23 +23,39 @@ namespace SSW
 
         public void Step(ref MotionState state, MotionFrame input, float speed, float delta, bool playing)
         {
-            float scale = playing && state.SmallTime > 0f ? 0.5f : 1f;
+            if (input.Aim.sqrMagnitude > 0.001f) state.Aim = input.Aim.normalized;
+            float scale = (state.BodyScale > 0f ? state.BodyScale : 1f) * (playing && state.SmallTime > 0f ? 0.5f : 1f);
             _cast.Scale(ref state, scale);
             state.SmallTime = Mathf.Max(0f, state.SmallTime - delta);
             if (playing) _cast.Recover(ref state.Position, ref state.Velocity, state.DropTime > 0f, state.DropTop, state.Surface);
             bool jump = input.Jump > state.Jump;
             state.Jump = System.Math.Max(state.Jump, input.Jump);
             state.CoyoteTime = Mathf.Max(0f, state.CoyoteTime - delta);
-            if (!playing)
+            bool frozen = state.FreezeTime > 0f;
+            state.FreezeTime = Mathf.Max(0f, state.FreezeTime - delta);
+            if (!playing || frozen)
             {
                 state.Velocity = state.Surface = Vector2.zero;
                 state.External = state.DropTime = state.CoyoteTime = 0f;
                 state.Pad = false;
-                state.DashTime = 0f;
+                state.DashTime = state.BurstTime = 0f;
                 state.Grounded = _cast.Grounded(state.Position, false);
                 return;
             }
 
+            if (state.BurstTime > 0f)
+            {
+                float travel = Mathf.Min(delta, state.BurstTime);
+                state.BurstTime = Mathf.Max(0f, state.BurstTime - delta);
+                Vector2 burst = state.BurstVelocity;
+                _cast.Move(ref state.Position, ref burst, travel, false, 0f, state.Grounded && burst.y <= 0f);
+                state.Velocity = state.BurstTime > 0f ? burst : Vector2.zero;
+                state.External = 0f;
+                state.Surface = Vector2.zero;
+                state.Grounded = _cast.Grounded(state.Position, false);
+                state.CoyoteTime = 0f;
+                return;
+            }
             if (state.DashTime > 0f)
             {
                 float travelTime = Mathf.Min(delta, state.DashTime);
@@ -63,7 +79,11 @@ namespace SSW
                 : Vector2.zero;
             state.Surface = Vector2.zero;
             bool grounded = velocity.y <= 0f && _cast.Grounded(state.Position, dropping, state.DropTop);
-            if (grounded) state.CoyoteTime = _motion.CoyoteTime;
+            if (grounded)
+            {
+                state.CoyoteTime = _motion.CoyoteTime;
+                state.AirUsed = 0;
+            }
             else if (velocity.y > 0f) state.CoyoteTime = 0f;
             if (jump && (grounded || state.CoyoteTime > 0.0001f))
             {
@@ -76,6 +96,12 @@ namespace SSW
                     dropping = true;
                 }
                 else velocity.y = _motion.JumpSpeed;
+            }
+            else if (jump && state.AirUsed < state.AirJumps && !dropping)
+            {
+                state.AirUsed++;
+                velocity.y = _motion.JumpSpeed * state.AirJumpRatio;
+                state.CoyoteTime = 0f;
             }
 
             float brake = _motion.KnockbackDecay;

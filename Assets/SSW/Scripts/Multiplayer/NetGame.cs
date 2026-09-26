@@ -41,7 +41,7 @@ namespace SSW
         public SoundChannel Sounds { get; } = new SoundChannel();
         const string JobMessage = "mushrooms.job";
         const string GameScene = "SuperUltraLegendScene";
-        public const ushort Protocol = 13;
+        public const ushort Protocol = 14;
         [SerializeField] NetworkManager _managerPrefab;
         [SerializeField] NetPlayer _playerPrefab;
         [SerializeField] NetMatch _matchPrefab;

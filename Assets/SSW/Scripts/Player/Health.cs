@@ -76,6 +76,14 @@ namespace SSW
                 return blocked;
             }
 
+            foreach (MonoBehaviour behaviour in GetComponentsInParent<MonoBehaviour>(true))
+            {
+                if (!behaviour.isActiveAndEnabled || behaviour is not IDamageDelay delay || !delay.TryDefer(request, finalAmount)) continue;
+                DamageResult deferred = new DamageResult(requestedAmount, 0f, false, true);
+                NotifyDamageReceived(request, deferred);
+                return deferred;
+            }
+
             float previous = current;
             current = Mathf.Max(current - finalAmount, 0f);
             float appliedAmount = previous - current;

@@ -26,6 +26,7 @@ namespace SSW
                 if (!IsServer) return;
                 WeaponState state = State;
                 state.Progress = value;
+                ProgressChanged(ref state);
                 State = state;
             }
         }
@@ -43,11 +44,13 @@ namespace SSW
         }
 
         protected virtual WeaponState Initial() => default;
+        protected virtual void ProgressChanged(ref WeaponState state) { }
         protected abstract void Grant(Augment item);
         protected abstract bool Plan(ref WeaponState state, CastInput input, out BoltSpec bolt);
         protected abstract void Execute(CastInput input, Vector2 origin, double lag, BoltSpec bolt);
         protected virtual void Advance(ref WeaponState state, uint tick) { }
         protected virtual void ServerTick() { }
+        protected virtual Vector2 BoltOrigin(Vector2 center, Vector2 direction, float radius) => center;
 
         protected static uint Ticks(float seconds) => (uint)Mathf.CeilToInt(Mathf.Max(0.001f, seconds) / Time.fixedDeltaTime);
         protected uint Cooldown(float seconds) => Ticks(seconds * Player.Cast.CooldownScale);
@@ -73,7 +76,7 @@ namespace SSW
             if (_pending.Count >= 64) return;
             _pending.Add(input);
             PredictAction(input);
-            if (bolt.Speed > 0f) Player.Cast.PreviewBolt(input.Action, Player.ViewPosition, input.Direction.normalized, bolt);
+            if (bolt.Speed > 0f) Player.Cast.PreviewBolt(input.Action, BoltOrigin(Player.ViewPosition, input.Direction.normalized, bolt.Radius), input.Direction.normalized, bolt);
             Present(input.Kind, input.Direction);
             Player.Cast.PredictSound(input.Action, input.Kind);
             Player.Cast.Presented();

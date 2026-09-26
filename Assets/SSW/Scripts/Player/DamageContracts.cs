@@ -12,7 +12,9 @@ namespace SSW
         Projectile = 1 << 2,
         DamageOverTime = 1 << 3,
         Environment = 1 << 4,
-        IgnoreDefense = 1 << 5
+        IgnoreDefense = 1 << 5,
+        Drain = 1 << 6,
+        Deferred = 1 << 7
     }
 
     public readonly struct DamageRequest
@@ -42,23 +44,31 @@ namespace SSW
 
     public readonly struct DamageResult
     {
-        public DamageResult(float requestedAmount, float appliedAmount, bool wasLethal)
+        public DamageResult(float requestedAmount, float appliedAmount, bool wasLethal, bool wasDeferred = false)
         {
             RequestedAmount = requestedAmount;
             AppliedAmount = appliedAmount;
             WasLethal = wasLethal;
+            WasDeferred = wasDeferred;
         }
 
         public float RequestedAmount { get; }
         public float AppliedAmount { get; }
         public bool WasLethal { get; }
         public bool WasApplied => AppliedAmount > 0f;
-        public bool WasBlocked => RequestedAmount > 0f && !WasApplied;
+        public bool WasDeferred { get; }
+        public bool WasAccepted => WasApplied || WasDeferred;
+        public bool WasBlocked => RequestedAmount > 0f && !WasAccepted;
     }
 
     public interface IDamageReceiver
     {
         DamageResult ReceiveDamage(DamageRequest request);
+    }
+
+    public interface IDamageDelay
+    {
+        bool TryDefer(DamageRequest request, float amount);
     }
 
     public interface IIncomingDamageModifier

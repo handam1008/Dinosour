@@ -3,81 +3,37 @@ using UnityEngine;
 
 namespace SSW
 {
-    public sealed class NetBuff : MonoBehaviour, IOutgoingDamageModifier, IDamageDealtListener
+    public sealed class NetBuff : MonoBehaviour
     {
         [SerializeField] AugmentDrafter _source;
         [SerializeField] NetPlayer _player;
         [SerializeField] PlayerController _motion;
+        [SerializeField] BuffHealth _health;
+        [SerializeField] BuffSkill _skill;
         [SerializeField, Range(0.1f, 1f)] float _cooldownScale = 0.8f;
         readonly HashSet<CommonAugmentType> _owned = new HashSet<CommonAugmentType>();
-        float _baseMax;
-        float _maxScale = 1f;
-        public float MaxScale
-        {
-            get => _maxScale;
-            set { _maxScale = value; if (_player.IsServer) RefreshMax(); }
-        }
-        float _confidenceUntil;
-        bool _confident;
-        public int Priority => 20;
+        readonly HashSet<Augment> _assets = new HashSet<Augment>();
+        public float MaxScale { get => _health.MaxScale; set => _health.MaxScale = value; }
+        public float Scale => _health.Scale * _skill.Scale;
+        public float AirJumpRatio => _skill.AirJumpRatio;
+        public bool Has(CommonAugmentType type) => _owned.Contains(type);
+        public bool Owns(Augment augment) => _assets.Contains(augment);
 
-        void Awake()
-        {
-            _baseMax = _player.Health.Max;
-            _source.AugmentGranted += Granted;
-        }
+        void Awake() => _source.AugmentGranted += Granted;
 
         void Granted(Augment augment)
         {
+            _assets.Add(augment);
             if (augment is not CommonAugment common || !_owned.Add(common.type)) return;
             if (common.type == CommonAugmentType.CooldownReduction) _player.Cast.CooldownScale = _cooldownScale;
-            if (_player.IsServer) RefreshMax();
         }
 
-        bool Has(CommonAugmentType type) => _owned.Contains(type);
-        float Missing => 1f - _player.Health.Current / _player.Health.Max;
-
-        void Update()
+        void FixedUpdate()
         {
-            if (!_player.IsServer) return;
-            _motion.SpeedFactor = Has(CommonAugmentType.Berserker) ? 1f + Missing * 0.4f : 1f;
-            if (_confident && Time.time >= _confidenceUntil)
-            {
-                _confident = false;
-                RefreshMax();
-            }
+            if (_player.IsSpawned && _player.IsServer)
+                _motion.SpeedFactor = _health.SpeedScale * _skill.SpeedScale;
         }
 
-        void RefreshMax()
-        {
-            float value = _baseMax * _maxScale;
-            if (Has(CommonAugmentType.Giant)) value *= 1.8f;
-            if (Has(CommonAugmentType.GlassCannon)) value *= 0.7f;
-            if (_confident) value *= 1.2f;
-            _player.Health.SetMax(value);
-        }
-
-        public float ModifyOutgoingDamage(float amount)
-        {
-            if (Has(CommonAugmentType.GlassCannon)) amount *= 1.35f;
-            if (Has(CommonAugmentType.Berserker)) amount *= 1f + Missing * 0.5f;
-            return amount;
-        }
-
-        public void OnDamageDealt(DamageRequest request, DamageResult result)
-        {
-            if (!_player.IsServer || !result.WasApplied) return;
-            if (Has(CommonAugmentType.Vampire)) _player.Health.Heal(result.AppliedAmount * 0.3f);
-            if (!Has(CommonAugmentType.Confidence)) return;
-            _confidenceUntil = Time.time + 3f;
-            if (_confident) return;
-            _confident = true;
-            RefreshMax();
-        }
-
-        void OnDestroy()
-        {
-            _source.AugmentGranted -= Granted;
-        }
+        void OnDestroy() => _source.AugmentGranted -= Granted;
     }
 }
