@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NKY.Scripts;
 using NKY.Scripts.Job;
@@ -94,7 +95,7 @@ namespace SSW
             Player.Cast.HoldPreview(_throwAction, false);
             if (_knife != null) _knife.Hold(false);
         }
-
+        
         protected override void Execute(CastInput input, Vector2 origin, double lag, BoltSpec bolt)
         {
             if (input.Kind == CastKind.Press)

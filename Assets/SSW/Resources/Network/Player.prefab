@@ -511,7 +511,7 @@ MonoBehaviour:
   _melee: 0
   _offset: 0.48
   _angle: 0
-  _gun: {fileID: 7045446408052638910}
+  _gun: {fileID: 0}
 --- !u!114 &7045446408052638910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -924,12 +924,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 15
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -1493577732303177066, guid: 623dcb9525cf9644285d5649f88e77f3, type: 3}
+  m_Sprite: {fileID: -5236231211553611101, guid: 623dcb9525cf9644285d5649f88e77f3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.275, y: 1.1}
+  m_Size: {x: 0.11, y: 0.44}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1256,6 +1256,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2687422068019725755, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: a8fca4245ed7ded41946c5499acb5650, type: 2}
+    - target: {fileID: 2687422068019725755, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
       propertyPath: m_Interpolate
       value: 0
       objectReference: {fileID: 0}
@@ -1267,6 +1271,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4251979090183284226, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: a8fca4245ed7ded41946c5499acb5650, type: 2}
     - target: {fileID: 6163778109499660571, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -1570,7 +1578,7 @@ MonoBehaviour:
   _prediction: {fileID: 287128325285748208}
   _effects: {fileID: 7246764531032309791}
   _buffs: {fileID: 5655579847218021524}
-  _guard: {fileID: 7006365575554843359}
+  _guard: {fileID: 0}
 --- !u!114 &7472672372006785603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1785,8 +1793,8 @@ MonoBehaviour:
   _questHits: 2
   _poisonTicks: 8
   _shrinkCooldown: 5
-  _gunView: {fileID: 7045446408052638910}
-  _effects: {fileID: 6182080824608296281}
+  _gunView: {fileID: 0}
+  _effects: {fileID: 0}
 --- !u!114 &2236315355235603249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1844,12 +1852,13 @@ MonoBehaviour:
   Player: {fileID: 3278762098247593300}
   _source: {fileID: 4814471823624826006}
   _view: {fileID: 7242114013962689088}
-  _damage: 30
+  _damage: 10
   _reach: 2
   _interval: 0.3
   _dashSpeed: 20
   _dashTime: 0.2
-  _dashCooldown: 1
+  _dashCooldown: 7
+  _parryCooldown: 6
 --- !u!114 &8193348028431366631
 MonoBehaviour:
   m_ObjectHideFlags: 0

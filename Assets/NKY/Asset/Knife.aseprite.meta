@@ -33,10 +33,10 @@ ScriptedImporter:
     sRGBTexture: 1
     spriteMode: 2
     spriteExtrude: 1
-    spriteMeshType: 0
+    spriteMeshType: 1
     alignment: 0
     spritePivot: {x: 0.5, y: 0.5}
-    spritePixelsToUnits: 40
+    spritePixelsToUnits: 32
     spriteBorder: {x: 0, y: 0, z: 0, w: 0}
     spriteGenerateFallbackPhysicsShape: 0
     generateCubemap: 6
@@ -101,7 +101,7 @@ ScriptedImporter:
     addShadowCasters: 0
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
-  platformSettingsDirtyTick: 639196461195475782
+  platformSettingsDirtyTick: 639260251519503896
   singleSpriteImportData:
   - name: 
     originalName: 
@@ -127,8 +127,8 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: Knife
     originalName: 
-    pivot: {x: 0.5, y: 0.5}
-    alignment: 0
+    pivot: {x: 0.36363634, y: -0.022727273}
+    alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
@@ -137,7 +137,7 @@ ScriptedImporter:
       y: 4
       width: 11
       height: 44
-    spriteID: d44713c281a1a2a4aa4d7c6b67863165
+    spriteID: 094dd8da4eafd2546b01247216b88a5f
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -169,7 +169,7 @@ ScriptedImporter:
         y: 1
         width: 11
         height: 44
-      spriteId: d44713c281a1a2a4aa4d7c6b67863165
+      spriteId: 094dd8da4eafd2546b01247216b88a5f
     linkedCells: []
     tileCells: []
     tileSetIndex: 0

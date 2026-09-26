@@ -21,6 +21,7 @@ namespace SSW
         public event System.Action OnDied;
         public event System.Action<float, float> OnHealthChanged;
         public event System.Action<float, bool> OnDamageDealt;
+        public event System.Action<float> OnHealed;
 
         float current;
         IHealthAuthority _authority;
@@ -92,7 +93,7 @@ namespace SSW
             OnDamaged?.Invoke();
             OnHealthChanged?.Invoke(current, maxHealth);
             OnDamageDealt?.Invoke(finalAmount, request.IsCritical);
-            SpawnDamageNumber(finalAmount, request.IsCritical);
+            SpawnNumber(finalAmount, request.IsCritical);
 
             DamageResult result = new DamageResult(requestedAmount, appliedAmount, wasLethal);
             NotifyDamageReceived(request, result);
@@ -106,8 +107,12 @@ namespace SSW
             if (!float.IsFinite(amount) || amount <= 0f) return;
             if (_authority != null && (current <= 0f || !_authority.CanChange)) return;
 
+            float previous = current;
             current = Mathf.Min(current + amount, maxHealth);
+            float restored = current - previous;
+            if (restored <= 0f) return;
             OnHealthChanged?.Invoke(current, maxHealth);
+            ApplyNetworkHeal(restored);
         }
 
         internal void SetMax(float value)
@@ -134,7 +139,13 @@ namespace SSW
         {
             OnDamaged?.Invoke();
             OnDamageDealt?.Invoke(amount, critical);
-            SpawnDamageNumber(amount, critical);
+            SpawnNumber(amount, critical);
+        }
+
+        internal void ApplyNetworkHeal(float amount)
+        {
+            OnHealed?.Invoke(amount);
+            SpawnNumber(amount, false, true);
         }
 
         float ResolveIncomingDamage(DamageRequest request, float amount)
@@ -201,7 +212,7 @@ namespace SSW
             bar.transform.localPosition = localPos;
         }
 
-        void SpawnDamageNumber(float amount, bool isCritical)
+        void SpawnNumber(float amount, bool isCritical, bool healed = false)
         {
             GameObject numberPrefab = Resources.Load<GameObject>(_damageNumberResourceName);
             if (numberPrefab == null) return;
@@ -210,7 +221,9 @@ namespace SSW
             GameObject numberGo = Instantiate(numberPrefab, spawnPos, Quaternion.identity);
             numberGo.transform.localScale = numberPrefab.transform.localScale;
             DamageNumberDisplay display = numberGo.GetComponent<DamageNumberDisplay>();
-            if (display != null) display.Show(amount, isCritical);
+            if (display == null) return;
+            if (healed) display.ShowHeal(amount);
+            else display.Show(amount, isCritical);
         }
 
         Vector3 ComputeTopCenter()

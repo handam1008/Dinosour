@@ -12,4 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fc08250a3d9e144b9b48d06d74782e3, type: 3}
   m_Name: WitchAugmentPool
   m_EditorClassIdentifier: Assembly-CSharp::SSW.AugmentPool
-  augments: []
+  augments:
+  - {fileID: 11400000, guid: 12c2fe8100e9bc14dbdb7a8f7f0aea80, type: 2}
+  - {fileID: 11400000, guid: a0dafd1c282d3a041af963e158af5c8a, type: 2}
+  - {fileID: 11400000, guid: 7e3fae5bcdba1d442b06fe8d96f4c014, type: 2}
+  - {fileID: 11400000, guid: 564520a11e6cef54aa35d2e1d4a886ec, type: 2}
+  - {fileID: 11400000, guid: 5fe07bc5a8e7ec5468b1971e2659180e, type: 2}
+  - {fileID: 11400000, guid: 383a5d1150a87e047afbb932516580c2, type: 2}
+  - {fileID: 11400000, guid: 0aef6835164235b47b86fc07066dcc5d, type: 2}
+  - {fileID: 11400000, guid: 10fbfce91e9767846a7704f4c48dc9b1, type: 2}
+  - {fileID: 11400000, guid: 38060475b7232d04d9218d253016a4e7, type: 2}
+  - {fileID: 11400000, guid: 8025a2b15567c684dafbf00f1dacf080, type: 2}
