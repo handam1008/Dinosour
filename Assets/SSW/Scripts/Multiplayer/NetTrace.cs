@@ -15,6 +15,7 @@ namespace SSW
             public int part;
             public bool preview;
             public bool ending;
+            public Vector2 end;
             public bool blocked;
             public float age;
             public uint turn;
@@ -37,6 +38,16 @@ namespace SSW
             public float hp;
             public float otherHp;
             public float delta;
+            public Vector2 velocity;
+            public uint pulse;
+            public uint gust;
+            public bool gustEffect;
+            public float gustTime;
+            public int sakuraEffects;
+            public uint petalSeed;
+            public float petalTime;
+            public float speed;
+            public float timeScale;
             public Vector2 body;
             public Vector2 view;
             public Vector2 otherView;
@@ -99,8 +110,12 @@ namespace SSW
                     shots.Add(new Shot
                     {
                         caster = caster.NetworkObjectId, action = tail.Action, part = tail.Part,
-                        ending = true, position = tail.transform.position
+                        ending = true, position = tail.transform.position, end = tail.Point
                     });
+            var map = game.Arena.Map;
+            var gust = map == null ? null : map.GetComponentInChildren<MapGust>();
+            var effect = gust == null ? null : map.transform.Find("KDH_Map 4/ForceEffect").GetComponent<ParticleSystem>();
+            var sakura = map == null ? null : map.GetComponentInChildren<SakuraField>();
             _trace.owner = player.NetworkObjectId;
             _trace.frames.Add(new Frame
             {
@@ -108,6 +123,12 @@ namespace SSW
                 utc = DateTime.UtcNow.Ticks, serverTime = game.Manager.ServerTime.Time,
                 localTime = game.Manager.LocalTime.Time, physicsTime = game.PhysicsTime,
                 otherTime = otherTime, hp = player.Health.Current, otherHp = otherHp,
+                velocity = motion.Velocity, pulse = motion.PulseSequence, gust = gust == null ? 0 : gust.PulseCount,
+                gustEffect = effect != null && effect.isPlaying, gustTime = effect == null ? 0 : effect.time,
+                sakuraEffects = sakura == null ? 0 : sakura.GetComponentsInChildren<ParticleSystem>().Length - 1,
+                petalSeed = sakura == null ? 0 : sakura.GetComponent<ParticleSystem>().randomSeed,
+                petalTime = sakura == null ? 0 : sakura.GetComponent<ParticleSystem>().time,
+                speed = motion.Speed, timeScale = Time.timeScale,
                 body = player.Body.position, view = player.View.position, otherView = otherView, correction = motion.Correction,
                 epoch = motion.Epoch, tick = motion.Tick, processed = motion.Processed, shots = shots.ToArray()
             });

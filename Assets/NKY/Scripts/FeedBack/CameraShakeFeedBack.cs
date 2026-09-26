@@ -9,12 +9,14 @@ namespace NKY.Scripts.FeedBack
     {
         [SerializeField] private float force;
         [SerializeField] private float duration;
-        private SandboxCameraFollow _impulseSource;
+        private ICameraShakeReceiver _impulseSource;
 
         private void Awake()
         {
-            if(Camera.main != null)
-                _impulseSource = Camera.main.GetComponent<SandboxCameraFollow>();
+            if (Camera.main != null)
+            {
+                if (Camera.main.TryGetComponent(out _impulseSource)) ;
+            }
         }
 
         public override void OnFeedBack()

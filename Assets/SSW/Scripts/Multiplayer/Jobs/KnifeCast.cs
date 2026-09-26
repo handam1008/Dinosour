@@ -16,6 +16,8 @@ namespace SSW
         readonly Dictionary<AssassinAugmentType, AbstractAssassinAugmentSO> _augments = new Dictionary<AssassinAugmentType, AbstractAssassinAugmentSO>();
         AugmentContext _context;
         NetBolt _knife;
+        uint _throwAction;
+        uint _recallAction;
         float _hideAt;
         float _blindAt;
         float _auraUntil;
@@ -56,10 +58,41 @@ namespace SSW
                 state.Ammo = 1;
                 state.Skill = input.Tick + Cooldown(_skillCooldown);
                 bolt = new BoltSpec { Style = 3, Speed = _throwSpeed, Damage = _throwDamage, Life = 5f,
-                    Radius = 0.12f, Scale = 0.65f, Stick = true, Bounce = Has(AssassinAugmentType.ConcealedWeapon) ? 1 : 0 };
+                    Radius = 0.12f, Scale = 0.65f, Stick = true, Bounce = Has(AssassinAugmentType.ConcealedWeapon) ? 1 : 0,
+                    CanPenetrate = true};
                 return true;
             }
             return input.Kind == CastKind.Release || input.Kind == CastKind.StopCycle || input.Kind == CastKind.Cancel;
+        }
+
+        internal void Track(NetBolt knife) => _knife = knife;
+
+        protected override void PredictAction(CastInput input)
+        {
+            if (input.Kind != CastKind.Cycle) return;
+            if (Status.Ammo > 0) _throwAction = input.Action;
+            else _recallAction = input.Action;
+        }
+
+        public override void Prepare(ref CastInput input)
+        {
+            if (IsServer || input.Action != _recallAction || input.Kind != CastKind.Cycle) return;
+            bool live = _knife != null && _knife.IsSpawned && _knife.Action == _throwAction && _knife.Owner == Player && _knife.Caster == Player.NetworkObjectId;
+            Vector2 point;
+            if (live) point = _knife.transform.position;
+            else if (!Player.Cast.PreviewPoint(_throwAction, out point)) return;
+            input.Recall = _throwAction;
+            input.Point = point;
+            Player.Cast.HoldPreview(_throwAction, true);
+            if (live) _knife.Hold(true);
+        }
+
+        public override void Reject(uint action)
+        {
+            base.Reject(action);
+            if (action != _recallAction) return;
+            Player.Cast.HoldPreview(_throwAction, false);
+            if (_knife != null) _knife.Hold(false);
         }
 
         protected override void Execute(CastInput input, Vector2 origin, double lag, BoltSpec bolt)
@@ -72,11 +105,18 @@ namespace SSW
             if (input.Kind != CastKind.Cycle) return;
             if (_knife != null && _knife.IsSpawned)
             {
-                Vector2 point = _knife.transform.position;
+                if (_knife.Owner != Player || _knife.Caster != Player.NetworkObjectId)
+                {
+                    _knife = null;
+                    return;
+                }
                 Vector2 velocity = _knife.Velocity.normalized;
-                Drive.Blink(point);
-                Drive.ApplyForce(velocity * 10f, ForceMode2D.Impulse);
-                _knife.Finish();
+                Vector2 point = _knife.Position;
+                Vector2 normal = _knife.Normal;
+                if (input.Recall == _knife.Action) _knife.Recall(input.Point, Player.Cast.RecallWindow, out point, out normal);
+                if (Drive.Blink(point, normal, _knife.Spec.Radius))
+                    Drive.ApplyForce(velocity * 10f, ForceMode2D.Impulse);
+                _knife.FinishAt(point);
                 _knife = null;
             }
             else if (bolt.Speed > 0f) _knife = Player.Cast.SpawnBolt(this, input.Action, origin, input.Direction, bolt, lag);

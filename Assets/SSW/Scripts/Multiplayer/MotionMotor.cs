@@ -18,19 +18,15 @@ namespace SSW
                 ? gravity / Physics2D.gravity.y : shape.attachedRigidbody.gravityScale;
         }
 
-        public Vector2 Clip(Vector2 start, Vector2 end)
-        {
-            Vector2 travel = end - start;
-            _cast.Move(ref start, ref travel, 1f, false);
-            return start;
-        }
+        public bool TryPlace(Vector2 target, Vector2 normal, float radius, out Vector2 position)
+            => _cast.TryPlace(target, normal, radius, out position);
 
         public void Step(ref MotionState state, MotionFrame input, float speed, float delta, bool playing)
         {
             float scale = playing && state.SmallTime > 0f ? 0.5f : 1f;
             _cast.Scale(ref state, scale);
             state.SmallTime = Mathf.Max(0f, state.SmallTime - delta);
-            if (playing) _cast.Recover(ref state.Position, ref state.Velocity, state.DropTime > 0f, state.DropTop);
+            if (playing) _cast.Recover(ref state.Position, ref state.Velocity, state.DropTime > 0f, state.DropTop, state.Surface);
             bool jump = input.Jump > state.Jump;
             state.Jump = System.Math.Max(state.Jump, input.Jump);
             state.CoyoteTime = Mathf.Max(0f, state.CoyoteTime - delta);

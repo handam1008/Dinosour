@@ -4,8 +4,6 @@ using UnityEngine.InputSystem;
 
 namespace SSW
 {
-    [RequireComponent(typeof(Health))]
-    [RequireComponent(typeof(AugmentDrafter))]
     public class SkillAugmentController : MonoBehaviour, IIncomingDamageModifier, IOutgoingDamageModifier, IDamageDealtListener
     {
         [Header("공용")]
@@ -20,20 +18,20 @@ namespace SSW
         [SerializeField] float _swiftSpeedBonus = 0.60f;
         [SerializeField] float _swiftRange = 30f;
         [SerializeField] LayerMask _swiftObstacleMask;
-        [SerializeField] LineRenderer _swiftTether;
+        [SerializeField] LineRenderer _swiftTetherPrefab;
 
         [Header("냠냠")]
         [SerializeField] float _nomRadius = 4f;
         [SerializeField] float _nomDamage = 3f;
         [SerializeField] float _nomHealRate = 1f;
         [SerializeField] float _nomInterval = 1f;
-        [SerializeField] GameObject _nomAuraObject;
+        [SerializeField] GameObject _nomAuraPrefab;
 
         [Header("자석")]
         [SerializeField] float _magnetRadius = 5f;
         [SerializeField] float _magnetStrength = 2f;
         [SerializeField] float _magnetInterval = 1f;
-        [SerializeField] GameObject _magnetAuraObject;
+        [SerializeField] GameObject _magnetAuraPrefab;
 
         [Header("축소 엔진")]
         [SerializeField] float _shrinkScale = 0.25f;
@@ -66,7 +64,7 @@ namespace SSW
         [Header("느려져라")]
         [SerializeField] float _slowAuraRadius = 4.5f;
         [SerializeField] float _slowAuraAmount = 0.35f;
-        [SerializeField] GameObject _slowAuraObject;
+        [SerializeField] GameObject _slowAuraPrefab;
 
         readonly HashSet<CommonAugmentType> _acquired = new HashSet<CommonAugmentType>();
         readonly List<Health> _enemies = new List<Health>();
@@ -87,6 +85,8 @@ namespace SSW
         bool _wasGrounded = true;
         float _fallPeakY;
         float _mineTimer;
+        float _lastGroundedTime;
+        LineRenderer _swiftTether;
 
         public int Priority => 100;
 
@@ -105,10 +105,8 @@ namespace SSW
             _healthAugments = GetComponent<HealthAugmentController>();
             _defance = GetComponent<Defance>();
             
-            if (_slowAuraObject != null) _slowAuraObject.SetActive(false);
-            if (_magnetAuraObject != null) _magnetAuraObject.SetActive(false);
-            if (_nomAuraObject != null) _nomAuraObject.SetActive(false);
-            if (_swiftTether != null) _swiftTether.enabled = false;
+            _swiftTether = Instantiate(_swiftTetherPrefab, transform);
+            _swiftTether.enabled = false;
         }
 
         void OnEnable()
@@ -136,13 +134,13 @@ namespace SSW
                     if (_defance != null) _defance.CoolDown *= 1f - _versatileGuardCool;
                     break;
                 case CommonAugmentType.SlowAura:
-                    if (_slowAuraObject != null) _slowAuraObject.SetActive(true);
+                    Instantiate(_slowAuraPrefab, transform);
                     break;
                 case CommonAugmentType.Magnet:
-                    if (_magnetAuraObject != null) _magnetAuraObject.SetActive(true);
+                    Instantiate(_magnetAuraPrefab, transform);
                     break;
                 case CommonAugmentType.NomNom:
-                    if (_nomAuraObject != null) _nomAuraObject.SetActive(true);
+                    Instantiate(_nomAuraPrefab, transform);
                     break;
             }
         }
@@ -167,7 +165,7 @@ namespace SSW
             if (_swiftActive) multiplier *= 1f + _swiftSpeedBonus;
             if (Has(CommonAugmentType.ShrinkEngine)) multiplier *= 1f + _shrinkSpeedBonus;
             if (Has(CommonAugmentType.Versatile)) multiplier *= 1f + _versatileSpeed;
-            if (_healthAugments != null) multiplier *= _healthAugments.ConfidenceSpeedMultiplier;
+            if (_healthAugments != null) multiplier *= _healthAugments.ConfidenceSpeedMultiplier * _healthAugments.BerserkerSpeedMultiplier;
 
             if (multiplier > 1.0001f)
                 _speedable?.ApplySpeed(multiplier - 1f, 0.1f);
@@ -221,8 +219,6 @@ namespace SSW
 
         void SetTether(bool on, Vector2 a, Vector2 b)
         {
-            if (_swiftTether == null) return;
-
             _swiftTether.enabled = on;
             if (!on) return;
 
@@ -280,6 +276,7 @@ namespace SSW
             else
             {
                 _airJumpUsed = false;
+                _lastGroundedTime = Time.time;
 
                 if (!_wasGrounded && Has(CommonAugmentType.Slam))
                 {
@@ -318,7 +315,8 @@ namespace SSW
             if (!value.isPressed) return;
             if (!Has(CommonAugmentType.DoubleJump)) return;
             if (_player == null || _body == null) return;
-            if (_player.IsGrounded || _airJumpUsed) return;
+            if (_airJumpUsed) return;
+            if (Time.time - _lastGroundedTime <= _player.CoyoteTime) return;
 
             _airJumpUsed = true;
             _body.linearVelocity = new Vector2(
