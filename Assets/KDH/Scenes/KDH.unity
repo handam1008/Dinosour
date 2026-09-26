@@ -124,6 +124,391 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8476215549095984661, guid: 86dbf70bc864cb446b3d18f036d24ece, type: 3}
   m_PrefabInstance: {fileID: 648262717}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &495345607
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 657460563316686558, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1135666475}
+    - target: {fileID: 657460563316686558, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AddBulletAbility
+      objectReference: {fileID: 0}
+    - target: {fileID: 657460563316686558, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KDH_UpgradeList, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090489097421991824, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090489097421991824, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090489097421991824, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1090489097421991824, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2138069739558320605, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1135666475}
+    - target: {fileID: 2138069739558320605, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AddBulletAbility
+      objectReference: {fileID: 0}
+    - target: {fileID: 2138069739558320605, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KDH_UpgradeList, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2186229571202972444, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_Name
+      value: TestArgumentUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 2280759173472838694, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1135666475}
+    - target: {fileID: 2280759173472838694, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AddPlayerAbility
+      objectReference: {fileID: 0}
+    - target: {fileID: 2280759173472838694, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KDH_UpgradeList, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2280759173472838694, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: KDH.Scripts.Upgrade.KDH_PlayerAbilitySO, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2807835658718156159, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1135666475}
+    - target: {fileID: 2807835658718156159, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AddBulletAbility
+      objectReference: {fileID: 0}
+    - target: {fileID: 2807835658718156159, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KDH_UpgradeList, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3753873786017637543, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3753873786017637543, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3753873786017637543, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3753873786017637543, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3995744253545086170, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3995744253545086170, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3995744253545086170, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3995744253545086170, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253620086204155617, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253620086204155617, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253620086204155617, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253620086204155617, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257965054301284037, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1135666475}
+    - target: {fileID: 5257965054301284037, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AddBulletAbility
+      objectReference: {fileID: 0}
+    - target: {fileID: 5257965054301284037, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KDH_UpgradeList, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5908239290518482622, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1135666475}
+    - target: {fileID: 5908239290518482622, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AddPlayerAbility
+      objectReference: {fileID: 0}
+    - target: {fileID: 5908239290518482622, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KDH_UpgradeList, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5908239290518482622, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: KDH.Scripts.Upgrade.KDH_PlayerAbilitySO, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914043495182575737, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1135666475}
+    - target: {fileID: 6914043495182575737, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AddBulletAbility
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914043495182575737, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KDH_UpgradeList, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7082570150826990878, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7082570150826990878, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7082570150826990878, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7082570150826990878, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7303309152032069946, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1135666475}
+    - target: {fileID: 7303309152032069946, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AddBulletAbility
+      objectReference: {fileID: 0}
+    - target: {fileID: 7303309152032069946, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KDH_UpgradeList, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451865229392928324, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451865229392928324, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451865229392928324, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451865229392928324, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7810763501362022693, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7810763501362022693, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7810763501362022693, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7810763501362022693, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8364588275644078617, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8364588275644078617, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8364588275644078617, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8364588275644078617, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8710910822784474551, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8710910822784474551, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8710910822784474551, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8710910822784474551, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8791388295942665593, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1135666475}
+    - target: {fileID: 8791388295942665593, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AddBulletAbility
+      objectReference: {fileID: 0}
+    - target: {fileID: 8791388295942665593, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KDH_UpgradeList, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891742466169742562, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891742466169742562, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891742466169742562, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8891742466169742562, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8942669326815697189, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1135666475}
+    - target: {fileID: 8942669326815697189, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AddBulletAbility
+      objectReference: {fileID: 0}
+    - target: {fileID: 8942669326815697189, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: KDH_UpgradeList, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9144919924781885994, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ba79e751b34778949a1c8570aff6d16f, type: 3}
 --- !u!1 &566945642
 GameObject:
   m_ObjectHideFlags: 0
@@ -1144,6 +1529,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1430070496}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1135666475 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1288949259638618496, guid: 091c9ece2677ec6438dbe7c5d990d321, type: 3}
+  m_PrefabInstance: {fileID: 4447462148432300716}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1530df0bffdf499b9ac1c3d300e2d783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Upgrade.KDH_UpgradeList
 --- !u!1 &1144802900
 GameObject:
   m_ObjectHideFlags: 0
@@ -2585,3 +2981,4 @@ SceneRoots:
   - {fileID: 1455394509}
   - {fileID: 2085547313}
   - {fileID: 669380994}
+  - {fileID: 495345607}

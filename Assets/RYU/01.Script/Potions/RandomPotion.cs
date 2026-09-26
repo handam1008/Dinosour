@@ -18,6 +18,7 @@ public class RandomPotion : MonoBehaviour
     [SerializeField] private float cycleTime = 1.5f;  
     [SerializeField] private float spreadAngle = 24f; 
     [SerializeField] private SoundClipSO throwSound;
+    [SerializeField] private SoundClipSO switchSound;
 
     private WitchAugmentController _augment;
 
@@ -31,7 +32,6 @@ public class RandomPotion : MonoBehaviour
     
     public AbstractPotion Pocket => _pocket;
 
-    // UI 표시용
     public bool PocketUsed => _pocketUsed;
     public bool HasPocketAugment => _augment != null && _augment.Has(WitchAugmentType.Pocket);
 
@@ -59,7 +59,11 @@ public class RandomPotion : MonoBehaviour
 
     private void Update()
     {
-        if (ShiftPressed()) SwapPocket();
+        if (ShiftPressed())
+        {
+            ServiceLocator.Get<IAudioService>().PlaySfx(switchSound);
+            SwapPocket();
+        }
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {

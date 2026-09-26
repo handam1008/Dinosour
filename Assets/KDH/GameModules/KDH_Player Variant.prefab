@@ -153,7 +153,7 @@ Transform:
   m_GameObject: {fileID: 3765937526894855917}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.5, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -205,7 +205,7 @@ Transform:
   m_GameObject: {fileID: 4818497602223405773}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0.7, z: 0}
+  m_LocalPosition: {x: 1, y: 0.19999999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1417,7 +1417,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1216256812639386780, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1216256812639386780, guid: 43813be96c999a34e8c23c2a9457305b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1565,7 +1565,7 @@ MonoBehaviour:
   playerAttackModule: {fileID: 7650639093472897550}
   <Tanchang>k__BackingField: {fileID: 4165933402086859106}
   <UpgradeList>k__BackingField: {fileID: 1288949259638618496}
-  <EffectPoolList>k__BackingField: {fileID: 3847975037427818091}
+  <EffectPoolList>k__BackingField: {fileID: 0}
   <CurrentAmmo>k__BackingField: 0
   <ChargeTimer>k__BackingField: 0
   <CanAttack>k__BackingField: 0

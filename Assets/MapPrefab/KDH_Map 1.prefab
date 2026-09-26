@@ -9372,6 +9372,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: DamageZone
       objectReference: {fileID: 0}
+    - target: {fileID: 1867271432980647951, guid: 86dbf70bc864cb446b3d18f036d24ece, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2341777077273555935, guid: 86dbf70bc864cb446b3d18f036d24ece, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6893067215882945815, guid: 86dbf70bc864cb446b3d18f036d24ece, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6966818469144068780, guid: 86dbf70bc864cb446b3d18f036d24ece, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8476215549095984661, guid: 86dbf70bc864cb446b3d18f036d24ece, type: 3}
       propertyPath: m_LocalPosition.x
       value: 17.5

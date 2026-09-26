@@ -62,7 +62,7 @@ public static class MapLink
             var moving = new System.Collections.Generic.List<UnityEngine.Object>();
             foreach (var item in content.GetComponentsInChildren<UnityEngine.MonoBehaviour>(true))
             {
-                if (item is KDH.Scripts.Objects.KDH_TouchScrrenOutline || item is KDH.Scripts.Objects.KDH_Earthquake
+                if (item is KDH.Scripts.Objects.KDH_TouchScreenOutline || item is KDH.Scripts.Objects.KDH_Earthquake
                     || item is KDH.Scripts.Objects.KDH_IceArea || item is KDH.Scripts.Objects.KDH_SakuraMode) serverOnly.Add(item);
                 if (item is KDH.Scripts.Objects.KDH_Earthquake) moving.Add(item.transform);
             }

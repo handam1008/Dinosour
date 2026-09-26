@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/RYU/00.Scene/StartMenu.unity
+    guid: d5271f536a1a93443871b65033950538
+  - enabled: 1
     path: Assets/SSW/MainMenu.unity
     guid: 191fa9ee6bd7aae4fa4b3c029a4a5eb1
   - enabled: 0
@@ -29,9 +32,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/NKY/Scenes/TestScene.unity
     guid: 2d251f02ca440bd4286c8dbef5d4eb14
-  - enabled: 1
-    path: Assets/RYU/00.Scene/StartMenu.unity
-    guid: d5271f536a1a93443871b65033950538
   - enabled: 1
     path: Assets/RYU/00.Scene/Leaderboard.unity
     guid: 33aa3628d7aa423418e6844a4abf1151

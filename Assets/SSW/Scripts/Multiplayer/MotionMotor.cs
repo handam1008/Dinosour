@@ -21,6 +21,13 @@ namespace SSW
         public bool TryPlace(Vector2 target, Vector2 normal, float radius, out Vector2 position)
             => _cast.TryPlace(target, normal, radius, out position);
 
+        public void Ride(MotionState previous, MotionState current, float delta)
+        {
+            if (!current.Grounded || current.DropTime > 0f) return;
+            Vector2 velocity = new Vector2(current.Velocity.x, previous.Velocity.y);
+            _cast.Ride(current.Position, velocity, Physics2D.gravity.y * _gravityScale, delta, !previous.Grounded);
+        }
+
         public void Step(ref MotionState state, MotionFrame input, float speed, float delta, bool playing)
         {
             if (input.Aim.sqrMagnitude > 0.001f) state.Aim = input.Aim.normalized;
