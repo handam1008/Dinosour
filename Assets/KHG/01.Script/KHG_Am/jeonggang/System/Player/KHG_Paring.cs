@@ -17,9 +17,14 @@ public class KHG_Paring : MonoBehaviour
     [SerializeField] private Vector2 parryBoxSize = new Vector2(2f, 0.5f);
     [SerializeField] private LayerMask bulletLayer;
 
-    public bool isParrying = false;
+    [Header("패링 애니메이션")]
+    [SerializeField] private Animator parryAnimator;
+    [SerializeField] private string parryTriggerName = "Parry";
 
-    private bool isCooldown = false;
+    public bool IsParrying => isParrying;
+
+    private bool isParrying;
+    private bool isCooldown;
 
     private readonly HashSet<Rigidbody2D> reflectedBullets = new();
 
@@ -27,21 +32,30 @@ public class KHG_Paring : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current != null &&
-            Keyboard.current.eKey.wasPressedThisFrame &&
-            !isCooldown &&
-            !isParrying)
-        {
-            StartCoroutine(ParryRoutine());
-        }
+        // 키보드 입력은 이 스크립트에서만 처리
+        if (Keyboard.current == null)
+            return;
+
+        if (!Keyboard.current.eKey.wasPressedThisFrame)
+            return;
+
+        // 패링 중이면 무시
+        if (isParrying)
+            return;
+
+        // 쿨타임 중이면 무시
+        if (isCooldown)
+            return;
+
+        StartCoroutine(ParryRoutine());
     }
 
     private void FixedUpdate()
     {
-        if (isParrying)
-        {
-            CheckParryBox();
-        }
+        if (!isParrying)
+            return;
+
+        CheckParryBox();
     }
 
     private IEnumerator ParryRoutine()
@@ -53,14 +67,22 @@ public class KHG_Paring : MonoBehaviour
 
         Debug.Log("패링 시작");
 
+        // 패링 애니메이션
+        if (parryAnimator != null)
+        {
+            parryAnimator.SetTrigger(parryTriggerName);
+        }
+
+        // 패링 판정 시간
         yield return new WaitForSeconds(parryTime);
 
         isParrying = false;
 
         Debug.Log("패링 판정 종료");
 
+        // 패링 판정 시간을 제외한 나머지 쿨타임
         float remainingCooldown =
-            parryCooldown - parryTime;
+            Mathf.Max(0f, parryCooldown - parryTime);
 
         if (remainingCooldown > 0f)
         {
@@ -75,13 +97,7 @@ public class KHG_Paring : MonoBehaviour
     private void CheckParryBox()
     {
         if (swordTransform == null)
-        {
-            Debug.LogWarning(
-                "Sword Transform을 Inspector에 지정하세요."
-            );
-
             return;
-        }
 
         Vector2 boxCenter =
             swordTransform.TransformPoint(parryBoxOffset);
@@ -99,6 +115,7 @@ public class KHG_Paring : MonoBehaviour
 
         foreach (Collider2D other in hits)
         {
+            // Bullet 태그가 아니면 무시
             if (!other.CompareTag("Bullet"))
                 continue;
 

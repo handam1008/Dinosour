@@ -375,6 +375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _moveSpeed: 0
   _jumpForce: 0
+  _coyoteTime: 0.12
   _externalVelocityDecay: 0
   _counterMoveBrake: 30
   _whatIsGround:
