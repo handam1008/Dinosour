@@ -110,6 +110,22 @@ namespace SSW
             public float magicJoker;
             public bool auraView;
             public bool rangeView;
+            public bool trailActive;
+            public int trailSources;
+            public int trailComponents;
+            public int skinComponents;
+            public string skinId;
+            public string skinLibrary;
+        }
+
+        [Serializable] sealed class TrailState
+        {
+            public string id;
+            public string sprite;
+            public Vector3 position;
+            public Vector3 scale;
+            public Color color;
+            public int sorting;
         }
 
         [Serializable] sealed class ShotState
@@ -190,6 +206,7 @@ namespace SSW
             public string rightName;
             public PlayerState[] players;
             public ShotState[] shots;
+            public TrailState[] trails;
         }
 
         GameObject _ground;
@@ -489,6 +506,12 @@ namespace SSW
                     magicJoker = MagicTimer(MagicianAugmentType.JokerCard),
                     auraView = player.Cast.Weapon is KnifeCast auraKnife && auraKnife.AuraVisible,
                     rangeView = player.Cast.Weapon is KnifeCast rangeKnife && rangeKnife.RangeVisible,
+                    trailActive = player.Effects.TrailActive,
+                    trailSources = player.Effects.TrailSources,
+                    trailComponents = player.GetComponentsInChildren<RYU._01.Script.FeedBack.SpeedAfterimage>(true).Length,
+                    skinComponents = player.GetComponentsInChildren<RYU._01.Script.Customize.DinoSkinApplier>(true).Length,
+                    skinId = player.Info.Skin.ToString(),
+                    skinLibrary = player.GetComponentInChildren<UnityEngine.U2D.Animation.SpriteLibrary>(true).spriteLibraryAsset.name,
                     name = player.Info.Name.ToString(), draftView = player.Draft.HasView,
                     spectating = player.Draft.View != null && player.Draft.View.Spectating,
                     portraitRight = player.Draft.View != null && player.Draft.View.PortraitOnRight,
@@ -580,13 +603,32 @@ namespace SSW
                 introClosing = game.Intro != null && game.Intro.IsClosing,
                 leftName = game.Intro != null ? game.Intro.LeftName : "",
                 rightName = game.Intro != null ? game.Intro.RightName : "",
-                winner = state.Winner, timeScale = Time.timeScale, players = players.ToArray(), shots = shots.ToArray(),
+                winner = state.Winner, timeScale = Time.timeScale, players = players.ToArray(), shots = shots.ToArray(), trails = ReadTrails(),
                 round = state.Round, firstWins = state.FirstWins, secondWins = state.SecondWins,
                 first = state.First, second = state.Second, set = state.Set,
                 firstSets = state.FirstSets, secondSets = state.SecondSets,
                 firstMarks = state.FirstMarks, secondMarks = state.SecondMarks
             };
             File.WriteAllText(_path + ".json", JsonUtility.ToJson(snapshot, true));
+        }
+
+        static TrailState[] ReadTrails()
+        {
+            List<TrailState> trails = new List<TrailState>();
+            for (int i = 0; i < UnityEngine.SceneManagement.SceneManager.sceneCount; i++)
+            {
+                UnityEngine.SceneManagement.Scene scene = UnityEngine.SceneManagement.SceneManager.GetSceneAt(i);
+                if (!scene.isLoaded) continue;
+                foreach (GameObject root in scene.GetRootGameObjects())
+                    if (root.name == "Afterimage" && root.TryGetComponent(out SpriteRenderer view))
+                        trails.Add(new TrailState
+                        {
+                            id = root.GetEntityId().ToString(), sprite = view.sprite.name,
+                            position = root.transform.position, scale = root.transform.lossyScale,
+                            color = view.color, sorting = view.sortingOrder
+                        });
+            }
+            return trails.ToArray();
         }
 
         static bool LabelsFaceView(NetPlayer player, Camera view)

@@ -175,13 +175,13 @@ namespace SSW
             if (direct != null)
             {
                 applied.Add(direct);
-                _stock.At(_kind.Value).Use(((Component)direct).gameObject, _owner, _mods);
+                PotionUse.Apply(_stock.At(_kind.Value), (Component)direct, _owner, _mods);
             }
             foreach (Collider2D hit in Physics2D.OverlapCircleAll(point, radius))
             {
                 IDamageable health = hit.GetComponentInParent<IDamageable>();
                 if (health == null || !applied.Add(health)) continue;
-                _stock.At(_kind.Value).Use(((Component)health).gameObject, _owner, _mods);
+                PotionUse.Apply(_stock.At(_kind.Value), (Component)health, _owner, _mods);
             }
             return applied.Count > 0;
         }

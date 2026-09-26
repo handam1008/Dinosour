@@ -1,4 +1,4 @@
-param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges,[switch]$LavaOnly,[switch]$HealOnly,[switch]$EdgeMotion,[switch]$EdgeRound,[ValidateRange(0,3)][int]$EdgeFrom=0,[switch]$WitchOnly,[switch]$StatsOnly,[switch]$StatsProfiles,[switch]$MaterialsOnly,[switch]$MapRefreshOnly,[switch]$MapResume,[switch]$MapCycle,[switch]$MapAreas,[ValidateRange(0,5)][int]$MapFrom=0,[switch]$EffectsOnly,[switch]$EffectNet,[switch]$EffectRange,[string]$EffectFile='',[string]$EffectFilter='',[string[]]$EdgeModes=@('move','dash'),[int[]]$EdgeMaps=@(),[switch]$SwingOnly,[switch]$SwingCutOnly,[int[]]$SwingMaps=@(11,12,14,15,16),[string]$SwingJob='Gunner',[switch]$CombatOnly,[string[]]$CombatJobs=@('Gunner','Gambler','Magician','Witch','Swordsman','Assassin','Knife'))
+param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges,[switch]$LavaOnly,[switch]$HealOnly,[switch]$EdgeMotion,[switch]$EdgeRound,[ValidateRange(0,3)][int]$EdgeFrom=0,[switch]$WitchOnly,[switch]$StatsOnly,[switch]$StatsProfiles,[switch]$MaterialsOnly,[switch]$MapRefreshOnly,[switch]$MapResume,[switch]$MapCycle,[switch]$MapAreas,[ValidateRange(0,5)][int]$MapFrom=0,[switch]$EffectsOnly,[switch]$EffectNet,[switch]$EffectRange,[string]$EffectFile='',[string]$VisualFile='',[string]$EffectFilter='',[string[]]$EdgeModes=@('move','dash'),[int[]]$EdgeMaps=@(),[switch]$SwingOnly,[switch]$SwingCutOnly,[int[]]$SwingMaps=@(11,12,14,15,16),[string]$SwingJob='Gunner',[switch]$CombatOnly,[string[]]$CombatJobs=@('Gunner','Gambler','Magician','Witch','Swordsman','Assassin','Knife'))
 $ErrorActionPreference='Stop'
 $Project=[IO.Path]::GetFullPath($Project).Replace('\','/')
 $root="$Project/Logs/Boundary/$Run"
@@ -78,6 +78,7 @@ try{
     if($MapRefreshOnly){. "$PSScriptRoot/RefreshRun.ps1" -SkipLoads:$MapResume -OnlyCycle:$MapCycle -AreasOnly:$MapAreas -From $MapFrom;return}
     if($EffectNet){. "$PSScriptRoot/../Augments~/NetEffects.ps1";return}
     if($EffectFile){. "$PSScriptRoot/../Augments~/Trial.ps1";return}
+    if($VisualFile){. "$PSScriptRoot/../Visuals~/Run.ps1";return}
     if($EffectsOnly){. "$PSScriptRoot/../Augments~/EffectsRun.ps1";return}
     if($EdgeMotion){. "$PSScriptRoot/EdgesRun.ps1";return}
     if($EdgeRound){. "$PSScriptRoot/EdgeRound.ps1";return}
