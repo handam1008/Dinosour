@@ -15,6 +15,7 @@ namespace SSW
         readonly NetworkVariable<uint> _action = new NetworkVariable<uint>();
         readonly NetworkVariable<BoltSpec> _spec = new NetworkVariable<BoltSpec>();
         readonly HashSet<ulong> _hitPlayers = new HashSet<ulong>();
+        readonly HashSet<Pin> _hitPins = new HashSet<Pin>();
         NetPlayer _owner;
         IBoltReceiver _receiver;
         BoltSpec _start;
@@ -94,74 +95,87 @@ namespace SSW
                 _body.rotation = Mathf.Atan2(_body.linearVelocity.y, _body.linearVelocity.x) * Mathf.Rad2Deg + (Spec.Style == 3 ? -90f : 0f);
             Vector2 next = _body.position;
             double time = NetGame.Current.PhysicsTime;
-            float nearest = float.PositiveInfinity;
-            Vector2 point = next;
-            Vector2 normal = Vector2.zero;
-            NetPlayer contact = null;
-            if (ShotQuery.Ground(_previous, next, Spec.Radius, _owner.GroundMask, out RaycastHit2D wall))
+            while (true)
             {
-                float distance = Vector2.Distance(_previous, next);
-                nearest = distance > 0.000001f ? wall.distance / distance : 0f;
-                point = wall.centroid;
-                normal = wall.normal;
-            }
-            foreach (NetPlayer target in NetGame.Current.Players)
-            {
-                if (target == _owner || !target.CanAct) continue;
-                
-                if (_hitPlayers.Contains(target.NetworkObjectId)) continue;
-                
-                if (!target.SweepHit(_previous, next, _previousTime - _lag, time - _lag, Spec.Radius, out float fraction) || fraction >= nearest) continue;
-                nearest = fraction;
-                contact = target;
-                point = Vector2.Lerp(_previous, next, fraction);
-            }
-            if (nearest <= 1f)
-            {
-                _owner.Cast.ImpactSound();
-                _body.position = point;
-                if (contact != null)
+                float nearest = float.PositiveInfinity;
+                Vector2 point = next;
+                Vector2 normal = Vector2.zero;
+                NetPlayer contact = null;
+                if (MapCombat.Sweep(_previous, next, Spec.Radius, _owner.GroundMask, out RaycastHit2D wall, _hitPins))
                 {
-                    if (contact.Cast.Weapon is SwordCast sword && sword.Deflect())
+                    float distance = Vector2.Distance(_previous, next);
+                    nearest = distance > 0.000001f ? wall.distance / distance : 0f;
+                    point = wall.centroid;
+                    normal = wall.normal;
+                }
+                foreach (NetPlayer target in NetGame.Current.Players)
+                {
+                    if (target == _owner || !target.CanAct) continue;
+
+                    if (_hitPlayers.Contains(target.NetworkObjectId)) continue;
+
+                    if (!target.SweepHit(_previous, next, _previousTime - _lag, time - _lag, Spec.Radius, out float fraction) || fraction >= nearest) continue;
+                    nearest = fraction;
+                    contact = target;
+                    point = Vector2.Lerp(_previous, next, fraction);
+                }
+                if (nearest <= 1f)
+                {
+                    _owner.Cast.ImpactSound();
+                    _body.position = point;
+                    if (contact != null)
                     {
-                        _caster.Value = contact.NetworkObjectId;
-                        _receiver = sword;
-                        _lag = 0d;
-                        _body.linearVelocity = -_body.linearVelocity.normalized * sword.ReflectSpeed;
-                        _body.position += _body.linearVelocity.normalized * 0.05f;
-                        _previous = _body.position;
-                        _previousTime = time;
-                        DeflectRpc(contact.NetworkObjectId);
+                        if (contact.Cast.Weapon is SwordCast sword && sword.Deflect())
+                        {
+                            _caster.Value = contact.NetworkObjectId;
+                            _receiver = sword;
+                            _lag = 0d;
+                            _body.linearVelocity = -_body.linearVelocity.normalized * sword.ReflectSpeed;
+                            _body.position += _body.linearVelocity.normalized * 0.05f;
+                            _previous = _body.position;
+                            _previousTime = time;
+                            DeflectRpc(contact.NetworkObjectId);
+                            return;
+                        }
+                        _hitPlayers.Add(contact.NetworkObjectId);
+                        _receiver.Hit(contact, this);
+                        if (Spec.CanPenetrate) continue;
+                        Finish(true);
                         return;
                     }
-                    _hitPlayers.Add(contact.NetworkObjectId);
-                    _receiver.Hit(contact, this);
-                    if(Spec.CanPenetrate) return;
-                    Finish(true);
-                    return;
+                    if (wall.collider.TryGetComponent<Pin>(out var pin))
+                    {
+                        _hitPins.Add(pin);
+                        CombatDamage.Deal(_owner.Cast.Weapon, pin, Spec.Damage, DamageTag.Projectile);
+                        if (Spec.CanPenetrate) continue;
+                        Finish(true);
+                        return;
+                    }
+                    if (_bounces > 0)
+                    {
+                        _bounces--;
+                        _body.linearVelocity = Vector2.Reflect(_body.linearVelocity, normal);
+                        _body.position += normal * 0.04f;
+                        _flight.Redirect();
+                    }
+                    else if (Spec.Stick)
+                    {
+                        _stuck = true;
+                        _normal = normal;
+                        _body.linearVelocity = Vector2.zero;
+                        _body.angularVelocity = 0f;
+                        _body.gravityScale = 0f;
+                        _flight.ExtraGravity = 0f;
+                        _flight.Redirect();
+                    }
+                    else
+                    {
+                        Finish(true);
+                        return;
+                    }
                 }
-                if (_bounces > 0)
-                {
-                    _bounces--;
-                    _body.linearVelocity = Vector2.Reflect(_body.linearVelocity, normal);
-                    _body.position += normal * 0.04f;
-                    _flight.Redirect();
-                }
-                else if (Spec.Stick)
-                {
-                    _stuck = true;
-                    _normal = normal;
-                    _body.linearVelocity = Vector2.zero;
-                    _body.angularVelocity = 0f;
-                    _body.gravityScale = 0f;
-                    _flight.ExtraGravity = 0f;
-                    _flight.Redirect();
-                }
-                else
-                {
-                    Finish(true);
-                    return;
-                }
+                else _body.position = next;
+                break;
             }
             _previous = _body.position;
             _previousTime = time;

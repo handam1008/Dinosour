@@ -1,8 +1,10 @@
 $cases=[Collections.Generic.List[object]]::new()
-$style=Eval ('var p=SSW.NetGame.Current.Players[0];p.Health.TakeDamage(7.5f);p.Health.Heal(7.5f);var values=new System.Collections.Generic.List<object>();foreach(var root in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects()){if(!root.TryGetComponent<SSW.DamageNumberDisplay>(out var popup))continue;var text=popup.GetComponentInChildren<UnityEngine.UI.Text>();if(text.color.g>text.color.r && text.text=="7.5")values.Add(new{text=text.text,color=text.color.ToString()});}if(values.Count!=1)throw new System.InvalidOperationException("Heal must show green 7.5 without prefix");UnityEngine.ScreenCapture.CaptureScreenshot("'+$root+'/HealStyle.png");return values;')
-$style|ConvertTo-Json|Set-Content "$root/HealStyle.json"
+if($EdgeMaps.Count -eq 0){
+    $count=Eval 'return SSW.NetGame.Current.GetComponent<SSW.MapRotation>().Prefabs.Count;'
+    $EdgeMaps=@(0..($count-1))
+}
 foreach($mode in $EdgeModes){
-    for($mapIndex=0;$mapIndex -lt 14;$mapIndex++){
+    foreach($mapIndex in $EdgeMaps){
         $map=Map $mapIndex
         foreach($normal in @(1,-1)){
             Send host move
@@ -14,12 +16,14 @@ foreach(var effect in g.Arena.Map.GetComponentsInChildren<UnityEngine.ParticleSy
 var entries=new UnityEditor.SerializedObject(g.Arena.Map.GetComponent<SSW.MapEdges>()).FindProperty("_edges");
 UnityEngine.Collider2D wall=null;
 float damage=0f;
+float force=0f;
 for(int i=0;i<entries.arraySize;i++)
 {
     var edge=entries.GetArrayElementAtIndex(i);
     if(edge.FindPropertyRelative("Force").vector2Value.x*@NORMAL@<=0f)continue;
     wall=(UnityEngine.Collider2D)edge.FindPropertyRelative("Shape").objectReferenceValue;
     damage=edge.FindPropertyRelative("Damage").floatValue;
+    force=edge.FindPropertyRelative("Force").vector2Value.magnitude;
 }
 var result=new System.Collections.Generic.List<object>();
 foreach(var p in g.Players)
@@ -31,7 +35,7 @@ foreach(var p in g.Players)
     float x=surface+@NORMAL@*(p.Collider.bounds.extents.x+@DISTANCE@f);
     float y=wall.bounds.max.y-(p.IsOwner?2.5f:5f);
     p.Drive.Teleport(new UnityEngine.Vector2(x,y));
-    result.Add(new{id=p.OwnerClientId,side=p.Side,hp=p.Health.Current,start=x,edge=surface,damage,wall=wall.name,center=wall.bounds.center.ToString(),size=wall.bounds.size.ToString()});
+    result.Add(new{id=p.OwnerClientId,side=p.Side,hp=p.Health.Current,start=x,edge=surface,damage,force,wall=wall.name,center=wall.bounds.center.ToString(),size=wall.bounds.size.ToString()});
 }
 return result;
 '@

@@ -101,7 +101,7 @@ namespace SSW
             if (input.Kind == CastKind.Press)
             {
                 FighterStats stats = Stats;
-                Melee(origin, input.Direction, lag, stats.HitSize, stats.HitOffset, Strike);
+                Melee(origin, input.Direction, lag, stats.HitSize, stats.HitOffset, Strike, stats.Damage);
                 return;
             }
             if (input.Kind != CastKind.Cycle) return;

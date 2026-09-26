@@ -150,7 +150,8 @@ namespace SSW
             bool escaped = pose.Time >= _blockedAt && Vector2.Dot(pose.Velocity, _normal) > 0.01f
                 && Vector2.Dot(pose.Position - _stop, _normal) > _radius
                 && Vector2.Dot(pose.Position - _stop, _pose.Velocity) >= 0f;
-            if (_normal.sqrMagnitude > 0f && (!pose.Terrain || pose.Turn != _pose.Turn || cleared || escaped))
+            if (_normal.sqrMagnitude > 0f && (cleared || pose.Turn != _pose.Turn
+                || !pose.Terrain && !_contact.TryGetComponent<Pin>(out _) || escaped))
                 Release(pose, time);
             if (_caught && pose.Time >= _caughtAt && Vector2.Distance(pose.Position, _caster.View.position) > 0.5f) _caught = false;
             if (_target != null && _target.Advance(pose, _seed.Value.Time))
@@ -222,7 +223,7 @@ namespace SSW
             else if (_normal.sqrMagnitude > 0f) point = _stop;
             else
             {
-                if (_pose.Terrain && ShotQuery.Ground(transform.position, point, _radius, _size, _ground, out RaycastHit2D hit))
+                if (MapCombat.Sweep(transform.position, point, _radius, _size, _pose.Terrain ? _ground : 0, out RaycastHit2D hit))
                 {
                     _normal = hit.normal;
                     _contact = hit.collider;

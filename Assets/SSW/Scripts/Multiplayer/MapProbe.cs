@@ -17,6 +17,7 @@ namespace SSW
             public Breath[] breaths;
             public Flash[] flashes;
             public Sakura[] sakura;
+            public Hang[] hangs;
         }
 
         [Serializable] public sealed class Animator
@@ -62,6 +63,19 @@ namespace SSW
             public string culling;
         }
 
+        [Serializable] public sealed class Hang
+        {
+            public float health;
+            public bool hit;
+            public bool face;
+            public bool rope;
+            public bool joint;
+            public bool simulated;
+            public Vector2 position;
+            public Vector2 pin;
+            public float angle;
+        }
+
         public static State Read(NetGame game, BattleMap map)
         {
             if (map == null || !game.Connected) return null;
@@ -101,6 +115,20 @@ namespace SSW
                     seed = Field<ParticleSystem>(value, "_petals").randomSeed,
                     startedAt = Clock(value, "_startedAt"), playing = Field<ParticleSystem>(value, "_petals").isPlaying,
                     culling = Field<ParticleSystem>(value, "_petals").main.cullingMode.ToString()
+                }).ToArray(),
+                hangs = map.GetComponentsInChildren<Pin>(true).Select(value =>
+                {
+                    var target = Field<MonoBehaviour>(value, "_target");
+                    var body = Field<Rigidbody2D>(target, "_body");
+                    return new Hang
+                    {
+                        health = value.Current, hit = Field<Collider2D>(value, "_hit").enabled,
+                        face = Field<SpriteRenderer>(value, "_face").enabled,
+                        rope = Field<LineRenderer>(target, "_rope").enabled,
+                        joint = Field<DistanceJoint2D>(target, "_joint").enabled,
+                        simulated = body.simulated, position = body.position,
+                        pin = value.transform.position, angle = body.rotation
+                    };
                 }).ToArray()
             };
         }
