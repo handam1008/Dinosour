@@ -25,3 +25,15 @@ Base의 eb63bca까지 병합했다. 팀원이 조정한 네트워크 맵 경계 
 초기 핀 타격 시도는 Map16 중앙 장애물 또는 SwingMap 천장에 막혔으므로 핀 버그의 단독 재현 근거로 쓰지 않는다. 이후 실제 맵에서 막히지 않는 핀을 찾아 원래 공격을 사용했다. 마녀 준비 코드의 인벤토리 세대 불일치 반복은 검사 코드에서 제거했다. 그때의 임시 씬 백업은 `Logs/Integration/PinTestSceneBackup`에 보존했다. 최신 경계 첫 시도의 호스트 이동 입력이 0으로 생성된 문제도 검사 준비 코드에서 수정했다. 갱신 중인 진단 JSON을 읽으며 여러 스냅샷이 섞이는 준비 오류는 단일 파일 읽기와 파싱 결과 검사로 제거한 뒤 64개를 재실행했다.
 
 재실행은 `Hazards.ps1 -CombatOnly -CombatJobs @('Gunner','Gambler','Magician','Witch','Swordsman','Assassin','Knife','KnifeZero')`, `-SwingOnly`, `-EdgeMotion`을 사용하며 매번 다른 `-Run`을 지정한다. `CombatCheck.cs`, `BakeCheck.cs`, `RefreshCheck.cs`는 플레이가 종료된 에디터에서 Unity CLI의 eval_file로 실행한다.
+
+## 경계 잔여 조건 확인
+
+검사 시점 소스는 `383361f8c1d5e9565cb5a313cf70429cf3177cb8`, 프로토콜 20이다. `Builds/Boundary/Game.exe`와 에디터 호스트를 사용했으며 양방향 지연 60ms·지터 10ms를 적용했다. 개발 실행본은 이전에 만든 `build_e4543d81d9ab`이며 이후 해당 경계 실행 코드·충돌 배치·5 피해/20 반발 수치는 바뀌지 않았다. 과거 다섯 폴더에는 Git SHA가 저장되지 않았으므로 그 기록에 현재 SHA를 소급하지 않는다.
+
+- `Logs/Boundary/EdgesAfterRoundReady`: Map16에서 정상 사망 처리로 Map17과 새 플레이어가 생성된 뒤, 두 소유자의 좌우 벽 공중 접근·피해·반발·양쪽 체력 반영까지 21개 통과했다. 이후 상하 경계 준비 위치 탐색이 중앙 장애물에 막혀 실행은 중단됐다. 전체 성공으로 세지 않는다.
+- `Logs/Boundary/EdgesVerticalRound`: Map16 → 실제 사망 → Map17 전환 후 바닥·천장의 실제 충돌과 안쪽 반발·양쪽 체력 반영 17개 통과했다. 지형을 제거하지 않고 Map17 중앙의 폭 26 장애물 바깥에서 접근했다.
+- 다음 맵 번호만 Map17로 고정하고 사망은 Health의 정상 환경 피해 경로를 사용했다. 경계에서 떨어진 위치로 준비한 다음, 좌우는 소유자 이동 입력을 유지했고 상하는 Drive.Launch로 초기 수직 속도를 주어 실제 물리 충돌까지 진행했다. 접촉점으로 순간이동하거나 MapEdges.Touch를 직접 호출하지 않았다. 테스트 중 반복 사망을 막기 위한 체력 10000 외에 맵 배치·중력·경계 수치는 유지했다.
+- 두 실행의 `Run.json`·`Cleanup.json`에 시작 SHA·씬 및 종료 결과가 있다. 자체 실행한 접속자 프로세스가 종료됐고 원래 `Assets/SSW/Scenes/Crate.unity`로 돌아왔으며 dirty=false, playing=false다. 플레이 중 생성한 맵·플레이어·관측 콜백도 종료됐다. 빌드와 증거 파일은 보존했다.
+- `EdgesVerticalRound/UserFiles.json`에서 기존 사용자 변경 5개 파일의 SHA256이 검사 전 백업과 같음을 확인했다. 별도 사용자 미추적 파일과 복구 씬도 손대지 않았다.
+
+경계·발판은 위 보완으로 완료했으며 생산 코드 추가 수정은 없었다. 이미 통과한 64개 좌우 이동·대쉬와 핀/발판 검사를 다시 실행하지 않았다. `Hazards.ps1 -EdgeRound`로 전체 조건, `-EdgeRound -EdgeFrom 2`로 상하 조건만 재실행할 수 있다.
