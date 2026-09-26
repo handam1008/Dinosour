@@ -511,7 +511,7 @@ MonoBehaviour:
   _melee: 0
   _offset: 0.48
   _angle: 0
-  _gun: {fileID: 7045446408052638910}
+  _gun: {fileID: 0}
 --- !u!114 &7045446408052638910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1570,7 +1570,7 @@ MonoBehaviour:
   _prediction: {fileID: 287128325285748208}
   _effects: {fileID: 7246764531032309791}
   _buffs: {fileID: 5655579847218021524}
-  _guard: {fileID: 7006365575554843359}
+  _guard: {fileID: 0}
 --- !u!114 &7472672372006785603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1785,8 +1785,8 @@ MonoBehaviour:
   _questHits: 2
   _poisonTicks: 8
   _shrinkCooldown: 5
-  _gunView: {fileID: 7045446408052638910}
-  _effects: {fileID: 6182080824608296281}
+  _gunView: {fileID: 0}
+  _effects: {fileID: 0}
 --- !u!114 &2236315355235603249
 MonoBehaviour:
   m_ObjectHideFlags: 0
