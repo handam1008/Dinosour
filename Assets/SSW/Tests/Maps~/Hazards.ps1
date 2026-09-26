@@ -1,4 +1,4 @@
-param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges,[switch]$LavaOnly,[switch]$HealOnly,[switch]$EdgeMotion,[switch]$WitchOnly,[switch]$StatsOnly,[switch]$StatsProfiles,[switch]$MapRefreshOnly,[switch]$EffectsOnly,[string[]]$EdgeModes=@('move','dash'))
+param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges,[switch]$LavaOnly,[switch]$HealOnly,[switch]$EdgeMotion,[switch]$WitchOnly,[switch]$StatsOnly,[switch]$StatsProfiles,[switch]$MapRefreshOnly,[switch]$MapResume,[switch]$MapCycle,[switch]$MapAreas,[ValidateRange(0,5)][int]$MapFrom=0,[switch]$EffectsOnly,[string[]]$EdgeModes=@('move','dash'))
 $ErrorActionPreference='Stop'
 $Project=[IO.Path]::GetFullPath($Project).Replace('\','/')
 $root="$Project/Logs/Boundary/$Run"
@@ -18,7 +18,7 @@ function Await($label,[scriptblock]$condition,$timeout=35){
     $until=[DateTime]::UtcNow.AddSeconds($timeout)
     do{
         $script:h=Read host;$script:c=Read client
-        if($h.error -or $c.error){throw "Runtime error: $($h.error) $($c.error)"}
+        if($h.error -or $c.error){@{label=$label;host=$h;client=$c}|ConvertTo-Json -Depth 14|Set-Content "$root/RuntimeFailure.json";throw "Runtime error: $($h.error) $($c.error)"}
         if($h -and $c -and (& $condition)){return}
         Start-Sleep -Milliseconds 50
     }while([DateTime]::UtcNow -lt $until)
@@ -58,7 +58,7 @@ try{
     Eval 'foreach(var p in SSW.NetGame.Current.Players){typeof(SSW.Health).GetMethod("SetMax",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).Invoke(p.Health,new object[]{10000f});p.Health.Heal(10000f);}return true;'|Out-Null
     if($HealOnly){. "$PSScriptRoot/../Common~/Healing.ps1";return}
     if($WitchOnly){. "$PSScriptRoot/../Augments~/Witch.ps1";return}
-    if($MapRefreshOnly){. "$PSScriptRoot/RefreshRun.ps1";return}
+    if($MapRefreshOnly){. "$PSScriptRoot/RefreshRun.ps1" -SkipLoads:$MapResume -OnlyCycle:$MapCycle -AreasOnly:$MapAreas -From $MapFrom;return}
     if($EffectsOnly){. "$PSScriptRoot/../Augments~/EffectsRun.ps1";return}
     if($EdgeMotion){. "$PSScriptRoot/EdgesRun.ps1";return}
     if(-not $SkipEdges -and -not $LavaOnly){

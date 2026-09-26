@@ -16,6 +16,8 @@ namespace SSW
         public override void OnNetworkSpawn()
         {
             _petals.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            var main = _petals.main;
+            main.cullingMode = ParticleSystemCullingMode.AlwaysSimulate;
             _petals.useAutoRandomSeed = false;
             _petals.randomSeed = unchecked((uint)NetworkObjectId * 747796405u + 2891336453u);
             _startedAt.OnValueChanged += Started;
@@ -51,6 +53,7 @@ namespace SSW
         public override void OnNetworkDespawn()
         {
             _startedAt.OnValueChanged -= Started;
+            _petals.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             _shownAt.Clear();
         }
     }
