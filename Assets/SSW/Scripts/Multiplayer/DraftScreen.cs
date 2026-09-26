@@ -57,6 +57,15 @@ namespace SSW
             for (int i = 0; i < _cards.Length; i++)
             {
                 _cards[i].Set(choices[i], PickedCard);
+                bool present = choices[i] != null;
+                _cards[i].gameObject.SetActive(present);
+                _lights[i].gameObject.SetActive(present);
+                if (!present)
+                {
+                    _cards[i].Lock();
+                    _marks[i].gameObject.SetActive(false);
+                    continue;
+                }
                 _marks[i].Show(choices[i]);
                 _marks[i].gameObject.SetActive(choices[i] == null || choices[i].icon == null);
                 _cards[i].PlayDeal(0.15f + i * 0.1f);

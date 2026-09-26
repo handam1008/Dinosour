@@ -74,7 +74,7 @@ namespace SSW
             seq.AppendCallback(() => { if (_cover != null) _cover.SetActive(false); });
             seq.Append(transform.DOScaleX(1f, _flipDuration).SetEase(Ease.OutQuad));
             seq.Append(transform.DOPunchScale(Vector3.one * 0.06f, 0.15f, 1, 0.5f));
-            seq.AppendCallback(() => _locked = false);
+            seq.AppendCallback(() => _locked = _augment == null);
         }
 
         public void PlayPicked(float punch, float duration)
@@ -154,7 +154,7 @@ namespace SSW
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (_locked || ReadOnly) return;
+            if (_locked || ReadOnly || _augment == null) return;
             _onClick?.Invoke(this);
         }
 
