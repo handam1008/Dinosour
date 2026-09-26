@@ -84,13 +84,13 @@ namespace SSW
                 CombatDamage.Deal(this, target.Health, stats.Damage, DamageTag.BasicAttack);
                 Player.Cast.ImpactSound();
             };
-            Melee(origin, direction, lag, stats.HitSize, stats.HitOffset, strike);
+            Melee(origin, direction, lag, stats.HitSize, stats.HitOffset, strike, stats.Damage);
             float until = Time.time + stats.AttackTime;
             while (Time.time < until)
             {
                 yield return null;
                 if (!Active || !Player.CanAct || Time.time >= until) yield break;
-                Melee(Player.Body.position, direction, 0d, stats.HitSize, stats.HitOffset, strike);
+                Melee(Player.Body.position, direction, 0d, stats.HitSize, stats.HitOffset, strike, stats.Damage);
             }
         }
 

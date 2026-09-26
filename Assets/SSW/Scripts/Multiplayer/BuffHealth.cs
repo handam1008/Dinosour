@@ -31,7 +31,7 @@ namespace SSW
         [SerializeField] float _multiscaleReduction = 0.5f;
         [SerializeField] float _regenAmount = 1f;
         [SerializeField] float _regenInterval = 1f;
-        [SerializeField] float _versatileHpBonus = 0.1f;
+        [SerializeField] float _versatileHpBonus = 0.05f;
         readonly HashSet<CommonAugmentType> _owned = new HashSet<CommonAugmentType>();
         readonly List<Pending> _pending = new List<Pending>();
         float _baseMax;

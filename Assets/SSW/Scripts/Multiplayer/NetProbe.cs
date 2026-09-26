@@ -105,6 +105,11 @@ namespace SSW
             public int chargedAmmo;
             public int activeEffects;
             public int pooledEffects;
+            public float magicEmergency;
+            public float magicMirror;
+            public float magicJoker;
+            public bool auraView;
+            public bool rangeView;
         }
 
         [Serializable] sealed class ShotState
@@ -316,6 +321,7 @@ namespace SSW
                             if (player.IsOwner == (command.x < 0.5f) && player.Cast.Weapon != null) player.Cast.Weapon.Progress = command.value;
                     break;
                 case "seed": if (game.Manager.IsServer) UnityEngine.Random.InitState(command.value); break;
+                case "tempo": Time.timeScale = Mathf.Clamp(command.x, 0.1f, 2f); break;
                 case "metrics":
                     foreach (NetPlayer player in game.Players) player.GetComponent<MotionView>().ClearMetrics();
                     break;
@@ -445,6 +451,17 @@ namespace SSW
                     };
                 }
                 List<int> owned = new List<int>(player.Draft.Owned);
+                float MagicTimer(MagicianAugmentType type)
+                {
+                    if (player.Job != PlayerJob.Magician) return 0f;
+                    foreach (Augment item in player.GetComponent<AugmentDrafter>().Owned)
+                        if (item is MagicianAugment magic && magic.type == type)
+                        {
+                            player.GetComponent<MagicianAugmentController>().TryGetCooldown(item, out float remaining, out _);
+                            return remaining;
+                        }
+                    return 0f;
+                }
                 Animator animator = player.GetComponentInChildren<Animator>();
                 players.Add(new PlayerState
                 {
@@ -467,6 +484,11 @@ namespace SSW
                     chargedAmmo = player.Cast.Weapon is GunCast chargeGun ? chargeGun.View.ChargedAmmo : 0,
                     activeEffects = player.Cast.Weapon is GunCast fxGun ? fxGun.Effects.Pool.ActiveCount : 0,
                     pooledEffects = player.Cast.Weapon is GunCast poolGun ? poolGun.Effects.Pool.PooledCount : 0,
+                    magicEmergency = MagicTimer(MagicianAugmentType.EmergencyMagic),
+                    magicMirror = MagicTimer(MagicianAugmentType.MirrorCard),
+                    magicJoker = MagicTimer(MagicianAugmentType.JokerCard),
+                    auraView = player.Cast.Weapon is KnifeCast auraKnife && auraKnife.AuraVisible,
+                    rangeView = player.Cast.Weapon is KnifeCast rangeKnife && rangeKnife.RangeVisible,
                     name = player.Info.Name.ToString(), draftView = player.Draft.HasView,
                     spectating = player.Draft.View != null && player.Draft.View.Spectating,
                     portraitRight = player.Draft.View != null && player.Draft.View.PortraitOnRight,

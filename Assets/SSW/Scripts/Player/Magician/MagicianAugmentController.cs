@@ -37,6 +37,7 @@ namespace SSW
         int _chainCount;
         bool _chainStarted;
         JobAugmentHUD _augmentHud;
+        IMagicClock _clock;
 
         public override PlayerJob Job => PlayerJob.Magician;
 
@@ -52,6 +53,13 @@ namespace SSW
         public float TickIntervalMultiplier => Has(MagicianAugmentType.QuickShuffle) ? _quickShuffleTickMultiplier : 1f;
         public float FireDelay => Has(MagicianAugmentType.QuickShuffle) ? _quickShuffleFireDelay : 0f;
 
+        public void Bind(IMagicClock clock)
+        {
+            _clock = clock;
+            if (_clock != null && _clock.Authority && Has(MagicianAugmentType.JokerCard))
+                _clock.SetReady(MagicianAugmentType.JokerCard, _clock.Now + _jokerInterval);
+        }
+
         public override bool TryReceive(Augment augment)
         {
             if (augment is not MagicianAugment magicianAugment)
@@ -60,7 +68,10 @@ namespace SSW
             }
 
             NetPlayer player = GetComponent<NetPlayer>();
-            if (_acquired.Add(magicianAugment.type) && (player == null || player.IsOwner))
+            bool added = _acquired.Add(magicianAugment.type);
+            if (added && magicianAugment.type == MagicianAugmentType.JokerCard && _clock != null && _clock.Authority)
+                _clock.SetReady(MagicianAugmentType.JokerCard, _clock.Now + _jokerInterval);
+            if (added && (player == null || player.IsOwner))
             {
                 EnsureAugmentHud();
                 _augmentHud.AddAugment(magicianAugment);
@@ -71,6 +82,7 @@ namespace SSW
 
         void Update()
         {
+            if (_clock != null) return;
             if (!IsJobActive) return;
             if (!Has(MagicianAugmentType.JokerCard) || _jokerArmed) return;
             _jokerTimer += Time.deltaTime;
@@ -97,17 +109,18 @@ namespace SSW
             {
                 case MagicianAugmentType.EmergencyMagic:
                     duration = _emergencyCooldown;
-                    remaining = Mathf.Max(_emergencyReadyTime - Time.time, 0f);
+                    remaining = Remaining(magicianAugment.type, _emergencyReadyTime);
                     return true;
 
                 case MagicianAugmentType.MirrorCard:
                     duration = _mirrorCooldown;
-                    remaining = Mathf.Max(_mirrorReadyTime - Time.time, 0f);
+                    remaining = Remaining(magicianAugment.type, _mirrorReadyTime);
                     return true;
 
                 case MagicianAugmentType.JokerCard:
                     duration = _jokerInterval;
-                    remaining = _jokerArmed ? 0f : Mathf.Max(_jokerInterval - _jokerTimer, 0f);
+                    remaining = _clock != null ? Remaining(magicianAugment.type, 0f)
+                        : _jokerArmed ? 0f : Mathf.Max(_jokerInterval - _jokerTimer, 0f);
                     return true;
 
                 default:
@@ -115,17 +128,30 @@ namespace SSW
             }
         }
 
+        float Remaining(MagicianAugmentType type, float local) => _clock != null
+            ? (float)System.Math.Max(_clock.ReadyAt(type) - _clock.Now, 0d)
+            : Mathf.Max(local - Time.time, 0f);
+
         public float ConsumeEmergencyHealBonus()
         {
             if (!Has(MagicianAugmentType.EmergencyMagic)) return 0f;
-            if (Time.time < _emergencyReadyTime) return 0f;
+            if (_clock != null && !_clock.Authority) return 0f;
+            if (Remaining(MagicianAugmentType.EmergencyMagic, _emergencyReadyTime) > 0f) return 0f;
             _emergencyReadyTime = Time.time + _emergencyCooldown;
+            _clock?.SetReady(MagicianAugmentType.EmergencyMagic, _clock.Now + _emergencyCooldown);
             return _emergencyHealBonus;
         }
 
         public bool ConsumeJoker()
         {
             if (!IsJobActive) return false;
+            if (_clock != null)
+            {
+                if (!_clock.Authority || !Has(MagicianAugmentType.JokerCard)
+                    || Remaining(MagicianAugmentType.JokerCard, 0f) > 0f) return false;
+                _clock.SetReady(MagicianAugmentType.JokerCard, _clock.Now + _jokerInterval);
+                return true;
+            }
             if (!_jokerArmed) return false;
             _jokerArmed = false;
             _jokerTimer = 0f;
@@ -164,8 +190,10 @@ namespace SSW
         public void TryQueueMirror(Suit suit, int number, Vector2 direction)
         {
             if (!Has(MagicianAugmentType.MirrorCard)) return;
-            if (Time.time < _mirrorReadyTime) return;
+            if (_clock != null && !_clock.Authority) return;
+            if (Remaining(MagicianAugmentType.MirrorCard, _mirrorReadyTime) > 0f) return;
             _mirrorReadyTime = Time.time + _mirrorCooldown;
+            _clock?.SetReady(MagicianAugmentType.MirrorCard, _clock.Now + _mirrorCooldown);
 
             DOVirtual.DelayedCall(_mirrorDelay, () =>
             {
@@ -184,6 +212,8 @@ namespace SSW
 
         protected override void OnJobActivated()
         {
+            if (_clock != null && _clock.Authority && Has(MagicianAugmentType.JokerCard))
+                _clock.SetReady(MagicianAugmentType.JokerCard, _clock.Now + _jokerInterval);
             if (_augmentHud != null) _augmentHud.SetJobVisible(true);
         }
 

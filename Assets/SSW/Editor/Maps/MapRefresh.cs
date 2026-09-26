@@ -149,15 +149,26 @@ namespace SSW
             {
                 target.FindProperty("_map").objectReferenceValue = map;
                 var array = target.FindProperty("_edges");
+                var saved = new Dictionary<Collider2D, (float Damage, Vector2 Force)>();
+                for (int i = 0; i < array.arraySize; i++)
+                {
+                    var item = array.GetArrayElementAtIndex(i);
+                    var shape = item.FindPropertyRelative("Shape").objectReferenceValue as Collider2D;
+                    if (shape != null) saved[shape] = (item.FindPropertyRelative("Damage").floatValue,
+                        item.FindPropertyRelative("Force").vector2Value);
+                }
                 array.arraySize = originals.Length;
                 for (int i = 0; i < originals.Length; i++)
                 {
-                    var source = new SerializedObject(originals[i]);
+                    using var source = new SerializedObject(originals[i]);
                     var item = array.GetArrayElementAtIndex(i);
-                    item.FindPropertyRelative("Shape").objectReferenceValue = read.Get<Collider2D>(originals[i]);
-                    item.FindPropertyRelative("Damage").floatValue = source.FindProperty("damage").floatValue;
-                    item.FindPropertyRelative("Force").vector2Value = source.FindProperty("direction").vector2Value
-                        * source.FindProperty("knockbackForce").floatValue;
+                    var shape = read.Get<Collider2D>(originals[i]);
+                    if (!saved.TryGetValue(shape, out var tuning))
+                        tuning = (source.FindProperty("damage").floatValue,
+                            source.FindProperty("direction").vector2Value * source.FindProperty("knockbackForce").floatValue);
+                    item.FindPropertyRelative("Shape").objectReferenceValue = shape;
+                    item.FindPropertyRelative("Damage").floatValue = tuning.Damage;
+                    item.FindPropertyRelative("Force").vector2Value = tuning.Force;
                     read.Remove(originals[i]);
                 }
             });
