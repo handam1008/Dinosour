@@ -48,7 +48,7 @@ namespace SSW
             _shape.transform.localScale = _baseScale * factor;
         }
 
-        public void Recover(ref Vector2 position, ref Vector2 velocity, bool dropping, float dropTop)
+        public void Recover(ref Vector2 position, ref Vector2 velocity, bool dropping, float dropTop, Vector2 surface = default)
         {
             Vector2 scale = _shape.transform.lossyScale;
             scale = new Vector2(Mathf.Abs(scale.x), Mathf.Abs(scale.y));
@@ -69,8 +69,12 @@ namespace SSW
                     if (GroundProbe.IsPlatform(hit) && (velocity.y > 0f || normal.y < GroundProbe.MinNormal
                         || dropping && Mathf.Abs(hit.bounds.max.y - dropTop) < 0.1f)) continue;
                     position += normal * (-contact.distance + 0.001f);
-                    float inward = Vector2.Dot(velocity, normal);
-                    if (inward < 0f) velocity -= normal * inward;
+                    float inward = Vector2.Dot(velocity - surface, normal);
+                    if (inward < 0f)
+                    {
+                        if (normal.y >= GroundProbe.MinNormal && velocity.y <= surface.y) velocity.y = surface.y;
+                        else velocity -= normal * inward;
+                    }
                     moved = true;
                 }
                 if (!moved) break;
@@ -87,6 +91,39 @@ namespace SSW
                 return _shape.Distance(other);
             }
             finally { body.position = saved; }
+        }
+
+        public bool TryPlace(Vector2 target, Vector2 normal, float radius, out Vector2 position)
+        {
+            Vector2 scale = _shape.transform.lossyScale;
+            scale = new Vector2(Mathf.Abs(scale.x), Mathf.Abs(scale.y));
+            Vector2 size = Vector2.Scale(_shape.size, scale);
+            Vector2 offset = _shape.transform.TransformVector(_shape.offset);
+            float angle = _shape.transform.eulerAngles.z;
+            position = target;
+            if (normal.sqrMagnitude > 0.001f)
+            {
+                normal.Normalize();
+                Vector2 axis = _shape.direction == CapsuleDirection2D.Vertical ? _shape.transform.up : _shape.transform.right;
+                float half = Mathf.Max(size.x, size.y) * 0.5f;
+                float round = Mathf.Min(size.x, size.y) * 0.5f;
+                float extent = round + (half - round) * Mathf.Abs(Vector2.Dot(axis, normal));
+                position += normal * Mathf.Max(0f, extent - Vector2.Dot(offset, normal) - radius + Skin);
+            }
+            Vector2 velocity = Vector2.zero;
+            Recover(ref position, ref velocity, false, 0f);
+            int count = Physics2D.OverlapCapsule(position + offset, size, _shape.direction, angle, _filter, _overlaps);
+            if (count == _overlaps.Length) return false;
+            for (int i = 0; i < count; i++)
+            {
+                Collider2D hit = _overlaps[i];
+                if (hit == _shape || hit.attachedRigidbody == _shape.attachedRigidbody) continue;
+                ColliderDistance2D contact = Contact(position, hit);
+                if (!contact.isValid || contact.distance >= -0.001f) continue;
+                if (GroundProbe.IsPlatform(hit) && -contact.normal.y < GroundProbe.MinNormal) continue;
+                return false;
+            }
+            return true;
         }
 
         public float PlatformHeight => _lastHit.bounds.max.y;
@@ -113,11 +150,12 @@ namespace SSW
             Rigidbody2D body = ground.attachedRigidbody;
             if (body == null || body.bodyType == RigidbodyType2D.Static) return Vector2.zero;
 
+            float margin = Margin(Vector2.down);
             Vector2 velocity = body.GetPointVelocity(_lastPoint);
             Vector2 before = position;
             Vector2 allowed = velocity;
             Axis(ref position, ref allowed, Vector2.right, velocity.x * delta, dropping, dropTop, ground);
-            Axis(ref position, ref allowed, Vector2.up, lift + Skin - distance, dropping, dropTop, ground);
+            Axis(ref position, ref allowed, Vector2.up, lift + margin - distance, dropping, dropTop, ground);
             velocity.x = (position.x - before.x) / delta;
             return velocity;
         }
@@ -139,7 +177,7 @@ namespace SSW
                 float descent = Mathf.Max(0f, position.y - start.y)
                     + Mathf.Max(0f, -slope * (position.x - start.x));
                 float distance = Distance(position, Vector2.down, descent + GroundReach, dropping, dropTop, groundOnly: true);
-                if (_lastHit != null) vertical = Mathf.Min(vertical, Skin - distance);
+                if (_lastHit != null) vertical = Mathf.Min(vertical, Margin(Vector2.down) - distance);
             }
             Axis(ref position, ref velocity, Vector2.up, vertical, dropping, dropTop);
         }
@@ -150,43 +188,60 @@ namespace SSW
             if (Mathf.Abs(distance) < 0.00001f) return;
             Vector2 direction = axis * Mathf.Sign(distance);
             float travel = Mathf.Abs(distance);
-            float allowed = Distance(position, direction, travel + Skin, dropping, dropTop, ignored);
-            if (_lastHit != null)
+            float allowed = Distance(position, direction, travel + Skin * 10f, dropping, dropTop, ignored);
+            if (_lastHit != null && allowed - Margin(direction) < travel)
             {
-                travel = Mathf.Max(0f, allowed - Skin);
-                if (axis.x != 0f) velocity.x = 0f;
-                else velocity.y = 0f;
+                float permitted = Mathf.Max(0f, allowed - Margin(direction));
+                if (travel - permitted > 0.001f)
+                {
+                    if (axis.x != 0f) velocity.x = 0f;
+                    else velocity.y = 0f;
+                }
+                travel = permitted;
             }
             position += direction * travel;
         }
 
+        float Margin(Vector2 direction) => Skin / Mathf.Max(0.1f, -Vector2.Dot(_lastNormal, direction)) + 0.001f;
+
         float Distance(Vector2 position, Vector2 direction, float distance, bool dropping,
             float dropTop = 0f, Collider2D ignored = null, bool groundOnly = false)
         {
-            Vector2 scale = _shape.transform.lossyScale;
-            scale = new Vector2(Mathf.Abs(scale.x), Mathf.Abs(scale.y));
-            Vector2 size = Vector2.Scale(_shape.size, scale);
-            size = Vector2.Max(Vector2.one * 0.01f, size - Vector2.one * Skin * 2f);
-            Vector2 center = position + (Vector2)_shape.transform.TransformVector(_shape.offset);
-            int count = Physics2D.CapsuleCast(center, size, _shape.direction,
-                _shape.transform.eulerAngles.z, direction, _filter, _hits, distance);
+            Rigidbody2D body = _shape.attachedRigidbody;
+            Vector2 saved = body.position;
+            int count;
+            try
+            {
+                body.position = position;
+                count = _shape.Cast(direction, _filter, _hits, distance);
+            }
+            finally { body.position = saved; }
             float result = distance;
             _lastHit = null;
             _lastPoint = _lastNormal = Vector2.zero;
             for (int i = 0; i < count; i++)
             {
                 RaycastHit2D hit = _hits[i];
-                if (hit.collider == _shape || hit.collider == ignored || hit.distance <= 0f) continue;
-                if (groundOnly && hit.normal.y < GroundProbe.MinNormal) continue;
+                if (hit.collider == _shape || hit.collider == ignored) continue;
+                Vector2 normal = hit.normal;
+                Vector2 point = hit.point;
+                if (hit.distance <= 0f)
+                {
+                    ColliderDistance2D contact = Contact(position, hit.collider);
+                    if (!contact.isValid) continue;
+                    normal = -contact.normal;
+                    point = contact.pointB;
+                }
+                if (groundOnly && normal.y < GroundProbe.MinNormal) continue;
                 if (GroundProbe.IsPlatform(hit.collider)
                     && ((dropping && Mathf.Abs(hit.collider.bounds.max.y - dropTop) < 0.1f)
-                        || direction.y >= 0f || hit.normal.y < GroundProbe.MinNormal)) continue;
-                if (Vector2.Dot(hit.normal, direction) < -0.1f && hit.distance < result)
+                        || direction.y >= 0f || normal.y < GroundProbe.MinNormal)) continue;
+                if (Vector2.Dot(normal, direction) < -0.1f && hit.distance < result)
                 {
                     result = hit.distance;
                     _lastHit = hit.collider;
-                    _lastPoint = hit.point;
-                    _lastNormal = hit.normal;
+                    _lastPoint = point;
+                    _lastNormal = normal;
                 }
             }
             return result;

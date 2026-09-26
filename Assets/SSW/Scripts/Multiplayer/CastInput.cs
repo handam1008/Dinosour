@@ -16,6 +16,8 @@ namespace SSW
         public CastKind Kind;
         public Vector2 Direction;
         public double ViewTime;
+        public uint Recall;
+        public Vector2 Point;
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
@@ -26,6 +28,8 @@ namespace SSW
             serializer.SerializeValue(ref Kind);
             serializer.SerializeValue(ref Direction);
             serializer.SerializeValue(ref ViewTime);
+            serializer.SerializeValue(ref Recall);
+            serializer.SerializeValue(ref Point);
         }
     }
 

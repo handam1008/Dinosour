@@ -55,6 +55,7 @@ namespace SSW
         public bool Stick;
         public bool Charged;
         public float Spin;
+        public bool CanPenetrate;
 
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
@@ -68,11 +69,12 @@ namespace SSW
             serializer.SerializeValue(ref Stick);
             serializer.SerializeValue(ref Charged);
             serializer.SerializeValue(ref Spin);
+            serializer.SerializeValue(ref CanPenetrate);
         }
 
         public bool Equals(BoltSpec other) => Style == other.Style && Speed == other.Speed && Damage == other.Damage
             && Life == other.Life && Radius == other.Radius && Scale == other.Scale && Bounce == other.Bounce
-            && Stick == other.Stick && Charged == other.Charged && Spin == other.Spin;
+            && Stick == other.Stick && Charged == other.Charged && Spin == other.Spin && CanPenetrate == other.CanPenetrate;
     }
 
     public interface IBoltReceiver

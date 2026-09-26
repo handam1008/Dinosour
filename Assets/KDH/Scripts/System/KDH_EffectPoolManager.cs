@@ -38,7 +38,7 @@ namespace KDH.Scripts.System
 
             for (int i = 0; i < spawnCount; i++)
             {
-                GameObject effect = Instantiate(prefab, transform);
+                GameObject effect = Instantiate(prefab);
                 effect.SetActive(false);
                 pool.Enqueue(effect);
             }

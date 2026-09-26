@@ -170,6 +170,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: KDH_Map 4
       objectReference: {fileID: 0}
+    - target: {fileID: 7825717920893284628, guid: 9d30052c5651969498c315855afa3959, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7825717920893284628, guid: 9d30052c5651969498c315855afa3959, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5147306323842094162, guid: 9d30052c5651969498c315855afa3959, type: 3}
     - {fileID: 274518788759365830, guid: 9d30052c5651969498c315855afa3959, type: 3}
@@ -186,6 +194,11 @@ PrefabInstance:
 --- !u!4 &718451099078998294 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8386343772252745949, guid: 9d30052c5651969498c315855afa3959, type: 3}
+  m_PrefabInstance: {fileID: 9050603909432248779}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &1225186567630895327 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7825717920893284628, guid: 9d30052c5651969498c315855afa3959, type: 3}
   m_PrefabInstance: {fileID: 9050603909432248779}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &1602472373493224961 stripped
@@ -221,7 +234,8 @@ MonoBehaviour:
   _end: {r: 0.21568628, g: 0.7058824, b: 0.7058824, a: 1}
   _duration: 2
   _hold: 2
-  _once: 0
+  _once: 1
+  _playOnAwake: 0
 --- !u!212 &3341080075390276276 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 6037025744146488191, guid: 9d30052c5651969498c315855afa3959, type: 3}
@@ -287,9 +301,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d427efc87357d484faf65866c37c7238, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SSW.MapGust
+  ShowTopMostFoldoutHeaderGroup: 1
   _direction: {x: 0, y: 1}
   _force: 100
   _interval: 4
+  _effect: {fileID: 1225186567630895327}
+  _tint: {fileID: 1212492663863961674}
   _onForce:
     m_PersistentCalls:
       m_Calls: []

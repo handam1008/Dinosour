@@ -3,8 +3,6 @@ using UnityEngine;
 
 namespace SSW
 {
-    [RequireComponent(typeof(Health))]
-    [RequireComponent(typeof(AugmentDrafter))]
     public class HealthAugmentController : MonoBehaviour, IIncomingDamageModifier, IDamageDealtListener, IOutgoingDamageModifier
     {
         [Header("거인")]
@@ -30,11 +28,12 @@ namespace SSW
 
         [Header("광전사")]
         [SerializeField] float _berserkerHpRatio = 0.75f;
-        [SerializeField] float _berserkerAtkSpeedBonus = 0.45f;
+        [SerializeField] float _berserkerSpeedBonus = 0.45f;
         [SerializeField] float _berserkerDamageBonus = 0.60f;
 
         [Header("죽음의 무도")]
         [SerializeField] float _deathWaltzSpreadTime = 5f;
+        [SerializeField] float _deathWaltzHpBonus = 0.3f;
 
         [Header("10개의 목숨")]
         [SerializeField] float _tenLivesHealth = 10f;
@@ -76,7 +75,8 @@ namespace SSW
 
         public bool BerserkerActive { get; private set; }
         public float BerserkerDamageMultiplier => BerserkerActive ? 1f + _berserkerDamageBonus : 1f;
-        public float BerserkerAttackSpeedMultiplier => BerserkerActive ? 1f + _berserkerAtkSpeedBonus : 1f;
+        public float BerserkerSpeedMultiplier => BerserkerActive ? 1f + _berserkerSpeedBonus : 1f;
+        
         public float GlassCannonDamageMultiplier => Has(CommonAugmentType.GlassCannon) ? _glassCannonDamageBonus : 1f;
 
         public bool Has(CommonAugmentType type) => _acquired.Contains(type);
@@ -153,6 +153,9 @@ namespace SSW
                     transform.localScale = _baseScale * _scaleMultiplier;
                     ApplyMaxHealthMultiplier(1f - _phoenixHpPenalty);
                     break;
+                case CommonAugmentType.DeathWaltz:
+                    ApplyMaxHealthMultiplier(1f + _deathWaltzHpBonus);
+                    break;
                 case CommonAugmentType.TenLives:
                     SetMaxHealth(_tenLivesHealth);
                     break;
@@ -199,8 +202,7 @@ namespace SSW
         {
             BerserkerActive = Has(CommonAugmentType.Berserker) && current <= max * _berserkerHpRatio;
         }
-
-        // ---------- 내가 때렸을 때 ----------
+        
         public void OnDamageDealt(DamageRequest request, DamageResult result)
         {
             if (!result.WasApplied) return;

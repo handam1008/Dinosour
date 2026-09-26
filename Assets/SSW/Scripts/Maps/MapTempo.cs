@@ -11,6 +11,9 @@ namespace SSW
         [SerializeField] float _maximum = 1f;
         [SerializeField] SpriteRenderer _clock;
         [SerializeField] float _clockSize = 10f;
+        [SerializeField] MapTint _startTint;
+        [SerializeField] MapTint _endTint;
+        bool _active;
         readonly NetworkVariable<double> _startedAt = new NetworkVariable<double>(-1);
 
         void Update()
@@ -19,6 +22,7 @@ namespace SSW
             if (!NetGame.Current.CanFight)
             {
                 Time.timeScale = 1f;
+                if (_active) SetActive(false);
                 if (IsServer && _startedAt.Value >= 0) _startedAt.Value = -1;
                 return;
             }
@@ -27,6 +31,7 @@ namespace SSW
             double age = NetworkManager.ServerTime.Time - _startedAt.Value;
             float phase = (float)(System.Math.Max(0, age) % (_delay + _duration));
             bool active = phase >= _delay;
+            if (_active != active) SetActive(active);
             float progress = active ? (phase - _delay) / _duration : 0f;
             Time.timeScale = active ? Mathf.Clamp(Mathf.Lerp(_minimum, _maximum, progress), 0.1f, 2f) : 1f;
             float pulse = active ? Mathf.Clamp01((phase - _delay) / 1.5f) : 1f;
@@ -34,6 +39,15 @@ namespace SSW
             Color color = _clock.color;
             color.a = Mathf.Lerp(0.2f, 0f, pulse);
             _clock.color = color;
+        }
+
+        void SetActive(bool active)
+        {
+            _active = active;
+            _startTint.Stop();
+            _endTint.Stop();
+            if (active) _startTint.Play();
+            else _endTint.Play();
         }
 
         void OnDisable() => Time.timeScale = 1f;

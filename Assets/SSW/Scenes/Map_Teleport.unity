@@ -380,6 +380,7 @@ MonoBehaviour:
   _view: {fileID: 1467973676}
   _follow: {fileID: 0}
   _spawnPoints: {fileID: 1079327935}
+  _baseMap: {fileID: 0}
   _offline:
   - {fileID: 950844764}
   - {fileID: 17800839}
@@ -1146,7 +1147,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 9
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
