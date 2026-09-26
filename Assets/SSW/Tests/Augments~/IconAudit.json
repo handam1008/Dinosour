@@ -1,6 +1,17 @@
 {
   "date": "2026-09-26",
   "basis": "0f641844fab7b1c42468835ed3622b4e3e228d63",
+  "resolution": {
+    "date": "2026-09-26",
+    "source": "User reply relayed by coordinator",
+    "userReply": "몰라 없는데 그냥 빈그림으로 해두면 될듯.",
+    "status": "complete_under_approved_blank_icon_policy",
+    "behavior": "Keep the existing blank icon slot and actual name/description tooltip for all 40 targets.",
+    "originalSpriteRequired": false,
+    "pendingArtAssignment": false,
+    "newRuntimeChanges": false,
+    "fullTestRerun": false
+  },
   "targetSet": "The 40 paths in MissingIcons.json only; not the final augment registration/effect count.",
   "totals": {
     "targets": 40,
@@ -56,7 +67,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/SSW/Augments/Common/Vampire.asset",
@@ -89,7 +100,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/SSW/Augments/Common/Berserker.asset",
@@ -122,7 +133,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/SSW/Augments/Common/Confidence.asset",
@@ -155,7 +166,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/SSW/Augments/Common/GlassCannon.asset",
@@ -188,7 +199,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/SSW/Augments/Common/CooldownReduction.asset",
@@ -228,7 +239,7 @@
           "icon": null
         }
       ],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/JJW/Cards/GamblerAugment_CoinUpgrade.asset",
@@ -255,7 +266,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/JJW/Cards/GamblerAugment_Excited.asset",
@@ -282,7 +293,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/JJW/Cards/GamblerAugment_GuaranteedJackpot.asset",
@@ -309,7 +320,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/JJW/Cards/GamblerAugment_JackpotBoost.asset",
@@ -336,7 +347,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/JJW/Cards/GamblerAugment_MoreChances.asset",
@@ -363,7 +374,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/JJW/Cards/GamblerAugment_OldCoin.asset",
@@ -390,7 +401,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/JJW/Cards/GamblerAugment_OverflowingPower.asset",
@@ -417,7 +428,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/JJW/Cards/GamblerAugment_ProbabilityShift.asset",
@@ -444,7 +455,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/JJW/Cards/GamblerAugment_RaiseTheStakes.asset",
@@ -471,7 +482,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/SSW/Augments/Common/Phoenix.asset",
@@ -504,7 +515,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/SSW/Augments/Common/DeathWaltz.asset",
@@ -537,7 +548,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/AJH/03.SO/HealthAugment/Ten Lives.asset",
@@ -577,7 +588,7 @@
           "icon": null
         }
       ],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/AJH/03.SO/HealthAugment/Multiscale.asset",
@@ -617,7 +628,7 @@
           "icon": null
         }
       ],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/AJH/03.SO/HealthAugment/Regeneration.asset",
@@ -657,7 +668,7 @@
           "icon": null
         }
       ],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/SSW/Augments/Common/GuardMastery.asset",
@@ -690,7 +701,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/SSW/Augments/Common/Invincible.asset",
@@ -723,7 +734,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/SSW/Augments/Common/Recharge.asset",
@@ -756,7 +767,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/SSW/Augments/Common/HealField.asset",
@@ -789,7 +800,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/SSW/Augments/Common/Blink.asset",
@@ -822,7 +833,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/SSW/Augments/Common/IceAge.asset",
@@ -855,7 +866,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/SSW/Augments/Common/BestOffense.asset",
@@ -895,7 +906,7 @@
           "icon": null
         }
       ],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/SSW/Augments/Common/Nuclear.asset",
@@ -928,7 +939,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/AJH/03.SO/DefanceAugment/ConterAttack.asset",
@@ -968,7 +979,7 @@
           "icon": null
         }
       ],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/SSW/Augments/Common/DevilsDeal.asset",
@@ -1001,7 +1012,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/SSW/Augments/Common/SwiftApproach.asset",
@@ -1041,7 +1052,7 @@
           "icon": null
         }
       ],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/SSW/Augments/Common/NomNom.asset",
@@ -1074,7 +1085,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/SSW/Augments/Common/Magnet.asset",
@@ -1114,7 +1125,7 @@
           "icon": null
         }
       ],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/AJH/03.SO/SkillAugment/ShrinkENgine.asset",
@@ -1154,7 +1165,7 @@
           "icon": null
         }
       ],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/AJH/03.SO/SkillAugment/Versatile.asset",
@@ -1194,7 +1205,7 @@
           "icon": null
         }
       ],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/AJH/03.SO/SkillAugment/DoubleJump.asset",
@@ -1234,7 +1245,7 @@
           "icon": null
         }
       ],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/AJH/03.SO/SkillAugment/Slam.asset",
@@ -1274,7 +1285,7 @@
           "icon": null
         }
       ],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/AJH/03.SO/SkillAugment/Minefield.asset",
@@ -1314,7 +1325,7 @@
           "icon": null
         }
       ],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/AJH/03.SO/SkillAugment/SlowAura.asset",
@@ -1347,7 +1358,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     },
     {
       "path": "Assets/AJH/03.SO/DefanceAugment/LeapBomb.asset",
@@ -1380,7 +1391,7 @@
       "verifiedIconSource": null,
       "classification": "no_verified_original_icon_in_repository",
       "enumMatchesForInspectionOnly": [],
-      "needed": "Original asset owner must supply or designate the exact icon Sprite GUID and fileID, then coordinate a change to this SO icon field only."
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
     }
   ],
   "rejectedCandidates": [
