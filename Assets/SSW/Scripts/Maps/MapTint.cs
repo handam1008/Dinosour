@@ -15,20 +15,32 @@ namespace SSW
         bool _playing;
 
         void Awake() => _playing = _playOnAwake;
+        public void Play() => Play(0f);
 
-        public void Play()
+        public void Play(float elapsed)
         {
-            _elapsed = 0f;
+            _elapsed = Mathf.Max(0f, elapsed);
             _playing = true;
-            _sprite.color = _start;
+            Apply();
         }
 
         public void Stop() => _playing = false;
+
+        public void Sample(float elapsed)
+        {
+            _elapsed = Mathf.Max(0f, elapsed);
+            Apply();
+        }
 
         void Update()
         {
             if (!_playing) return;
             _elapsed += Time.deltaTime;
+            Apply();
+        }
+
+        void Apply()
+        {
             float period = Mathf.Max(0.01f, _duration + _hold);
             float time = _once ? _elapsed : _elapsed % period;
             float t = _duration > 0f ? Mathf.Clamp01(time / _duration) : 1f;
