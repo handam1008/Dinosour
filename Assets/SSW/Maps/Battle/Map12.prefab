@@ -174,16 +174,16 @@ MonoBehaviour:
   _edges:
   - Shape: {fileID: 6967609813767426626}
     Damage: 5
-    Force: {x: 0, y: 25}
+    Force: {x: 0, y: 20}
   - Shape: {fileID: 8397771619900268298}
     Damage: 5
-    Force: {x: 0, y: -25}
+    Force: {x: 0, y: -20}
   - Shape: {fileID: 5683845956747828076}
     Damage: 5
-    Force: {x: 25, y: 0}
+    Force: {x: 20, y: 0}
   - Shape: {fileID: 7956913233576305297}
     Damage: 5
-    Force: {x: -25, y: 0}
+    Force: {x: -20, y: 0}
 --- !u!1001 &8223410703832014572
 PrefabInstance:
   m_ObjectHideFlags: 0
