@@ -20,7 +20,7 @@ namespace SSW
         bool _jobPending;
         int _reserved = -1;
 
-        public bool Common => _offer.Value.x >= 0 && _deck.At(_offer.Value.x) is CommonAugment;
+        public bool Common => _offer.Value.x >= 0 && _deck.IsCommon(_deck.At(_offer.Value.x));
 
         public bool HasView => _view != null;
         public DraftScreen View => _view;

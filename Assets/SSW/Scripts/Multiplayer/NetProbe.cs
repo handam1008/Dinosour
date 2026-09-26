@@ -87,6 +87,14 @@ namespace SSW
             public float damageScale;
             public float size;
             public bool parry;
+            public bool guarding;
+            public bool frozen;
+            public int areas;
+            public int areaViews;
+            public int visibleAmmo;
+            public int chargedAmmo;
+            public int activeEffects;
+            public int pooledEffects;
         }
 
         [Serializable] sealed class ShotState
@@ -302,6 +310,10 @@ namespace SSW
                 case "move": local.Move(new Vector2(command.x, command.y)); break;
                 case "jump": local.Jump(); break;
                 case "edgejump": StartCoroutine(JumpAfterEdge(local, Mathf.Clamp(command.value, 1, 20))); break;
+                case "wideground":
+                    SetGround(new Vector2(command.x, command.y), 0f, false);
+                    _ground.GetComponent<BoxCollider2D>().size = new Vector2(60f, 0.6f);
+                    break;
                 case "ground":
                 case "platform":
                     SetGround(new Vector2(command.x, command.y), command.value, command.op == "platform");
@@ -315,9 +327,12 @@ namespace SSW
                 case "cancel": local.Cast.Cancel(); break;
                 case "press": local.Cast.Attack(true, new Vector2(command.x, command.y)); break;
                 case "release": local.Cast.Attack(false, new Vector2(command.x, command.y)); break;
+                case "aimpoint":
                 case "aim":
                     Mouse mouse = Mouse.current ?? InputSystem.AddDevice<Mouse>();
-                    Vector3 point = game.Arena.View.ViewportToScreenPoint(new Vector3(command.x, command.y));
+                    Vector3 point = command.op == "aimpoint"
+                        ? game.Arena.View.WorldToScreenPoint(new Vector3(command.x, command.y, 0f))
+                        : game.Arena.View.ViewportToScreenPoint(new Vector3(command.x, command.y));
                     InputSystem.QueueStateEvent(mouse, new MouseState { position = point });
                     break;
                 case "mouse":
@@ -331,6 +346,7 @@ namespace SSW
                 case "fire": local.Cast.Attack(command.value > 0, local.Aim); break;
                 case "cycle": local.Cast.Cycle(command.value > 0, command.x == 0f && command.y == 0f ? local.Aim : new Vector2(command.x, command.y)); break;
                 case "parry": local.Cast.Parry(); break;
+                case "guard": local.Guard.Guard(); break;
                 case "choose": local.Draft.Choose(command.value); break;
                 case "draftclick":
                     if (local.Draft.View != null)
@@ -399,6 +415,12 @@ namespace SSW
                     blind = player.Effects.BlindActive, immune = player.Effects.ImmuneActive,
                     damageScale = player.Cast.Weapon != null ? player.Cast.Weapon.DamageScale : 1f,
                     size = player.Drive.Scale, parry = player.Cast.Weapon is SwordCast sword && sword.Parrying,
+                    guarding = player.Guard.Guarding, frozen = player.Drive.Frozen,
+                    areas = player.GetComponent<BuffArea>().Count, areaViews = player.GetComponent<BuffFx>().AreaCount,
+                    visibleAmmo = player.Cast.Weapon is GunCast ammoGun ? ammoGun.View.VisibleAmmo : 0,
+                    chargedAmmo = player.Cast.Weapon is GunCast chargeGun ? chargeGun.View.ChargedAmmo : 0,
+                    activeEffects = player.Cast.Weapon is GunCast fxGun ? fxGun.Effects.Pool.ActiveCount : 0,
+                    pooledEffects = player.Cast.Weapon is GunCast poolGun ? poolGun.Effects.Pool.PooledCount : 0,
                     name = player.Info.Name.ToString(), draftView = player.Draft.HasView,
                     spectating = player.Draft.View != null && player.Draft.View.Spectating,
                     portraitRight = player.Draft.View != null && player.Draft.View.PortraitOnRight,

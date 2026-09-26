@@ -1,3 +1,4 @@
+using RYU._01.Script.FeedBack;
 using RYU._01.Script.Potions;
 using SSW;
 using UnityEngine;
@@ -12,6 +13,6 @@ public class SpeedPotion : AbstractPotion
         float time = duration * mods.TickCount;
 
         target.GetComponentInParent<ISpeedable>()?.ApplySpeed(amount * mods.Power, time);
-        PotionEffectVisual.Find(target)?.Show(potionColor, time);
+        SpeedAfterimage.Find(target)?.Play(time);
     }
 }

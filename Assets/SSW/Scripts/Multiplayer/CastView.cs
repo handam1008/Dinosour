@@ -23,6 +23,7 @@ namespace SSW
             public float Age;
             public float Life;
             public bool Started;
+            public bool AlignVelocity;
             public bool Held;
         }
 
@@ -97,8 +98,11 @@ namespace SSW
             shot.View.transform.localScale = Vector3.one * spec.Scale;
             shot.View.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + (spec.Style == 3 ? -90f : 0f));
             shot.Velocity = direction * spec.Speed;
+            shot.Gravity = Physics2D.gravity * spec.Gravity;
             shot.Radius = spec.Radius;
             shot.Spin = spec.Spin;
+            shot.AlignVelocity = spec.Gravity != 0f && spec.Spin == 0f;
+            if (_caster.Cast.Weapon is GunCast gun) gun.Effects.Attach(shot.View, spec.Charged);
             Start(shot);
         }
 
@@ -214,7 +218,9 @@ namespace SSW
                     }
                 }
                 shot.View.transform.position = next;
-                shot.View.transform.Rotate(0f, 0f, shot.Spin * delta);
+                if (shot.AlignVelocity && shot.Velocity.sqrMagnitude > 0.000001f)
+                    shot.View.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(shot.Velocity.y, shot.Velocity.x) * Mathf.Rad2Deg);
+                else shot.View.transform.Rotate(0f, 0f, shot.Spin * delta);
                 if (shot.Age > shot.Life - 0.3f)
                 {
                     Color color = shot.View.color;

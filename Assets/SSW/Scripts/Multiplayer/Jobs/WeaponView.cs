@@ -10,6 +10,7 @@ namespace SSW
         [SerializeField] bool _melee;
         [SerializeField] float _offset = 0.48f;
         [SerializeField] float _angle;
+        [SerializeField] GunView _gun;
         float _until;
         Vector2 _direction = Vector2.right;
 
@@ -24,6 +25,7 @@ namespace SSW
         {
             bool active = _player.IsSpawned && _player.Job == _job && _player.CanAct;
             _sprite.enabled = active;
+            if (_gun != null) { _gun.Render(active); return; }
             if (!active) return;
             float phase = Mathf.Clamp01((_until - Time.time) / 0.24f);
             Vector2 direction = phase > 0f ? _direction : _player.IsOwner ? _player.Aim : new Vector2(_player.Motion.FacingSign, 0f);

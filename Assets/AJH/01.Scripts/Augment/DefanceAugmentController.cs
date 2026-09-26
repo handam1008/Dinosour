@@ -51,7 +51,15 @@ namespace SSW
 
         [Header("반격")]
         [SerializeField] float _counterRatio = 0.6f;
-        
+
+        [Header("폭탄 도약")]
+        [SerializeField] Augment _leapBombAugment;
+        [SerializeField] FuseBomb _leapBombPrefab;
+        [SerializeField] int _leapBombCount = 3;
+        [SerializeField] float _leapSpeed = 16f;
+        [SerializeField] float _leapBombSpread = 3f;
+        [SerializeField] float _leapBombCoolPenalty = 0.2f;
+
 
         readonly HashSet<CommonAugmentType> _acquired = new HashSet<CommonAugmentType>();
 
@@ -65,6 +73,7 @@ namespace SSW
 
         float _empowerUntil;
         bool _isRechargeGuard;
+        bool _hasLeapBomb;
 
         Vector2 _blinkDirection;
         float _blinkTimeLeft;
@@ -103,6 +112,14 @@ namespace SSW
 
         void HandleSelected(Augment augment)
         {
+            if (augment == _leapBombAugment)
+            {
+                if (_hasLeapBomb) return;
+                _hasLeapBomb = true;
+                _defance.CoolDown *= 1f + _leapBombCoolPenalty;
+                return;
+            }
+
             if (augment is not CommonAugment common) return;
             if (!_acquired.Add(common.type)) return;
 
@@ -169,7 +186,20 @@ namespace SSW
             if (Has(CommonAugmentType.Blink))
                 StartBlink();
 
-            
+            if (_hasLeapBomb)
+                LeapBomb();
+        }
+
+        void LeapBomb()
+        {
+            Vector2 center = _body.position;
+            for (int i = 0; i < _leapBombCount; i++)
+            {
+                float t = _leapBombCount > 1 ? i / (_leapBombCount - 1f) * 2f - 1f : 0f;
+                Instantiate(_leapBombPrefab, center, Quaternion.identity).Launch(_health, new Vector2(t * _leapBombSpread, 0f));
+            }
+
+            _body.linearVelocity = new Vector2(_body.linearVelocity.x, _leapSpeed);
         }
         public void OnDamageReceived(DamageRequest request, DamageResult result)
         {

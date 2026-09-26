@@ -91,6 +91,7 @@ namespace SSW
         public Transform View => _view;
         public Vector2 Position => _body.position;
         public Vector2 Velocity => _state.Velocity;
+        public Vector2 Aim => _state.Aim.sqrMagnitude > 0.001f ? _state.Aim : new Vector2(_player.Side, 0f);
         public uint Epoch => _state.Epoch;
         public uint Processed => _processed;
         public uint JumpSequence => _state.Jump;
@@ -105,6 +106,7 @@ namespace SSW
         public uint Buffered => IsServer && _receivedInput > _processed ? _receivedInput - _processed : 0;
         public int Resyncs { get; private set; }
         public float Speed => _speed;
+        public bool Frozen => _state.FreezeTime > 0f;
         public float Scale => _state.Scale > 0f ? _state.Scale : 1f;
 
         void Awake()
@@ -117,6 +119,7 @@ namespace SSW
         {
             _motor = new MotionMotor(_shape, _motion, Physics2D.gravity.y * _body.gravityScale);
             _state.Scale = 1f;
+            _state.Aim = new Vector2(_player.Side, 0f);
             _state.Position = _previous = transform.position;
             _body.position = _state.Position;
             _shown = _view.position = transform.position;
@@ -134,6 +137,12 @@ namespace SSW
         {
             if (!IsSpawned || (!IsOwner && !IsServer)) return;
             _previous = _state.Position;
+            if (IsServer)
+            {
+                _state.BodyScale = _player.Buffs.Scale;
+                _state.AirJumps = (byte)(_player.Buffs.Has(CommonAugmentType.DoubleJump) ? 1 : 0);
+                _state.AirJumpRatio = _player.Buffs.AirJumpRatio;
+            }
             if (IsServer && !IsOwner)
                 _inputBudget.Advance(Time.realtimeSinceStartupAsDouble, Time.fixedDeltaTime);
             if (IsOwner)
@@ -379,6 +388,7 @@ namespace SSW
             _state = last.State;
             _state.Position = Vector2.Lerp(first.State.Position, last.State.Position, alpha);
             _state.Velocity = Vector2.Lerp(first.State.Velocity, last.State.Velocity, alpha);
+            _state.Aim = Vector3.Slerp(first.State.Aim, last.State.Aim, alpha);
             Commit();
         }
 
@@ -433,6 +443,39 @@ namespace SSW
             _state.DashTime = 0f;
         }
 
+        public void Freeze(float duration)
+        {
+            if (!IsServer || !_player.CanAct || !float.IsFinite(duration)) return;
+            _state.FreezeTime = Mathf.Max(_state.FreezeTime, duration);
+            _state.Velocity = _state.Surface = Vector2.zero;
+            _state.External = _state.DashTime = _state.BurstTime = 0f;
+        }
+
+        public void Launch(float impulse)
+        {
+            if (!IsServer || !_player.CanAct || !float.IsFinite(impulse)) return;
+            _state.Velocity.y = impulse / Mathf.Max(0.0001f, _body.mass);
+            _state.Grounded = false;
+            _state.CoyoteTime = 0f;
+        }
+
+        public void Leap(float speed)
+        {
+            if (!IsServer || !_player.CanAttack || !float.IsFinite(speed)) return;
+            _state.Velocity.y = speed;
+            _state.Grounded = false;
+            _state.CoyoteTime = 0f;
+        }
+
+        public void Burst(Vector2 direction, float distance, float duration)
+        {
+            if (!IsServer || !_player.CanAttack || !NetMath.Finite(direction)
+                || !float.IsFinite(distance) || !float.IsFinite(duration) || duration <= 0f) return;
+            _state.BurstVelocity = direction.normalized * (distance / duration);
+            _state.BurstTime = duration;
+            _state.DashTime = 0f;
+        }
+
         public void Shrink(float duration)
         {
             if (IsServer && _player.CanAct) _state.SmallTime = Mathf.Max(_state.SmallTime, duration);
@@ -449,7 +492,9 @@ namespace SSW
         {
             if (!IsServer || !NetMath.Finite(position)) return;
             _state = new MotionState { Epoch = _state.Epoch + 1, Position = position, Jump = _state.Jump, Pulse = System.Math.Max(_state.Pulse, _pulse.Id),
-                Scale = Scale, SmallTime = _state.SmallTime };
+                Scale = Scale, SmallTime = _state.SmallTime, BodyScale = _state.BodyScale, Aim = _state.Aim,
+                AirJumps = _state.AirJumps, AirUsed = _state.AirUsed, AirJumpRatio = _state.AirJumpRatio,
+                FreezeTime = _state.FreezeTime };
             _dash = default;
             _pulse = default;
             if (IsOwner) _player.ResetJump(_state.Jump);
