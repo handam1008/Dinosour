@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6961718241806662832}
   - component: {fileID: 1735614710454636454}
   - component: {fileID: 3198150753498001322}
+  - component: {fileID: 3428605681800468296}
   m_Layer: 0
   m_Name: Map07
   m_TagString: Untagged
@@ -82,11 +83,8 @@ MonoBehaviour:
     m_Center: {x: 0, y: -1.5, z: 0}
     m_Extent: {x: 18, y: 10, z: 0.1}
   _fallY: -14.5
-  _serverOnly:
-  - {fileID: 2430113294369686769}
-  - {fileID: 4402807832498518802}
-  - {fileID: 6012839175433387844}
-  - {fileID: 1593923491569212222}
+  _edges: {fileID: 3428605681800468296}
+  _serverOnly: []
 --- !u!114 &1735614710454636454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,6 +116,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SSW.SpawnPoints
   _first: {fileID: 1103606577013020770}
   _second: {fileID: 7956820295163845257}
+--- !u!114 &3428605681800468296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3601322171164517430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 087dd1eb47f7e9b4d8a336fb5722248b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.MapEdges
+  _map: {fileID: 6961718241806662832}
+  _edges:
+  - Shape: {fileID: 5836760963682090196}
+    Damage: 5
+    Force: {x: 0, y: 150}
+  - Shape: {fileID: 5700642491653070961}
+    Damage: 5
+    Force: {x: 0, y: -150}
+  - Shape: {fileID: 1027635207192139120}
+    Damage: 5
+    Force: {x: 150, y: 0}
+  - Shape: {fileID: 6768856893967115940}
+    Damage: 5
+    Force: {x: -150, y: 0}
 --- !u!1001 &7168903627768722137
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -170,65 +194,45 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4811094510395586088, guid: 9cdfb5ac8054a5a4aae323527f056d4d, type: 3}
+    - {fileID: 6801813917623929291, guid: 9cdfb5ac8054a5a4aae323527f056d4d, type: 3}
+    - {fileID: 3462400060114570653, guid: 9cdfb5ac8054a5a4aae323527f056d4d, type: 3}
+    - {fileID: 8458832285235145191, guid: 9cdfb5ac8054a5a4aae323527f056d4d, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9cdfb5ac8054a5a4aae323527f056d4d, type: 3}
+--- !u!61 &1027635207192139120 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 7872269176096073641, guid: 9cdfb5ac8054a5a4aae323527f056d4d, type: 3}
+  m_PrefabInstance: {fileID: 7168903627768722137}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1103606577013020770 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7795101520416778939, guid: 9cdfb5ac8054a5a4aae323527f056d4d, type: 3}
   m_PrefabInstance: {fileID: 7168903627768722137}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1593923491569212222 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8458832285235145191, guid: 9cdfb5ac8054a5a4aae323527f056d4d, type: 3}
-  m_PrefabInstance: {fileID: 7168903627768722137}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cc44ad62db685045963748b0b93505a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
---- !u!114 &2430113294369686769 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4811094510395586088, guid: 9cdfb5ac8054a5a4aae323527f056d4d, type: 3}
-  m_PrefabInstance: {fileID: 7168903627768722137}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cc44ad62db685045963748b0b93505a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
 --- !u!4 &2702920436974090152 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5116014465331103089, guid: 9cdfb5ac8054a5a4aae323527f056d4d, type: 3}
   m_PrefabInstance: {fileID: 7168903627768722137}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4402807832498518802 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6801813917623929291, guid: 9cdfb5ac8054a5a4aae323527f056d4d, type: 3}
+--- !u!61 &5700642491653070961 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 3198065880379642536, guid: 9cdfb5ac8054a5a4aae323527f056d4d, type: 3}
   m_PrefabInstance: {fileID: 7168903627768722137}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cc44ad62db685045963748b0b93505a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
---- !u!114 &6012839175433387844 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3462400060114570653, guid: 9cdfb5ac8054a5a4aae323527f056d4d, type: 3}
+--- !u!61 &5836760963682090196 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 3638161870206717453, guid: 9cdfb5ac8054a5a4aae323527f056d4d, type: 3}
   m_PrefabInstance: {fileID: 7168903627768722137}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0cc44ad62db685045963748b0b93505a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
+--- !u!61 &6768856893967115940 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 4508877998806848637, guid: 9cdfb5ac8054a5a4aae323527f056d4d, type: 3}
+  m_PrefabInstance: {fileID: 7168903627768722137}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7956820295163845257 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 941606619089070160, guid: 9cdfb5ac8054a5a4aae323527f056d4d, type: 3}
