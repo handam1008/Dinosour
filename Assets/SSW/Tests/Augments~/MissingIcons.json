@@ -1,0 +1,208 @@
+{
+  "date": "2026-09-26",
+  "base": "c7b1db0b7c2f1c787f99b747795f575b4333b83e",
+  "count": 82,
+  "missingCount": 40,
+  "missingIcons": [
+    {
+      "path": "Assets/SSW/Augments/Common/Giant.asset",
+      "name": "Giant",
+      "displayName": "거인"
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/Vampire.asset",
+      "name": "Vampire",
+      "displayName": "뱀파이어"
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/Berserker.asset",
+      "name": "Berserker",
+      "displayName": "광전사"
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/Confidence.asset",
+      "name": "Confidence",
+      "displayName": "자신감"
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/GlassCannon.asset",
+      "name": "GlassCannon",
+      "displayName": "유리 대포"
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/CooldownReduction.asset",
+      "name": "CooldownReduction",
+      "displayName": "쿨감"
+    },
+    {
+      "path": "Assets/JJW/Cards/GamblerAugment_CoinUpgrade.asset",
+      "name": "GamblerAugment_CoinUpgrade",
+      "displayName": "코인 업그레이드!"
+    },
+    {
+      "path": "Assets/JJW/Cards/GamblerAugment_Excited.asset",
+      "name": "GamblerAugment_Excited",
+      "displayName": "신난다"
+    },
+    {
+      "path": "Assets/JJW/Cards/GamblerAugment_GuaranteedJackpot.asset",
+      "name": "GamblerAugment_GuaranteedJackpot",
+      "displayName": "확실한 잭팟"
+    },
+    {
+      "path": "Assets/JJW/Cards/GamblerAugment_JackpotBoost.asset",
+      "name": "GamblerAugment_JackpotBoost",
+      "displayName": "잭팟!!"
+    },
+    {
+      "path": "Assets/JJW/Cards/GamblerAugment_MoreChances.asset",
+      "name": "GamblerAugment_MoreChances",
+      "displayName": "더 많은 기회"
+    },
+    {
+      "path": "Assets/JJW/Cards/GamblerAugment_OldCoin.asset",
+      "name": "GamblerAugment_OldCoin",
+      "displayName": "낡은 동전"
+    },
+    {
+      "path": "Assets/JJW/Cards/GamblerAugment_OverflowingPower.asset",
+      "name": "GamblerAugment_OverflowingPower",
+      "displayName": "넘치는 힘"
+    },
+    {
+      "path": "Assets/JJW/Cards/GamblerAugment_ProbabilityShift.asset",
+      "name": "GamblerAugment_ProbabilityShift",
+      "displayName": "확률 변동"
+    },
+    {
+      "path": "Assets/JJW/Cards/GamblerAugment_RaiseTheStakes.asset",
+      "name": "GamblerAugment_RaiseTheStakes",
+      "displayName": "판돈 올리기"
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/Phoenix.asset",
+      "name": "Phoenix",
+      "displayName": "불사조"
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/DeathWaltz.asset",
+      "name": "DeathWaltz",
+      "displayName": "죽음의 무도"
+    },
+    {
+      "path": "Assets/AJH/03.SO/HealthAugment/Ten Lives.asset",
+      "name": "Ten Lives",
+      "displayName": "10개의 목숨"
+    },
+    {
+      "path": "Assets/AJH/03.SO/HealthAugment/Multiscale.asset",
+      "name": "Multiscale",
+      "displayName": "멀티스케일"
+    },
+    {
+      "path": "Assets/AJH/03.SO/HealthAugment/Regeneration.asset",
+      "name": "Regeneration",
+      "displayName": "띠끌모아태산"
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/GuardMastery.asset",
+      "name": "GuardMastery",
+      "displayName": "방어 숙련"
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/Invincible.asset",
+      "name": "Invincible",
+      "displayName": "무적"
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/Recharge.asset",
+      "name": "Recharge",
+      "displayName": "재충전"
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/HealField.asset",
+      "name": "HealField",
+      "displayName": "힐 필드"
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/Blink.asset",
+      "name": "Blink",
+      "displayName": "점멸"
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/IceAge.asset",
+      "name": "IceAge",
+      "displayName": "아이스 에이지"
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/BestOffense.asset",
+      "name": "BestOffense",
+      "displayName": "최고의 방어는 공격"
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/Nuclear.asset",
+      "name": "Nuclear",
+      "displayName": "뉴클리어"
+    },
+    {
+      "path": "Assets/AJH/03.SO/DefanceAugment/ConterAttack.asset",
+      "name": "ConterAttack",
+      "displayName": "카운터"
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/DevilsDeal.asset",
+      "name": "DevilsDeal",
+      "displayName": "악마와의 거래"
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/SwiftApproach.asset",
+      "name": "SwiftApproach",
+      "displayName": "쾌속 접근"
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/NomNom.asset",
+      "name": "NomNom",
+      "displayName": "냠냠"
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/Magnet.asset",
+      "name": "Magnet",
+      "displayName": "자석"
+    },
+    {
+      "path": "Assets/AJH/03.SO/SkillAugment/ShrinkENgine.asset",
+      "name": "ShrinkENgine",
+      "displayName": "축소 엔진"
+    },
+    {
+      "path": "Assets/AJH/03.SO/SkillAugment/Versatile.asset",
+      "name": "Versatile",
+      "displayName": "다재다능"
+    },
+    {
+      "path": "Assets/AJH/03.SO/SkillAugment/DoubleJump.asset",
+      "name": "DoubleJump",
+      "displayName": "더블점프"
+    },
+    {
+      "path": "Assets/AJH/03.SO/SkillAugment/Slam.asset",
+      "name": "Slam",
+      "displayName": "쿵"
+    },
+    {
+      "path": "Assets/AJH/03.SO/SkillAugment/Minefield.asset",
+      "name": "Minefield",
+      "displayName": "지뢰밭"
+    },
+    {
+      "path": "Assets/AJH/03.SO/SkillAugment/SlowAura.asset",
+      "name": "SlowAura",
+      "displayName": "느려저라"
+    },
+    {
+      "path": "Assets/AJH/03.SO/DefanceAugment/LeapBomb.asset",
+      "name": "LeapBomb",
+      "displayName": "폭탄 도약"
+    }
+  ]
+}

@@ -6069,7 +6069,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -18}
-  m_SizeDelta: {x: 340, y: 340}
+  m_SizeDelta: {x: 280, y: 280}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1021499545
 GameObject:
@@ -8357,8 +8357,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1309350711}
   - component: {fileID: 1309350712}
-  - component: {fileID: 1309350713}
   - component: {fileID: 1309350714}
+  - component: {fileID: 1309350715}
   m_Layer: 0
   m_Name: LeaderboardPanel
   m_TagString: Untagged
@@ -8399,24 +8399,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &1309350713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1309350710}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 010b4a5301d331c4faca90909ae044c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.Leaderboard.LeaderboardManager
-  saveScoreBtn: {fileID: 0}
-  logoutBtn: {fileID: 0}
-  scoreIf: {fileID: 0}
-  fetchAllScoreBtn: {fileID: 0}
-  rankUserInfoParent: {fileID: 1980720485}
-  rankUserInfoPrefab: {fileID: 5938430065666758981, guid: ffbe04427785e4e4992028020a54061f, type: 3}
 --- !u!114 &1309350714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8429,10 +8411,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e7edf53d27038e4aa7fe7cba55cbb4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SSW.LeaderboardPanel
-  _scores: {fileID: 1309350713}
+  _rows: {fileID: 1309350715}
   _refresh: {fileID: 1034330181}
   _scroll: {fileID: 782311423}
   _status: {fileID: 904183989}
+  _timeout: 15
+--- !u!114 &1309350715
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309350710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4e78bf2cebe8f48839c8b282a118de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.RankList
+  _prefab: {fileID: 1357670624032648711, guid: ffbe04427785e4e4992028020a54061f, type: 3}
+  _content: {fileID: 1980720485}
 --- !u!1 &1353789092
 GameObject:
   m_ObjectHideFlags: 0
@@ -8562,7 +8559,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 5}
+  m_AnchoredPosition: {x: 0, y: -50}
   m_SizeDelta: {x: 520, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1363679419
@@ -8580,6 +8577,27 @@ MonoBehaviour:
   _dinosaurTransform: {fileID: 1018241329}
   _dinosaurImage: {fileID: 1090659474}
   _hatImage: {fileID: 1891702967}
+  _hatLayout:
+    _headToBody:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0.36
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    _rotation: {x: 0, y: 0, z: 0, w: 1}
+    _flip: {x: 1, y: 1}
+    _widthRatio: 1.6470588
   _idleFrames:
   - {fileID: -1193820911090328509, guid: 40ab4ed91c0119b41a221aa50fe487ff, type: 3}
   - {fileID: -4782104476085066544, guid: 40ab4ed91c0119b41a221aa50fe487ff, type: 3}

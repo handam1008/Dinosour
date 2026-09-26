@@ -60,6 +60,8 @@ namespace SSW
 
         public Item Held { get; private set; }
         public Item Next { get; private set; }
+        public Item Pocket { get; private set; }
+        public bool PocketUsed { get; private set; }
 
         public void Reset(uint epoch)
         {
@@ -67,6 +69,7 @@ namespace SSW
             _retired.Clear();
             if (Held.Id != 0) Held = Create(Held.Kind);
             if (Next.Id != 0) Next = Create(Next.Kind);
+            if (Pocket.Id != 0) Pocket = Create(Pocket.Kind);
         }
 
         public void Add(int kind, double now, double grace)
@@ -96,6 +99,7 @@ namespace SSW
                 kind = Held.Kind;
                 Held = Next;
                 Next = default;
+                PocketUsed = false;
                 return true;
             }
             for (int i = 0; i < _retired.Count; i++)
@@ -103,6 +107,39 @@ namespace SSW
                 if (_retired[i].Item.Id != id) continue;
                 kind = _retired[i].Item.Kind;
                 _retired.RemoveAt(i);
+                PocketUsed = false;
+                return true;
+            }
+            return false;
+        }
+
+        public bool Swap(uint id, uint epoch, double now)
+        {
+            if (PocketUsed || epoch != _epoch) return false;
+            Prune(now);
+            if (id == Held.Id)
+            {
+                if (Held.Id == 0 && Pocket.Id == 0) return false;
+                Item saved = Held;
+                Held = Pocket;
+                Pocket = saved;
+                if (Held.Id == 0)
+                {
+                    Held = Next;
+                    Next = default;
+                }
+                PocketUsed = true;
+                return true;
+            }
+            for (int i = 0; i < _retired.Count; i++)
+            {
+                Retired retired = _retired[i];
+                if (retired.Item.Id != id) continue;
+                Item saved = Pocket;
+                Pocket = retired.Item;
+                if (saved.Id == 0) _retired.RemoveAt(i);
+                else _retired[i] = new Retired { Item = saved, Until = retired.Until };
+                PocketUsed = true;
                 return true;
             }
             return false;

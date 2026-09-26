@@ -29,9 +29,14 @@ namespace SSW
         [SerializeField] float _cycle = 1.5f;
         readonly NetworkVariable<int> _suit = new NetworkVariable<int>();
         readonly NetworkVariable<int> _rank = new NetworkVariable<int>(1);
-        readonly NetworkVariable<PotionState> _potions = new NetworkVariable<PotionState>(new PotionState { Held = -1, Next = -1 });
+        readonly NetworkVariable<PotionState> _potions = new NetworkVariable<PotionState>(new PotionState { Held = -1, Next = -1, Pocket = -1 });
         readonly CastStock _inventory = new CastStock();
-        readonly List<CastInput> _stockPending = new List<CastInput>();
+        struct StockInput
+        {
+            public CastInput Input;
+            public int Kind;
+        }
+        readonly List<StockInput> _stockPending = new List<StockInput>();
         public struct PotionState : INetworkSerializable, System.IEquatable<PotionState>
         {
             public uint Revision;
@@ -39,8 +44,11 @@ namespace SSW
             public uint Epoch;
             public uint HeldId;
             public uint NextId;
+            public uint PocketId;
             public int Held;
             public int Next;
+            public int Pocket;
+            public bool PocketUsed;
 
             public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
             {
@@ -49,13 +57,17 @@ namespace SSW
                 serializer.SerializeValue(ref Epoch);
                 serializer.SerializeValue(ref HeldId);
                 serializer.SerializeValue(ref NextId);
+                serializer.SerializeValue(ref PocketId);
                 serializer.SerializeValue(ref Held);
                 serializer.SerializeValue(ref Next);
+                serializer.SerializeValue(ref Pocket);
+                serializer.SerializeValue(ref PocketUsed);
             }
 
             public bool Equals(PotionState other) => Revision == other.Revision && Action == other.Action
                 && Epoch == other.Epoch && HeldId == other.HeldId && NextId == other.NextId
-                && Held == other.Held && Next == other.Next;
+                && Held == other.Held && Next == other.Next && PocketId == other.PocketId
+                && Pocket == other.Pocket && PocketUsed == other.PocketUsed;
         }
         readonly NetworkVariable<uint> _seed = new NetworkVariable<uint>();
         readonly NetworkVariable<double> _showUntil = new NetworkVariable<double>();
@@ -86,8 +98,11 @@ namespace SSW
         double _waitingUntil;
         int _localHeld = -1;
         int _localNext = -1;
+        int _localPocket = -1;
         uint _localHeldId;
         uint _localNextId;
+        uint _localPocketId;
+        bool _localPocketUsed;
         uint _seenStock;
         bool _rollingSuit;
         bool _rollingRank;
@@ -122,6 +137,8 @@ namespace SSW
         public uint Confirmed => _confirmed;
         public bool Charging => _rollingRank;
         public int DisplayHeld => IsOwner && !IsServer ? _localHeld : _potions.Value.Held;
+        public int Pocket => IsOwner && !IsServer ? _localPocket : _potions.Value.Pocket;
+        public bool PocketUsed => IsOwner && !IsServer ? _localPocketUsed : _potions.Value.PocketUsed;
         bool Anticipating => IsOwner && !IsServer && (_action > _confirmed || _confirmed > _version.Value) && Time.unscaledTimeAsDouble < _waitingUntil;
         float CardCooldown => _cardCooldown * CooldownScale;
         double Now => IsOwner && !IsServer ? NetworkManager.LocalTime.Time : NetGame.Current.ServerTime;
@@ -173,7 +190,7 @@ namespace SSW
                     _throwTick = _player.CastTick + Ticks(0.15d);
                     int kind = _localHeld;
                     ShotKind = kind;
-                    _stockPending.Add(new CastInput { Action = action, Epoch = _player.Epoch, Stock = stock });
+                    _stockPending.Add(new StockInput { Input = new CastInput { Action = action, Epoch = _player.Epoch, Stock = stock, Kind = CastKind.Press }, Kind = kind });
                     ConsumeLocal(stock);
                     Vector2 velocity = direction * 15f + Vector2.up * 3f;
                     int count = _witch.ProjectileCount;
@@ -238,6 +255,14 @@ namespace SSW
         {
             if (!IsSpawned || !IsOwner || !_player.CanAttack) return;
             uint action = Begin();
+            uint stock = _player.Job == PlayerJob.Witch ? (IsServer ? _potions.Value.HeldId : _localHeldId) : 0;
+            int potion = _localHeld;
+            if (!IsServer && _player.Job == PlayerJob.Witch && pressed && _witch.Has(WitchAugmentType.Pocket) && SwapLocal(stock, potion, false))
+            {
+                _stockPending.Add(new StockInput { Input = new CastInput { Action = action, Epoch = _player.Epoch, Stock = stock, Kind = CastKind.Cycle }, Kind = potion });
+                PredictSound(action, CastKind.Cycle);
+                FeedbackAt = Time.unscaledTimeAsDouble;
+            }
             if (!IsServer && _player.Job == PlayerJob.Magician && !_rollingRank)
             {
                 if (pressed) _suitStart = _player.CastTick;
@@ -251,7 +276,7 @@ namespace SSW
             if (!IsServer && _jobCast != null)
                 _jobCast.Predict(new CastInput { Action = action, Epoch = _player.Epoch, Tick = _player.CastTick,
                     Kind = pressed ? CastKind.Cycle : CastKind.StopCycle, Direction = direction });
-            Send(action, pressed ? CastKind.Cycle : CastKind.StopCycle, direction);
+            Send(action, pressed ? CastKind.Cycle : CastKind.StopCycle, direction, stock);
         }
 
         public void Parry()
@@ -364,6 +389,13 @@ namespace SSW
             }
             if (input.Kind == CastKind.Cycle || input.Kind == CastKind.StopCycle)
             {
+                if (_player.Job == PlayerJob.Witch)
+                {
+                    if (input.Kind == CastKind.StopCycle) return true;
+                    if (!_witch.Has(WitchAugmentType.Pocket) || !_inventory.Swap(input.Stock, input.Epoch, Now)) return false;
+                    ShareSound(input.Action, CastKind.Cycle);
+                    return true;
+                }
                 if (_player.Job != PlayerJob.Magician || _rollingRank) return false;
                 bool cycling = input.Kind == CastKind.Cycle;
                 if (cycling) _suitStart = input.Tick;
@@ -475,8 +507,9 @@ namespace SSW
             _rollingRank = _rollingSuit = false;
             _localShow = _waitingUntil = 0d;
             _stockPending.Clear();
-            _localHeld = _localNext = -1;
-            _localHeldId = _localNextId = 0;
+            _localHeld = _localNext = _localPocket = -1;
+            _localHeldId = _localNextId = _localPocketId = 0;
+            _localPocketUsed = false;
             if (IsServer)
             {
                 _showUntil.Value = 0d;
@@ -540,11 +573,8 @@ namespace SSW
             {
                 if (Now < _brewAt) return;
                 _brewAt = Now + _witch.CycleInterval(_cycle) * CooldownScale;
-                int count = _stock.BaseCount + _witch.Unlocked.Count;
-                int roll = Random.Range(0, count);
-                int kind = roll < _stock.BaseCount
-                    ? _stock.BaseAt(roll)
-                    : _stock.IndexOf(_witch.Unlocked[roll - _stock.BaseCount]);
+                int kind = _stock.Pick(_witch.Unlocked, Random.value);
+                if (kind < 0) return;
                 _inventory.Add(kind, Now, 1.25d);
                 PublishStock();
                 return;
@@ -565,8 +595,11 @@ namespace SSW
                 Epoch = _player.Epoch,
                 HeldId = _inventory.Held.Id,
                 NextId = _inventory.Next.Id,
+                PocketId = _inventory.Pocket.Id,
                 Held = _inventory.Held.Kind,
-                Next = _inventory.Next.Kind
+                Next = _inventory.Next.Kind,
+                Pocket = _inventory.Pocket.Kind,
+                PocketUsed = _inventory.PocketUsed
             };
         }
 
@@ -579,12 +612,20 @@ namespace SSW
             _localNext = state.Next;
             _localHeldId = state.HeldId;
             _localNextId = state.NextId;
-            _stockPending.RemoveAll(input => input.Action <= state.Action || input.Epoch != state.Epoch);
-            foreach (CastInput input in _stockPending) ConsumeLocal(input.Stock);
+            _localPocket = state.Pocket;
+            _localPocketId = state.PocketId;
+            _localPocketUsed = state.PocketUsed;
+            _stockPending.RemoveAll(entry => entry.Input.Action <= state.Action || entry.Input.Epoch != state.Epoch);
+            foreach (StockInput entry in _stockPending)
+            {
+                if (entry.Input.Kind == CastKind.Cycle) SwapLocal(entry.Input.Stock, entry.Kind, true);
+                else ConsumeLocal(entry.Input.Stock);
+            }
         }
 
         void ConsumeLocal(uint stock)
         {
+            _localPocketUsed = false;
             if (stock != 0 && stock == _localHeldId)
             {
                 _localHeld = _localNext;
@@ -597,6 +638,30 @@ namespace SSW
                 _localNext = -1;
                 _localNextId = 0;
             }
+        }
+
+        bool SwapLocal(uint stock, int kind, bool replay)
+        {
+            if (_localPocketUsed || stock == 0 && _localPocketId == 0) return false;
+            if (stock != _localHeldId)
+            {
+                if (!replay || stock == 0 || stock == _localNextId || kind < 0) return false;
+                _localPocketId = stock;
+                _localPocket = kind;
+                _localPocketUsed = true;
+                return true;
+            }
+            (_localHeld, _localPocket) = (_localPocket, _localHeld);
+            (_localHeldId, _localPocketId) = (_localPocketId, _localHeldId);
+            if (_localHeldId == 0)
+            {
+                _localHeld = _localNext;
+                _localHeldId = _localNextId;
+                _localNext = -1;
+                _localNextId = 0;
+            }
+            _localPocketUsed = true;
+            return true;
         }
 
         void ShowPotion(SpriteRenderer view, int kind)

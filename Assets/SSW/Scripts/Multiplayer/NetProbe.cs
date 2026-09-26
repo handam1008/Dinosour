@@ -35,6 +35,7 @@ namespace SSW
             public Vector3Int watchOffer;
             public int watchPick;
             public float hp;
+            public float[] heals;
             public float max;
             public Vector2 position;
             public Vector2 viewPosition;
@@ -63,6 +64,8 @@ namespace SSW
             public Vector3Int offer;
             public int[] augments;
             public int potion;
+            public int pocket;
+            public bool pocketUsed;
             public int rank;
             public int heldView;
             public int previews;
@@ -77,6 +80,8 @@ namespace SSW
             public bool charging;
             public uint action;
             public uint confirmed;
+            public uint skillReady;
+            public uint parryReady;
             public double readyIn;
             public int ammo;
             public int progress;
@@ -109,6 +114,12 @@ namespace SSW
             public ulong caster;
         }
 
+        [Serializable] sealed class EmberState
+        {
+            public uint id;
+            public Vector3 position;
+        }
+
         [Serializable] sealed class Snapshot
         {
             public SoundProbe.State audio;
@@ -138,6 +149,7 @@ namespace SSW
             public ulong mapObject;
             public Vector3[] mapSpawns;
             public Vector2[] mapBodies;
+            public EmberState[] embers;
             public bool menuOpen;
             public bool canResume;
             public string title;
@@ -169,6 +181,8 @@ namespace SSW
         }
 
         GameObject _ground;
+        readonly ParticleSystem.Particle[] _embers = new ParticleSystem.Particle[32];
+        readonly Dictionary<ulong, List<float>> _heals = new Dictionary<ulong, List<float>>();
         SoundProbe _audio;
         readonly NetTrace _trace = new NetTrace();
         float _measureAt;
@@ -345,6 +359,10 @@ namespace SSW
                     break;
                 case "fire": local.Cast.Attack(command.value > 0, local.Aim); break;
                 case "cycle": local.Cast.Cycle(command.value > 0, command.x == 0f && command.y == 0f ? local.Aim : new Vector2(command.x, command.y)); break;
+                case "dashout":
+                    local.Move(new Vector2(command.x * local.Side, 0f));
+                    local.Cast.Cycle(true, new Vector2(command.x, 0f));
+                    break;
                 case "parry": local.Cast.Parry(); break;
                 case "guard": local.Guard.Guard(); break;
                 case "choose": local.Draft.Choose(command.value); break;
@@ -404,13 +422,26 @@ namespace SSW
             List<ShotState> shots = new List<ShotState>();
             foreach (NetPlayer player in game.Players)
             {
+                if (!_heals.TryGetValue(player.NetworkObjectId, out var heals))
+                {
+                    heals = new List<float>();
+                    _heals.Add(player.NetworkObjectId, heals);
+                    player.Health.OnHealed += amount =>
+                    {
+                        if (heals.Count == 32) heals.RemoveAt(0);
+                        heals.Add(amount);
+                    };
+                }
                 List<int> owned = new List<int>(player.Draft.Owned);
                 Animator animator = player.GetComponentInChildren<Animator>();
                 players.Add(new PlayerState
                 {
                     id = player.OwnerClientId, job = player.Job.ToString(), hp = player.Health.Current,
+                    heals = heals.ToArray(),
                     ammo = player.Cast.Weapon != null ? player.Cast.Weapon.Status.Ammo : 0,
                     progress = player.Cast.Weapon != null ? player.Cast.Weapon.Progress : 0,
+                    skillReady = player.Cast.Weapon != null ? player.Cast.Weapon.Status.Skill : 0,
+                    parryReady = player.Cast.Weapon != null ? player.Cast.Weapon.Status.Parry : 0,
                     hidden = player.Effects.Hidden, shrunk = player.Effects.Shrunk,
                     blind = player.Effects.BlindActive, immune = player.Effects.ImmuneActive,
                     damageScale = player.Cast.Weapon != null ? player.Cast.Weapon.DamageScale : 1f,
@@ -440,9 +471,10 @@ namespace SSW
                     aim = player.Aim, side = player.Side, labelsFaceView = LabelsFaceView(player, game.Arena.View),
                     animation = animator.GetCurrentAnimatorStateInfo(0).shortNameHash, owner = player.IsOwner,
                     ready = player.Draft.Ready,
-                    draftUnlocked = player.Draft.View != null && System.Array.TrueForAll(player.Draft.View.GetComponentsInChildren<AugmentCardUI>(true), card => !card.Locked),
+                    draftUnlocked = player.Draft.View != null && System.Array.TrueForAll(player.Draft.View.GetComponentsInChildren<AugmentCardUI>(), card => !card.Locked),
                     offer = player.IsOwner ? player.Draft.Offer : default,
                     augments = owned.ToArray(), potion = player.Cast.Held, rank = player.Cast.Rank,
+                    pocket = player.Cast.Pocket, pocketUsed = player.Cast.PocketUsed,
                     heldView = player.Cast.DisplayHeld, previews = player.Cast.Previews,
                     visiblePreviews = player.Cast.VisiblePreviews, matches = player.Cast.Matches,
                     shotOrigin = player.Cast.Origin, shotTick = player.Cast.ShotTick, shotKind = player.Cast.ShotKind, shotLag = player.Cast.ShotLag, fired = player.Cast.Shots,
@@ -466,9 +498,19 @@ namespace SSW
             MatchState state = game.State;
             BattleMap map = game.Arena != null ? game.Arena.Map : null;
             var mapBodies = new List<Vector2>();
+            var embers = new List<EmberState>();
             if (map != null)
+            {
                 foreach (Rigidbody2D body in map.GetComponentsInChildren<Rigidbody2D>(true))
                     if (body.bodyType != RigidbodyType2D.Static) mapBodies.Add(body.position);
+                Lava lava = map.GetComponentInChildren<Lava>();
+                if (lava != null)
+                {
+                    int count = lava.GetComponent<ParticleSystem>().GetParticles(_embers);
+                    for (int i = 0; i < count; i++)
+                        embers.Add(new EmberState { id = _embers[i].randomSeed, position = _embers[i].position });
+                }
+            }
             Snapshot snapshot = new Snapshot
             {
                 physicsTime = game.PhysicsTime, serverTime = game.Connected ? game.Manager.ServerTime.Time : 0d,
@@ -486,6 +528,7 @@ namespace SSW
                 mapObject = map != null ? map.NetworkObjectId : 0,
                 mapSpawns = map != null ? new[] { map.Spawn(0), map.Spawn(1) } : Array.Empty<Vector3>(),
                 mapBodies = mapBodies.ToArray(),
+                embers = embers.ToArray(),
                 menuOpen = game.Menu != null && game.Menu.IsOpen,
                 canResume = game.Menu != null && game.Menu.CanResume,
                 title = game.Menu != null ? game.Menu.Title : string.Empty,

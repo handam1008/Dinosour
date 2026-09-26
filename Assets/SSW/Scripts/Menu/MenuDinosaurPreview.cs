@@ -8,6 +8,7 @@ namespace SSW
         [SerializeField] RectTransform _dinosaurTransform;
         [SerializeField] Image _dinosaurImage;
         [SerializeField] Image _hatImage;
+        [SerializeField] HatLayout _hatLayout = new HatLayout();
         [SerializeField] Sprite[] _idleFrames = new Sprite[4];
         [SerializeField, Min(0.01f)] float _frameInterval = 0.12f;
         [SerializeField, Min(0f)] float _bobHeight = 3f;
@@ -18,6 +19,7 @@ namespace SSW
         int _frameIndex;
         Vector2 _restPosition;
         bool _hasRestPosition;
+        JobDefinition _definition;
 
         public int FrameIndex => _frameIndex;
         public RectTransform DinosaurTransform => _dinosaurTransform;
@@ -53,6 +55,7 @@ namespace SSW
 
         public void Show(JobDefinition definition)
         {
+            _definition = definition;
             EnsureHierarchy();
             if (_hatImage == null) return;
 
@@ -61,9 +64,15 @@ namespace SSW
             _hatImage.sprite = visible ? definition.HatSprite : null;
             if (!visible) return;
 
-            RectTransform hatTransform = _hatImage.rectTransform;
-            hatTransform.anchoredPosition = definition.PreviewOffset;
-            hatTransform.localScale = Vector3.one * definition.PreviewScale;
+            RefreshHat();
+        }
+
+        void OnRectTransformDimensionsChange() => RefreshHat();
+
+        void RefreshHat()
+        {
+            if (_definition == null || _definition.HatSprite == null) return;
+            _hatLayout.Apply(_dinosaurImage, _hatImage, _definition);
         }
 
         public void SetFacing(bool facesRight)
@@ -100,12 +109,13 @@ namespace SSW
             if (_dinosaurImage == null || _idleFrames == null || _idleFrames.Length == 0) return;
             _frameIndex %= _idleFrames.Length;
             _dinosaurImage.sprite = _idleFrames[_frameIndex];
+            RefreshHat();
         }
 
         void EnsureHierarchy()
         {
             if (_dinosaurTransform == null || _hatImage == null) return;
-            if (_hatImage.transform.parent != _dinosaurTransform) _hatImage.transform.SetParent(_dinosaurTransform, false);
+            if (_hatImage.transform.parent != _dinosaurImage.transform) _hatImage.transform.SetParent(_dinosaurImage.transform, false);
         }
 
         void CaptureRestPosition()

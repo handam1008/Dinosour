@@ -1,0 +1,12 @@
+var assembly = AppDomain.CurrentDomain.GetAssemblies().Single(x => x.GetType("Unity.Pipeline.Compilation.RoslynCompilationService") != null);
+var compiler = assembly.GetType("Unity.Pipeline.Compilation.RoslynCompilationService");
+var requestType = assembly.GetType("Unity.Pipeline.Compilation.CompilationRequest");
+var request = Activator.CreateInstance(requestType);
+requestType.GetProperty("SourceCode").SetValue(request, System.IO.File.ReadAllText("Assets/SSW/Tests/Hats~/Checks.cs"));
+requestType.GetProperty("AssemblyName").SetValue(request, "HatChecks_" + Guid.NewGuid().ToString("N"));
+var result = compiler.GetMethod("Compile", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static).Invoke(null, new[] { request });
+if (!(bool)result.GetType().GetProperty("Success").GetValue(result)) return result.GetType().GetProperty("Diagnostics").GetValue(result);
+var tests = (System.Reflection.Assembly)result.GetType().GetProperty("Assembly").GetValue(result);
+var task = (System.Threading.Tasks.Task)tests.GetType("HatChecks").GetMethod("RunAsync").Invoke(null, null);
+AppDomain.CurrentDomain.SetData("SSW.HatChecks", task);
+return new { running = !task.IsCompleted };
