@@ -6,13 +6,6 @@ namespace SSW
 {
     public sealed class SwordCast : JobCast, IIncomingDamageModifier, IDamageReceivedListener
     {
-        [SerializeField] float _damage = 10f;
-        [SerializeField] float _reach = 2f;
-        [SerializeField] float _interval = 0.3f;
-        [SerializeField] float _dashSpeed = 20f;
-        [SerializeField] float _dashTime = 0.2f;
-        [SerializeField] float _dashCooldown = 7f;
-        [SerializeField] float _parryCooldown = 6f;
         readonly HashSet<SwordPerk> _augments = new HashSet<SwordPerk>();
         readonly HashSet<ulong> _dashHits = new HashSet<ulong>();
         float _dashUntil;
@@ -24,6 +17,7 @@ namespace SSW
         public override PlayerJob Job => PlayerJob.Swordsman;
         public bool Has(SwordPerk type) => _augments.Contains(type);
         public bool Parrying => Active && NetGame.Current.ServerTime < _parryUntil;
+        public float ReflectSpeed => Stats.ReflectSpeed;
         int IIncomingDamageModifier.Priority => -100;
 
         protected override void Grant(Augment item)
@@ -39,15 +33,15 @@ namespace SSW
             {
                 case CastKind.Press:
                     if (input.Tick < state.Ready) return false;
-                    state.Ready = input.Tick + Cooldown(_interval);
+                    state.Ready = input.Tick + Cooldown(Stats.AttackInterval);
                     return true;
                 case CastKind.Cycle:
                     if (input.Tick < state.Skill) return false;
-                    state.Skill = input.Tick + Cooldown(_dashCooldown);
+                    state.Skill = input.Tick + Cooldown(Stats.DashCooldown);
                     return true;
                 case CastKind.Parry:
                     if (input.Tick < state.Parry) return false;
-                    state.Parry = input.Tick + Cooldown(_parryCooldown);
+                    state.Parry = input.Tick + Cooldown(Stats.ParryCooldown);
                     return true;
                 default:
                     return true;
@@ -56,37 +50,55 @@ namespace SSW
 
         protected override void PredictAction(CastInput input)
         {
+            FighterStats stats = Stats;
             if (input.Kind == CastKind.Cycle)
-                Drive.PredictDash(input.Action, input.Tick, Mathf.Sign(input.Direction.x) * _dashSpeed,
-                    _dashTime * (Has(SwordPerk.DashRange) ? 1.5f : 1f));
+                Drive.PredictDash(input.Action, input.Tick, Mathf.Sign(input.Direction.x) * stats.DashSpeed,
+                    stats.DashTime * (Has(SwordPerk.DashRange) ? 1.5f : 1f));
         }
 
         protected override void Execute(CastInput input, Vector2 origin, double lag, BoltSpec bolt)
         {
+            FighterStats stats = Stats;
             if (input.Kind == CastKind.Press)
-                Melee(origin, input.Direction, lag, _reach, 0.45f, target =>
-                {
-                    CombatDamage.Deal(this, target.Health, _damage, DamageTag.BasicAttack);
-                    Player.Cast.ImpactSound();
-                });
+                StartCoroutine(Attack(origin, input.Direction, lag, stats));
             else if (input.Kind == CastKind.Cycle)
             {
-                float duration = _dashTime * (Has(SwordPerk.DashRange) ? 1.5f : 1f);
+                float duration = stats.DashTime * (Has(SwordPerk.DashRange) ? 1.5f : 1f);
                 _dashDirection = new Vector2(Mathf.Sign(input.Direction.x), 0f);
                 _dashHits.Clear();
-                _dashDamage = _boosted ? 10f : 5f;
+                _dashDamage = stats.DashDamage * (_boosted ? 2f : 1f);
                 _boosted = false;
                 _dashUntil = Time.time + duration;
-                Drive.Dash(input.Action, _dashDirection.x * _dashSpeed, duration);
+                Drive.Dash(input.Action, _dashDirection.x * stats.DashSpeed, duration);
                 if (Has(SwordPerk.DashSpeed)) Motion.ApplySpeed(0.5f, duration + 3f);
             }
-            else if (input.Kind == CastKind.Parry) _parryUntil = NetGame.Current.ServerTime + 0.3d;
+            else if (input.Kind == CastKind.Parry) _parryUntil = NetGame.Current.ServerTime + stats.ParryTime;
+        }
+
+        IEnumerator Attack(Vector2 origin, Vector2 direction, double lag, FighterStats stats)
+        {
+            var hits = new HashSet<ulong>();
+            System.Action<NetPlayer> strike = target =>
+            {
+                if (!hits.Add(target.NetworkObjectId)) return;
+                CombatDamage.Deal(this, target.Health, stats.Damage, DamageTag.BasicAttack);
+                Player.Cast.ImpactSound();
+            };
+            Melee(origin, direction, lag, stats.HitSize, stats.HitOffset, strike);
+            float until = Time.time + stats.AttackTime;
+            while (Time.time < until)
+            {
+                yield return null;
+                if (!Active || !Player.CanAct || Time.time >= until) yield break;
+                Melee(Player.Body.position, direction, 0d, stats.HitSize, stats.HitOffset, strike);
+            }
         }
 
         protected override void ServerTick()
         {
             if (Time.time >= _dashUntil) return;
-            Melee(Player.Body.position, _dashDirection, 0d, _dashSpeed * Time.deltaTime + 0.5f, 0.5f, target =>
+            FighterStats stats = Stats;
+            Melee(Player.Body.position, _dashDirection, 0d, stats.DashSpeed * Time.deltaTime + stats.DashRadius, stats.DashRadius, target =>
             {
                 if (!_dashHits.Add(target.NetworkObjectId)) return;
                 CombatDamage.Deal(this, target.Health, _dashDamage, DamageTag.JobSkill);

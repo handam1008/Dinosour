@@ -42,6 +42,9 @@ namespace SSW
         public uint Turn => _pose.Turn;
         public bool Terrain { get; set; } = true;
         public bool AlignVelocity { get; set; }
+        public float AngleOffset { get; set; }
+        public float ExtraGravity { get; set; }
+        public float GravityDelay { get; set; }
         public SpriteRenderer Sprite => _sprite;
         public bool Blocked => _normal.sqrMagnitude > 0f || _caught || _target != null && _target.Blocked;
         public ulong Caster => _caster.NetworkObjectId;
@@ -101,8 +104,8 @@ namespace SSW
         float Angle(ShotPose pose, double time)
         {
             if (!AlignVelocity) return pose.Rotation(time);
-            Vector2 velocity = pose.Velocity + pose.Gravity * Mathf.Clamp((float)(time - pose.Time), 0f, 1f);
-            return velocity.sqrMagnitude > 0.000001f ? Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg : pose.Angle;
+            Vector2 velocity = pose.VelocityAt(time);
+            return velocity.sqrMagnitude > 0.000001f ? Mathf.Atan2(velocity.y, velocity.x) * Mathf.Rad2Deg + AngleOffset : pose.Angle;
         }
 
         ShotPose Capture(double time)
@@ -111,6 +114,7 @@ namespace SSW
             {
                 Time = time, Position = _body.position, Velocity = _body.linearVelocity,
                 Gravity = Physics2D.gravity * _body.gravityScale,
+                ExtraGravity = ExtraGravity, GravityDelay = GravityDelay,
                 Angle = _body.rotation, Spin = _body.angularVelocity, Terrain = Terrain, Turn = _turn
             };
         }

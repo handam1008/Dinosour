@@ -43,6 +43,7 @@ namespace SSW
             && Filled == other.Filled && Ammo == other.Ammo && Progress == other.Progress && Loaded.Equals(other.Loaded);
     }
 
+    [Serializable]
     public struct BoltSpec : INetworkSerializable, IEquatable<BoltSpec>
     {
         public int Style;
@@ -52,6 +53,9 @@ namespace SSW
         public float Life;
         public float Radius;
         public float Scale;
+        public float Aspect;
+        public float GravityDelay;
+        public float ExtraGravity;
         public int Bounce;
         public bool Stick;
         public bool Charged;
@@ -67,6 +71,9 @@ namespace SSW
             serializer.SerializeValue(ref Life);
             serializer.SerializeValue(ref Radius);
             serializer.SerializeValue(ref Scale);
+            serializer.SerializeValue(ref Aspect);
+            serializer.SerializeValue(ref GravityDelay);
+            serializer.SerializeValue(ref ExtraGravity);
             serializer.SerializeValue(ref Bounce);
             serializer.SerializeValue(ref Stick);
             serializer.SerializeValue(ref Charged);
@@ -75,7 +82,8 @@ namespace SSW
         }
 
         public bool Equals(BoltSpec other) => Style == other.Style && Speed == other.Speed && Gravity == other.Gravity && Damage == other.Damage
-            && Life == other.Life && Radius == other.Radius && Scale == other.Scale && Bounce == other.Bounce
+            && Life == other.Life && Radius == other.Radius && Scale == other.Scale && Aspect == other.Aspect
+            && GravityDelay == other.GravityDelay && ExtraGravity == other.ExtraGravity && Bounce == other.Bounce
             && Stick == other.Stick && Charged == other.Charged && Spin == other.Spin && CanPenetrate == other.CanPenetrate;
     }
 

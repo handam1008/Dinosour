@@ -8,12 +8,6 @@ namespace SSW
 {
     public sealed class KnifeCast : JobCast, IDamageReceivedListener
     {
-        [SerializeField] float _damage = 15f;
-        [SerializeField] float _reach = 1.6f;
-        [SerializeField] float _interval = 0.5f;
-        [SerializeField] float _skillCooldown = 3f;
-        [SerializeField] float _throwDamage = 15f;
-        [SerializeField] float _throwSpeed = 25f;
         readonly Dictionary<AssassinAugmentType, AbstractAssassinAugmentSO> _augments = new Dictionary<AssassinAugmentType, AbstractAssassinAugmentSO>();
         AugmentContext _context;
         NetBolt _knife;
@@ -44,11 +38,12 @@ namespace SSW
 
         protected override bool Plan(ref WeaponState state, CastInput input, out BoltSpec bolt)
         {
+            FighterStats stats = Stats;
             bolt = default;
             if (input.Kind == CastKind.Press)
             {
                 if (input.Tick < state.Ready) return false;
-                state.Ready = input.Tick + Cooldown(_interval);
+                state.Ready = input.Tick + Cooldown(stats.AttackInterval);
                 return true;
             }
             if (input.Kind == CastKind.Cycle)
@@ -57,9 +52,10 @@ namespace SSW
                 if (!recall && input.Tick < state.Skill) return false;
                 if (recall) { state.Ammo = 0; return true; }
                 state.Ammo = 1;
-                state.Skill = input.Tick + Cooldown(_skillCooldown);
-                bolt = new BoltSpec { Style = 3, Speed = _throwSpeed, Damage = _throwDamage, Life = 5f,
-                    Radius = 0.12f, Scale = 0.65f, Stick = true, Bounce = Has(AssassinAugmentType.ConcealedWeapon) ? 1 : 0,
+                state.Skill = input.Tick + Cooldown(stats.SkillCooldown);
+                bolt = new BoltSpec { Style = 3, Speed = stats.Flight.Speed, Damage = stats.SkillDamage, Life = stats.Flight.Life,
+                    Gravity = stats.Flight.Gravity, Spin = stats.Flight.Spin, Radius = 0.12f, Scale = stats.Flight.Scale,
+                    Aspect = stats.Flight.Aspect, Stick = true, Bounce = Has(AssassinAugmentType.ConcealedWeapon) ? 1 : 0,
                     CanPenetrate = true};
                 return true;
             }
@@ -100,7 +96,8 @@ namespace SSW
         {
             if (input.Kind == CastKind.Press)
             {
-                Melee(origin, input.Direction, lag, _reach, 0.45f, Strike);
+                FighterStats stats = Stats;
+                Melee(origin, input.Direction, lag, stats.HitSize, stats.HitOffset, Strike);
                 return;
             }
             if (input.Kind != CastKind.Cycle) return;
@@ -138,7 +135,7 @@ namespace SSW
 
         void Strike(NetPlayer target)
         {
-            var info = new DamageInfo { Damage = _damage, Target = target.gameObject, IsBasicAttack = true, DamageTag = DamageTag.BasicAttack };
+            var info = new DamageInfo { Damage = Stats.Damage, Target = target.gameObject, IsBasicAttack = true, DamageTag = DamageTag.BasicAttack };
             foreach (var pair in _augments)
             {
                 if (pair.Key == AssassinAugmentType.Ambush || pair.Key == AssassinAugmentType.TacticalShift || pair.Key == AssassinAugmentType.KillingIntent) continue;
