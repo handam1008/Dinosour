@@ -24,6 +24,7 @@ namespace SSW
         double _previousTime;
         double _lag;
         float _age;
+        float _flightAge;
         int _bounces;
         bool _stuck;
         Vector2 _normal;
@@ -59,8 +60,11 @@ namespace SSW
             _owner = NetworkManager.SpawnManager.SpawnedObjects[_caster.Value].GetComponent<NetPlayer>();
             _sprite.sprite = _styles[Spec.Style];
             _sprite.color = Spec.Charged ? new Color(1f, 0.85f, 0.3f) : Color.white;
-            transform.localScale = Vector3.one * Spec.Scale;
+            transform.localScale = new Vector3(Spec.Scale, Spec.Scale * Spec.Aspect, 1f);
             _flight.AlignVelocity = Spec.Gravity != 0f && Spec.Spin == 0f;
+            _flight.AngleOffset = Spec.Style == 3 ? -90f : 0f;
+            _flight.ExtraGravity = Spec.ExtraGravity;
+            _flight.GravityDelay = Spec.GravityDelay;
             _flight.Bind(_owner, _action.Value, 0, Spec.Radius);
             if (_owner.Cast.Weapon is GunCast gun) gun.Effects.Attach(_sprite, Spec.Charged);
             if (!IsServer && _owner.IsOwner && Spec.Stick && _owner.Cast.Weapon is KnifeCast knife) knife.Track(this);
@@ -82,8 +86,12 @@ namespace SSW
         void FixedUpdate()
         {
             if (!IsServer || !IsSpawned || _stuck || !NetGame.Current.CanFight) return;
+            _flightAge += Time.fixedDeltaTime;
+            _flight.GravityDelay = Mathf.Max(0f, Spec.GravityDelay - _flightAge);
+            float falling = Mathf.Clamp(_flightAge - Spec.GravityDelay, 0f, Time.fixedDeltaTime);
+            _body.linearVelocity += Vector2.down * (Spec.ExtraGravity * falling);
             if (_flight.AlignVelocity && _body.linearVelocity.sqrMagnitude > 0.000001f)
-                _body.rotation = Mathf.Atan2(_body.linearVelocity.y, _body.linearVelocity.x) * Mathf.Rad2Deg;
+                _body.rotation = Mathf.Atan2(_body.linearVelocity.y, _body.linearVelocity.x) * Mathf.Rad2Deg + (Spec.Style == 3 ? -90f : 0f);
             Vector2 next = _body.position;
             double time = NetGame.Current.PhysicsTime;
             float nearest = float.PositiveInfinity;
@@ -119,7 +127,7 @@ namespace SSW
                         _caster.Value = contact.NetworkObjectId;
                         _receiver = sword;
                         _lag = 0d;
-                        _body.linearVelocity = -_body.linearVelocity.normalized * 20f;
+                        _body.linearVelocity = -_body.linearVelocity.normalized * sword.ReflectSpeed;
                         _body.position += _body.linearVelocity.normalized * 0.05f;
                         _previous = _body.position;
                         _previousTime = time;
@@ -145,6 +153,8 @@ namespace SSW
                     _normal = normal;
                     _body.linearVelocity = Vector2.zero;
                     _body.angularVelocity = 0f;
+                    _body.gravityScale = 0f;
+                    _flight.ExtraGravity = 0f;
                     _flight.Redirect();
                 }
                 else
@@ -172,18 +182,56 @@ namespace SSW
             normal = _normal;
             if (_stuck || _bounces != Spec.Bounce || !NetMath.Finite(requested)) return;
             Vector2 shift = requested - point;
-            float limit = Spec.Speed * Mathf.Clamp(seconds, 0f, 0.35f);
+            float window = Mathf.Clamp(seconds, 0f, 0.35f);
+            Vector2 gravity = Physics2D.gravity * _body.gravityScale;
+            Vector2 velocity = Velocity + gravity * (Time.fixedDeltaTime * 0.5f);
+            float limit = velocity.magnitude * window + gravity.magnitude * (0.5f * window * window);
             if (shift.sqrMagnitude > limit * limit) return;
-            Vector2 direction = Velocity.normalized;
-            float travel = Vector2.Dot(shift, direction);
-            if (travel < -Spec.Speed * _age) return;
-            Vector2 end = point + direction * travel;
-            if (ShotQuery.Ground(point, end, Spec.Radius, _owner.GroundMask, out RaycastHit2D hit))
+            float time = RecallTime(shift, velocity, gravity, window);
+            if (time < -_age || Mathf.Abs(time) > window) return;
+            Vector2 origin = point;
+            int steps = Mathf.Max(1, Mathf.CeilToInt(Mathf.Abs(time) / Time.fixedDeltaTime));
+            for (int i = 1; i <= steps; i++)
             {
-                point = hit.centroid;
-                normal = hit.normal;
+                Vector2 end = origin + Flight(velocity, gravity, time * i / steps);
+                if (ShotQuery.Ground(point, end, Spec.Radius, _owner.GroundMask, out RaycastHit2D hit))
+                {
+                    point = hit.centroid;
+                    normal = hit.normal;
+                    return;
+                }
+                point = end;
             }
-            else point = end;
+        }
+
+        static Vector2 Flight(Vector2 velocity, Vector2 gravity, float time)
+            => velocity * time + gravity * (0.5f * time * time);
+
+        static float RecallTime(Vector2 shift, Vector2 velocity, Vector2 gravity, float window)
+        {
+            if (gravity.sqrMagnitude < 0.000001f)
+                return velocity.sqrMagnitude > 0.000001f ? Vector2.Dot(shift, velocity) / velocity.sqrMagnitude : 0f;
+            float best = 0f;
+            float distance = shift.sqrMagnitude;
+            float step = window / 16f;
+            for (int i = -16; i <= 16; i++)
+            {
+                float time = step * i;
+                float next = (Flight(velocity, gravity, time) - shift).sqrMagnitude;
+                if (next >= distance) continue;
+                best = time;
+                distance = next;
+            }
+            float left = Mathf.Max(-window, best - step);
+            float right = Mathf.Min(window, best + step);
+            for (int i = 0; i < 20; i++)
+            {
+                float a = Mathf.Lerp(left, right, 1f / 3f);
+                float b = Mathf.Lerp(left, right, 2f / 3f);
+                if ((Flight(velocity, gravity, a) - shift).sqrMagnitude < (Flight(velocity, gravity, b) - shift).sqrMagnitude) right = b;
+                else left = a;
+            }
+            return (left + right) * 0.5f;
         }
 
         public void FinishAt(Vector2 point)

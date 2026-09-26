@@ -2,6 +2,7 @@ var previous = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
 var scene = UnityEditor.SceneManagement.EditorSceneManager.NewScene(UnityEditor.SceneManagement.NewSceneSetup.EmptyScene, UnityEditor.SceneManagement.NewSceneMode.Additive);
 var checks = new System.Collections.Generic.List<string>();
 const string output = "Logs/Blade26/Recall.txt";
+System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(output));
 System.IO.File.WriteAllText(output, "");
 void Check(bool ok, string label)
 {
@@ -19,6 +20,7 @@ try
     var owner = obj.AddComponent<SSW.NetPlayer>();
     var motion = obj.AddComponent<SSW.PlayerController>();
     Field(owner, "_motion", motion);
+    Field(owner, "_cast", obj.AddComponent<SSW.NetCast>());
     using (var data = new UnityEditor.SerializedObject(motion))
     {
         data.FindProperty("_whatIsGround").intValue = 1 << 8;
@@ -27,8 +29,9 @@ try
     var knife = new UnityEngine.GameObject("Recall Knife");
     var body = knife.AddComponent<UnityEngine.Rigidbody2D>();
     body.bodyType = UnityEngine.RigidbodyType2D.Kinematic;
+    body.gravityScale = 0f;
     var bolt = knife.AddComponent<SSW.NetBolt>();
-    var spec = new SSW.BoltSpec { Speed = 25f, Radius = 0.12f, Stick = true };
+    var spec = new SSW.BoltSpec { Speed = 25f, Radius = 0.12f, Scale = 1f, Aspect = 1f, Stick = true };
     Field(bolt, "_body", body);
     Field(bolt, "_spec", new Unity.Netcode.NetworkVariable<SSW.BoltSpec>(spec));
     bolt.Init(owner, null, 1, UnityEngine.Vector2.right, spec, 0d);
@@ -60,6 +63,29 @@ try
     Field(bolt, "_bounces", -1);
     Point(new UnityEngine.Vector2(1003f, 10f), 0.2f, body.position, "redirected flight uses server point");
     Field(bolt, "_bounces", 0);
+    body.gravityScale = 1.5f;
+    UnityEngine.Vector2 Flight(float time) => body.position + body.linearVelocity * time
+        + UnityEngine.Physics2D.gravity * (body.gravityScale * 0.5f * time * (time + UnityEngine.Time.fixedDeltaTime));
+    foreach(float time in new[]{-0.3f,-0.15f,0.1f,0.3f})
+        Point(Flight(time), 0.35f, Flight(time), "ballistic recall follows curve at " + time);
+    body.linearVelocity = UnityEngine.Vector2.up * 25f;
+    Point(Flight(0.3f), 0.35f, Flight(0.3f), "vertical throw follows gravity");
+    body.linearVelocity = UnityEngine.Vector2.down * 25f;
+    Point(Flight(0.3f), 0.35f, Flight(0.3f), "falling throw follows gravity");
+    body.linearVelocity = UnityEngine.Vector2.right * 25f;
+    Field(bolt, "_age", 0.02f);
+    Point(Flight(-0.15f), 0.35f, body.position, "ballistic request before launch rejected");
+    Field(bolt, "_age", 0.5f);
+    var curveWall = new UnityEngine.GameObject("Curve Wall");
+    curveWall.layer = 8;
+    curveWall.transform.position = Flight(0.25f);
+    var curveShape = curveWall.AddComponent<UnityEngine.BoxCollider2D>();
+    curveShape.size = new UnityEngine.Vector2(0.05f,0.05f);
+    UnityEngine.Physics2D.SyncTransforms();
+    bolt.Recall(Flight(0.3f),0.35f,out var clipped,out var curveNormal);
+    Check(clipped.x < curveWall.transform.position.x && curveNormal.sqrMagnitude > 0.5f, "curved sweep blocks wall missed by straight projection");
+    UnityEngine.Object.DestroyImmediate(curveWall);
+    body.gravityScale = 0f;
     var block = new UnityEngine.GameObject("Recall Wall");
     block.layer = 8;
     block.transform.position = new UnityEngine.Vector3(1002f, 10f);
@@ -107,10 +133,10 @@ try
         Check(restored.Action == input.Action && restored.Epoch == input.Epoch && restored.Tick == input.Tick && restored.Stock == input.Stock && restored.Kind == input.Kind
             && restored.Direction == input.Direction && restored.ViewTime == input.ViewTime && restored.Recall == input.Recall && restored.Point == input.Point, $"{kind} input round trip retains all fields");
     }
-    return new { passed = checks.Count, output };
 }
 finally
 {
     UnityEditor.SceneManagement.EditorSceneManager.CloseScene(scene, true);
     UnityEngine.SceneManagement.SceneManager.SetActiveScene(previous);
 }
+if (checks.Count > 0) return new { passed = checks.Count, output };

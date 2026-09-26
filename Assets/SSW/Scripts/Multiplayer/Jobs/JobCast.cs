@@ -14,6 +14,7 @@ namespace SSW
         readonly List<CastInput> _pending = new List<CastInput>();
         protected PlayerController Motion => Player.Motion;
         protected MotionView Drive => Player.Drive;
+        protected FighterStats Stats => Player.Stats;
         protected bool Active => IsSpawned && Player.Job == Job;
         protected uint Tick => IsOwner && !IsServer ? Player.CastTick : Player.InputSequence;
         protected WeaponState State { get => _state.Value; set => _state.Value = value; }
@@ -30,7 +31,7 @@ namespace SSW
                 State = state;
             }
         }
-        public WeaponState Status => IsOwner && !IsServer ? Forecast() : State;
+        public WeaponState Status => Active && IsOwner && !IsServer ? Forecast() : State;
         public virtual float DamageScale => 1f;
         public int Priority => 50;
         public float ModifyOutgoingDamage(float amount) => Active ? amount * DamageScale : amount;
@@ -39,7 +40,7 @@ namespace SSW
 
         public override void OnNetworkSpawn()
         {
-            if (IsServer) State = Initial();
+            if (IsServer && Player.Job == Job) State = Initial();
             foreach (Augment item in _source.Owned) Grant(item);
         }
 
@@ -128,6 +129,24 @@ namespace SSW
         public virtual void Hit(NetPlayer target, NetBolt bolt)
         {
             CombatDamage.Deal(this, target.Health, bolt.Spec.Damage, DamageTag.Projectile | DamageTag.BasicAttack);
+        }
+
+        protected void Melee(Vector2 origin, Vector2 direction, double lag, Vector2 size, Vector2 offset, System.Action<NetPlayer> hit)
+        {
+            Vector2 axis = direction.sqrMagnitude > 0.0001f ? direction.normalized : Vector2.right;
+            Vector3 scale = Player.transform.lossyScale;
+            Vector2 extent = new Vector2(Mathf.Abs(scale.x), Mathf.Abs(scale.y));
+            offset = Vector2.Scale(offset, extent);
+            Vector2 center = origin + axis * offset.x + new Vector2(-axis.y, axis.x) * offset.y;
+            size = Vector2.Scale(size, extent);
+            double time = NetGame.Current.PhysicsTime - lag;
+            foreach (NetPlayer target in NetGame.Current.Players)
+            {
+                if (target == Player || !target.CanAct) continue;
+                if (!target.BoxHit(center, axis, size, time, out Vector2 point)) continue;
+                if (ShotQuery.GroundRay(origin, point, Player.GroundMask, out _)) continue;
+                hit(target);
+            }
         }
 
         protected void Melee(Vector2 origin, Vector2 direction, double lag, float reach, float radius, System.Action<NetPlayer> hit)

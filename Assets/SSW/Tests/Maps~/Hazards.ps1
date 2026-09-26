@@ -1,4 +1,4 @@
-param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges,[switch]$LavaOnly,[switch]$HealOnly,[switch]$EdgeMotion,[switch]$WitchOnly,[string[]]$EdgeModes=@('move','dash'))
+param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges,[switch]$LavaOnly,[switch]$HealOnly,[switch]$EdgeMotion,[switch]$WitchOnly,[switch]$StatsOnly,[switch]$StatsProfiles,[string[]]$EdgeModes=@('move','dash'))
 $ErrorActionPreference='Stop'
 $Project=[IO.Path]::GetFullPath($Project).Replace('\','/')
 $root="$Project/Logs/Boundary/$Run"
@@ -13,7 +13,7 @@ function Eval([string]$code){
     if(-not $reply.success -or -not $reply.data.result.success){throw ($reply|ConvertTo-Json -Depth 8)}
     return $reply.data.result.result
 }
-function Read($peer){try{return Get-Content -LiteralPath "$root/$peer.json" -Raw|ConvertFrom-Json}catch{return $null}}
+function Read($peer){for($attempt=0;$attempt -lt 5;$attempt++){try{return Get-Content -LiteralPath "$root/$peer.json" -Raw|ConvertFrom-Json}catch{Start-Sleep -Milliseconds 10}};return $null}
 function Await($label,[scriptblock]$condition,$timeout=35){
     $until=[DateTime]::UtcNow.AddSeconds($timeout)
     do{
@@ -54,6 +54,7 @@ try{
     Eval 'foreach(var p in SSW.NetGame.Current.Players)p.Draft.Restore(System.Array.Empty<int>());SSW.NetGame.Current.Match.Picked();return true;'|Out-Null
     Await 'playing' {$h.phase -eq 'Playing' -and $c.phase -eq 'Playing'}
     $step=Eval 'return UnityEngine.Time.fixedDeltaTime;'
+    if($StatsOnly -or $StatsProfiles){. "$PSScriptRoot/../Stats~/Runtime.ps1";return}
     Eval 'foreach(var p in SSW.NetGame.Current.Players){typeof(SSW.Health).GetMethod("SetMax",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).Invoke(p.Health,new object[]{10000f});p.Health.Heal(10000f);}return true;'|Out-Null
     if($HealOnly){. "$PSScriptRoot/../Common~/Healing.ps1";return}
     if($WitchOnly){. "$PSScriptRoot/../Augments~/Witch.ps1";return}

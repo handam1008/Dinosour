@@ -22,6 +22,9 @@ namespace SSW
             public float Delay;
             public float Age;
             public float Life;
+            public float GravityDelay;
+            public float ExtraGravity;
+            public float AngleOffset;
             public bool Started;
             public bool AlignVelocity;
             public bool Held;
@@ -61,11 +64,12 @@ namespace SSW
             shot.Feedback.SoundEnabled = false;
             _cards.StylePreview(shot.View, shot.Feedback, suit, rank);
             shot.Feedback.SetTrailVisible(false);
-            shot.View.transform.localScale = Vector3.one * 0.3f;
-            shot.Velocity = direction * 12f;
+            FlightStats stats = _caster.Stats.Flight;
+            shot.View.transform.localScale = new Vector3(stats.Scale, stats.Scale * stats.Aspect, 1f);
+            shot.Velocity = direction * stats.Speed;
             shot.Gravity = Physics2D.gravity * gravity;
             shot.Radius = _radius;
-            shot.Spin = direction.x < 0f ? -720f : 720f;
+            shot.Spin = (direction.x < 0f ? -1f : 1f) * stats.Spin;
             shot.Delay = delay;
             Start(shot);
         }
@@ -78,12 +82,13 @@ namespace SSW
             shot.View.color = style.color;
             shot.View.sortingLayerID = style.sortingLayerID;
             shot.View.sortingOrder = style.sortingOrder;
-            shot.View.transform.localScale = style.transform.lossyScale;
+            FlightStats stats = _caster.Stats.Flight;
+            shot.View.transform.localScale = new Vector3(stats.Scale, stats.Scale * stats.Aspect, 1f);
             shot.Velocity = velocity;
             shot.Gravity = Physics2D.gravity * gravity;
             shot.Size = size;
             shot.Radius = size.x * 0.5f;
-            shot.Spin = -360f;
+            shot.Spin = stats.Spin;
             Start(shot);
         }
 
@@ -95,10 +100,13 @@ namespace SSW
             shot.View.sortingLayerID = style.sortingLayerID;
             shot.View.sortingOrder = style.sortingOrder;
             shot.View.color = spec.Charged ? new Color(1f, 0.85f, 0.3f) : Color.white;
-            shot.View.transform.localScale = Vector3.one * spec.Scale;
+            shot.View.transform.localScale = new Vector3(spec.Scale, spec.Scale * spec.Aspect, 1f);
             shot.View.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + (spec.Style == 3 ? -90f : 0f));
             shot.Velocity = direction * spec.Speed;
             shot.Gravity = Physics2D.gravity * spec.Gravity;
+            shot.GravityDelay = spec.GravityDelay;
+            shot.ExtraGravity = spec.ExtraGravity;
+            shot.AngleOffset = spec.Style == 3 ? -90f : 0f;
             shot.Radius = spec.Radius;
             shot.Spin = spec.Spin;
             shot.AlignVelocity = spec.Gravity != 0f && spec.Spin == 0f;
@@ -204,6 +212,9 @@ namespace SSW
                 {
                     next += shot.Velocity * delta + shot.Gravity * (0.5f * delta * (delta + Time.fixedDeltaTime));
                     shot.Velocity += shot.Gravity * delta;
+                    float falling = Mathf.Clamp(shot.Age - shot.GravityDelay, 0f, delta);
+                    next += Vector2.down * (shot.ExtraGravity * 0.5f * falling * (falling + Time.fixedDeltaTime));
+                    shot.Velocity += Vector2.down * (shot.ExtraGravity * falling);
                     if (ShotQuery.Ground(before, next, shot.Radius, shot.Size, _ground, out RaycastHit2D hit))
                     {
                         next = hit.centroid;
@@ -219,7 +230,7 @@ namespace SSW
                 }
                 shot.View.transform.position = next;
                 if (shot.AlignVelocity && shot.Velocity.sqrMagnitude > 0.000001f)
-                    shot.View.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(shot.Velocity.y, shot.Velocity.x) * Mathf.Rad2Deg);
+                    shot.View.transform.rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(shot.Velocity.y, shot.Velocity.x) * Mathf.Rad2Deg + shot.AngleOffset);
                 else shot.View.transform.Rotate(0f, 0f, shot.Spin * delta);
                 if (shot.Age > shot.Life - 0.3f)
                 {

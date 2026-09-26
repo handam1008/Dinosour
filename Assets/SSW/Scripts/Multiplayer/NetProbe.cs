@@ -37,6 +37,10 @@ namespace SSW
             public float hp;
             public float[] heals;
             public float max;
+            public FighterStats stats;
+            public float jumpSpeed;
+            public string bodyMaterial;
+            public string colliderMaterial;
             public Vector2 position;
             public Vector2 viewPosition;
             public bool viewLinked;
@@ -112,6 +116,7 @@ namespace SSW
             public int kind;
             public uint action;
             public ulong caster;
+            public BoltSpec spec;
         }
 
         [Serializable] sealed class EmberState
@@ -328,6 +333,11 @@ namespace SSW
                     SetGround(new Vector2(command.x, command.y), 0f, false);
                     _ground.GetComponent<BoxCollider2D>().size = new Vector2(60f, 0.6f);
                     break;
+                case "isolate":
+                    foreach (Collider2D shape in game.Arena.Map.GetComponentsInChildren<Collider2D>(true)) shape.enabled = false;
+                    foreach (ParticleSystem effect in game.Arena.Map.GetComponentsInChildren<ParticleSystem>())
+                        effect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+                    break;
                 case "ground":
                 case "platform":
                     SetGround(new Vector2(command.x, command.y), command.value, command.op == "platform");
@@ -438,6 +448,9 @@ namespace SSW
                 {
                     id = player.OwnerClientId, job = player.Job.ToString(), hp = player.Health.Current,
                     heals = heals.ToArray(),
+                    stats = player.Stats, jumpSpeed = player.Motion.JumpSpeed,
+                    bodyMaterial = player.Body.sharedMaterial != null ? player.Body.sharedMaterial.name : string.Empty,
+                    colliderMaterial = player.Collider.sharedMaterial != null ? player.Collider.sharedMaterial.name : string.Empty,
                     ammo = player.Cast.Weapon != null ? player.Cast.Weapon.Status.Ammo : 0,
                     progress = player.Cast.Weapon != null ? player.Cast.Weapon.Progress : 0,
                     skillReady = player.Cast.Weapon != null ? player.Cast.Weapon.Status.Skill : 0,
@@ -491,7 +504,7 @@ namespace SSW
                     else if (obj.TryGetComponent(out NetPotion potion))
                         shots.Add(new ShotState { id = entry.Key, type = "potion", position = obj.transform.position, kind = potion.Kind, action = potion.Action, caster = potion.Caster });
                     else if (obj.TryGetComponent(out NetBolt bolt))
-                        shots.Add(new ShotState { id = entry.Key, type = "bolt", position = obj.transform.position, kind = bolt.Spec.Style, action = bolt.Action, caster = bolt.Caster });
+                        shots.Add(new ShotState { id = entry.Key, type = "bolt", position = obj.transform.position, kind = bolt.Spec.Style, action = bolt.Action, caster = bolt.Caster, spec = bolt.Spec });
                     else if (obj.TryGetComponent(out NetZone zone))
                         shots.Add(new ShotState { id = entry.Key, type = "zone", position = obj.transform.position });
                 }

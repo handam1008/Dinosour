@@ -1582,6 +1582,7 @@ MonoBehaviour:
   _effects: {fileID: 7246764531032309791}
   _buffs: {fileID: 5655579847218021524}
   _guard: {fileID: 7006365575554843359}
+  _statsBook: {fileID: 11400000, guid: 79577eb3679230a4ea018a1cc4d16c6d, type: 2}
 --- !u!114 &7472672372006785603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1626,8 +1627,6 @@ MonoBehaviour:
   _hand: {fileID: 5663267234858826385}
   _reserve: {fileID: 651649454019344754}
   _cooldown: {fileID: 1709205701264804284}
-  _cardCooldown: 3
-  _cycle: 1.5
 --- !u!114 &8563520117039112373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1789,11 +1788,6 @@ MonoBehaviour:
   Player: {fileID: 3278762098247593300}
   _source: {fileID: 4814471823624826006}
   _view: {fileID: 8302510222154140626}
-  _capacity: 9
-  _reload: 2.5
-  _interval: 0
-  _damage: 15
-  _speed: 30
   _questHits: 2
   _poisonTicks: 8
   _shrinkCooldown: 5
@@ -1815,9 +1809,6 @@ MonoBehaviour:
   Player: {fileID: 3278762098247593300}
   _source: {fileID: 4814471823624826006}
   _view: {fileID: 3688264977044188431}
-  _damage: 10
-  _speed: 15
-  _reload: 1.5
 --- !u!114 &1742457950232977089
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1834,12 +1825,6 @@ MonoBehaviour:
   Player: {fileID: 3278762098247593300}
   _source: {fileID: 4814471823624826006}
   _view: {fileID: 1958101399494988025}
-  _damage: 35
-  _reach: 2
-  _interval: 0.7
-  _skillCooldown: 3
-  _throwDamage: 15
-  _throwSpeed: 25
 --- !u!114 &5694440557813886222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1856,13 +1841,6 @@ MonoBehaviour:
   Player: {fileID: 3278762098247593300}
   _source: {fileID: 4814471823624826006}
   _view: {fileID: 7242114013962689088}
-  _damage: 10
-  _reach: 2
-  _interval: 0.3
-  _dashSpeed: 20
-  _dashTime: 0.2
-  _dashCooldown: 7
-  _parryCooldown: 6
 --- !u!114 &8193348028431366631
 MonoBehaviour:
   m_ObjectHideFlags: 0
