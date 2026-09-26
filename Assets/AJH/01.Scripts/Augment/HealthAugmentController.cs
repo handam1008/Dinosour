@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace SSW
 {
@@ -16,7 +17,8 @@ namespace SSW
 
         [Header("불사조")]
         [SerializeField] float _phoenixHpPenalty = 0.25f;
-        [SerializeField] float _phoenixInvulnTime = 0.5f;
+        [SerializeField] float _phoenixInvulnDuration = 2.5f;
+        [SerializeField] float _phoenixLockDuration = 1f;
         [SerializeField] float _phoenixScalePenalty = 0.08f;
 
         [Header("뱀파이어")]
@@ -58,11 +60,14 @@ namespace SSW
         bool _phoenixUsed;
         bool _phoenixInvulnActive;
         float _phoenixInvulnTimer;
+        float _phoenixLockTimer;
+        bool _phoenixLocked;
         float _regenTimer;
         float _confidenceUntil;
 
-        ISpeedable _speedable;
         DinosaurVisualController _visual;
+        PlayerController _player;
+        PlayerInput _input;
 
         public int Priority => 0;
 
@@ -88,8 +93,9 @@ namespace SSW
             _drafter = GetComponent<AugmentDrafter>();
             _health = GetComponent<Health>();
             _baseScale = transform.localScale;
-            _speedable = GetComponentInParent<ISpeedable>();
             _visual = GetComponentInChildren<DinosaurVisualController>(true);
+            _player = GetComponentInParent<PlayerController>();
+            _input = GetComponentInParent<PlayerInput>();
         }
 
         void OnEnable()
@@ -102,6 +108,7 @@ namespace SSW
         {
             _drafter.OnAugmentSelected -= HandleSelected;
             _health.OnHealthChanged -= HandleHealthChanged;
+            if (_phoenixLocked) UnlockMovement();
         }
         
         public void MultiplyScale(float multiplier)
@@ -116,6 +123,12 @@ namespace SSW
             {
                 _phoenixInvulnTimer -= Time.deltaTime;
                 if (_phoenixInvulnTimer <= 0f) _phoenixInvulnActive = false;
+            }
+
+            if (_phoenixLocked)
+            {
+                _phoenixLockTimer -= Time.deltaTime;
+                if (_phoenixLockTimer <= 0f) UnlockMovement();
             }
 
             if (_pendingDamage.Count > 0)
@@ -211,7 +224,7 @@ namespace SSW
                 _health.Heal(result.AppliedAmount * _vampireHealRate);
 
             if (Has(CommonAugmentType.Confidence))
-                _speedable?.ApplySpeed(_confidenceSpeedBonus, _confidenceDuration);
+                _confidenceUntil = Time.time + _confidenceDuration;
         }
 
         public float ModifyIncomingDamage(DamageRequest request, float currentAmount)
@@ -231,9 +244,10 @@ namespace SSW
             {
                 _phoenixUsed = true;
                 _phoenixInvulnActive = true;
-                _phoenixInvulnTimer = _phoenixInvulnTime;
+                _phoenixInvulnTimer = _phoenixInvulnDuration;
                 _pendingDamage.Clear();
                 _health.Heal(_health.maxHealth);
+                LockMovement();
                 _visual?.PlayRevive();
                 return 0f;
             }
@@ -249,6 +263,21 @@ namespace SSW
             }
 
             return currentAmount;
+        }
+
+        void LockMovement()
+        {
+            _phoenixLocked = true;
+            _phoenixLockTimer = _phoenixLockDuration;
+            _input?.DeactivateInput();
+            if (_player != null) _player.Simulated = false;
+        }
+
+        void UnlockMovement()
+        {
+            _phoenixLocked = false;
+            if (_player != null) _player.Simulated = true;
+            if (_input != null && _input.enabled) _input.ActivateInput();
         }
 
         void ApplyDeathWaltzTick()

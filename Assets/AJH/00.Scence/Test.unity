@@ -1004,11 +1004,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3017196835076093405, guid: b89645d7b3c954847a11576c13269860, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.846129
+      value: 8.46
       objectReference: {fileID: 0}
     - target: {fileID: 3017196835076093405, guid: b89645d7b3c954847a11576c13269860, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.8785744
+      value: -2.11
       objectReference: {fileID: 0}
     - target: {fileID: 3017196835076093405, guid: b89645d7b3c954847a11576c13269860, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2849,6 +2849,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3ca45f92d18e98448ec84da6381ee87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.KHG_nomalAttack
+  swordAnimator: {fileID: 0}
+  attackTriggerName: Attack
   damage: 30
   attackDuration: 0.1
   attackCooldown: 0.8
@@ -3308,7 +3310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecb938aeaa34e954a94953995b1bb85d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SSW.AugmentDrafter
-  _commonPool: {fileID: 11400000, guid: a36165d4945635447aae0272a99be66a, type: 2}
+  _commonPool: {fileID: 11400000, guid: 68ed3b078451cd04bb9216dd07d82a49, type: 2}
   _jobPool: {fileID: 11400000, guid: f396daccee22bc54c96a46fbe2596d2a, type: 2}
   _choiceCount: 3
   _draftUIResourceName: AugmentDraftUIDino
@@ -3352,6 +3354,12 @@ MonoBehaviour:
   _nuclearChargePrefab: {fileID: 3583293408500826116, guid: dbafdff45df663041a7aa1acaebc41f2, type: 3}
   _nuclearExplosionPrefab: {fileID: 4842865444481731805, guid: f5d67a942ad3aad4bb6fa416301474b4, type: 3}
   _counterRatio: 0.6
+  _leapBombAugment: {fileID: 11400000, guid: 1997664b41a1a7b4ca96cd8d8868eb08, type: 2}
+  _leapBombPrefab: {fileID: 7614941595487441869, guid: 4dbd4bc26e6cddc4db979e758e9d8442, type: 3}
+  _leapBombCount: 3
+  _leapSpeed: 16
+  _leapBombSpread: 3
+  _leapBombCoolPenalty: 0.2
 --- !u!114 &9016132726206276957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3385,7 +3393,8 @@ MonoBehaviour:
   _glassCannonDamageBonus: 1.8
   _glassCannonScalePenalty: 0.1
   _phoenixHpPenalty: 0.25
-  _phoenixInvulnTime: 0.5
+  _phoenixInvulnDuration: 1
+  _phoenixLockDuration: 1
   _phoenixScalePenalty: 0.08
   _vampireHealRate: 0.55
   _confidenceSpeedBonus: 0.3
@@ -3438,7 +3447,8 @@ MonoBehaviour:
   _glassCannonDamageBonus: 1.8
   _glassCannonScalePenalty: 0.1
   _phoenixHpPenalty: 0.25
-  _phoenixInvulnTime: 0.5
+  _phoenixInvulnDuration: 2.5
+  _phoenixLockDuration: 1
   _phoenixScalePenalty: 0.08
   _vampireHealRate: 0.55
   _confidenceSpeedBonus: 2
@@ -3545,6 +3555,12 @@ MonoBehaviour:
   _nuclearChargePrefab: {fileID: 3583293408500826116, guid: dbafdff45df663041a7aa1acaebc41f2, type: 3}
   _nuclearExplosionPrefab: {fileID: 4842865444481731805, guid: f5d67a942ad3aad4bb6fa416301474b4, type: 3}
   _counterRatio: 0.6
+  _leapBombAugment: {fileID: 11400000, guid: 1997664b41a1a7b4ca96cd8d8868eb08, type: 2}
+  _leapBombPrefab: {fileID: 7614941595487441869, guid: 4dbd4bc26e6cddc4db979e758e9d8442, type: 3}
+  _leapBombCount: 3
+  _leapSpeed: 16
+  _leapBombSpread: 3
+  _leapBombCoolPenalty: 0.2
 --- !u!114 &9183996978096013337
 MonoBehaviour:
   m_ObjectHideFlags: 0
