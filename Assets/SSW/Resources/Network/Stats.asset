@@ -105,11 +105,11 @@ MonoBehaviour:
     Coyote: 0.12
     Decay: 12
     Brake: 30
-    Damage: 10
+    Damage: 15
     AttackInterval: 2
     HitSize: {x: 1.4562652, y: 1.6219169}
     HitOffset: {x: 0.9098686, y: 0.36179882}
-    AttackTime: 0.1
+    AttackTime: 1
     Flight:
       Speed: 0
       Gravity: 0
@@ -140,7 +140,7 @@ MonoBehaviour:
     GravityDelay: 0
     ExtraGravity: 0
   - Job: 4
-    Health: 1000
+    Health: 70
     MoveSpeed: 7
     JumpSpeed: 12
     Gravity: 3

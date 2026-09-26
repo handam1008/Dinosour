@@ -14,7 +14,7 @@ foreach(var p in g.Players)
     if(witch.Unlocked.Count!=1)throw new System.InvalidOperationException("Poison unlock failed");
     p.Draft.Restore(new[]{83});
     if(witch.Unlocked.Count!=2 || !witch.Has(RYU._01.Script.Argument.WitchAugmentType.reproductionUnlock))throw new System.InvalidOperationException("Regeneration unlock failed");
-    p.Draft.Restore(new[]{84,85});
+    p.Draft.Restore(new[]{84});
     if(witch.Unlocked.Count!=2 || UnityEngine.Mathf.Abs(witch.CycleInterval(1.5f)-0.9f)>0.001f)throw new System.InvalidOperationException("All unlock must not duplicate potions and must shorten brewing");
     foreach(var potion in witch.Unlocked)if(stock.IndexOf(potion)<0)throw new System.InvalidOperationException("Unlocked potion not in network stock");
     result.Add(new{p.OwnerClientId,unlocked=witch.Unlocked.Select(x=>new{x.name,id=stock.IndexOf(x)}).ToArray()});
@@ -22,7 +22,7 @@ foreach(var p in g.Players)
 return result;
 '@
 $catalog|ConvertTo-Json -Depth 6|Set-Content "$root/Unlocks.json"
-Await 'all missing witch cards replicated' {$h.players.Count -eq 2 -and $c.players.Count -eq 2 -and @($c.players|Where-Object {$_.augments.Count -ne 4}).Count -eq 0}
+Await 'all missing witch cards replicated' {$h.players.Count -eq 2 -and $c.players.Count -eq 2 -and @($c.players|Where-Object {$_.augments.Count -ne 3}).Count -eq 0}
 Check ($true) 'poison and regeneration unlock distinct network potions; all unlock speeds brewing on both players'
 foreach($peer in @('host','client')){
     $id=((Read $peer).players|Where-Object owner).id

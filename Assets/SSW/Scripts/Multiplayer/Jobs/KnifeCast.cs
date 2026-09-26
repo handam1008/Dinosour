@@ -10,6 +10,8 @@ namespace SSW
     {
         readonly Dictionary<AssassinAugmentType, AbstractAssassinAugmentSO> _augments = new Dictionary<AssassinAugmentType, AbstractAssassinAugmentSO>();
         AugmentContext _context;
+        KnifeTuning.Escape _escape;
+        KnifeTuning.Aura _aura;
         NetBolt _knife;
         uint _throwAction;
         uint _recallAction;
@@ -33,7 +35,9 @@ namespace SSW
 
         protected override void Grant(Augment item)
         {
-            if (item is AbstractAssassinAugmentSO augment) _augments.TryAdd(augment.type, augment);
+            if (item is not AbstractAssassinAugmentSO augment || !_augments.TryAdd(augment.type, augment)) return;
+            if (augment.type == AssassinAugmentType.Escape) _escape = KnifeTuning.Read<KnifeTuning.Escape>(augment);
+            if (augment.type == AssassinAugmentType.KillingIntent) _aura = KnifeTuning.Read<KnifeTuning.Aura>(augment);
         }
 
         protected override bool Plan(ref WeaponState state, CastInput input, out BoltSpec bolt)
@@ -127,8 +131,8 @@ namespace SSW
             }
             if (Has(AssassinAugmentType.KillingIntent) && Time.time >= _auraReady)
             {
-                _auraUntil = Time.time + 6f;
-                _auraReady = Time.time + 12f;
+                _auraUntil = Time.time + _aura.Duration;
+                _auraReady = _auraUntil + _aura.Cooldown;
                 _auraStart = Time.time;
             }
         }
@@ -156,7 +160,11 @@ namespace SSW
         public void OnDamageReceived(DamageRequest request, DamageResult result)
         {
             if (!Active || !IsServer || !result.WasApplied) return;
-            if (_augments.TryGetValue(AssassinAugmentType.Escape, out AbstractAssassinAugmentSO escape)) escape.OnHit(_context);
+            if (Has(AssassinAugmentType.Escape) && !_context.IsOnCooldown(AssassinAugmentType.Escape))
+            {
+                Motion.ApplySpeed(_escape.Speed, _escape.Duration);
+                _context.SetCooldown(AssassinAugmentType.Escape, _escape.Duration + _escape.Cooldown);
+            }
             if (!_shifted && Player.Health.Current > 0f && Player.Health.Current <= Player.Health.Max * 0.3f && Has(AssassinAugmentType.TacticalShift))
             {
                 _shifted = true;
@@ -177,12 +185,12 @@ namespace SSW
             }
             if (Time.time >= _auraUntil || Time.time < _auraAt) return;
             _auraAt = Time.time + 0.1f;
-            float amount = Mathf.Clamp01((Time.time - _auraStart) / 3f) * 0.3f;
+            float elapsed = Time.time - _auraStart;
             foreach (NetPlayer target in NetGame.Current.Players)
             {
-                if (target == Player || Vector2.Distance(Player.Body.position, target.Body.position) > 3f) continue;
-                target.Motion.ApplySlow(amount, 0.2f);
-                target.Motion.ApplyAttackWeaken(amount, 0.2f);
+                if (target == Player || Vector2.Distance(Player.Body.position, target.Body.position) > _aura.Radius) continue;
+                target.Motion.ApplySlow(_aura.Slow(elapsed), 0.2f);
+                target.Motion.ApplyAttackWeaken(_aura.Weaken(elapsed), 0.2f);
             }
         }
     }
