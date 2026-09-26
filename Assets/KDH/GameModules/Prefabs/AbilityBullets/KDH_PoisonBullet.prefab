@@ -45,9 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc595ed2025b52f4bab0a6580884bd1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH_PoisonBullet
-  dotDamage: 7
-  dotCount: 7
-  poisonDuration: 4
+  dotDamage: 2
+  <DotCount>k__BackingField: 8
+  <PoisonDuration>k__BackingField: 4
+  <BulletAbilityData>k__BackingField: {fileID: 11400000, guid: 3b14922102ed71f40a0fc380ea7c0836, type: 2}
   onHitPlayer:
     m_PersistentCalls:
       m_Calls:
@@ -64,7 +65,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  <BulletAbilityData>k__BackingField: {fileID: 11400000, guid: 3b14922102ed71f40a0fc380ea7c0836, type: 2}
 --- !u!1 &5708697399241599853
 GameObject:
   m_ObjectHideFlags: 0

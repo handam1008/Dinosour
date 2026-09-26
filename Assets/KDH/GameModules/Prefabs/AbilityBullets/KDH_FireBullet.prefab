@@ -45,9 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81fae416815339846a031808d15c0026, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH_FireBullet
-  dotDamage: 3
+  dotDamage: 2
   dotDamageCount: 6
   <FireireDuration>k__BackingField: 3
+  <BulletAbilityData>k__BackingField: {fileID: 11400000, guid: 373e97670dfd69142b4f943e121d9933, type: 2}
   onHitPlayer:
     m_PersistentCalls:
       m_Calls:
@@ -64,7 +65,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  <BulletAbilityData>k__BackingField: {fileID: 11400000, guid: 373e97670dfd69142b4f943e121d9933, type: 2}
 --- !u!1 &5708697399241599853
 GameObject:
   m_ObjectHideFlags: 0

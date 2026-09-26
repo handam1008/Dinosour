@@ -521,6 +521,27 @@ MonoBehaviour:
   _dinosaurTransform: {fileID: 8133874296063280022}
   _dinosaurImage: {fileID: 3063849782613991024}
   _hatImage: {fileID: 2702922128336682976}
+  _hatLayout:
+    _headToBody:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0.36
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    _rotation: {x: 0, y: 0, z: 0, w: 1}
+    _flip: {x: 1, y: 1}
+    _widthRatio: 1.6470588
   _idleFrames:
   - {fileID: -1193820911090328509, guid: 40ab4ed91c0119b41a221aa50fe487ff, type: 3}
   - {fileID: -4782104476085066544, guid: 40ab4ed91c0119b41a221aa50fe487ff, type: 3}

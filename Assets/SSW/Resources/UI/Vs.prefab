@@ -690,7 +690,7 @@ RectTransform:
   m_GameObject: {fileID: 3394386387853730532}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.47, y: 0.47, z: 0.47}
+  m_LocalScale: {x: 0.38, y: 0.38, z: 0.38}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8928699051185535663}
@@ -698,7 +698,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -3}
+  m_AnchoredPosition: {x: 0, y: -20}
   m_SizeDelta: {x: 520, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3699164267040546945
@@ -716,6 +716,27 @@ MonoBehaviour:
   _dinosaurTransform: {fileID: 8928699051185535663}
   _dinosaurImage: {fileID: 3694602998598831972}
   _hatImage: {fileID: 3723885218022037133}
+  _hatLayout:
+    _headToBody:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0.36
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    _rotation: {x: 0, y: 0, z: 0, w: 1}
+    _flip: {x: 1, y: 1}
+    _widthRatio: 1.6470588
   _idleFrames:
   - {fileID: -1193820911090328509, guid: 40ab4ed91c0119b41a221aa50fe487ff, type: 3}
   - {fileID: -4782104476085066544, guid: 40ab4ed91c0119b41a221aa50fe487ff, type: 3}
@@ -750,7 +771,7 @@ RectTransform:
   m_GameObject: {fileID: 3539955750309322055}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.47, y: 0.47, z: 0.47}
+  m_LocalScale: {x: 0.38, y: 0.38, z: 0.38}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1492903999768741494}
@@ -758,7 +779,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -3}
+  m_AnchoredPosition: {x: 0, y: -20}
   m_SizeDelta: {x: 520, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7475401013043212232
@@ -776,6 +797,27 @@ MonoBehaviour:
   _dinosaurTransform: {fileID: 1492903999768741494}
   _dinosaurImage: {fileID: 1831275996827736506}
   _hatImage: {fileID: 7353029322418458014}
+  _hatLayout:
+    _headToBody:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0.36
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    _rotation: {x: 0, y: 0, z: 0, w: 1}
+    _flip: {x: 1, y: 1}
+    _widthRatio: 1.6470588
   _idleFrames:
   - {fileID: -1193820911090328509, guid: 40ab4ed91c0119b41a221aa50fe487ff, type: 3}
   - {fileID: -4782104476085066544, guid: 40ab4ed91c0119b41a221aa50fe487ff, type: 3}
