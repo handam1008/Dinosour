@@ -194,12 +194,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: da160f008df8364489d91fb72120d3a6, type: 2}
   - {fileID: 11400000, guid: 4dfb65ef7efbf854b8db5ded23004289, type: 2}
   - {fileID: 11400000, guid: 79efdf8bb0dc38842b0b84c1f4116392, type: 2}
-  _onSkillUsedChannel: {fileID: 11400000, guid: 242a9a411e0c303419898aada801c2f6, type: 2}
-  _onHitChannel: {fileID: 11400000, guid: ba1b79262c399f14ca5594cd639dfcfd, type: 2}
-  _onBasicAttackChannel: {fileID: 11400000, guid: 5eaa608756924d649b4ae7f1f45858dc, type: 2}
-  _onDamageCalculateChannel: {fileID: 11400000, guid: 8b0bb518d05abe6439397e4d6ec9c9b8, type: 2}
-  _onHealthChangedChannel: {fileID: 11400000, guid: 4bffae8994c8b2440973b7b481cec1f3, type: 2}
-  _onRoundStart: {fileID: 11400000, guid: 9c8587800cdcd4540a4d273e51a65e8f, type: 2}
+  onSkillUsedChannel: {fileID: 0}
+  onHitChannel: {fileID: 0}
+  onBasicAttackChannel: {fileID: 0}
+  onDamageCalculateChannel: {fileID: 0}
+  onHealthChangedChannel: {fileID: 0}
+  onRoundStart: {fileID: 0}
 --- !u!1 &1637142997079766566
 GameObject:
   m_ObjectHideFlags: 0
@@ -355,6 +355,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   _moveSpeed: 7
   _jumpForce: 12
+  _coyoteTime: 0.12
   _externalVelocityDecay: 12
   _counterMoveBrake: 30
   _whatIsGround:
@@ -373,7 +374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd12dbad8ce7b04f84301f21a2e2d69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  maxHealth: 1000
+  maxHealth: 70
   _disableOnDeath: 1
   _deathDisableDelay: 0.8
   _healthBarResourceName: HealthBarUI
@@ -925,6 +926,7 @@ MonoBehaviour:
   _playHatchOnStart: 1
   _hatchDuration: 3
   _hurtDuration: 0.35
+  _reviveDuration: 1
 --- !u!114 &3754696427986575859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -943,7 +945,11 @@ MonoBehaviour:
   m_Animator: {fileID: 2524480106949956336}
   TransitionStateInfoList: []
   AnimatorParameterEntries:
-    ParameterEntries: []
+    ParameterEntries:
+    - name: Attack
+      NameHash: 1080829965
+      Synchronize: 1
+      ParameterType: 9
   AnimatorParametersExpanded: 0
 --- !u!1 &9066210062518343385
 GameObject:
