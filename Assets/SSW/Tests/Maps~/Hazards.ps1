@@ -1,4 +1,4 @@
-param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges)
+param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges,[switch]$LavaOnly)
 $ErrorActionPreference='Stop'
 $Project=[IO.Path]::GetFullPath($Project).Replace('\','/')
 $root="$Project/Logs/Boundary/$Run"
@@ -54,7 +54,7 @@ try{
     Await 'playing' {$h.phase -eq 'Playing' -and $c.phase -eq 'Playing'}
     $step=Eval 'return UnityEngine.Time.fixedDeltaTime;'
     Eval 'foreach(var p in SSW.NetGame.Current.Players){typeof(SSW.Health).GetMethod("SetMax",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).Invoke(p.Health,new object[]{10000f});p.Health.Heal(10000f);}return true;'|Out-Null
-    if(-not $SkipEdges){
+    if(-not $SkipEdges -and -not $LavaOnly){
         for($index=0;$index -lt 14;$index++){
             $map=Map $index
             $result=Eval @'
@@ -89,7 +89,7 @@ for(int i=0;i<edges.arraySize;i++)
 return new{map=map.Title,checks=checks.ToArray(),hp=System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Select(g.Players,p=>new{id=p.OwnerClientId,hp=p.Health.Current}))};
 '@
             $result|ConvertTo-Json -Depth 8|Set-Content "$root/Edges$index.json"
-            Await 'boundary health replicated' {foreach($target in $result.hp){$p=$c.players|Where-Object id -eq $target.id;if([Math]::Abs($p.hp-$target.hp)>0.01){return $false}};return $true} 5
+            Await 'boundary health replicated' {foreach($target in $result.hp){$p=$c.players|Where-Object id -eq $target.id;if([Math]::Abs($p.hp-$target.hp) -gt 0.01){return $false}};return $true} 5
             Check ($result.checks.Count -eq 8) "$($map.title) four edges hurt both peers exactly once"
         }
     }
@@ -105,29 +105,36 @@ return new{map=map.Title,checks=checks.ToArray(),hp=System.Linq.Enumerable.ToArr
     Await 'server fireballs visible on client' {$h.embers.Count -gt 0 -and $c.embers.Count -gt 0 -and @($c.embers|Where-Object {$_.id -in $h.embers.id}).Count -gt 0} 8
     Check ($true) 'client displays fireballs with server particle ids'
     @{host=$h.embers;client=$c.embers}|ConvertTo-Json -Depth 8|Set-Content "$root/LavaSync.json"
-    $lava=Eval @'
+    $launch=@'
 var g=SSW.NetGame.Current;
 var effect=g.Arena.Map.GetComponentInChildren<SSW.Lava>().GetComponent<UnityEngine.ParticleSystem>();
 effect.Stop(true,UnityEngine.ParticleSystemStopBehavior.StopEmittingAndClear);
 var emission=effect.emission;emission.enabled=false;
-foreach(var p in g.Players){p.Drive.Teleport(new UnityEngine.Vector2(p.Side*4f,0f));p.Drive.Freeze(0.4f);}
-var result=new{mode=effect.main.simulationSpace.ToString(),z=effect.transform.position.z,mask=effect.collision.collidesWith.value,seed=effect.randomSeed,hp=System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Select(g.Players,p=>new{id=p.OwnerClientId,hp=p.Health.Current}))};
+var drift=effect.velocityOverLifetime;drift.enabled=false;
+var main=effect.main;main.gravityModifier=0f;
+foreach(var p in g.Players){p.Drive.Teleport(new UnityEngine.Vector2(p.Side*7f,6f));p.Drive.Freeze(2f);}
+UnityEngine.Physics2D.SyncTransforms();
+var scale=main.scalingMode==UnityEngine.ParticleSystemScalingMode.Hierarchy?effect.transform.lossyScale:main.scalingMode==UnityEngine.ParticleSystemScalingMode.Local?effect.transform.localScale:UnityEngine.Vector3.one;
+var space=UnityEngine.Matrix4x4.TRS(effect.transform.position,effect.transform.rotation,scale).inverse;
+var result=new{mode=main.simulationSpace.ToString(),scaling=main.scalingMode.ToString(),mask=effect.collision.collidesWith.value,hp=System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Select(g.Players,p=>new{id=p.OwnerClientId,hp=p.Health.Current,x=p.Body.position.x,y=p.Body.position.y}))};
 effect.Play();
 foreach(var p in g.Players)
 {
-    var point=p.Collider.bounds.center+UnityEngine.Vector3.left*1.5f;
+    var point=(UnityEngine.Vector3)p.Body.position+p.Collider.transform.TransformVector(p.Collider.offset)+UnityEngine.Vector3.left*2f;
     var velocity=UnityEngine.Vector3.right*12f;
-    if(effect.main.simulationSpace==UnityEngine.ParticleSystemSimulationSpace.Local){point=effect.transform.InverseTransformPoint(point);velocity=effect.transform.InverseTransformDirection(velocity);}
-    effect.Emit(new UnityEngine.ParticleSystem.EmitParams{position=point,velocity=velocity,startLifetime=1f,startSize=0.6f,applyShapeToPosition=false},1);
+    if(effect.main.simulationSpace==UnityEngine.ParticleSystemSimulationSpace.Local){point=space.MultiplyPoint3x4(point);velocity=space.MultiplyVector(velocity);}
+    effect.Emit(new UnityEngine.ParticleSystem.EmitParams{position=point,velocity=velocity,startLifetime=5f,startSize=0.1f,applyShapeToPosition=false},1);
 }
 return result;
 '@
+    $lava=Eval $launch
     $lava|ConvertTo-Json -Depth 6|Set-Content "$root/LavaBefore.json"
-    Await 'native fireball collisions damage both peers' {foreach($before in $lava.hp){$p=$c.players|Where-Object id -eq $before.id;if([Math]::Abs($p.hp-($before.hp-20))>0.01){return $false}};return $true} 4
+    Await 'native fireball collisions damage both peers' {foreach($before in $lava.hp){$p=$c.players|Where-Object id -eq $before.id;if([Math]::Abs($p.hp-($before.hp-20)) -gt 0.01){return $false}};return $true} 4
     Check ($true) 'native fireball collision applies 20 once to host and client'
     Await 'collided fireballs removed on both peers' {$h.embers.Count -eq 0 -and $c.embers.Count -eq 0} 3
     Check ($true) 'server collision removes client fireballs'
     @{host=$h;client=$c}|ConvertTo-Json -Depth 14|Set-Content "$root/LavaAfter.json"
+    if($LavaOnly){Write-Output "PASS lava runtime checks: $root";return}
     foreach($rider in @('host','client')){
     Map 13|Out-Null
     $code=@'
