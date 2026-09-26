@@ -141,17 +141,17 @@ MonoBehaviour:
   _map: {fileID: 785268417693363241}
   _edges:
   - Shape: {fileID: 250896436309642871}
-    Damage: 10
-    Force: {x: 0, y: 25}
+    Damage: 5
+    Force: {x: 0, y: 20}
   - Shape: {fileID: 8944992194751913809}
-    Damage: 10
-    Force: {x: 0, y: -25}
+    Damage: 5
+    Force: {x: 0, y: -20}
   - Shape: {fileID: 5002137156365402527}
-    Damage: 10
-    Force: {x: 25, y: 0}
+    Damage: 5
+    Force: {x: 20, y: 0}
   - Shape: {fileID: 8249304152773494068}
-    Damage: 10
-    Force: {x: -25, y: 0}
+    Damage: 5
+    Force: {x: -20, y: 0}
 --- !u!1001 &1653241562735928037
 PrefabInstance:
   m_ObjectHideFlags: 0
