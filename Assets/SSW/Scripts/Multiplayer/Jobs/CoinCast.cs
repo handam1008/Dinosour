@@ -67,11 +67,12 @@ namespace SSW
         void Roll()
         {
             WeaponState state = State;
-            bool guaranteed = Has(GamblerAugmentType.GuaranteedJackpot) && state.Progress >= 20;
+            bool available = !Jackpot;
+            bool guaranteed = available && Has(GamblerAugmentType.GuaranteedJackpot) && state.Progress >= 20;
             float luck = Has(GamblerAugmentType.Luck) ? 0.5f : 0f;
             float common = (Has(GamblerAugmentType.MoreChances) ? 5f : 7f) + luck;
-            JackpotResultType main = guaranteed ? JackpotResultType.Jackpot777 : RollTable(common, 1f + luck, Probability);
-            JackpotResultType old = Has(GamblerAugmentType.OldCoin) ? RollTable(1f + luck, 0f, 1f + luck) : JackpotResultType.None;
+            JackpotResultType main = guaranteed ? JackpotResultType.Jackpot777 : RollTable(common, 1f + luck, available ? Probability : 0f);
+            JackpotResultType old = Has(GamblerAugmentType.OldCoin) ? RollTable(1f + luck, 0f, available ? 1f + luck : 0f) : JackpotResultType.None;
             if (guaranteed) state.Progress = 0;
             else if (Has(GamblerAugmentType.GuaranteedJackpot)) state.Progress = Mathf.Min(20, state.Progress
                 + (main != JackpotResultType.None ? 1 : 0) + (old != JackpotResultType.None ? 1 : 0));
