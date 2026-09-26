@@ -19,6 +19,7 @@ namespace SSW
         [SerializeField] int _questHits = 2;
         [SerializeField] int _poisonTicks = 8;
         [SerializeField] float _shrinkCooldown = 5f;
+        [SerializeField] GunBalance _balance;
         [SerializeField] GunView _gunView;
         [SerializeField] GunFx _effects;
         readonly HashSet<GunnerAugmentType> _augments = new HashSet<GunnerAugmentType>();
@@ -104,11 +105,11 @@ namespace SSW
             int mask = 0;
             foreach (GunnerAugmentType type in _augments) mask |= 1 << (int)type;
             if (Has(GunnerAugmentType.AirBullet) && !target.Drive.Grounded) target.Drive.Launch(40f * scale);
-            if (Has(GunnerAugmentType.GravityBullet)) target.Drive.ApplyForce((target.Body.position - Player.Body.position).normalized * (50f * scale), ForceMode2D.Impulse);
-            if (Has(GunnerAugmentType.IceBullet)) target.Motion.ApplySlow(0.2f * scale, 1.5f * scale);
-            if (Has(GunnerAugmentType.FireBullet)) StartCoroutine(DamageOverTime(target, 3f * scale, 6, 0.5f));
-            if (Has(GunnerAugmentType.PoisonBullet)) ApplyPoison(target, 7f * scale);
-            if (Has(GunnerAugmentType.ShurikenBullet)) CombatDamage.Deal(this, target.Health, Vector2.Distance(Player.Body.position, target.Body.position) * 3f * scale, DamageTag.JobSkill);
+            if (Has(GunnerAugmentType.GravityBullet)) target.Drive.ApplyForce((target.Body.position - Player.Body.position).normalized * (_balance.GravityForce * scale), ForceMode2D.Impulse);
+            if (Has(GunnerAugmentType.IceBullet)) target.Motion.ApplySlow(_balance.IceSlow * scale, 1.5f * scale);
+            if (Has(GunnerAugmentType.FireBullet)) StartCoroutine(DamageOverTime(target, _balance.FireDamage * scale, 6, 0.5f));
+            if (Has(GunnerAugmentType.PoisonBullet)) ApplyPoison(target, _balance.PoisonDamage * scale);
+            if (Has(GunnerAugmentType.ShurikenBullet)) CombatDamage.Deal(this, target.Health, Vector2.Distance(Player.Body.position, target.Body.position) * _balance.ShurikenDamage * scale, DamageTag.JobSkill);
             GunProc proc = GunProc.None;
             if (Has(GunnerAugmentType.BeautifulFootStepAbility) && Time.time >= _hasteAt)
             {
