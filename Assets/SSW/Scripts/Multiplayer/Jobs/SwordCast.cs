@@ -6,12 +6,13 @@ namespace SSW
 {
     public sealed class SwordCast : JobCast, IIncomingDamageModifier, IDamageReceivedListener
     {
-        [SerializeField] float _damage = 30f;
+        [SerializeField] float _damage = 10f;
         [SerializeField] float _reach = 2f;
         [SerializeField] float _interval = 0.3f;
         [SerializeField] float _dashSpeed = 20f;
         [SerializeField] float _dashTime = 0.2f;
-        [SerializeField] float _dashCooldown = 1f;
+        [SerializeField] float _dashCooldown = 7f;
+        [SerializeField] float _parryCooldown = 6f;
         readonly HashSet<SwordPerk> _augments = new HashSet<SwordPerk>();
         readonly HashSet<ulong> _dashHits = new HashSet<ulong>();
         float _dashUntil;
@@ -46,7 +47,7 @@ namespace SSW
                     return true;
                 case CastKind.Parry:
                     if (input.Tick < state.Parry) return false;
-                    state.Parry = input.Tick + Cooldown(1.2f);
+                    state.Parry = input.Tick + Cooldown(_parryCooldown);
                     return true;
                 default:
                     return true;

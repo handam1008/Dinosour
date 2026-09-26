@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SSW
 {
-    public sealed class Swing : MonoBehaviour, IMapAction, IMapReset
+    public sealed class Swing : MonoBehaviour, IMapAction, IMapReset, IMapRider
     {
         [SerializeField] Rigidbody2D _body;
         [SerializeField] DistanceJoint2D _joint;
@@ -30,7 +30,7 @@ namespace SSW
         {
             Rigidbody2D rider = collision.rigidbody;
             if (rider == null || !rider.TryGetComponent<IForceReceiver>(out _)) return;
-            if (rider.TryGetComponent<NetPlayer>(out var player) && !player.IsServer) return;
+            if (rider.TryGetComponent<NetPlayer>(out _)) return;
             Vector2 velocity = rider.TryGetComponent<PlayerController>(out var motion)
                 ? motion.Velocity : rider.linearVelocity;
 
@@ -42,6 +42,16 @@ namespace SSW
                 _body.AddForceAtPosition(Vector2.right * (Mathf.Clamp(speed, -7f, 7f) * _push), point);
                 break;
             }
+        }
+
+        public void Ride(Vector2 point, Vector2 velocity, float mass, float gravity, float delta, bool landing)
+        {
+            if (!_body.simulated || _body.bodyType != RigidbodyType2D.Dynamic) return;
+            Vector2 relative = velocity - _body.GetPointVelocity(point);
+            Vector2 impulse = Vector2.right * (Mathf.Clamp(relative.x, -7f, 7f) * _push * delta)
+                + Vector2.up * (gravity * mass * delta);
+            if (landing) impulse.y += Mathf.Clamp(relative.y, -30f, 0f) * mass;
+            _body.AddForceAtPosition(impulse, point, ForceMode2D.Impulse);
         }
 
         public void Use()

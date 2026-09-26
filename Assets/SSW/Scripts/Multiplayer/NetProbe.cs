@@ -77,6 +77,8 @@ namespace SSW
             public bool charging;
             public uint action;
             public uint confirmed;
+            public uint skillReady;
+            public uint parryReady;
             public double readyIn;
             public int ammo;
             public int progress;
@@ -109,6 +111,12 @@ namespace SSW
             public ulong caster;
         }
 
+        [Serializable] sealed class EmberState
+        {
+            public uint id;
+            public Vector3 position;
+        }
+
         [Serializable] sealed class Snapshot
         {
             public SoundProbe.State audio;
@@ -138,6 +146,7 @@ namespace SSW
             public ulong mapObject;
             public Vector3[] mapSpawns;
             public Vector2[] mapBodies;
+            public EmberState[] embers;
             public bool menuOpen;
             public bool canResume;
             public string title;
@@ -169,6 +178,7 @@ namespace SSW
         }
 
         GameObject _ground;
+        readonly ParticleSystem.Particle[] _embers = new ParticleSystem.Particle[32];
         SoundProbe _audio;
         readonly NetTrace _trace = new NetTrace();
         float _measureAt;
@@ -411,6 +421,8 @@ namespace SSW
                     id = player.OwnerClientId, job = player.Job.ToString(), hp = player.Health.Current,
                     ammo = player.Cast.Weapon != null ? player.Cast.Weapon.Status.Ammo : 0,
                     progress = player.Cast.Weapon != null ? player.Cast.Weapon.Progress : 0,
+                    skillReady = player.Cast.Weapon != null ? player.Cast.Weapon.Status.Skill : 0,
+                    parryReady = player.Cast.Weapon != null ? player.Cast.Weapon.Status.Parry : 0,
                     hidden = player.Effects.Hidden, shrunk = player.Effects.Shrunk,
                     blind = player.Effects.BlindActive, immune = player.Effects.ImmuneActive,
                     damageScale = player.Cast.Weapon != null ? player.Cast.Weapon.DamageScale : 1f,
@@ -466,9 +478,19 @@ namespace SSW
             MatchState state = game.State;
             BattleMap map = game.Arena != null ? game.Arena.Map : null;
             var mapBodies = new List<Vector2>();
+            var embers = new List<EmberState>();
             if (map != null)
+            {
                 foreach (Rigidbody2D body in map.GetComponentsInChildren<Rigidbody2D>(true))
                     if (body.bodyType != RigidbodyType2D.Static) mapBodies.Add(body.position);
+                Lava lava = map.GetComponentInChildren<Lava>();
+                if (lava != null)
+                {
+                    int count = lava.GetComponent<ParticleSystem>().GetParticles(_embers);
+                    for (int i = 0; i < count; i++)
+                        embers.Add(new EmberState { id = _embers[i].randomSeed, position = _embers[i].position });
+                }
+            }
             Snapshot snapshot = new Snapshot
             {
                 physicsTime = game.PhysicsTime, serverTime = game.Connected ? game.Manager.ServerTime.Time : 0d,
@@ -486,6 +508,7 @@ namespace SSW
                 mapObject = map != null ? map.NetworkObjectId : 0,
                 mapSpawns = map != null ? new[] { map.Spawn(0), map.Spawn(1) } : Array.Empty<Vector3>(),
                 mapBodies = mapBodies.ToArray(),
+                embers = embers.ToArray(),
                 menuOpen = game.Menu != null && game.Menu.IsOpen,
                 canResume = game.Menu != null && game.Menu.CanResume,
                 title = game.Menu != null ? game.Menu.Title : string.Empty,

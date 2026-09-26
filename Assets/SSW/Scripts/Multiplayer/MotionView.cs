@@ -155,7 +155,7 @@ namespace SSW
                     _rate = _motion.Rate;
                     _speed = _rate.Value;
                     _player.ApplyInput(input);
-                    _motor.Step(ref _state, input, _speed, Time.fixedDeltaTime, _player.CanAct);
+                    Step(input);
                     _processed = input.Tick;
                 }
                 else
@@ -211,7 +211,7 @@ namespace SSW
                 _speed = _rate.Value;
                 _player.ApplyInput(input);
                 AdvancePulse(input, _player.CanAct);
-                _motor.Step(ref _state, input, _speed, Time.fixedDeltaTime, _player.CanAct);
+                Step(input);
                 _processed = tick;
                 _inputBudget.Spend(Time.fixedDeltaTime);
                 Commit();
@@ -227,7 +227,15 @@ namespace SSW
             if (Time.realtimeSinceStartupAsDouble - _lastInputAt > 0.12d) input.Move = Vector2.zero;
             input.Jump = _state.Jump;
             AdvancePulse(input, _player.CanAct);
-            _motor.Step(ref _state, input, _speed, Time.fixedDeltaTime, _player.CanAct);
+            Step(input);
+        }
+
+        void Step(MotionFrame input)
+        {
+            MotionState previous = _state;
+            bool playing = _player.CanAct;
+            _motor.Step(ref _state, input, _speed, Time.fixedDeltaTime, playing);
+            if (playing) _motor.Ride(previous, _state, Time.fixedDeltaTime);
         }
 
         void Commit()
@@ -236,10 +244,13 @@ namespace SSW
             _body.position = _state.Position;
             _body.linearVelocity = Vector2.zero;
             if (IsServer)
+            {
                 _positions[_processed % _positions.Length] = new CastSample
                 {
                     Tick = _processed, Epoch = _state.Epoch, Position = _state.Position
                 };
+                NetGame.Current.Arena.Map?.Touch(_player);
+            }
         }
 
         [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Owner, Delivery = RpcDelivery.Unreliable)]

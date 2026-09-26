@@ -128,6 +128,13 @@ namespace SSW
 
         public float PlatformHeight => _lastHit.bounds.max.y;
 
+        public void Ride(Vector2 position, Vector2 velocity, float gravity, float delta, bool landing)
+        {
+            Distance(position, Vector2.down, GroundReach, false, groundOnly: true);
+            if (_lastHit != null && _lastHit.TryGetComponent<IMapRider>(out var rider))
+                rider.Ride(_lastPoint, velocity, _shape.attachedRigidbody.mass, gravity, delta, landing);
+        }
+
         public bool Grounded(Vector2 position, bool dropping, float dropTop = 0f)
         {
             Distance(position, Vector2.down, GroundReach, dropping, dropTop, groundOnly: true);

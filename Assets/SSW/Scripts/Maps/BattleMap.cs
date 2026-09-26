@@ -10,6 +10,7 @@ namespace SSW
         [SerializeField] SpawnPoints _spawns;
         [SerializeField] Bounds _bounds;
         [SerializeField] float _fallY = -14f;
+        [SerializeField] MapEdges _edges;
         [SerializeField] Behaviour[] _serverOnly;
         readonly HashSet<ulong> _ready = new HashSet<ulong>();
 
@@ -18,6 +19,7 @@ namespace SSW
         public float FallY => _fallY;
         public bool Ready => IsServer && _ready.Count == NetworkManager.ConnectedClientsIds.Count;
         public Vector3 Spawn(int slot) => _spawns.At(slot);
+        public void Touch(NetPlayer player) => _edges.Touch(player);
 
         public override void OnNetworkSpawn()
         {

@@ -1256,6 +1256,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2687422068019725755, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: a8fca4245ed7ded41946c5499acb5650, type: 2}
+    - target: {fileID: 2687422068019725755, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
       propertyPath: m_Interpolate
       value: 0
       objectReference: {fileID: 0}
@@ -1267,6 +1271,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4251979090183284226, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 6200000, guid: a8fca4245ed7ded41946c5499acb5650, type: 2}
     - target: {fileID: 6163778109499660571, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -1844,12 +1852,13 @@ MonoBehaviour:
   Player: {fileID: 3278762098247593300}
   _source: {fileID: 4814471823624826006}
   _view: {fileID: 7242114013962689088}
-  _damage: 30
+  _damage: 10
   _reach: 2
   _interval: 0.3
   _dashSpeed: 20
   _dashTime: 0.2
-  _dashCooldown: 1
+  _dashCooldown: 7
+  _parryCooldown: 6
 --- !u!114 &8193348028431366631
 MonoBehaviour:
   m_ObjectHideFlags: 0
