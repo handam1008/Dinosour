@@ -23,7 +23,7 @@ try
         {
             var edges = map.GetComponent<SSW.MapEdges>();
             Check(edges != null && new UnityEditor.SerializedObject(map).FindProperty("_edges").objectReferenceValue == edges, prefab.Title + " edge binding");
-            Check(map.GetComponentsInChildren<KDH.Scripts.Objects.KDH_TouchScrrenOutline>(true).Length == 0, prefab.Title + " no legacy double hit");
+            Check(map.GetComponentsInChildren<KDH.Scripts.Objects.KDH_TouchScreenOutline>(true).Length == 0, prefab.Title + " no legacy double hit");
             var settings = new UnityEditor.SerializedObject(edges);
             var entries = settings.FindProperty("_edges");
             Check(entries.arraySize == 4, prefab.Title + " four edges");
