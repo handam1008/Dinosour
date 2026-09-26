@@ -505,7 +505,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
   damage: 5
-  knockbackForce: 150
+  knockbackForce: 25
   direction: {x: 0, y: 1}
 --- !u!1 &765826687546830393
 GameObject:
@@ -1500,7 +1500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
   damage: 5
-  knockbackForce: 150
+  knockbackForce: 25
   direction: {x: 1, y: 0}
 --- !u!1 &3666545889375096959
 GameObject:
@@ -2438,7 +2438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
   damage: 5
-  knockbackForce: 150
+  knockbackForce: 25
   direction: {x: 0, y: -1}
 --- !u!1 &6490731254070310477
 GameObject:
@@ -8080,7 +8080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
   damage: 5
-  knockbackForce: 150
+  knockbackForce: 25
   direction: {x: -1, y: 0}
 --- !u!1 &8413879465488952716
 GameObject:
