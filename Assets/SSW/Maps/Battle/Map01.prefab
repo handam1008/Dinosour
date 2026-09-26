@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8210778187083437817}
-  - component: {fileID: 2516686165121791000}
   - component: {fileID: 6265722759125516319}
+  - component: {fileID: 2516686165121791000}
   - component: {fileID: 4387489776836691076}
   - component: {fileID: 3463062243992054757}
   - component: {fileID: 8036509197673117081}
@@ -37,6 +37,33 @@ Transform:
   - {fileID: 5387664170243857024}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6265722759125516319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3091535368846835163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
+  GlobalObjectIdHash: 3299073754
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  m_InScenePlacedDisabledByDefault: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  m_InScenePlaced: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &2516686165121791000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,33 +86,6 @@ MonoBehaviour:
   _edges: {fileID: 8036509197673117081}
   _serverOnly:
   - {fileID: 8096591227348237197}
---- !u!114 &6265722759125516319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3091535368846835163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
-  InScenePlacedSourceGlobalObjectIdHash: 0
-  m_InScenePlacedDisabledByDefault: 0
-  DeferredDespawnTick: 0
-  Ownership: 1
-  AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
-  m_InScenePlaced: 0
-  ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
-  SpawnWithObservers: 1
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1
-  SyncOwnerTransformWhenParented: 1
-  AllowOwnerToParent: 0
 --- !u!114 &4387489776836691076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -143,17 +143,17 @@ MonoBehaviour:
   _map: {fileID: 2516686165121791000}
   _edges:
   - Shape: {fileID: 8245814908197446769}
-    Damage: 10
-    Force: {x: 0, y: 50}
+    Damage: 5
+    Force: {x: 0, y: 20}
   - Shape: {fileID: 8565999204430762820}
-    Damage: 10
-    Force: {x: 0, y: -50}
+    Damage: 5
+    Force: {x: 0, y: -20}
   - Shape: {fileID: 6995483297893493959}
-    Damage: 10
-    Force: {x: 50, y: 0}
+    Damage: 5
+    Force: {x: 20, y: 0}
   - Shape: {fileID: 3693537729355463884}
-    Damage: 10
-    Force: {x: -50, y: 0}
+    Damage: 5
+    Force: {x: -20, y: 0}
 --- !u!1001 &7172691678384116443
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -371,7 +371,7 @@ MonoBehaviour:
   _shape: {fileID: 4854232132737274797}
   _phase: {fileID: 0}
   _damage: 10
-  _force: 150
+  _force: 25
   _delay: 0
   _interval: 0
   _slow: 0

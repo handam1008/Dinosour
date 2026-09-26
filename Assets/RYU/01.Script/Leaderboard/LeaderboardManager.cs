@@ -57,9 +57,7 @@ namespace RYU._01.Script.Leaderboard
 
         private async Task SignOut()
         {
-            // true = 저장된 로그인 기록도 지움. 안 지우면 로그아웃해도 자동 로그인됨
             AuthenticationService.Instance.SignOut(true);
-            SceneManager.LoadScene("Login");
         }
 
         public async Task LoadAllScore()
