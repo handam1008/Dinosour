@@ -19,28 +19,39 @@ namespace SSW
         const int PlayerLimit = 2;
         static MultiplayerSessionManager _instance;
         string _sessionType = SessionType;
-        readonly List<MultiplayerRoomInfo> _rooms = new List<MultiplayerRoomInfo>();
+        readonly RoomCatalog _rooms = new RoomCatalog();
         NetGame _network;
         Task _initializeTask;
         Task _operation = Task.CompletedTask;
+        Task _roomQuery = Task.CompletedTask;
         ISession _session;
         bool _busy;
         bool _destroyed;
         bool _cancelled;
         bool _matching;
         bool _starting;
+        bool _closing;
+        bool _ended;
+        bool _quitting;
+        bool _quitReady;
+        double _closeAt;
+        bool _listing;
+        int _revision;
         string _status = string.Empty;
 
         public static MultiplayerSessionManager Current => _instance;
         public event Action Changed;
-        public IReadOnlyList<MultiplayerRoomInfo> Rooms => _rooms;
+        public IReadOnlyList<MultiplayerRoomInfo> Rooms => _rooms.Items;
+        public int RoomsVersion => _rooms.Version;
         public bool IsBusy => _busy;
+        public bool IsRefreshing => _listing;
         public bool IsMatching => _matching;
         public bool IsInSession => _session != null;
         public bool IsHost => _session != null && _session.IsHost;
         public bool CanStart => IsHost && _network.Ready && !_busy && !_starting;
         public string Status => _status;
         public string RoomName => _session != null ? _session.Name : string.Empty;
+        public string RoomId => _session != null ? _session.Id : string.Empty;
         public string JoinCode => _session != null ? _session.Code : string.Empty;
         public int PlayerCount => _session != null ? _session.PlayerCount : 0;
         public bool HasNetworkPlayer => _network != null && _network.HasPlayerPrefab;
@@ -63,22 +74,52 @@ namespace SSW
             DontDestroyOnLoad(gameObject);
             _network = NetGame.GetOrCreate();
             _network.ConnectionChanged += NotifyChanged;
+            Application.wantsToQuit += WantsToQuit;
         }
 
-        public Task RefreshRoomsAsync()
+        public Task RefreshRoomsAsync(bool silent = false)
         {
-            return RunAsync(async () =>
+            if (_destroyed) return Task.FromException(new ObjectDisposedException(nameof(MultiplayerSessionManager)));
+            if (_busy || IsInSession) return Task.CompletedTask;
+            if (_listing) return _roomQuery;
+            _listing = true;
+            NotifyChanged();
+            _roomQuery = ReadRooms(silent, _revision);
+            return _roomQuery;
+        }
+
+        async Task ReadRooms(bool silent, int revision)
+        {
+            if (!silent) SetStatus("방 목록을 불러오는 중...");
+            try
             {
-                SetStatus("방 목록을 불러오는 중...");
                 await EnsureInitializedAsync();
-                CheckCancel();
+                if (!CanApplyRooms(revision)) return;
                 QuerySessionsResults result = await MultiplayerService.Instance.QuerySessionsAsync(Query("room"));
-                CheckCancel();
-                _rooms.Clear();
-                foreach (ISessionInfo room in result.Sessions)
-                    _rooms.Add(new MultiplayerRoomInfo(room.Id, room.Name, room.MaxPlayers - room.AvailableSlots, room.HasPassword));
-                SetStatus(_rooms.Count == 0 ? "현재 참가할 수 있는 방이 없습니다" : string.Empty);
-            });
+                if (!CanApplyRooms(revision)) return;
+                _rooms.Replace(result.Sessions.Select(room => new MultiplayerRoomInfo(
+                    room.Id, room.Name, room.MaxPlayers - room.AvailableSlots, room.HasPassword)), Time.unscaledTimeAsDouble);
+                SetStatus(Rooms.Count == 0 ? "현재 참가할 수 있는 방이 없습니다" : string.Empty);
+            }
+            catch (Exception error)
+            {
+                if (CanApplyRooms(revision))
+                {
+                    _rooms.Clear();
+                    SetStatus(ToReadableMessage(error));
+                }
+                throw;
+            }
+            finally
+            {
+                _listing = false;
+                NotifyChanged();
+            }
+        }
+
+        bool CanApplyRooms(int revision)
+        {
+            return !_destroyed && !_busy && !IsInSession && revision == _revision;
         }
 
         public Task CreateRoomAsync(MultiplayerRoomRequest request)
@@ -107,8 +148,18 @@ namespace SSW
                 await EnsureInitializedAsync();
                 CheckCancel();
                 await PrepareNetwork();
-                var session = await MultiplayerService.Instance.JoinSessionByIdAsync(roomId, JoinOptions(password));
-                await Accept(session);
+                try
+                {
+                    var session = await MultiplayerService.Instance.JoinSessionByIdAsync(roomId, JoinOptions(password));
+                    await Accept(session);
+                }
+                catch (SessionException error) when (Unavailable(error))
+                {
+                    _rooms.Reject(roomId, Time.unscaledTimeAsDouble);
+                    NotifyChanged();
+                    await Drop();
+                    throw;
+                }
                 SetStatus(string.Empty);
             });
         }
@@ -207,6 +258,12 @@ namespace SSW
                 error.Error == SessionError.NetworkSetupFailed;
         }
 
+        static bool Unavailable(SessionException error)
+        {
+            return error.Error == SessionError.SessionNotFound || error.Error == SessionError.SessionDeleted ||
+                error.Error == SessionError.SessionConflict || CanRetry(error);
+        }
+
         async Task MergeMatch()
         {
             ISession waiting = _session;
@@ -290,12 +347,17 @@ namespace SSW
 
         async Task Accept(ISession session)
         {
-            if (_cancelled)
+            SetSession(session);
+            if (_cancelled || _destroyed)
             {
-                await session.LeaveAsync();
+                await Drop();
                 CheckCancel();
             }
-            SetSession(session);
+            if (!_network.Connected)
+            {
+                await Drop();
+                throw new SessionException("방 연결이 종료되었습니다", SessionError.NetworkManagerStartFailed, null);
+            }
             if (_matching) SetStatus("상대를 찾는 중...");
         }
 
@@ -313,19 +375,33 @@ namespace SSW
             if (leaving == null && UnityServices.State == ServicesInitializationState.Initialized)
                 MultiplayerService.Instance.Sessions.TryGetValue(_sessionType, out leaving);
             if (leaving == null) return;
-            SetSession(null);
+            _closing = true;
             try
             {
-                await leaving.LeaveAsync();
+                await CloseSession(leaving);
+                SetSession(null);
+            }
+            finally
+            {
+                _closing = false;
+            }
+        }
+
+        async Task CloseSession(ISession leaving)
+        {
+            try
+            {
+                if (leaving.IsHost) await leaving.AsHost().DeleteAsync();
+                else await leaving.LeaveAsync();
             }
             catch (SessionException error) when (
                 error.Error == SessionError.SessionNotFound ||
                 error.Error == SessionError.SessionDeleted ||
-                error.Error == SessionError.InvalidOperation && !leaving.IsMember)
+                (error.Error == SessionError.InvalidOperation || error.Error == SessionError.NotInLobby) && !leaving.IsMember)
             {
                 await Task.Yield();
                 if (!MultiplayerService.Instance.Sessions.ContainsKey(leaving.Type)) return;
-                if (leaving.IsHost)
+                if (leaving.IsHost && leaving.IsMember)
                 {
                     await leaving.AsHost().DeleteAsync();
                     return;
@@ -366,6 +442,7 @@ namespace SSW
             if (_destroyed) return Task.FromException(new ObjectDisposedException(nameof(MultiplayerSessionManager)));
             if (_busy) return Task.FromException(new InvalidOperationException("이전 작업이 끝날 때까지 잠시 기다려주세요"));
             _busy = true;
+            _revision++;
             _cancelled = false;
             Changed?.Invoke();
             _operation = ExecuteAsync(operation);
@@ -445,11 +522,14 @@ namespace SSW
             UnbindSession();
             _session = session;
             _starting = false;
+            _ended = false;
+            _closeAt = 0;
             if (_session != null)
             {
                 _session.Changed += NotifyChanged;
                 _session.RemovedFromSession += HandleSessionEnded;
                 _session.Deleted += HandleSessionEnded;
+                _session.SessionHostChanged += HandleHostChanged;
             }
             Changed?.Invoke();
         }
@@ -460,17 +540,77 @@ namespace SSW
             _session.Changed -= NotifyChanged;
             _session.RemovedFromSession -= HandleSessionEnded;
             _session.Deleted -= HandleSessionEnded;
+            _session.SessionHostChanged -= HandleHostChanged;
         }
 
         void NotifyChanged()
         {
+            if (!_closing && _session != null && !_network.Connected) _ended = true;
             Changed?.Invoke();
         }
 
         void HandleSessionEnded()
         {
-            SetSession(null);
-            SetStatus("방 연결이 종료되었습니다");
+            if (!_closing) _ended = true;
+        }
+
+        void HandleHostChanged(string host)
+        {
+            HandleSessionEnded();
+        }
+
+        void Update()
+        {
+            if (!_ended || _busy || _matching || _quitting || Time.unscaledTimeAsDouble < _closeAt) return;
+            _ended = false;
+            _ = EndSession();
+        }
+
+        async Task EndSession()
+        {
+            try
+            {
+                await RunAsync(async () =>
+                {
+                    await Drop();
+                    SetStatus("방 연결이 종료되었습니다");
+                });
+            }
+            catch (Exception)
+            {
+                _ended = true;
+                _closeAt = Time.unscaledTimeAsDouble + 5d;
+            }
+        }
+
+        bool WantsToQuit()
+        {
+            if (_quitReady || _session == null && !_busy) return true;
+            if (!_quitting)
+            {
+                _quitting = true;
+                _ = Quit();
+            }
+            return false;
+        }
+
+        async Task Quit()
+        {
+            Task leave = CancelAsync();
+            try
+            {
+                if (await Task.WhenAny(leave, Task.Delay(5000)) == leave) await leave;
+                else _ = Observe(leave);
+            }
+            catch (Exception) { }
+            _quitReady = true;
+            Application.Quit();
+        }
+
+        static async Task Observe(Task operation)
+        {
+            try { await operation; }
+            catch (Exception) { }
         }
 
         void SetStatus(string value)
@@ -498,6 +638,7 @@ namespace SSW
             _cancelled = true;
             Changed = null;
             UnbindSession();
+            Application.wantsToQuit -= WantsToQuit;
             if (_network != null) _network.ConnectionChanged -= NotifyChanged;
             _instance = null;
         }
