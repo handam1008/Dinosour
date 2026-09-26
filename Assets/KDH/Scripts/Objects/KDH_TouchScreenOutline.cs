@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace KDH.Scripts.Objects
 {
-    public class KDH_TouchScrrenOutline : MonoBehaviour
+    public class KDH_TouchScreenOutline : MonoBehaviour
     {
         [SerializeField] private float damage;
         [SerializeField] private float knockbackForce;
