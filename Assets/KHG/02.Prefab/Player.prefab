@@ -542,9 +542,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.KHG_nomalAttack
   swordAnimator: {fileID: 1955361861849173555}
   attackTriggerName: Attack
-  damage: 15
-  attackDuration: 1
-  attackCooldown: 2
+  damage: 20
+  attackDuration: 0.1
+  attackCooldown: 0.8
   attackCollider: {fileID: 2491292582917596113}
 --- !u!61 &2491292582917596113
 BoxCollider2D:
