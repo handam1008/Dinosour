@@ -13,6 +13,7 @@ namespace SSW
         [SerializeField] CanvasGroup _settingsPanel;
         [SerializeField] CanvasGroup _leaderboardPanel;
         [SerializeField] LeaderboardPanel _leaderboard;
+        [SerializeField] CanvasGroup _customPanel;
         [SerializeField] RectTransform _title;
         [SerializeField] Text _statusText;
         [SerializeField] MultiplayerMenuUI _multiplayerMenuPrefab;
@@ -49,6 +50,7 @@ namespace SSW
             _jobPanel.gameObject.SetActive(false);
             _settingsPanel.gameObject.SetActive(false);
             if (_leaderboardPanel != null) _leaderboardPanel.gameObject.SetActive(false);
+            if (_customPanel != null) _customPanel.gameObject.SetActive(false);
             ShowMain();
             PlayTitleIntro();
         }
@@ -90,10 +92,16 @@ namespace SSW
             _leaderboard.Refresh();
         }
 
+        public void ShowCustom()
+        {
+            if (_customPanel == null) return;
+            ShowPanel(_customPanel);
+        }
+
         void ShowPanel(CanvasGroup target)
         {
             if (_current == target) return;
-            _title.gameObject.SetActive(target != _jobPanel && target != _leaderboardPanel);
+            _title.gameObject.SetActive(target != _jobPanel && target != _leaderboardPanel && target != _customPanel);
             CanvasGroup previous = _current;
             if (previous != null)
             {
