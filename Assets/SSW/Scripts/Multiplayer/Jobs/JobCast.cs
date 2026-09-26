@@ -132,13 +132,30 @@ namespace SSW
 
         protected void Melee(Vector2 origin, Vector2 direction, double lag, float reach, float radius, System.Action<NetPlayer> hit)
         {
-            Vector2 end = origin + direction.normalized * reach;
+            /*Vector2 end = origin + direction.normalized * reach;
             if (ShotQuery.Ground(origin, end, radius, Player.GroundMask, out RaycastHit2D wall)) end = wall.centroid;
             double time = NetGame.Current.PhysicsTime - lag;
             foreach (NetPlayer target in NetGame.Current.Players)
             {
                 if (target == Player || !target.CanAct) continue;
                 if (target.SweepHit(origin, end, time, time, radius, out _)) hit(target);
+            }*/
+            
+            //판정 좀더 좋아진 코드 / NKY수정 (위는 기존 코드)
+            Vector2 dir = direction.sqrMagnitude > 0.0001f ? direction.normalized : Vector2.right;
+            Vector2 end = origin + dir * reach;
+            double time = NetGame.Current.PhysicsTime - lag;
+            
+            foreach (NetPlayer target in NetGame.Current.Players)
+            {
+                if (target == Player || !target.CanAct) continue;
+                if (!target.SweepHit(origin, end, time, time, radius, out float fraction)) continue;
+                
+                Vector2 hitPoint = Vector2.Lerp(origin, end, fraction);
+                
+                if (ShotQuery.GroundRay(origin, hitPoint, Player.GroundMask, out _)) continue;
+
+                hit(target);
             }
         }
 

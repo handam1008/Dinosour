@@ -6,6 +6,48 @@ namespace SSW
     {
         static readonly RaycastHit2D[] Hits = new RaycastHit2D[16];
         static readonly Collider2D[] Contacts = new Collider2D[16];
+        
+        public static bool GroundRay(
+            Vector2 from,
+            Vector2 to,
+            int mask,
+            out RaycastHit2D hit)
+        {
+            Vector2 travel = to - from;
+
+            hit = default;
+
+            if (travel.sqrMagnitude <= 0.000001f)
+                return false;
+
+            Vector2 direction = travel.normalized;
+            float distance = travel.magnitude;
+
+            var filter = new ContactFilter2D
+            {
+                useTriggers = false
+            };
+
+            filter.SetLayerMask(mask);
+
+            int count = Physics2D.Raycast(
+                from,
+                direction,
+                filter,
+                Hits,
+                distance);
+
+            for (int i = 0; i < count; i++)
+            {
+                if (Hits[i].collider == null)
+                    continue;
+
+                if (hit.collider == null || Hits[i].distance < hit.distance)
+                    hit = Hits[i];
+            }
+
+            return hit.collider != null;
+        }
 
         public static bool Ground(Vector2 from, Vector2 to, float radius, int mask, out RaycastHit2D hit)
             => Ground(from, to, radius, default, mask, out hit);
