@@ -10,7 +10,7 @@ foreach (var map in rotation.Prefabs)
     var root = UnityEditor.PrefabUtility.LoadPrefabContents(path);
     try
     {
-        var original = root.GetComponentsInChildren<KDH.Scripts.Objects.KDH_TouchScrrenOutline>(true);
+        var original = root.GetComponentsInChildren<KDH.Scripts.Objects.KDH_TouchScreenOutline>(true);
         if (original.Length == 0 && root.GetComponent<SSW.MapEdges>() != null)
         {
             var binding = new UnityEditor.SerializedObject(root.GetComponent<SSW.BattleMap>());
@@ -42,7 +42,7 @@ foreach (var map in rotation.Prefabs)
         for (int i = 0; i < serverOnly.arraySize; i++)
         {
             var item = serverOnly.GetArrayElementAtIndex(i).objectReferenceValue;
-            if (item != null && item is not KDH.Scripts.Objects.KDH_TouchScrrenOutline) retained.Add(item);
+            if (item != null && item is not KDH.Scripts.Objects.KDH_TouchScreenOutline) retained.Add(item);
         }
         serverOnly.arraySize = retained.Count;
         for (int i = 0; i < retained.Count; i++) serverOnly.GetArrayElementAtIndex(i).objectReferenceValue = retained[i];

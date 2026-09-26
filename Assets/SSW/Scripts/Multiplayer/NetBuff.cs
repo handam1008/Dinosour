@@ -18,6 +18,7 @@ namespace SSW
         public float AirJumpRatio => _skill.AirJumpRatio;
         public bool Has(CommonAugmentType type) => _owned.Contains(type);
         public bool Owns(Augment augment) => _assets.Contains(augment);
+        public void SetBaseHealth(float value) => _health.SetBase(value);
 
         void Awake() => _source.AugmentGranted += Granted;
 

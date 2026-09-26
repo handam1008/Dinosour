@@ -25,13 +25,16 @@ namespace SSW
         [SerializeField] SpriteRenderer _hand;
         [SerializeField] SpriteRenderer _reserve;
         [SerializeField] CooldownCursorUI _cooldown;
-        [SerializeField] float _cardCooldown = 3f;
-        [SerializeField] float _cycle = 1.5f;
         readonly NetworkVariable<int> _suit = new NetworkVariable<int>();
         readonly NetworkVariable<int> _rank = new NetworkVariable<int>(1);
-        readonly NetworkVariable<PotionState> _potions = new NetworkVariable<PotionState>(new PotionState { Held = -1, Next = -1 });
+        readonly NetworkVariable<PotionState> _potions = new NetworkVariable<PotionState>(new PotionState { Held = -1, Next = -1, Pocket = -1 });
         readonly CastStock _inventory = new CastStock();
-        readonly List<CastInput> _stockPending = new List<CastInput>();
+        struct StockInput
+        {
+            public CastInput Input;
+            public int Kind;
+        }
+        readonly List<StockInput> _stockPending = new List<StockInput>();
         public struct PotionState : INetworkSerializable, System.IEquatable<PotionState>
         {
             public uint Revision;
@@ -39,8 +42,11 @@ namespace SSW
             public uint Epoch;
             public uint HeldId;
             public uint NextId;
+            public uint PocketId;
             public int Held;
             public int Next;
+            public int Pocket;
+            public bool PocketUsed;
 
             public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
             {
@@ -49,13 +55,17 @@ namespace SSW
                 serializer.SerializeValue(ref Epoch);
                 serializer.SerializeValue(ref HeldId);
                 serializer.SerializeValue(ref NextId);
+                serializer.SerializeValue(ref PocketId);
                 serializer.SerializeValue(ref Held);
                 serializer.SerializeValue(ref Next);
+                serializer.SerializeValue(ref Pocket);
+                serializer.SerializeValue(ref PocketUsed);
             }
 
             public bool Equals(PotionState other) => Revision == other.Revision && Action == other.Action
                 && Epoch == other.Epoch && HeldId == other.HeldId && NextId == other.NextId
-                && Held == other.Held && Next == other.Next;
+                && Held == other.Held && Next == other.Next && PocketId == other.PocketId
+                && Pocket == other.Pocket && PocketUsed == other.PocketUsed;
         }
         readonly NetworkVariable<uint> _seed = new NetworkVariable<uint>();
         readonly NetworkVariable<double> _showUntil = new NetworkVariable<double>();
@@ -86,8 +96,11 @@ namespace SSW
         double _waitingUntil;
         int _localHeld = -1;
         int _localNext = -1;
+        int _localPocket = -1;
         uint _localHeldId;
         uint _localNextId;
+        uint _localPocketId;
+        bool _localPocketUsed;
         uint _seenStock;
         bool _rollingSuit;
         bool _rollingRank;
@@ -122,8 +135,10 @@ namespace SSW
         public uint Confirmed => _confirmed;
         public bool Charging => _rollingRank;
         public int DisplayHeld => IsOwner && !IsServer ? _localHeld : _potions.Value.Held;
+        public int Pocket => IsOwner && !IsServer ? _localPocket : _potions.Value.Pocket;
+        public bool PocketUsed => IsOwner && !IsServer ? _localPocketUsed : _potions.Value.PocketUsed;
         bool Anticipating => IsOwner && !IsServer && (_action > _confirmed || _confirmed > _version.Value) && Time.unscaledTimeAsDouble < _waitingUntil;
-        float CardCooldown => _cardCooldown * CooldownScale;
+        float CardCooldown => _player.Stats.AttackInterval * CooldownScale;
         double Now => IsOwner && !IsServer ? NetworkManager.LocalTime.Time : NetGame.Current.ServerTime;
         float ResponseTime => CastWait;
 
@@ -142,7 +157,7 @@ namespace SSW
             }
             else if (IsOwner) SyncStock(_potions.Value);
             if (IsOwner && !IsServer)
-                _preview = new CastView(_cards, _player.GroundMask, _cardPrefab.PreviewRadius, _player, NetGame.Current.Players);
+                _preview = new CastView(_cards, _player.GroundMask, _cardPrefab.PreviewRadius(_player.Stats.Flight.Scale), _player, NetGame.Current.Players);
         }
 
         uint Begin()
@@ -169,19 +184,20 @@ namespace SSW
             {
                 if (_player.Job == PlayerJob.Witch && pressed && _localHeld >= 0 && Time.unscaledTimeAsDouble >= _throwAt && _player.CastTick >= _throwTick)
                 {
-                    _throwAt = Time.unscaledTimeAsDouble + 0.15d;
-                    _throwTick = _player.CastTick + Ticks(0.15d);
+                    _throwAt = Time.unscaledTimeAsDouble + _player.Stats.AttackInterval;
+                    _throwTick = _player.CastTick + Ticks(_player.Stats.AttackInterval);
                     int kind = _localHeld;
                     ShotKind = kind;
-                    _stockPending.Add(new CastInput { Action = action, Epoch = _player.Epoch, Stock = stock });
+                    _stockPending.Add(new StockInput { Input = new CastInput { Action = action, Epoch = _player.Epoch, Stock = stock, Kind = CastKind.Press }, Kind = kind });
                     ConsumeLocal(stock);
-                    Vector2 velocity = direction * 15f + Vector2.up * 3f;
+                    Vector2 velocity = direction * _player.Stats.Flight.Speed + Vector2.up * _player.Stats.ThrowLift;
                     int count = _witch.ProjectileCount;
                     for (int i = 0; i < count; i++)
                     {
-                        float angle = count == 1 ? 0f : (i / (float)(count - 1) - 0.5f) * 24f;
+                        float angle = count == 1 ? 0f : (i / (float)(count - 1) - 0.5f) * _player.Stats.Spread;
                         Vector2 spread = Quaternion.Euler(0f, 0f, angle) * velocity;
-                        _preview.Potion(action, i, _hand.transform.position, spread, _potionPrefab.Style, _stock.At(kind).sprite, _potionPrefab.Gravity, ResponseTime, _potionPrefab.Size);
+                        _preview.Potion(action, i, _hand.transform.position, spread, _potionPrefab.Style, _stock.At(kind).sprite,
+                            _player.Stats.Flight.Gravity, ResponseTime, _potionPrefab.PreviewSize(_player.Stats.Flight));
                     }
                     PredictSound(action, CastKind.Press);
                     FeedbackAt = Time.unscaledTimeAsDouble;
@@ -209,7 +225,7 @@ namespace SSW
                         _localShow = Now + 1.4d;
                         Origin = _player.Body.position;
                         ShotTick = _player.CastTick;
-                        _preview.Card(action, _player.View.position, direction, Suit, Rank, _magic.FireDelay, _cardPrefab.Gravity, ResponseTime);
+                        _preview.Card(action, _player.View.position, direction, Suit, Rank, _magic.FireDelay, _player.Stats.Flight.Gravity, ResponseTime);
                         FeedbackAt = Time.unscaledTimeAsDouble;
                     }
                 }
@@ -238,6 +254,14 @@ namespace SSW
         {
             if (!IsSpawned || !IsOwner || !_player.CanAttack) return;
             uint action = Begin();
+            uint stock = _player.Job == PlayerJob.Witch ? (IsServer ? _potions.Value.HeldId : _localHeldId) : 0;
+            int potion = _localHeld;
+            if (!IsServer && _player.Job == PlayerJob.Witch && pressed && _witch.Has(WitchAugmentType.Pocket) && SwapLocal(stock, potion, false))
+            {
+                _stockPending.Add(new StockInput { Input = new CastInput { Action = action, Epoch = _player.Epoch, Stock = stock, Kind = CastKind.Cycle }, Kind = potion });
+                PredictSound(action, CastKind.Cycle);
+                FeedbackAt = Time.unscaledTimeAsDouble;
+            }
             if (!IsServer && _player.Job == PlayerJob.Magician && !_rollingRank)
             {
                 if (pressed) _suitStart = _player.CastTick;
@@ -251,7 +275,7 @@ namespace SSW
             if (!IsServer && _jobCast != null)
                 _jobCast.Predict(new CastInput { Action = action, Epoch = _player.Epoch, Tick = _player.CastTick,
                     Kind = pressed ? CastKind.Cycle : CastKind.StopCycle, Direction = direction });
-            Send(action, pressed ? CastKind.Cycle : CastKind.StopCycle, direction);
+            Send(action, pressed ? CastKind.Cycle : CastKind.StopCycle, direction, stock);
         }
 
         public void Parry()
@@ -364,6 +388,13 @@ namespace SSW
             }
             if (input.Kind == CastKind.Cycle || input.Kind == CastKind.StopCycle)
             {
+                if (_player.Job == PlayerJob.Witch)
+                {
+                    if (input.Kind == CastKind.StopCycle) return true;
+                    if (!_witch.Has(WitchAugmentType.Pocket) || !_inventory.Swap(input.Stock, input.Epoch, Now)) return false;
+                    ShareSound(input.Action, CastKind.Cycle);
+                    return true;
+                }
                 if (_player.Job != PlayerJob.Magician || _rollingRank) return false;
                 bool cycling = input.Kind == CastKind.Cycle;
                 if (cycling) _suitStart = input.Tick;
@@ -385,7 +416,7 @@ namespace SSW
                 _rollingRank = true;
                 _rankStart = input.Tick;
                 _rank.Value = DrawRank(input.Tick);
-                _tickAt = Now + 0.15f * _magic.TickIntervalMultiplier;
+                _tickAt = Now + _player.Stats.RollInterval * _magic.TickIntervalMultiplier;
                 _showUntil.Value = Now + 1.4f;
                 return true;
             }
@@ -448,7 +479,7 @@ namespace SSW
 
         uint Draw(uint tick, uint start, uint salt)
         {
-            uint interval = System.Math.Max(1u, Ticks(0.15f * _magic.TickIntervalMultiplier));
+            uint interval = System.Math.Max(1u, Ticks(_player.Stats.RollInterval * _magic.TickIntervalMultiplier));
             uint step = tick >= start ? (tick - start) / interval : 0u;
             uint value = _seed.Value ^ start * 0x9e3779b9u ^ step * 0x85ebca6bu ^ salt;
             value ^= value >> 16;
@@ -475,8 +506,9 @@ namespace SSW
             _rollingRank = _rollingSuit = false;
             _localShow = _waitingUntil = 0d;
             _stockPending.Clear();
-            _localHeld = _localNext = -1;
-            _localHeldId = _localNextId = 0;
+            _localHeld = _localNext = _localPocket = -1;
+            _localHeldId = _localNextId = _localPocketId = 0;
+            _localPocketUsed = false;
             if (IsServer)
             {
                 _showUntil.Value = 0d;
@@ -539,18 +571,15 @@ namespace SSW
             if (_player.Job == PlayerJob.Witch)
             {
                 if (Now < _brewAt) return;
-                _brewAt = Now + _witch.CycleInterval(_cycle) * CooldownScale;
-                int count = _stock.BaseCount + _witch.Unlocked.Count;
-                int roll = Random.Range(0, count);
-                int kind = roll < _stock.BaseCount
-                    ? _stock.BaseAt(roll)
-                    : _stock.IndexOf(_witch.Unlocked[roll - _stock.BaseCount]);
+                _brewAt = Now + _witch.CycleInterval(_player.Stats.BrewTime) * CooldownScale;
+                int kind = _stock.Pick(_witch.Unlocked, Random.value);
+                if (kind < 0) return;
                 _inventory.Add(kind, Now, 1.25d);
                 PublishStock();
                 return;
             }
             if (!_rollingSuit && !_rollingRank || Now < _tickAt) return;
-            _tickAt = Now + 0.15f * _magic.TickIntervalMultiplier;
+            _tickAt = Now + _player.Stats.RollInterval * _magic.TickIntervalMultiplier;
             _showUntil.Value = Now + 1.4f;
             if (_rollingRank) _rank.Value = DrawRank(_player.InputSequence);
             else _suit.Value = DrawSuit(_player.InputSequence);
@@ -565,8 +594,11 @@ namespace SSW
                 Epoch = _player.Epoch,
                 HeldId = _inventory.Held.Id,
                 NextId = _inventory.Next.Id,
+                PocketId = _inventory.Pocket.Id,
                 Held = _inventory.Held.Kind,
-                Next = _inventory.Next.Kind
+                Next = _inventory.Next.Kind,
+                Pocket = _inventory.Pocket.Kind,
+                PocketUsed = _inventory.PocketUsed
             };
         }
 
@@ -579,12 +611,20 @@ namespace SSW
             _localNext = state.Next;
             _localHeldId = state.HeldId;
             _localNextId = state.NextId;
-            _stockPending.RemoveAll(input => input.Action <= state.Action || input.Epoch != state.Epoch);
-            foreach (CastInput input in _stockPending) ConsumeLocal(input.Stock);
+            _localPocket = state.Pocket;
+            _localPocketId = state.PocketId;
+            _localPocketUsed = state.PocketUsed;
+            _stockPending.RemoveAll(entry => entry.Input.Action <= state.Action || entry.Input.Epoch != state.Epoch);
+            foreach (StockInput entry in _stockPending)
+            {
+                if (entry.Input.Kind == CastKind.Cycle) SwapLocal(entry.Input.Stock, entry.Kind, true);
+                else ConsumeLocal(entry.Input.Stock);
+            }
         }
 
         void ConsumeLocal(uint stock)
         {
+            _localPocketUsed = false;
             if (stock != 0 && stock == _localHeldId)
             {
                 _localHeld = _localNext;
@@ -597,6 +637,30 @@ namespace SSW
                 _localNext = -1;
                 _localNextId = 0;
             }
+        }
+
+        bool SwapLocal(uint stock, int kind, bool replay)
+        {
+            if (_localPocketUsed || stock == 0 && _localPocketId == 0) return false;
+            if (stock != _localHeldId)
+            {
+                if (!replay || stock == 0 || stock == _localNextId || kind < 0) return false;
+                _localPocketId = stock;
+                _localPocket = kind;
+                _localPocketUsed = true;
+                return true;
+            }
+            (_localHeld, _localPocket) = (_localPocket, _localHeld);
+            (_localHeldId, _localPocketId) = (_localPocketId, _localHeldId);
+            if (_localHeldId == 0)
+            {
+                _localHeld = _localNext;
+                _localHeldId = _localNextId;
+                _localNext = -1;
+                _localNextId = 0;
+            }
+            _localPocketUsed = true;
+            return true;
         }
 
         void ShowPotion(SpriteRenderer view, int kind)
@@ -649,17 +713,17 @@ namespace SSW
         bool Throw(CastInput input, Vector2 position)
         {
             if (input.Tick < _throwTick || !_inventory.Take(input.Stock, input.Epoch, Now, out int kind)) return false;
-            _throwTick = input.Tick + Ticks(0.15d);
+            _throwTick = input.Tick + Ticks(_player.Stats.AttackInterval);
             ShotKind = kind;
             int count = _witch.ProjectileCount;
-            Vector2 velocity = input.Direction.normalized * 15f + Vector2.up * 3f;
+            Vector2 velocity = input.Direction.normalized * _player.Stats.Flight.Speed + Vector2.up * _player.Stats.ThrowLift;
             Vector2 origin = position + (Vector2)(_hand.transform.position - _player.View.position);
             Origin = origin;
             ShotTick = input.Tick;
             ShotLag = Lag(input);
             for (int i = 0; i < count; i++)
             {
-                float angle = count == 1 ? 0f : (i / (float)(count - 1) - 0.5f) * 24f;
+                float angle = count == 1 ? 0f : (i / (float)(count - 1) - 0.5f) * _player.Stats.Spread;
                 Vector2 spread = Quaternion.Euler(0f, 0f, angle) * velocity;
                 NetPotion potion = Instantiate(_potionPrefab, origin, Quaternion.identity);
                 potion.Init(_player, kind, spread, _witch.BuildModifiers(), input.Action, i, ShotLag);

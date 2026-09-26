@@ -45,19 +45,43 @@ namespace SSW
 
         public void Draw(bool active, WeaponState state, uint tick)
         {
+            if (active) Expand(_gun.Capacity);
             VisibleAmmo = 0;
             ChargedAmmo = 0;
             for (int i = 0; i < _slots.Length; i++)
             {
-                bool show = active && i < state.Ammo && i < state.Loaded.Length;
+                bool show = active && i < _gun.Capacity && i < state.Ammo && i < state.Loaded.Length;
                 _slots[i].Root.SetActive(show);
                 if (!show) continue;
                 Vector3 scale = _slots[i].Fill.localScale;
-                scale.x = GunCast.Charge(state.Loaded[i], tick);
+                scale.x = _gun.Charge(state.Loaded[i], tick);
                 _slots[i].Fill.localScale = scale;
                 VisibleAmmo++;
                 if (scale.x >= 1f) ChargedAmmo++;
             }
+        }
+
+        void Expand(int capacity)
+        {
+            int count = _slots.Length;
+            if (capacity <= count) return;
+            Vector3 step = _slots[3].Root.transform.localPosition - _slots[0].Root.transform.localPosition;
+            System.Array.Resize(ref _slots, capacity);
+            for (int i = count; i < capacity; i++)
+            {
+                Slot source = _slots[i % 3];
+                GameObject root = Instantiate(source.Root, source.Root.transform.parent);
+                root.name = $"Ammo {i + 1}";
+                root.transform.localPosition = source.Root.transform.localPosition + step * (i / 3);
+                root.SetActive(false);
+                _slots[i] = new Slot { Root = root, Fill = Copy(source.Root.transform, source.Fill, root.transform) };
+            }
+        }
+
+        static Transform Copy(Transform source, Transform target, Transform clone)
+        {
+            if (target == source) return clone;
+            return Copy(source, target.parent, clone).GetChild(target.GetSiblingIndex());
         }
 
         void DrawQuest(bool active)

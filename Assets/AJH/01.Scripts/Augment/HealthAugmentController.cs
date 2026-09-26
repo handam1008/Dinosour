@@ -37,8 +37,8 @@ namespace SSW
         [SerializeField] float _deathWaltzSpreadTime = 5f;
         [SerializeField] float _deathWaltzHpBonus = 0.3f;
 
-        [Header("10개의 목숨")]
-        [SerializeField] float _tenLivesHealth = 10f;
+        [Header("문어의 심장")]
+        [SerializeField] float _tenLivesHealth = 3f;
         [SerializeField] float _tenLivesDamage = 1f;
 
         [Header("멀티스케일")]

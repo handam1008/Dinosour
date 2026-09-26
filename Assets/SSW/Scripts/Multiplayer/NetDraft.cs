@@ -11,6 +11,7 @@ namespace SSW
         [SerializeField] NetDeck _deck;
         [SerializeField] DraftScreen _viewPrefab;
         [SerializeField] DraftWatch _watch;
+        [SerializeField] JobAugmentHUD _hud;
         NetworkList<int> _owned;
         readonly NetworkVariable<Vector3Int> _offer = new NetworkVariable<Vector3Int>(
             new Vector3Int(-1, -1, -1), NetworkVariableReadPermission.Owner);
@@ -43,6 +44,11 @@ namespace SSW
             _ready.OnValueChanged += Selected;
             foreach (int id in _owned) _drafter.ApplyGrant(_deck.At(id));
             Offered(default, _offer.Value);
+        }
+
+        protected override void OnNetworkPostSpawn()
+        {
+            if (IsOwner && _player.Job != PlayerJob.None) _hud.Bind(_drafter);
         }
 
         public void Deal(bool withJob = false)
@@ -196,6 +202,7 @@ namespace SSW
 
         public override void OnNetworkDespawn()
         {
+            _hud.Unbind();
             _owned.OnListChanged -= Granted;
             _offer.OnValueChanged -= Offered;
             _ready.OnValueChanged -= Selected;

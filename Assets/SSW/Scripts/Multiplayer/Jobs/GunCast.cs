@@ -16,11 +16,6 @@ namespace SSW
             public float Interval;
         }
 
-        [SerializeField] int _capacity = 9;
-        [SerializeField] float _reload = 2.5f;
-        [SerializeField] float _interval;
-        [SerializeField] float _damage = 15f;
-        [SerializeField] float _speed = 30f;
         [SerializeField] int _questHits = 2;
         [SerializeField] int _poisonTicks = 8;
         [SerializeField] float _shrinkCooldown = 5f;
@@ -37,10 +32,11 @@ namespace SSW
         public override PlayerJob Job => PlayerJob.Gunner;
         public GunFx Effects => _effects;
         public GunView View => _gunView;
+        public int Capacity => Stats.Capacity;
         public int QuestHits => _questHits;
         public uint ViewTick => Tick;
         public bool Has(GunnerAugmentType type) => _augments.Contains(type);
-        public static float Charge(uint loaded, uint tick) => tick >= loaded ? Mathf.Clamp01((tick - loaded) * Time.fixedDeltaTime / 3f) : 0f;
+        public float Charge(uint loaded, uint tick) => tick >= loaded ? Mathf.Clamp01((tick - loaded) * Time.fixedDeltaTime / Stats.ChargeTime) : 0f;
 
         protected override void Grant(Augment item)
         {
@@ -49,19 +45,20 @@ namespace SSW
             if (augment.type == GunnerAugmentType.ShrinkingDeviceAbility) _shrinkAt = Time.time + _shrinkCooldown;
         }
 
-        protected override WeaponState Initial() => new WeaponState { Filled = Tick, Reload = Tick + Cooldown(_reload) };
+        protected override WeaponState Initial() => new WeaponState { Filled = Tick, Reload = Tick + Cooldown(Stats.Reload) };
 
         protected override void ProgressChanged(ref WeaponState state)
         {
-            if (state.Progress >= _questHits) state.Reload = System.Math.Min(state.Reload, state.Filled + Cooldown(_reload * 0.5f));
+            if (state.Progress >= _questHits) state.Reload = System.Math.Min(state.Reload, state.Filled + Cooldown(Stats.Reload * 0.5f));
         }
 
         protected override void Advance(ref WeaponState state, uint tick)
         {
-            if (state.Ammo == _capacity) return;
-            uint duration = Cooldown(_reload * (state.Progress >= _questHits ? 0.5f : 1f));
+            FighterStats stats = Stats;
+            if (state.Ammo == stats.Capacity) return;
+            uint duration = Cooldown(stats.Reload * (state.Progress >= _questHits ? 0.5f : 1f));
             if (state.Reload == 0) state.Reload = tick + duration;
-            while (state.Ammo < _capacity && tick >= state.Reload)
+            while (state.Ammo < stats.Capacity && tick >= state.Reload)
             {
                 state.Loaded.Add(state.Reload);
                 state.Filled = state.Reload;
@@ -75,14 +72,16 @@ namespace SSW
             bolt = default;
             if (input.Kind != CastKind.Press) return input.Kind != CastKind.Parry;
             if (input.Tick < state.Ready || state.Ammo == 0) return false;
-            bool charged = input.Tick >= state.Loaded[state.Loaded.Length - 1] + Ticks(3f);
-            if (state.Ammo == _capacity && input.Tick > state.Reload) state.Reload = input.Tick;
+            FighterStats stats = Stats;
+            bool charged = input.Tick >= state.Loaded[state.Loaded.Length - 1] + Ticks(stats.ChargeTime);
+            if (state.Ammo == stats.Capacity && input.Tick > state.Reload) state.Reload = input.Tick;
             state.Loaded.RemoveAt(state.Loaded.Length - 1);
             state.Ammo--;
-            if (state.Reload == 0) state.Reload = input.Tick + Cooldown(_reload * (state.Progress >= _questHits ? 0.5f : 1f));
-            state.Ready = input.Tick + Cooldown(_interval);
-            bolt = new BoltSpec { Style = 0, Speed = _speed, Gravity = 2f, Damage = _damage * (charged ? 2f : 1f),
-                Life = 3f, Radius = 0.125f, Scale = 1f, Charged = charged };
+            if (state.Reload == 0) state.Reload = input.Tick + Cooldown(stats.Reload * (state.Progress >= _questHits ? 0.5f : 1f));
+            state.Ready = input.Tick + Cooldown(stats.AttackInterval);
+            bolt = new BoltSpec { Style = 0, Speed = stats.Flight.Speed, Gravity = stats.Flight.Gravity,
+                Damage = stats.Damage * (charged ? stats.ChargeDamage : 1f), Life = stats.Flight.Life,
+                Radius = 0.125f, Scale = stats.Flight.Scale, Aspect = stats.Flight.Aspect, Spin = stats.Flight.Spin, Charged = charged };
             return true;
         }
 
@@ -101,7 +100,7 @@ namespace SSW
         {
             DamageResult hit = CombatDamage.Deal(this, target.Health, bolt.Spec.Damage, DamageTag.BasicAttack | DamageTag.Projectile);
             if (!hit.WasAccepted) return;
-            float scale = bolt.Spec.Charged ? 2f : 1f;
+            float scale = bolt.Spec.Charged ? Stats.ChargeDamage : 1f;
             int mask = 0;
             foreach (GunnerAugmentType type in _augments) mask |= 1 << (int)type;
             if (Has(GunnerAugmentType.AirBullet) && !target.Drive.Grounded) target.Drive.Launch(40f * scale);

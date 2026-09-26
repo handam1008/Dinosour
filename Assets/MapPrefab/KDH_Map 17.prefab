@@ -5120,7 +5120,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.2}
+  m_Color: {r: 1, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5189,7 +5189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
   damage: 5
-  knockbackForce: 150
+  knockbackForce: 50
   direction: {x: 0, y: -1}
 --- !u!1 &809637016605720943
 GameObject:
@@ -16176,7 +16176,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.2}
+  m_Color: {r: 1, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -16245,7 +16245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
   damage: 5
-  knockbackForce: 150
+  knockbackForce: 50
   direction: {x: -1, y: 0}
 --- !u!1 &6307357259038389876
 GameObject:
@@ -16530,7 +16530,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.2}
+  m_Color: {r: 1, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -16599,7 +16599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
   damage: 5
-  knockbackForce: 150
+  knockbackForce: 50
   direction: {x: 1, y: 0}
 --- !u!1 &7764353913116718550
 GameObject:
@@ -17183,7 +17183,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.2}
+  m_Color: {r: 1, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -17252,7 +17252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_TouchScrrenOutline
   damage: 5
-  knockbackForce: 150
+  knockbackForce: 50
   direction: {x: 0, y: 1}
 --- !u!1 &8659976622974760726
 GameObject:

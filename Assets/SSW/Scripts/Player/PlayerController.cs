@@ -80,6 +80,15 @@ namespace SSW
             Simulated = simulated;
         }
 
+        public void Configure(FighterStats stats)
+        {
+            _moveSpeed = stats.MoveSpeed;
+            _jumpForce = stats.JumpSpeed;
+            _coyoteTime = stats.Coyote;
+            _externalVelocityDecay = stats.Decay;
+            _counterMoveBrake = stats.Brake;
+        }
+
         public void Move(Vector2 value)
         {
             _move = value;

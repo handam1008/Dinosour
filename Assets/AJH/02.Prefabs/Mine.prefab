@@ -113,9 +113,8 @@ MonoBehaviour:
     m_Bits: 256
   _groundCheckDistance: 0.1
   _explosionRadius: 2
-  _damage: 10
+  _damage: 20
   _knockback: 6
-  _lifeTime: 0
   _explosionPrefab: {fileID: 4963431250598195707, guid: d7b6e13e675a393438c06e79ac72fc89, type: 3}
 --- !u!61 &526999749779557933
 BoxCollider2D:

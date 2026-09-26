@@ -77,6 +77,12 @@ namespace SSW
 
         bool Has(CommonAugmentType type) => _owned.Contains(type);
 
+        public void SetBase(float value)
+        {
+            _baseMax = value;
+            RefreshMax();
+        }
+
         void Granted(Augment augment)
         {
             if (augment is not CommonAugment common || !_owned.Add(common.type)) return;
@@ -149,7 +155,8 @@ namespace SSW
             if (direct && Has(CommonAugmentType.Multiscale)
                 && _player.Health.Current >= _player.Health.Max - 0.001f)
                 amount *= 1f - _multiscaleReduction;
-            if (direct && Has(CommonAugmentType.TenLives)) amount = _tenLivesDamage;
+            bool attacked = request.Source != null && !request.HasTag(DamageTag.Deferred);
+            if (attacked && Has(CommonAugmentType.TenLives)) amount = _tenLivesDamage;
             if (Has(CommonAugmentType.Phoenix) && !_phoenixUsed && amount >= _player.Health.Current)
             {
                 _phoenixUsed = true;
