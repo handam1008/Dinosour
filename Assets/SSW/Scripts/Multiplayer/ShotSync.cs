@@ -30,6 +30,7 @@ namespace SSW
         bool _caught;
         bool _ending;
         bool _released;
+        bool _held;
         Collider2D _contact;
         double _blockedAt;
         double _caughtAt;
@@ -51,9 +52,11 @@ namespace SSW
         double Now => _local ? NetworkManager.LocalTime.Time : NetGame.Current.ServerTime;
 
         public void Redirect() => _turn++;
+        public void Hold(bool hold) => _held = hold;
 
         public void Deflect(NetPlayer caster)
         {
+            _held = false;
             _caster = caster;
             _target = new ShotContact(caster, NetGame.Current.Players);
             _normal = Vector2.zero;
@@ -191,7 +194,7 @@ namespace SSW
                 NetGame.Current.Shots.Send(NetworkObjectId, _pose);
                 return;
             }
-            if (!_ready) return;
+            if (!_ready || _held) return;
             _released = false;
             double previous = _clock.Time;
             double now = _clock.Step(Now, Time.deltaTime);

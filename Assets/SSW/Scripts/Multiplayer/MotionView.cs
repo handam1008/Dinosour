@@ -438,9 +438,11 @@ namespace SSW
             if (IsServer && _player.CanAct) _state.SmallTime = Mathf.Max(_state.SmallTime, duration);
         }
 
-        public void Blink(Vector2 position)
+        public bool Blink(Vector2 target, Vector2 normal, float radius)
         {
-            if (IsServer && _player.CanAct) Teleport(_motor.Clip(_state.Position, position));
+            if (!IsServer || !_player.CanAct || !_motor.TryPlace(target, normal, radius, out Vector2 position)) return false;
+            Teleport(position);
+            return true;
         }
 
         public void Teleport(Vector2 position)

@@ -26,6 +26,7 @@ namespace SSW
         float _age;
         int _bounces;
         bool _stuck;
+        Vector2 _normal;
         public BoltSpec Spec => _spec.Value;
         public uint Action => _action.Value;
         public ulong Caster => _caster.Value;
@@ -33,6 +34,8 @@ namespace SSW
         public Sprite Sprite(int style) => _styles[style];
         public NetPlayer Owner => _owner;
         public Vector2 Velocity => _body.linearVelocity;
+        public Vector2 Position => _body.position;
+        public Vector2 Normal => _normal;
 
         public void Init(NetPlayer owner, IBoltReceiver receiver, uint action, Vector2 direction, BoltSpec spec, double lag)
         {
@@ -58,6 +61,7 @@ namespace SSW
             _sprite.color = Spec.Charged ? new Color(1f, 0.85f, 0.3f) : Color.white;
             transform.localScale = Vector3.one * Spec.Scale;
             _flight.Bind(_owner, _action.Value, 0, Spec.Radius);
+            if (!IsServer && _owner.IsOwner && Spec.Stick && _owner.Cast.Weapon is KnifeCast knife) knife.Track(this);
             if (!IsServer) return;
             _previous = _body.position;
             _previousTime = NetGame.Current.PhysicsTime;
@@ -133,6 +137,7 @@ namespace SSW
                 else if (Spec.Stick)
                 {
                     _stuck = true;
+                    _normal = normal;
                     _body.linearVelocity = Vector2.zero;
                     _body.angularVelocity = 0f;
                     _flight.Redirect();
@@ -152,6 +157,35 @@ namespace SSW
         {
             _owner = NetworkManager.SpawnManager.SpawnedObjects[owner].GetComponent<NetPlayer>();
             _flight.Deflect(_owner);
+        }
+
+        public void Hold(bool hold) => _flight.Hold(hold);
+
+        public void Recall(Vector2 requested, float seconds, out Vector2 point, out Vector2 normal)
+        {
+            point = Position;
+            normal = _normal;
+            if (_stuck || _bounces != Spec.Bounce || !NetMath.Finite(requested)) return;
+            Vector2 shift = requested - point;
+            float limit = Spec.Speed * Mathf.Clamp(seconds, 0f, 0.35f);
+            if (shift.sqrMagnitude > limit * limit) return;
+            Vector2 direction = Velocity.normalized;
+            float travel = Vector2.Dot(shift, direction);
+            if (travel < -Spec.Speed * _age) return;
+            Vector2 end = point + direction * travel;
+            if (ShotQuery.Ground(point, end, Spec.Radius, _owner.GroundMask, out RaycastHit2D hit))
+            {
+                point = hit.centroid;
+                normal = hit.normal;
+            }
+            else point = end;
+        }
+
+        public void FinishAt(Vector2 point)
+        {
+            if (!IsServer || !IsSpawned) return;
+            _body.position = point;
+            Finish();
         }
 
         public void Finish(bool hit = false)

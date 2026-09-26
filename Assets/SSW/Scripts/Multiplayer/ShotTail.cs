@@ -16,6 +16,7 @@ namespace SSW
         bool _hit;
         public uint Action { get; private set; }
         public int Part { get; private set; }
+        internal Vector2 Point => _impact;
 
         public static void Create(NetCast caster, uint action, int part, SpriteRenderer source,
             MagicianCardFeedback feedback, Vector2 velocity, Vector2 point, float radius, bool hit)

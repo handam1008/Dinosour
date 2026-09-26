@@ -7910,7 +7910,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &881136646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9956,7 +9956,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.47058824}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -26725,8 +26725,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9992fe898e456304299003bec0b2eb96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GamblerJackpotEffect
+  jackpot777: {fileID: 0}
   jackpotUI: {fileID: 1812636240}
   cameraShake: {fileID: 1812636242}
+  jackpotOverlay: {fileID: 0}
+  minOverlayAlpha: 0.15
+  maxOverlayAlpha: 0.45
+  overlayDuration: 0.4
+  overlayFadeOutDuration: 0.15
+  jackpotParticles: []
+  jackpotObjects: []
 --- !u!114 &1812636240
 MonoBehaviour:
   m_ObjectHideFlags: 0
