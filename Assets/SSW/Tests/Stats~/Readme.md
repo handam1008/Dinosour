@@ -31,3 +31,4 @@
 - 실제 두 프로세스 검증은 `Maps~/Hazards.ps1 -StatsOnly`로 실행한다. `-StatsProfiles`는 변경된 서버 수치·재스폰·탄창만 재검사한다. 단일 PC의 에디터 호스트와 개발 빌드 접속자이며 실제 두 PC·Relay 검증과 구분한다. 지연 60ms와 지터 10ms를 각 방향에 적용한다.
 - `Logs/Boundary/StatsThird`: 여섯 직업 원본 일치·물리 머티리얼·실제 이동·점프·평타·투사체 94개 통과. 후속 프로필 변경 단계는 검사 기준 문제로 중단됐으므로 이 실행 전체가 완료됐다고 보지 않는다.
 - `Logs/Boundary/StatsProfiles2`: 변경된 서버 기본값 전달, 이동 8.5·점프 15, 체력 137 기반 Giant 증강, 실제 사망에 따른 세 번의 라운드 재스폰, 15칸 탄창 표시·발사·재장전 10개 통과. 임시 수치는 메모리에서만 바꾸고 종료 시 복원했다.
+- `Logs/Boundary/MaterialsLatest`: Base `f3b76ce`의 최신 플레이어 프리팹으로 54개 통과. 여섯 직업을 양쪽에 새로 스폰해 원본 기본 수치, Rigidbody2D와 Collider2D의 Player Physics 연결을 확인했다. `-MaterialsOnly`로 이 범위만 재현하며, 이 실행을 공격·이동·증강 효과 검증으로 보지 않는다.
