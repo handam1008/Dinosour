@@ -21,6 +21,15 @@ namespace RYU._01.Script
 
         private void Start()
         {
+            if (UnityServices.State != ServicesInitializationState.Initialized
+                || !AuthenticationService.Instance.IsSignedIn)
+            {
+                playerNameText.SetText("에디터에서시작하면이런이름이됩니다.");
+                scoreText.SetText("-");
+                GetJobNmae();             
+                return;
+            }
+            
             GetPlayerName();
             GetJobNmae();
             _ = GetScoreText();
