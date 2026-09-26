@@ -14,3 +14,5 @@
 실행 기록은 `Logs/Boundary/Integrated/Edges*.json`, `Logs/Boundary/Integrated/Checks.txt`, `Logs/Boundary/CorrectScale/LavaAfter.json`, `Logs/Boundary/CorrectScale/Checks.txt`, `Logs/Boundary/Final/Checks.txt`, `Logs/Boundary/MaterialFinal.json`에 저장된다. 과거 실행의 PowerShell 비교 연산자를 수정한 뒤 경계 HP 복제와 화산 충돌을 다시 확인했다. 개발 빌드와 에디터 호스트를 같은 PC에서 연결한 검사이며, 실제 두 PC나 외부망 지연 검사는 포함하지 않는다.
 
 재실행은 Unity CLI 연결 후 `Assets/SSW/Tests/Maps~/Hazards.ps1`을 사용한다. 기본 실행은 경계 14개 맵과 기믹·칼잡이 18개 시나리오를 검사한다. `-SkipEdges`는 이미 확인한 경계 일괄 검사만 생략한다. `-LavaOnly`는 실제 벽 접촉 및 화산 검사만 실행한다. 테스트는 임시 플레이 세션과 테스트 실행 파일을 종료하고 기존 편집 씬으로 복귀한다.
+
+추가 입력 검사: `Logs/Boundary/EdgeLane`의 이동·대쉬 56개 검사 중 이동 28개는 경계 바깥 방향 입력을 유지했다. 당시 대쉬 28개에는 이동 키 유지가 없었다. `Logs/Boundary/EdgesHeld2`에서는 같은 프레임에 이동 입력과 대쉬를 실행한 뒤 이동 키를 유지하여 14개 맵 좌우 28개 경우를 별도로 통과했다. 실제 경계 접근 후 호스트·접속자의 두 캐릭터 모두 피해와 안쪽 반발을 관측했다. 발판이 접근을 막지 않는 경계 가까운 시작 위치만 테스트 준비 단계에서 설정했다. 위·아래 경계의 근거는 앞선 직접 접촉 112회 검사이며, 이 28개는 좌우 접근 검사다.

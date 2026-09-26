@@ -64,6 +64,8 @@ namespace SSW
             public Vector3Int offer;
             public int[] augments;
             public int potion;
+            public int pocket;
+            public bool pocketUsed;
             public int rank;
             public int heldView;
             public int previews;
@@ -357,6 +359,10 @@ namespace SSW
                     break;
                 case "fire": local.Cast.Attack(command.value > 0, local.Aim); break;
                 case "cycle": local.Cast.Cycle(command.value > 0, command.x == 0f && command.y == 0f ? local.Aim : new Vector2(command.x, command.y)); break;
+                case "dashout":
+                    local.Move(new Vector2(command.x * local.Side, 0f));
+                    local.Cast.Cycle(true, new Vector2(command.x, 0f));
+                    break;
                 case "parry": local.Cast.Parry(); break;
                 case "guard": local.Guard.Guard(); break;
                 case "choose": local.Draft.Choose(command.value); break;
@@ -465,9 +471,10 @@ namespace SSW
                     aim = player.Aim, side = player.Side, labelsFaceView = LabelsFaceView(player, game.Arena.View),
                     animation = animator.GetCurrentAnimatorStateInfo(0).shortNameHash, owner = player.IsOwner,
                     ready = player.Draft.Ready,
-                    draftUnlocked = player.Draft.View != null && System.Array.TrueForAll(player.Draft.View.GetComponentsInChildren<AugmentCardUI>(true), card => !card.Locked),
+                    draftUnlocked = player.Draft.View != null && System.Array.TrueForAll(player.Draft.View.GetComponentsInChildren<AugmentCardUI>(), card => !card.Locked),
                     offer = player.IsOwner ? player.Draft.Offer : default,
                     augments = owned.ToArray(), potion = player.Cast.Held, rank = player.Cast.Rank,
+                    pocket = player.Cast.Pocket, pocketUsed = player.Cast.PocketUsed,
                     heldView = player.Cast.DisplayHeld, previews = player.Cast.Previews,
                     visiblePreviews = player.Cast.VisiblePreviews, matches = player.Cast.Matches,
                     shotOrigin = player.Cast.Origin, shotTick = player.Cast.ShotTick, shotKind = player.Cast.ShotKind, shotLag = player.Cast.ShotLag, fired = player.Cast.Shots,

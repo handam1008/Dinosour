@@ -1,4 +1,4 @@
-param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges,[switch]$LavaOnly,[switch]$HealOnly)
+param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges,[switch]$LavaOnly,[switch]$HealOnly,[switch]$EdgeMotion,[switch]$WitchOnly,[string[]]$EdgeModes=@('move','dash'))
 $ErrorActionPreference='Stop'
 $Project=[IO.Path]::GetFullPath($Project).Replace('\','/')
 $root="$Project/Logs/Boundary/$Run"
@@ -47,14 +47,17 @@ try{
     unity command editor_play --caller plugin --skill unity-cli --project-path $Project --format json|Out-Null
     $until=[DateTime]::UtcNow.AddSeconds(50)
     do{try{$scene=Eval 'return UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;'}catch{$scene=''};if($scene -eq 'MainMenu'){break};Start-Sleep -Milliseconds 500}while([DateTime]::UtcNow -lt $until)
-    Eval ('var g=SSW.NetGame.GetOrCreate();g.gameObject.AddComponent<SSW.NetProbe>().Init("'+$root+'/host");g.StartLocal(true,"127.0.0.1",SSW.PlayerJob.Swordsman,30716);return true;')|Out-Null
-    $clientProcess=Start-Process -FilePath (Join-Path $Project $Build) -WorkingDirectory $Project -ArgumentList @('--net-mode','client','--net-address','127.0.0.1','--net-port','30716','--net-job','Swordsman','--net-probe',"$root/client",'-logFile',"$root/client.log",'-screen-fullscreen','0','-screen-width','800','-screen-height','450') -WindowStyle Hidden -PassThru
-    Await 'both drafts' {$h.phase -eq 'Draft' -and $c.phase -eq 'Draft'}
+    $job=if($WitchOnly){'Witch'}else{'Swordsman'}
+    Eval ('var g=SSW.NetGame.GetOrCreate();g.gameObject.AddComponent<SSW.NetProbe>().Init("'+$root+'/host");g.StartLocal(true,"127.0.0.1",SSW.PlayerJob.'+$job+',30716);return true;')|Out-Null
+    $clientProcess=Start-Process -FilePath (Join-Path $Project $Build) -WorkingDirectory $Project -ArgumentList @('--net-mode','client','--net-address','127.0.0.1','--net-port','30716','--net-job',$job,'--net-probe',"$root/client",'-logFile',"$root/client.log",'-screen-fullscreen','0','-screen-width','800','-screen-height','450') -WindowStyle Hidden -PassThru
+    Await 'both drafts' {$h.phase -eq 'Draft' -and $c.phase -eq 'Draft'} 90
     Eval 'foreach(var p in SSW.NetGame.Current.Players)p.Draft.Restore(System.Array.Empty<int>());SSW.NetGame.Current.Match.Picked();return true;'|Out-Null
     Await 'playing' {$h.phase -eq 'Playing' -and $c.phase -eq 'Playing'}
     $step=Eval 'return UnityEngine.Time.fixedDeltaTime;'
     Eval 'foreach(var p in SSW.NetGame.Current.Players){typeof(SSW.Health).GetMethod("SetMax",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).Invoke(p.Health,new object[]{10000f});p.Health.Heal(10000f);}return true;'|Out-Null
     if($HealOnly){. "$PSScriptRoot/../Common~/Healing.ps1";return}
+    if($WitchOnly){. "$PSScriptRoot/../Augments~/Witch.ps1";return}
+    if($EdgeMotion){. "$PSScriptRoot/EdgesRun.ps1";return}
     if(-not $SkipEdges -and -not $LavaOnly){
         for($index=0;$index -lt 14;$index++){
             $map=Map $index

@@ -1,0 +1,1545 @@
+{
+  "date": "2026-09-26",
+  "basis": "0f641844fab7b1c42468835ed3622b4e3e228d63",
+  "resolution": {
+    "date": "2026-09-26",
+    "source": "User reply relayed by coordinator",
+    "userReply": "몰라 없는데 그냥 빈그림으로 해두면 될듯.",
+    "status": "complete_under_approved_blank_icon_policy",
+    "behavior": "Keep the existing blank icon slot and actual name/description tooltip for all 40 targets.",
+    "originalSpriteRequired": false,
+    "pendingArtAssignment": false,
+    "newRuntimeChanges": false,
+    "fullTestRerun": false
+  },
+  "targetSet": "The 40 paths in MissingIcons.json only; not the final augment registration/effect count.",
+  "totals": {
+    "targets": 40,
+    "alreadyLinked": 0,
+    "verifiedExistingIconWithMissingLink": 0,
+    "uiConsumerDefect": 0,
+    "noVerifiedOriginalIcon": 40
+  },
+  "scope": {
+    "queriedAugmentAssets": 101,
+    "queriedTextureAssetPaths": 1248,
+    "queriedSpritePaths": 1095,
+    "enumeratedSpriteSubassets": 3508,
+    "spritePathsOutsideTextureInventory": 0,
+    "method": "Unity AssetDatabase via CLI, serialized icon fields, GUID/fileID references, enum matches, project code assignments, candidate images and their existing uses.",
+    "limitation": "No claim about uncommitted artwork on other computers or external folders. Existing VFX/weapon/card art without an explicit mapping is not designated as an augment icon."
+  },
+  "consumer": {
+    "file": "Assets/SSW/Scripts/Augments/JobAugmentHUD.cs",
+    "spriteAssignmentLine": 154,
+    "enabledAssignmentLine": 155,
+    "behavior": "Image.sprite = augment.icon; Image.enabled = augment.icon != null; real displayName and description remain available in the tooltip."
+  },
+  "targets": [
+    {
+      "path": "Assets/SSW/Augments/Common/Giant.asset",
+      "owner": "SSW",
+      "guid": "eb54091e9e89f984a85090d8d59ae8cd",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        0
+      ],
+      "assetName": "Giant",
+      "previousDisplayName": "거인",
+      "displayName": "거인",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "Giant",
+          "value": 0
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Health",
+          "value": 0
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/Vampire.asset",
+      "owner": "SSW",
+      "guid": "8050f048b96b0104ba1e0d1d0846d2e2",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        1
+      ],
+      "assetName": "Vampire",
+      "previousDisplayName": "뱀파이어",
+      "displayName": "뱀파이어",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "Vampire",
+          "value": 1
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Health",
+          "value": 0
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/Berserker.asset",
+      "owner": "SSW",
+      "guid": "8dc9a0c55a0e6204b8a30848ffc377cb",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        2
+      ],
+      "assetName": "Berserker",
+      "previousDisplayName": "광전사",
+      "displayName": "광전사",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "Berserker",
+          "value": 2
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Health",
+          "value": 0
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/Confidence.asset",
+      "owner": "SSW",
+      "guid": "673ef6ed50ddb144f99017f4f10eb59b",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        3
+      ],
+      "assetName": "Confidence",
+      "previousDisplayName": "자신감",
+      "displayName": "자신감",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "Confidence",
+          "value": 3
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Health",
+          "value": 0
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/GlassCannon.asset",
+      "owner": "SSW",
+      "guid": "9534dd98b3f33b745896c179bfdbc121",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        4
+      ],
+      "assetName": "GlassCannon",
+      "previousDisplayName": "유리 대포",
+      "displayName": "유리 대포",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "GlassCannon",
+          "value": 4
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Health",
+          "value": 0
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/CooldownReduction.asset",
+      "owner": "SSW",
+      "guid": "6a47109ccae724c47b67c963ab446cb1",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        16
+      ],
+      "assetName": "CooldownReduction",
+      "previousDisplayName": "쿨감",
+      "displayName": "쿨감",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "SwiftApproach",
+          "value": 17
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Ability",
+          "value": 2
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [
+        {
+          "path": "Assets/SSW/Augments/Common/SwiftApproach.asset",
+          "guid": "9fb2761c28b16984bb51637474868229",
+          "displayName": "쾌속 접근",
+          "icon": null
+        }
+      ],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/JJW/Cards/GamblerAugment_CoinUpgrade.asset",
+      "owner": "JJW",
+      "guid": "44768ad5b4ffaf249ab6fb68038adaf5",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        22
+      ],
+      "assetName": "GamblerAugment_CoinUpgrade",
+      "previousDisplayName": "코인 업그레이드!",
+      "displayName": "코인 업그레이드!",
+      "runtimeType": "JJW.Script.Augments.GamblerAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "JJW.Script.Augments.GamblerAugmentType",
+          "name": "CoinUpgrade",
+          "value": 6
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/JJW/Cards/GamblerAugment_Excited.asset",
+      "owner": "JJW",
+      "guid": "7d090560eef56e54eb9a209695868024",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        23
+      ],
+      "assetName": "GamblerAugment_Excited",
+      "previousDisplayName": "신난다",
+      "displayName": "신난다",
+      "runtimeType": "JJW.Script.Augments.GamblerAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "JJW.Script.Augments.GamblerAugmentType",
+          "name": "Excited",
+          "value": 0
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/JJW/Cards/GamblerAugment_GuaranteedJackpot.asset",
+      "owner": "JJW",
+      "guid": "1ec402a3823b1634ab5f002d11a23526",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        24
+      ],
+      "assetName": "GamblerAugment_GuaranteedJackpot",
+      "previousDisplayName": "확실한 잭팟",
+      "displayName": "확실한 잭팟",
+      "runtimeType": "JJW.Script.Augments.GamblerAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "JJW.Script.Augments.GamblerAugmentType",
+          "name": "GuaranteedJackpot",
+          "value": 4
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/JJW/Cards/GamblerAugment_JackpotBoost.asset",
+      "owner": "JJW",
+      "guid": "d5aed9f7bcfa61848b536d735f21b209",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        25
+      ],
+      "assetName": "GamblerAugment_JackpotBoost",
+      "previousDisplayName": "잭팟!!",
+      "displayName": "잭팟!!",
+      "runtimeType": "JJW.Script.Augments.GamblerAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "JJW.Script.Augments.GamblerAugmentType",
+          "name": "JackpotBoost",
+          "value": 5
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/JJW/Cards/GamblerAugment_MoreChances.asset",
+      "owner": "JJW",
+      "guid": "190048e58194eaa43ab9f952798be450",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        27
+      ],
+      "assetName": "GamblerAugment_MoreChances",
+      "previousDisplayName": "더 많은 기회",
+      "displayName": "더 많은 기회",
+      "runtimeType": "JJW.Script.Augments.GamblerAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "JJW.Script.Augments.GamblerAugmentType",
+          "name": "MoreChances",
+          "value": 9
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/JJW/Cards/GamblerAugment_OldCoin.asset",
+      "owner": "JJW",
+      "guid": "f634b7e5136335a469fa827df6ff194c",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        28
+      ],
+      "assetName": "GamblerAugment_OldCoin",
+      "previousDisplayName": "낡은 동전",
+      "displayName": "낡은 동전",
+      "runtimeType": "JJW.Script.Augments.GamblerAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "JJW.Script.Augments.GamblerAugmentType",
+          "name": "OldCoin",
+          "value": 8
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/JJW/Cards/GamblerAugment_OverflowingPower.asset",
+      "owner": "JJW",
+      "guid": "4cf32bcabc3808449b9358a433049d35",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        29
+      ],
+      "assetName": "GamblerAugment_OverflowingPower",
+      "previousDisplayName": "넘치는 힘",
+      "displayName": "넘치는 힘",
+      "runtimeType": "JJW.Script.Augments.GamblerAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "JJW.Script.Augments.GamblerAugmentType",
+          "name": "OverflowingPower",
+          "value": 3
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/JJW/Cards/GamblerAugment_ProbabilityShift.asset",
+      "owner": "JJW",
+      "guid": "7b497f2345cc3d74eb1b935f0fd1e55a",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        30
+      ],
+      "assetName": "GamblerAugment_ProbabilityShift",
+      "previousDisplayName": "확률 변동",
+      "displayName": "확률 변동",
+      "runtimeType": "JJW.Script.Augments.GamblerAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "JJW.Script.Augments.GamblerAugmentType",
+          "name": "ProbabilityShift",
+          "value": 2
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/JJW/Cards/GamblerAugment_RaiseTheStakes.asset",
+      "owner": "JJW",
+      "guid": "66e926be23bd12c439b4245b15c2828d",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        31
+      ],
+      "assetName": "GamblerAugment_RaiseTheStakes",
+      "previousDisplayName": "판돈 올리기",
+      "displayName": "판돈 올리기",
+      "runtimeType": "JJW.Script.Augments.GamblerAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "JJW.Script.Augments.GamblerAugmentType",
+          "name": "RaiseTheStakes",
+          "value": 7
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/Phoenix.asset",
+      "owner": "SSW",
+      "guid": "81ad4213cebc6bb4d962c08fc7b02fbb",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        57
+      ],
+      "assetName": "Phoenix",
+      "previousDisplayName": "불사조",
+      "displayName": "불사조",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "Phoenix",
+          "value": 5
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Health",
+          "value": 0
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/DeathWaltz.asset",
+      "owner": "SSW",
+      "guid": "16cfdb735db640147b0c8c4c87283727",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        58
+      ],
+      "assetName": "DeathWaltz",
+      "previousDisplayName": "죽음의 무도",
+      "displayName": "죽음의 무도",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "DeathWaltz",
+          "value": 6
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Health",
+          "value": 0
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/AJH/03.SO/HealthAugment/Ten Lives.asset",
+      "owner": "AJH",
+      "guid": "ef604d959828179419e05b7344755241",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        59
+      ],
+      "assetName": "Ten Lives",
+      "previousDisplayName": "10개의 목숨",
+      "displayName": "10개의 목숨",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "TenLives",
+          "value": 20
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Health",
+          "value": 0
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [
+        {
+          "path": "Assets/SSW/Augments/Common/Poison.asset",
+          "guid": "d9f4e3ef88179cb489788690fc1bae1f",
+          "displayName": "독",
+          "icon": null
+        }
+      ],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/AJH/03.SO/HealthAugment/Multiscale.asset",
+      "owner": "AJH",
+      "guid": "06a97833084c8c6488a519668ae1d6a5",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        60
+      ],
+      "assetName": "Multiscale",
+      "previousDisplayName": "멀티스케일",
+      "displayName": "멀티스케일",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "Multiscale",
+          "value": 21
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Health",
+          "value": 0
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [
+        {
+          "path": "Assets/SSW/Augments/Common/Sniper.asset",
+          "guid": "27b9f62cc16ec6149a96fd5e65b7d912",
+          "displayName": "저격",
+          "icon": null
+        }
+      ],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/AJH/03.SO/HealthAugment/Regeneration.asset",
+      "owner": "AJH",
+      "guid": "b40d8dae17810f24baeb9643c2a55473",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        61
+      ],
+      "assetName": "Regeneration",
+      "previousDisplayName": "띠끌모아태산",
+      "displayName": "띠끌모아태산",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "Regeneration",
+          "value": 22
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Health",
+          "value": 0
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [
+        {
+          "path": "Assets/SSW/Augments/Common/Ricochet.asset",
+          "guid": "157f0ddc8d76f9341ba7bd8dbb322d74",
+          "displayName": "각도기",
+          "icon": null
+        }
+      ],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/GuardMastery.asset",
+      "owner": "SSW",
+      "guid": "a9a85af9e46cc45489fb903c26a00daf",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        62
+      ],
+      "assetName": "GuardMastery",
+      "previousDisplayName": "방어 숙련",
+      "displayName": "방어 숙련",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "GuardMastery",
+          "value": 14
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Defense",
+          "value": 1
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/Invincible.asset",
+      "owner": "SSW",
+      "guid": "1523223c2b0a9ed43994a96e606e008d",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        63
+      ],
+      "assetName": "Invincible",
+      "previousDisplayName": "무적",
+      "displayName": "무적",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "Invincible",
+          "value": 12
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Defense",
+          "value": 1
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/Recharge.asset",
+      "owner": "SSW",
+      "guid": "b7e28e726166262499e106d35bac70ac",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        64
+      ],
+      "assetName": "Recharge",
+      "previousDisplayName": "재충전",
+      "displayName": "재충전",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "Recharge",
+          "value": 13
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Defense",
+          "value": 1
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/HealField.asset",
+      "owner": "SSW",
+      "guid": "98a6e5842b853264e8796303cd6deb8e",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        65
+      ],
+      "assetName": "HealField",
+      "previousDisplayName": "힐 필드",
+      "displayName": "힐 필드",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "HealField",
+          "value": 9
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Defense",
+          "value": 1
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/Blink.asset",
+      "owner": "SSW",
+      "guid": "5687ef9f6e441cb40b721c7604b1b96e",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        66
+      ],
+      "assetName": "Blink",
+      "previousDisplayName": "점멸",
+      "displayName": "점멸",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "Blink",
+          "value": 7
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Defense",
+          "value": 1
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/IceAge.asset",
+      "owner": "SSW",
+      "guid": "a7ac8ca175fd5df4bbb7b55bcf638d20",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        67
+      ],
+      "assetName": "IceAge",
+      "previousDisplayName": "아이스 에이지",
+      "displayName": "아이스 에이지",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "IceAge",
+          "value": 8
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Defense",
+          "value": 1
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/BestOffense.asset",
+      "owner": "SSW",
+      "guid": "2972e78f1daa3f447b5f0b63c203d7e7",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        68
+      ],
+      "assetName": "BestOffense",
+      "previousDisplayName": "최고의 방어는 공격",
+      "displayName": "최고의 방어는 공격",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "BestOffense",
+          "value": 10
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Defense",
+          "value": 1
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [
+        {
+          "path": "Assets/SSW/Augments/Common/Microwave.asset",
+          "guid": "4c64e466679a6ae4fad33e2ef60600a2",
+          "displayName": "전자레인지",
+          "icon": null
+        }
+      ],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/Nuclear.asset",
+      "owner": "SSW",
+      "guid": "81652da5ca76c8d4380dd4cc11d13706",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        69
+      ],
+      "assetName": "Nuclear",
+      "previousDisplayName": "뉴클리어",
+      "displayName": "뉴클리어",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "Nuclear",
+          "value": 11
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Defense",
+          "value": 1
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/AJH/03.SO/DefanceAugment/ConterAttack.asset",
+      "owner": "AJH",
+      "guid": "d318f2943612e3d4aa2cc1c69665b49e",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        70
+      ],
+      "assetName": "ConterAttack",
+      "previousDisplayName": "카운터",
+      "displayName": "카운터",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "CounterAttack",
+          "value": 29
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Defense",
+          "value": 1
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [
+        {
+          "path": "Assets/AJH/03.SO/DefanceAugment/WhereIsIt.asset",
+          "guid": "0688f5b905d44ae40a18ad3d20d6eca4",
+          "displayName": "ㅇㄷ",
+          "icon": null
+        }
+      ],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/DevilsDeal.asset",
+      "owner": "SSW",
+      "guid": "64b794c45c797f845bb93e452fff9595",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        71
+      ],
+      "assetName": "DevilsDeal",
+      "previousDisplayName": "악마와의 거래",
+      "displayName": "악마와의 거래",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "DevilsDeal",
+          "value": 15
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Ability",
+          "value": 2
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/SwiftApproach.asset",
+      "owner": "SSW",
+      "guid": "9fb2761c28b16984bb51637474868229",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        72
+      ],
+      "assetName": "SwiftApproach",
+      "previousDisplayName": "쾌속 접근",
+      "displayName": "쾌속 접근",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "SwiftApproach",
+          "value": 17
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Melee",
+          "value": 4
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [
+        {
+          "path": "Assets/SSW/Augments/Common/CooldownReduction.asset",
+          "guid": "6a47109ccae724c47b67c963ab446cb1",
+          "displayName": "쿨감",
+          "icon": null
+        }
+      ],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/NomNom.asset",
+      "owner": "SSW",
+      "guid": "c33d3f22ac79b2a4c82cb4a1027e65a1",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        73
+      ],
+      "assetName": "NomNom",
+      "previousDisplayName": "냠냠",
+      "displayName": "냠냠",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "NomNom",
+          "value": 18
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Melee",
+          "value": 4
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/SSW/Augments/Common/Magnet.asset",
+      "owner": "SSW",
+      "guid": "7744749f70c2358458f3900b74353aa7",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        74
+      ],
+      "assetName": "Magnet",
+      "previousDisplayName": "자석",
+      "displayName": "자석",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "Magnet",
+          "value": 19
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Melee",
+          "value": 4
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [
+        {
+          "path": "Assets/SSW/Augments/Common/BigWeapon.asset",
+          "guid": "2439745e467ca884ba7e5bbfd81789b1",
+          "displayName": "ㅈㄴ 큰 무기 (BF)",
+          "icon": null
+        }
+      ],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/AJH/03.SO/SkillAugment/ShrinkENgine.asset",
+      "owner": "AJH",
+      "guid": "749d3fbf76245cd449c670b509bae64a",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        75
+      ],
+      "assetName": "ShrinkENgine",
+      "previousDisplayName": "축소 엔진",
+      "displayName": "축소 엔진",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "ShrinkEngine",
+          "value": 24
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Ranged",
+          "value": 3
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [
+        {
+          "path": "Assets/SSW/Augments/Common/Spray.asset",
+          "guid": "33aa7a0b192b67d4286c9aa49fea3fe9",
+          "displayName": "스프레이",
+          "icon": null
+        }
+      ],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/AJH/03.SO/SkillAugment/Versatile.asset",
+      "owner": "AJH",
+      "guid": "08021ad2c91e74a48b2658a4e21d282f",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        76
+      ],
+      "assetName": "Versatile",
+      "previousDisplayName": "다재다능",
+      "displayName": "다재다능",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "Versatile",
+          "value": 25
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Ranged",
+          "value": 3
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [
+        {
+          "path": "Assets/SSW/Augments/Common/Thruster.asset",
+          "guid": "0f69fe47b4c71f540b8ddd7cddb2dab1",
+          "displayName": "추진기",
+          "icon": null
+        }
+      ],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/AJH/03.SO/SkillAugment/DoubleJump.asset",
+      "owner": "AJH",
+      "guid": "575a886541eac9c4290a2cd638547061",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        77
+      ],
+      "assetName": "DoubleJump",
+      "previousDisplayName": "더블점프",
+      "displayName": "더블점프",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "DoubleJump",
+          "value": 26
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Ranged",
+          "value": 3
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [
+        {
+          "path": "Assets/SSW/Augments/Common/BulletRefund.asset",
+          "guid": "a9d5636379d12a64db479bc2e507ba80",
+          "displayName": "총알 복제",
+          "icon": null
+        }
+      ],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/AJH/03.SO/SkillAugment/Slam.asset",
+      "owner": "AJH",
+      "guid": "fc5ec87d682bb7e4c912d35ee411214e",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        78
+      ],
+      "assetName": "Slam",
+      "previousDisplayName": "쿵",
+      "displayName": "쿵",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "Slam",
+          "value": 23
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Ranged",
+          "value": 3
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [
+        {
+          "path": "Assets/SSW/Augments/Common/Drill.asset",
+          "guid": "b6f6f16b1bd766445b556be68c536487",
+          "displayName": "드릴",
+          "icon": null
+        }
+      ],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/AJH/03.SO/SkillAugment/Minefield.asset",
+      "owner": "AJH",
+      "guid": "f05f86b8b9538cc49920badbc5456363",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        79
+      ],
+      "assetName": "Minefield",
+      "previousDisplayName": "지뢰밭",
+      "displayName": "지뢰밭",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "Minefield",
+          "value": 27
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Ranged",
+          "value": 3
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [
+        {
+          "path": "Assets/SSW/Augments/Common/RapidStrike.asset",
+          "guid": "2285aa216ea714b46af8072b370e3db6",
+          "displayName": "연타",
+          "icon": null
+        }
+      ],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/AJH/03.SO/SkillAugment/SlowAura.asset",
+      "owner": "AJH",
+      "guid": "8570b3c8b0b8afe40aa0caf680840c92",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        80
+      ],
+      "assetName": "SlowAura",
+      "previousDisplayName": "느려저라",
+      "displayName": "느려저라",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "SlowAura",
+          "value": 28
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Ranged",
+          "value": 3
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    },
+    {
+      "path": "Assets/AJH/03.SO/DefanceAugment/LeapBomb.asset",
+      "owner": "AJH",
+      "guid": "1997664b41a1a7b4ca96cd8d8868eb08",
+      "fileId": 11400000,
+      "networkIdsAtBasis": [
+        81
+      ],
+      "assetName": "LeapBomb",
+      "previousDisplayName": "폭탄 도약",
+      "displayName": "폭탄 도약",
+      "runtimeType": "SSW.CommonAugment",
+      "serializedEnums": [
+        {
+          "field": "type",
+          "enumType": "SSW.CommonAugmentType",
+          "name": "LeapBomb",
+          "value": 100
+        },
+        {
+          "field": "category",
+          "enumType": "SSW.CommonAugmentCategory",
+          "name": "Defense",
+          "value": 1
+        }
+      ],
+      "serializedIcon": "icon: {fileID: 0}",
+      "loadedIcon": null,
+      "verifiedIconSource": null,
+      "classification": "no_verified_original_icon_in_repository",
+      "enumMatchesForInspectionOnly": [],
+      "needed": "None. The user approved keeping the existing blank icon slot and actual name/description tooltip."
+    }
+  ],
+  "rejectedCandidates": [
+    {
+      "path": "Assets/AJH/Effects/Chain.png",
+      "guid": "007c6ae788b0adc489bbe3057fab4136",
+      "references": [
+        "Assets\\AJH\\Effects\\Chain.mat"
+      ]
+    },
+    {
+      "path": "Assets/AJH/Effects/Debris.png",
+      "guid": "695093633c688344abb7c7f0203d52a5",
+      "references": [
+        "Assets\\AJH\\Effects\\Debris.mat"
+      ]
+    },
+    {
+      "path": "Assets/AJH/Effects/DustPuff.png",
+      "guid": "bc51b9129e532554391baa076e8bc668",
+      "references": [
+        "Assets\\AJH\\Effects\\DustPuff.mat"
+      ]
+    },
+    {
+      "path": "Assets/AJH/Effects/HealPlus.png",
+      "guid": "21d6a0f1d76bdd644a29610c7db8ae0d",
+      "references": [
+        "Assets\\AJH\\Effects\\HealPlus.mat"
+      ]
+    },
+    {
+      "path": "Assets/AJH/Effects/HealRing.png",
+      "guid": "8ff08f926e08b9745a36a94dfea7b85f",
+      "references": [
+        "Assets\\AJH\\Effects\\HealRing.mat"
+      ]
+    },
+    {
+      "path": "Assets/AJH/Effects/IceBlock.png",
+      "guid": "1c5247213a74fde4f9e15b4d6e3ffd2a",
+      "references": [
+        "Assets\\AJH\\Effects\\IceBlock.mat"
+      ]
+    },
+    {
+      "path": "Assets/AJH/Effects/IceShard.png",
+      "guid": "923d18be86396ea4ba6236e861dee1db",
+      "references": [
+        "Assets\\AJH\\Effects\\IceShard.mat"
+      ]
+    },
+    {
+      "path": "Assets/AJH/Effects/MagnetField.png",
+      "guid": "efac13081666a7b47b1ec5d18e5aefcc",
+      "references": [
+        "Assets\\SSW\\Resources\\Network\\Common\\MagnetAura.prefab",
+        "Assets\\AJH\\02.Prefabs\\MagnetArea.prefab"
+      ]
+    },
+    {
+      "path": "Assets/AJH/Effects/MineBody.png",
+      "guid": "49256eb3bbb481b4287c1d95614c6a34",
+      "references": [
+        "Assets\\AJH\\02.Prefabs\\Mine.prefab",
+        "Assets\\AJH\\02.Prefabs\\FuseBomb.prefab",
+        "Assets\\SSW\\Resources\\Network\\Common\\Bomb.prefab",
+        "Assets\\SSW\\Resources\\Network\\Common\\Mine.prefab"
+      ]
+    },
+    {
+      "path": "Assets/AJH/Effects/NomField.png",
+      "guid": "20fc0c155d90e704fa4685c3cc92b68e",
+      "references": [
+        "Assets\\AJH\\02.Prefabs\\NomArea.prefab",
+        "Assets\\SSW\\Resources\\Network\\Common\\NomAura.prefab"
+      ]
+    },
+    {
+      "path": "Assets/AJH/Effects/RingField.png",
+      "guid": "dccd9497fae05fb45b3056b0c06cfd5f",
+      "references": []
+    },
+    {
+      "path": "Assets/AJH/Effects/SlowField.png",
+      "guid": "062b0bfaf11717244be67d6e3eff11a9",
+      "references": [
+        "Assets\\AJH\\02.Prefabs\\SlowArea.prefab",
+        "Assets\\SSW\\Resources\\Network\\Common\\SlowAura.prefab"
+      ]
+    },
+    {
+      "path": "Assets/AJH/Effects/SnowDot.png",
+      "guid": "f6457b8b85de02c4f9d4a1184c10382c",
+      "references": [
+        "Assets\\AJH\\Effects\\SnowDot.mat"
+      ]
+    },
+    {
+      "path": "Assets/JJW/Assest/CoinsV2_outline_18x18res.png",
+      "guid": "749930164ce9ee04cbfe4af14bd3a272",
+      "references": [
+        "Assets\\JJW\\Prefab\\SilverCoin.prefab",
+        "Assets\\JJW\\Prefab\\GoldCoin.prefab",
+        "Assets\\JJW\\Anime\\Silver.Coin.Spin.anim",
+        "Assets\\JJW\\Anime\\Gold.Coin.Spin.anim",
+        "Assets\\JJW\\Scene\\Gamblinger.unity",
+        "Assets\\SSW\\Resources\\Network\\Bolt.prefab",
+        "Assets\\SSW\\Resources\\Network\\Player.prefab"
+      ]
+    },
+    {
+      "path": "Assets/JJW/Assest/exec-093fc393-d692-491f-ba85-fc0952b87b24.png",
+      "guid": "957da3764d933704396bd638223b924b",
+      "references": []
+    },
+    {
+      "path": "Assets/JJW/Assest/exec-12edde05-4b59-4fdd-8945-5e294de27e0e.png",
+      "guid": "4403311a760ebc047b3ee8404b13ed8b",
+      "references": []
+    },
+    {
+      "path": "Assets/JJW/Assest/exec-c43b0116-1067-4966-ad86-2279e438d9d8.png",
+      "guid": "ebdb9a9e028a0a448ad16b1acb985eb8",
+      "references": []
+    },
+    {
+      "path": "Assets/JJW/Assest/LuckSprite.png",
+      "guid": "f9590b09666188b4480612504e205117",
+      "references": [
+        "Assets\\JJW\\Cards\\GamblerAugment_Luck.asset"
+      ]
+    },
+    {
+      "path": "Assets/KDH/Sprites/augmentation-icon-sheet.png",
+      "guid": "b01583b24cddcf744ba094dc88d45fab",
+      "references": [
+        "Assets\\KDH\\GameModules\\SOs\\Arguments\\KDH_Augment_ShurikenBullet.asset",
+        "Assets\\KDH\\GameModules\\SOs\\Arguments\\KDH_Augment_ShrinkingDeviceAbility.asset",
+        "Assets\\KDH\\GameModules\\SOs\\Arguments\\KDH_Augment_Quest_EvolutionAbility.asset",
+        "Assets\\KDH\\GameModules\\SOs\\Arguments\\KDH_Augment_PoisonBullet.asset",
+        "Assets\\KDH\\GameModules\\SOs\\Arguments\\KDH_Augment_AirBullet.asset",
+        "Assets\\KDH\\GameModules\\SOs\\Arguments\\KDH_Augment_LightningBullet.asset",
+        "Assets\\KDH\\GameModules\\SOs\\Arguments\\KDH_Augment_IceBullet.asset",
+        "Assets\\KDH\\GameModules\\SOs\\Arguments\\KDH_Augment_GravityBullet.asset",
+        "Assets\\KDH\\GameModules\\SOs\\Arguments\\KDH_Augment_FireBullet.asset",
+        "Assets\\KDH\\GameModules\\SOs\\Arguments\\KDH_Augment_BeautifulFootStepAbility.asset"
+      ]
+    }
+  ]
+}
