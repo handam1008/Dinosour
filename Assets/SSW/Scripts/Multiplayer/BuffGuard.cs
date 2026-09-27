@@ -118,9 +118,7 @@ namespace SSW
         public void Guard()
         {
             if (!IsOwner || !Ready) return;
-            
             GameAudio.Current.PlaySfx(_guardStartSound);
-            
             uint request = ++_request;
             if (!IsServer)
             {
