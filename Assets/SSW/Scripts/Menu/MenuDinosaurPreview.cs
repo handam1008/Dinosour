@@ -67,6 +67,15 @@ namespace SSW
             RefreshHat();
         }
 
+        public void SetFrames(Sprite[] frames)
+        {
+            if (frames == null || frames.Length == 0) return;
+            _idleFrames = frames;
+            _frameIndex = 0;
+            _frameTimer = 0f;
+            ApplyCurrentFrame();
+        }
+
         void OnRectTransformDimensionsChange() => RefreshHat();
 
         void RefreshHat()

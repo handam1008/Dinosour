@@ -33,14 +33,16 @@ namespace SSW
             using var ice = new StatValue(source.Ice);
             using var poison = new StatValue(source.Poison);
             using var shuriken = new StatValue(source.Shuriken);
+            using var air = new StatValue(source.Air);
             float fireDamage = fire.Integer("dotDamage");
             float gravityForce = gravity.Number("forceAmount");
             float iceSlow = ice.Number("slowAmount");
             float poisonDamage = poison.Number("dotDamage");
             float shurikenDamage = shuriken.Number("damage");
-            foreach (float value in new[] { fireDamage, gravityForce, iceSlow, poisonDamage, shurikenDamage })
+            float airForce = air.Number("flyPower");
+            foreach (float value in new[] { fireDamage, gravityForce, iceSlow, poisonDamage, shurikenDamage, airForce })
                 if (!float.IsFinite(value) || value < 0f) throw new InvalidOperationException(source.name + ": 탄환 수치는 유한한 0 이상의 값이어야 합니다.");
-            bool changed = source.Balance.Replace(fireDamage, gravityForce, iceSlow, poisonDamage, shurikenDamage);
+            bool changed = source.Balance.Replace(fireDamage, gravityForce, iceSlow, poisonDamage, shurikenDamage, airForce);
             if (changed)
             {
                 EditorUtility.SetDirty(source.Balance);
