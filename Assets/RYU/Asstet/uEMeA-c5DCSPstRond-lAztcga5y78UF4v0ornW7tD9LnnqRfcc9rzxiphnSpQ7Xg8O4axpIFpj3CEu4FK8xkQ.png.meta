@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 188e29179ddd1cc43ac32a455e937446
+guid: 5efc17936622f774cafad2f21e397bf0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8890855176392135699
-    second: ShotgunShellBig_0
+      213: 2305526208245899083
+    second: uEMeA-c5DCSPstRond-lAztcga5y78UF4v0ornW7tD9LnnqRfcc9rzxiphnSpQ7Xg8O4axpIFpj3CEu4FK8xkQ_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -75,7 +75,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ShotgunShellBig_0
+      name: uEMeA-c5DCSPstRond-lAztcga5y78UF4v0ornW7tD9LnnqRfcc9rzxiphnSpQ7Xg8O4axpIFpj3CEu4FK8xkQ_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 4
-        width: 16
-        height: 8
+        y: 0
+        width: 1000
+        height: 753
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: deb24b5a2565d9480800000000000000
-      internalID: -8890855176392135699
+      spriteID: b4f99d60fdfdeff10800000000000000
+      internalID: 2305526208245899083
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ShotgunShellBig_0: -8890855176392135699
+      uEMeA-c5DCSPstRond-lAztcga5y78UF4v0ornW7tD9LnnqRfcc9rzxiphnSpQ7Xg8O4axpIFpj3CEu4FK8xkQ_0: 2305526208245899083
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
