@@ -1490,6 +1490,10 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 6200000, guid: a8fca4245ed7ded41946c5499acb5650, type: 2}
+    - target: {fileID: 5880184205231039954, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      propertyPath: _job
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6163778109499660571, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -1771,7 +1775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3316593943
+  GlobalObjectIdHash: 2334970032
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
