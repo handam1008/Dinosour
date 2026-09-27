@@ -48,21 +48,22 @@ namespace SSW
             _cam = Camera.main;
             
             _wasGrounded = GetGroundCollider() != null;
-
-            SpeedFactor = 1f;
+            
         }
 
+        float _speedFactor = 1f;
+        
         public float SpeedFactor
         {
             get
             {
-                return SpeedFactor;
+                return _speedFactor;
             }
             set
             {
-                if (value > SpeedFactor)
+                if (value > _speedFactor)
                     GameAudio.Current.PlaySfx(speedUpSoundCue);
-                SpeedFactor = value;
+                _speedFactor = value;
             }
         }
 
