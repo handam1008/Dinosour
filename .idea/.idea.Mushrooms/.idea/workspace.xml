@@ -12,24 +12,16 @@
   <component name="ChangeListManager">
     <list default="true" id="6fb1d2c4-7096-4d2f-81e7-2333f2fed1f9" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/GameModules/Maps/KDH_Map 10.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/GameModules/Maps/KDH_Map 10.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/GameModules/Maps/KDH_Map 11.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/GameModules/Maps/KDH_Map 11.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/GameModules/Maps/KDH_Map 17.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/GameModules/Maps/KDH_Map 17.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/GameModules/Maps/KDH_Map 9.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/GameModules/Maps/KDH_Map 9.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map10.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map10.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map11.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map11.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map13.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map13.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map17.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map17.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map9.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map9.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_DinoBreathe.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_DinoBreathe.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_SakuraMode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_SakuraMode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_TimeLineController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_TimeLineController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_TouchScreenOutline.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_TouchScreenOutline.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_Volcano.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_Volcano.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/MapPrefab/KDH_Map 13.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MapPrefab/KDH_Map 13.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/GamblerSlotRoulette.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JJW/Script/Jackpot/GamblerSlotRoulette.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/SSW/Editor/Maps/MapSources.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SSW/Editor/Maps/MapSources.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map03.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map03.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map06.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map06.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map07.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map07.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map08.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map08.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map09.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map09.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map12.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map12.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map13.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map13.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map17.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map17.prefab" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,7 +189,7 @@
     "cidr.known.project.marker": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "KDH",
+    "git-widget-placeholder": "JJW",
     "junie.onboarding.icon.badge.shown": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
