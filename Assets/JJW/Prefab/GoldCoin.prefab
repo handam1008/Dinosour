@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4863835723881085068}
   - component: {fileID: 290845943808019721}
-  - component: {fileID: 8092684008334292647}
   - component: {fileID: -2401784603823651733}
   - component: {fileID: 5292981747097128063}
   - component: {fileID: -6135472757594836578}
@@ -97,28 +96,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!95 &8092684008334292647
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8595286371908887837}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2f7557579ec24804fa26a4612c807380, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &-2401784603823651733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,7 +113,6 @@ MonoBehaviour:
   speed: 20
   lifetime: 5
   ownerHitDelay: 0.1
-  coinDamage: 15
 --- !u!58 &5292981747097128063
 CircleCollider2D:
   m_ObjectHideFlags: 0

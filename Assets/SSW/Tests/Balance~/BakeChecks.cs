@@ -1,15 +1,16 @@
 if (UnityEditor.EditorApplication.isPlaying) throw new System.InvalidOperationException("Stop play mode first");
 const string folder = "Assets/SSW/Tests/BalanceFixture";
 if (UnityEditor.AssetDatabase.IsValidFolder(folder)) throw new System.InvalidOperationException("BalanceFixture already exists");
-const string log = "Logs/Balance26/BakeChecks.json";
+const string log = "Logs/Air27/BakeChecks.json";
+System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(log));
 var checks = new System.Collections.Generic.List<string>();
 var observations = new System.Collections.Generic.List<object>();
 var original = UnityEditor.AssetDatabase.LoadAssetAtPath<SSW.GunSources>("Assets/SSW/Editor/GunSources.asset");
-var sourceObjects = new UnityEngine.Component[] { original.Fire, original.Gravity, original.Ice, original.Poison, original.Shuriken };
-var sourceFields = new[] { "dotDamage", "forceAmount", "slowAmount", "dotDamage", "damage" };
-var referenceFields = new[] { "_fire", "_gravity", "_ice", "_poison", "_shuriken" };
-var expected = new[] { 1f, 10f, 0.3f, 2f, 1f };
-var changed = new[] { 4f, 13f, 0.6f, 3f, 5f };
+var sourceObjects = new UnityEngine.Component[] { original.Fire, original.Gravity, original.Ice, original.Poison, original.Shuriken, original.Air };
+var sourceFields = new[] { "dotDamage", "forceAmount", "slowAmount", "dotDamage", "damage", "flyPower" };
+var referenceFields = new[] { "_fire", "_gravity", "_ice", "_poison", "_shuriken", "_air" };
+var expected = new[] { 1f, 10f, 0.3f, 2f, 1f, 10f };
+var changed = new[] { 4f, 13f, 0.6f, 3f, 5f, 7f };
 var sourceBytes = new System.Collections.Generic.Dictionary<string, byte[]>();
 foreach (var source in sourceObjects)
 {
@@ -21,7 +22,7 @@ var previousScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
 string previousPath = previousScene.path;
 bool previousDirty = previousScene.isDirty;
 bool Near(float a, float b) => UnityEngine.Mathf.Abs(a - b) < 0.0001f;
-float[] Values(SSW.GunBalance balance) => new[] { balance.FireDamage, balance.GravityForce, balance.IceSlow, balance.PoisonDamage, balance.ShurikenDamage };
+float[] Values(SSW.GunBalance balance) => new[] { balance.FireDamage, balance.GravityForce, balance.IceSlow, balance.PoisonDamage, balance.ShurikenDamage, balance.AirForce };
 void Check(bool value, string label)
 {
     if (!value) throw new System.InvalidOperationException(label);
@@ -39,6 +40,7 @@ async System.Threading.Tasks.Task Run()
     {
         Match(original.Balance, expected, "production defaults");
         Check(UnityEditor.PrefabUtility.GetPrefabAssetType(original.Fire) == UnityEditor.PrefabAssetType.Variant, "fire uses SSW variant");
+        Check(UnityEditor.PrefabUtility.GetPrefabAssetType(original.Air) == UnityEditor.PrefabAssetType.Variant, "air uses SSW variant");
         var parentFire = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.GameObject>("Assets/KDH/GameModules/Prefabs/AbilityBullets/KDH_FireBullet.prefab").GetComponent<KDH.Scripts.Upgrade.Instances.Bullets.KDH_FireBullet>();
         Check(new UnityEditor.SerializedObject(parentFire).FindProperty("dotDamage").intValue == 2, "team fire original stays two");
         Check(!SSW.GunBake.Bake(original), "unchanged bake is idempotent");
@@ -97,10 +99,10 @@ async System.Threading.Tasks.Task Run()
         }
         Match(balance, changed, "automatic import update");
         observations.Add(new { stage = "import", values = Values(balance) });
-        balance.Replace(99f, 99f, 99f, 99f, 99f);
+        balance.Replace(99f, 99f, 99f, 99f, 99f, 99f);
         new SSW.GunBuild().OnPreprocessBuild(null);
         Match(balance, changed, "build callback refresh");
-        balance.Replace(99f, 99f, 99f, 99f, 99f);
+        balance.Replace(99f, 99f, 99f, 99f, 99f, 99f);
         typeof(SSW.GunBake).GetMethod("OnPlay", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic)
             .Invoke(null, new object[] { UnityEditor.PlayModeStateChange.ExitingEditMode });
         Match(balance, changed, "play callback refresh");

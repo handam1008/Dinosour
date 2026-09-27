@@ -29,7 +29,7 @@ namespace SSW
         [SerializeField] float _tenLivesHealth = 3f;
         [SerializeField] float _tenLivesDamage = 1f;
         [SerializeField] float _multiscaleReduction = 0.5f;
-        [SerializeField] float _regenAmount = 1f;
+        [SerializeField] float _regenRatio = 0.01f;
         [SerializeField] float _regenInterval = 1f;
         [SerializeField] float _versatileHpBonus = 0.05f;
         readonly HashSet<CommonAugmentType> _owned = new HashSet<CommonAugmentType>();
@@ -130,7 +130,7 @@ namespace SSW
             _regenTime += Time.deltaTime;
             if (_regenTime < _regenInterval) return;
             _regenTime %= Mathf.Max(0.01f, _regenInterval);
-            if (_player.Health.Current < _player.Health.Max) _player.Health.Heal(_regenAmount);
+            if (_player.Health.Current < _player.Health.Max) _player.Health.Heal(_player.Health.Max * _regenRatio);
         }
 
         public float ModifyOutgoingDamage(float amount)

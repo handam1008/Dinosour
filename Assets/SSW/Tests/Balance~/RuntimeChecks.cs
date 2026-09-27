@@ -85,7 +85,7 @@ async System.Threading.Tasks.Task Run()
         var bolt = boltObject.AddComponent<SSW.NetBolt>();
         for (int profile = 0; profile < 2; profile++)
         {
-            if (profile == 1) balance.Replace(4f, 13f, 0.6f, 3f, 5f);
+            if (profile == 1) balance.Replace(4f, 13f, 0.6f, 3f, 5f, balance.AirForce);
             for (int chargedIndex = 0; chargedIndex < (profile == 0 ? 2 : 1); chargedIndex++)
             {
                 bool charged = chargedIndex == 1;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DevLib.SoundSystem.Runtime;
 using UnityEngine;
 
 namespace SSW
@@ -17,6 +18,7 @@ namespace SSW
         [SerializeField] float _damage = 10f;
         [SerializeField] float _knockback = 6f;
         [SerializeField] GameObject _explosionPrefab;
+        [SerializeField] SoundClipSO _explodeSound;
 
         Health _owner;
         float _timer;
@@ -61,6 +63,7 @@ namespace SSW
         {
             Vector2 center = transform.position;
             Instantiate(_explosionPrefab, center, Quaternion.identity);
+            GameAudio.GetOrCreate().PlaySfx(_explodeSound);
 
             var targets = new HashSet<Health>();
             foreach (Collider2D hit in Physics2D.OverlapCircleAll(center, _radius))

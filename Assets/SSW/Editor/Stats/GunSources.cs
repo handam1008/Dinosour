@@ -12,6 +12,7 @@ namespace SSW
         [SerializeField] KDH_IceBullet _ice;
         [SerializeField] KDH_PoisonBullet _poison;
         [SerializeField] KDH_ShurikenBullet _shuriken;
+        [SerializeField] KDH_AirBullet _air;
 
         public GunBalance Balance => _balance;
         public KDH_FireBullet Fire => _fire;
@@ -19,5 +20,6 @@ namespace SSW
         public KDH_IceBullet Ice => _ice;
         public KDH_PoisonBullet Poison => _poison;
         public KDH_ShurikenBullet Shuriken => _shuriken;
+        public KDH_AirBullet Air => _air;
     }
 }
