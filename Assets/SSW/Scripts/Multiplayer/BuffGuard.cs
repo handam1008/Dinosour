@@ -46,6 +46,10 @@ namespace SSW
         [SerializeField] float _leapBombCoolPenalty = 0.2f;
         [SerializeField] float _versatileGuardCool = 0.1f;
         
+        [Header("sound")]
+        [SerializeField] SoundCue _guardStartSound;
+        [SerializeField] SoundCue _guardSuccessSound;
+        
         [SerializeField] SoundCue _blinkSound;
         [SerializeField] SoundCue _blinkHitSound;
         [SerializeField] SoundCue _iceAgeSound;
@@ -63,6 +67,8 @@ namespace SSW
         uint _request;
         double _previewUntil;
         double _previewReady;
+        
+        bool _guardBlocked;
 
         int IIncomingDamageModifier.Priority => -100;
         int IOutgoingDamageModifier.Priority => 200;
@@ -112,6 +118,9 @@ namespace SSW
         public void Guard()
         {
             if (!IsOwner || !Ready) return;
+            
+            NetGame.Current.Sounds.Play(_guardStartSound);
+            
             uint request = ++_request;
             if (!IsServer)
             {
@@ -229,12 +238,33 @@ namespace SSW
             }
         }
 
-        public float ModifyIncomingDamage(DamageRequest request, float amount) =>
-            IsServer && IsSpawned && _player.CanAct && Now < _guardUntil.Value && !request.HasTag(DamageTag.IgnoreDefense) ? 0f : amount;
+        public float ModifyIncomingDamage(DamageRequest request, float amount)
+        {
+            bool blocked =
+                IsServer &&
+                IsSpawned &&
+                _player.CanAct &&
+                Now < _guardUntil.Value &&
+                !request.HasTag(DamageTag.IgnoreDefense);
+
+            if (blocked)
+            {
+                _guardBlocked = true;
+                return 0f;
+            }
+
+            return amount;
+        }
 
         public void OnDamageReceived(DamageRequest request, DamageResult result)
         {
-            if (!IsServer || !_player.CanAct || !Has(CommonAugmentType.CounterAttack) || !result.WasBlocked
+            if (!IsServer) return;
+            if (_guardBlocked)
+            {
+                _guardBlocked = false;
+                NetGame.Current.Sounds.Play(_guardSuccessSound);
+            }
+            if(!_player.CanAct || !Has(CommonAugmentType.CounterAttack) || !result.WasBlocked
                 || request.HasTag(DamageTag.DamageOverTime) || request.HasTag(DamageTag.IgnoreDefense) || request.Source == null) return;
             NetPlayer source = request.Source.GetComponentInParent<NetPlayer>();
             if (source == null || source == _player || !source.CanAct) return;
