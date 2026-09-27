@@ -1498,6 +1498,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6788280260029214162, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      propertyPath: jumpSoundCue
+      value: 
+      objectReference: {fileID: 11400000, guid: 6f5462759b95c32499e8c1ade2c71a3b, type: 2}
+    - target: {fileID: 6788280260029214162, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      propertyPath: landingSoundCue
+      value: 
+      objectReference: {fileID: 11400000, guid: 3cd3a0fe61595fa42b316e98c06a4404, type: 2}
+    - target: {fileID: 6788280260029214162, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      propertyPath: speedUpSoundCue
+      value: 
+      objectReference: {fileID: 11400000, guid: 1eebb852f21a50d4fa5791371d823299, type: 2}
     - target: {fileID: 6925705789318854207, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -1511,6 +1523,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ba1b79262c399f14ca5594cd639dfcfd, type: 2}
     - target: {fileID: 7897379110350336686, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      propertyPath: hitSoundCue
+      value: 
+      objectReference: {fileID: 11400000, guid: 9768797a6ccbf4443b12d1ed55e5de2c, type: 2}
+    - target: {fileID: 7897379110350336686, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      propertyPath: deadSoundCue
+      value: 
+      objectReference: {fileID: 11400000, guid: 486f403afefbbbe4189edc8a62f5e6ed, type: 2}
+    - target: {fileID: 7897379110350336686, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
       propertyPath: _numberAnchor
       value: 
       objectReference: {fileID: 539814333283446539}
@@ -1518,6 +1538,10 @@ PrefabInstance:
       propertyPath: _disableOnDeath
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7897379110350336686, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      propertyPath: healingSoundCue
+      value: 
+      objectReference: {fileID: 11400000, guid: 50193597ffeb42146abb8872a94d2404, type: 2}
     - target: {fileID: 7897379110350336686, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
       propertyPath: healthChangeEvent
       value: 
@@ -1775,7 +1799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 2334970032
+  GlobalObjectIdHash: 3316593943
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -2230,6 +2254,8 @@ MonoBehaviour:
   _leapBombSpread: 3
   _leapBombCoolPenalty: 0.2
   _versatileGuardCool: 0.1
+  _guardStartSound: {fileID: 11400000, guid: bd154ff7459228344991c0c4ee7cc45f, type: 2}
+  _guardSuccessSound: {fileID: 11400000, guid: e27080164bf844f43965ad4297fa206d, type: 2}
   _blinkSound: {fileID: 11400000, guid: 1e7d4047379c13648b9064d2d0088c16, type: 2}
   _blinkHitSound: {fileID: 11400000, guid: 9768797a6ccbf4443b12d1ed55e5de2c, type: 2}
   _iceAgeSound: {fileID: 11400000, guid: 68c93fa57d606e344b60fa98fcce3bab, type: 2}

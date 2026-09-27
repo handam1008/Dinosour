@@ -1,4 +1,5 @@
 using System.Collections;
+using DevLib.SoundSystem.Runtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +14,11 @@ namespace SSW
         [SerializeField] float _counterMoveBrake = 30f;
         [SerializeField] LayerMask _whatIsGround;
         [SerializeField] Transform _visual;
+        
+        [Header("sound")]
+        [SerializeField] SoundCue jumpSoundCue;
+        [SerializeField] SoundCue landingSoundCue;
+        [SerializeField] SoundCue speedUpSoundCue;
 
         IPlayerDrive _drive;
         IForceReceiver _networkForce;
@@ -199,6 +205,7 @@ namespace SSW
         void OnJump(InputValue value)
         {
             if (!value.isPressed) return;
+            GameAudio.Current.PlaySfx(jumpSoundCue);
             if (_drive != null) _drive.Jump();
             else Jump();
         }

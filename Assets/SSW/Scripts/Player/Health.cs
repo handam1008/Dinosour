@@ -18,6 +18,11 @@ namespace SSW
         [SerializeField] SpriteRenderer _numberAnchor;
         [SerializeField] private DoubleFloatEventChannelSO healthChangeEvent;//�ٲ� NKY
         [SerializeField] private VoidEventChannelSO hitEvent;//�ٲ� NKY
+        
+        [Header("sound")]
+        [SerializeField] SoundCue healingSoundCue;
+        [SerializeField] SoundCue hitSoundCue;
+        [SerializeField] SoundCue deadSoundCue;
         public event System.Action OnDamaged;
         public event System.Action OnDied;
         public event System.Action<float, float> OnHealthChanged;
@@ -98,6 +103,7 @@ namespace SSW
 
             DamageResult result = new DamageResult(requestedAmount, appliedAmount, wasLethal);
             NotifyDamageReceived(request, result);
+            NetGame.Current.Sounds.Play(hitSoundCue);
             if (wasLethal) Die();
             return result;
         }
@@ -108,6 +114,7 @@ namespace SSW
             if (!float.IsFinite(amount) || amount <= 0f) return;
             if (_authority != null && (current <= 0f || !_authority.CanChange)) return;
 
+            GameAudio.Current.PlaySfx(healingSoundCue);
             float previous = current;
             current = Mathf.Min(current + amount, maxHealth);
             float restored = current - previous;
@@ -193,7 +200,7 @@ namespace SSW
                 gameObject.SetActive(false);
                 return;
             }
-
+            NetGame.Current.Sounds.Play(deadSoundCue);
             StartCoroutine(DisableAfterDeath());
         }
 
