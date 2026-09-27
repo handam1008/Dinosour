@@ -18147,6 +18147,7 @@ MonoBehaviour:
   _sfxVolume: {fileID: 1212854211}
   _fadeDuration: 0.22
   _buttonStagger: 0.07
+  _titleboardPanel: {fileID: 0}
 --- !u!4 &1926424804
 Transform:
   m_ObjectHideFlags: 0
@@ -19099,7 +19100,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 24, y: -24}
-  m_SizeDelta: {x: 480, y: 180}
+  m_SizeDelta: {x: 336, y: 180}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2085399632
 MonoBehaviour:
