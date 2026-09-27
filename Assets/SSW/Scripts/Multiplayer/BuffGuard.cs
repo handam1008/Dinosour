@@ -47,6 +47,7 @@ namespace SSW
         [SerializeField] float _versatileGuardCool = 0.1f;
         
         [SerializeField] SoundCue _blinkSound;
+        [SerializeField] SoundCue _blinkHitSound;
         [SerializeField] SoundCue _iceAgeSound;
         [SerializeField] SoundCue _nuclearChargeSound;
         [SerializeField] SoundCue _nuclearBlastSound;
@@ -158,6 +159,7 @@ namespace SSW
             {
                 _player.Drive.Burst(_player.Aim, _blinkDistance, _blinkDuration);
                 NetGame.Current.Sounds.Play(_blinkSound);
+                NetGame.Current.Sounds.Play(_blinkHitSound);
             }
             if (LeapBomb)
             {

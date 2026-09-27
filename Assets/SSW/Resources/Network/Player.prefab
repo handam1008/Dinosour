@@ -2229,6 +2229,7 @@ MonoBehaviour:
   _leapBombCoolPenalty: 0.2
   _versatileGuardCool: 0.1
   _blinkSound: {fileID: 11400000, guid: 1e7d4047379c13648b9064d2d0088c16, type: 2}
+  _blinkHitSound: {fileID: 11400000, guid: 9768797a6ccbf4443b12d1ed55e5de2c, type: 2}
   _iceAgeSound: {fileID: 11400000, guid: 68c93fa57d606e344b60fa98fcce3bab, type: 2}
   _nuclearChargeSound: {fileID: 11400000, guid: c247d40d9a951714aa97f9aa738258b4, type: 2}
   _nuclearBlastSound: {fileID: 11400000, guid: 384d1c8215f38e24e995e816c45d02f5, type: 2}
@@ -2263,6 +2264,7 @@ MonoBehaviour:
   _bombDamage: 10
   _bombKnockback: 6
   _bombSound: {fileID: 11400000, guid: 2fd1562b2db58e547a374bb60f8c1df2, type: 2}
+  _healSound: {fileID: 11400000, guid: 50193597ffeb42146abb8872a94d2404, type: 2}
 --- !u!114 &4522295323016243359
 MonoBehaviour:
   m_ObjectHideFlags: 0
