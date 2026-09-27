@@ -15,7 +15,7 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
     
         KDH_Bullet _bullet;
         
-        SoundCue dotDamageSound;
+        // SoundCue dotDamageSound;
         
         public float TickInterval { get; private set; }
 
@@ -52,11 +52,11 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
                 if (_bullet == null)
                     _bullet = bullet;
                     
-                if (dotDamageSound == null)
-                    dotDamageSound = _bullet.PlayerGun.SoundCues.list[5];
-                    
-                if (dotDamageSound != null)
-                    ServiceLocator.Get<IAudioService>().PlaySfx(dotDamageSound);
+                // if (dotDamageSound == null)
+                //     dotDamageSound = _bullet.PlayerGun.SoundCues.list[5];
+                //     
+                // if (dotDamageSound != null)
+                //     ServiceLocator.Get<IAudioService>().PlaySfx(dotDamageSound);
                 
                 _remainingTicks--;
                 _damageable?.TakeDamage(_tickDamage);

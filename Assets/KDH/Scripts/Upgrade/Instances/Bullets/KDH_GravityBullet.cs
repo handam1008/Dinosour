@@ -23,11 +23,11 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
             HitPoint = collision.transform;
             Bullet = bullet;
 
-            if (_gravitySound == null)
-                _gravitySound = Bullet.PlayerGun.SoundCues.list[7];
-            
-            if (_gravitySound  != null)
-                NetGame.Current.Sounds.Play(_gravitySound);
+            // if (_gravitySound == null)
+            //     _gravitySound = Bullet.PlayerGun.SoundCues.list[7];
+            //
+            // if (_gravitySound  != null)
+            //     NetGame.Current.Sounds.Play(_gravitySound);
             
             if (Bullet.IsUpgraded)
             {

@@ -23,7 +23,7 @@ public class KDH_ShrinkingDevice : KDH_AbstractPlayerAbility
     private void Awake()
     {
         _gun = transform.root.gameObject.GetComponent<KDH_Gun>();
-        shrinkingSound = _gun.SoundCues.list[3];
+        // shrinkingSound = _gun.SoundCues.list[3];
     }
         
     private void Update()
