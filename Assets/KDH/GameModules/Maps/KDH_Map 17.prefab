@@ -10608,6 +10608,7 @@ MonoBehaviour:
   minRange: 0.1
   relationTime: 10
   duration: 5
+  clockSound: {fileID: 11400000, guid: 4de464625d269854683e81ee5b76c3f5, type: 2}
   onTimeLineStart:
     m_PersistentCalls:
       m_Calls:

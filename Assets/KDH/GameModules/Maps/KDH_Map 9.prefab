@@ -7528,6 +7528,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH_Volcano
   damage: 20
+  volcanoSound: {fileID: 11400000, guid: de10f90f7518a8444bd1bccd910bf21b, type: 2}
 --- !u!1 &7670378156131957868
 GameObject:
   m_ObjectHideFlags: 0
