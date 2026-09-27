@@ -12580,6 +12580,7 @@ MonoBehaviour:
   coinShooter: {fileID: 2016847338}
   augmentController: {fileID: 904079614}
   health: {fileID: 904079632}
+  slotRoulette: {fileID: 1638371167}
   normalDamageChance: 8
   normalHealChance: 8
   normalInvincibleChance: 8
@@ -35191,6 +35192,62 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!1 &1638371165
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1638371166}
+  - component: {fileID: 1638371167}
+  m_Layer: 0
+  m_Name: Roulette
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1638371166
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638371165}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.65, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 337175680}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1638371167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638371165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c6e5ff8c20694e4890b5d34944263bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::JJW.Script.Jackpot.GamblerSlotRoulette
+  leftStopTime: 1.8
+  middleStopTime: 2.15
+  rightStopTime: 2.5
+  symbolStepDuration: 0.075
+  resultHoldDuration: 0.55
+  fadeDuration: 0.12
+  visualLocalPosition: {x: 0, y: 0, z: 0}
+  visualScale: 0.0035
+  sortingOrder: 50
+  audioSource: {fileID: 0}
+  reelStopSound: {fileID: 0}
+  reelStopVolume: 0.7
 --- !u!1 &1642719486
 GameObject:
   m_ObjectHideFlags: 0
@@ -51086,6 +51143,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8821414762111665215, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1844821541}
+    - targetCorrespondingSourceObject: {fileID: 8821414762111665215, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1638371166}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 11155713228905163, guid: 586b70cf906d4304ebde4f937725b1a6, type: 3}
       insertIndex: -1
