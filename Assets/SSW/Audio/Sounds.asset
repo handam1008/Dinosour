@@ -14,7 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SSW.SoundBank
   _menu: {fileID: 11400000, guid: 1cb9cbb2b7330594287ab711fdc535e4, type: 2}
   _battle: {fileID: 11400000, guid: e485385da7f3cc342a2324a20fe14e92, type: 2}
-  _shared: []
+  _shared:
+  - {fileID: 11400000, guid: b059d817d8e35d546a82aecdb041bcc4, type: 2}
+  - {fileID: 11400000, guid: d0faf6beb05ebc04fb93e795d1920804, type: 2}
+  - {fileID: 11400000, guid: 23811c7046f2717418d283d6bbe720e6, type: 2}
+  - {fileID: 11400000, guid: ac0ea855c3cd7484d83d058711236f74, type: 2}
+  - {fileID: 11400000, guid: 1deea522e0fde184d9a2316c375f03ef, type: 2}
   _jobs:
   - Job: 1
     Attack: {fileID: 11400000, guid: b9eb55e792a6dce429efbb593cd9b631, type: 2}

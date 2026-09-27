@@ -1,6 +1,9 @@
 using System.Collections;
+using DevLib.ServiceLocator;
 using KDH.Scripts.Gun;
+using KDH.Scripts.Sounds;
 using KDH.Scripts.Upgrade;
+using SSW;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,10 +18,12 @@ public class KDH_ShrinkingDevice : KDH_AbstractPlayerAbility
     private bool _canUseSkill;
     
     private KDH_Gun _gun;
+    private SoundCue shrinkingSound;
     
     private void Awake()
     {
         _gun = transform.root.gameObject.GetComponent<KDH_Gun>();
+        shrinkingSound = _gun.SoundCues.list[3];
     }
         
     private void Update()
@@ -39,6 +44,10 @@ public class KDH_ShrinkingDevice : KDH_AbstractPlayerAbility
         if (!_canUseSkill) return;
         
         StartCoroutine(ChangeLocalScale());
+        
+        if (shrinkingSound != null)
+            ServiceLocator.Get<IAudioService>().PlaySfx(shrinkingSound);
+        
         _canUseSkill = false;
         onHitPlayer?.Invoke();
     }
