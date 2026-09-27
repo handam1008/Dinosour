@@ -1,6 +1,6 @@
 # 2026-09-27 전투·메뉴 수정
 
-Unity 6000.5.2f1, 프로토콜 23, 통합 기준 Base `3e5d1da`.
+Unity 6000.5.2f1, 프로토콜 23. 효과 검증 기준은 Base `3e5d1da`이며, 이후 Base `992a0f7`의 팀원 룰렛·맵 경계 변경을 `28aaaba`에 충돌 없이 통합했다.
 
 ## 변경
 
@@ -44,6 +44,8 @@ Unity 6000.5.2f1, 프로토콜 23, 통합 기준 Base `3e5d1da`.
 - `SwordLinks23L`: 최신 Base SO와 변경된 효과로 100개 검사 통과. 양쪽 소유자에서 2초 쿨감, 1·2초 출혈, 0.5초 속박, 발도 실제 피해의 30% 즉시 회복 및 평타 중복 회복 없음, 4초 증폭 만료, 새 SO 여섯 개 UI 선택을 확인했다. 조합 검사는 첫 실제 평타 패링 뒤 두 번째 투사체 피해를 CombatDamage로 주입해 복수 피격 패링과 증폭의 상호작용을 검사했다. 두 번째 피격은 실제 투사체 입력이 아니다. 이 실행은 `build_1c324478117c`를 사용했다.
 - `Logs/AugmentLink27/RoomScore.json`: 별도 UGS 익명 프로필에서 비공개 방 생성·퇴장 2회. 전후 랭킹 등록 없음, Ended/Reported 이벤트 각각 0회, 종료 시 방 없음. 기존 계정의 점수를 쓰지 않았다.
 - `Logs/AugmentLink27/ProfileScore.json`: 실제 Reported 이벤트에 검사용 결과를 전달해 연결된 메뉴 텍스트가 `1234점`으로 갱신됨을 확인했다. Cloud Code의 실제 경기 점수 지급 검사는 아니다.
+- `Logs/AugmentLink27/FinalBuild.json`: 통합 커밋 `28aaaba`에서 기본 씬 목록으로 Windows 일반 빌드 `build_42d2f8bd300a` 성공. 오류 0개, 기존 팀원 코드·프로젝트 설정 경고 10개. 결과는 `Builds/Final23/Game.exe`다.
+- `Logs/AugmentLink27/FinalInspect.json`과 `Protocol.json`: 최종 SO 여섯 개 연결, 검사 후보 10개, 예약 ID 85, 두 맵 프레임, Player 네트워크 ID, 피해 숫자 참조와 최신 검사 수치를 다시 확인했다. 최종 실행 파일과 에디터의 프로토콜은 모두 23이며 배포 파일에는 NetProbe가 없다. 에디터는 수정되지 않은 MainMenu에서 Play를 정지한 상태다.
 
 재현:
 
