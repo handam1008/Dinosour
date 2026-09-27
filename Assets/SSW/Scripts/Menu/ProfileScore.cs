@@ -7,13 +7,15 @@ namespace SSW
 
         public bool HasValue { get; private set; }
         public double Value { get; private set; }
+        public int? Rank { get; private set; }
 
         public int BeginRead() => ++_revision;
 
-        public bool CompleteRead(int revision, double value)
+        public bool CompleteRead(int revision, double value, int? rank = null)
         {
             if (revision != _revision || _reported && value != Value) return false;
             Value = value;
+            Rank = rank;
             HasValue = true;
             _reported = false;
             return true;
@@ -23,6 +25,7 @@ namespace SSW
         {
             ++_revision;
             Value = value;
+            Rank = null;
             HasValue = true;
             _reported = true;
         }

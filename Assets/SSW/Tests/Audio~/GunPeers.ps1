@@ -1,4 +1,4 @@
-param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/GunSound27/Game.exe',[switch]$Quick)
+param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/GunSound27/Game.exe',[switch]$Quick,[switch]$Titles)
 $ErrorActionPreference='Stop'
 $Project=[IO.Path]::GetFullPath($Project).Replace('\','/')
 $root="$Project/Logs/GunSound27/$Run"
@@ -23,14 +23,20 @@ function Eval([string]$code){
     return $value
 }
 function Read($peer){
-    for($n=0;$n -lt 5;$n++){try{return Get-Content -LiteralPath "$root/$peer.json" -Raw|ConvertFrom-Json}catch{Start-Sleep -Milliseconds 15}}
+    for($n=0;$n -lt 5;$n++){
+        try{
+            $snapshot=[IO.File]::ReadAllText("$root/$peer.json")|ConvertFrom-Json
+            if($snapshot -and $snapshot.probeVersion){return $snapshot}
+        }catch{}
+        Start-Sleep -Milliseconds 15
+    }
     return $null
 }
 function Await([string]$label,[scriptblock]$condition,[int]$timeout=10){
     $until=[DateTime]::UtcNow.AddSeconds($timeout)
     do{
         $script:h=Read host;$script:c=Read client
-        if($h.error -or $c.error){throw "Probe error: $($h.error) $($c.error)"}
+        if(-not [string]::IsNullOrWhiteSpace([string]$h.error) -or -not [string]::IsNullOrWhiteSpace([string]$c.error)){throw "Probe error: $($h.error) $($c.error)"}
         if($h -and $c -and (& $condition)){return}
         Start-Sleep -Milliseconds 30
     }while([DateTime]::UtcNow -lt $until)
@@ -108,12 +114,31 @@ try{
     $until=[DateTime]::UtcNow.AddSeconds(45)
     do{& $cli command editor_status --caller plugin --skill unity-cli --project-path $Project --format json|Out-Null;try{$scene=Eval 'return UnityEditor.EditorApplication.isPlaying&&!UnityEditor.EditorApplication.isCompiling?UnityEngine.SceneManagement.SceneManager.GetActiveScene().name:"";'}catch{$scene=''};if($scene -eq 'MainMenu'){break};Start-Sleep -Milliseconds 300}while([DateTime]::UtcNow -lt $until)
     if($scene -ne 'MainMenu'){throw 'Menu did not become ready'}
+    $titleArguments=@()
+    if($Titles){
+        Eval 'SSW.NetGame.GetOrCreate();return true;'|Out-Null
+        $titlesSetup=Eval (Get-Content -LiteralPath "$Project/Assets/SSW/Tests/Audio~/TitleSelect.cs" -Raw)
+        $titlesSetup|ConvertTo-Json|Set-Content -LiteralPath "$root/TitleSelection.json"
+        $titleArguments=@('--net-name','접속자#0002')
+    }
     Eval ('var g=SSW.NetGame.GetOrCreate();g.gameObject.AddComponent<SSW.NetProbe>().Init("'+$root+'/host");g.StartLocal(true,"127.0.0.1",SSW.PlayerJob.Gunner,30718);return true;')|Out-Null
-    $clientProcess=Start-Process -FilePath (Join-Path $Project $Build) -WorkingDirectory $Project -ArgumentList @('--net-mode','client','--net-address','127.0.0.1','--net-port','30718','--net-job','Gunner','--net-probe',"$root/client",'-logFile',"$root/client.log",'-screen-fullscreen','0','-screen-width','800','-screen-height','450') -WindowStyle Hidden -PassThru
+    if($Titles){Send host watch}
+    $clientArgs=@('--net-mode','client','--net-address','127.0.0.1','--net-port','30718','--net-job','Gunner','--net-probe',"$root/client",'-logFile',"$root/client.log",'-screen-fullscreen','0','-screen-width','800','-screen-height','450')+$titleArguments
+    $clientProcess=Start-Process -FilePath (Join-Path $Project $Build) -WorkingDirectory $Project -ArgumentList $clientArgs -WindowStyle Hidden -PassThru
+    if($Titles){
+        Await 'client probe ready' {$c.listening} 60
+        Send client watch
+        Await 'selected titles on both intro cards' {$h.intro -and $c.intro -and $h.leftTag -eq $titlesSetup.selected -and $h.rightTag -eq $titlesSetup.remote -and $c.leftTag -eq $titlesSetup.remote -and $c.rightTag -eq $titlesSetup.selected} 60
+        Check $true 'selected title refreshed on join and both intro cards use each player title'
+        @{host=$h;client=$c}|ConvertTo-Json -Depth 15|Set-Content -LiteralPath "$root/TitleIntro.json"
+    }
     Await 'both drafts' {$h.phase -eq 'Draft' -and $c.phase -eq 'Draft'} 60
     foreach($peer in @('host','client')){Send $peer lag 60 10 0;Send $peer isolate;Send $peer wideground}
     Eval 'var g=SSW.NetGame.Current;typeof(SSW.BattleMap).GetField("_fallY",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).SetValue(g.Arena.Map,-1000f);foreach(var p in g.Players){p.Drive.Teleport(new UnityEngine.Vector2(p.Side*-3f,3f));p.Draft.Restore(System.Array.Empty<int>());}g.Match.Picked();return true;'|Out-Null
     Await 'both playing' {$h.phase -eq 'Playing' -and $c.phase -eq 'Playing'} 30
+    if($Titles){
+        Check (($h.players|Where-Object id -eq 0).tag -eq $titlesSetup.selected -and ($c.players|Where-Object id -eq 0).tag -eq $titlesSetup.selected -and ($h.players|Where-Object id -eq 1).tag -eq $titlesSetup.remote -and ($c.players|Where-Object id -eq 1).tag -eq $titlesSetup.remote) 'fighter titles remain replicated after intro'
+    }
     Eval 'SSW.NetGame.Current.Local.Block(true);return !SSW.NetGame.Current.Local.Input.inputIsActive;'|Out-Null
     Send client escape
     Await 'client physical gameplay input blocked' {$c.menuOpen} 5
