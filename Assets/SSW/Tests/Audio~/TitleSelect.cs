@@ -1,0 +1,14 @@
+var game = SSW.NetGame.GetOrCreate();
+var source = game.GetComponent<KHG_TitleManager>();
+var profile = game.GetComponent<SSW.ProfileTitle>();
+if (source == null || profile == null) throw new System.InvalidOperationException("Missing saved title binding");
+source.ChangeTierTitle("Monkey");
+string initial = source.GetCurrentTitle();
+game.SetProfile(SSW.Fighter.Create("호스트#0001", initial));
+source.ChangeTierTitle("Magma");
+string selected = source.GetCurrentTitle();
+string remote = source.eggTitle.titleName;
+if (selected != source.magmaTitle.titleName || profile.Current != selected) throw new System.InvalidOperationException("Current equipped title is not used");
+var cached = (SSW.Fighter)typeof(SSW.NetGame).GetField("_localInfo", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(game);
+if (cached.Tag.ToString() != initial) throw new System.InvalidOperationException("Expected stale profile before joining");
+return new { initial, selected, remote, cached = cached.Tag.ToString() };

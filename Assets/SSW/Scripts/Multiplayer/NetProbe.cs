@@ -27,6 +27,7 @@ namespace SSW
             public ulong id;
             public string job;
             public string name;
+            public string tag;
             public bool draftView;
             public bool spectating;
             public bool portraitRight;
@@ -206,6 +207,8 @@ namespace SSW
             public bool introClosing;
             public string leftName;
             public string rightName;
+            public string leftTag;
+            public string rightTag;
             public PlayerState[] players;
             public ShotState[] shots;
             public TrailState[] trails;
@@ -502,7 +505,7 @@ namespace SSW
                 Animator animator = player.GetComponentInChildren<Animator>();
                 players.Add(new PlayerState
                 {
-                    id = player.OwnerClientId, job = player.Job.ToString(), hp = player.Health.Current,
+                    id = player.OwnerClientId, job = player.Job.ToString(), hp = player.Health.Current, tag = player.Info.Tag.ToString(),
                     heals = heals.ToArray(),
                     stats = player.Stats, jumpSpeed = player.Motion.JumpSpeed,
                     bodyMaterial = player.Body.sharedMaterial != null ? player.Body.sharedMaterial.name : string.Empty,
@@ -624,6 +627,8 @@ namespace SSW
                 introClosing = game.Intro != null && game.Intro.IsClosing,
                 leftName = game.Intro != null ? game.Intro.LeftName : "",
                 rightName = game.Intro != null ? game.Intro.RightName : "",
+                leftTag = game.Intro != null ? game.Intro.LeftTag : "",
+                rightTag = game.Intro != null ? game.Intro.RightTag : "",
                 winner = state.Winner, timeScale = Time.timeScale, players = players.ToArray(), shots = shots.ToArray(), trails = ReadTrails(),
                 damageNumbers = ReadNumbers(),
                 round = state.Round, firstWins = state.FirstWins, secondWins = state.SecondWins,

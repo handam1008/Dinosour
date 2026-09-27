@@ -7415,6 +7415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KDH_SakuraMode
   timeApplySpeed: 0.5
   speedAmount: 1.2
+  sakuraSound: {fileID: 11400000, guid: 2f682d096f543734a884f1db7746f772, type: 2}
 --- !u!114 &6464780756707350884
 MonoBehaviour:
   m_ObjectHideFlags: 0

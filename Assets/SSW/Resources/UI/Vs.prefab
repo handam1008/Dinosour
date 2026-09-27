@@ -434,7 +434,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4365198158814493358
 RectTransform:
   m_ObjectHideFlags: 0
@@ -495,7 +495,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u201C\uAC1C\uBC8C\uB808 \uC0C8\uD0A4\uAC00 \u314B\u201D"
+  m_Text: 
 --- !u!1 &3352281613091320969
 GameObject:
   m_ObjectHideFlags: 0
@@ -1227,7 +1227,6 @@ MonoBehaviour:
   _name: {fileID: 6798530318706035153}
   _job: {fileID: 6816754251363480656}
   _tag: {fileID: 5210618553604669594}
-  _line: "\uAC1C\uBC8C\uB808 \uC0C8\uD0A4\uAC00 \u314B"
 --- !u!1 &4869328908408734250
 GameObject:
   m_ObjectHideFlags: 0
@@ -1283,7 +1282,6 @@ MonoBehaviour:
   _name: {fileID: 2190763450718422734}
   _job: {fileID: 4239030255874213032}
   _tag: {fileID: 7921860129038658441}
-  _line: "\uC886\uBC25\uC0C8\uD0A4\uC57C \u314B"
 --- !u!1 &5189623950873555331
 GameObject:
   m_ObjectHideFlags: 0
@@ -1547,7 +1545,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8647063030736122095
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1608,7 +1606,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u201C\uC886\uBC25\uC0C8\uD0A4\uC57C \u314B\u201D"
+  m_Text: 
 --- !u!1 &5963978251811188772
 GameObject:
   m_ObjectHideFlags: 0
