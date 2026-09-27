@@ -14,6 +14,10 @@ namespace SSW
         [SerializeField] RoundUI _rounds;
         [SerializeField] RoundWipe _wipe;
         [SerializeField] DraftStatus _draft;
+        
+        [Header("sound")]
+        [SerializeField] SoundCue WinSound;
+        [SerializeField] SoundCue LoseSound;
         NetGame _game;
         bool _result;
 
@@ -67,11 +71,14 @@ namespace SSW
             _panel.SetActive(true);
             _resume.gameObject.SetActive(false);
             _title.gameObject.SetActive(true);
+            
             bool won = state.Winner == _game.LocalId;
             _title.text = state.Reason == MatchEnd.Draw ? "무승부"
                 : state.Reason == MatchEnd.Left ? "상대가 나갔습니다"
                 : state.Reason == MatchEnd.Surrender ? won ? "상대가 항복했습니다" : "항복했습니다"
                 : won ? "승리" : "패배";
+            SoundCue cue = won ? WinSound : LoseSound;
+            GameAudio.Current.PlaySfx(cue);
             _exitText.text = "메인 메뉴";
             if (_game.Local != null) _game.Local.Block(true);
         }

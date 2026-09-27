@@ -160,7 +160,7 @@ RectTransform:
   m_GameObject: {fileID: 230970795770165085}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4795959723343972896}
@@ -2838,6 +2838,7 @@ MonoBehaviour:
   - {fileID: 1320117022602103835}
   _leftScore: {fileID: 8674173207153307246}
   _rightScore: {fileID: 8559983180879923662}
+  roundEndSoundCue: {fileID: 11400000, guid: 676db56425294214e91e0a630b90db40, type: 2}
 --- !u!1 &8738157907739149498
 GameObject:
   m_ObjectHideFlags: 0
