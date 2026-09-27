@@ -31,7 +31,6 @@ namespace JJW.Script.Jackpot
 
         private const string SymbolSheetPath = "GamblerSlot/SlotSymbols";
         private const string FramePath = "GamblerSlot/SlotFrame";
-        private const string PayLinePath = "GamblerSlot/SlotPayLine";
 
         private readonly Queue<SpinRequest> spinQueue = new Queue<SpinRequest>();
         private readonly List<Sprite> runtimeSprites = new List<Sprite>();
@@ -307,24 +306,20 @@ namespace JJW.Script.Jackpot
         {
             Texture2D symbolSheet = Resources.Load<Texture2D>(SymbolSheetPath);
             Texture2D frameTexture = Resources.Load<Texture2D>(FramePath);
-            Texture2D payLineTexture = Resources.Load<Texture2D>(PayLinePath);
 
-            if (symbolSheet == null || frameTexture == null || payLineTexture == null)
+            if (symbolSheet == null || frameTexture == null)
             {
                 return;
             }
 
             PrepareTexture(symbolSheet);
             PrepareTexture(frameTexture);
-            PrepareTexture(payLineTexture);
 
             symbols = SliceSymbolSheet(symbolSheet, 6);
 
             Sprite frameSprite = CreateSprite(frameTexture, new Rect(0f, 0f, frameTexture.width, frameTexture.height));
-            Sprite payLineSprite = CreateSprite(payLineTexture, new Rect(0f, 0f, payLineTexture.width, payLineTexture.height));
 
             loadedFrameSprite = frameSprite;
-            loadedPayLineSprite = payLineSprite;
         }
 
         private void PrepareAudio()
@@ -382,7 +377,6 @@ namespace JJW.Script.Jackpot
         }
 
         private Sprite loadedFrameSprite;
-        private Sprite loadedPayLineSprite;
 
         private void PrepareTexture(Texture2D texture)
         {
@@ -413,7 +407,7 @@ namespace JJW.Script.Jackpot
 
         private void BuildVisuals()
         {
-            if (symbols == null || loadedFrameSprite == null || loadedPayLineSprite == null)
+            if (symbols == null || loadedFrameSprite == null)
             {
                 return;
             }
@@ -458,9 +452,6 @@ namespace JJW.Script.Jackpot
 
             Image frame = CreateImage(canvasRect, "Frame", loadedFrameSprite, new Vector2(700f, 245f));
             frame.preserveAspect = true;
-
-            Image payLine = CreateImage(canvasRect, "PayLine", loadedPayLineSprite, new Vector2(650f, 42f));
-            payLine.preserveAspect = false;
         }
 
         private ReelView CreateReel(RectTransform parent, int index, float xPosition)

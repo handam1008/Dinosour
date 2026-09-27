@@ -12,18 +12,24 @@
   <component name="ChangeListManager">
     <list default="true" id="6fb1d2c4-7096-4d2f-81e7-2333f2fed1f9" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Mushrooms/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Gun/KDH_Gun.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Gun/KDH_Gun.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Player/KDH_PlayerAttackModule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Player/KDH_PlayerAttackModule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Bullets/KDH_AirBullet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Bullets/KDH_AirBullet.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Bullets/KDH_FireBullet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Bullets/KDH_FireBullet.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Bullets/KDH_GravityBullet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Bullets/KDH_GravityBullet.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Bullets/KDH_IceBullet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Bullets/KDH_IceBullet.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Bullets/KDH_LightningBullet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Bullets/KDH_LightningBullet.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Bullets/KDH_PoisonBullet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Bullets/KDH_PoisonBullet.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Bullets/KDH_PoisonStatus.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Bullets/KDH_PoisonStatus.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Bullets/KDH_Quest_EvolutionBullet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Bullets/KDH_Quest_EvolutionBullet.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Bullets/KDH_ShurikenBullet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Bullets/KDH_ShurikenBullet.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Players/KDH_ShrinkingDevice.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Upgrade/Instances/Players/KDH_ShrinkingDevice.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/GameModules/Maps/KDH_Map 10.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/GameModules/Maps/KDH_Map 10.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/GameModules/Maps/KDH_Map 11.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/GameModules/Maps/KDH_Map 11.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/GameModules/Maps/KDH_Map 17.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/GameModules/Maps/KDH_Map 17.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/GameModules/Maps/KDH_Map 9.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/GameModules/Maps/KDH_Map 9.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map10.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map10.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map11.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map11.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map13.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map13.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map17.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map17.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map9.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scenes/KDH_Map9.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_DinoBreathe.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_DinoBreathe.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_SakuraMode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_SakuraMode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_TimeLineController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_TimeLineController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_TouchScreenOutline.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_TouchScreenOutline.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_Volcano.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/KDH/Scripts/Objects/KDH_Volcano.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/MapPrefab/KDH_Map 13.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MapPrefab/KDH_Map 13.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SSW/Editor/Maps/MapSources.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SSW/Editor/Maps/MapSources.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map03.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map03.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map09.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/SSW/Maps/Battle/Map09.prefab" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,61 +116,61 @@
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0" />
-      <entry key="MS500" value="1.00000000541647" />
-      <entry key="S2" value="1.0087081947267664" />
-      <entry key="S5" value="1.1771238949608616" />
-      <entry key="S10" value="1.5744202993079763" />
-      <entry key="S30" value="4.270706211504266" />
-      <entry key="S60" value="10.603409710151647" />
-      <entry key="M2" value="19.49146536004446" />
-      <entry key="M5" value="29.865520186197987" />
-      <entry key="M10" value="41.10164149361438" />
-      <entry key="M15" value="54.58978639084498" />
-      <entry key="M30" value="98.1106502790745" />
-      <entry key="H1" value="174.05063730281196" />
-      <entry key="H2" value="292.9242470056601" />
-      <entry key="H4" value="473.8542394115819" />
-      <entry key="D1" value="949.692313644634" />
-      <entry key="W1" value="1112.0014877252038" />
+      <entry key="MS100" value="6.242217220681844E-27" />
+      <entry key="MS500" value="5.746762814754002E-6" />
+      <entry key="S2" value="0.08757041699419624" />
+      <entry key="S5" value="1.313406327709434" />
+      <entry key="S10" value="3.748282780710818" />
+      <entry key="S30" value="8.154096181950433" />
+      <entry key="S60" value="11.34487750357052" />
+      <entry key="M2" value="16.89733521648972" />
+      <entry key="M5" value="31.172051789360467" />
+      <entry key="M10" value="53.945993265007615" />
+      <entry key="M15" value="72.2070468957598" />
+      <entry key="M30" value="107.91250461967151" />
+      <entry key="H1" value="164.82729021101005" />
+      <entry key="H2" value="278.32706550032174" />
+      <entry key="H4" value="473.571469345366" />
+      <entry key="D1" value="1048.6204500809129" />
+      <entry key="W1" value="1260.7204155296547" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="1.5045631906532086E-176" />
-      <entry key="MS500" value="6.846712416409723E-36" />
-      <entry key="S2" value="1.6176013162938412E-9" />
-      <entry key="S5" value="3.0758788358784396E-4" />
-      <entry key="S10" value="0.021699517568150094" />
-      <entry key="S30" value="1.015561275062586" />
-      <entry key="S60" value="3.7235531122916443" />
-      <entry key="M2" value="7.710363986820258" />
-      <entry key="M5" value="12.537697602016003" />
-      <entry key="M10" value="17.55344554434191" />
-      <entry key="M15" value="23.37866737857016" />
-      <entry key="M30" value="42.10726364056989" />
-      <entry key="H1" value="73.94876973537471" />
-      <entry key="H2" value="121.1626233409858" />
-      <entry key="H4" value="188.53725962987463" />
-      <entry key="D1" value="354.5241450633268" />
-      <entry key="W1" value="409.54494416592746" />
+      <entry key="MS100" value="1.0006953402674772" />
+      <entry key="MS500" value="1.26296593577941" />
+      <entry key="S2" value="2.6109382780021955" />
+      <entry key="S5" value="4.118419849207837" />
+      <entry key="S10" value="5.570983495276099" />
+      <entry key="S30" value="7.889210999166749" />
+      <entry key="S60" value="9.307030875498725" />
+      <entry key="M2" value="11.311307874892007" />
+      <entry key="M5" value="15.965500849332226" />
+      <entry key="M10" value="22.78433753361383" />
+      <entry key="M15" value="28.157319031807724" />
+      <entry key="M30" value="39.28575826101405" />
+      <entry key="H1" value="60.431056321970985" />
+      <entry key="H2" value="105.27565851193081" />
+      <entry key="H4" value="180.01245843701432" />
+      <entry key="D1" value="386.2070097660983" />
+      <entry key="W1" value="459.77285740857087" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.08838834764831845" />
-      <entry key="MS500" value="0.6155722091679998" />
-      <entry key="S2" value="0.8929471785641757" />
-      <entry key="S5" value="1.1172699388914051" />
-      <entry key="S10" value="1.5490076102994543" />
-      <entry key="S30" value="5.208546894780029" />
-      <entry key="S60" value="14.195712677480921" />
-      <entry key="M2" value="27.0581315189485" />
-      <entry key="M5" value="42.30569898162465" />
-      <entry key="M10" value="58.589184878886755" />
-      <entry key="M15" value="77.9125691042862" />
-      <entry key="M30" value="140.17048108969345" />
-      <entry key="H1" value="247.9585780514692" />
-      <entry key="H2" value="414.0528998963595" />
-      <entry key="H4" value="662.363628830457" />
-      <entry key="D1" value="1304.2070195764259" />
-      <entry key="W1" value="1521.544854025429" />
+      <entry key="MS100" value="0.011228508008167541" />
+      <entry key="MS500" value="0.5973962975784594" />
+      <entry key="S2" value="2.273005829401356" />
+      <entry key="S5" value="5.106737878771676" />
+      <entry key="S10" value="9.05388120133586" />
+      <entry key="S30" value="15.887492587474245" />
+      <entry key="S60" value="20.55002762133945" />
+      <entry key="M2" value="28.1396320908937" />
+      <entry key="M5" value="47.09248281226254" />
+      <entry key="M10" value="76.69276028355121" />
+      <entry key="M15" value="100.33061651813469" />
+      <entry key="M30" value="147.17141105610776" />
+      <entry key="H1" value="225.23406955081373" />
+      <entry key="H2" value="383.57819830794205" />
+      <entry key="H4" value="653.5602743328551" />
+      <entry key="D1" value="1434.8177893658165" />
+      <entry key="W1" value="1720.4915921101065" />
     </decayedShown>
   </component>
   <component name="ProjectColorInfo">{
@@ -291,7 +297,7 @@
       <workItem from="1790430984560" duration="388000" />
       <workItem from="1790434881697" duration="618000" />
       <workItem from="1790489750851" duration="13857000" />
-      <workItem from="1790510068322" duration="2085000" />
+      <workItem from="1790510068322" duration="5097000" />
     </task>
     <servers />
   </component>

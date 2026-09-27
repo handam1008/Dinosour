@@ -18,6 +18,8 @@ namespace SSW
         [SerializeField] float _phoenixImmune = 2.5f;
         [SerializeField] float _phoenixLock = 1f;
         [SerializeField] float _phoenixScalePenalty = 0.08f;
+        [SerializeField] SoundCue _phoenixDeathSound;
+        [SerializeField] SoundCue _phoenixHatchSound;
         [SerializeField] float _vampireHeal = 0.55f;
         [SerializeField] float _confidenceSpeed = 0.3f;
         [SerializeField] float _confidenceDuration = 2f;
@@ -39,6 +41,7 @@ namespace SSW
         float _regenTime;
         float _confidenceUntil;
         float _immuneUntil;
+        float _hatchAt;
         bool _phoenixUsed;
         bool _spawned;
 
@@ -122,6 +125,11 @@ namespace SSW
             }
             TickDamage();
             TickRegen();
+            if (_hatchAt > 0f && Time.time >= _hatchAt)
+            {
+                _hatchAt = 0f;
+                NetGame.Current.Sounds.Play(_phoenixHatchSound);
+            }
         }
 
         void TickRegen()
@@ -165,6 +173,8 @@ namespace SSW
                 _player.Health.Heal(_player.Health.Max);
                 _player.Drive.Freeze(_phoenixLock);
                 _fx.Revive();
+                NetGame.Current.Sounds.Play(_phoenixDeathSound);
+                _hatchAt = Time.time + _phoenixLock;
                 return 0f;
             }
             return amount;
@@ -211,6 +221,7 @@ namespace SSW
             _regenTime = 0f;
             _confidenceUntil = 0f;
             _immuneUntil = 0f;
+            _hatchAt = 0f;
         }
 
         void ResetLife()

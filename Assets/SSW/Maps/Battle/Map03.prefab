@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 458426832
+  GlobalObjectIdHash: 2211388527
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -284,6 +284,7 @@ MonoBehaviour:
   _ready: {r: 1, g: 1, b: 1, a: 1}
   _base: {r: 0.13333334, g: 0.14117648, b: 0.15294118, a: 1}
   _delay: 5
+  breathSoundCue: {fileID: 11400000, guid: f2b161b4f6bbce943be57372a1135a5b, type: 2}
 --- !u!4 &4568521089983925080 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7344222715615632165, guid: b85563826b998cb469edf9aed35ef265, type: 3}

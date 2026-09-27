@@ -1,5 +1,6 @@
 using System.Collections;
 using DG.Tweening;
+using SSW;
 using UnityEngine;
 
 namespace KDH.Scripts.Objects
@@ -15,6 +16,8 @@ namespace KDH.Scripts.Objects
         [SerializeField] private float relationTime;
 
         private SpriteRenderer _targetSp1, _targetSp2;
+
+        [SerializeField] private SoundCue breatheSound;
 
         private void Awake()
         {
@@ -40,6 +43,9 @@ namespace KDH.Scripts.Objects
 
                 particles.Play();
                 damageCaster.canDamage = true;
+                
+                if (breatheSound != null && NetGame.Current != null)
+                    NetGame.Current.Sounds.Play(breatheSound); // 사운드
 
                 yield return new WaitForSeconds(particles.main.duration);
                 _targetSp2.DOColor(signalColor2, 1);

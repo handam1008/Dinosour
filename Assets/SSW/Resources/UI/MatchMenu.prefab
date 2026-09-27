@@ -131,6 +131,7 @@ MonoBehaviour:
   _words: {fileID: 9106384887050669740}
   _slide: {fileID: 8300000, guid: 860dfaf85a80cab4ca6042b86d317aa3, type: 3}
   _hit: {fileID: 8300000, guid: b866e12851e2c794d8a4bea06a091ea1, type: 3}
+  roundEndSoundCue: {fileID: 11400000, guid: 676db56425294214e91e0a630b90db40, type: 2}
 --- !u!1 &230970795770165085
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,7 +161,7 @@ RectTransform:
   m_GameObject: {fileID: 230970795770165085}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4795959723343972896}
@@ -258,6 +259,8 @@ MonoBehaviour:
   _rounds: {fileID: 4911217963831855313}
   _wipe: {fileID: 7695487876030210425}
   _draft: {fileID: 7777571258761421606}
+  WinSound: {fileID: 0}
+  LoseSound: {fileID: 0}
 --- !u!1 &329733846874039716
 GameObject:
   m_ObjectHideFlags: 0
