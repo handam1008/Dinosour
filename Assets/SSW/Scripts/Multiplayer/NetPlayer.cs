@@ -13,6 +13,7 @@ namespace SSW
         [SerializeField] Health _health;
         [SerializeField] Transform _visual;
         [SerializeField] DinosaurVisualController _animation;
+        [SerializeField] RYU._01.Script.Customize.DinoSkinApplier _skin;
         [SerializeField] NetCast _cast;
         [SerializeField] NetDraft _draft;
         [SerializeField] Rigidbody2D _body;
@@ -124,6 +125,7 @@ namespace SSW
             _body.gravityScale = Stats.Gravity;
             _buffs.SetBaseHealth(Stats.Health);
             _identity.SetJob(_job.Value);
+            _skin.Apply(Info.Skin.ToString());
             _aim = new Vector2(Side, 0f);
             _motion.Bind(this, false, _prediction);
             _input.enabled = IsOwner;

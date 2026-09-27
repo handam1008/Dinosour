@@ -8,6 +8,7 @@ namespace SSW
     {
         public FixedString128Bytes Name;
         public FixedString128Bytes Tag;
+        public FixedString128Bytes Skin;
 
         public static Fighter Create(string name, string tag = "") => new Fighter
         {
@@ -36,8 +37,9 @@ namespace SSW
         {
             serializer.SerializeValue(ref Name);
             serializer.SerializeValue(ref Tag);
+            serializer.SerializeValue(ref Skin);
         }
 
-        public bool Equals(Fighter other) => Name.Equals(other.Name) && Tag.Equals(other.Tag);
+        public bool Equals(Fighter other) => Name.Equals(other.Name) && Tag.Equals(other.Tag) && Skin.Equals(other.Skin);
     }
 }

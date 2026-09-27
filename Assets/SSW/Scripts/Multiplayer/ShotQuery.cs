@@ -69,7 +69,7 @@ namespace SSW
         public static bool Touches(Collider2D contact, Vector2 point, float radius, Vector2 size)
         {
             if (contact == null || !contact.enabled || !contact.gameObject.activeInHierarchy) return false;
-            var filter = new ContactFilter2D { useTriggers = false };
+            var filter = new ContactFilter2D { useTriggers = contact.isTrigger };
             filter.SetLayerMask(1 << contact.gameObject.layer);
             int count = size.sqrMagnitude > 0f
                 ? Physics2D.OverlapCapsule(point, size + Vector2.one * 0.04f, CapsuleDirection2D.Vertical, 0f, filter, Contacts)

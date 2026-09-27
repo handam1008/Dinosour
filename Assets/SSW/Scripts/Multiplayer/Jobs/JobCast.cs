@@ -131,7 +131,7 @@ namespace SSW
             CombatDamage.Deal(this, target.Health, bolt.Spec.Damage, DamageTag.Projectile | DamageTag.BasicAttack);
         }
 
-        protected void Melee(Vector2 origin, Vector2 direction, double lag, Vector2 size, Vector2 offset, System.Action<NetPlayer> hit)
+        protected void Melee(Vector2 origin, Vector2 direction, double lag, Vector2 size, Vector2 offset, System.Action<NetPlayer> hit, float mapDamage = 0f)
         {
             Vector2 axis = direction.sqrMagnitude > 0.0001f ? direction.normalized : Vector2.right;
             Vector3 scale = Player.transform.lossyScale;
@@ -139,6 +139,7 @@ namespace SSW
             offset = Vector2.Scale(offset, extent);
             Vector2 center = origin + axis * offset.x + new Vector2(-axis.y, axis.x) * offset.y;
             size = Vector2.Scale(size, extent);
+            if (mapDamage > 0f) MapCombat.Strike(this, origin, center, axis, size, Player.GroundMask, mapDamage);
             double time = NetGame.Current.PhysicsTime - lag;
             foreach (NetPlayer target in NetGame.Current.Players)
             {

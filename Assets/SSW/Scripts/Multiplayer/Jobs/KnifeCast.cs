@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using NKY.Scripts;
 using NKY.Scripts.Job;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace SSW
@@ -12,6 +13,11 @@ namespace SSW
         AugmentContext _context;
         KnifeTuning.Escape _escape;
         KnifeTuning.Aura _aura;
+        KnifeTuning.Range _range;
+        readonly NetworkVariable<bool> _auraActive = new NetworkVariable<bool>();
+        readonly NetworkVariable<bool> _rangeActive = new NetworkVariable<bool>();
+        readonly RangeView _auraView = new RangeView();
+        readonly RangeView _rangeView = new RangeView();
         NetBolt _knife;
         uint _throwAction;
         uint _recallAction;
@@ -23,9 +29,12 @@ namespace SSW
         float _auraReady;
         bool _shifted;
         float _shiftUntil;
+        float _rangeUntil;
         public override PlayerJob Job => PlayerJob.Assassin;
         public bool Has(AssassinAugmentType type) => _augments.ContainsKey(type);
         public override float DamageScale => Time.time < _shiftUntil ? 1.5f : 1f;
+        public bool AuraVisible => _auraView.Visible;
+        public bool RangeVisible => _rangeView.Visible;
 
         protected override void Awake()
         {
@@ -38,6 +47,7 @@ namespace SSW
             if (item is not AbstractAssassinAugmentSO augment || !_augments.TryAdd(augment.type, augment)) return;
             if (augment.type == AssassinAugmentType.Escape) _escape = KnifeTuning.Read<KnifeTuning.Escape>(augment);
             if (augment.type == AssassinAugmentType.KillingIntent) _aura = KnifeTuning.Read<KnifeTuning.Aura>(augment);
+            if (augment.type == AssassinAugmentType.TacticalShift) _range = KnifeTuning.Read<KnifeTuning.Range>(augment);
         }
 
         protected override bool Plan(ref WeaponState state, CastInput input, out BoltSpec bolt)
@@ -101,7 +111,7 @@ namespace SSW
             if (input.Kind == CastKind.Press)
             {
                 FighterStats stats = Stats;
-                Melee(origin, input.Direction, lag, stats.HitSize, stats.HitOffset, Strike);
+                Melee(origin, input.Direction, lag, stats.HitSize, stats.HitOffset, Strike, stats.Damage);
                 return;
             }
             if (input.Kind != CastKind.Cycle) return;
@@ -134,6 +144,7 @@ namespace SSW
                 _auraUntil = Time.time + _aura.Duration;
                 _auraReady = _auraUntil + _aura.Cooldown;
                 _auraStart = Time.time;
+                _auraActive.Value = true;
             }
         }
 
@@ -169,6 +180,8 @@ namespace SSW
             {
                 _shifted = true;
                 _shiftUntil = Time.time + 10f;
+                _rangeUntil = Time.time + _range.Duration;
+                _rangeActive.Value = true;
                 Motion.ApplySlow(0.7f, 10f);
                 foreach (NetPlayer target in NetGame.Current.Players)
                     if (target != Player && Vector2.Distance(Player.Body.position, target.Body.position) <= 4f) target.Motion.ApplySlow(0.5f, 7f);
@@ -177,6 +190,8 @@ namespace SSW
 
         protected override void ServerTick()
         {
+            _auraActive.Value = Time.time < _auraUntil;
+            _rangeActive.Value = Time.time < _rangeUntil;
             if (State.Ammo > 0 && (_knife == null || !_knife.IsSpawned))
             {
                 WeaponState state = State;
@@ -192,6 +207,21 @@ namespace SSW
                 target.Motion.ApplySlow(_aura.Slow(elapsed), 0.2f);
                 target.Motion.ApplyAttackWeaken(_aura.Weaken(elapsed), 0.2f);
             }
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+            if (!Active) return;
+            if (_aura != null) _auraView.Show(Player.CanAct && _auraActive.Value, _aura.Visual, Player.View, _aura.Radius, true);
+            if (_range != null) _rangeView.Show(Player.CanAct && _rangeActive.Value, _range.Visual, Player.View, _range.Radius, false);
+        }
+
+        public override void OnNetworkDespawn()
+        {
+            _auraView.Clear();
+            _rangeView.Clear();
+            base.OnNetworkDespawn();
         }
     }
 }

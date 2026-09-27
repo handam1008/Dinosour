@@ -105,7 +105,7 @@ namespace SSW
             Collider2D contact = null;
             float nearest = float.PositiveInfinity;
             Vector2 point = next;
-            if (!_returning && ShotQuery.Ground(_previous, next, Radius, _owner.GroundMask, out RaycastHit2D ground))
+            if (MapCombat.Sweep(_previous, next, Radius, _returning ? 0 : _owner.GroundMask, out RaycastHit2D ground))
             {
                 contact = ground.collider;
                 float distance = Vector2.Distance(_previous, next);

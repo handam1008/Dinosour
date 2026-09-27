@@ -1,4 +1,4 @@
-param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges,[switch]$LavaOnly,[switch]$HealOnly,[switch]$EdgeMotion,[switch]$WitchOnly,[switch]$StatsOnly,[switch]$StatsProfiles,[switch]$MaterialsOnly,[switch]$MapRefreshOnly,[switch]$MapResume,[switch]$MapCycle,[switch]$MapAreas,[ValidateRange(0,5)][int]$MapFrom=0,[switch]$EffectsOnly,[string[]]$EdgeModes=@('move','dash'))
+param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges,[switch]$LavaOnly,[switch]$HealOnly,[switch]$EdgeMotion,[switch]$EdgeRound,[ValidateRange(0,3)][int]$EdgeFrom=0,[switch]$WitchOnly,[switch]$StatsOnly,[switch]$StatsProfiles,[switch]$MaterialsOnly,[switch]$MapRefreshOnly,[switch]$MapResume,[switch]$MapCycle,[switch]$MapAreas,[ValidateRange(0,5)][int]$MapFrom=0,[switch]$EffectsOnly,[switch]$EffectNet,[switch]$EffectRange,[string]$EffectFile='',[string]$VisualFile='',[string]$EffectFilter='',[string[]]$EdgeModes=@('move','dash'),[int[]]$EdgeMaps=@(),[switch]$SwingOnly,[switch]$SwingCutOnly,[int[]]$SwingMaps=@(11,12,14,15,16),[string]$SwingJob='Gunner',[switch]$CombatOnly,[string[]]$CombatJobs=@('Gunner','Gambler','Magician','Witch','Swordsman','Assassin','Knife'))
 $ErrorActionPreference='Stop'
 $Project=[IO.Path]::GetFullPath($Project).Replace('\','/')
 $root="$Project/Logs/Boundary/$Run"
@@ -7,13 +7,26 @@ if(Test-Path $root){throw 'Use a new run name.'}
 $seq=@{host=0;client=0}
 $checks=[Collections.Generic.List[string]]::new()
 $clientProcess=$null
+$head=(git -C $Project rev-parse HEAD).Trim()
+$sourcePaths=@((git -C $Project diff --name-only HEAD -- Assets/SSW/Scripts);(git -C $Project ls-files --others --exclude-standard -- Assets/SSW/Scripts))|Sort-Object -Unique
+$sourceState=@($sourcePaths|ForEach-Object{@{path=$_;sha256=(Get-FileHash -LiteralPath (Join-Path $Project $_) -Algorithm SHA256).Hash}})
+@{commit=$head;workingChanges=$sourceState;capturedUtc=[DateTime]::UtcNow.ToString('o')}|ConvertTo-Json -Depth 5|Set-Content "$root/Source.json"
 function Eval([string]$code){
     [IO.File]::WriteAllText("$root/Eval.cs",$code)
     $reply=unity command eval_file --file "$root/Eval.cs" --caller plugin --skill unity-cli --project-path $Project --format json|ConvertFrom-Json
     if(-not $reply.success -or -not $reply.data.result.success){throw ($reply|ConvertTo-Json -Depth 8)}
     return $reply.data.result.result
 }
-function Read($peer){for($attempt=0;$attempt -lt 5;$attempt++){try{return Get-Content -LiteralPath "$root/$peer.json" -Raw|ConvertFrom-Json}catch{Start-Sleep -Milliseconds 10}};return $null}
+function Read($peer){
+    for($attempt=0;$attempt -lt 5;$attempt++){
+        try{
+            $snapshot=[IO.File]::ReadAllText("$root/$peer.json")|ConvertFrom-Json
+            if($snapshot -and $snapshot -isnot [array]){return $snapshot}
+        }catch{}
+        Start-Sleep -Milliseconds 10
+    }
+    return $null
+}
 function Await($label,[scriptblock]$condition,$timeout=35){
     $until=[DateTime]::UtcNow.AddSeconds($timeout)
     do{
@@ -44,23 +57,33 @@ function Map($index){
 }
 try{
     $previousScene=Eval 'if(UnityEditor.EditorApplication.isPlaying)throw new System.InvalidOperationException("An existing play session is active");var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();if(scene.isDirty)throw new System.InvalidOperationException("Unsaved scene changes");string path=scene.path;UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/RYU/00.Scene/StartMenu.unity");return path;'
+    @{commit=$head;scene=$previousScene;startedUtc=[DateTime]::UtcNow.ToString('o');build=$Build;parameters=$PSBoundParameters}|ConvertTo-Json -Depth 4|Set-Content "$root/Run.json"
     unity command editor_play --caller plugin --skill unity-cli --project-path $Project --format json|Out-Null
     $until=[DateTime]::UtcNow.AddSeconds(50)
     do{try{$scene=Eval 'return UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;'}catch{$scene=''};if($scene -eq 'MainMenu'){break};Start-Sleep -Milliseconds 500}while([DateTime]::UtcNow -lt $until)
-    $job=if($WitchOnly){'Witch'}else{'Swordsman'}
+    $job=if($WitchOnly){'Witch'}elseif($SwingOnly){$SwingJob}else{'Swordsman'}
     Eval ('var g=SSW.NetGame.GetOrCreate();g.gameObject.AddComponent<SSW.NetProbe>().Init("'+$root+'/host");g.StartLocal(true,"127.0.0.1",SSW.PlayerJob.'+$job+',30716);return true;')|Out-Null
     $clientProcess=Start-Process -FilePath (Join-Path $Project $Build) -WorkingDirectory $Project -ArgumentList @('--net-mode','client','--net-address','127.0.0.1','--net-port','30716','--net-job',$job,'--net-probe',"$root/client",'-logFile',"$root/client.log",'-screen-fullscreen','0','-screen-width','800','-screen-height','450') -WindowStyle Hidden -PassThru
+    @{pid=$clientProcess.Id;path=(Join-Path $Project $Build)}|ConvertTo-Json|Set-Content "$root/ClientProcess.json"
     Await 'both drafts' {$h.phase -eq 'Draft' -and $c.phase -eq 'Draft'} 90
     Eval 'foreach(var p in SSW.NetGame.Current.Players)p.Draft.Restore(System.Array.Empty<int>());SSW.NetGame.Current.Match.Picked();return true;'|Out-Null
     Await 'playing' {$h.phase -eq 'Playing' -and $c.phase -eq 'Playing'}
-    $step=Eval 'return UnityEngine.Time.fixedDeltaTime;'
+    $runtime=Eval 'return new{step=UnityEngine.Time.fixedDeltaTime,protocol=SSW.NetGame.Protocol,unity=UnityEngine.Application.unityVersion};'
+    $step=$runtime.step
+    $runtime|ConvertTo-Json|Set-Content "$root/Runtime.json"
     if($StatsOnly -or $StatsProfiles -or $MaterialsOnly){. "$PSScriptRoot/../Stats~/Runtime.ps1";return}
     Eval 'foreach(var p in SSW.NetGame.Current.Players){typeof(SSW.Health).GetMethod("SetMax",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).Invoke(p.Health,new object[]{10000f});p.Health.Heal(10000f);}return true;'|Out-Null
     if($HealOnly){. "$PSScriptRoot/../Common~/Healing.ps1";return}
     if($WitchOnly){. "$PSScriptRoot/../Augments~/Witch.ps1";return}
     if($MapRefreshOnly){. "$PSScriptRoot/RefreshRun.ps1" -SkipLoads:$MapResume -OnlyCycle:$MapCycle -AreasOnly:$MapAreas -From $MapFrom;return}
+    if($EffectNet){. "$PSScriptRoot/../Augments~/NetEffects.ps1";return}
+    if($EffectFile){. "$PSScriptRoot/../Augments~/Trial.ps1";return}
+    if($VisualFile){. "$PSScriptRoot/../Visuals~/Run.ps1";return}
     if($EffectsOnly){. "$PSScriptRoot/../Augments~/EffectsRun.ps1";return}
     if($EdgeMotion){. "$PSScriptRoot/EdgesRun.ps1";return}
+    if($EdgeRound){. "$PSScriptRoot/EdgeRound.ps1";return}
+    if($SwingOnly){. "$PSScriptRoot/SwingRun.ps1";return}
+    if($CombatOnly){. "$PSScriptRoot/CombatRun.ps1";return}
     if(-not $SkipEdges -and -not $LavaOnly){
         for($index=0;$index -lt 14;$index++){
             $map=Map $index
@@ -175,7 +198,7 @@ return new{name=selected.name,index=System.Array.IndexOf(blocks,selected),x=body
     Check ($fell.cut -and $fell.y -lt $cut.y-0.2) 'cut rope releases suspended block'
     Map 13|Out-Null
     $reset=Eval 'return System.Linq.Enumerable.All(SSW.NetGame.Current.Arena.Map.GetComponentsInChildren<SSW.Swing>(),b=>!b.IsCut);'
-    Check $reset 'new round restores every rope and block'
+    Check $reset 'map reload restores every rope and block'
     foreach($peer in @('host','client')){Send $peer wideground 0 0 2}
     Eval 'var g=SSW.NetGame.Current;foreach(var p in g.Players){float foot=p.Body.position.y-p.Collider.bounds.min.y;p.Drive.Teleport(new UnityEngine.Vector2(p.IsOwner?-2f:-0.8f,2.3f+foot+0.03f));}return true;'|Out-Null
     Await 'sword test players on floor' {$h.players[0].grounded -and $h.players[1].grounded} 4
@@ -218,6 +241,9 @@ return new{name=selected.name,index=System.Array.IndexOf(blocks,selected),x=body
     unity command editor_stop --caller plugin --skill unity-cli --project-path $Project --format json|Out-Null
     if($previousScene){
         Start-Sleep -Milliseconds 1000
-        Eval ('if(UnityEditor.EditorApplication.isPlaying)return false;var s=UnityEngine.SceneManagement.SceneManager.GetActiveScene();if(!s.isDirty && s.path!="'+$previousScene+'")UnityEditor.SceneManagement.EditorSceneManager.OpenScene("'+$previousScene+'");return true;')|Out-Null
+        $editor=Eval ('if(UnityEditor.EditorApplication.isPlaying)throw new System.InvalidOperationException("Test Play session did not stop");var s=UnityEngine.SceneManagement.SceneManager.GetActiveScene();if(!s.isDirty && s.path!="'+$previousScene+'")s=UnityEditor.SceneManagement.EditorSceneManager.OpenScene("'+$previousScene+'");return new{path=s.path,dirty=s.isDirty,playing=UnityEditor.EditorApplication.isPlaying};')
+        $cleanup=@{commit=$head;before=$previousScene;editor=$editor;clientExited=($null -eq $clientProcess -or $clientProcess.HasExited);finishedUtc=[DateTime]::UtcNow.ToString('o')}
+        $cleanup|ConvertTo-Json -Depth 4|Set-Content "$root/Cleanup.json"
+        if($editor.path -ne $previousScene -or $editor.dirty -or -not $cleanup.clientExited){throw 'Test session cleanup is incomplete'}
     }
 }

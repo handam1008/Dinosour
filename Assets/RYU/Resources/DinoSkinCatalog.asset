@@ -1,0 +1,135 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b514d220067ba91409e1bd921fcc83b1, type: 3}
+  m_Name: DinoSkinCatalog
+  m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.Customize.DinoSkinCatalog
+  skins:
+  - id: male_cole
+    displayName: 연보라
+    gender: 0
+    library: {fileID: 7108339969198208228, guid: abb8058f7e28ed44d9c734fd75b84db7, type: 3}
+    preview: {fileID: 8793639957104055765, guid: 33c6709aafdb09c499a1491b6a70fd88, type: 3}
+  - id: male_doux
+    displayName: 하늘
+    gender: 0
+    library: {fileID: 7108339969198208228, guid: 98641e8b64336974aa4795b72c861a16, type: 3}
+    preview: {fileID: -6972684935863808132, guid: d4309b40763b79e4d99d4dded7efbdfb, type: 3}
+  - id: male_kira
+    displayName: 분홍
+    gender: 0
+    library: {fileID: 7108339969198208228, guid: c2d09c0e4d8a09b4ca4807bdca9eb2b0, type: 3}
+    preview: {fileID: 8793639957104055765, guid: d0eb367fc2f34b8498ff3b790a3a06e2, type: 3}
+  - id: male_kuro
+    displayName: 검정
+    gender: 0
+    library: {fileID: 7108339969198208228, guid: f8b201fcd1d668c4b9c26d2a0ce31f65, type: 3}
+    preview: {fileID: 8793639957104055765, guid: 5367c4fec9ab93d4daac13302bfccef0, type: 3}
+  - id: male_loki
+    displayName: 파랑
+    gender: 0
+    library: {fileID: 7108339969198208228, guid: 4bfea04476f4635419526ef509f1811a, type: 3}
+    preview: {fileID: 8793639957104055765, guid: 76ba1641f84b5b947a4574bc51a8a550, type: 3}
+  - id: male_mono
+    displayName: 하양
+    gender: 0
+    library: {fileID: 7108339969198208228, guid: 5bd4af9b0abfd0f4c9580eade042676b, type: 3}
+    preview: {fileID: 8793639957104055765, guid: 2e7997cc47d098b46be740294f98bf2e, type: 3}
+  - id: male_mort
+    displayName: 빨강
+    gender: 0
+    library: {fileID: 7108339969198208228, guid: cdf5386a18770654c8ab6ae3636c6772, type: 3}
+    preview: {fileID: -6972684935863808132, guid: a7a5f557938c8e147a6c61684852d9a2, type: 3}
+  - id: male_nico
+    displayName: 주황
+    gender: 0
+    library: {fileID: 7108339969198208228, guid: 498ba4faa5d3695489c9a3efa8c118dd, type: 3}
+    preview: {fileID: 8793639957104055765, guid: fbe00d425bdbfb945843d18648ea5a26, type: 3}
+  - id: male_olaf
+    displayName: 초록
+    gender: 0
+    library: {fileID: 7108339969198208228, guid: 0a6157fd7f732a24fb567ad5d08f422d, type: 3}
+    preview: {fileID: 8793639957104055765, guid: 9e3223e169c149744a8ba3bb296c407e, type: 3}
+  - id: male_sena
+    displayName: 보라
+    gender: 0
+    library: {fileID: 7108339969198208228, guid: f02531308bbb42f4e961ebe6c4514696, type: 3}
+    preview: {fileID: 8793639957104055765, guid: be468770b13ffeb419f133d886904377, type: 3}
+  - id: male_tard
+    displayName: 노랑
+    gender: 0
+    library: {fileID: 7108339969198208228, guid: 7548f80e7fee70840904346ad7f1e1d8, type: 3}
+    preview: {fileID: -6972684935863808132, guid: bf7d7c16edcb3ae48b1586a22231c9e9, type: 3}
+  - id: male_vita
+    displayName: 연두
+    gender: 0
+    library: {fileID: 7108339969198208228, guid: f891d6e0949b07048b81f4c60350f269, type: 3}
+    preview: {fileID: -6972684935863808132, guid: 10dd6ca4949075e40a15f75cb1ae5191, type: 3}
+  - id: female_cole
+    displayName: 연보라
+    gender: 1
+    library: {fileID: 7108339969198208228, guid: 9b6c15ed63fc83d43ab4a726a9279d61, type: 3}
+    preview: {fileID: 8793639957104055765, guid: 3f27f1d8499eabe42929d167796a4b91, type: 3}
+  - id: female_doux
+    displayName: 하늘
+    gender: 1
+    library: {fileID: 7108339969198208228, guid: c5204e4f45d123b498fe2f67e0a11b14, type: 3}
+    preview: {fileID: 8793639957104055765, guid: 7a36036a51bbd0b48a465ace3205e3ab, type: 3}
+  - id: female_kira
+    displayName: 분홍
+    gender: 1
+    library: {fileID: 7108339969198208228, guid: 36152e771bf90f740a63a8de241b511b, type: 3}
+    preview: {fileID: 8793639957104055765, guid: 176e5d00224cc5347925281e19c79999, type: 3}
+  - id: female_kuro
+    displayName: 검정
+    gender: 1
+    library: {fileID: 7108339969198208228, guid: 166f662efc1b6a943889c2e85832a27b, type: 3}
+    preview: {fileID: 8793639957104055765, guid: f189e9147cbda5f41940a1732d41918a, type: 3}
+  - id: female_loki
+    displayName: 파랑
+    gender: 1
+    library: {fileID: 7108339969198208228, guid: 1854385eaebb5ae45bc529aed18b77fb, type: 3}
+    preview: {fileID: 8793639957104055765, guid: 22012c2bed0809f4fade4ecdec83be6d, type: 3}
+  - id: female_mono
+    displayName: 하양
+    gender: 1
+    library: {fileID: 7108339969198208228, guid: cc551bf9b6d25a6409f52d12de45915b, type: 3}
+    preview: {fileID: 8793639957104055765, guid: f69defa74f713ee4f91954d54088ca77, type: 3}
+  - id: female_mort
+    displayName: 빨강
+    gender: 1
+    library: {fileID: 7108339969198208228, guid: 4bbae5e09102b4240885ac5f41f0dd26, type: 3}
+    preview: {fileID: 8793639957104055765, guid: 5508727473b5e974a89dac3d705af67f, type: 3}
+  - id: female_nico
+    displayName: 주황
+    gender: 1
+    library: {fileID: 7108339969198208228, guid: 1be79060c5b383f4c9b4068ac482d4cf, type: 3}
+    preview: {fileID: 8793639957104055765, guid: 1e6044b0ecd663244be721cf9c335b12, type: 3}
+  - id: female_olaf
+    displayName: 초록
+    gender: 1
+    library: {fileID: 7108339969198208228, guid: 3d76e582ef4b7a64bb5bcfaf654a7c2e, type: 3}
+    preview: {fileID: 8793639957104055765, guid: ebf2f038551df6548a2a197a5fc58343, type: 3}
+  - id: female_sena
+    displayName: 보라
+    gender: 1
+    library: {fileID: 7108339969198208228, guid: cd9ad8ecabae9824e8fb222d59df9fdb, type: 3}
+    preview: {fileID: 8793639957104055765, guid: 7890a4cec8822834ab06e4ee84b366fd, type: 3}
+  - id: female_tard
+    displayName: 노랑
+    gender: 1
+    library: {fileID: 7108339969198208228, guid: 09415eb9e534f434184568f5d22d055c, type: 3}
+    preview: {fileID: 8793639957104055765, guid: d6115198d37631b46a99f8d7930ced99, type: 3}
+  - id: female_vita
+    displayName: 연두
+    gender: 1
+    library: {fileID: 7108339969198208228, guid: be52c42650b6fd748872b1d32acf3710, type: 3}
+    preview: {fileID: 8793639957104055765, guid: 93aeed4ddd8600e4b82ce1d1c8734720, type: 3}

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
@@ -65,6 +66,8 @@ namespace SSW
         string _passwordRoomId;
         Page _page;
         bool _closing;
+        double _refreshAt;
+        int _roomsVersion = -1;
 
         public CanvasGroup Group => _group;
 
@@ -102,7 +105,16 @@ namespace SSW
         public void ShowBrowse()
         {
             ShowPage(Page.Browse);
+            RebuildRoomList();
             RefreshRooms();
+        }
+
+        void Update()
+        {
+            if (_page != Page.Browse || !_group.interactable || !_group.gameObject.activeInHierarchy ||
+                _sessions == null || _sessions.IsBusy || _sessions.IsRefreshing || _sessions.IsInSession || _closing ||
+                Time.unscaledTimeAsDouble < _refreshAt) return;
+            _ = RefreshRooms(true);
         }
 
         public void ShowQuickPlay()
@@ -160,6 +172,7 @@ namespace SSW
 
         void RebuildRoomList()
         {
+            _roomsVersion = _sessions.RoomsVersion;
             foreach (MultiplayerRoomRowUI row in _roomRows)
             {
                 if (row == null) continue;
@@ -168,18 +181,20 @@ namespace SSW
             }
 
             _roomRows.Clear();
-            _emptyRoomText.gameObject.SetActive(_sessions.Rooms.Count == 0);
+            _emptyRoomText.gameObject.SetActive(_sessions.Rooms.Count == 0 && !_sessions.IsRefreshing);
 
             foreach (MultiplayerRoomInfo room in _sessions.Rooms)
             {
                 MultiplayerRoomRowUI row = Instantiate(_roomRowPrefab, _roomContent);
                 row.Bind(room, JoinSelectedRoom);
+                row.SetBusy(_sessions.IsBusy);
                 _roomRows.Add(row);
             }
         }
 
         void JoinSelectedRoom(MultiplayerRoomInfo room)
         {
+            if (_sessions.IsBusy) return;
             if (room.HasPassword)
             {
                 ShowPasswordRoom(room);
@@ -227,15 +242,21 @@ namespace SSW
             }
         }
 
-        async void RefreshRooms()
+        void RefreshRooms()
         {
+            _ = RefreshRooms(false);
+        }
+
+        async Task RefreshRooms(bool silent)
+        {
+            _refreshAt = Time.unscaledTimeAsDouble + 5d;
             try
             {
-                await _sessions.RefreshRoomsAsync();
-                if (_page == Page.Browse) RebuildRoomList();
+                await _sessions.RefreshRoomsAsync(silent);
             }
             catch (Exception)
             {
+                _refreshAt = Time.unscaledTimeAsDouble + 15d;
             }
         }
 
@@ -308,6 +329,7 @@ namespace SSW
 
         void HandleSessionChanged()
         {
+            if (_page == Page.Browse && _roomsVersion != _sessions.RoomsVersion) RebuildRoomList();
             UpdateStatus();
             if (_sessions.IsMatching)
             {
@@ -327,15 +349,18 @@ namespace SSW
         {
             if (_sessions == null) return;
             bool matching = _page == Page.Matching;
+            if (_page == Page.Browse)
+                _emptyRoomText.gameObject.SetActive(_sessions.Rooms.Count == 0 && !_sessions.IsRefreshing);
             _statusText.gameObject.SetActive(!matching);
             _statusText.text = _sessions.Status;
             _matchingText.text = string.IsNullOrEmpty(_sessions.Status) ? "상대를 찾는 중..." : _sessions.Status;
             _backButton.GetComponentInChildren<Text>().text = matching ? "취소" : "뒤로";
             _createButton.interactable = !_sessions.IsBusy;
-            _refreshButton.interactable = !_sessions.IsBusy;
+            _refreshButton.interactable = !_sessions.IsBusy && !_sessions.IsRefreshing;
             _joinCodeButton.interactable = !_sessions.IsBusy;
             _passwordJoinButton.interactable = !_sessions.IsBusy;
             _leaveButton.interactable = !_sessions.IsBusy;
+            foreach (MultiplayerRoomRowUI row in _roomRows) row.SetBusy(_sessions.IsBusy);
         }
 
         void OnDestroy()

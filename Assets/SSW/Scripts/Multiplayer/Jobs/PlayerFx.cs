@@ -10,6 +10,7 @@ namespace SSW
     {
         [SerializeField] NetPlayer _player;
         [SerializeField] SpriteRenderer[] _sprites;
+        [SerializeField] SpeedTrail _trail;
         [SerializeField] UnityEngine.UI.RawImage _blind;
         
         private Image[] _images;
@@ -26,6 +27,8 @@ namespace SSW
         public bool Shrunk => IsSpawned && _player.Drive.Scale < 1f;
         public bool BlindActive => IsSpawned && Now < _dark.Value;
         public bool ImmuneActive => IsSpawned && Now < _immune.Value;
+        public bool TrailActive => _trail.Active;
+        public int TrailSources => _trail.Sources;
         double Now => NetGame.Current.ServerTime;
 
         void Awake()
@@ -54,6 +57,16 @@ namespace SSW
         public void Shrink(float duration) => _player.Drive.Shrink(duration);
         public void Hide(float duration) { if (IsServer) _hide.Value = Now + duration; }
         public void Immune(float duration) { if (IsServer) _immune.Value = Now + duration; }
+        public void Trail()
+        {
+            if (!IsServer) return;
+            float duration = _trail.Remaining;
+            _trail.Track(duration);
+            TrailRpc(duration);
+        }
+
+        [Rpc(SendTo.NotServer, InvokePermission = RpcInvokePermission.Server)]
+        void TrailRpc(float duration) => _trail.Play(duration);
         public void Blind(float duration, float blindAlpha) 
         {
             if (IsServer) _dark.Value = Now + duration;
@@ -93,6 +106,7 @@ namespace SSW
 
         public override void OnNetworkDespawn()
         {
+            _trail.Release();
             transform.localScale = _baseScale;
             _blind.enabled = false;
             if (_mask != null) Destroy(_mask);

@@ -32,13 +32,13 @@ namespace SSW
             UnityEditor.EditorApplication.update += tick;
         }
 
-        public static void Arm(ISession session, bool after)
+        public static void Arm(ISession session, bool after, string method = "RemovePlayerAsync")
         {
             var flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
             object lobby = session.GetType().GetField("LobbyHandler", flags).GetValue(session);
             FieldInfo field = lobby.GetType().GetField("m_LobbyService", flags);
             object service = field.GetValue(lobby);
-            var proxy = new LeaveProxy(field.FieldType, lobby, field, service, after);
+            var proxy = new LeaveProxy(field.FieldType, lobby, field, service, after, method);
             field.SetValue(lobby, proxy.GetTransparentProxy());
         }
 
@@ -48,13 +48,15 @@ namespace SSW
             readonly FieldInfo _field;
             readonly object _service;
             readonly bool _after;
+            readonly string _method;
 
-            public LeaveProxy(Type type, object lobby, FieldInfo field, object service, bool after) : base(type)
+            public LeaveProxy(Type type, object lobby, FieldInfo field, object service, bool after, string method) : base(type)
             {
                 _lobby = lobby;
                 _field = field;
                 _service = service;
                 _after = after;
+                _method = method;
             }
 
             public override IMessage Invoke(IMessage message)
@@ -63,7 +65,7 @@ namespace SSW
                 try
                 {
                     object value;
-                    if (call.MethodName == "RemovePlayerAsync")
+                    if (call.MethodName == _method)
                     {
                         _field.SetValue(_lobby, _service);
                         Count++;

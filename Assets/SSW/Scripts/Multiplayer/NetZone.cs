@@ -59,7 +59,7 @@ namespace SSW
             {
                 Health health = hit.GetComponentInParent<Health>();
                 if (health != null && applied.Add(health))
-                    _stock.At(_kind.Value).Use(health.gameObject, _owner, _mods);
+                    PotionUse.Apply(_stock.At(_kind.Value), health, _owner, _mods);
             }
         }
     }

@@ -37,6 +37,11 @@ namespace SSW
             _join?.Invoke(_room);
         }
 
+        public void SetBusy(bool busy)
+        {
+            _joinButton.interactable = !busy;
+        }
+
         void OnDestroy()
         {
             transform.DOKill();
