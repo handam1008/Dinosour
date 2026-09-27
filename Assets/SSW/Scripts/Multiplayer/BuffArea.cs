@@ -58,6 +58,7 @@ namespace SSW
         [SerializeField] float _bombDamage = 10f;
         [SerializeField] float _bombKnockback = 6f;
         [SerializeField] SoundCue _bombSound;
+        [SerializeField] SoundCue _healSound;
         readonly List<Body> _bodies = new List<Body>();
         readonly List<HealPoint> _heals = new List<HealPoint>();
         readonly RaycastHit2D[] _hits = new RaycastHit2D[32];
@@ -133,6 +134,7 @@ namespace SSW
                 foreach (NetPlayer target in NetGame.Current.Players)
                     if (target.CanAct && InRange(target, field.Position, _healRadius)) target.Health.Heal(target.Health.Max * _healRatio);
                 _fx.Play(BuffEffect.HealBurst, field.Position, _healRadius);
+                NetGame.Current.Sounds.Play(_healSound);
             }
             bool publish = now >= _publishAt;
             if (publish) _publishAt = now + 0.05d;
