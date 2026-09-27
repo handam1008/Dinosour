@@ -12565,6 +12565,7 @@ MonoBehaviour:
   particles: {fileID: 156234847476011501}
   damageCaster: {fileID: 8479134821917941689}
   relationTime: 5
+  breatheSound: {fileID: 11400000, guid: f2b161b4f6bbce943be57372a1135a5b, type: 2}
 --- !u!1 &7885711390856797891
 GameObject:
   m_ObjectHideFlags: 0

@@ -46,7 +46,7 @@ namespace SSW
             float phase = (float)(age % period);
             if (phase >= _delay && _played != cycle)
             {
-                NetGame.Current.Sounds.Play(breathSoundCue);
+                if (IsServer && NetGame.Current.CanFight) NetGame.Current.Sounds.Play(breathSoundCue);
                 _played = cycle;
                 _effect.Simulate(phase - _delay, true, true, true);
                 _effect.Play(true);

@@ -13,6 +13,7 @@ namespace SSW
         [SerializeField] float _clockSize = 10f;
         [SerializeField] MapTint _startTint;
         [SerializeField] MapTint _endTint;
+        [SerializeField] SoundCue _sound;
         bool _active;
         readonly NetworkVariable<double> _startedAt = new NetworkVariable<double>(-1);
 
@@ -46,7 +47,11 @@ namespace SSW
             _active = active;
             _startTint.Stop();
             _endTint.Stop();
-            if (active) _startTint.Play();
+            if (active)
+            {
+                _startTint.Play();
+                if (IsServer) NetGame.Current.Sounds.Play(_sound);
+            }
             else _endTint.Play();
         }
 

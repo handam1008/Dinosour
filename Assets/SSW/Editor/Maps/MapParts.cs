@@ -140,6 +140,7 @@ namespace SSW
                     target.FindProperty("_ready").colorValue = source.FindProperty("signalColor2").colorValue;
                     target.FindProperty("_base").colorValue = source.FindProperty("baseColor").colorValue;
                     target.FindProperty("_delay").floatValue = Mathf.Max(4f, source.FindProperty("relationTime").floatValue);
+                    target.FindProperty("breathSoundCue").objectReferenceValue = MapRead.Sound(source, "breatheSound", "Map_Breath");
                 });
                 _phases.Add(source.FindProperty("damageCaster").objectReferenceValue, breath);
                 _read.Replace(raw, breath);
@@ -247,6 +248,7 @@ namespace SSW
                     target.FindProperty("_effect").objectReferenceValue = effect;
                     target.FindProperty("_duration").floatValue = settings.FindProperty("timeApplySpeed").floatValue;
                     target.FindProperty("_speed").floatValue = settings.FindProperty("speedAmount").floatValue;
+                    target.FindProperty("_sound").objectReferenceValue = MapRead.Sound(settings, "sakuraSound", "Map_SakuraPickup");
                 });
                 _read.Replace(raw, field);
             }
@@ -287,6 +289,7 @@ namespace SSW
         {
             foreach (MonoBehaviour raw in _read.Of("KDH_Volcano"))
             {
+                var source = new SerializedObject(raw);
                 ParticleSystem effect = _read.Get<ParticleSystem>(raw);
                 Collisions(effect);
                 var main = effect.main;
@@ -297,7 +300,8 @@ namespace SSW
                 MapRead.Edit(lava, target =>
                 {
                     target.FindProperty("_effect").objectReferenceValue = effect;
-                    target.FindProperty("_damage").floatValue = new SerializedObject(raw).FindProperty("damage").floatValue;
+                    target.FindProperty("_damage").floatValue = source.FindProperty("damage").floatValue;
+                    target.FindProperty("_sound").objectReferenceValue = MapRead.Sound(source, "volcanoSound", "Map_VolcanoErupt");
                 });
                 PrefabUtility.RecordPrefabInstancePropertyModifications(effect);
                 _read.Replace(raw, lava);
@@ -321,6 +325,7 @@ namespace SSW
                     target.FindProperty("_clockSize").floatValue = new SerializedObject(clock).FindProperty("maxSize").floatValue;
                     target.FindProperty("_startTint").objectReferenceValue = EventTint(source, "onTimeLineStart");
                     target.FindProperty("_endTint").objectReferenceValue = EventTint(source, "onTimeLineEnd");
+                    target.FindProperty("_sound").objectReferenceValue = MapRead.Sound(source, "clockSound", "Map_TimeStop");
                 });
                 _read.Replace(raw, tempo);
             }
