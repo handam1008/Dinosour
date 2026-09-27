@@ -187,6 +187,7 @@ MonoBehaviour:
   _offset: 0.48
   _angle: 0
   _gun: {fileID: 0}
+  _sword: {fileID: 0}
 --- !u!1 &1873449129119161273
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,6 +513,7 @@ MonoBehaviour:
   _offset: 0.48
   _angle: 0
   _gun: {fileID: 7045446408052638910}
+  _sword: {fileID: 0}
 --- !u!114 &7045446408052638910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -893,6 +895,7 @@ MonoBehaviour:
   _offset: 0.95
   _angle: 180
   _gun: {fileID: 0}
+  _sword: {fileID: 5694440557813886222}
 --- !u!1 &5912169595282341512
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,6 +1052,7 @@ MonoBehaviour:
   _offset: 0.48
   _angle: -90
   _gun: {fileID: 0}
+  _sword: {fileID: 0}
 --- !u!1 &6373004464246189320
 GameObject:
   m_ObjectHideFlags: 0
@@ -1396,6 +1400,10 @@ PrefabInstance:
       propertyPath: hitEvent
       value: 
       objectReference: {fileID: 11400000, guid: ba1b79262c399f14ca5594cd639dfcfd, type: 2}
+    - target: {fileID: 7897379110350336686, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      propertyPath: _numberAnchor
+      value: 
+      objectReference: {fileID: 539814333283446539}
     - target: {fileID: 7897379110350336686, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
       propertyPath: _disableOnDeath
       value: 0
@@ -1955,6 +1963,21 @@ MonoBehaviour:
   Player: {fileID: 3278762098247593300}
   _source: {fileID: 4814471823624826006}
   _view: {fileID: 7242114013962689088}
+  _tuning:
+    ParryReduction: 2
+    BleedDamage: 3
+    BleedTicks: 2
+    BleedInterval: 1
+    RootDuration: 0.5
+    RootCooldown: 1
+    Recovery: 0.3
+    DashBonus: 0.15
+    BonusDuration: 4
+    StandingDelay: 1
+    HealInterval: 0.5
+    HealAmount: 1
+    GrowthRate: 0.1
+    GrowthLimit: 3
 --- !u!114 &8193348028431366631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1985,9 +2008,9 @@ MonoBehaviour:
   _berserkerRatio: 0.75
   _berserkerSpeed: 0.45
   _berserkerDamage: 0.6
-  _waltzDuration: 5
+  _waltzDuration: 4
   _waltzHpBonus: 0.3
-  _tenLivesHealth: 10
+  _tenLivesHealth: 3
   _tenLivesDamage: 1
   _multiscaleReduction: 0.5
   _regenAmount: 1
@@ -2024,7 +2047,7 @@ MonoBehaviour:
   _magnetInterval: 1
   _shrinkScale: 0.25
   _shrinkSpeedBonus: 0.25
-  _versatileDamage: 0.1
+  _versatileDamage: 0.05
   _versatileLifesteal: 0.05
   _versatileSpeed: 0.1
   _doubleJumpRatio: 0.9
