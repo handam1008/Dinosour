@@ -76,7 +76,6 @@ namespace RYU._01.Script.Leaderboard
 
                 string tier = TierByRank(entry.Rank);
 
-                // 랭킹의 모든 사람이 아닌 나의 칭호만 변경
                 if (entry.PlayerId == AuthenticationService.Instance.PlayerId)
                 {
                     titleManager.ChangeTierTitle(tier);
