@@ -1799,7 +1799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3316593943
+  GlobalObjectIdHash: 2334970032
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -2056,7 +2056,7 @@ MonoBehaviour:
   _gunView: {fileID: 7045446408052638910}
   _effects: {fileID: 6182080824608296281}
   _audio:
-    _source: {fileID: 11400000, guid: 69976d87b0f02074f9f940f651adc674, type: 2}
+    _source: {fileID: 0}
 --- !u!114 &2236315355235603249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2202,6 +2202,7 @@ MonoBehaviour:
   _slamDamagePerHeight: 3
   _slamMaxDamage: 40
   _slamKnockback: 6
+  _landingSound: {fileID: 11400000, guid: 3cd3a0fe61595fa42b316e98c06a4404, type: 2}
   _slamSound: {fileID: 11400000, guid: 7792dffd621e1834caa4a30f67830e09, type: 2}
   _mineInterval: 3
   _slowAuraRadius: 4.5

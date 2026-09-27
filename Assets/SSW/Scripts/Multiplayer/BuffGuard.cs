@@ -119,7 +119,7 @@ namespace SSW
         {
             if (!IsOwner || !Ready) return;
             
-            NetGame.Current.Sounds.Play(_guardStartSound);
+            GameAudio.Current.PlaySfx(_guardStartSound);
             
             uint request = ++_request;
             if (!IsServer)
