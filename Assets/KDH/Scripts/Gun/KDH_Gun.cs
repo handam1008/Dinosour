@@ -17,7 +17,7 @@ namespace KDH.Scripts.Gun
         [field: SerializeField] public PlayerInput PlayerInput { get; private set; }
         [field: SerializeField] public Camera Cam { get; private set; }
         
-        // [field: SerializeField] public KDH_SoundCueListSO  SoundCues { get; private set; }
+        [field: SerializeField] public KDH_SoundCueListSO  SoundCues { get; private set; }
         
         [Header("Gun Parts")]
         [field: SerializeField] public Transform Visual { get; private set; }
@@ -86,7 +86,7 @@ namespace KDH.Scripts.Gun
                 CurrentAmmo++;
                 ChargeTimer = 0f;
                 
-                // ServiceLocator.Get<IAudioService>().PlaySfx(SoundCues.list[2]);
+                ServiceLocator.Get<IAudioService>().PlaySfx(SoundCues.list[2]);
             }
         }
 

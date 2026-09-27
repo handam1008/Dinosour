@@ -19,7 +19,7 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
         public KDH_Bullet Bullet { get; private set; }
         [SerializeField] private UnityEvent onHitPlayer;
         
-        // SoundCue dotDamageSound;
+        SoundCue dotDamageSound;
         
         public override void BulletAbility(Collider2D collision,  KDH_Bullet bullet)
         {
@@ -47,11 +47,11 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
                 yield return new WaitForSeconds(FireireDuration / dotDamageCount);
                 if (collision.TryGetComponent(out IDamageable damageable))
                 {
-                    // if (dotDamageSound == null)
-                    //     dotDamageSound = Bullet.PlayerGun.SoundCues.list[5];
-                    //
-                    // if (dotDamageSound != null)
-                    //     ServiceLocator.Get<IAudioService>().PlaySfx(dotDamageSound);
+                    if (dotDamageSound == null)
+                        dotDamageSound = Bullet.PlayerGun.SoundCues.list[5];
+                    
+                    if (dotDamageSound != null)
+                        ServiceLocator.Get<IAudioService>().PlaySfx(dotDamageSound);
                     
                     damageable.TakeDamage(damage);
                 }

@@ -20,7 +20,7 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
 
         [SerializeField] private UnityEvent onHitPlayer;
     
-        // SoundCue _applySlowSound;
+        SoundCue _applySlowSound;
         
         public override void BulletAbility(Collider2D collision, KDH_Bullet bullet)
         {
@@ -35,11 +35,11 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
             status.ApplyPoison(DotCount, PoisonDuration, finalDamage, Bullet);
             PosionTickInterval = status.TickInterval;
 
-            // if (_applySlowSound == null)
-            //     _applySlowSound = Bullet.PlayerGun.SoundCues.list[9];
-            //
-            // if (_applySlowSound != null)
-            //     ServiceLocator.Get<IAudioService>().PlaySfx(_applySlowSound);
+            if (_applySlowSound == null)
+                _applySlowSound = Bullet.PlayerGun.SoundCues.list[9];
+            
+            if (_applySlowSound != null)
+                ServiceLocator.Get<IAudioService>().PlaySfx(_applySlowSound);
             
             onHitPlayer?.Invoke();
         }

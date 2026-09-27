@@ -45,11 +45,11 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
             {
                 damageable.TakeDamage(damage * distance);
 
-                // if (_shurikenSound == null)
-                //     _shurikenSound = Bullet.PlayerGun.SoundCues.list[10];
-                //
-                // if (_shurikenSound != null)
-                //     NetGame.Current.Sounds.Play(_shurikenSound);
+                if (_shurikenSound == null)
+                    _shurikenSound = Bullet.PlayerGun.SoundCues.list[10];
+                
+                if (_shurikenSound != null)
+                    NetGame.Current.Sounds.Play(_shurikenSound);
             }
         }
     }
