@@ -1,3 +1,4 @@
+using SSW;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,9 +15,12 @@ namespace KDH.Scripts.Objects
         private float _timer;
         private float _applyTime;
         private bool _started;
+        
+        [SerializeField] private SoundCue clockSound;
 
         [SerializeField] private UnityEvent onTimeLineStart;
         [SerializeField] private UnityEvent onTimeLineEnd;
+
         
         private void Awake()
         {
@@ -35,6 +39,9 @@ namespace KDH.Scripts.Objects
                     Debug.Log("시작");
                     _started = true;
                     _applyTime = 0f;
+                    
+                    if (NetGame.Current != null && clockSound != null)
+                        NetGame.Current.Sounds.Play(clockSound); // 사운드
                     
                     onTimeLineStart?.Invoke();
                 }
