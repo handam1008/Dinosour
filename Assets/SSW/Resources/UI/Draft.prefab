@@ -2304,8 +2304,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd2f692936704114e9cdcd39036ff9c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SSW.DraftFx
-  _deal: {fileID: 8300000, guid: 860dfaf85a80cab4ca6042b86d317aa3, type: 3}
-  _pick: {fileID: 8300000, guid: b866e12851e2c794d8a4bea06a091ea1, type: 3}
+  _deal: {fileID: 11400000, guid: 5f339ce9777cc2c4a87efdeb5c95d0fe, type: 2}
+  _pick: {fileID: 11400000, guid: f6cd6a6910b70fe47a423be7cb237795, type: 2}
   _burst: {fileID: 6279320368495451964}
 --- !u!1 &6784866072129082984
 GameObject:
