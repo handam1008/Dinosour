@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DevLib.SoundSystem.Runtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,6 +21,8 @@ namespace SSW
         [SerializeField] float _phoenixInvulnDuration = 2.5f;
         [SerializeField] float _phoenixLockDuration = 1f;
         [SerializeField] float _phoenixScalePenalty = 0.08f;
+        [SerializeField] SoundClipSO _phoenixDeathSound;
+        [SerializeField] SoundClipSO _phoenixHatchSound;
 
         [Header("뱀파이어")]
         [SerializeField] float _vampireHealRate = 0.55f;
@@ -128,7 +131,11 @@ namespace SSW
             if (_phoenixLocked)
             {
                 _phoenixLockTimer -= Time.deltaTime;
-                if (_phoenixLockTimer <= 0f) UnlockMovement();
+                if (_phoenixLockTimer <= 0f)
+                {
+                    UnlockMovement();
+                    GameAudio.GetOrCreate().PlaySfx(_phoenixHatchSound);
+                }
             }
 
             if (_pendingDamage.Count > 0)
@@ -249,6 +256,7 @@ namespace SSW
                 _health.Heal(_health.maxHealth);
                 LockMovement();
                 _visual?.PlayRevive();
+                GameAudio.GetOrCreate().PlaySfx(_phoenixDeathSound);
                 return 0f;
             }
 

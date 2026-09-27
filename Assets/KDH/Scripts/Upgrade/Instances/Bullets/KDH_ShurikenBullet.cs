@@ -1,4 +1,5 @@
-﻿using KDH.Scripts.Bullet;
+﻿using DevLib.ServiceLocator;
+using KDH.Scripts.Bullet;
 using SSW;
 using UnityEngine;
 using UnityEngine.Events;
@@ -49,7 +50,7 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
                     _shurikenSound = Bullet.PlayerGun.SoundCues.list[10];
                 
                 if (_shurikenSound != null)
-                    NetGame.Current.Sounds.Play(_shurikenSound);
+                    NetGame.Current.Sounds.Play(_shurikenSound); // 사운드
             }
         }
     }

@@ -39,7 +39,7 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
                 _applySlowSound = Bullet.PlayerGun.SoundCues.list[9];
             
             if (_applySlowSound != null)
-                ServiceLocator.Get<IAudioService>().PlaySfx(_applySlowSound);
+                ServiceLocator.Get<IAudioService>().PlaySfx(_applySlowSound); // 사운드
             
             onHitPlayer?.Invoke();
         }

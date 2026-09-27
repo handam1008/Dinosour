@@ -1,4 +1,5 @@
-﻿using KDH.Scripts.Bullet;
+﻿using DevLib.ServiceLocator;
+using KDH.Scripts.Bullet;
 using SSW;
 using UnityEngine;
 using UnityEngine.Events;
@@ -27,17 +28,18 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
                 HitPoint = collision.transform;
                 onHitPlayer?.Invoke();
                 
+                if (_slowSound == null)
+                    _slowSound = Bullet.PlayerGun.SoundCues.list[8];
+                
+                if (_slowSound != null)
+                    NetGame.Current.Sounds.Play(_slowSound); // 사운드
+                
                 if (bullet.IsUpgraded)
                 {
                     slowable.ApplySlow(slowAmount * bullet.UpgradValue, slowDuration * bullet.UpgradValue);
                     return;
                 }
 
-                if (_slowSound == null)
-                    _slowSound = Bullet.PlayerGun.SoundCues.list[8];
-                
-                if (_slowSound != null)
-                    NetGame.Current.Sounds.Play(_slowSound);
                 
                 slowable.ApplySlow(slowAmount, slowDuration);
             }

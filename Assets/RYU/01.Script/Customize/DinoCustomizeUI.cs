@@ -1,3 +1,4 @@
+using SSW;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,9 @@ namespace RYU._01.Script.Customize
         [Header("패널")]
         [SerializeField] private GameObject boyPanel;
         [SerializeField] private GameObject girlPanel;
+        
+        [Header("Sound")]
+        [SerializeField] SoundCue _btnClickSound; 
 
         private void Awake()
         {
@@ -26,6 +30,11 @@ namespace RYU._01.Script.Customize
         {
             DinoSkin saved = DinoSkinStorage.Load();
             ShowPanel(saved != null ? saved.gender : DinoGender.Male);
+        }
+
+        public void OnClick()
+        {
+            GameAudio.Current.PlaySfx(_btnClickSound);
         }
 
         private static void Bind(GameObject panel)
