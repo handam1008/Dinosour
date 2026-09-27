@@ -2114,6 +2114,8 @@ MonoBehaviour:
   _phoenixImmune: 2.5
   _phoenixLock: 1
   _phoenixScalePenalty: 0.08
+  _phoenixDeathSound: {fileID: 11400000, guid: e7928bb6e7b4c4b4e9959cb11eae5643, type: 2}
+  _phoenixHatchSound: {fileID: 11400000, guid: 3dd728c6c9190e04bb4009f74399943a, type: 2}
   _vampireHeal: 0.55
   _confidenceSpeed: 0.3
   _confidenceDuration: 2
@@ -2170,6 +2172,7 @@ MonoBehaviour:
   _slamDamagePerHeight: 3
   _slamMaxDamage: 40
   _slamKnockback: 6
+  _slamSound: {fileID: 11400000, guid: 7792dffd621e1834caa4a30f67830e09, type: 2}
   _mineInterval: 3
   _slowAuraRadius: 4.5
   _slowAuraAmount: 0.35
@@ -2221,6 +2224,10 @@ MonoBehaviour:
   _leapBombSpread: 3
   _leapBombCoolPenalty: 0.2
   _versatileGuardCool: 0.1
+  _blinkSound: {fileID: 11400000, guid: 1e7d4047379c13648b9064d2d0088c16, type: 2}
+  _iceAgeSound: {fileID: 11400000, guid: 68c93fa57d606e344b60fa98fcce3bab, type: 2}
+  _nuclearChargeSound: {fileID: 11400000, guid: c247d40d9a951714aa97f9aa738258b4, type: 2}
+  _nuclearBlastSound: {fileID: 11400000, guid: 384d1c8215f38e24e995e816c45d02f5, type: 2}
 --- !u!114 &4767259970995932916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2251,6 +2258,7 @@ MonoBehaviour:
   _bombRadius: 1.5
   _bombDamage: 10
   _bombKnockback: 6
+  _bombSound: {fileID: 11400000, guid: 2fd1562b2db58e547a374bb60f8c1df2, type: 2}
 --- !u!114 &4522295323016243359
 MonoBehaviour:
   m_ObjectHideFlags: 0
