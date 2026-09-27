@@ -41,7 +41,7 @@ namespace SSW
         public SoundChannel Sounds { get; } = new SoundChannel();
         const string JobMessage = "mushrooms.job";
         const string GameScene = "SuperUltraLegendScene";
-        public const ushort Protocol = 19;
+        public const ushort Protocol = 22;
         [SerializeField] NetworkManager _managerPrefab;
         [SerializeField] NetPlayer _playerPrefab;
         [SerializeField] NetMatch _matchPrefab;
@@ -232,7 +232,7 @@ namespace SSW
         internal NetPlayer SpawnPractice(PlayerJob job, int slot, IEnumerable<int> owned, int progress)
         {
             NetPlayer player = Instantiate(_playerPrefab, Practice.Spawn(slot), Quaternion.identity);
-            player.Init(job, slot == 0 ? 1 : -1);
+            player.Init(job, slot == 0 ? 1 : -1, slot == 0 ? _localInfo : default);
             if (slot == 0) player.NetworkObject.SpawnAsPlayerObject(_localId, true);
             else player.NetworkObject.SpawnWithOwnership(1, true);
             player.Draft.Restore(owned);
@@ -288,6 +288,7 @@ namespace SSW
             }
             if (client != _manager.LocalClientId) return;
             _localId = client;
+            _localInfo.Skin = new FixedString128Bytes(RYU._01.Script.Customize.DinoSkinStorage.LoadId());
             ConnectionChanged?.Invoke();
             PlayerJob job = NetMath.Supported(_localJob) ? _localJob : PlayerJob.Magician;
             _fighters[client] = _localInfo;

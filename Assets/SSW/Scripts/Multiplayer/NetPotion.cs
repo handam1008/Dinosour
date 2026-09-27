@@ -107,13 +107,14 @@ namespace SSW
             float nearest = float.PositiveInfinity;
             Vector2 point = next;
             Vector2 normal = Vector2.zero;
-            Health direct = null;
-            if (ShotQuery.Ground(_previous, next, size.x * 0.5f, size, _owner.GroundMask, out RaycastHit2D ground))
+            IDamageable direct = null;
+            if (MapCombat.Sweep(_previous, next, size.x * 0.5f, size, _owner.GroundMask, out RaycastHit2D ground))
             {
                 float distance = Vector2.Distance(_previous, next);
                 nearest = distance > 0.000001f ? ground.distance / distance : 0f;
                 point = ground.centroid;
                 normal = ground.normal;
+                direct = ground.collider.GetComponent<Pin>();
             }
             foreach (NetPlayer target in NetGame.Current.Players)
             {
@@ -135,12 +136,12 @@ namespace SSW
         {
             if (!IsServer || !IsSpawned || _hit || !NetGame.Current.CanFight) return;
             if (other.GetComponentInParent<NetPlayer>() != null) return;
-            Health direct = other.GetComponentInParent<Health>();
+            IDamageable direct = other.GetComponentInParent<IDamageable>();
             if (other.isTrigger && direct == null) return;
             Contact(_body.position, -_collider.Distance(other).normal, direct);
         }
 
-        void Contact(Vector2 point, Vector2 normal, Health direct)
+        void Contact(Vector2 point, Vector2 normal, IDamageable direct)
         {
             _hit = true;
             _body.position = point;
@@ -168,19 +169,19 @@ namespace SSW
             Finish(true);
         }
 
-        bool Splash(Vector2 point, float radius, Health direct)
+        bool Splash(Vector2 point, float radius, IDamageable direct)
         {
-            HashSet<Health> applied = new HashSet<Health>();
+            HashSet<IDamageable> applied = new HashSet<IDamageable>();
             if (direct != null)
             {
                 applied.Add(direct);
-                _stock.At(_kind.Value).Use(direct.gameObject, _owner, _mods);
+                PotionUse.Apply(_stock.At(_kind.Value), (Component)direct, _owner, _mods);
             }
             foreach (Collider2D hit in Physics2D.OverlapCircleAll(point, radius))
             {
-                Health health = hit.GetComponentInParent<Health>();
+                IDamageable health = hit.GetComponentInParent<IDamageable>();
                 if (health == null || !applied.Add(health)) continue;
-                _stock.At(_kind.Value).Use(health.gameObject, _owner, _mods);
+                PotionUse.Apply(_stock.At(_kind.Value), (Component)health, _owner, _mods);
             }
             return applied.Count > 0;
         }

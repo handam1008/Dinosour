@@ -3,6 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using Unity.Services.Authentication;
+using Unity.Services.Core;
+using Unity.Services.Multiplayer;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -49,9 +53,25 @@ namespace SSW
             public string room;
             public string code;
             public int count;
+            public string roomId;
+            public string profile;
+            public bool signedIn;
+            public bool listening;
+            public bool server;
+            public int sessions;
+            public int protocol;
+            public string config;
+            public Room[] rooms;
             public Control[] buttons;
             public Control[] inputs;
             public Panel[] panels;
+        }
+
+        [Serializable] sealed class Room
+        {
+            public string id;
+            public string name;
+            public int players;
         }
 
         string _path;
@@ -59,6 +79,7 @@ namespace SSW
         float _next;
         string _error = "";
         bool _drive;
+        bool _signingIn;
 
         public void Init(string path, bool drive = true)
         {
@@ -131,12 +152,55 @@ namespace SSW
                 case "job": PlayerJobStorage.Save((PlayerJob)command.value); break;
                 case "capture": ScreenCapture.CaptureScreenshot(_path + ".png"); break;
                 case "clear": _error = ""; break;
+                case "profile": _ = SignIn(command.text); break;
+                case "delete": _ = DeleteRoom(command.text); break;
             }
+        }
+
+        async Task SignIn(string profile)
+        {
+            var sessions = MultiplayerSessionManager.GetOrCreate();
+            if (_signingIn || sessions.IsInSession || sessions.IsBusy)
+            {
+                _error = "Close the test session before changing profile";
+                return;
+            }
+            _signingIn = true;
+            try
+            {
+                if (UnityServices.State != ServicesInitializationState.Initialized)
+                    await UnityServices.InitializeAsync(new InitializationOptions().SetProfile(profile));
+                var auth = AuthenticationService.Instance;
+                if (auth.Profile != profile)
+                {
+                    auth.SignOut();
+                    auth.SwitchProfile(profile);
+                }
+                if (!auth.IsSignedIn) await auth.SignInAnonymouslyAsync();
+            }
+            catch (Exception error) { _error = error.Message; }
+            finally { _signingIn = false; }
+        }
+
+        async Task DeleteRoom(string id)
+        {
+            try
+            {
+                var lobby = await Unity.Services.Lobbies.LobbyService.Instance.GetLobbyAsync(id);
+                if (lobby.HostId != AuthenticationService.Instance.PlayerId)
+                    throw new InvalidOperationException("The test profile does not own this room");
+                await Unity.Services.Lobbies.LobbyService.Instance.DeleteLobbyAsync(id);
+            }
+            catch (Unity.Services.Lobbies.LobbyServiceException error) when
+                (error.Reason == Unity.Services.Lobbies.LobbyExceptionReason.LobbyNotFound) { }
+            catch (Exception error) { _error = error.Message; }
         }
 
         void Write()
         {
             var sessions = MultiplayerSessionManager.Current;
+            bool initialized = UnityServices.State == ServicesInitializationState.Initialized;
+            var network = NetGame.Current.Manager;
             var buttons = Components<UnityEngine.UI.Button>()
                 .Where(button => button.gameObject.activeInHierarchy)
                 .Select(button => new Control
@@ -157,7 +221,7 @@ namespace SSW
             {
                 seq = _sequence, error = _error, scene = SceneManager.GetActiveScene().name,
                 status = sessions != null ? sessions.Status : "",
-                busy = sessions != null && sessions.IsBusy,
+                busy = _signingIn || sessions != null && sessions.IsBusy,
                 matching = sessions != null && sessions.IsMatching,
                 joined = sessions != null && sessions.IsInSession,
                 host = sessions != null && sessions.IsHost,
@@ -165,6 +229,18 @@ namespace SSW
                 room = sessions != null ? sessions.RoomName : "",
                 code = sessions != null ? sessions.JoinCode : "",
                 count = sessions != null ? sessions.PlayerCount : 0,
+                roomId = sessions != null ? sessions.RoomId : "",
+                profile = initialized ? AuthenticationService.Instance.Profile : "",
+                signedIn = initialized && AuthenticationService.Instance.IsSignedIn,
+                listening = network != null && network.IsListening,
+                server = network != null && network.IsServer,
+                sessions = initialized ? MultiplayerService.Instance.Sessions.Count : 0,
+                protocol = NetGame.Protocol,
+                config = network != null ? network.NetworkConfig.GetConfig(false).ToString("X16") : "",
+                rooms = sessions != null ? sessions.Rooms.Select(room => new Room
+                {
+                    id = room.Id, name = room.Name, players = room.PlayerCount
+                }).ToArray() : Array.Empty<Room>(),
                 buttons = buttons, inputs = inputs, panels = panels
             };
             File.WriteAllText(_path + ".json", JsonUtility.ToJson(state, true));

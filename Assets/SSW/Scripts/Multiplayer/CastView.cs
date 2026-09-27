@@ -28,6 +28,7 @@ namespace SSW
             public bool Started;
             public bool AlignVelocity;
             public bool Held;
+            public bool Piercing;
         }
 
         readonly List<Shot> _shots = new List<Shot>(8);
@@ -110,6 +111,7 @@ namespace SSW
             shot.Radius = spec.Radius;
             shot.Spin = spec.Spin;
             shot.AlignVelocity = spec.Gravity != 0f && spec.Spin == 0f;
+            shot.Piercing = spec.CanPenetrate;
             if (_caster.Cast.Weapon is GunCast gun) gun.Effects.Attach(shot.View, spec.Charged);
             Start(shot);
         }
@@ -215,7 +217,7 @@ namespace SSW
                     float falling = Mathf.Clamp(shot.Age - shot.GravityDelay, 0f, delta);
                     next += Vector2.down * (shot.ExtraGravity * 0.5f * falling * (falling + Time.fixedDeltaTime));
                     shot.Velocity += Vector2.down * (shot.ExtraGravity * falling);
-                    if (ShotQuery.Ground(before, next, shot.Radius, shot.Size, _ground, out RaycastHit2D hit))
+                    if (MapCombat.Sweep(before, next, shot.Radius, shot.Size, _ground, out RaycastHit2D hit, pins: !shot.Piercing))
                     {
                         next = hit.centroid;
                         shot.Contact = hit.collider;

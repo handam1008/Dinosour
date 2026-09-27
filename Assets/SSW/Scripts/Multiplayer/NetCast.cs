@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 namespace SSW
 {
     [DefaultExecutionOrder(125)]
-    public sealed class NetCast : NetworkBehaviour
+    public sealed class NetCast : NetworkBehaviour, IMagicClock
     {
         [SerializeField] NetPlayer _player;
         [SerializeField] NumberRoller _cards;
@@ -27,6 +27,11 @@ namespace SSW
         [SerializeField] CooldownCursorUI _cooldown;
         readonly NetworkVariable<int> _suit = new NetworkVariable<int>();
         readonly NetworkVariable<int> _rank = new NetworkVariable<int>(1);
+        readonly NetworkVariable<double> _emergencyReady = new NetworkVariable<double>();
+        readonly NetworkVariable<double> _mirrorReady = new NetworkVariable<double>();
+        readonly NetworkVariable<double> _jokerReady = new NetworkVariable<double>();
+        readonly NetworkVariable<ClockSample> _magicTime = new NetworkVariable<ClockSample>();
+        double _clockAt;
         readonly NetworkVariable<PotionState> _potions = new NetworkVariable<PotionState>(new PotionState { Held = -1, Next = -1, Pocket = -1 });
         readonly CastStock _inventory = new CastStock();
         struct StockInput
@@ -142,8 +147,37 @@ namespace SSW
         double Now => IsOwner && !IsServer ? NetworkManager.LocalTime.Time : NetGame.Current.ServerTime;
         float ResponseTime => CastWait;
 
+        double IMagicClock.Now => IsServer ? Time.timeAsDouble : _magicTime.Value.At(NetGame.Current.ServerTime);
+        bool IMagicClock.Authority => IsServer;
+        double IMagicClock.ReadyAt(MagicianAugmentType type) => MagicTime(type).Value;
+        void IMagicClock.SetReady(MagicianAugmentType type, double time)
+        {
+            if (IsServer) MagicTime(type).Value = time;
+        }
+
+        NetworkVariable<double> MagicTime(MagicianAugmentType type) => type switch
+        {
+            MagicianAugmentType.EmergencyMagic => _emergencyReady,
+            MagicianAugmentType.MirrorCard => _mirrorReady,
+            MagicianAugmentType.JokerCard => _jokerReady,
+            _ => throw new System.ArgumentOutOfRangeException(nameof(type))
+        };
+
+        void SyncMagicClock()
+        {
+            _clockAt = Time.unscaledTimeAsDouble + 0.25d;
+            _magicTime.Value = new ClockSample
+            {
+                Game = Time.timeAsDouble,
+                Network = NetGame.Current.ServerTime,
+                Scale = Time.timeScale
+            };
+        }
+
         public override void OnNetworkSpawn()
         {
+            if (IsServer && _player.Job == PlayerJob.Magician) SyncMagicClock();
+            _magic.Bind(this);
             foreach (JobCast job in _jobs) if (job.Job == _player.Job) _jobCast = job;
             if (IsServer) _seed.Value = (uint)Random.Range(1, int.MaxValue);
             _cards.enabled = false;
@@ -562,6 +596,7 @@ namespace SSW
 
         void Tick()
         {
+            if (_player.Job == PlayerJob.Magician && Time.unscaledTimeAsDouble >= _clockAt) SyncMagicClock();
             if (!_player.CanAttack)
             {
                 _rollingRank = false;
@@ -736,6 +771,7 @@ namespace SSW
 
         public override void OnNetworkDespawn()
         {
+            _magic.Bind(null);
             StopAllCoroutines();
             _stockPending.Clear();
             _preview?.Clear();
