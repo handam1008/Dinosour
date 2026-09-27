@@ -4,6 +4,7 @@ using DG.Tweening;
 
 namespace SSW
 {
+    [DefaultExecutionOrder(300)]
     public class HealthBarDisplay : MonoBehaviour
     {
         [SerializeField] Image _fillImage;
@@ -18,6 +19,7 @@ namespace SSW
 
         Health _health;
         Tween _shake;
+        Vector3 _offset;
 
         void Awake()
         {
@@ -54,8 +56,15 @@ namespace SSW
         void HandleDamaged()
         {
             _shake.Kill(true);
-            _shake = transform.DOShakePosition(_shakeDuration, new Vector3(_shakeStrength, _shakeStrength, 0f), _shakeVibrato)
-                .OnKill(() => _shake = null);
+            _offset = Vector3.zero;
+            _shake = DOTween.Shake(() => _offset, value => _offset = value, _shakeDuration,
+                    new Vector3(_shakeStrength, _shakeStrength, 0f), _shakeVibrato)
+                .OnKill(() => { _shake = null; _offset = Vector3.zero; });
+        }
+
+        void LateUpdate()
+        {
+            transform.SetPositionAndRotation(_health.LabelPosition + _offset, Quaternion.identity);
         }
     }
 }

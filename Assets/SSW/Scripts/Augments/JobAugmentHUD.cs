@@ -18,8 +18,24 @@ namespace SSW
         AugmentTip _tip;
         Vector2 _size;
         bool _jobVisible = true;
+        JobAugmentHUD _above;
+        Text _heading;
 
         public int IconCount => _icons.Count;
+        public float Height => _icons.Count > 0 && _grid != null ? _grid.Height : 0f;
+        public event System.Action LayoutChanged;
+        float Top => _above != null ? 24f + _above.Height + 34f : 24f;
+        IAugmentCooldownProvider Cooldowns => _above == null ? _cooldownProvider : null;
+
+        public void PlaceBelow(JobAugmentHUD above)
+        {
+            if (_above == above) return;
+            if (_above != null) _above.LayoutChanged -= Resize;
+            _above = above;
+            if (_above != null) _above.LayoutChanged += Resize;
+            foreach (JobAugmentIconUI icon in _icons.Values) icon.SetCooldownProvider(Cooldowns);
+            Resize();
+        }
 
         public void Bind(IAugmentSource source)
         {
@@ -32,6 +48,7 @@ namespace SSW
         {
             if (_source != null) _source.AugmentGranted -= AddAugment;
             _source = null;
+            PlaceBelow(null);
             Clear();
         }
 
@@ -66,13 +83,14 @@ namespace SSW
             }
             _icons.Clear();
             RefreshVisibility();
+            Resize();
         }
 
         public void Configure(IAugmentCooldownProvider cooldownProvider)
         {
             _cooldownProvider = cooldownProvider;
             foreach (JobAugmentIconUI icon in _icons.Values)
-                icon.SetCooldownProvider(_cooldownProvider);
+                icon.SetCooldownProvider(Cooldowns);
         }
 
         public void AddAugment(Augment augment)
@@ -100,7 +118,7 @@ namespace SSW
 
         internal void ShowTooltip(Augment augment)
         {
-            if (_icons.ContainsKey(augment)) _tip.Show(augment, _canvasRect.rect.size, _grid.Height);
+            if (_icons.ContainsKey(augment)) _tip.Show(augment, _canvasRect.rect.size, Top - 24f + _grid.Height);
         }
 
         internal void HideTooltip(Augment augment) => _tip?.Hide(augment);
@@ -112,9 +130,13 @@ namespace SSW
 
         void Resize()
         {
+            if (_canvas == null) return;
             _size = _canvasRect.rect.size;
-            _grid.Resize(_icons.Count, _size);
+            _grid.Resize(_icons.Count, _size, Top);
+            _heading.gameObject.SetActive(_above != null);
+            _heading.rectTransform.anchoredPosition = new Vector2(-30f, -Top + 26f);
             _tip.Hide();
+            LayoutChanged?.Invoke();
         }
 
         void BuildIfNeeded()
@@ -134,6 +156,16 @@ namespace SSW
             AugmentUI.Stretch(_canvasRect);
             _tip = new AugmentTip(_canvasRect);
             _grid = new AugmentGrid(_canvasRect, _tip.Hide);
+            RectTransform heading = AugmentUI.Create("OpponentAugments", _canvasRect);
+            AugmentUI.TopRight(heading);
+            heading.sizeDelta = new Vector2(200f, 24f);
+            _heading = heading.gameObject.AddComponent<Text>();
+            _heading.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            _heading.fontSize = 20;
+            _heading.alignment = TextAnchor.MiddleRight;
+            _heading.color = new Color(0.75f, 0.78f, 0.86f);
+            _heading.raycastTarget = false;
+            _heading.text = "상대 증강";
         }
 
         JobAugmentIconUI CreateIcon(Augment augment)
@@ -172,7 +204,7 @@ namespace SSW
             RadialCooldownUI cooldownView = cooldownRect.gameObject.AddComponent<RadialCooldownUI>();
             cooldownView.Configure(cooldown);
             JobAugmentIconUI icon = iconRect.gameObject.AddComponent<JobAugmentIconUI>();
-            icon.Initialize(augment, _cooldownProvider, this, background, cooldownView);
+            icon.Initialize(augment, Cooldowns, this, background, cooldownView);
             return icon;
         }
 

@@ -41607,6 +41607,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 50193597ffeb42146abb8872a94d2404, type: 2}
     - target: {fileID: 7897379110350336686, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
+      propertyPath: _healthBarPadding
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7897379110350336686, guid: d70b1e3dd32ca874eb931b00b37b980c, type: 3}
       propertyPath: healthChangeEvent
       value: 
       objectReference: {fileID: 11400000, guid: 4bffae8994c8b2440973b7b481cec1f3, type: 2}
@@ -42211,6 +42215,7 @@ MonoBehaviour:
   _phoenixScalePenalty: 0.08
   _phoenixDeathSound: {fileID: 11400000, guid: e7928bb6e7b4c4b4e9959cb11eae5643, type: 2}
   _phoenixHatchSound: {fileID: 11400000, guid: 3dd728c6c9190e04bb4009f74399943a, type: 2}
+  _phoenixHatchDelay: 0.4
   _vampireHeal: 0.55
   _confidenceSpeed: 0.3
   _confidenceDuration: 2
