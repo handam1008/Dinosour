@@ -124,12 +124,13 @@ namespace SSW
         {
             if (!float.IsFinite(amount) || amount <= 0f) return;
             if (_authority != null && (current <= 0f || !_authority.CanChange)) return;
-
-            GameAudio.Current.PlaySfx(healingSoundCue);
+            if(Mathf.Approximately(Max, Current)) return;
+            
             float previous = current;
             current = Mathf.Min(current + amount, maxHealth);
             float restored = current - previous;
             if (restored <= 0f) return;
+            GameAudio.Current.PlaySfx(healingSoundCue);
             OnHealthChanged?.Invoke(current, maxHealth);
             ApplyNetworkHeal(restored);
         }
