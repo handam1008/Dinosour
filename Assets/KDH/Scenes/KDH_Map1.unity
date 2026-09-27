@@ -635,6 +635,7 @@ MonoBehaviour:
   _healthBarResourceName: HealthBarUI
   _damageNumberResourceName: DamageNumberUI
   _healthBarPadding: 0.15
+  _numberAnchor: {fileID: 0}
   healthChangeEvent: {fileID: 0}
   hitEvent: {fileID: 0}
 --- !u!114 &647222115
@@ -1251,7 +1252,8 @@ MonoBehaviour:
   bulletLayer:
     serializedVersion: 2
     m_Bits: 0
-  isParrying: 0
+  parryAnimator: {fileID: 0}
+  parryTriggerName: Parry
 --- !u!61 &1569450012
 BoxCollider2D:
   m_ObjectHideFlags: 0

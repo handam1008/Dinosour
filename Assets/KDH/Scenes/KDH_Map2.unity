@@ -635,6 +635,7 @@ MonoBehaviour:
   _healthBarResourceName: HealthBarUI
   _damageNumberResourceName: DamageNumberUI
   _healthBarPadding: 0.15
+  _numberAnchor: {fileID: 0}
   healthChangeEvent: {fileID: 0}
   hitEvent: {fileID: 0}
 --- !u!114 &647222115
@@ -1301,7 +1302,8 @@ MonoBehaviour:
   bulletLayer:
     serializedVersion: 2
     m_Bits: 0
-  isParrying: 0
+  parryAnimator: {fileID: 0}
+  parryTriggerName: Parry
 --- !u!61 &1569450012
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1508,9 +1510,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3132137855622305607, guid: 4e23c807de8d53240987aad946ee4a84, type: 3}
+      propertyPath: force
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3132137855622305607, guid: 4e23c807de8d53240987aad946ee4a84, type: 3}
+      propertyPath: duration
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4934528622648131391, guid: 4e23c807de8d53240987aad946ee4a84, type: 3}
       propertyPath: m_Name
       value: KDH_Map 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5353576366472801733, guid: 4e23c807de8d53240987aad946ee4a84, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 23040
       objectReference: {fileID: 0}
     - target: {fileID: 6970127498038964330, guid: 4e23c807de8d53240987aad946ee4a84, type: 3}
       propertyPath: m_LocalPosition.x
