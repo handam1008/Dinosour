@@ -638,6 +638,9 @@ MonoBehaviour:
   _numberAnchor: {fileID: 0}
   healthChangeEvent: {fileID: 0}
   hitEvent: {fileID: 0}
+  healingSoundCue: {fileID: 0}
+  hitSoundCue: {fileID: 0}
+  deadSoundCue: {fileID: 0}
 --- !u!114 &647222115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -659,6 +662,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _visual: {fileID: 985391669}
+  jumpSoundCue: {fileID: 0}
+  landingSoundCue: {fileID: 0}
+  speedUpSoundCue: {fileID: 0}
 --- !u!70 &647222116
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
