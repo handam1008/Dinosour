@@ -46,7 +46,7 @@ public class KDH_ShrinkingDevice : KDH_AbstractPlayerAbility
         StartCoroutine(ChangeLocalScale());
         
         if (shrinkingSound != null)
-            ServiceLocator.Get<IAudioService>().PlaySfx(shrinkingSound);
+            ServiceLocator.Get<IAudioService>().PlaySfx(shrinkingSound); // 사운드
         
         _canUseSkill = false;
         onHitPlayer?.Invoke();

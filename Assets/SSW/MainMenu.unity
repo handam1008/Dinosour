@@ -1356,7 +1356,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 152314307}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &152314307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1472,7 +1484,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 171884354}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 346356194}
+        m_TargetAssemblyTypeName: SSW.JobSettingsPanel, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &171884354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2976,7 +3000,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 312622804}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &312622804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3207,7 +3243,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 330244297}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &330244297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3514,6 +3562,8 @@ MonoBehaviour:
   _preview: {fileID: 1363679419}
   _equipButton: {fileID: 1909367235}
   _backButton: {fileID: 530282415}
+  btnClickSound: {fileID: 11400000, guid: b5e6ebe7166a52f49965124349d3f337, type: 2}
+  _jobSelectedSound: {fileID: 11400000, guid: e48891c523d5b844fb5b5cdb1f2b98b3, type: 2}
 --- !u!225 &346356195
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -4244,8 +4294,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 760, y: -320}
-  m_SizeDelta: {x: 90, y: 90}
+  m_AnchoredPosition: {x: 733, y: -327}
+  m_SizeDelta: {x: 157.1542, y: 157.1542}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &415753974
 MonoBehaviour:
@@ -4276,14 +4326,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.2}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.43137255}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -6640089022996641885, guid: 0b3bc756b2d277c43befede61913fe07, type: 3}
+  m_Sprite: {fileID: -6256732298934330293, guid: 74e607deeeef2e246b0a4808a1727819, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -4365,7 +4415,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 416959890}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 346356194}
+        m_TargetAssemblyTypeName: SSW.JobSettingsPanel, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &416959890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4574,7 +4636,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -14, y: -12}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 93.5339, y: 93.534}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &448039983
 MonoBehaviour:
@@ -4589,14 +4651,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.3}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.3137255}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -6640089022996641885, guid: 0b3bc756b2d277c43befede61913fe07, type: 3}
+  m_Sprite: {fileID: -8779688227974700679, guid: d677f2eaddee99146a112558adb90e4f, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -4713,7 +4775,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 454224247}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &454224247
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7701,7 +7775,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 745602333}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &745602333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7817,7 +7903,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 747987853}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 346356194}
+        m_TargetAssemblyTypeName: SSW.JobSettingsPanel, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &747987853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8268,7 +8366,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 789962585}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 346356194}
+        m_TargetAssemblyTypeName: SSW.JobSettingsPanel, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &789962585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8707,7 +8817,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 846091019}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &846091019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8858,7 +8980,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 848633840}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &848633840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9611,17 +9745,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 961360259}
-  m_LocalRotation: {x: 0, y: 0, z: -0.06975647, w: 0.9975641}
+  m_LocalRotation: {x: -0, y: -0, z: 0.9582325, w: -0.2859904}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1375901546}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -146.764}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -720, y: 340}
-  m_SizeDelta: {x: 90, y: 90}
+  m_AnchoredPosition: {x: -712.6, y: 302.6}
+  m_SizeDelta: {x: 147.6134, y: 147.6134}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &961360261
 MonoBehaviour:
@@ -9652,14 +9786,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.2}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.43137255}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 3478636342769844489, guid: 4633555da651bc44d8fd5b9fbd5528cb, type: 3}
+  m_Sprite: {fileID: -2917000182891882972, guid: 17b3159769a5b8c4fa6bf5db03cbc05d, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -10091,7 +10225,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &988784607
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10309,7 +10443,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 999770672}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &999770672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10655,7 +10801,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1027712944}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1027712944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11131,14 +11289,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.3}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.3137255}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8379709430181943284, guid: ebcd0cdd9f428bf41b6dd4f94b6835bf, type: 3}
+  m_Sprite: {fileID: -3338258424178146402, guid: 8fbc4f89ef208c44387d37b14e1f6013, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -12002,17 +12160,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1170245486}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.9660836, w: -0.25822967}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 570642510}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -150.07}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -14, y: -12}
-  m_SizeDelta: {x: 64, y: 64}
+  m_AnchoredPosition: {x: -59.3, y: -67.5}
+  m_SizeDelta: {x: 64, y: 41.3136}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1170245488
 MonoBehaviour:
@@ -12027,14 +12185,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.3}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.3137255}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 3478636342769844489, guid: 4633555da651bc44d8fd5b9fbd5528cb, type: 3}
+  m_Sprite: {fileID: -2917000182891882972, guid: 17b3159769a5b8c4fa6bf5db03cbc05d, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -12151,7 +12309,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1189445309}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1189445309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12784,7 +12954,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1215604830}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1215604830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12935,7 +13117,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1216575630}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1216575630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13224,14 +13418,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.3}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.3137255}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -7847274689068991988, guid: 610c796699f561d498d3c5a74840782e, type: 3}
+  m_Sprite: {fileID: -6256732298934330293, guid: 74e607deeeef2e246b0a4808a1727819, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -13706,8 +13900,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -760, y: -300}
-  m_SizeDelta: {x: 90, y: 90}
+  m_AnchoredPosition: {x: -769, y: -332}
+  m_SizeDelta: {x: 151.5648, y: 151.5648}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1262822493
 MonoBehaviour:
@@ -13738,14 +13932,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.2}
+  m_Color: {r: 0.35625657, g: 0.6981132, b: 0.28648987, a: 0.15686275}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 8379709430181943284, guid: ebcd0cdd9f428bf41b6dd4f94b6835bf, type: 3}
+  m_Sprite: {fileID: -8779688227974700679, guid: a7a5f557938c8e147a6c61684852d9a2, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -14382,6 +14576,7 @@ MonoBehaviour:
   girlTab: {fileID: 1473797558}
   boyPanel: {fileID: 1990687581}
   girlPanel: {fileID: 1801276114}
+  _btnClickSound: {fileID: 11400000, guid: b5e6ebe7166a52f49965124349d3f337, type: 2}
 --- !u!225 &1347989341
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -15419,7 +15614,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1483213678}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1483213678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15570,7 +15777,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1487748874}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1487748874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16691,8 +16910,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 720, y: 360}
-  m_SizeDelta: {x: 90, y: 90}
+  m_AnchoredPosition: {x: 738, y: 341.59662}
+  m_SizeDelta: {x: 133.2464, y: 133.2464}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1592658855
 MonoBehaviour:
@@ -16723,14 +16942,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.2}
+  m_Color: {r: 0.35686275, g: 0.7019608, b: 0.2901961, a: 0.15686275}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -7847274689068991988, guid: 610c796699f561d498d3c5a74840782e, type: 3}
+  m_Sprite: {fileID: -3338258424178146402, guid: 8fbc4f89ef208c44387d37b14e1f6013, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -17117,7 +17336,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1625215473}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1625215473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17277,14 +17508,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.3}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.3137255}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 3478636342769844489, guid: 4633555da651bc44d8fd5b9fbd5528cb, type: 3}
+  m_Sprite: {fileID: -3338258424178146402, guid: 8fbc4f89ef208c44387d37b14e1f6013, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -17591,7 +17822,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1707170694}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1707170694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17891,7 +18134,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1725573756}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1725573756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18506,7 +18761,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1832125727}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 346356194}
+        m_TargetAssemblyTypeName: SSW.JobSettingsPanel, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1832125727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19182,7 +19449,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1858153505}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1858153505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19333,7 +19612,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1867503080}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1867503080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19771,7 +20062,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1900613175}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1900613175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20083,6 +20386,8 @@ MonoBehaviour:
   _fadeDuration: 0.22
   _buttonStagger: 0.07
   _titleboardPanel: {fileID: 0}
+  _btnClickSoundCue: {fileID: 11400000, guid: b5e6ebe7166a52f49965124349d3f337, type: 2}
+  _matchFoundSoundCue: {fileID: 11400000, guid: eaa980638f2da524b8c389d49995aa6a, type: 2}
 --- !u!4 &1926424804
 Transform:
   m_ObjectHideFlags: 0
@@ -20671,7 +20976,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2007814416}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 346356194}
+        m_TargetAssemblyTypeName: SSW.JobSettingsPanel, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2007814416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22131,7 +22448,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2121866005}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2121866005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22472,7 +22801,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2137139874}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2137139874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22623,7 +22964,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2139621056}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2139621056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22774,7 +23127,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2143112844}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1347989340}
+        m_TargetAssemblyTypeName: RYU._01.Script.Customize.DinoCustomizeUI, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2143112844
 MonoBehaviour:
   m_ObjectHideFlags: 0

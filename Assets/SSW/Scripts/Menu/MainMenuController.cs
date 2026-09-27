@@ -25,6 +25,9 @@ namespace SSW
         [SerializeField] float _fadeDuration = 0.22f;
         [SerializeField] float _buttonStagger = 0.07f;
         [SerializeField] CanvasGroup _titleboardPanel;
+        
+        [SerializeField] SoundCue _btnClickSoundCue;
+        [SerializeField] private SoundCue _matchFoundSoundCue;
 
         MultiplayerMenuUI _multiplayerMenu;
         SandboxMapMenuUI _sandboxMapMenu;
@@ -101,6 +104,7 @@ namespace SSW
 
         void ShowPanel(CanvasGroup target)
         {
+            GameAudio.Current.PlaySfx(_btnClickSoundCue);
             if (_current == target) return;
             _title.gameObject.SetActive(target != _jobPanel && target != _leaderboardPanel && target != _customPanel);
             CanvasGroup previous = _current;
@@ -225,6 +229,11 @@ namespace SSW
 
             return _sandboxMapMenu;
         }
+        
+        public void PlayMatchFoundSound()
+        {
+            GameAudio.Current.PlaySfx(_matchFoundSoundCue);
+        }
 
         public void SetMasterVolume(float value)
         {
@@ -236,7 +245,10 @@ namespace SSW
             GameAudio.GetOrCreate().SetSfxVolume(value);
         }
 
-        public void SetBgmVolume(float value) => GameAudio.GetOrCreate().SetBgmVolume(value);
+        public void SetBgmVolume(float value)
+        {
+            GameAudio.GetOrCreate().SetBgmVolume(value);
+        }
 
         void SyncVolume()
         {
@@ -248,11 +260,13 @@ namespace SSW
 
         public void SetFullscreen(bool value)
         {
+            GameAudio.Current.PlaySfx(_btnClickSoundCue);
             Screen.fullScreen = value;
         }
 
         void SetStatus(string message)
         {
+            GameAudio.Current.PlaySfx(_btnClickSoundCue);
             if (_statusText != null) _statusText.text = message;
         }
     }

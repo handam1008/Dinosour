@@ -341,7 +341,11 @@ namespace SSW
                 if (_page == Page.Waiting && !_sessions.IsBusy && !_closing) ShowBrowse();
                 return;
             }
-            if (_page != Page.Waiting) ShowWaitingRoom();
+            if (_page != Page.Waiting)
+            {
+                ShowWaitingRoom();
+                _menu.PlayMatchFoundSound();
+            }
             else UpdateWaitingRoom();
         }
 

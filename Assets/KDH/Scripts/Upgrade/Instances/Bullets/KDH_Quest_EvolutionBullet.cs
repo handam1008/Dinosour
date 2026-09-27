@@ -79,7 +79,7 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
                         clearedSound = bullet.PlayerGun.SoundCues.list[0];
                     
                     if (clearedSound != null)
-                        ServiceLocator.Get<IAudioService>().PlaySfx(clearedSound);
+                        ServiceLocator.Get<IAudioService>().PlaySfx(clearedSound); // 사운드
                             
                     _questStr = "퀘스트: 진화 클리어!";
                     
