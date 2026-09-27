@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c533836bba9a554faf34d2a7661249a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KDH_AirBullet
-  flyPower: 40
+  flyPower: 10
   <BulletAbilityData>k__BackingField: {fileID: 11400000, guid: 8986c1c4116382c48822e9fb463bbb80, type: 2}
   onHitPlayer:
     m_PersistentCalls:

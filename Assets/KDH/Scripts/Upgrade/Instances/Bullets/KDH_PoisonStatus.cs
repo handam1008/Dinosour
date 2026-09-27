@@ -26,9 +26,9 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
 
         public void ApplyPoison(int dotCount, float duration, float damage, KDH_Bullet bullet)
         {
-            // if (_bullet == null)
-            //     _bullet = bullet;
-            //
+            if (_bullet == null)
+                _bullet = bullet;
+            
             TickInterval = duration / dotCount;
             _tickDamage = damage;
 
@@ -56,7 +56,7 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
                     dotDamageSound = _bullet.PlayerGun.SoundCues.list[5];
                     
                 if (dotDamageSound != null)
-                    ServiceLocator.Get<IAudioService>().PlaySfx(dotDamageSound);
+                    ServiceLocator.Get<IAudioService>().PlaySfx(dotDamageSound);// 사운드
                 
                 _remainingTicks--;
                 _damageable?.TakeDamage(_tickDamage);

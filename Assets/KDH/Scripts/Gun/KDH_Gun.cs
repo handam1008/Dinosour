@@ -86,7 +86,7 @@ namespace KDH.Scripts.Gun
                 CurrentAmmo++;
                 ChargeTimer = 0f;
                 
-                ServiceLocator.Get<IAudioService>().PlaySfx(SoundCues.list[2]);
+                ServiceLocator.Get<IAudioService>().PlaySfx(SoundCues.list[2]); // 장전 사운드
             }
         }
 

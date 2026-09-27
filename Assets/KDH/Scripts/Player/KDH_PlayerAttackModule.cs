@@ -1,5 +1,4 @@
-﻿using DevLib.ServiceLocator;
-using KDH.Scripts.Bullet;
+﻿using KDH.Scripts.Bullet;
 using KDH.Scripts.Gun;
 using UnityEngine;
 using UnityEngine.InputSystem;
