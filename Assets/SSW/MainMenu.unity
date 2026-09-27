@@ -19068,6 +19068,7 @@ GameObject:
   - component: {fileID: 2085399635}
   - component: {fileID: 2085399637}
   - component: {fileID: 2085399636}
+  - component: {fileID: 2085399638}
   m_Layer: 0
   m_Name: PlayerInfoPanel
   m_TagString: Untagged
@@ -19145,7 +19146,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2085399630}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9ec6f456c29144618bd2b24e4c9e674c, type: 3}
   m_Name: 
@@ -19201,6 +19202,20 @@ MonoBehaviour:
   m_EffectColor: {r: 0.32, g: 0.29, b: 0.45, a: 0.7}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!114 &2085399638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085399630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e077e8d520fe5854fbdf1e4cc2846c49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.ProfileInfo
+  _name: {fileID: 1284424874}
+  _score: {fileID: 332169274}
 --- !u!1 &2090731837
 GameObject:
   m_ObjectHideFlags: 0

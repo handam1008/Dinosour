@@ -1,0 +1,12 @@
+if (UnityEditor.EditorApplication.isPlaying) throw new System.InvalidOperationException("Stop Play first");
+var root = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.GameObject>("Assets/SSW/Resources/Network/Player.prefab");
+using var settings = new UnityEditor.SerializedObject(root.GetComponent<SSW.SwordCast>());
+var tuning = settings.FindProperty("_tuning");
+tuning.FindPropertyRelative("ParryReduction").floatValue = 2f;
+tuning.FindPropertyRelative("BleedInterval").floatValue = 1f;
+tuning.FindPropertyRelative("RootDuration").floatValue = 0.5f;
+settings.ApplyModifiedPropertiesWithoutUndo();
+UnityEditor.PrefabUtility.SavePrefabAsset(root);
+var result = new { parryReduction = 2f, bleedTicks = 2, bleedInterval = 1f, rootDuration = 0.5f, immediateDashRecovery = true, source = "Base 3e5d1da sword SO descriptions" };
+System.IO.File.WriteAllText("Logs/AugmentLink27/SwordValues.json", Newtonsoft.Json.JsonConvert.SerializeObject(result, Newtonsoft.Json.Formatting.Indented));
+return result;

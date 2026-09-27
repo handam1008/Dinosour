@@ -149,13 +149,28 @@ namespace SSW
 
         public void Forfeit(ulong client)
         {
-            if (!IsServer || State.Phase == MatchPhase.Finished) return;
+            if (!IsServer || State.Phase == MatchPhase.Finished || State.Phase == MatchPhase.Waiting) return;
+            if (client != State.First && client != State.Second) return;
             foreach (NetPlayer player in NetGame.Current.Players)
                 if (player.OwnerClientId != client)
                 {
                     Finish(player.OwnerClientId, MatchEnd.Left);
                     return;
                 }
+        }
+
+        public void Surrender()
+        {
+            if (IsSpawned) SurrenderRpc();
+        }
+
+        [Rpc(SendTo.Server, InvokePermission = RpcInvokePermission.Everyone)]
+        void SurrenderRpc(RpcParams rpc = default)
+        {
+            if (State.Phase == MatchPhase.Waiting || State.Phase == MatchPhase.Finished || State.First == State.Second) return;
+            ulong sender = rpc.Receive.SenderClientId;
+            if (sender != State.First && sender != State.Second) return;
+            Finish(sender == State.First ? State.Second : State.First, MatchEnd.Surrender);
         }
 
         void Finish(ulong winner, MatchEnd reason)
