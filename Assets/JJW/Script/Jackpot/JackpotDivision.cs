@@ -12,6 +12,7 @@ namespace JJW.Script.Jackpot
         [SerializeField] private GamblerCoinShooter coinShooter;
         [SerializeField] private GamblerAugmentController augmentController;
         [SerializeField] private Health health;
+        [SerializeField] private GamblerSlotRoulette slotRoulette;
 
         [Header("Normal Chances")]
         [SerializeField] private float normalDamageChance = 7f;
@@ -56,6 +57,7 @@ namespace JJW.Script.Jackpot
 
         private float probabilityShiftBonus;
         private int guaranteedWinningCount;
+        private bool jackpotPending;
 
         public int GuaranteedWinningCount => guaranteedWinningCount;
         public float ProbabilityShiftBonus => probabilityShiftBonus;
@@ -93,6 +95,12 @@ namespace JJW.Script.Jackpot
                 jackpotState =
                     GetComponentInParent<global::Jackpot777>();
             }
+
+            if (slotRoulette == null)
+            {
+                slotRoulette =
+                    GetComponentInChildren<GamblerSlotRoulette>(true);
+            }
         }
 
         private void OnEnable()
@@ -126,13 +134,18 @@ namespace JJW.Script.Jackpot
                    && jackpotState.IsActive;
         }
 
+        private bool IsJackpotUnavailable()
+        {
+            return IsJackpotActive() || jackpotPending;
+        }
+
         private void Roulette()
         {
             Debug.Log($"룰렛 증강 검사 " +
                       $"컨트롤러 연결: {augmentController != null} / " +
                       $"행운 적용: {HasAugment(GamblerAugmentType.Luck)}",
                 this);
-            bool usedGuaranteedJackpot = !IsJackpotActive() && HasAugment(GamblerAugmentType.GuaranteedJackpot)
+            bool usedGuaranteedJackpot = !IsJackpotUnavailable() && HasAugment(GamblerAugmentType.GuaranteedJackpot)
                                                             && guaranteedWinningCount >= requiredWinningCount;
 
             JackpotResultType mainResult = usedGuaranteedJackpot ? JackpotResultType.Jackpot777 : RollMainResult();
@@ -152,15 +165,8 @@ namespace JJW.Script.Jackpot
 
             if (mainResult == JackpotResultType.Jackpot777 || oldCoinResult == JackpotResultType.Jackpot777)
             {
+                jackpotPending = true;
                 IncreaseProbabilityShift();
-            }
-            RouletteCompleted?.Invoke(mainResult, rolledOldCoin ? oldCoinResult : JackpotResultType.None);
-
-            ApplyResult(mainResult);
-
-            if (ShouldApplyOldCoinResult(mainResult, oldCoinResult))
-            {
-                ApplyResult(oldCoinResult);
             }
 
             string oldResultText = rolledOldCoin ? oldCoinResult.ToString() : "사용 안 함";
@@ -171,6 +177,48 @@ namespace JJW.Script.Jackpot
                 $"777 확률: {GetCurrent777Chance()}% / " +
                 $"확정 스택: {guaranteedWinningCount}" +
                 $"/{requiredWinningCount}");
+
+            if (slotRoulette != null)
+            {
+                slotRoulette.Play(
+                    mainResult,
+                    () => CompleteRoulette(
+                        mainResult,
+                        oldCoinResult,
+                        rolledOldCoin));
+            }
+            else
+            {
+                CompleteRoulette(
+                    mainResult,
+                    oldCoinResult,
+                    rolledOldCoin);
+            }
+        }
+
+        private void CompleteRoulette(
+            JackpotResultType mainResult,
+            JackpotResultType oldCoinResult,
+            bool rolledOldCoin)
+        {
+            RouletteCompleted?.Invoke(
+                mainResult,
+                rolledOldCoin
+                    ? oldCoinResult
+                    : JackpotResultType.None);
+
+            ApplyResult(mainResult);
+
+            if (ShouldApplyOldCoinResult(mainResult, oldCoinResult))
+            {
+                ApplyResult(oldCoinResult);
+            }
+
+            if (mainResult == JackpotResultType.Jackpot777
+                || oldCoinResult == JackpotResultType.Jackpot777)
+            {
+                jackpotPending = false;
+            }
         }
 
         private JackpotResultType RollMainResult()
@@ -200,7 +248,7 @@ namespace JJW.Script.Jackpot
             float luckBonus = GetLuckBonus();
             float chance = oldCoinChance + luckBonus;
 
-            float jackpotChance = IsJackpotActive() ? 0f : chance;
+            float jackpotChance = IsJackpotUnavailable() ? 0f : chance;
 
             return RollTable(chance, chance, chance, chance, 0f, jackpotChance);
         }
@@ -262,7 +310,7 @@ namespace JJW.Script.Jackpot
 
         private float GetCurrent777Chance()
         {
-            if (IsJackpotActive())
+            if (IsJackpotUnavailable())
             {
                 return 0f;
             }
@@ -295,6 +343,7 @@ namespace JJW.Script.Jackpot
         private void ResetProbabilityShift()
         {
             probabilityShiftBonus = 0f;
+            jackpotPending = false;
         }
 
         private void AddGuaranteedJackpotProgress(JackpotResultType mainResult, JackpotResultType oldCoinResult)
