@@ -35,6 +35,7 @@ namespace SSW
         [SerializeField] float _slamDamagePerHeight = 3f;
         [SerializeField] float _slamMaxDamage = 40f;
         [SerializeField] float _slamKnockback = 6f;
+        [SerializeField] SoundCue _landingSound;
         [SerializeField] SoundCue _slamSound;
         [SerializeField] float _mineInterval = 3f;
         [SerializeField] float _slowAuraRadius = 4.5f;
@@ -123,9 +124,18 @@ namespace SSW
                 _grounded = grounded;
                 _peak = y;
             }
-            if (!grounded) _peak = _grounded ? y : Mathf.Max(_peak, y);
-            else if (!_grounded && Has(CommonAugmentType.Slam) && _peak - y >= _slamMinHeight)
-                Slam(_peak - y);
+            if (!grounded)
+            {
+                _peak = _grounded ? y : Mathf.Max(_peak, y);
+            }
+            else if (!_grounded && _peak - y >= _slamMinHeight)
+            {
+                if (Has(CommonAugmentType.Slam))
+                    Slam(_peak - y);
+                else
+                    NetGame.Current.Sounds.Play(_landingSound); 
+            }
+
             _grounded = grounded;
         }
 

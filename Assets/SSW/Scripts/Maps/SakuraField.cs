@@ -10,6 +10,7 @@ namespace SSW
         [SerializeField, Min(0f)] float _speed = 0.2f;
         [SerializeField] ParticleSystem _effect;
         [SerializeField] ParticleSystem _petals;
+        [SerializeField] SoundCue _sound;
         readonly NetworkVariable<double> _startedAt = new NetworkVariable<double>(-1);
         readonly Dictionary<ulong, float> _shownAt = new Dictionary<ulong, float>();
 
@@ -38,6 +39,7 @@ namespace SSW
             player.Motion.ApplySpeed(_speed, _duration);
             if (_shownAt.TryGetValue(player.NetworkObjectId, out float last) && Time.time < last + 0.3f) return;
             _shownAt[player.NetworkObjectId] = Time.time;
+            NetGame.Current.Sounds.Play(_sound);
             EffectRpc(player.NetworkObjectId);
         }
 

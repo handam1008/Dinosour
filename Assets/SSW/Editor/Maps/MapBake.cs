@@ -14,7 +14,7 @@ namespace SSW
     {
         const string ProfilePath = "Assets/SSW/Editor/Maps/MapSources.asset";
         const string GamePath = "Assets/SSW/Resources/Network/NetGame.prefab";
-        const string Version = "4";
+        const string Version = "6";
         static readonly int[] Numbers = { 1, 2, 3, 6, 7, 8, 9, 12, 13, 14, 17 };
         static readonly int[] Protected = { 4, 5, 10, 15, 16 };
         static bool _baking;

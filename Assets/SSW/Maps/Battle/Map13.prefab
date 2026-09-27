@@ -142,6 +142,7 @@ MonoBehaviour:
   - Shape: {fileID: 5214947061924762529}
     Damage: 5
     Force: {x: -20, y: 0}
+  _sound: {fileID: 11400000, guid: 37042c605cc5d7a44a75e1f67f26970e, type: 2}
 --- !u!1001 &7845822433002370278
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -235,6 +236,7 @@ MonoBehaviour:
   _speed: 1.2
   _effect: {fileID: 1098242012906619717, guid: 05eee43f7a6cf09439ff3338772a0b42, type: 3}
   _petals: {fileID: 3101432538891416334}
+  _sound: {fileID: 11400000, guid: 2f682d096f543734a884f1db7746f772, type: 2}
 --- !u!4 &1554846726601220166 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8751084733621540000, guid: 6b88bb6719fc65f4fb102a3bff822dcf, type: 3}

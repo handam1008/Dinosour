@@ -158,6 +158,7 @@ MonoBehaviour:
   - Shape: {fileID: 6459768672992735532}
     Damage: 5
     Force: {x: -20, y: 0}
+  _sound: {fileID: 11400000, guid: 37042c605cc5d7a44a75e1f67f26970e, type: 2}
 --- !u!1001 &2770425958053779310
 PrefabInstance:
   m_ObjectHideFlags: 0

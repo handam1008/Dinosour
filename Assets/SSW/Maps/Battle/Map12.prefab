@@ -184,6 +184,7 @@ MonoBehaviour:
   - Shape: {fileID: 7956913233576305297}
     Damage: 5
     Force: {x: -20, y: 0}
+  _sound: {fileID: 11400000, guid: 37042c605cc5d7a44a75e1f67f26970e, type: 2}
 --- !u!1001 &8223410703832014572
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -195,6 +196,10 @@ PrefabInstance:
     - target: {fileID: 143300938423854971, guid: b4f2e17ea3ca1bb4787a462eb8e54cf5, type: 3}
       propertyPath: CollisionModule.collidesWith.m_Bits
       value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 164336033920704859, guid: b4f2e17ea3ca1bb4787a462eb8e54cf5, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5680126590237842987, guid: b4f2e17ea3ca1bb4787a462eb8e54cf5, type: 3}
       propertyPath: m_LocalPosition.x
