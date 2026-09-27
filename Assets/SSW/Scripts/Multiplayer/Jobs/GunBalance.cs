@@ -10,23 +10,26 @@ namespace SSW
         [SerializeField] float _iceSlow;
         [SerializeField] float _poisonDamage;
         [SerializeField] float _shurikenDamage;
+        [SerializeField] float _airForce;
 
         public float FireDamage => _fireDamage;
         public float GravityForce => _gravityForce;
         public float IceSlow => _iceSlow;
         public float PoisonDamage => _poisonDamage;
         public float ShurikenDamage => _shurikenDamage;
+        public float AirForce => _airForce;
 
 #if UNITY_EDITOR
-        public bool Replace(float fire, float gravity, float ice, float poison, float shuriken)
+        public bool Replace(float fire, float gravity, float ice, float poison, float shuriken, float air)
         {
             if (_fireDamage.Equals(fire) && _gravityForce.Equals(gravity) && _iceSlow.Equals(ice)
-                && _poisonDamage.Equals(poison) && _shurikenDamage.Equals(shuriken)) return false;
+                && _poisonDamage.Equals(poison) && _shurikenDamage.Equals(shuriken) && _airForce.Equals(air)) return false;
             _fireDamage = fire;
             _gravityForce = gravity;
             _iceSlow = ice;
             _poisonDamage = poison;
             _shurikenDamage = shuriken;
+            _airForce = air;
             return true;
         }
 #endif

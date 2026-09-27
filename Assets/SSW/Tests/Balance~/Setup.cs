@@ -1,6 +1,7 @@
 if (UnityEditor.EditorApplication.isPlaying) throw new System.InvalidOperationException("Stop play mode first");
 const string sourceRoot = "Assets/KDH/GameModules/Prefabs/AbilityBullets/";
 const string firePath = "Assets/SSW/Prefabs/Balance/FireBullet.prefab";
+const string airPath = "Assets/SSW/Prefabs/Balance/AirBullet.prefab";
 const string balancePath = "Assets/SSW/Resources/Network/GunBalance.asset";
 const string sourcesPath = "Assets/SSW/Editor/GunSources.asset";
 if (!UnityEditor.AssetDatabase.IsValidFolder("Assets/SSW/Prefabs/Balance"))
@@ -20,6 +21,22 @@ if (fire == null)
         setup.ApplyModifiedPropertiesWithoutUndo();
         UnityEditor.PrefabUtility.RecordPrefabInstancePropertyModifications(ability);
         fire = UnityEditor.PrefabUtility.SaveAsPrefabAsset(instance, firePath);
+    }
+    finally { UnityEditor.SceneManagement.EditorSceneManager.ClosePreviewScene(scene); }
+}
+var air = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.GameObject>(airPath);
+if (air == null)
+{
+    var scene = UnityEditor.SceneManagement.EditorSceneManager.NewPreviewScene();
+    try
+    {
+        var instance = (UnityEngine.GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(Asset<UnityEngine.GameObject>(sourceRoot + "KDH_AirBullet.prefab"), scene);
+        var ability = instance.GetComponent<KDH.Scripts.Upgrade.Instances.Bullets.KDH_AirBullet>();
+        using var setup = new UnityEditor.SerializedObject(ability);
+        setup.FindProperty("flyPower").floatValue = 10f;
+        setup.ApplyModifiedPropertiesWithoutUndo();
+        UnityEditor.PrefabUtility.RecordPrefabInstancePropertyModifications(ability);
+        air = UnityEditor.PrefabUtility.SaveAsPrefabAsset(instance, airPath);
     }
     finally { UnityEditor.SceneManagement.EditorSceneManager.ClosePreviewScene(scene); }
 }
@@ -43,10 +60,15 @@ if (sources == null)
     setup.ApplyModifiedPropertiesWithoutUndo();
     UnityEditor.AssetDatabase.CreateAsset(sources, sourcesPath);
 }
+using (var setup = new UnityEditor.SerializedObject(sources))
+{
+    setup.FindProperty("_air").objectReferenceValue = air.GetComponent<KDH.Scripts.Upgrade.Instances.Bullets.KDH_AirBullet>();
+    if (setup.ApplyModifiedPropertiesWithoutUndo()) UnityEditor.AssetDatabase.SaveAssetIfDirty(sources);
+}
 SSW.GunBake.BakeAll();
 UnityEditor.AssetDatabase.TryGetGUIDAndLocalFileIdentifier(balance, out string guid, out long fileId);
 string root = System.IO.Path.GetFullPath("Logs/Balance26");
 System.IO.Directory.CreateDirectory(root);
 var patch = new { prefab = "Assets/SSW/Resources/Network/Player.prefab", component = "SSW.GunCast", field = "_balance", asset = balancePath, guid, fileId };
 System.IO.File.WriteAllText(root + "/PlayerPatch.json", Newtonsoft.Json.JsonConvert.SerializeObject(patch, Newtonsoft.Json.Formatting.Indented));
-return new { sources = sourcesPath, firePath, variant = UnityEditor.PrefabUtility.GetPrefabAssetType(fire).ToString(), balance = UnityEngine.JsonUtility.ToJson(balance), patch };
+return new { sources = sourcesPath, firePath, airPath, variant = UnityEditor.PrefabUtility.GetPrefabAssetType(fire).ToString(), balance = UnityEngine.JsonUtility.ToJson(balance), patch };
