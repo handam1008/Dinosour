@@ -143,6 +143,7 @@ MonoBehaviour:
   - Shape: {fileID: 6945628162015169097}
     Damage: 5
     Force: {x: -50, y: 0}
+  _sound: {fileID: 11400000, guid: 37042c605cc5d7a44a75e1f67f26970e, type: 2}
 --- !u!1001 &8776804711457037913
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -289,6 +290,7 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   _effect: {fileID: 1054962782180952180}
   _damage: 20
+  _sound: {fileID: 11400000, guid: de10f90f7518a8444bd1bccd910bf21b, type: 2}
 --- !u!1 &4008150853885465581 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5643774034607508916, guid: ccfd7825dfbb76546b8ed19578543ef0, type: 3}
