@@ -20,6 +20,7 @@ namespace SSW
         [SerializeField] float _phoenixScalePenalty = 0.08f;
         [SerializeField] SoundCue _phoenixDeathSound;
         [SerializeField] SoundCue _phoenixHatchSound;
+        [SerializeField] float _phoenixHatchDelay = 0.4f;
         [SerializeField] float _vampireHeal = 0.55f;
         [SerializeField] float _confidenceSpeed = 0.3f;
         [SerializeField] float _confidenceDuration = 2f;
@@ -174,7 +175,7 @@ namespace SSW
                 _player.Drive.Freeze(_phoenixLock);
                 _fx.Revive();
                 NetGame.Current.Sounds.Play(_phoenixDeathSound);
-                _hatchAt = Time.time + _phoenixLock;
+                _hatchAt = Time.time + _phoenixHatchDelay;
                 return 0f;
             }
             return amount;
