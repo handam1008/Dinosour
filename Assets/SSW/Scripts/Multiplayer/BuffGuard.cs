@@ -45,6 +45,12 @@ namespace SSW
         [SerializeField] float _leapBombSpread = 3f;
         [SerializeField] float _leapBombCoolPenalty = 0.2f;
         [SerializeField] float _versatileGuardCool = 0.1f;
+        
+        [SerializeField] SoundCue _blinkSound;
+        [SerializeField] SoundCue _iceAgeSound;
+        [SerializeField] SoundCue _nuclearChargeSound;
+        [SerializeField] SoundCue _nuclearBlastSound;
+        
         readonly NetworkVariable<double> _guardUntil = new NetworkVariable<double>();
         readonly NetworkVariable<double> _readyAt = new NetworkVariable<double>();
         readonly NetworkVariable<double> _empowerUntil = new NetworkVariable<double>();
@@ -145,9 +151,14 @@ namespace SSW
             {
                 _nuclear.Add(now + _nuclearChargeTime);
                 _fx.Play(BuffEffect.NuclearCharge, center, 1f, _nuclearChargeTime);
+                NetGame.Current.Sounds.Play(_nuclearChargeSound);
             }
             if (Has(CommonAugmentType.BestOffense)) _empowerUntil.Value = now + _bestOffenseWindow;
-            if (Has(CommonAugmentType.Blink)) _player.Drive.Burst(_player.Aim, _blinkDistance, _blinkDuration);
+            if (Has(CommonAugmentType.Blink))
+            {
+                _player.Drive.Burst(_player.Aim, _blinkDistance, _blinkDuration);
+                NetGame.Current.Sounds.Play(_blinkSound);
+            }
             if (LeapBomb)
             {
                 for (int i = 0; i < _leapBombCount; i++)
@@ -192,6 +203,7 @@ namespace SSW
         void Ice(Vector2 center, double now)
         {
             _fx.Play(BuffEffect.IceBlast, center, _iceAgeRadius);
+            NetGame.Current.Sounds.Play(_iceAgeSound);
             foreach (NetPlayer target in NetGame.Current.Players)
             {
                 if (target == _player || !target.CanAct || !BuffArea.InRange(target, center, _iceAgeRadius)) continue;
@@ -204,6 +216,7 @@ namespace SSW
         void Nuclear(Vector2 center)
         {
             _fx.Play(BuffEffect.NuclearBlast, center, _nuclearRadius);
+            NetGame.Current.Sounds.Play(_nuclearBlastSound);
             int walls = _nuclearWallMask.value;
             foreach (NetPlayer target in NetGame.Current.Players)
             {

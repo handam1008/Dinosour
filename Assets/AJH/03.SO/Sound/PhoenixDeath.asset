@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c8934380d28f8f45ad25c2b617d447c, type: 3}
-  m_Name: UI_ButtonClick
+  m_Name: PhoenixDeath
   m_EditorClassIdentifier: Assembly-CSharp::SSW.SoundCue
   audioType: 0
-  clip: {fileID: 8300000, guid: 21cc710c3848a63489553181ddb090a9, type: 3}
+  clip: {fileID: 8300000, guid: 8f5144d57ce6c4c428e6cd1da3093ad9, type: 3}
   isLoop: 0
   randomizerPitch: 0
-  randomPitchModifier: 0.2
-  volume: 0.2
-  pitch: 1.5
+  randomPitchModifier: 0.1
+  volume: 1
+  pitch: 1
   startTime: 0
-  endTime: 1.032
-  _id: b5e6ebe7166a52f49965124349d3f337
+  endTime: 2.4032652
+  _id: e7928bb6e7b4c4b4e9959cb11eae5643

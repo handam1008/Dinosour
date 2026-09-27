@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c8934380d28f8f45ad25c2b617d447c, type: 3}
-  m_Name: UI_ButtonClick
+  m_Name: SlamLand
   m_EditorClassIdentifier: Assembly-CSharp::SSW.SoundCue
   audioType: 0
-  clip: {fileID: 8300000, guid: 21cc710c3848a63489553181ddb090a9, type: 3}
+  clip: {fileID: 8300000, guid: 704ce38a4ff3a0648a01c4178c9240f3, type: 3}
   isLoop: 0
   randomizerPitch: 0
-  randomPitchModifier: 0.2
-  volume: 0.2
-  pitch: 1.5
+  randomPitchModifier: 0.1
+  volume: 1
+  pitch: 1
   startTime: 0
-  endTime: 1.032
-  _id: b5e6ebe7166a52f49965124349d3f337
+  endTime: 2.112
+  _id: 7792dffd621e1834caa4a30f67830e09

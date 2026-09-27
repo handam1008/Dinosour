@@ -35,6 +35,7 @@ namespace SSW
         [SerializeField] float _slamDamagePerHeight = 3f;
         [SerializeField] float _slamMaxDamage = 40f;
         [SerializeField] float _slamKnockback = 6f;
+        [SerializeField] SoundCue _slamSound;
         [SerializeField] float _mineInterval = 3f;
         [SerializeField] float _slowAuraRadius = 4.5f;
         [SerializeField] float _slowAuraAmount = 0.35f;
@@ -132,6 +133,7 @@ namespace SSW
         {
             Vector2 center = _player.Drive.Position + Vector2.up * _slamBoxOffsetY;
             _fx.Play(BuffEffect.Slam, center);
+            NetGame.Current.Sounds.Play(_slamSound);
             float damage = Mathf.Min(_slamBaseDamage + _slamDamagePerHeight * height, _slamMaxDamage);
             Bounds area = new Bounds(center, _slamBoxSize);
             foreach (NetPlayer target in NetGame.Current.Players)

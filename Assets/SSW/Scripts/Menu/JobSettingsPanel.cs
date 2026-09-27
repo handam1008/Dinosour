@@ -16,6 +16,10 @@ namespace SSW
         [SerializeField] MenuDinosaurPreview _preview;
         [SerializeField] Button _equipButton;
         [SerializeField] Button _backButton;
+        
+        [Header("sound")]
+        [SerializeField] SoundCue btnClickSound;
+        [SerializeField] SoundCue _jobSelectedSound; 
 
         JobSlotControl _selectedSlot;
         PlayerJob _equippedJob;
@@ -47,6 +51,11 @@ namespace SSW
             if (_backButton != null) _backButton.onClick.RemoveListener(Back);
         }
 
+        public void OnClick()
+        {
+            GameAudio.Current.PlaySfx(_jobSelectedSound);
+        }
+
         public void Open()
         {
             if (!Initialize()) return;
@@ -63,6 +72,7 @@ namespace SSW
         {
             if (_selectedSlot == null || _selectedSlot.Definition == null) return;
 
+            GameAudio.Current.PlaySfx(btnClickSound);
             _equippedJob = _selectedSlot.Definition.Job;
             PlayerJobStorage.Save(_equippedJob);
             UpdateEquippedMarkers();
