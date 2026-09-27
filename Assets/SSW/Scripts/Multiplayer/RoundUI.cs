@@ -8,7 +8,6 @@ namespace SSW
         [SerializeField] RoundLamp[] _right;
         [SerializeField] UnityEngine.UI.Text _leftScore;
         [SerializeField] UnityEngine.UI.Text _rightScore;
-        [SerializeField] SoundCue roundEndSoundCue;
         bool _shown;
         byte _set;
 
@@ -25,7 +24,6 @@ namespace SSW
             int left = first ? state.FirstWins : state.SecondWins;
             int right = first ? state.SecondWins : state.FirstWins;
             bool animate = _shown && _set == state.Set;
-            NetGame.Current.Sounds.Play(roundEndSoundCue);
             for (int i = 0; i < _left.Length; i++) _left[i].Set(i < left, animate);
             for (int i = 0; i < _right.Length; i++) _right[i].Set(i < right, animate);
             _leftScore.text = (first ? state.FirstSets : state.SecondSets).ToString();

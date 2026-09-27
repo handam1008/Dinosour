@@ -11,6 +11,7 @@ namespace SSW
         [SerializeField] CanvasGroup _words;
         [SerializeField] AudioClip _slide;
         [SerializeField] AudioClip _hit;
+        [SerializeField] SoundCue roundEndSoundCue;
         Sequence _motion;
         bool _closing;
         float _width;
@@ -31,6 +32,7 @@ namespace SSW
             _title.rectTransform.localScale = Vector3.one * 1.16f;
             _words.alpha = 0f;
             GameAudio.GetOrCreate().PlaySfx(_slide, 0.7f);
+            NetGame.Current.Sounds.Play(roundEndSoundCue);
             _motion = DOTween.Sequence().SetUpdate(true).SetLink(gameObject);
             _motion.Insert(0f, _band.DOAnchorPosX(0f, 0.32f).SetEase(Ease.OutExpo));
             _motion.Insert(0.22f, _words.DOFade(1f, 0.12f));
