@@ -49,6 +49,7 @@ namespace SSW
         [SerializeField] NetworkObject[] _shots;
         [SerializeField] MatchUI _menuPrefab;
         [SerializeField] Vs _introPrefab;
+        [SerializeField] ProfileTitle _title;
         readonly Dictionary<ulong, Fighter> _fighters = new Dictionary<ulong, Fighter>();
         Fighter _localInfo;
         Vs _intro;
@@ -172,6 +173,7 @@ namespace SSW
             Arena = null;
             _menu = null;
             Prepare();
+            await _title.RefreshAsync();
         }
 
         void RegisterPrefab(GameObject prefab)
@@ -290,6 +292,7 @@ namespace SSW
             }
             if (client != _manager.LocalClientId) return;
             _localId = client;
+            _localInfo.SetTag(string.IsNullOrEmpty(NetLaunch.Tag) ? _title.Current : NetLaunch.Tag);
             _localInfo.Skin = new FixedString128Bytes(RYU._01.Script.Customize.DinoSkinStorage.LoadId());
             ConnectionChanged?.Invoke();
             PlayerJob job = NetMath.Supported(_localJob) ? _localJob : PlayerJob.Magician;

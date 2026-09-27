@@ -28,7 +28,7 @@ namespace SSW
             {
                 if (i == _rows.Count) _rows.Add(Instantiate(_prefab, _content));
                 LeaderboardEntry entry = entries[i];
-                int tier = Tier(entry.Rank);
+                int tier = RankTier.Index(entry.Rank);
                 string name = entry.PlayerName;
                 if (!string.IsNullOrWhiteSpace(name)) name = name.Split('#')[0];
                 if (string.IsNullOrWhiteSpace(name)) name = entry.PlayerId;
@@ -37,13 +37,5 @@ namespace SSW
             }
         }
 
-        static int Tier(int rank)
-        {
-            if (rank < 1) return 5;
-            if (rank < 6) return 4;
-            if (rank < 16) return 3;
-            if (rank < 31) return 2;
-            return rank < 48 ? 1 : 0;
-        }
     }
 }

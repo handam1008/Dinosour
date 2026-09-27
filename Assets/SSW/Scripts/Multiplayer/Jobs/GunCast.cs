@@ -22,6 +22,7 @@ namespace SSW
         [SerializeField] GunBalance _balance;
         [SerializeField] GunView _gunView;
         [SerializeField] GunFx _effects;
+        [SerializeField] GunAudio _audio = new GunAudio();
         readonly HashSet<GunnerAugmentType> _augments = new HashSet<GunnerAugmentType>();
         readonly List<Poison> _poison = new List<Poison>();
         float _hasteAt;
@@ -78,6 +79,11 @@ namespace SSW
             }
         }
 
+        protected override void Advanced(WeaponState previous, WeaponState current)
+        {
+            for (int i = previous.Ammo; i < current.Ammo; i++) _audio.Play(GunSound.Reload);
+        }
+
         protected override bool Plan(ref WeaponState state, CastInput input, out BoltSpec bolt)
         {
             bolt = default;
@@ -114,12 +120,32 @@ namespace SSW
             float scale = bolt.Spec.Charged ? Stats.ChargeDamage : 1f;
             int mask = 0;
             foreach (GunnerAugmentType type in _augments) mask |= 1 << (int)type;
-            if (Has(GunnerAugmentType.AirBullet) && !target.Drive.Grounded) target.Drive.Launch(_balance.AirForce * scale);
-            if (Has(GunnerAugmentType.GravityBullet)) target.Drive.ApplyForce((target.Body.position - Player.Body.position).normalized * (_balance.GravityForce * scale), ForceMode2D.Impulse);
-            if (Has(GunnerAugmentType.IceBullet)) target.Motion.ApplySlow(_balance.IceSlow * scale, 1.5f * scale);
-            if (Has(GunnerAugmentType.FireBullet)) StartCoroutine(DamageOverTime(target, _balance.FireDamage * scale, 6, 0.5f));
-            if (Has(GunnerAugmentType.PoisonBullet)) ApplyPoison(target, _balance.PoisonDamage * scale);
-            if (Has(GunnerAugmentType.ShurikenBullet)) CombatDamage.Deal(this, target.Health, Vector2.Distance(Player.Body.position, target.Body.position) * _balance.ShurikenDamage * scale, DamageTag.JobSkill);
+            if (Has(GunnerAugmentType.AirBullet) && !target.Drive.Grounded)
+            {
+                target.Drive.Launch(_balance.AirForce * scale);
+                _audio.Play(GunSound.Air);
+            }
+            if (Has(GunnerAugmentType.GravityBullet))
+            {
+                target.Drive.ApplyForce((target.Body.position - Player.Body.position).normalized * (_balance.GravityForce * scale), ForceMode2D.Impulse);
+                _audio.Play(GunSound.Gravity);
+            }
+            if (Has(GunnerAugmentType.IceBullet))
+            {
+                target.Motion.ApplySlow(_balance.IceSlow * scale, 1.5f * scale);
+                _audio.Play(GunSound.Ice);
+            }
+            if (Has(GunnerAugmentType.FireBullet)) StartCoroutine(DamageOverTime(target, _balance.FireDamage * scale, 6, 0.5f, TickSound));
+            if (Has(GunnerAugmentType.PoisonBullet))
+            {
+                ApplyPoison(target, _balance.PoisonDamage * scale);
+                _audio.Play(GunSound.Poison);
+            }
+            if (Has(GunnerAugmentType.ShurikenBullet))
+            {
+                CombatDamage.Deal(this, target.Health, Vector2.Distance(Player.Body.position, target.Body.position) * _balance.ShurikenDamage * scale, DamageTag.JobSkill);
+                _audio.Play(GunSound.Shuriken);
+            }
             GunProc proc = GunProc.None;
             if (Has(GunnerAugmentType.BeautifulFootStepAbility) && Time.time >= _hasteAt)
             {
@@ -131,6 +157,7 @@ namespace SSW
             {
                 _shrinkAt = Time.time + _shrinkCooldown;
                 Player.Effects.Shrink(2f);
+                _audio.Play(GunSound.Shrink);
                 proc |= GunProc.Shrink;
             }
             if (Has(GunnerAugmentType.Quest_EvolutionAbility) && bolt.Spec.Charged && State.Progress < _questHits)
@@ -141,6 +168,7 @@ namespace SSW
                 {
                     proc |= GunProc.Evolve;
                     ProgressChanged(ref state);
+                    _audio.Play(GunSound.Evolution);
                 }
                 State = state;
             }
@@ -152,6 +180,7 @@ namespace SSW
                 _marks++;
                 _markUntil = Time.time + 3f;
                 _effects.Mark(target, _marks, _marks >= 3 ? 1f : 3f);
+                _audio.Play(GunSound.Mark);
                 if (_marks >= 3)
                 {
                     _marks = 0;
@@ -161,6 +190,8 @@ namespace SSW
             }
             _effects.Hit(target, mask, bolt.Spec.Charged, proc);
         }
+
+        void TickSound() => _audio.Play(GunSound.Damage);
 
         void ApplyPoison(NetPlayer target, float damage)
         {
@@ -186,6 +217,7 @@ namespace SSW
                     poison.Next += poison.Interval;
                     poison.Remaining--;
                     CombatDamage.Deal(this, poison.Target.Health, poison.Damage, DamageTag.JobSkill | DamageTag.DamageOverTime);
+                    TickSound();
                     if (!poison.Target.CanAct) break;
                 }
                 if (poison.Remaining == 0 || !poison.Target.CanAct) _poison.RemoveAt(i);
@@ -198,6 +230,7 @@ namespace SSW
             if (!Active || !Player.CanAct || target == null || !target.CanAct) yield break;
             _effects.Strike(target);
             CombatDamage.Deal(this, target.Health, 50f, DamageTag.JobSkill);
+            _audio.Play(GunSound.Lightning);
         }
 
         protected override void Update()

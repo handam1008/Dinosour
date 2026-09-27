@@ -24,6 +24,8 @@ namespace SSW
         public float Duration => 0.75f + _hold;
         public string LeftName => _left.Name;
         public string RightName => _right.Name;
+        public string LeftTag => _left.Tag;
+        public string RightTag => _right.Tag;
         public bool IsClosing { get; private set; }
 
         public void SetView(Camera view)
