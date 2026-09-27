@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using DevLib.ServiceLocator;
+using KDH.Scripts.Bullet;
 using SSW;
 using UnityEngine;
 
@@ -11,6 +13,10 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
         private float _tickDamage;
         private IDamageable _damageable;
     
+        KDH_Bullet _bullet;
+        
+        SoundCue dotDamageSound;
+        
         public float TickInterval { get; private set; }
 
         private void Awake()
@@ -18,8 +24,11 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
             TryGetComponent(out _damageable);
         }
 
-        public void ApplyPoison(int dotCount, float duration, float damage)
+        public void ApplyPoison(int dotCount, float duration, float damage, KDH_Bullet bullet)
         {
+            // if (_bullet == null)
+            //     _bullet = bullet;
+            //
             TickInterval = duration / dotCount;
             _tickDamage = damage;
 
@@ -30,15 +39,25 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
             else
             {
                 _remainingTicks = dotCount;
-                _poisonRoutine = StartCoroutine(PoisonRoutine());
+                _poisonRoutine = StartCoroutine(PoisonRoutine(bullet));
             }
         }
 
-        private IEnumerator PoisonRoutine()
+        private IEnumerator PoisonRoutine(KDH_Bullet bullet)
         {
             while (_remainingTicks > 0)
             {
                 yield return new WaitForSeconds(TickInterval);
+
+                if (_bullet == null)
+                    _bullet = bullet;
+                    
+                if (dotDamageSound == null)
+                    dotDamageSound = _bullet.PlayerGun.SoundCues.list[5];
+                    
+                if (dotDamageSound != null)
+                    ServiceLocator.Get<IAudioService>().PlaySfx(dotDamageSound);
+                
                 _remainingTicks--;
                 _damageable?.TakeDamage(_tickDamage);
             }

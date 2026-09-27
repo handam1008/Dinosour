@@ -1,4 +1,5 @@
 using System.Collections;
+using DevLib.ServiceLocator;
 using KDH.Scripts.Bullet;
 using SSW;
 using UnityEngine;
@@ -27,6 +28,7 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
 
         [SerializeField] private GameObject hitFlag;
         private KDH_LightningFlag lightningFlag;
+        private SoundCue hitPlayerSound, stackPlayerSound;
         private GameObject flag;
 
         public Transform HitPoint { get; private set; }
@@ -108,7 +110,15 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
                 _skillReady = true;
                 StartCoroutine(GiveDamage(collision));
             }
-
+            
+            if (hitPlayerSound == null)
+            {
+                stackPlayerSound = Bullet.PlayerGun.SoundCues.list[4];
+            }
+            
+            if (stackPlayerSound != null)
+                ServiceLocator.Get<IAudioService>().PlaySfx(stackPlayerSound); // 타격 사운드랑 곂칠 거 같은데 일단 해봄
+            
             onHitPlayer?.Invoke();
         }
 
@@ -121,6 +131,15 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
                 GameObject effect = Instantiate(lightningEffect, collision.transform.position, Quaternion.identity);
                 effect.transform.position -= new Vector3(0, 0.8f, 0);
                 damageable.TakeDamage(damage);
+
+                if (hitPlayerSound == null)
+                {
+                    hitPlayerSound = Bullet.PlayerGun.SoundCues.list[1];
+                }
+
+                if (hitPlayerSound != null)
+                    NetGame.Current.Sounds.Play(hitPlayerSound);
+                
                 Destroy(effect, 0.4f);
             }
 
