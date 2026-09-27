@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c8934380d28f8f45ad25c2b617d447c, type: 3}
+  m_Name: BombBlast
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.SoundCue
+  audioType: 0
+  clip: {fileID: 8300000, guid: 572a2422f50a1414fa5125f4a838caeb, type: 3}
+  isLoop: 0
+  randomizerPitch: 0
+  randomPitchModifier: 0.1
+  volume: 1
+  pitch: 1
+  startTime: 0
+  endTime: 1.08
+  _id: 2fd1562b2db58e547a374bb60f8c1df2

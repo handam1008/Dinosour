@@ -1818,8 +1818,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6038012636427564082}
   - component: {fileID: 2431593701346547152}
-  - component: {fileID: 2283532675793731390}
   - component: {fileID: 7082871854281595872}
+  - component: {fileID: 3369409182901443135}
   m_Layer: 0
   m_Name: WaterFallZone
   m_TagString: Untagged
@@ -1890,21 +1890,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 0.38461542}
   m_EdgeRadius: 0
---- !u!114 &2283532675793731390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4813389494145544046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f863353ba90fefc4294a2252898911bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KDH.Scripts.Objects.KDH_Waterfall
-  relationTime: 0
-  duration: 0
-  force: 15
 --- !u!331 &7082871854281595872
 SpriteMask:
   m_ObjectHideFlags: 0
@@ -1964,6 +1949,19 @@ SpriteMask:
   m_IsCustomRangeActive: 0
   m_SpriteSortPoint: 0
   m_MaskSource: 1
+--- !u!114 &3369409182901443135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4813389494145544046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89c69b035f889af41b635ffe08a852a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KDH_SmallWaterfall
+  addForceAmount: 5
 --- !u!1 &5302069030967456936
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using DevLib.ServiceLocator;
 using KDH.Scripts.Bullet;
 using SSW;
 using UnityEngine;
@@ -27,7 +28,7 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
                 _gravitySound = Bullet.PlayerGun.SoundCues.list[7];
             
             if (_gravitySound  != null)
-                NetGame.Current.Sounds.Play(_gravitySound);
+                NetGame.Current.Sounds.Play(_gravitySound); // 사운드
             
             if (Bullet.IsUpgraded)
             {

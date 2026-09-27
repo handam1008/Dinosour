@@ -190,7 +190,7 @@ GunnerArgument / GunnerAugmentType.
 
 | ID | 표시 이름 / SO | 타입 | 수신 컨트롤러 | 현재 서버 효과 경로 |
 |---:|---|---|---|---|
-| 32 | [공기탄](<D:/unity_project/Mushrooms/Assets/KDH/GameModules/SOs/Arguments/KDH_Augment_AirBullet.asset>) | AirBullet (0) | GunCast | Hit → 공중 대상 Drive.Launch(40 × 강화 배율) |
+| 32 | [공기탄](<D:/unity_project/Mushrooms/Assets/KDH/GameModules/SOs/Arguments/KDH_Augment_AirBullet.asset>) | AirBullet (0) | GunCast | Hit → 공중 대상 Drive.Launch(GunBalance.AirForce × 강화 배율), SSW AirBullet 변형의 Fly Power 10 |
 | 33 | [화려한 발걸음](<D:/unity_project/Mushrooms/Assets/KDH/GameModules/SOs/Arguments/KDH_Augment_BeautifulFootStepAbility.asset>) | BeautifulFootStepAbility (1) | GunCast | Hit → Motion.ApplySpeed(+0.5, 1초), 대기 3초 |
 | 34 | [화염탄](<D:/unity_project/Mushrooms/Assets/KDH/GameModules/SOs/Arguments/KDH_Augment_FireBullet.asset>) | FireBullet (2) | GunCast | Hit → DamageOverTime, 0.5초 간격 6회 × (3 × 강화 배율) |
 | 35 | [중력탄](<D:/unity_project/Mushrooms/Assets/KDH/GameModules/SOs/Arguments/KDH_Augment_GravityBullet.asset>) | GravityBullet (3) | GunCast | Hit → 대상 Drive.ApplyForce, 발사자 반대 방향 50 × 강화 배율 |

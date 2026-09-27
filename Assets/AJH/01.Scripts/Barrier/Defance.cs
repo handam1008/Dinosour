@@ -3,7 +3,7 @@ using SSW;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Defance : MonoBehaviour, IIncomingDamageModifier
+public class Defance : MonoBehaviour, IIncomingDamageModifier, ICooldownSource
 {
     [SerializeField] float _coolDown = 3f;
     [SerializeField] float _barrierContinue = 0.5f;
@@ -60,6 +60,13 @@ public class Defance : MonoBehaviour, IIncomingDamageModifier
     public void ResetCooldown()
     {
         _readyTime = Time.time;
+    }
+
+    public bool TryGetCooldown(out float remaining, out float duration)
+    {
+        remaining = _readyTime - Time.time;
+        duration = _readyTime - _guardEndTime;
+        return !IsGuarding && !IsReady && duration > 0f;
     }
 
     public float ModifyIncomingDamage(DamageRequest request, float currentAmount)
