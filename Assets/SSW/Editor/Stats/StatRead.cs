@@ -108,7 +108,8 @@ namespace SSW
             stats.AttackInterval = 0.15f;
             stats.Capacity = 2;
             stats.BrewTime = potion.Number("cycleTime");
-            stats.Spread = potion.Number("spreadAngle");
+            float spread = potion.Number("spreadAngle");
+            stats.Spread = spread > 0f ? spread : 24f;
             float speed = potion.Number("potionSpeed");
             stats.ThrowLift = potion.Number("Angle") * speed;
             Vector2 scale = Vector2.zero;

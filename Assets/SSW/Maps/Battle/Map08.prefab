@@ -80,9 +80,9 @@ MonoBehaviour:
   _title: KDH_Map 8
   _spawns: {fileID: 7324015602672789444}
   _bounds:
-    m_Center: {x: 0, y: -50.9, z: 0}
-    m_Extent: {x: 50, y: 59.4, z: 0.3}
-  _fallY: -113.3
+    m_Center: {x: 0, y: -1.5, z: 0}
+    m_Extent: {x: 18, y: 10, z: 0}
+  _fallY: -14.5
   _edges: {fileID: 9013770339093710076}
   _serverOnly: []
 --- !u!114 &7324015602672789444

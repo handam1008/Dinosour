@@ -10,6 +10,11 @@ namespace SSW
 
         public static bool JobReward(int losses) => losses > 0 && losses % 2 == 1;
 
+        public static bool Reportable(MatchState state) => state.Phase == MatchPhase.Finished
+            && state.Reason == MatchEnd.Knockout && state.First != state.Second
+            && (state.Winner == state.First && state.FirstSets == SetsToWin && state.SecondSets < SetsToWin
+                || state.Winner == state.Second && state.SecondSets == SetsToWin && state.FirstSets < SetsToWin);
+
         public static MatchState Award(MatchState state, ulong winner, bool draw)
         {
             if (state.Phase != MatchPhase.Playing || Complete(state)) return state;

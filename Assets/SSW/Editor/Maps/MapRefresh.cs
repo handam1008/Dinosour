@@ -63,10 +63,7 @@ namespace SSW
                     target.FindProperty("_first").objectReferenceValue = points[0];
                     target.FindProperty("_second").objectReferenceValue = points[1];
                 });
-                SpriteRenderer[] terrain = root.GetComponentsInChildren<SpriteRenderer>(true).Where(item => item.gameObject.layer == 8).ToArray();
-                if (terrain.Length == 0) throw new InvalidOperationException(path + ": Ground 지형이 없습니다.");
-                Bounds bounds = terrain[0].bounds;
-                foreach (SpriteRenderer item in terrain.Skip(1)) bounds.Encapsulate(item.bounds);
+                Bounds bounds = MapFrame.Read(edges);
                 MapRead.Edit(map, target =>
                 {
                     if (!existing) target.FindProperty("_title").stringValue = entry.Source.name;
