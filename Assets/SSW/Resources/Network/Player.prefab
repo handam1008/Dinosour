@@ -1651,7 +1651,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 3316593943
+  GlobalObjectIdHash: 2334970032
   InScenePlacedSourceGlobalObjectIdHash: 0
   m_InScenePlacedDisabledByDefault: 0
   DeferredDespawnTick: 0
@@ -1985,9 +1985,9 @@ MonoBehaviour:
   _berserkerRatio: 0.75
   _berserkerSpeed: 0.45
   _berserkerDamage: 0.6
-  _waltzDuration: 5
+  _waltzDuration: 4
   _waltzHpBonus: 0.3
-  _tenLivesHealth: 10
+  _tenLivesHealth: 3
   _tenLivesDamage: 1
   _multiscaleReduction: 0.5
   _regenAmount: 1
@@ -2024,7 +2024,7 @@ MonoBehaviour:
   _magnetInterval: 1
   _shrinkScale: 0.25
   _shrinkSpeedBonus: 0.25
-  _versatileDamage: 0.1
+  _versatileDamage: 0.05
   _versatileLifesteal: 0.05
   _versatileSpeed: 0.1
   _doubleJumpRatio: 0.9
