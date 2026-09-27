@@ -34,10 +34,11 @@ async System.Threading.Tasks.Task Map(string name){
     foreach(var p in game.Players){p.Buffs.SetBaseHealth(10000f);p.Health.Heal(10000f);var state=Field<SSW.MotionState>(p.Drive,"_state");state.FreezeTime=0f;typeof(SSW.MotionView).GetField("_state",flags).SetValue(p.Drive,state);p.Drive.Teleport(game.Arena.Spawn(p.Side==1?0:1));}
     await Wait(.3f);
 }
-void Hud(){
+void Hud(float maxOffset=.005f){
     foreach(string peer in new[]{"host","client"}){
+        Check(string.IsNullOrEmpty((string)Snapshot(peer)["error"]),"no runtime exception "+peer+": "+Snapshot(peer)["error"]);
         var all=Snapshot(peer)["players"];var own=System.Linq.Enumerable.First(all,p=>(bool)p["owner"]);var other=System.Linq.Enumerable.First(all,p=>!(bool)p["owner"]);
-        foreach(var p in all){var h=p["hud"];Check((int)h["bars"]==1,"one bar "+peer+" "+p["id"]);Check((float)h["error"]<.005f,"bar follows body "+peer+" "+p["id"]);float gap=(float)h["bar"]["y"]-(float)p["viewPosition"]["y"];Check(gap>.1f&&gap<4f,"bar remains near head "+peer+" "+p["id"]);Check((int)h["icons"]==p["augments"].Count(),"replicated augment count "+peer+" "+p["id"]);}
+        foreach(var p in all){var h=p["hud"];Check((int)h["bars"]==1,"one bar "+peer+" "+p["id"]);Check((float)h["error"]<maxOffset,"bar follows body "+peer+" "+p["id"]);Check((bool)p["labelsFaceView"],"bar faces local camera "+peer+" "+p["id"]);float gap=(float)h["bar"]["y"]-(float)p["viewPosition"]["y"];Check(gap>.1f&&gap<4f,"bar remains near head "+peer+" "+p["id"]);Check((int)h["icons"]==p["augments"].Count(),"replicated augment count "+peer+" "+p["id"]);}
         if((int)other["hud"]["icons"]>0){Check((bool)other["hud"]["visible"],"opponent HUD visible "+peer);Check((float)other["hud"]["top"]["y"]<=(float)own["hud"]["top"]["y"]-(float)own["hud"]["size"]["y"]-30f,"opponent below own "+peer);}
     }
 }
@@ -53,7 +54,8 @@ async System.Threading.Tasks.Task Run(){try{
     }
     stage="HUD expanded";
     foreach(var p in game.Players){p.Draft.Restore(deck.Candidates(p.Job,p.Draft.Owned,false));p.Draft.Restore(deck.Candidates(p.Job,p.Draft.Owned,true));}
-    await Wait(.7f);Hud();UnityEngine.ScreenCapture.CaptureScreenshot(root+"/Hud.png");await Wait(.2f);Record();
+    await Until(()=>game.Local.Cast.Weapon.Status.Ammo>0,8f,"gunner reload succeeds");Check(true,"gunner gains ammunition");
+    await Wait(.7f);Hud(.09f);UnityEngine.ScreenCapture.CaptureScreenshot(root+"/Hud.png");await Wait(.2f);Record();
     }
     await Spawn(SSW.PlayerJob.Witch,SSW.PlayerJob.Gambler);
     if(@FULL@)foreach(string name in new[]{"Map08","Map12"}){

@@ -64,7 +64,7 @@ namespace SSW
 
         void LateUpdate()
         {
-            transform.SetPositionAndRotation(_health.LabelPosition + _offset, Quaternion.identity);
+            transform.position = _health.LabelPosition + _offset;
         }
     }
 }
