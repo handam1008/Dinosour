@@ -18147,6 +18147,7 @@ MonoBehaviour:
   _sfxVolume: {fileID: 1212854211}
   _fadeDuration: 0.22
   _buttonStagger: 0.07
+  _titleboardPanel: {fileID: 0}
 --- !u!4 &1926424804
 Transform:
   m_ObjectHideFlags: 0
@@ -19069,6 +19070,7 @@ GameObject:
   - component: {fileID: 2085399637}
   - component: {fileID: 2085399636}
   - component: {fileID: 2085399638}
+  - component: {fileID: 2085399639}
   m_Layer: 0
   m_Name: PlayerInfoPanel
   m_TagString: Untagged
@@ -19216,6 +19218,69 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SSW.ProfileInfo
   _name: {fileID: 1284424874}
   _score: {fileID: 332169274}
+--- !u!114 &2085399639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085399630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 371a93ff95c39704ba071377d7b25717, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.SkinPreview
+  _preview: {fileID: 875422608}
+  _catalog: {fileID: 11400000, guid: e9f3c38d4a6cd54429d39a3cce83a57f, type: 2}
+  _choices:
+  - Button: {fileID: 330244296}
+    Id: male_cole
+  - Button: {fileID: 1858153504}
+    Id: male_doux
+  - Button: {fileID: 1216575629}
+    Id: male_kira
+  - Button: {fileID: 2121866004}
+    Id: male_kuro
+  - Button: {fileID: 1027712943}
+    Id: male_loki
+  - Button: {fileID: 152314306}
+    Id: male_mono
+  - Button: {fileID: 745602332}
+    Id: male_mort
+  - Button: {fileID: 1483213677}
+    Id: male_nico
+  - Button: {fileID: 1900613174}
+    Id: male_olaf
+  - Button: {fileID: 454224246}
+    Id: male_sena
+  - Button: {fileID: 846091018}
+    Id: male_tard
+  - Button: {fileID: 1625215472}
+    Id: male_vita
+  - Button: {fileID: 1725573755}
+    Id: female_cole
+  - Button: {fileID: 1487748873}
+    Id: female_doux
+  - Button: {fileID: 1867503079}
+    Id: female_kira
+  - Button: {fileID: 312622803}
+    Id: female_kuro
+  - Button: {fileID: 999770671}
+    Id: female_loki
+  - Button: {fileID: 1215604829}
+    Id: female_mono
+  - Button: {fileID: 1707170693}
+    Id: female_mort
+  - Button: {fileID: 2137139873}
+    Id: female_nico
+  - Button: {fileID: 2143112843}
+    Id: female_olaf
+  - Button: {fileID: 2139621055}
+    Id: female_sena
+  - Button: {fileID: 848633839}
+    Id: female_tard
+  - Button: {fileID: 1189445308}
+    Id: female_vita
 --- !u!1 &2090731837
 GameObject:
   m_ObjectHideFlags: 0
