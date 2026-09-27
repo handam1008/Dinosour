@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98458b0f95064f4458f79fee4862b090, type: 3}
-  m_Name: DashSpeed
+  m_Name: DashStop
   m_EditorClassIdentifier: Assembly-CSharp::SSW.SwordAugment
-  displayName: "\uACBD\uB7C9\uD654"
-  description: "\uB3CC\uC9C4 \uD6C4 3\uCD08 \uB3D9\uC548 \uC774\uB3D9\uC18D\uB3C4\uAC00
-    50% \uC99D\uAC00\uD569\uB2C8\uB2E4."
-  icon: {fileID: 4258050845938378814, guid: 7efaa09141884f34eb73bfc00735dcbc, type: 3}
-  type: 1
+  displayName: "\uD654\uB8B0 "
+  description: "\uC0C1\uB300\uBC29\uC5D0\uAC8C \uBC1C\uB3C4\uB97C \uB9DE\uCD94\uBA74
+    \uC0C1\uB300\uBC29\uC740 0.5\uCD08\uAC04 \uBA48\uCD98\uB2E4"
+  icon: {fileID: 0}
+  type: 3
