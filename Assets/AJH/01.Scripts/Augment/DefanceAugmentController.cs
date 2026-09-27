@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DevLib.SoundSystem.Runtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,6 +26,7 @@ namespace SSW
         [SerializeField] float _blinkDistance = 4f;
         [SerializeField] float _blinkDuration = 0.15f;
         [SerializeField] float _blinkCoolPenalty = 0.2f;
+        [SerializeField] SoundClipSO _blinkSound;
 
         [Header("아이스 에이지")]
         [SerializeField] float _iceAgeRadius = 5f;
@@ -34,6 +36,7 @@ namespace SSW
         [SerializeField] float _iceAgeCoolPenalty = 0.15f;
         [SerializeField] GameObject _iceAgeBlastPrefab;
         [SerializeField] GameObject _iceAgeFreezePrefab;
+        [SerializeField] SoundClipSO _iceAgeSound;
 
         [Header("일격 필살")]
         [SerializeField] float _bestOffenseBonus = 2f;
@@ -48,6 +51,8 @@ namespace SSW
         [SerializeField] float _nuclearChargeTime = 0.8f;
         [SerializeField] NuclearCharge _nuclearChargePrefab;
         [SerializeField] NuclearBlast _nuclearExplosionPrefab;
+        [SerializeField] SoundClipSO _nuclearChargeSound;
+        [SerializeField] SoundClipSO _nuclearBlastSound;
 
         [Header("반격")]
         [SerializeField] float _counterRatio = 0.6f;
@@ -235,6 +240,7 @@ namespace SSW
             _blinkDirection = direction.normalized;
             _blinkTimeLeft = _blinkDuration;
             _isBlinking = true;
+            GameAudio.GetOrCreate().PlaySfx(_blinkSound);
         }
 
         void FixedUpdate()
@@ -266,6 +272,7 @@ namespace SSW
         void CastIceAge(Vector2 center)
         {
             Instantiate(_iceAgeBlastPrefab, center, Quaternion.identity);
+            GameAudio.GetOrCreate().PlaySfx(_iceAgeSound);
 
             var targets = new HashSet<ISlowable>();
             foreach (Collider2D hit in Physics2D.OverlapCircleAll(center, _iceAgeRadius))
@@ -304,11 +311,13 @@ namespace SSW
         {
             NuclearCharge charge = Instantiate(_nuclearChargePrefab, transform);
             charge.Play(_nuclearChargeTime);
+            GameAudio.GetOrCreate().PlaySfx(_nuclearChargeSound);
             yield return new WaitForSeconds(_nuclearChargeTime);
             Destroy(charge.gameObject);
 
             Vector2 center = transform.position;
             Instantiate(_nuclearExplosionPrefab, center, Quaternion.identity).Play(_nuclearRadius, _nuclearWallMask);
+            GameAudio.GetOrCreate().PlaySfx(_nuclearBlastSound);
 
             var targets = new HashSet<IDamageable>();
             foreach (Collider2D hit in Physics2D.OverlapCircleAll(center, _nuclearRadius))
