@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -31,6 +32,9 @@ namespace SSW
 
         [SerializeField] ParticleSystem _effect;
         [SerializeField, Min(0f)] float _damage = 20f;
+        [SerializeField] SoundCue _sound;
+        readonly HashSet<uint> _seen = new HashSet<uint>();
+        readonly HashSet<uint> _live = new HashSet<uint>();
         ParticleSystem.Particle[] _particles;
         Ember[] _embers = System.Array.Empty<Ember>();
         double _sentAt;
@@ -71,9 +75,13 @@ namespace SSW
                 _sentAt = now;
                 int count = _effect.GetParticles(_particles);
                 if (_embers.Length != count) _embers = new Ember[count];
+                _live.Clear();
                 for (int i = 0; i < count; i++)
                 {
                     ParticleSystem.Particle particle = _particles[i];
+                    _live.Add(particle.randomSeed);
+                    if (_seen.Add(particle.randomSeed) && NetGame.Current.CanFight)
+                        NetGame.Current.Sounds.Play(_sound);
                     _embers[i] = new Ember
                     {
                         Position = particle.position, Velocity = particle.totalVelocity,
@@ -82,6 +90,7 @@ namespace SSW
                         Duration = particle.startLifetime, Seed = particle.randomSeed
                     };
                 }
+                _seen.IntersectWith(_live);
                 EmbersRpc(now, _embers);
                 return;
             }
@@ -121,6 +130,8 @@ namespace SSW
         {
             _effect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             _embers = System.Array.Empty<Ember>();
+            _seen.Clear();
+            _live.Clear();
         }
     }
 }

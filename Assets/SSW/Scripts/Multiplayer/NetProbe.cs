@@ -24,6 +24,7 @@ namespace SSW
 
         [Serializable] sealed class PlayerState
         {
+            public CoinState coin;
             public ulong id;
             public string job;
             public string name;
@@ -250,6 +251,27 @@ namespace SSW
             SaveConfig();
         }
 
+        [Serializable] sealed class CoinState
+        {
+            public int rolls;
+            public int results;
+            public int pending;
+            public string main;
+            public string old;
+            public bool spinning;
+            public bool facing;
+            public int stops;
+            public Vector3Int symbols;
+            public float alpha;
+            public bool damage;
+            public bool speed;
+            public bool shield;
+            public bool jackpot;
+            public int healed;
+            public float death;
+            public float overlay;
+        }
+
         void SaveConfig()
         {
             var manager = NetGame.Current.Manager;
@@ -317,6 +339,7 @@ namespace SSW
             NetPlayer local = game.Local;
             switch (command.op)
             {
+                case "block": local.Block(command.value != 0); break;
                 case "sound": _audio.Execute(command.value, command.x, command.y); break;
                 case "trace": _trace.Begin(_path + ".trace." + command.value + ".json", command.x); break;
                 case "watch": _watch = true; _captured = false; _introAt = -1f; break;
@@ -505,6 +528,17 @@ namespace SSW
                 Animator animator = player.GetComponentInChildren<Animator>();
                 players.Add(new PlayerState
                 {
+                    coin = player.Cast.Weapon is CoinCast coin ? new CoinState
+                    {
+                        rolls = coin.Effects.Rolls, results = coin.Effects.Results, pending = coin.PendingRolls,
+                        main = coin.Effects.Main.ToString(), old = coin.Effects.Old.ToString(),
+                        spinning = coin.Effects.Reels.Spinning, stops = coin.Effects.Reels.Stops,
+                        facing = Vector3.Dot(coin.Effects.Reels.transform.forward, game.Arena.View.transform.forward) > 0.999f,
+                        symbols = coin.Effects.Reels.Symbols, alpha = coin.Effects.Reels.Alpha,
+                        damage = coin.Effects.Damage, speed = coin.Effects.Speed, shield = coin.Effects.Shield,
+                        jackpot = coin.Effects.Jackpot, healed = coin.Effects.HealParticles,
+                        death = coin.Effects.DeathAlpha, overlay = coin.Effects.OverlayAlpha
+                    } : null,
                     id = player.OwnerClientId, job = player.Job.ToString(), hp = player.Health.Current, tag = player.Info.Tag.ToString(),
                     heals = heals.ToArray(),
                     stats = player.Stats, jumpSpeed = player.Motion.JumpSpeed,

@@ -145,6 +145,7 @@ namespace SSW
             MapRead.Edit(edges, target =>
             {
                 target.FindProperty("_map").objectReferenceValue = map;
+                target.FindProperty("_sound").objectReferenceValue = MapRead.Sound("Map_BoundaryHit");
                 var array = target.FindProperty("_edges");
                 var saved = new Dictionary<Collider2D, (float Damage, Vector2 Force)>();
                 for (int i = 0; i < array.arraySize; i++)

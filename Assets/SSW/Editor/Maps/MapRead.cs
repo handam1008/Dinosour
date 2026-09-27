@@ -106,6 +106,16 @@ namespace SSW
             settings.ApplyModifiedPropertiesWithoutUndo();
         }
 
+        public static SoundCue Sound(string name)
+        {
+            var cue = AssetDatabase.LoadAssetAtPath<SoundCue>("Assets/RYU/Sound/Cues/" + name + ".asset");
+            if (cue == null) throw new InvalidOperationException("맵 사운드가 없습니다: " + name);
+            return cue;
+        }
+
+        public static SoundCue Sound(SerializedObject source, string field, string fallback) =>
+            source.FindProperty(field).objectReferenceValue as SoundCue ?? Sound(fallback);
+
         public static void Edit(Object target, Action<SerializedObject> apply)
         {
             var settings = new SerializedObject(target);

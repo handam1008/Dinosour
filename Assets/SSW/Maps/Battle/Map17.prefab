@@ -141,6 +141,7 @@ MonoBehaviour:
   _clockSize: 34
   _startTint: {fileID: 3914969063121771331}
   _endTint: {fileID: 6928418958440695460}
+  _sound: {fileID: 11400000, guid: 4de464625d269854683e81ee5b76c3f5, type: 2}
 --- !u!114 &8159719769870662154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,6 +168,7 @@ MonoBehaviour:
   - Shape: {fileID: 4215419891830344344}
     Damage: 5
     Force: {x: -50, y: 0}
+  _sound: {fileID: 11400000, guid: 37042c605cc5d7a44a75e1f67f26970e, type: 2}
 --- !u!1001 &979028455247439281
 PrefabInstance:
   m_ObjectHideFlags: 0

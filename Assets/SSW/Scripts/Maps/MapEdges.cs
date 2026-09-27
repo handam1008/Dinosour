@@ -21,6 +21,7 @@ namespace SSW
 
         [SerializeField] BattleMap _map;
         [SerializeField] Edge[] _edges;
+        [SerializeField] SoundCue _sound;
         readonly List<Contact> _contacts = new List<Contact>(2);
         const float EnterDistance = 0.035f;
         const float ExitDistance = 0.07f;
@@ -47,7 +48,11 @@ namespace SSW
                 contact.Mask = Read(player.Collider, contact.Mask, out float damage, out Vector2 force);
                 if (damage > 0f)
                     player.Health.ReceiveDamage(new DamageRequest(null, damage, DamageTag.Environment));
-                if (force.sqrMagnitude > 0f) player.Drive.ApplyForce(force, ForceMode2D.Impulse);
+                if (force.sqrMagnitude > 0f)
+                {
+                    player.Drive.ApplyForce(force, ForceMode2D.Impulse);
+                    game.Sounds.Play(_sound);
+                }
             }
             _contacts[index] = contact;
         }
