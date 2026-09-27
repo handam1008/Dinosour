@@ -41,7 +41,7 @@ namespace SSW
         public SoundChannel Sounds { get; } = new SoundChannel();
         const string JobMessage = "mushrooms.job";
         const string GameScene = "SuperUltraLegendScene";
-        public const ushort Protocol = 22;
+        public const ushort Protocol = 23;
         [SerializeField] NetworkManager _managerPrefab;
         [SerializeField] NetPlayer _playerPrefab;
         [SerializeField] NetMatch _matchPrefab;
@@ -68,6 +68,7 @@ namespace SSW
         bool _leaving;
         bool _finished;
         bool _inMatch;
+        bool _played;
         MatchState _result;
 
         public static NetGame Current { get; private set; }
@@ -136,6 +137,7 @@ namespace SSW
                 _leaving = false;
                 _finished = false;
                 _inMatch = false;
+                _played = false;
                 Match = null;
             }
             if (_bound) return;
@@ -474,6 +476,7 @@ namespace SSW
 
         public void MatchChanged(MatchState state)
         {
+            if (state.Phase == MatchPhase.Playing && state.First != state.Second && _players.Count == 2) _played = true;
             if (_menu != null) _menu.ShowRound(state);
             if (state.Phase == MatchPhase.Intro) ShowIntro();
             if (state.Phase == MatchPhase.Draft) CloseIntro(true);
@@ -483,7 +486,8 @@ namespace SSW
             _result = state;
             foreach (NetPlayer player in _players) player.Draft.Close();
             _menu.ShowResult(state);
-            Ended?.Invoke(state);
+            if (_played && Practice == null && Rounds.Reportable(state)
+                && (_localId == state.First || _localId == state.Second)) Ended?.Invoke(state);
         }
 
         void Disconnected(ulong client)

@@ -1,4 +1,4 @@
-param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges,[switch]$LavaOnly,[switch]$HealOnly,[switch]$EdgeMotion,[switch]$EdgeRound,[ValidateRange(0,3)][int]$EdgeFrom=0,[switch]$WitchOnly,[switch]$StatsOnly,[switch]$StatsProfiles,[switch]$MaterialsOnly,[switch]$MapRefreshOnly,[switch]$MapResume,[switch]$MapCycle,[switch]$MapAreas,[ValidateRange(0,5)][int]$MapFrom=0,[switch]$EffectsOnly,[switch]$EffectNet,[switch]$EffectRange,[string]$EffectFile='',[string]$VisualFile='',[string]$EffectFilter='',[string[]]$EdgeModes=@('move','dash'),[int[]]$EdgeMaps=@(),[switch]$SwingOnly,[switch]$SwingCutOnly,[int[]]$SwingMaps=@(11,12,14,15,16),[string]$SwingJob='Gunner',[switch]$CombatOnly,[string[]]$CombatJobs=@('Gunner','Gambler','Magician','Witch','Swordsman','Assassin','Knife'))
+param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges,[switch]$SkipLogin,[switch]$LavaOnly,[switch]$HealOnly,[switch]$EdgeMotion,[switch]$EdgeRound,[ValidateRange(0,3)][int]$EdgeFrom=0,[switch]$WitchOnly,[switch]$StatsOnly,[switch]$StatsProfiles,[switch]$MaterialsOnly,[switch]$MapRefreshOnly,[switch]$MapResume,[switch]$MapCycle,[switch]$MapAreas,[ValidateRange(0,5)][int]$MapFrom=0,[switch]$EffectsOnly,[switch]$EffectNet,[switch]$EffectRange,[string]$EffectFile='',[string]$VisualFile='',[string]$EffectFilter='',[string[]]$EdgeModes=@('move','dash'),[int[]]$EdgeMaps=@(),[switch]$SwingOnly,[switch]$SwingCutOnly,[int[]]$SwingMaps=@(11,12,14,15,16),[string]$SwingJob='Gunner',[switch]$CombatOnly,[string[]]$CombatJobs=@('Gunner','Gambler','Magician','Witch','Swordsman','Assassin','Knife'))
 $ErrorActionPreference='Stop'
 $Project=[IO.Path]::GetFullPath($Project).Replace('\','/')
 $root="$Project/Logs/Boundary/$Run"
@@ -56,13 +56,14 @@ function Map($index){
     return $data
 }
 try{
-    $previousScene=Eval 'if(UnityEditor.EditorApplication.isPlaying)throw new System.InvalidOperationException("An existing play session is active");var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();if(scene.isDirty)throw new System.InvalidOperationException("Unsaved scene changes");string path=scene.path;UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/RYU/00.Scene/StartMenu.unity");return path;'
+    $opening=if($SkipLogin){'Assets/SSW/MainMenu.unity'}else{'Assets/RYU/00.Scene/StartMenu.unity'}
+    $previousScene=Eval ('if(UnityEditor.EditorApplication.isPlaying)throw new System.InvalidOperationException("An existing play session is active");var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();if(scene.isDirty)throw new System.InvalidOperationException("Unsaved scene changes");string path=scene.path;UnityEditor.SceneManagement.EditorSceneManager.OpenScene("'+$opening+'");return path;')
     @{commit=$head;scene=$previousScene;startedUtc=[DateTime]::UtcNow.ToString('o');build=$Build;parameters=$PSBoundParameters}|ConvertTo-Json -Depth 4|Set-Content "$root/Run.json"
     unity command editor_play --caller plugin --skill unity-cli --project-path $Project --format json|Out-Null
     $until=[DateTime]::UtcNow.AddSeconds(50)
     do{try{$scene=Eval 'return UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;'}catch{$scene=''};if($scene -eq 'MainMenu'){break};Start-Sleep -Milliseconds 500}while([DateTime]::UtcNow -lt $until)
     $job=if($WitchOnly){'Witch'}elseif($SwingOnly){$SwingJob}else{'Swordsman'}
-    Eval ('var g=SSW.NetGame.GetOrCreate();g.gameObject.AddComponent<SSW.NetProbe>().Init("'+$root+'/host");g.StartLocal(true,"127.0.0.1",SSW.PlayerJob.'+$job+',30716);return true;')|Out-Null
+    Eval ('var g=SSW.NetGame.GetOrCreate();g.StartLocal(true,"127.0.0.1",SSW.PlayerJob.'+$job+',30716);g.gameObject.AddComponent<SSW.NetProbe>().Init("'+$root+'/host");return true;')|Out-Null
     $clientProcess=Start-Process -FilePath (Join-Path $Project $Build) -WorkingDirectory $Project -ArgumentList @('--net-mode','client','--net-address','127.0.0.1','--net-port','30716','--net-job',$job,'--net-probe',"$root/client",'-logFile',"$root/client.log",'-screen-fullscreen','0','-screen-width','800','-screen-height','450') -WindowStyle Hidden -PassThru
     @{pid=$clientProcess.Id;path=(Join-Path $Project $Build)}|ConvertTo-Json|Set-Content "$root/ClientProcess.json"
     Await 'both drafts' {$h.phase -eq 'Draft' -and $c.phase -eq 'Draft'} 90

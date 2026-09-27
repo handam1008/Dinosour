@@ -27,7 +27,7 @@ namespace SSW
     }
 
     public enum MatchPhase : byte { Waiting, Draft, Playing, Finished, Intro, RoundEnd, Countdown, SetEnd }
-    public enum MatchEnd : byte { Knockout, Left, Draw }
+    public enum MatchEnd : byte { Knockout, Left, Draw, Surrender }
 
     public struct MatchState : INetworkSerializable, System.IEquatable<MatchState>
     {

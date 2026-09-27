@@ -15,6 +15,7 @@ namespace SSW
         [SerializeField] string _healthBarResourceName = "HealthBarUI";
         [SerializeField] string _damageNumberResourceName = "DamageNumberUI";
         [SerializeField] float _healthBarPadding = 0.15f;
+        [SerializeField] SpriteRenderer _numberAnchor;
         [SerializeField] private DoubleFloatEventChannelSO healthChangeEvent;//�ٲ� NKY
         [SerializeField] private VoidEventChannelSO hitEvent;//�ٲ� NKY
         public event System.Action OnDamaged;
@@ -217,7 +218,9 @@ namespace SSW
             GameObject numberPrefab = Resources.Load<GameObject>(_damageNumberResourceName);
             if (numberPrefab == null) return;
 
-            Vector3 spawnPos = transform.TransformPoint(ComputeTopCenter());
+            Vector3 spawnPos = _numberAnchor != null
+                ? new Vector3(_numberAnchor.bounds.center.x, _numberAnchor.bounds.max.y + _healthBarPadding, _numberAnchor.bounds.center.z)
+                : transform.TransformPoint(ComputeTopCenter());
             GameObject numberGo = Instantiate(numberPrefab, spawnPos, Quaternion.identity);
             numberGo.transform.localScale = numberPrefab.transform.localScale;
             DamageNumberDisplay display = numberGo.GetComponent<DamageNumberDisplay>();
