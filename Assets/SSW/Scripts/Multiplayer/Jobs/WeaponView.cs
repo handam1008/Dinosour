@@ -11,8 +11,12 @@ namespace SSW
         [SerializeField] float _offset = 0.48f;
         [SerializeField] float _angle;
         [SerializeField] GunView _gun;
+        [SerializeField] SwordCast _sword;
+        Vector3 _baseScale;
         float _until;
         Vector2 _direction = Vector2.right;
+
+        void Awake() => _baseScale = transform.localScale;
 
         public void Play(CastKind kind, Vector2 direction)
         {
@@ -27,6 +31,7 @@ namespace SSW
             _sprite.enabled = active;
             if (_gun != null) { _gun.Render(active); return; }
             if (!active) return;
+            if (_job == PlayerJob.Swordsman) transform.localScale = _baseScale * _sword.ReachScale;
             float phase = Mathf.Clamp01((_until - Time.time) / 0.24f);
             Vector2 direction = phase > 0f ? _direction : _player.IsOwner ? _player.Aim : new Vector2(_player.Motion.FacingSign, 0f);
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + _angle;

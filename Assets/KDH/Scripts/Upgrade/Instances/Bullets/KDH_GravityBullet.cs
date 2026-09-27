@@ -15,12 +15,20 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
         public KDH_Bullet Bullet { get; private set; }
         
         [SerializeField] private UnityEvent onHitPlayer;
+
+        private SoundCue _gravitySound;
         
         public override void BulletAbility(Collider2D collision, KDH_Bullet bullet)
         {
             HitPoint = collision.transform;
             Bullet = bullet;
 
+            if (_gravitySound == null)
+                _gravitySound = Bullet.PlayerGun.SoundCues.list[7];
+            
+            if (_gravitySound  != null)
+                NetGame.Current.Sounds.Play(_gravitySound);
+            
             if (Bullet.IsUpgraded)
             {
                 IForceReceiver forceReceiver =

@@ -80,9 +80,9 @@ MonoBehaviour:
   _title: KDH_Map 8
   _spawns: {fileID: 7324015602672789444}
   _bounds:
-    m_Center: {x: 0, y: -50.9, z: 0}
-    m_Extent: {x: 50, y: 59.4, z: 0.3}
-  _fallY: -113.3
+    m_Center: {x: 0, y: -1.5, z: 0}
+    m_Extent: {x: 18, y: 10, z: 0}
+  _fallY: -14.5
   _edges: {fileID: 9013770339093710076}
   _serverOnly: []
 --- !u!114 &7324015602672789444
@@ -162,6 +162,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1587503873864143053}
     m_Modifications:
+    - target: {fileID: 941188072201078380, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}
+      propertyPath: CollisionModule.collidesWith.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 7512534290215503228, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

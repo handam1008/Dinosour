@@ -10,6 +10,7 @@ namespace SSW
         [SerializeField] Text _title;
         [SerializeField] Button _resume;
         [SerializeField] Button _exit;
+        [SerializeField] Text _exitText;
         [SerializeField] RoundUI _rounds;
         [SerializeField] RoundWipe _wipe;
         [SerializeField] DraftStatus _draft;
@@ -27,6 +28,7 @@ namespace SSW
             _game = game;
             _resume.onClick.AddListener(Resume);
             _exit.onClick.AddListener(Exit);
+            _exitText.text = "항복";
             _panel.SetActive(false);
             _rounds.Show(default, game.LocalId);
             _draft.Bind(game);
@@ -68,11 +70,17 @@ namespace SSW
             bool won = state.Winner == _game.LocalId;
             _title.text = state.Reason == MatchEnd.Draw ? "무승부"
                 : state.Reason == MatchEnd.Left ? "상대가 나갔습니다"
+                : state.Reason == MatchEnd.Surrender ? won ? "상대가 항복했습니다" : "항복했습니다"
                 : won ? "승리" : "패배";
+            _exitText.text = "메인 메뉴";
             if (_game.Local != null) _game.Local.Block(true);
         }
 
-        public void Exit() => _game.Exit();
+        public void Exit()
+        {
+            if (_result) _game.Exit();
+            else if (_game.Match != null) _game.Match.Surrender();
+        }
 
         public void Resume()
         {

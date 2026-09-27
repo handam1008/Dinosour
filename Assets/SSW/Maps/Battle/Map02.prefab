@@ -144,9 +144,9 @@ MonoBehaviour:
   _title: KDH_Map 2
   _spawns: {fileID: 5959968354613104808}
   _bounds:
-    m_Center: {x: 0, y: -1, z: 0}
-    m_Extent: {x: 20, y: 11, z: 0.1}
-  _fallY: -15
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 18, y: 10, z: 0}
+  _fallY: -13
   _edges: {fileID: 3107930770357783523}
   _serverOnly: []
 --- !u!114 &2807405665568732213

@@ -18,6 +18,8 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
         [SerializeField] private UnityEvent onHitPlayer;
         
         public Transform HitPoint { get; private set; }
+
+        private SoundCue _shurikenSound;
         
         public override void BulletAbility(Collider2D collision, KDH_Bullet bullet)
         {
@@ -38,9 +40,17 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
         {
             Vector3 direction = _endPos.position - _startPos.position;
             float distance = direction.magnitude;
-            
+
             if (collision.TryGetComponent(out IDamageable damageable))
+            {
                 damageable.TakeDamage(damage * distance);
+
+                if (_shurikenSound == null)
+                    _shurikenSound = Bullet.PlayerGun.SoundCues.list[10];
+                
+                if (_shurikenSound != null)
+                    NetGame.Current.Sounds.Play(_shurikenSound);
+            }
         }
     }
 }

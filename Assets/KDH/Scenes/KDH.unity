@@ -809,7 +809,8 @@ MonoBehaviour:
   bulletLayer:
     serializedVersion: 2
     m_Bits: 0
-  isParrying: 0
+  parryAnimator: {fileID: 0}
+  parryTriggerName: Parry
 --- !u!61 &637664389
 BoxCollider2D:
   m_ObjectHideFlags: 0

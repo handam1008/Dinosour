@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
@@ -97,6 +98,7 @@ namespace SSW
             public float damageScale;
             public float size;
             public bool parry;
+            public float swordScale;
             public bool guarding;
             public bool frozen;
             public int areas;
@@ -207,6 +209,7 @@ namespace SSW
             public PlayerState[] players;
             public ShotState[] shots;
             public TrailState[] trails;
+            public Vector3[] damageNumbers;
         }
 
         GameObject _ground;
@@ -241,6 +244,22 @@ namespace SSW
             _path = Path.GetFullPath(path);
             Directory.CreateDirectory(Path.GetDirectoryName(_path));
             Application.logMessageReceived += Log;
+            SaveConfig();
+        }
+
+        void SaveConfig()
+        {
+            var manager = NetGame.Current.Manager;
+            if (manager == null) return;
+            var config = manager.NetworkConfig;
+            var report = new
+            {
+                config.ProtocolVersion, config.TickRate, config.ConnectionApproval, config.ForceSamePrefabs,
+                config.EnableSceneManagement, config.EnsureNetworkVariableLengthSafety, config.RpcHashSize,
+                hash = config.GetConfig(false).ToString("X16"),
+                prefabs = config.Prefabs.NetworkPrefabOverrideLinks.Select(pair => new { hash = pair.Key, name = pair.Value.Prefab.name }).ToArray()
+            };
+            File.WriteAllText(_path + ".config.json", Newtonsoft.Json.JsonConvert.SerializeObject(report, Newtonsoft.Json.Formatting.Indented));
         }
 
         void Log(string message, string trace, LogType type)
@@ -425,6 +444,7 @@ namespace SSW
                 case "escape": StartCoroutine(Escape()); break;
                 case "resume": game.Menu.Resume(); break;
                 case "exit": game.Exit(); break;
+                case "surrender": game.Menu.Exit(); break;
                 case "start":
                     game.StartLocal(command.value > 0, "127.0.0.1",
                         command.x < 0.5f ? PlayerJob.Witch : PlayerJob.Magician, (ushort)command.y);
@@ -495,6 +515,7 @@ namespace SSW
                     blind = player.Effects.BlindActive, immune = player.Effects.ImmuneActive,
                     damageScale = player.Cast.Weapon != null ? player.Cast.Weapon.DamageScale : 1f,
                     size = player.Drive.Scale, parry = player.Cast.Weapon is SwordCast sword && sword.Parrying,
+                    swordScale = player.Cast.Weapon is SwordCast blade ? blade.ReachScale : 1f,
                     guarding = player.Guard.Guarding, frozen = player.Drive.Frozen,
                     areas = player.GetComponent<BuffArea>().Count, areaViews = player.GetComponent<BuffFx>().AreaCount,
                     visibleAmmo = player.Cast.Weapon is GunCast ammoGun ? ammoGun.View.VisibleAmmo : 0,
@@ -604,6 +625,7 @@ namespace SSW
                 leftName = game.Intro != null ? game.Intro.LeftName : "",
                 rightName = game.Intro != null ? game.Intro.RightName : "",
                 winner = state.Winner, timeScale = Time.timeScale, players = players.ToArray(), shots = shots.ToArray(), trails = ReadTrails(),
+                damageNumbers = ReadNumbers(),
                 round = state.Round, firstWins = state.FirstWins, secondWins = state.SecondWins,
                 first = state.First, second = state.Second, set = state.Set,
                 firstSets = state.FirstSets, secondSets = state.SecondSets,
@@ -629,6 +651,14 @@ namespace SSW
                         });
             }
             return trails.ToArray();
+        }
+
+        static Vector3[] ReadNumbers()
+        {
+            var numbers = FindObjectsByType<DamageNumberDisplay>();
+            var positions = new Vector3[numbers.Length];
+            for (int i = 0; i < numbers.Length; i++) positions[i] = numbers[i].transform.position;
+            return positions;
         }
 
         static bool LabelsFaceView(NetPlayer player, Camera view)

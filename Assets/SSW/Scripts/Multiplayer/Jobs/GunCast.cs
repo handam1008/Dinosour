@@ -30,6 +30,8 @@ namespace SSW
         float _markUntil;
         int _marks;
         NetPlayer _marked;
+        uint _lastTick;
+        bool _running;
         public override PlayerJob Job => PlayerJob.Gunner;
         public GunFx Effects => _effects;
         public GunView View => _gunView;
@@ -48,6 +50,13 @@ namespace SSW
 
         protected override WeaponState Initial() => new WeaponState { Filled = Tick, Reload = Tick + Cooldown(Stats.Reload) };
 
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+            _lastTick = Tick;
+            _running = Player.CanAct;
+        }
+
         protected override void ProgressChanged(ref WeaponState state)
         {
             if (state.Progress >= _questHits) state.Reload = System.Math.Min(state.Reload, state.Filled + Cooldown(Stats.Reload * 0.5f));
@@ -55,6 +64,7 @@ namespace SSW
 
         protected override void Advance(ref WeaponState state, uint tick)
         {
+            if (!Player.CanAct) return;
             FighterStats stats = Stats;
             if (state.Ammo == stats.Capacity) return;
             uint duration = Cooldown(stats.Reload * (state.Progress >= _questHits ? 0.5f : 1f));
@@ -104,7 +114,7 @@ namespace SSW
             float scale = bolt.Spec.Charged ? Stats.ChargeDamage : 1f;
             int mask = 0;
             foreach (GunnerAugmentType type in _augments) mask |= 1 << (int)type;
-            if (Has(GunnerAugmentType.AirBullet) && !target.Drive.Grounded) target.Drive.Launch(40f * scale);
+            if (Has(GunnerAugmentType.AirBullet) && !target.Drive.Grounded) target.Drive.Launch(_balance.AirForce * scale);
             if (Has(GunnerAugmentType.GravityBullet)) target.Drive.ApplyForce((target.Body.position - Player.Body.position).normalized * (_balance.GravityForce * scale), ForceMode2D.Impulse);
             if (Has(GunnerAugmentType.IceBullet)) target.Motion.ApplySlow(_balance.IceSlow * scale, 1.5f * scale);
             if (Has(GunnerAugmentType.FireBullet)) StartCoroutine(DamageOverTime(target, _balance.FireDamage * scale, 6, 0.5f));
@@ -192,6 +202,21 @@ namespace SSW
 
         protected override void Update()
         {
+            if (Active && IsServer)
+            {
+                uint tick = Tick;
+                if (!_running && tick >= _lastTick)
+                {
+                    uint elapsed = tick - _lastTick;
+                    WeaponState state = State;
+                    state.Reload += elapsed;
+                    state.Filled += elapsed;
+                    for (int i = 0; i < state.Loaded.Length; i++) state.Loaded[i] += elapsed;
+                    State = state;
+                }
+                _lastTick = tick;
+                _running = Player.CanAct;
+            }
             if (IsServer && !Player.CanAct && _poison.Count > 0) _poison.Clear();
             base.Update();
         }

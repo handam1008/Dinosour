@@ -1,5 +1,7 @@
 # 증강 활성 연결·효과 감사
 
+2026-09-27 추가 연결: KHG 검사 프로토타입 6종을 SSW SO와 서버 효과로 연결하고 덱 ID 86–91에 추가했다. 현재 직업 후보는 60개(검사 10개), 기존 ID 85는 비어 있다. 수치와 실행 범위는 [후속 검증](../Fixes~/README.md)을 확인한다. 아래 집계는 각 기록 당시의 상태다.
+
 후속 직업 효과 검증과 마술사 HUD·암살자 VFX 수정은 [Effects.md](Effects.md)에 기록했다. 아래는 당시 감사 기록이며 최신 실행 결과와 구분한다.
 
 후속 Base `f3b76ce`에서 Network Player의 `_tenLivesHealth`가 3에서 10으로 변경됐다. 이 최신 프리팹 설정을 보존했다. 현재 프리팹 값 10과 원본 문어의 심장 설명의 체력 3이 서로 다르며, 아래 HP 3 검증은 변경 전 실행 기록이다. 이 결과를 현재 체력 10 구성의 검증으로 인용하지 않는다.
@@ -188,7 +190,7 @@ GunnerArgument / GunnerAugmentType.
 
 | ID | 표시 이름 / SO | 타입 | 수신 컨트롤러 | 현재 서버 효과 경로 |
 |---:|---|---|---|---|
-| 32 | [공기탄](<D:/unity_project/Mushrooms/Assets/KDH/GameModules/SOs/Arguments/KDH_Augment_AirBullet.asset>) | AirBullet (0) | GunCast | Hit → 공중 대상 Drive.Launch(40 × 강화 배율) |
+| 32 | [공기탄](<D:/unity_project/Mushrooms/Assets/KDH/GameModules/SOs/Arguments/KDH_Augment_AirBullet.asset>) | AirBullet (0) | GunCast | Hit → 공중 대상 Drive.Launch(GunBalance.AirForce × 강화 배율), SSW AirBullet 변형의 Fly Power 10 |
 | 33 | [화려한 발걸음](<D:/unity_project/Mushrooms/Assets/KDH/GameModules/SOs/Arguments/KDH_Augment_BeautifulFootStepAbility.asset>) | BeautifulFootStepAbility (1) | GunCast | Hit → Motion.ApplySpeed(+0.5, 1초), 대기 3초 |
 | 34 | [화염탄](<D:/unity_project/Mushrooms/Assets/KDH/GameModules/SOs/Arguments/KDH_Augment_FireBullet.asset>) | FireBullet (2) | GunCast | Hit → DamageOverTime, 0.5초 간격 6회 × (3 × 강화 배율) |
 | 35 | [중력탄](<D:/unity_project/Mushrooms/Assets/KDH/GameModules/SOs/Arguments/KDH_Augment_GravityBullet.asset>) | GravityBullet (3) | GunCast | Hit → 대상 Drive.ApplyForce, 발사자 반대 방향 50 × 강화 배율 |

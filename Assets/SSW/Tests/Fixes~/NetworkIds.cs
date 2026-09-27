@@ -1,0 +1,14 @@
+if (UnityEditor.EditorApplication.isPlaying) throw new System.InvalidOperationException("Stop Play first");
+const string path = "Assets/SSW/Resources/Network/Player.prefab";
+var root = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.GameObject>(path);
+var network = root.GetComponent<Unity.Netcode.NetworkObject>();
+var validate = typeof(Unity.Netcode.NetworkObject).GetMethod("OnValidate", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+validate.Invoke(network, null);
+UnityEditor.EditorUtility.SetDirty(network);
+UnityEditor.PrefabUtility.SavePrefabAsset(root);
+using var serialized = new UnityEditor.SerializedObject(network);
+long hash = serialized.FindProperty("GlobalObjectIdHash").longValue;
+if (hash != 2334970032) throw new System.InvalidOperationException("Unexpected generated prefab identity: " + hash);
+var result = new { path, hash, generatedByNetcode = true };
+System.IO.File.WriteAllText("Logs/AugmentLink27/NetworkIds.json", Newtonsoft.Json.JsonConvert.SerializeObject(result, Newtonsoft.Json.Formatting.Indented));
+return result;
