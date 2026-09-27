@@ -1,3 +1,4 @@
+using DevLib.ServiceLocator;
 using KDH.Scripts.Bullet;
 using SSW;
 using UnityEngine;
@@ -65,7 +66,7 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
                     applyDamageSound = Bullet.PlayerGun.SoundCues.list[6];
                 
                 if (applyDamageSound != null)
-                    NetGame.Current.Sounds.Play(applyDamageSound);
+                    NetGame.Current.Sounds.Play(applyDamageSound); // 사운드
                 
                 receiver.ApplyForce(new Vector2(0, power), ForceMode2D.Impulse);
             }

@@ -51,7 +51,7 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
                         dotDamageSound = Bullet.PlayerGun.SoundCues.list[5];
                     
                     if (dotDamageSound != null)
-                        ServiceLocator.Get<IAudioService>().PlaySfx(dotDamageSound);
+                        ServiceLocator.Get<IAudioService>().PlaySfx(dotDamageSound); // 사운드
                     
                     damageable.TakeDamage(damage);
                 }

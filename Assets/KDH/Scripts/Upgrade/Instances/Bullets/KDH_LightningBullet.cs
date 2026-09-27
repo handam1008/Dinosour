@@ -117,7 +117,7 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
             }
             
             if (stackPlayerSound != null)
-                ServiceLocator.Get<IAudioService>().PlaySfx(stackPlayerSound); // 타격 사운드랑 곂칠 거 같은데 일단 해봄
+                ServiceLocator.Get<IAudioService>().PlaySfx(stackPlayerSound); // 사운드
             
             onHitPlayer?.Invoke();
         }
@@ -138,7 +138,7 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
                 }
                 
                 if (hitPlayerSound != null)
-                    NetGame.Current.Sounds.Play(hitPlayerSound);
+                    NetGame.Current.Sounds.Play(hitPlayerSound);// 사운드
                 
                 Destroy(effect, 0.4f);
             }
