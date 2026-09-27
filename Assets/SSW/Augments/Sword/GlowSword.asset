@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 98458b0f95064f4458f79fee4862b090, type: 3}
-  m_Name: DashSpeed
+  m_Name: GlowSword
   m_EditorClassIdentifier: Assembly-CSharp::SSW.SwordAugment
-  displayName: "\uACBD\uB7C9\uD654"
-  description: "\uB3CC\uC9C4 \uD6C4 3\uCD08 \uB3D9\uC548 \uC774\uB3D9\uC18D\uB3C4\uAC00
-    50% \uC99D\uAC00\uD569\uB2C8\uB2E4."
-  icon: {fileID: 4258050845938378814, guid: 7efaa09141884f34eb73bfc00735dcbc, type: 3}
-  type: 1
+  displayName: "\uC131\uC7A5"
+  description: "\uCE7C\uC758 \uD06C\uAE30\uAC00 \uC810\uC810 \uCEE4\uC9D1\uB2C8\uB2E4\r\n\uB77C\uC6B4\uB4DC
+    \uCD08\uAE30\uD654 \uD558\uBA74 \uB2E4\uC2DC \uC791\uC544\uC9D1\uB2C8\uB2E4"
+  icon: {fileID: 0}
+  type: 0

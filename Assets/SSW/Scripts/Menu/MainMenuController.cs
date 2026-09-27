@@ -24,6 +24,7 @@ namespace SSW
         [SerializeField] Slider _sfxVolume;
         [SerializeField] float _fadeDuration = 0.22f;
         [SerializeField] float _buttonStagger = 0.07f;
+        [SerializeField] CanvasGroup _titleboardPanel;
 
         MultiplayerMenuUI _multiplayerMenu;
         SandboxMapMenuUI _sandboxMapMenu;
@@ -177,6 +178,10 @@ namespace SSW
             if (menu == null) return;
             menu.ShowQuickPlay();
             ShowPanel(menu.Group);
+        }
+        public void ShowTitleboard()
+        {
+            ShowPanel(_titleboardPanel);
         }
 
         MultiplayerMenuUI GetMultiplayerMenu()
