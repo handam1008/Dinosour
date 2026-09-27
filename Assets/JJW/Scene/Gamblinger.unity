@@ -12803,6 +12803,14 @@ MonoBehaviour:
   healPlusSize: 0.38
   healPlusRiseSpeed: 1.4
   particleSortingOrder: 20
+  deathMarkSize: 760
+  deathMarkDisplayScale: 3
+  deathMarkMaxAlpha: 0.65
+  deathMarkFadeIn: 0.08
+  deathMarkHold: 0.3
+  deathMarkFadeOut: 0.4
+  instantKillAudioSource: {fileID: 0}
+  instantKillSound: {fileID: 0}
 --- !u!1 &933345699
 GameObject:
   m_ObjectHideFlags: 0
