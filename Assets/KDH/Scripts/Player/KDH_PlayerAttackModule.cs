@@ -1,4 +1,5 @@
-﻿using KDH.Scripts.Bullet;
+﻿using DevLib.ServiceLocator;
+using KDH.Scripts.Bullet;
 using KDH.Scripts.Gun;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -36,7 +37,7 @@ namespace KDH.Scripts.Player
         public void Shoot(KDH_SpawnBullet spawnBullet, KDH_Gun gun, Camera cam, Transform visual, Transform gunPos, bool  isUpgraded)
         {
             if (spawnBullet.bullets.Count <= 0) return;
-        
+            
             GameObject bullet = spawnBullet.bullets.Pop();
             bullet.transform.position = gun.GunPos.position;
         

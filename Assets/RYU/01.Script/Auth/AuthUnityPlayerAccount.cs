@@ -20,6 +20,7 @@ namespace _02.Script
         [SerializeField] private Button loginButton;
         [SerializeField] private Button savePlayerNameButton;
         [SerializeField] private TMP_InputField playerNameIF;
+        [SerializeField] private TextMeshProUGUI NameRuleText;
         [SerializeField] private TextMeshProUGUI badWord;
 
         public string SceneName = "Leaderboard";
@@ -1185,9 +1186,11 @@ namespace _02.Script
 
         private void Start()
         {
+            loginButton.gameObject.SetActive(true);
             badWord.gameObject.SetActive(false);
             savePlayerNameButton.gameObject.SetActive(false);
             playerNameIF.gameObject.SetActive(false);
+            NameRuleText.gameObject.SetActive(false);
         }
 
         protected override async Task OnServicesReadyAsync()
@@ -1236,6 +1239,7 @@ namespace _02.Script
                 await PlayerAccountService.Instance.StartSignInAsync();
                 savePlayerNameButton.gameObject.SetActive(true);
                 playerNameIF.gameObject.SetActive(true);
+                NameRuleText.gameObject.SetActive(true);
                 loginButton.gameObject.SetActive(false);
             }
             catch (PlayerAccountsException e)
@@ -1258,6 +1262,12 @@ namespace _02.Script
                     return;
                 }
                     
+            }
+
+            if (playerName.Length > 8)
+            {
+                Debug.Log("8글자 이상의 이름은 허용되지 않습니다");
+                return;
             }
             
             try

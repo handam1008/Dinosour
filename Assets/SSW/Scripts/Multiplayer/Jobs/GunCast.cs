@@ -114,7 +114,7 @@ namespace SSW
             float scale = bolt.Spec.Charged ? Stats.ChargeDamage : 1f;
             int mask = 0;
             foreach (GunnerAugmentType type in _augments) mask |= 1 << (int)type;
-            if (Has(GunnerAugmentType.AirBullet) && !target.Drive.Grounded) target.Drive.Launch(40f * scale);
+            if (Has(GunnerAugmentType.AirBullet) && !target.Drive.Grounded) target.Drive.Launch(_balance.AirForce * scale);
             if (Has(GunnerAugmentType.GravityBullet)) target.Drive.ApplyForce((target.Body.position - Player.Body.position).normalized * (_balance.GravityForce * scale), ForceMode2D.Impulse);
             if (Has(GunnerAugmentType.IceBullet)) target.Motion.ApplySlow(_balance.IceSlow * scale, 1.5f * scale);
             if (Has(GunnerAugmentType.FireBullet)) StartCoroutine(DamageOverTime(target, _balance.FireDamage * scale, 6, 0.5f));
