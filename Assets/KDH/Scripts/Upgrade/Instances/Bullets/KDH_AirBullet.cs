@@ -19,6 +19,8 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
         public KDH_Bullet Bullet { get; private set; }
         [SerializeField] private UnityEvent onHitPlayer;
 
+        private SoundCue applyDamageSound;
+        
         private void Update()
         {
             if (_targetController != null)
@@ -59,6 +61,12 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
 
             if (collision.TryGetComponent(out IForceReceiver receiver))
             {
+                if (applyDamageSound == null)
+                    applyDamageSound = Bullet.PlayerGun.SoundCues.list[6];
+
+                if (applyDamageSound != null)
+                    NetGame.Current.Sounds.Play(applyDamageSound);
+                
                 receiver.ApplyForce(new Vector2(0, power), ForceMode2D.Impulse);
             }
         }

@@ -1,4 +1,6 @@
+using DevLib.ServiceLocator;
 using KDH.Scripts.Bullet;
+using SSW;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,19 +20,27 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
 
         [SerializeField] private UnityEvent onHitPlayer;
     
+        SoundCue _applySlowSound;
+        
         public override void BulletAbility(Collider2D collision, KDH_Bullet bullet)
         {
+            HitPoint = collision.transform;
+            Bullet = bullet;
+            
             float finalDamage = bullet.IsUpgraded ? dotDamage * bullet.UpgradValue : dotDamage;
 
             if (!collision.TryGetComponent(out KDH_PoisonStatus status))
                 status = collision.gameObject.AddComponent<KDH_PoisonStatus>();
 
-            status.ApplyPoison(DotCount, PoisonDuration, finalDamage);
+            status.ApplyPoison(DotCount, PoisonDuration, finalDamage, Bullet);
             PosionTickInterval = status.TickInterval;
-        
-            HitPoint = collision.transform;
-            Bullet = bullet;
 
+            if (_applySlowSound == null)
+                _applySlowSound = Bullet.PlayerGun.SoundCues.list[9];
+            
+            if (_applySlowSound != null)
+                ServiceLocator.Get<IAudioService>().PlaySfx(_applySlowSound);
+            
             onHitPlayer?.Invoke();
         }
     }

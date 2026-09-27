@@ -1544,6 +1544,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::KDH_Gun
   <PlayerInput>k__BackingField: {fileID: 1009263816107179192}
   <Cam>k__BackingField: {fileID: 0}
+  <SoundCues>k__BackingField: {fileID: 11400000, guid: 69976d87b0f02074f9f940f651adc674, type: 2}
   <Visual>k__BackingField: {fileID: 8452766818749168193}
   <SpawnBullet>k__BackingField: {fileID: 3172434195910081990}
   <GunPos>k__BackingField: {fileID: 2704316197961895077}
