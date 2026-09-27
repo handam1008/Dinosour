@@ -9372,6 +9372,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DamageZone
       objectReference: {fileID: 0}
+    - target: {fileID: 6136058285205794702, guid: 86dbf70bc864cb446b3d18f036d24ece, type: 3}
+      propertyPath: hitSound
+      value: 
+      objectReference: {fileID: 11400000, guid: 37042c605cc5d7a44a75e1f67f26970e, type: 2}
     - target: {fileID: 8476215549095984661, guid: 86dbf70bc864cb446b3d18f036d24ece, type: 3}
       propertyPath: m_LocalPosition.x
       value: 17.5
