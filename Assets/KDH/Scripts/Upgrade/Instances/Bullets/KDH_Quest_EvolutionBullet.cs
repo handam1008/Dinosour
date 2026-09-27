@@ -1,5 +1,7 @@
+using DevLib.ServiceLocator;
 using KDH.Scripts.Bullet;
 using KDH.Scripts.Gun;
+using SSW;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -19,6 +21,8 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
         
         public Transform HitPoint { get; private set; }
         public KDH_Bullet Bullet { get; private set; }
+        
+        private SoundCue clearedSound;
         
         private KDH_Gun _gun;
         private KDH_Quest_EvolutioinBulletUI ui; // 구조 망함
@@ -70,8 +74,17 @@ namespace KDH.Scripts.Upgrade.Instances.Bullets
                 
                 _questStr = $"퀘스트: 진화 진행률{HitCount} / {questClearCount}";
                 if (HitCount >= questClearCount)
+                {
+                    if (clearedSound == null)
+                        clearedSound = bullet.PlayerGun.SoundCues.list[0];
+                    
+                    if (clearedSound != null)
+                        ServiceLocator.Get<IAudioService>().PlaySfx(clearedSound);
+                            
                     _questStr = "퀘스트: 진화 클리어!";
-                
+                    
+                }
+
                 ui.OnChangeText(_questStr);
                 
                 onHitPlayer?.Invoke();
