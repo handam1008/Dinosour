@@ -14,7 +14,6 @@ namespace RYU._01.Script.Customize
     [Serializable]
     public class DinoSkin
     {
-        [Tooltip("저장에 쓰는 고유 값. 한번 정하면 바꾸지 말 것 (예: male_doux)")]
         public string id;
         public string displayName;
         public DinoGender gender;

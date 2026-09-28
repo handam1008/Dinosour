@@ -65,6 +65,18 @@ namespace SSW
             public Control[] buttons;
             public Control[] inputs;
             public Panel[] panels;
+            public string playerId;
+            public string playerName;
+            public Member[] members;
+            public Control[] memberRows;
+        }
+
+        [Serializable] sealed class Member
+        {
+            public string id;
+            public string name;
+            public string job;
+            public bool host;
         }
 
         [Serializable] sealed class Room
@@ -154,7 +166,14 @@ namespace SSW
                 case "clear": _error = ""; break;
                 case "profile": _ = SignIn(command.text); break;
                 case "delete": _ = DeleteRoom(command.text); break;
+                case "kick": _ = Kick(command.text); break;
             }
+        }
+
+        async Task Kick(string player)
+        {
+            try { await MultiplayerSessionManager.Current.KickPlayerAsync(player); }
+            catch (Exception error) { _error = error.Message; }
         }
 
         async Task SignIn(string profile)
@@ -241,7 +260,20 @@ namespace SSW
                 {
                     id = room.Id, name = room.Name, players = room.PlayerCount
                 }).ToArray() : Array.Empty<Room>(),
-                buttons = buttons, inputs = inputs, panels = panels
+                buttons = buttons, inputs = inputs, panels = panels,
+                playerId = initialized ? AuthenticationService.Instance.PlayerId : "",
+                playerName = initialized ? AuthenticationService.Instance.PlayerName : "",
+                members = sessions != null ? sessions.Players.Select(player => new Member
+                {
+                    id = player.Id, name = player.Name, job = player.Job.ToString(), host = player.IsHost
+                }).ToArray() : Array.Empty<Member>(),
+                memberRows = Components<RoomPlayerUI>().Where(row => row.gameObject.activeInHierarchy)
+                    .Select(row => new Control
+                    {
+                        name = row.name,
+                        text = string.Join("|", row.GetComponentsInChildren<UnityEngine.UI.Text>().Select(label => label.text)),
+                        enabled = row.GetComponentsInChildren<UnityEngine.UI.Button>().Any(button => button.IsInteractable())
+                    }).ToArray()
             };
             File.WriteAllText(_path + ".json", JsonUtility.ToJson(state, true));
         }

@@ -50,6 +50,7 @@ namespace SSW
         protected abstract bool Plan(ref WeaponState state, CastInput input, out BoltSpec bolt);
         protected abstract void Execute(CastInput input, Vector2 origin, double lag, BoltSpec bolt);
         protected virtual void Advance(ref WeaponState state, uint tick) { }
+        protected virtual void Advanced(WeaponState previous, WeaponState current) { }
         protected virtual void ServerTick() { }
         protected virtual Vector2 BoltOrigin(Vector2 center, Vector2 direction, float radius) => center;
 
@@ -93,7 +94,7 @@ namespace SSW
         {
             if (!IsServer || !Active) return false;
             WeaponState state = State;
-            Advance(ref state, input.Tick);
+            AdvanceServer(ref state, input.Tick);
             bool accepted = Plan(ref state, input, out BoltSpec bolt);
             state.Action = input.Action;
             State = state;
@@ -114,13 +115,20 @@ namespace SSW
 
         protected virtual void Present(CastKind kind, Vector2 direction) => _view.Play(kind, direction);
 
+        void AdvanceServer(ref WeaponState state, uint tick)
+        {
+            WeaponState previous = state;
+            Advance(ref state, tick);
+            Advanced(previous, state);
+        }
+
         protected virtual void Update()
         {
             if (!Active || !Player.CanAct) return;
             if (IsServer)
             {
                 WeaponState state = State;
-                Advance(ref state, Tick);
+                AdvanceServer(ref state, Tick);
                 State = state;
                 ServerTick();
             }
@@ -179,13 +187,14 @@ namespace SSW
             }
         }
 
-        protected IEnumerator DamageOverTime(NetPlayer target, float damage, int count, float interval)
+        protected IEnumerator DamageOverTime(NetPlayer target, float damage, int count, float interval, System.Action onTick = null)
         {
             for (int i = 0; i < count; i++)
             {
                 yield return new WaitForSeconds(interval);
                 if (!Active || !Player.CanAct || target == null || !target.CanAct) yield break;
                 CombatDamage.Deal(this, target.Health, damage, DamageTag.JobSkill | DamageTag.DamageOverTime);
+                onTick?.Invoke();
             }
         }
 

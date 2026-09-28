@@ -18,6 +18,11 @@ namespace SSW
         [SerializeField] SpriteRenderer _numberAnchor;
         [SerializeField] private DoubleFloatEventChannelSO healthChangeEvent;//�ٲ� NKY
         [SerializeField] private VoidEventChannelSO hitEvent;//�ٲ� NKY
+        
+        [Header("sound")]
+        [SerializeField] SoundCue healingSoundCue;
+        [SerializeField] SoundCue hitSoundCue;
+        [SerializeField] SoundCue deadSoundCue;
         public event System.Action OnDamaged;
         public event System.Action OnDied;
         public event System.Action<float, float> OnHealthChanged;
@@ -26,15 +31,26 @@ namespace SSW
 
         float current;
         IHealthAuthority _authority;
+        Collider2D _shape;
         public VoidEventChannelSO HitEvent { get; private set; }
         public DoubleFloatEventChannelSO HealthChangeEvent { get; private set; }
 
         public float Current => current;
         public float Max => maxHealth;
+        public Vector3 LabelPosition
+        {
+            get
+            {
+                if (_numberAnchor == null && _shape == null) return transform.position + Vector3.up;
+                Bounds bounds = _numberAnchor != null ? _numberAnchor.bounds : _shape.bounds;
+                return new Vector3(bounds.center.x, bounds.max.y + _healthBarPadding, bounds.center.z);
+            }
+        }
 
         void Awake()
         {
             _authority = GetComponent<IHealthAuthority>();
+            _shape = GetComponent<Collider2D>();
             current = maxHealth;
             SpawnHealthBar();
             HitEvent = hitEvent != null ? Instantiate(hitEvent) : null;
@@ -98,6 +114,7 @@ namespace SSW
 
             DamageResult result = new DamageResult(requestedAmount, appliedAmount, wasLethal);
             NotifyDamageReceived(request, result);
+            NetGame.Current.Sounds.Play(hitSoundCue);
             if (wasLethal) Die();
             return result;
         }
@@ -107,11 +124,13 @@ namespace SSW
         {
             if (!float.IsFinite(amount) || amount <= 0f) return;
             if (_authority != null && (current <= 0f || !_authority.CanChange)) return;
-
+            if(Mathf.Approximately(Max, Current)) return;
+            
             float previous = current;
             current = Mathf.Min(current + amount, maxHealth);
             float restored = current - previous;
             if (restored <= 0f) return;
+            GameAudio.Current.PlaySfx(healingSoundCue);
             OnHealthChanged?.Invoke(current, maxHealth);
             ApplyNetworkHeal(restored);
         }
@@ -193,7 +212,7 @@ namespace SSW
                 gameObject.SetActive(false);
                 return;
             }
-
+            NetGame.Current.Sounds.Play(deadSoundCue);
             StartCoroutine(DisableAfterDeath());
         }
 
@@ -208,9 +227,8 @@ namespace SSW
             GameObject barPrefab = Resources.Load<GameObject>(_healthBarResourceName);
             if (barPrefab == null) return;
 
-            Vector3 localPos = ComputeTopCenter();
-            GameObject bar = Instantiate(barPrefab, transform);
-            bar.transform.localPosition = localPos;
+            GameObject bar = Instantiate(barPrefab, LabelPosition, Quaternion.identity, transform);
+            bar.transform.localScale = barPrefab.transform.localScale;
         }
 
         void SpawnNumber(float amount, bool isCritical, bool healed = false)
@@ -218,10 +236,7 @@ namespace SSW
             GameObject numberPrefab = Resources.Load<GameObject>(_damageNumberResourceName);
             if (numberPrefab == null) return;
 
-            Vector3 spawnPos = _numberAnchor != null
-                ? new Vector3(_numberAnchor.bounds.center.x, _numberAnchor.bounds.max.y + _healthBarPadding, _numberAnchor.bounds.center.z)
-                : transform.TransformPoint(ComputeTopCenter());
-            GameObject numberGo = Instantiate(numberPrefab, spawnPos, Quaternion.identity);
+            GameObject numberGo = Instantiate(numberPrefab, LabelPosition, Quaternion.identity);
             numberGo.transform.localScale = numberPrefab.transform.localScale;
             DamageNumberDisplay display = numberGo.GetComponent<DamageNumberDisplay>();
             if (display == null) return;
@@ -229,16 +244,5 @@ namespace SSW
             else display.Show(amount, isCritical);
         }
 
-        Vector3 ComputeTopCenter()
-        {
-            Renderer[] renderers = GetComponentsInChildren<Renderer>();
-            if (renderers.Length == 0) return new Vector3(0f, 1f, 0f);
-
-            Bounds combined = renderers[0].bounds;
-            for (int i = 1; i < renderers.Length; i++) combined.Encapsulate(renderers[i].bounds);
-
-            Vector3 worldTopCenter = new Vector3(combined.center.x, combined.max.y + _healthBarPadding, combined.center.z);
-            return transform.InverseTransformPoint(worldTopCenter);
-        }
     }
 }

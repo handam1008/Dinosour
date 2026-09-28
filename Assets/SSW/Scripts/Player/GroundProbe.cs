@@ -31,7 +31,7 @@ namespace SSW
                 {
                     ColliderDistance2D contact = _shape.Distance(hit.collider);
                     if (!contact.isValid) continue;
-                    normal = -contact.normal;
+                    normal = Normal(contact);
                     point = contact.pointB;
                 }
                 if (normal.y < MinNormal) continue;
@@ -41,6 +41,8 @@ namespace SSW
             }
             return null;
         }
+
+        public static Vector2 Normal(ColliderDistance2D contact) => contact.isOverlapped ? -contact.normal : contact.normal;
 
         public static bool IsPlatform(Collider2D shape) => shape.usedByEffector
             && shape.TryGetComponent<PlatformEffector2D>(out var platform) && platform.isActiveAndEnabled && platform.useOneWay;

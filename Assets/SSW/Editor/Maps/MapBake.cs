@@ -14,16 +14,19 @@ namespace SSW
     {
         const string ProfilePath = "Assets/SSW/Editor/Maps/MapSources.asset";
         const string GamePath = "Assets/SSW/Resources/Network/NetGame.prefab";
-        const string Version = "4";
-        static readonly int[] Numbers = { 1, 2, 3, 6, 7, 8, 9, 12, 13, 14, 17 };
-        static readonly int[] Protected = { 4, 5, 10, 15, 16 };
+        const string Version = "6";
+        static readonly int[] Numbers = { 1, 2, 3, 6, 7, 8, 9, 11, 12, 13, 14, 15, 16, 17 };
+        static readonly int[] Protected = { 4, 5, 10 };
         static bool _baking;
 
         static MapBake() => EditorApplication.playModeStateChanged += OnPlay;
 
-        public static string Setup()
+        public static string Setup(params int[] numbers)
         {
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Play 중에는 맵을 갱신하지 않습니다.");
+            int[] selected = numbers.Length == 0 ? Numbers : numbers.Distinct().ToArray();
+            if (selected.Any(number => !Numbers.Contains(number)))
+                throw new InvalidOperationException("지원하지 않는 맵 번호입니다.");
             MapSources profile = AssetDatabase.LoadAssetAtPath<MapSources>(ProfilePath);
             if (profile == null)
             {
@@ -31,12 +34,21 @@ namespace SSW
                 AssetDatabase.CreateAsset(profile, ProfilePath);
             }
             var entries = profile.Entries.ToList();
-            foreach (int number in Numbers)
+            foreach (int number in selected)
             {
-                if (entries.Any(item => item.Number == number)) continue;
-                string sourcePath = "Assets/MapPrefab/KDH_Map " + number + ".prefab";
+                int index = entries.FindIndex(item => item.Number == number);
+                if (index >= 0 && !Patched(number)) continue;
+                string sourcePath = (Patched(number) ? "Assets/KDH/GameModules/Maps/" : "Assets/MapPrefab/")
+                    + "KDH_Map " + number + ".prefab";
                 GameObject source = AssetDatabase.LoadAssetAtPath<GameObject>(sourcePath);
                 if (source == null) throw new InvalidOperationException("원본 맵이 없습니다: " + sourcePath);
+                if (index >= 0)
+                {
+                    var entry = entries[index];
+                    entry.Source = source;
+                    entries[index] = entry;
+                    continue;
+                }
                 entries.Add(new MapSources.Entry
                 {
                     Number = number,
@@ -52,10 +64,18 @@ namespace SSW
             });
             EditorUtility.SetDirty(profile);
             AssetDatabase.SaveAssetIfDirty(profile);
-            return BakeAll();
+            return Bake(selected);
         }
 
+        internal static bool Patched(int number) => number == 2 || number == 11 || number == 15 || number == 16;
+
         public static string BakeAll()
+        {
+            string scope = SessionState.GetString("MapBake.Scope", "");
+            return Bake(string.IsNullOrEmpty(scope) ? Numbers : scope.Split(',').Select(int.Parse).ToArray());
+        }
+
+        static string Bake(int[] selected)
         {
             if (_baking) throw new InvalidOperationException("맵 갱신이 이미 진행 중입니다.");
             if (EditorApplication.isPlaying) throw new InvalidOperationException("Play 중에는 맵을 갱신하지 않습니다.");
@@ -76,7 +96,7 @@ namespace SSW
                     for (int i = 0; i < entries.Length; i++)
                     {
                         var entry = entries[i];
-                        if (!Numbers.Contains(entry.Number)) continue;
+                        if (!selected.Contains(entry.Number)) continue;
                         try
                         {
                             Validate(entry);
@@ -104,7 +124,7 @@ namespace SSW
                         EditorUtility.SetDirty(sources);
                         AssetDatabase.SaveAssetIfDirty(sources);
                     }
-                    try { Register(sources, entries, reports); }
+                    try { Register(sources, entries, selected, reports); }
                     catch (Exception error) { failures.Add(error); }
                 }
                 if (failures.Count > 0) throw new AggregateException(string.Join("\n", reports.Concat(failures.Select(error => error.Message))), failures);
@@ -128,7 +148,7 @@ namespace SSW
                 throw new InvalidOperationException("이번 갱신에서 수정할 수 없는 맵입니다: " + output);
         }
 
-        static void Register(MapSources sources, MapSources.Entry[] entries, List<string> report)
+        static void Register(MapSources sources, MapSources.Entry[] entries, int[] selected, List<string> report)
         {
             string path = AssetDatabase.GetAssetPath(sources.Game);
             if (sources.Game == null || !path.StartsWith("Assets/SSW/", StringComparison.Ordinal))
@@ -154,7 +174,7 @@ namespace SSW
                 bool changed = false;
                 foreach (var entry in entries)
                 {
-                    if (!Numbers.Contains(entry.Number) || entry.Map == null || maps.Contains(entry.Map)) continue;
+                    if (!selected.Contains(entry.Number) || entry.Map == null || maps.Contains(entry.Map)) continue;
                     string fingerprint = Fingerprint(entry.Source);
                     if (!fingerprints.Add(fingerprint))
                     {

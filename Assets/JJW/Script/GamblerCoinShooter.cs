@@ -13,7 +13,7 @@ public class GamblerCoinShooter : MonoBehaviour, ICoinDamageUp
     [Header("Fire Settings")]
     [SerializeField, Min(0f)] private float fireCooldown = 0.2f;
     [SerializeField, Min(0f)] private float spawnOffset = 0.15f;
-    [SerializeField] private float coinDamage = 10f;
+    [SerializeField] private float coinDamage = 15f;
     [SerializeField] private float damageMultiplier = 1f;
 
     private float nextFireTime;

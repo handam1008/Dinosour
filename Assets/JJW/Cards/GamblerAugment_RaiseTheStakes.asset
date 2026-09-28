@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: GamblerAugment_RaiseTheStakes
   m_EditorClassIdentifier: Assembly-CSharp::JJW.Script.Augments.GamblerAugment
   displayName: "\uD310\uB3C8 \uC62C\uB9AC\uAE30"
-  description: "\uB8F0\uB81B\uC5D0 \uC5F0\uC18D\uC73C\uB85C \uB2F9\uCCA8\uB420 \uB54C\uB9C8\uB2E4
-    \uB3D9\uC804 \uACF5\uACA9\uB825\uC774 10% \uC99D\uAC00\uD569\uB2C8\uB2E4.\n\uCD5C\uB300
-    3\uBC88\uAE4C\uC9C0 \uC99D\uAC00\uD558\uBA70 \uAF5D\uC774 \uB098\uC624\uAC70\uB098
-    \uC0AC\uB9DD\uD558\uBA74 \uCD08\uAE30\uD654\uB429\uB2C8\uB2E4."
-  icon: {fileID: 0}
+  description: "\uB8F0\uB81B\uC5D0 \uC5F0\uC18D\uC73C\uB85C \uB2F9\uCCA8\uB420 \uB54C\uB9C8\uB2E4 \uB3D9\uC804 \uACF5\uACA9\uB825\uC774 <color=#3D7BFF>10%</color> \uC99D\uAC00\uD569\uB2C8\uB2E4.\n\uCD5C\uB300 <color=#3D7BFF>3\uBC88</color>\uAE4C\uC9C0 \uC99D\uAC00\uD558\uBA70 \uAF5D\uC774 \uB098\uC624\uAC70\uB098 \uC0AC\uB9DD\uD558\uBA74 \uCD08\uAE30\uD654\uB429\uB2C8\uB2E4."
+  icon: {fileID: -4703840094535046643, guid: 192ab54f300b7944994e2c5debf160ca, type: 3}
   type: 7

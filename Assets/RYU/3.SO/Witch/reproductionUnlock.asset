@@ -15,6 +15,7 @@ MonoBehaviour:
   displayName: "\uC7AC\uC0DD\uC758 \uD574\uAE08"
   description: "\uD3EC\uC158 \uD480\uC5D0\_\uC7AC\uC0DD\_\uD3EC\uC158\uC774 \uCD94\uAC00\uB429\uB2C8\uB2E4."
   icon: {fileID: -7364630499745325933, guid: b55aca4fa13c2b44ab078be28c885560, type: 3}
-  type: 3
+  excludes: []
+  type: 4
   unlockPotions:
   - {fileID: 11400000, guid: ed59b73987670fe479b4cc85e75f9ece, type: 2}

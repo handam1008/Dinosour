@@ -190,6 +190,7 @@ MonoBehaviour:
   damage: 5
   knockbackForce: 20
   direction: {x: 1, y: 0}
+  hitSound: {fileID: 11400000, guid: 37042c605cc5d7a44a75e1f67f26970e, type: 2}
 --- !u!1 &3470558358562320541
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,6 +346,7 @@ MonoBehaviour:
   damage: 5
   knockbackForce: 20
   direction: {x: -1, y: 0}
+  hitSound: {fileID: 11400000, guid: 37042c605cc5d7a44a75e1f67f26970e, type: 2}
 --- !u!1 &6478863664547708809
 GameObject:
   m_ObjectHideFlags: 0
@@ -500,6 +502,7 @@ MonoBehaviour:
   damage: 5
   knockbackForce: 20
   direction: {x: 0, y: 1}
+  hitSound: {fileID: 11400000, guid: 37042c605cc5d7a44a75e1f67f26970e, type: 2}
 --- !u!1 &6991472122704803612
 GameObject:
   m_ObjectHideFlags: 0
@@ -655,3 +658,4 @@ MonoBehaviour:
   damage: 5
   knockbackForce: 20
   direction: {x: 0, y: -1}
+  hitSound: {fileID: 11400000, guid: 37042c605cc5d7a44a75e1f67f26970e, type: 2}

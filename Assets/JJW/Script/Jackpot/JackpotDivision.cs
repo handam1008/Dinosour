@@ -19,7 +19,7 @@ namespace JJW.Script.Jackpot
         [SerializeField] private float normalHealChance = 7f;
         [SerializeField] private float normalInvincibleChance = 7f;
         [SerializeField] private float normalSpeedChance = 7f;
-        [SerializeField] private float normalInstantKillChance = 1f;
+        [SerializeField] private float normalInstantKillChance = 0.5f;
         [SerializeField] private float normal777Chance = 5f;
 
         [Header("More Chances Augment")]
@@ -27,7 +27,7 @@ namespace JJW.Script.Jackpot
         [SerializeField] private float moreHealChance = 5f;
         [SerializeField] private float moreInvincibleChance = 5f;
         [SerializeField] private float moreSpeedChance = 5f;
-        [SerializeField] private float moreInstantKillChance = 1f;
+        [SerializeField] private float moreInstantKillChance = 0.5f;
         [SerializeField] private float more777Chance = 3f;
 
         [Header("Luck Augment")]
@@ -38,7 +38,7 @@ namespace JJW.Script.Jackpot
         [SerializeField] private float maximum777Chance = 10f;
 
         [Header("Guaranteed Jackpot Augment")]
-        [SerializeField] private int requiredWinningCount = 20;
+        [SerializeField] private int requiredWinningCount = 30;
 
         [Header("Old Coin Augment")]
         [SerializeField] private float oldCoinChance = 1f;
@@ -69,6 +69,7 @@ namespace JJW.Script.Jackpot
         public event Action<float> Jackpot444;
         public event Action<float> StarJackpot;
         public event Action<JackpotResultType> ResultDecided;
+        public event Action Jackpot777RouletteStarted;
         
         public event Action<JackpotResultType, JackpotResultType> RouletteCompleted;
 
@@ -100,6 +101,11 @@ namespace JJW.Script.Jackpot
             {
                 slotRoulette =
                     GetComponentInChildren<GamblerSlotRoulette>(true);
+            }
+
+            if (GetComponent<GamblerJackpotAudio>() == null)
+            {
+                gameObject.AddComponent<GamblerJackpotAudio>();
             }
         }
 
@@ -163,7 +169,11 @@ namespace JJW.Script.Jackpot
                 AddGuaranteedJackpotProgress(mainResult, oldCoinResult);
             }
 
-            if (mainResult == JackpotResultType.Jackpot777 || oldCoinResult == JackpotResultType.Jackpot777)
+            bool rolled777 =
+                mainResult == JackpotResultType.Jackpot777
+                || oldCoinResult == JackpotResultType.Jackpot777;
+
+            if (rolled777)
             {
                 jackpotPending = true;
                 IncreaseProbabilityShift();
@@ -185,7 +195,10 @@ namespace JJW.Script.Jackpot
                     () => CompleteRoulette(
                         mainResult,
                         oldCoinResult,
-                        rolledOldCoin));
+                        rolledOldCoin),
+                    rolled777
+                        ? Notify777RouletteStarted
+                        : null);
             }
             else
             {
@@ -194,6 +207,11 @@ namespace JJW.Script.Jackpot
                     oldCoinResult,
                     rolledOldCoin);
             }
+        }
+
+        private void Notify777RouletteStarted()
+        {
+            Jackpot777RouletteStarted?.Invoke();
         }
 
         private void CompleteRoulette(

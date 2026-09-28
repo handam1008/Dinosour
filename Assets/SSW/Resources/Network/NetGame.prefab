@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 5365077104844236530}
   - component: {fileID: 292964414745111157}
   - component: {fileID: 6528377237644933297}
+  - component: {fileID: 4102800574176509382}
+  - component: {fileID: 4057166953973131922}
   m_Layer: 0
   m_Name: NetGame
   m_TagString: Untagged
@@ -56,6 +58,7 @@ MonoBehaviour:
   - {fileID: 971197956479142661, guid: fec86aa0213b91e4fb85390412158f2f, type: 3}
   _menuPrefab: {fileID: 8041016769084939697, guid: e706dbea2a3c1af42b379418b9b10485, type: 3}
   _introPrefab: {fileID: 1688307513721857620, guid: 6be933312588ea14990503a887b2d1ca, type: 3}
+  _title: {fileID: 4057166953973131922}
 --- !u!114 &6528377237644933297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,3 +89,37 @@ MonoBehaviour:
   - {fileID: 2516686165121791000, guid: c4af68ebfb3966c4e8293b94e811bb31, type: 3}
   - {fileID: 742371949017530181, guid: 3b384e0be49271d4591b369661f1b57b, type: 3}
   - {fileID: 425420778318942796, guid: afc9112075ea8d2488d1185a3cca0b15, type: 3}
+  - {fileID: 6951522296855263616, guid: d1fae1077091ac84e88b2ce756f0c4de, type: 3}
+--- !u!114 &4102800574176509382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4817323057203609915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8277300704b530c4a901595b07ad35a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KHG_TitleManager
+  equippedTitle: {fileID: 11400000, guid: 7aea5f92ec46fbc4d918be68ddfabfef, type: 2}
+  eggTitle: {fileID: 11400000, guid: 7aea5f92ec46fbc4d918be68ddfabfef, type: 2}
+  extinctTitle: {fileID: 11400000, guid: e63220c20abf9704285bd3f1a8f00c4b, type: 2}
+  iceAgeTitle: {fileID: 11400000, guid: 2a454916d43fbb74594965b982c42afb, type: 2}
+  meteorTitle: {fileID: 11400000, guid: eafffe3e4dadc844cbcecb8f504faa94, type: 2}
+  magmaTitle: {fileID: 11400000, guid: ff8728fe06a7219468cb09eb73b77946, type: 2}
+  dinoTitle: {fileID: 11400000, guid: 56dbe12a463cfd942a91d197defcae23, type: 2}
+  monkeyTitle: {fileID: 11400000, guid: 89f61a7c71a89e940ad6cea8ee37b353, type: 2}
+--- !u!114 &4057166953973131922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4817323057203609915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78e93968187cf57439193be3ea9825d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SSW.ProfileTitle
+  _source: {fileID: 4102800574176509382}

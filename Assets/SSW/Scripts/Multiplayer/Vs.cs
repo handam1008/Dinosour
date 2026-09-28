@@ -16,7 +16,7 @@ namespace SSW
         [SerializeField] VsCard _right;
         [SerializeField] AudioClip _slide;
         [SerializeField] AudioClip _hit;
-        [SerializeField, Min(0.3f)] float _hold = 0.65f;
+        [SerializeField, Min(0.3f)] float _hold = 3f;
         Sequence _motion;
         Vector2 _leftHome;
         Vector2 _rightHome;
@@ -24,6 +24,8 @@ namespace SSW
         public float Duration => 0.75f + _hold;
         public string LeftName => _left.Name;
         public string RightName => _right.Name;
+        public string LeftTag => _left.Tag;
+        public string RightTag => _right.Tag;
         public bool IsClosing { get; private set; }
 
         public void SetView(Camera view)

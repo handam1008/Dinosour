@@ -113,6 +113,7 @@ namespace SSW
             {
                 var source = new SerializedObject(raw);
                 var water = (GameObject)_read.Resolve(source.FindProperty("water").objectReferenceValue);
+                foreach (Collider2D shape in water.GetComponents<Collider2D>()) shape.isTrigger = true;
                 MapFlood flood = _read.Add<MapFlood>(raw);
                 MapRead.Edit(flood, target =>
                 {
@@ -140,6 +141,7 @@ namespace SSW
                     target.FindProperty("_ready").colorValue = source.FindProperty("signalColor2").colorValue;
                     target.FindProperty("_base").colorValue = source.FindProperty("baseColor").colorValue;
                     target.FindProperty("_delay").floatValue = Mathf.Max(4f, source.FindProperty("relationTime").floatValue);
+                    target.FindProperty("breathSoundCue").objectReferenceValue = MapRead.Sound(source, "breatheSound", "Map_Breath");
                 });
                 _phases.Add(source.FindProperty("damageCaster").objectReferenceValue, breath);
                 _read.Replace(raw, breath);
@@ -203,9 +205,17 @@ namespace SSW
 
         void Waterfalls()
         {
+            foreach (MonoBehaviour raw in _read.Of("KDH_SmallWaterfall"))
+                Waterfall(raw, new SerializedObject(raw).FindProperty("addForceAmount").floatValue, 0f, 0f);
             foreach (MonoBehaviour raw in _read.Of("KDH_Waterfall"))
             {
                 var source = new SerializedObject(raw);
+                if (MapBake.Patched(_number))
+                {
+                    Waterfall(raw, source.FindProperty("force").floatValue,
+                        source.FindProperty("relationTime").floatValue, source.FindProperty("duration").floatValue);
+                    continue;
+                }
                 LiftZone lift = _read.Get<LiftZone>(raw);
                 if (lift == null)
                 {
@@ -221,6 +231,32 @@ namespace SSW
                     throw new InvalidOperationException("폭포 원본에 새 주기 설정이 있습니다. 기존 상시 상승과 구분해 연결해야 합니다.");
                 _read.Replace(raw, lift);
             }
+        }
+
+        void Waterfall(MonoBehaviour raw, float force, float delay, float duration)
+        {
+            var effects = new List<ParticleSystem>();
+            foreach (MonoBehaviour source in _read.Of("KDH_WaterfallEffect"))
+            {
+                if (new SerializedObject(source).FindProperty("waterfall").objectReferenceValue != raw) continue;
+                ParticleSystem effect = _read.Get<ParticleSystem>(source);
+                var main = effect.main;
+                main.playOnAwake = false;
+                PrefabUtility.RecordPrefabInstancePropertyModifications(effect);
+                effects.Add(effect);
+                _read.Remove(source);
+            }
+            LiftZone previous = _read.Get<LiftZone>(raw);
+            if (previous != null) Object.DestroyImmediate(previous);
+            WaterLift lift = _read.Add<WaterLift>(raw);
+            MapRead.Edit(lift, target =>
+            {
+                target.FindProperty("_force").floatValue = force;
+                target.FindProperty("_delay").floatValue = delay;
+                target.FindProperty("_duration").floatValue = duration;
+                MapRead.Array(target, "_effects", effects);
+            });
+            _read.Replace(raw, lift);
         }
 
         void Sakura()
@@ -247,6 +283,7 @@ namespace SSW
                     target.FindProperty("_effect").objectReferenceValue = effect;
                     target.FindProperty("_duration").floatValue = settings.FindProperty("timeApplySpeed").floatValue;
                     target.FindProperty("_speed").floatValue = settings.FindProperty("speedAmount").floatValue;
+                    target.FindProperty("_sound").objectReferenceValue = MapRead.Sound(settings, "sakuraSound", "Map_SakuraPickup");
                 });
                 _read.Replace(raw, field);
             }
@@ -287,6 +324,7 @@ namespace SSW
         {
             foreach (MonoBehaviour raw in _read.Of("KDH_Volcano"))
             {
+                var source = new SerializedObject(raw);
                 ParticleSystem effect = _read.Get<ParticleSystem>(raw);
                 Collisions(effect);
                 var main = effect.main;
@@ -297,7 +335,8 @@ namespace SSW
                 MapRead.Edit(lava, target =>
                 {
                     target.FindProperty("_effect").objectReferenceValue = effect;
-                    target.FindProperty("_damage").floatValue = new SerializedObject(raw).FindProperty("damage").floatValue;
+                    target.FindProperty("_damage").floatValue = source.FindProperty("damage").floatValue;
+                    target.FindProperty("_sound").objectReferenceValue = MapRead.Sound(source, "volcanoSound", "Map_VolcanoErupt");
                 });
                 PrefabUtility.RecordPrefabInstancePropertyModifications(effect);
                 _read.Replace(raw, lava);
@@ -321,6 +360,7 @@ namespace SSW
                     target.FindProperty("_clockSize").floatValue = new SerializedObject(clock).FindProperty("maxSize").floatValue;
                     target.FindProperty("_startTint").objectReferenceValue = EventTint(source, "onTimeLineStart");
                     target.FindProperty("_endTint").objectReferenceValue = EventTint(source, "onTimeLineEnd");
+                    target.FindProperty("_sound").objectReferenceValue = MapRead.Sound(source, "clockSound", "Map_TimeStop");
                 });
                 _read.Replace(raw, tempo);
             }

@@ -19,7 +19,21 @@ namespace SSW
         
         [Header("sound")]
         [SerializeField] SoundCue btnClickSound;
-        [SerializeField] SoundCue _jobSelectedSound; 
+        [SerializeField] SoundCue _jobSelectedSound;
+
+        [Header("직업별 패널 / 스킬 설명")]
+        [SerializeField] JobPanel[] _jobPanels;
+        [SerializeField] TMPro.TMP_Text _shiftText;
+        [SerializeField] TMPro.TMP_Text _skillText;
+
+        [System.Serializable]
+        sealed class JobPanel
+        {
+            public PlayerJob Job;
+            public GameObject Panel;
+            [TextArea] public string Shift = "X";
+            [TextArea] public string Skill = "X";
+        }
 
         JobSlotControl _selectedSlot;
         PlayerJob _equippedJob;
@@ -164,6 +178,25 @@ namespace SSW
             _selectedSlot.SetSelected(true);
             _preview?.Show(_selectedSlot.Definition);
             UpdateSelectedCopy(_selectedSlot.Definition);
+            ShowJobPanel(_selectedSlot.Definition.Job);
+        }
+
+        // 고른 직업의 패널만 켜고, 스킬 설명을 그 직업 것으로 바꾼다
+        void ShowJobPanel(PlayerJob job)
+        {
+            if (_jobPanels == null) return;
+
+            foreach (JobPanel entry in _jobPanels)
+            {
+                if (entry == null || entry.Panel == null) continue;
+
+                bool selected = entry.Job == job;
+                if (entry.Panel.activeSelf != selected) entry.Panel.SetActive(selected);
+                if (!selected) continue;
+
+                if (_shiftText != null) _shiftText.SetText($"Shift : {entry.Shift}");
+                if (_skillText != null) _skillText.SetText($"E : {entry.Skill}");
+            }
         }
 
         void UpdateSelectedCopy(JobDefinition definition)

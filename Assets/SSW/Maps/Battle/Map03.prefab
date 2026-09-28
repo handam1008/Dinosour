@@ -142,6 +142,7 @@ MonoBehaviour:
   - Shape: {fileID: 4113138542847723790}
     Damage: 5
     Force: {x: -50, y: 0}
+  _sound: {fileID: 11400000, guid: 37042c605cc5d7a44a75e1f67f26970e, type: 2}
 --- !u!1001 &6524957334186266749
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -284,6 +285,7 @@ MonoBehaviour:
   _ready: {r: 1, g: 1, b: 1, a: 1}
   _base: {r: 0.13333334, g: 0.14117648, b: 0.15294118, a: 1}
   _delay: 5
+  breathSoundCue: {fileID: 11400000, guid: f2b161b4f6bbce943be57372a1135a5b, type: 2}
 --- !u!4 &4568521089983925080 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7344222715615632165, guid: b85563826b998cb469edf9aed35ef265, type: 3}

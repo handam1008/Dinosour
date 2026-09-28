@@ -48,7 +48,7 @@ namespace SSW
 
         protected override void OnNetworkPostSpawn()
         {
-            if (IsOwner && _player.Job != PlayerJob.None) _hud.Bind(_drafter);
+            if (IsClient && _player.Job != PlayerJob.None) _hud.Bind(_drafter);
         }
 
         public void Deal(bool withJob = false)
@@ -92,7 +92,10 @@ namespace SSW
 
         void Update()
         {
-            if (IsSpawned && !IsOwner) Watch();
+            if (!IsSpawned || IsOwner) return;
+            NetPlayer local = NetGame.Current.Local;
+            if (local != null && _player.Job != PlayerJob.None) _hud.PlaceBelow(local.Draft._hud);
+            Watch();
         }
 
         void Grant(int id)

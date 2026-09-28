@@ -638,6 +638,9 @@ MonoBehaviour:
   _numberAnchor: {fileID: 0}
   healthChangeEvent: {fileID: 0}
   hitEvent: {fileID: 0}
+  healingSoundCue: {fileID: 0}
+  hitSoundCue: {fileID: 0}
+  deadSoundCue: {fileID: 0}
 --- !u!114 &647222115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -659,6 +662,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _visual: {fileID: 985391669}
+  jumpSoundCue: {fileID: 0}
+  speedUpSoundCue: {fileID: 0}
 --- !u!70 &647222116
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1136,6 +1141,10 @@ PrefabInstance:
       propertyPath: <Cam>k__BackingField
       value: 
       objectReference: {fileID: 1012241358}
+    - target: {fileID: 6855768346240308175, guid: 091c9ece2677ec6438dbe7c5d990d321, type: 3}
+      propertyPath: <EffectPoolList>k__BackingField
+      value: 
+      objectReference: {fileID: 1267636669}
     - target: {fileID: 7786885853643785633, guid: 091c9ece2677ec6438dbe7c5d990d321, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10
@@ -1181,6 +1190,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 091c9ece2677ec6438dbe7c5d990d321, type: 3}
+--- !u!114 &1267636669 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3847975037427818091, guid: 091c9ece2677ec6438dbe7c5d990d321, type: 3}
+  m_PrefabInstance: {fileID: 1267636668}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d2b778b22c20df418ccc8d6d15bda44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KDH_EffectPoolManager
 --- !u!1 &1569450008
 GameObject:
   m_ObjectHideFlags: 0

@@ -35,7 +35,7 @@ namespace SSW
             try
             {
                 GameObject content = Content(root, entry, existing);
-                if (!existing) RemoveLocalObjects(content);
+                RemoveLocalObjects(content);
                 BattleMap map = Ensure<BattleMap>(root);
                 Ensure<NetworkObject>(root);
                 SpawnPoints spawns = Ensure<SpawnPoints>(root);
@@ -45,7 +45,7 @@ namespace SSW
                 var server = MapRead.Array(map, "_serverOnly");
                 var read = new MapRead(entry.Source, content);
                 new MapParts(read, map, entry.Number, moving, server).Bind();
-                Edges(read, map, edges);
+                Edges(read, map, edges, MapBake.Patched(entry.Number));
                 read.Finish();
                 Transform[] points = entry.Source.GetComponentsInChildren<Transform>(true)
                     .Where(item => item.name.Replace(" ", "").StartsWith("SpawnPoint", StringComparison.Ordinal))
@@ -113,6 +113,9 @@ namespace SSW
                 string path = AssetDatabase.GetAssetPath(source);
                 if (path == expected) return child;
                 if (entry.Number == 13 && path == "Assets/KDH/GameModules/Maps/KDH_Map 13.prefab") candidates.Add(child);
+                if (MapBake.Patched(entry.Number)
+                    && expected == "Assets/KDH/GameModules/Maps/KDH_Map " + entry.Number + ".prefab"
+                    && path == "Assets/MapPrefab/KDH_Map " + entry.Number + ".prefab") candidates.Add(child);
             }
             if (candidates.Count != 1)
                 throw new InvalidOperationException(root.name + ": 기존 원본 연결을 찾지 못했습니다. 지형을 재생성하지 않습니다.");
@@ -124,6 +127,8 @@ namespace SSW
                 logInfo = false
             };
             PrefabUtility.ReplacePrefabAssetOfPrefabInstance(candidates[0], entry.Source, settings, InteractionMode.AutomatedAction);
+            if (MapBake.Patched(entry.Number))
+                PrefabUtility.RevertPrefabInstance(candidates[0], InteractionMode.AutomatedAction);
             return candidates[0];
         }
 
@@ -138,13 +143,14 @@ namespace SSW
             foreach (AudioListener listener in content.GetComponentsInChildren<AudioListener>(true)) Object.DestroyImmediate(listener);
         }
 
-        static void Edges(MapRead read, BattleMap map, MapEdges edges)
+        static void Edges(MapRead read, BattleMap map, MapEdges edges, bool sourceTuning)
         {
             MonoBehaviour[] originals = read.Of("KDH_TouchScreenOutline").ToArray();
             if (originals.Length != 4) throw new InvalidOperationException(map.name + ": 원본 경계는 네 개여야 합니다.");
             MapRead.Edit(edges, target =>
             {
                 target.FindProperty("_map").objectReferenceValue = map;
+                target.FindProperty("_sound").objectReferenceValue = MapRead.Sound("Map_BoundaryHit");
                 var array = target.FindProperty("_edges");
                 var saved = new Dictionary<Collider2D, (float Damage, Vector2 Force)>();
                 for (int i = 0; i < array.arraySize; i++)
@@ -160,9 +166,10 @@ namespace SSW
                     using var source = new SerializedObject(originals[i]);
                     var item = array.GetArrayElementAtIndex(i);
                     var shape = read.Get<Collider2D>(originals[i]);
-                    if (!saved.TryGetValue(shape, out var tuning))
-                        tuning = (source.FindProperty("damage").floatValue,
+                    if (sourceTuning || !saved.TryGetValue(shape, out _))
+                        saved[shape] = (source.FindProperty("damage").floatValue,
                             source.FindProperty("direction").vector2Value * source.FindProperty("knockbackForce").floatValue);
+                    var tuning = saved[shape];
                     item.FindPropertyRelative("Shape").objectReferenceValue = shape;
                     item.FindPropertyRelative("Damage").floatValue = tuning.Damage;
                     item.FindPropertyRelative("Force").vector2Value = tuning.Force;

@@ -244,9 +244,10 @@ int Seed(float low, float high, float oldLow = 0f, float oldHigh = 100f)
     }
     finally { UnityEngine.Random.state = saved; }
 }
-object Roll(SSW.NetPlayer p, int seed)
+async System.Threading.Tasks.Task<object> Roll(SSW.NetPlayer p, int seed)
 {
     var cast = (SSW.CoinCast)p.Cast.Weapon;
+    await Until(() => !(bool)Read(cast, "_spinning") && cast.PendingRolls == 0, 8f, "previous roulette finished");
     float before = p.Health.Current;
     var saved = UnityEngine.Random.state;
     float main;
@@ -260,6 +261,7 @@ object Roll(SSW.NetPlayer p, int seed)
         rollMethod.Invoke(cast, null);
     }
     finally { UnityEngine.Random.state = saved; }
+    await Until(() => (bool)Read(cast, "_resolved"), cast.Effects.SpinDuration + 2f, "roulette result applied after reels stop");
     var result = new {
         stage, owner = p.OwnerClientId, hook = "Seeded real private CoinCast.Roll, not a fired roulette/input sample.",
         seed, main, old, before, after = p.Health.Current, max = p.Health.Max,
@@ -327,13 +329,13 @@ async System.Threading.Tasks.Task Run()
             await Case(peer + " ID22 CoinUpgrade slow", async () => {
                 await Reset(owner, SSW.PlayerJob.Gambler, -1);
                 var p = Actor(owner); var t = Other(owner);
-                Roll(p, Seed(22f, 26f));
+                await Roll(p, Seed(22f, 26f));
                 float control = await Fire(p, t);
                 Check(Near(t.Motion.CurrentMoveSpeedMultiplier, 1f), "unaugmented SpeedUp coin does not slow victim");
                 await Reset(owner, SSW.PlayerJob.Gambler, 22);
                 p = Actor(owner); t = Other(owner);
+                await Roll(p, Seed(22f, 26f));
                 float start = UnityEngine.Time.time;
-                Roll(p, Seed(22f, 26f));
                 float until = (float)Read(p.Cast.Weapon, "_slowUntil");
                 float dealt = await Fire(p, t);
                 float slowEnd = (float)Read(t.Motion, "_slowEndTime");
@@ -351,8 +353,8 @@ async System.Threading.Tasks.Task Run()
             await Case(peer + " ID22 CoinUpgrade burn", async () => {
                 await Reset(owner, SSW.PlayerJob.Gambler, 22);
                 var p = Actor(owner); var t = Other(owner);
+                await Roll(p, Seed(1f, 6f));
                 float start = UnityEngine.Time.time;
-                Roll(p, Seed(1f, 6f));
                 var amounts = new System.Collections.Generic.List<float>();
                 var times = new System.Collections.Generic.List<float>();
                 System.Action<float, bool> onHit = (amount, critical) => { amounts.Add(amount); times.Add(UnityEngine.Time.time - start); };
@@ -385,7 +387,7 @@ async System.Threading.Tasks.Task Run()
                 await Reset(owner, SSW.PlayerJob.Gambler, -1);
                 var p = Actor(owner); var t = Other(owner);
                 SetHealth(p, p.Health.Max * 0.2f);
-                Roll(p, Seed(8f, 13f));
+                await Roll(p, Seed(8f, 13f));
                 float controlHp = p.Health.Current;
                 await Fire(p, t);
                 Check(Near(p.Health.Current, controlHp), "ordinary Heal outcome does not grant drain without card");
@@ -394,8 +396,8 @@ async System.Threading.Tasks.Task Run()
                 float prepared = p.Health.Max * 0.2f;
                 SetHealth(p, prepared);
                 Check(p.Health.Max - prepared > 50f + p.Stats.Damage * 0.2f, "fixture leaves room for Heal and projectile drain");
+                await Roll(p, Seed(8f, 13f));
                 float start = UnityEngine.Time.time;
-                Roll(p, Seed(8f, 13f));
                 Check(Near(p.Health.Current - prepared, 50f), "seeded real Heal outcome restores fifty HP");
                 float until = (float)Read(p.Cast.Weapon, "_stealUntil");
                 float before = p.Health.Current;
@@ -417,8 +419,8 @@ async System.Threading.Tasks.Task Run()
                     await Reset(owner, SSW.PlayerJob.Gambler, selected);
                     var p = Actor(owner); var t = Other(owner);
                     var coin = (SSW.CoinCast)p.Cast.Weapon;
+                    await Roll(p, Seed(30f, 33f));
                     float start = UnityEngine.Time.time;
-                    Roll(p, Seed(30f, 33f));
                     float end = (float)Read(coin, "_jackpotUntil");
                     float speed = selected == 23 ? 1.5f : selected == 25 ? 1.2f : 1f;
                     float scale = selected == 25 ? 1.3f : selected == 29 ? 1.5f : 1f;
@@ -446,11 +448,11 @@ async System.Threading.Tasks.Task Run()
                 int success = Seed(8f, 13f);
                 for (int i = 1; i <= 20; i++)
                 {
-                    Roll(p, success);
+                    await Roll(p, success);
                     progress.Add(coin.Progress);
                     Check(coin.Progress == i && !coin.Jackpot, "real non-777 successful roll increments progress " + i);
                 }
-                Roll(p, Seed(60f, 90f));
+                await Roll(p, Seed(60f, 90f));
                 cases.Add(new { stage, hook = "Twenty bounded real Roll calls without shots, followed by one guaranteed resolution; no active-777 preservation retest.", progress = progress.ToArray(), after = coin.Progress, coin.Jackpot, max = p.Health.Max });
                 Check(coin.Progress == 0 && coin.Jackpot && Near(p.Health.Max, p.Stats.Health * 2f), "twenty accumulated successes actually trigger and consume guaranteed 777");
                 await Replicate(p, "progress", 0f);
@@ -462,14 +464,14 @@ async System.Threading.Tasks.Task Run()
                 var p = Actor(owner);
                 float prepared = p.Health.Max * 0.2f;
                 SetHealth(p, prepared);
-                Roll(p, common);
+                await Roll(p, common);
                 float controlHeal = p.Health.Current - prepared;
                 Check(Near(controlHeal, 50f) && Near(p.Cast.Weapon.DamageScale, 1f), "control draw above seven resolves as Heal");
                 await Reset(owner, SSW.PlayerJob.Gambler, 26);
                 p = Actor(owner); var t = Other(owner);
                 prepared = p.Health.Max * 0.2f;
                 SetHealth(p, prepared);
-                Roll(p, common);
+                await Roll(p, common);
                 float enhanced = await Fire(p, t);
                 Check(Near(p.Health.Current, prepared) && Near(enhanced, p.Stats.Damage * 1.3f), "same draw becomes DamageUp when common bucket grows to 7.5");
                 int lethal = Seed(31.1f, 31.4f);
@@ -479,14 +481,14 @@ async System.Threading.Tasks.Task Run()
                 Max(p, 10000f);
                 await Wait(0.1f);
                 Check(Near(p.Health.Max, 10000f) && Near(p.Health.Current, 10000f), "runtime-only lethal fixture survives health refresh");
-                Roll(p, lethal);
+                await Roll(p, lethal);
                 float selfDamage = 10000f - p.Health.Current;
                 Check(controlResult == "Jackpot777" && Near(selfDamage, 4444f, 0.1f) && !((SSW.CoinCast)p.Cast.Weapon).Jackpot, "grown lethal bucket resolves real 4444 self damage");
                 int upper = Seed(36.2f, 36.8f);
                 string outside = Table(upper, 7f, 1f, 5f);
                 await Reset(owner, SSW.PlayerJob.Gambler, 26);
                 p = Actor(owner);
-                Roll(p, upper);
+                await Roll(p, upper);
                 cases.Add(new { stage, controlHeal, enhanced, selfDamage, hook = "Only the lethal fixture uses NetBuff.SetBaseHealth(10000) on its temporary actor; StatsBook and original assets remain unchanged. Control classifications use seeded real RollTable.", controlResult, outside, chance = ((SSW.CoinCast)p.Cast.Weapon).Probability });
                 Check(outside == "None" && ((SSW.CoinCast)p.Cast.Weapon).Jackpot && Near(((SSW.CoinCast)p.Cast.Weapon).Probability, 5.5f), "expanded upper 777 bucket triggers actual jackpot");
                 await Replicate(p, "max", p.Health.Max);
@@ -527,7 +529,7 @@ async System.Threading.Tasks.Task Run()
             await Case(peer + " ID28 OldCoin damage", async () => {
                 await Reset(owner, SSW.PlayerJob.Gambler, 28);
                 var p = Actor(owner); var t = Other(owner);
-                Roll(p, Seed(1f, 6f, 0.1f, 0.9f));
+                await Roll(p, Seed(1f, 6f, 0.1f, 0.9f));
                 float doubled = await Fire(p, t);
                 int buffs = ((System.Collections.Generic.List<float>)Read(p.Cast.Weapon, "_damageUntil")).Count;
                 Check(buffs == 2 && Near(doubled, p.Stats.Damage * 1.3f * 1.3f, 0.06f), "identical main and old DamageUp both apply to actual projectile");
@@ -544,7 +546,7 @@ async System.Threading.Tasks.Task Run()
                 var amounts = new System.Collections.Generic.List<float>();
                 System.Action<float> onHeal = amount => amounts.Add(amount);
                 p.Health.OnHealed += onHeal;
-                try { Roll(p, Seed(8f, 13f, 1.1f, 1.9f)); }
+                try { await Roll(p, Seed(8f, 13f, 1.1f, 1.9f)); }
                 finally { p.Health.OnHealed -= onHeal; }
                 float healed = p.Health.Current - prepared;
                 float first = UnityEngine.Mathf.Min(50f, capacity);
@@ -556,7 +558,7 @@ async System.Threading.Tasks.Task Run()
             await Case(peer + " ID28 OldCoin jackpot", async () => {
                 await Reset(owner, SSW.PlayerJob.Gambler, 28);
                 var p = Actor(owner);
-                Roll(p, Seed(60f, 90f, 4.1f, 4.9f));
+                await Roll(p, Seed(60f, 90f, 4.1f, 4.9f));
                 Check(((SSW.CoinCast)p.Cast.Weapon).Jackpot && Near(p.Health.Max, p.Stats.Health * 2f), "old coin alone starts actual 777 when main result is None");
                 int oldEdge = Seed(4.1f, 4.9f);
                 string oldResult = Table(oldEdge, 1f, 0f, 1f);
@@ -572,7 +574,7 @@ async System.Threading.Tasks.Task Run()
                 for (int i = 1; i <= 6; i++)
                 {
                     Check(!coin.Jackpot, "each tested roll starts outside 777");
-                    Roll(p, Seed(30f, 33f));
+                    await Roll(p, Seed(30f, 33f));
                     chances.Add(coin.Probability);
                     Check(coin.Jackpot && Near(coin.Probability, UnityEngine.Mathf.Min(10f, 5f + i)), "actual 777 increments future chance and respects ten-percent cap " + i);
                     if (i < 6)
@@ -595,16 +597,16 @@ async System.Threading.Tasks.Task Run()
                 var stacks = new System.Collections.Generic.List<int>();
                 for (int i = 1; i <= 4; i++)
                 {
-                    Roll(p, Seed(8f, 13f));
+                    await Roll(p, Seed(8f, 13f));
                     float amount = await Fire(p, t);
                     damage.Add(amount); stacks.Add(coin.Stacks);
                     Check(coin.Stacks == System.Math.Min(3, i) && Near(amount, p.Stats.Damage * (1f + System.Math.Min(3, i) * 0.1f), 0.06f), "successful roll raises actual damage up to three stacks " + i);
                 }
-                Roll(p, Seed(60f, 90f));
+                await Roll(p, Seed(60f, 90f));
                 float failed = await Fire(p, t);
                 Check(coin.Stacks == 0 && Near(failed, p.Stats.Damage), "failed result clears stacks and actual bonus damage");
                 await Replicate(t, "hp", t.Health.Current);
-                Roll(p, Seed(8f, 13f));
+                await Roll(p, Seed(8f, 13f));
                 await Reset(owner, SSW.PlayerJob.Gambler, 31);
                 p = Actor(owner); t = Other(owner); coin = (SSW.CoinCast)p.Cast.Weapon;
                 float respawned = await Fire(p, t);
@@ -633,4 +635,4 @@ async System.Threading.Tasks.Task Run()
     }
 }
 _ = Run();
-return new { running = true, log, dispatch = "seeded real server Roll plus actual JobCast.Apply projectile collisions; both ownership directions", estimatedSeconds = 220 };
+return new { running = true, log, dispatch = "seeded real server Roll plus actual JobCast.Apply projectile collisions; both ownership directions", estimatedSeconds = 480 };

@@ -12,8 +12,11 @@ namespace KDH.Scripts.Bullet
         [field: SerializeField] public float Speed { get; private set; } = 20f;
         [field: SerializeField] public float Damage { get; set; } = 15f;
         [field: SerializeField] public float UpgradValue { get; private set; } = 2f;
+        [SerializeField] Sprite normalBulletSprite; // 추가
+        [SerializeField] Sprite upgradedBulletSprite; // 추가
         
         public Vector2 MoveDir { get; private set; }
+        private SpriteRenderer bulletSpriteRenderer; // 추가
         public Rigidbody2D Rigid { get; private set; }
 
         public bool IsUpgraded { get; set; }
@@ -22,6 +25,7 @@ namespace KDH.Scripts.Bullet
         
         private void Awake()
         {
+            bulletSpriteRenderer = GetComponent<SpriteRenderer>(); // 추가
             Rigid = GetComponent<Rigidbody2D>();
         }
 
@@ -36,6 +40,11 @@ namespace KDH.Scripts.Bullet
             DamageCasterCompo.Init(this);
 
             InitDirection();
+            
+            if (IsUpgraded) // 추가
+                bulletSpriteRenderer.sprite = upgradedBulletSprite; // 추가
+            else // 추가
+                bulletSpriteRenderer.sprite = normalBulletSprite; // 추가
         }
 
         private void FixedUpdate()

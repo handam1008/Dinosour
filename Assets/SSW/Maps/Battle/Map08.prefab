@@ -154,6 +154,7 @@ MonoBehaviour:
   - Shape: {fileID: 1531345187296882481}
     Damage: 5
     Force: {x: -20, y: 0}
+  _sound: {fileID: 11400000, guid: 37042c605cc5d7a44a75e1f67f26970e, type: 2}
 --- !u!1001 &8758095179112663861
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -209,6 +210,10 @@ PrefabInstance:
     - target: {fileID: 8253197788574202292, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}
       propertyPath: m_Name
       value: KDH_Map 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 9151814517569496557, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3644087406243410299, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}

@@ -16,6 +16,8 @@ namespace SSW
             Tag = new FixedString128Bytes(Clip(tag))
         };
 
+        public void SetTag(string value) => Tag = new FixedString128Bytes(Clip(value));
+
         public string DisplayName(int slot)
         {
             string value = Name.ToString();

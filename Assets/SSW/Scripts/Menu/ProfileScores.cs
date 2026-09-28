@@ -44,7 +44,18 @@ namespace SSW
             ProfileScore score = Get(player);
             int revision = score.BeginRead();
             var entry = await UnityServices.Instance.GetLeaderboardsService().GetPlayerScoreAsync("Ranking");
-            if (score.CompleteRead(revision, entry.Score)) Changed?.Invoke(player);
+            if (score.CompleteRead(revision, entry.Score, entry.Rank)) Changed?.Invoke(player);
+        }
+
+        public static bool TryGetRank(string player, out int rank)
+        {
+            if (Scores.TryGetValue(player, out ProfileScore score) && score.Rank.HasValue && score.Rank.Value >= 0)
+            {
+                rank = score.Rank.Value;
+                return true;
+            }
+            rank = -1;
+            return false;
         }
 
         static void Reported(MatchReportResult result)

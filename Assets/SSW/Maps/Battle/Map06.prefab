@@ -81,7 +81,7 @@ MonoBehaviour:
   _spawns: {fileID: 5051604675977503942}
   _bounds:
     m_Center: {x: 17.5, y: 1.5, z: 0}
-    m_Extent: {x: 18, y: 10, z: 0.1}
+    m_Extent: {x: 18, y: 10, z: 0}
   _fallY: -11.5
   _edges: {fileID: 412218754483149586}
   _serverOnly: []
@@ -142,6 +142,7 @@ MonoBehaviour:
   - Shape: {fileID: 8707464575756056063}
     Damage: 5
     Force: {x: -20, y: 0}
+  _sound: {fileID: 11400000, guid: 37042c605cc5d7a44a75e1f67f26970e, type: 2}
 --- !u!1001 &4742296696694171328
 PrefabInstance:
   m_ObjectHideFlags: 0

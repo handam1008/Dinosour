@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: ConcealedWeapon
   m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.Job.AugmentSO.ConcealedWeaponSO
   displayName: "\uC554\uAE30"
+<<<<<<< HEAD
   description: "\uC2A4\uD0AC \uD22C\uC0AC\uCC44\uAC00 \uBCBD\uC5D0 \uD295\uAE41\uB2C8\uB2E4"
   icon: {fileID: 5192449210795204595, guid: ff36f77ab0cc23f44802da6c9ef2dd94, type: 3}
+=======
+  description: "\uC2A4\uD0AC \uD22C\uC0AC\uCCB4\uAC00 \uBCBD\uC5D0 <color=#3D7BFF>1\uBC88</color> \uD295\uAE41\uB2C8\uB2E4"
+  icon: {fileID: 8916517091993179636, guid: 2a53aca84775b5a4dad85d6789eae691, type: 3}
+>>>>>>> 7d811d016407f1a457bdbce5d0ca9cf32e2f6fe0
   type: 1
   bounceCount: 1

@@ -12,6 +12,10 @@ namespace SSW
         [SerializeField] Color _ready;
         [SerializeField] Color _base;
         [SerializeField, Min(4f)] float _delay = 5f;
+
+        [Header("sound")] 
+        [SerializeField] private SoundCue breathSoundCue;
+        
         readonly NetworkVariable<double> _startedAt = new NetworkVariable<double>(-1d);
         Color _firstColor;
         Color _secondColor;
@@ -42,6 +46,7 @@ namespace SSW
             float phase = (float)(age % period);
             if (phase >= _delay && _played != cycle)
             {
+                if (IsServer && NetGame.Current.CanFight) NetGame.Current.Sounds.Play(breathSoundCue);
                 _played = cycle;
                 _effect.Simulate(phase - _delay, true, true, true);
                 _effect.Play(true);

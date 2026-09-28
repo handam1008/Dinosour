@@ -21,7 +21,7 @@ namespace SSW
 
         [SerializeField] MenuDinosaurPreview _preview;
         [SerializeField] DinoSkinCatalog _catalog;
-        [SerializeField] Choice[] _choices;
+        [SerializeField] Choice[] _choices = Array.Empty<Choice>();
         readonly Dictionary<string, Sprite[]> _frames = new Dictionary<string, Sprite[]>();
 
         void OnEnable()
