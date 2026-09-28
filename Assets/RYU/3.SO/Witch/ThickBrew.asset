@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: ThickBrew
   m_EditorClassIdentifier: Assembly-CSharp::RYU._01.Script.Argument.WitchAugment
   displayName: "\uC9C4\uD55C \uB18D\uB3C4"
-  description: "\uBAA8\uB4E0 \uD3EC\uC158 \uC9C0\uC18D\uC2DC\uAC04 +25% (\uB3C5\xB7\uC7AC\uC0DD\xB7\uAD6C\uC18D
-    \uAC19\uC740 \uC2DC\uAC04\uD615 \uD6A8\uACFC\uAC00 \uC624\uB798\uAC10)"
+  description: "\uBAA8\uB4E0 \uD3EC\uC158 \uC9C0\uC18D\uC2DC\uAC04 <color=#3D7BFF>+25%</color> (\uB3C5\u00B7\uC7AC\uC0DD\u00B7\uAD6C\uC18D \uAC19\uC740 \uC2DC\uAC04\uD615 \uD6A8\uACFC\uAC00 \uC624\uB798\uAC10)"
   icon: {fileID: 3804924825310196482, guid: 894ad50e599560f4589de105df150bd4, type: 3}
   type: 1
   unlockPotions: []

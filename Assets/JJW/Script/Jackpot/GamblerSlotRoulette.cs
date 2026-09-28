@@ -50,6 +50,7 @@ namespace JJW.Script.Jackpot
         {
             public JackpotResultType Result;
             public Action OnComplete;
+            public Action OnStarted;
         }
 
         private sealed class ReelView
@@ -125,7 +126,10 @@ namespace JJW.Script.Jackpot
             }
         }
 
-        public void Play(JackpotResultType result, Action onComplete)
+        public void Play(
+            JackpotResultType result,
+            Action onComplete,
+            Action onStarted = null)
         {
             if (!isActiveAndEnabled || symbols == null || symbols.Length < 6 || reels == null)
             {
@@ -136,7 +140,8 @@ namespace JJW.Script.Jackpot
             spinQueue.Enqueue(new SpinRequest
             {
                 Result = result,
-                OnComplete = onComplete
+                OnComplete = onComplete,
+                OnStarted = onStarted
             });
 
             if (queueCoroutine == null)
@@ -152,7 +157,8 @@ namespace JJW.Script.Jackpot
                 SpinRequest request = spinQueue.Dequeue();
                 yield return PlaySpin(
                     request.Result,
-                    request.OnComplete);
+                    request.OnComplete,
+                    request.OnStarted);
             }
 
             queueCoroutine = null;
@@ -160,9 +166,12 @@ namespace JJW.Script.Jackpot
 
         private IEnumerator PlaySpin(
             JackpotResultType result,
-            Action onResultLocked)
+            Action onResultLocked,
+            Action onSpinStarted)
         {
             Sprite[] finalSymbols = GetFinalSymbols(result);
+
+            onSpinStarted?.Invoke();
 
             canvasGroup.DOKill();
             canvasGroup.alpha = 0f;
