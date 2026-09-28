@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: GamblerAugment_OldCoin
   m_EditorClassIdentifier: Assembly-CSharp::JJW.Script.Augments.GamblerAugment
   displayName: "\uB0A1\uC740 \uB3D9\uC804"
-  description: "\uB8F0\uB81B \uB3D9\uC804\uC744 \uBC1C\uC0AC\uD560 \uB54C 444\uB97C
-    \uC81C\uC678\uD55C \uAC01 \uC7AD\uD31F\uC774 1% \uD655\uB960\uC778 \uCD94\uAC00
-    \uB8F0\uB81B\uC744 \uD55C \uBC88 \uB3CC\uB9BD\uB2C8\uB2E4."
+  description: "\uB8F0\uB81B \uB3D9\uC804\uC744 \uBC1C\uC0AC\uD560 \uB54C <color=#3D7BFF>444</color>\uB97C \uC81C\uC678\uD55C \uAC01 \uC7AD\uD31F\uC774 <color=#3D7BFF>1%</color> \uD655\uB960\uC778 \uCD94\uAC00 \uB8F0\uB81B\uC744 \uD55C \uBC88 \uB3CC\uB9BD\uB2C8\uB2E4."
   icon: {fileID: 3295984001481502783, guid: 4bfd15e677b967b4dbd17529250f187b, type: 3}
   type: 8
