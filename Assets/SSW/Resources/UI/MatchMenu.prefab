@@ -340,8 +340,8 @@ MonoBehaviour:
   _wipe: {fileID: 7695487876030210425}
   _draft: {fileID: 7777571258761421606}
   _volume: {fileID: 1751309736527416514}
-  WinSound: {fileID: 0}
-  LoseSound: {fileID: 0}
+  WinSound: {fileID: 11400000, guid: 8fa535d6d5b32744d8fc86cde18ca0c0, type: 2}
+  LoseSound: {fileID: 11400000, guid: 2080f70ad68d3e849823a2b82c8bb6c7, type: 2}
 --- !u!1 &317821034165931261
 GameObject:
   m_ObjectHideFlags: 0
