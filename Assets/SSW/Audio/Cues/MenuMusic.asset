@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: MenuMusic
   m_EditorClassIdentifier: Assembly-CSharp::SSW.SoundCue
   audioType: 1
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 97ad073da5e4c1642aef117406f5455a, type: 3}
   isLoop: 1
   randomizerPitch: 0
   randomPitchModifier: 0.1
   volume: 0.6
   pitch: 1
   startTime: 0
-  endTime: 0
+  endTime: 186
   _id: 1cb9cbb2b7330594287ab711fdc535e4
