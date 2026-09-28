@@ -141,14 +141,14 @@ MonoBehaviour:
     ExtraGravity: 0
   - Job: 4
     Health: 70
-    MoveSpeed: 10
-    JumpSpeed: 14
+    MoveSpeed: 7
+    JumpSpeed: 12
     Gravity: 3
     Coyote: 0.12
     Decay: 12
     Brake: 30
-    Damage: 25
-    AttackInterval: 0.85
+    Damage: 20
+    AttackInterval: 0.7
     HitSize: {x: 1.39, y: 1}
     HitOffset: {x: 1, y: 0}
     AttackTime: 0
