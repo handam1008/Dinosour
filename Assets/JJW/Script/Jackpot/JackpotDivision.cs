@@ -19,7 +19,7 @@ namespace JJW.Script.Jackpot
         [SerializeField] private float normalHealChance = 7f;
         [SerializeField] private float normalInvincibleChance = 7f;
         [SerializeField] private float normalSpeedChance = 7f;
-        [SerializeField] private float normalInstantKillChance = 1f;
+        [SerializeField] private float normalInstantKillChance = 0.5f;
         [SerializeField] private float normal777Chance = 5f;
 
         [Header("More Chances Augment")]
@@ -27,7 +27,7 @@ namespace JJW.Script.Jackpot
         [SerializeField] private float moreHealChance = 5f;
         [SerializeField] private float moreInvincibleChance = 5f;
         [SerializeField] private float moreSpeedChance = 5f;
-        [SerializeField] private float moreInstantKillChance = 1f;
+        [SerializeField] private float moreInstantKillChance = 0.5f;
         [SerializeField] private float more777Chance = 3f;
 
         [Header("Luck Augment")]

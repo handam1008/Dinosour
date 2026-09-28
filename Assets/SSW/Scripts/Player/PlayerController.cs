@@ -17,7 +17,6 @@ namespace SSW
         
         [Header("sound")]
         [SerializeField] SoundCue jumpSoundCue;
-        [SerializeField] SoundCue landingSoundCue;
         [SerializeField] SoundCue speedUpSoundCue;
 
         IPlayerDrive _drive;
@@ -38,6 +37,8 @@ namespace SSW
         float _externalVelocityX;
         Coroutine _dropThroughRoutine;
         Collider2D _ignoredPlatform;
+        
+        bool _wasGrounded;
 
         void Awake()
         {
@@ -45,9 +46,27 @@ namespace SSW
             _col = GetComponent<Collider2D>();
             _ground = new GroundProbe(_col, _rb, _whatIsGround);
             _cam = Camera.main;
+            
+            _wasGrounded = GetGroundCollider() != null;
+            
         }
 
-        public float SpeedFactor { get; set; } = 1f;
+        float _speedFactor = 1f;
+        
+        public float SpeedFactor
+        {
+            get
+            {
+                return _speedFactor;
+            }
+            set
+            {
+                if (value > _speedFactor)
+                    GameAudio.Current.PlaySfx(speedUpSoundCue);
+                _speedFactor = value;
+            }
+        }
+
         public float MoveSpeed => _moveSpeed * CurrentMoveSpeedMultiplier * SpeedFactor;
         public MotionRate Rate => new MotionRate
         {
@@ -128,6 +147,7 @@ namespace SSW
 
         public void ApplySpeed(float amount, float duration)
         {
+            GameAudio.Current.PlaySfx(speedUpSoundCue);
             _speedMultiplier = 1f + Mathf.Max(0f, amount);
             _speedEndTime = Time.time + Mathf.Max(0f, duration);
         }
@@ -256,9 +276,11 @@ namespace SSW
         void FixedUpdate()
         {
             if (!Simulated) return;
+            
             _coyoteLeft = GetGroundCollider() != null ? _coyoteTime
                 : _rb.linearVelocity.y > 0f ? 0f : Mathf.Max(0f, _coyoteLeft - Time.fixedDeltaTime);
         }
+        
 
         void Update()
         {

@@ -29,7 +29,7 @@ namespace JJW.Script.Jackpot
         [SerializeField] private AudioClip reelStopSound;
         [SerializeField, Range(0f, 1f)] private float reelStopVolume = 0.7f;
 
-        private const string SymbolSheetPath = "GamblerSlot/SlotSymbols";
+        private const string SymbolSheetPath = "GamblerSlot/SlotSymbolsSkull";
         private const string FramePath = "GamblerSlot/SlotFrame";
 
         private readonly Queue<SpinRequest> spinQueue = new Queue<SpinRequest>();

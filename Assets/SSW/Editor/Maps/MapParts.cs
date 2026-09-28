@@ -113,6 +113,7 @@ namespace SSW
             {
                 var source = new SerializedObject(raw);
                 var water = (GameObject)_read.Resolve(source.FindProperty("water").objectReferenceValue);
+                foreach (Collider2D shape in water.GetComponents<Collider2D>()) shape.isTrigger = true;
                 MapFlood flood = _read.Add<MapFlood>(raw);
                 MapRead.Edit(flood, target =>
                 {
