@@ -38,6 +38,7 @@ namespace SSW
         bool _listing;
         int _revision;
         string _status = string.Empty;
+        string _endMessage = "방 연결이 종료되었습니다";
 
         public static MultiplayerSessionManager Current => _instance;
         public event Action Changed;
@@ -54,6 +55,10 @@ namespace SSW
         public string RoomId => _session != null ? _session.Id : string.Empty;
         public string JoinCode => _session != null ? _session.Code : string.Empty;
         public int PlayerCount => _session != null ? _session.PlayerCount : 0;
+        public IEnumerable<RoomPlayer> Players => _session == null ? Enumerable.Empty<RoomPlayer>()
+            : _session.Players.OrderByDescending(player => player.Id == _session.Host)
+                .Select((player, index) => new RoomPlayer(player, _session.Host, index + 1));
+        public bool CanKick => IsHost && !_busy && !_starting && !_matching && _network.Connected && _network.Manager.IsServer && _network.Arena == null;
         public bool HasNetworkPlayer => _network != null && _network.HasPlayerPrefab;
         public string OpponentPlayerId => _session?.Players.FirstOrDefault(player => player.Id != AuthenticationService.Instance.PlayerId)?.Id;
 
@@ -387,6 +392,23 @@ namespace SSW
             }
         }
 
+        public Task KickPlayerAsync(string playerId)
+        {
+            if (!CanKick) return Task.FromException(new InvalidOperationException("대기방의 방장만 추방할 수 있습니다"));
+            if (string.IsNullOrEmpty(playerId) || playerId == _session.Host || !_session.Players.Any(player => player.Id == playerId))
+                return Task.FromException(new ArgumentException("추방할 참가자를 확인해주세요"));
+            return RunAsync(async () =>
+            {
+                var manager = _network.Manager;
+                var clients = manager.ConnectedClientsIds.Where(id => id != manager.LocalClientId).ToArray();
+                await _session.AsHost().RemovePlayerAsync(playerId);
+                foreach (ulong client in clients)
+                    if (manager.IsServer && manager.ConnectedClients.ContainsKey(client))
+                        manager.DisconnectClient(client, "방장에 의해 추방되었습니다");
+                SetStatus("참가자를 추방했습니다");
+            });
+        }
+
         async Task CloseSession(ISession leaving)
         {
             try
@@ -435,6 +457,8 @@ namespace SSW
                 await UnityServices.InitializeAsync(new InitializationOptions().SetProfile(NetLaunch.Profile));
             if (!AuthenticationService.Instance.IsSignedIn)
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            if (string.IsNullOrWhiteSpace(AuthenticationService.Instance.PlayerName))
+                await AuthenticationService.Instance.GetPlayerNameAsync();
         }
 
         Task RunAsync(Func<Task> operation)
@@ -483,6 +507,7 @@ namespace SSW
                 MaxPlayers = PlayerLimit,
                 Password = EmptyToNull(password),
                 IsPrivate = isPrivate,
+                PlayerProperties = LocalProperties(),
                 SessionProperties = new Dictionary<string, SessionProperty>
                 {
                     { GameProperty, new SessionProperty(GamePropertyValue, VisibilityPropertyOptions.Public, PropertyIndex.String1) },
@@ -493,7 +518,12 @@ namespace SSW
 
         JoinSessionOptions JoinOptions(string password)
         {
-            return new JoinSessionOptions { Type = _sessionType, Password = EmptyToNull(password) };
+            return new JoinSessionOptions { Type = _sessionType, Password = EmptyToNull(password), PlayerProperties = LocalProperties() };
+        }
+
+        static Dictionary<string, PlayerProperty> LocalProperties()
+        {
+            return RoomPlayer.Properties(AuthenticationService.Instance.PlayerName, PlayerJobStorage.Load());
         }
 
         static List<FilterOption> Filters(string mode)
@@ -524,10 +554,12 @@ namespace SSW
             _starting = false;
             _ended = false;
             _closeAt = 0;
+            _endMessage = "방 연결이 종료되었습니다";
             if (_session != null)
             {
                 _session.Changed += NotifyChanged;
-                _session.RemovedFromSession += HandleSessionEnded;
+                _session.PlayerPropertiesChanged += NotifyChanged;
+                _session.RemovedFromSession += HandleRemoved;
                 _session.Deleted += HandleSessionEnded;
                 _session.SessionHostChanged += HandleHostChanged;
             }
@@ -538,7 +570,8 @@ namespace SSW
         {
             if (_session == null) return;
             _session.Changed -= NotifyChanged;
-            _session.RemovedFromSession -= HandleSessionEnded;
+            _session.PlayerPropertiesChanged -= NotifyChanged;
+            _session.RemovedFromSession -= HandleRemoved;
             _session.Deleted -= HandleSessionEnded;
             _session.SessionHostChanged -= HandleHostChanged;
         }
@@ -552,6 +585,13 @@ namespace SSW
         void HandleSessionEnded()
         {
             if (!_closing) _ended = true;
+        }
+
+        void HandleRemoved()
+        {
+            if (_closing) return;
+            _endMessage = "방장에 의해 추방되었습니다";
+            _ended = true;
         }
 
         void HandleHostChanged(string host)
@@ -572,8 +612,9 @@ namespace SSW
             {
                 await RunAsync(async () =>
                 {
+                    string message = _endMessage;
                     await Drop();
-                    SetStatus("방 연결이 종료되었습니다");
+                    SetStatus(message);
                 });
             }
             catch (Exception)
