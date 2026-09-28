@@ -1339,8 +1339,8 @@ Transform:
   m_GameObject: {fileID: 2590393645990610022}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10, y: -3.5, z: 0}
-  m_LocalScale: {x: 3, y: 1, z: 1}
+  m_LocalPosition: {x: -10, y: -4, z: 0}
+  m_LocalScale: {x: 4, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5107399269941151316}
@@ -1997,6 +1997,7 @@ MonoBehaviour:
   damage: 5
   knockbackForce: 20
   direction: {x: -1, y: 0}
+  hitSound: {fileID: 0}
 --- !u!1 &3550089349397893618
 GameObject:
   m_ObjectHideFlags: 0
@@ -2152,6 +2153,7 @@ MonoBehaviour:
   damage: 5
   knockbackForce: 20
   direction: {x: 0, y: -1}
+  hitSound: {fileID: 0}
 --- !u!1 &4250406366126072081
 GameObject:
   m_ObjectHideFlags: 0
@@ -13095,6 +13097,7 @@ MonoBehaviour:
   damage: 5
   knockbackForce: 20
   direction: {x: 0, y: 1}
+  hitSound: {fileID: 0}
 --- !u!1 &6594415894394921992
 GameObject:
   m_ObjectHideFlags: 0
@@ -13250,6 +13253,7 @@ MonoBehaviour:
   damage: 5
   knockbackForce: 20
   direction: {x: 1, y: 0}
+  hitSound: {fileID: 0}
 --- !u!1 &6667841098699825558
 GameObject:
   m_ObjectHideFlags: 0
@@ -13278,8 +13282,8 @@ Transform:
   m_GameObject: {fileID: 6667841098699825558}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10, y: -3.5, z: 0}
-  m_LocalScale: {x: 3, y: 1, z: 1}
+  m_LocalPosition: {x: 10, y: -4, z: 0}
+  m_LocalScale: {x: 4, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5107399269941151316}
