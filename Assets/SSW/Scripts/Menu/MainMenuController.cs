@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.InputSystem;
 
 namespace SSW
 {
@@ -29,6 +31,8 @@ namespace SSW
         [SerializeField] SoundCue _btnClickSoundCue;
         [SerializeField] private SoundCue _matchFoundSoundCue;
 
+        [SerializeField] private GameObject _EscPanel;
+
         MultiplayerMenuUI _multiplayerMenu;
         SandboxMapMenuUI _sandboxMapMenu;
 
@@ -55,9 +59,63 @@ namespace SSW
             _settingsPanel.gameObject.SetActive(false);
             if (_leaderboardPanel != null) _leaderboardPanel.gameObject.SetActive(false);
             if (_customPanel != null) _customPanel.gameObject.SetActive(false);
+            if (_EscPanel != null) _EscPanel.SetActive(false);
             ShowMain();
             PlayTitleIntro();
         }
+
+        void Update()
+        {
+            if (Keyboard.current == null || !Keyboard.current.escapeKey.wasPressedThisFrame) return;
+            if (MultiplayerSessionManager.Current != null && MultiplayerSessionManager.Current.IsInSession) return;
+
+            if (_EscPanel.activeSelf) CancelQuit();
+            else OpenQuit();
+        }
+
+        public void OpenQuit()
+        {
+            CloseAllPanels();
+            GameAudio.Current.PlaySfx(_btnClickSoundCue);
+            _EscPanel.SetActive(true);
+        }
+        
+        public void CancelQuit()
+        {
+            _EscPanel.SetActive(false);
+            ShowMain();
+        }
+
+        void CloseAllPanels()
+        {
+            CanvasGroup[] panels =
+            {
+                _mainPanel, _playPanel, _jobPanel, _settingsPanel, _leaderboardPanel, _customPanel, _titleboardPanel,
+                _multiplayerMenu != null ? _multiplayerMenu.Group : null,
+                _sandboxMapMenu != null ? _sandboxMapMenu.Group : null,
+                //ddf
+            };
+
+            foreach (CanvasGroup panel in panels)
+            {
+                if (panel == null) continue;
+                panel.DOKill();
+                panel.gameObject.SetActive(false);
+            }
+
+            if (_title != null) _title.gameObject.SetActive(false);
+            _current = null;
+        }
+
+
+        public void ConfirmQuit()
+        {
+            GameAudio.Current.PlaySfx(_btnClickSoundCue);
+            Application.Quit();
+            Debug.Log("게임 종료함");
+
+        }
+
 
         void PlayTitleIntro()
         {

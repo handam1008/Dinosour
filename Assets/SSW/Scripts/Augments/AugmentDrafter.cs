@@ -102,10 +102,18 @@ namespace SSW
             
             foreach (Augment augment in pool.augments)
             {
-                if (augment != null && !_owned.Contains(augment) && IsEligible(augment))
+                if (augment != null && !_owned.Contains(augment) && !IsExcluded(augment) && IsEligible(augment))
                     list.Add(augment);
             }
             return list;
+        }
+
+        // 가진 증강 중 하나라도 이 증강을 막고 있으면 제외
+        bool IsExcluded(Augment augment)
+        {
+            foreach (Augment owned in _owned)
+                if (owned != null && owned.excludes != null && System.Array.IndexOf(owned.excludes, augment) >= 0) return true;
+            return false;
         }
 
         public bool TryGrant(Augment augment)

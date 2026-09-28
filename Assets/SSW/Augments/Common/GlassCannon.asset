@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: GlassCannon
   m_EditorClassIdentifier: Assembly-CSharp::SSW.CommonAugment
   displayName: "\uC720\uB9AC \uB300\uD3EC"
-  description: "\uCD5C\uB300 \uCCB4\uB825\uC774 30%, \uBAB8 \uD06C\uAE30\uAC00 10%
-    \uAC10\uC18C\uD558\uACE0 \uD53C\uD574\uAC00 80% \uC99D\uAC00\uD55C\uB2E4."
+  description: "\uCD5C\uB300 \uCCB4\uB825\uC774 <color=#3D7BFF>30%</color>, \uBAB8 \uD06C\uAE30\uAC00 <color=#3D7BFF>10%</color> \uAC10\uC18C\uD558\uACE0 \uD53C\uD574\uAC00 <color=#3D7BFF>80%</color> \uC99D\uAC00\uD55C\uB2E4."
   icon: {fileID: -8755161825233389287, guid: 7ad72fb806088544d965f202f1349ab2, type: 3}
   type: 4
   category: 0

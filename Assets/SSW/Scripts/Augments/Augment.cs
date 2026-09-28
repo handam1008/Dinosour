@@ -8,5 +8,6 @@ namespace SSW
         public string displayName;
         [TextArea] public string description;
         public Sprite icon;
+        public Augment[] excludes;
     }
 }

@@ -13,10 +13,7 @@ MonoBehaviour:
   m_Name: Blackout
   m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.Job.AugmentSO.BlackoutSO
   displayName: "\uC554\uC804"
-  description: "\uB2A5\uB825\uC0AC\uC6A9\uC2DC \uC801\uC758 \uC2DC\uC57C\uB97C 2.5\uCD08
-    \uB3D9\uC548 \uC554\uC804\uC2DC\uD0B5\uB2C8\uB2E4. \uC554\uC804\uB41C \uD50C\uB808\uC774\uC5B4\uB294
-    \uC2DC\uC57C\uAC00 \uB9E4\uC6B0 \uC881\uC544\uC9D1\uB2C8\uB2E4. (\uCFE8\uD0C0\uC784
-    15 \uCD08)"
+  description: "\uB2A5\uB825\uC0AC\uC6A9\uC2DC \uC801\uC758 \uC2DC\uC57C\uB97C <color=#3D7BFF>2.5\uCD08</color> \uB3D9\uC548 \uC554\uC804\uC2DC\uD0B5\uB2C8\uB2E4. \uC554\uC804\uB41C \uD50C\uB808\uC774\uC5B4\uB294 \uC2DC\uC57C\uAC00 \uB9E4\uC6B0 \uC881\uC544\uC9D1\uB2C8\uB2E4. (\uCFE8\uD0C0\uC784 <color=#3D7BFF>15</color> \uCD08)"
   icon: {fileID: -6459220057495080869, guid: 062d68e8af287f34b9e163891b0970bb, type: 3}
   type: 8
   blackoutDuration: 2.5
