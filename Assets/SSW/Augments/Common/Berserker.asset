@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: Berserker
   m_EditorClassIdentifier: Assembly-CSharp::SSW.CommonAugment
   displayName: "\uAD11\uC804\uC0AC"
-  description: "\uCCB4\uB825\uC774 75% \uC774\uD558\uC77C \uB54C \uC774\uB3D9 \uC18D\uB3C4\uAC00
-    45%, \uD53C\uD574\uAC00 60% \uC99D\uAC00\uD55C\uB2E4."
+  description: "\uCCB4\uB825\uC774 <color=#3D7BFF>75%</color> \uC774\uD558\uC77C \uB54C \uC774\uB3D9 \uC18D\uB3C4\uAC00 <color=#3D7BFF>45%</color>, \uD53C\uD574\uAC00 <color=#3D7BFF>60%</color> \uC99D\uAC00\uD55C\uB2E4."
   icon: {fileID: -833953387484837904, guid: 414af2ea753722e4593fc316b372cdad, type: 3}
   type: 2
   category: 0
