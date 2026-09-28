@@ -110,9 +110,12 @@ namespace SSW
         public void ConfirmQuit()
         {
             GameAudio.Current.PlaySfx(_btnClickSoundCue);
+            PlayerPrefs.Save();
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
             Application.Quit();
-            Debug.Log("게임 종료함");
-
+#endif
         }
 
 
