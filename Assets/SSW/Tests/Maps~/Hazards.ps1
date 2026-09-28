@@ -1,4 +1,4 @@
-param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges,[switch]$SkipLogin,[switch]$LavaOnly,[switch]$HealOnly,[switch]$EdgeMotion,[switch]$EdgeRound,[ValidateRange(0,3)][int]$EdgeFrom=0,[switch]$WitchOnly,[switch]$StatsOnly,[switch]$StatsProfiles,[switch]$MaterialsOnly,[switch]$MapRefreshOnly,[switch]$MapResume,[switch]$MapCycle,[switch]$MapAreas,[ValidateRange(0,5)][int]$MapFrom=0,[switch]$EffectsOnly,[switch]$EffectNet,[switch]$EffectRange,[string]$EffectFile='',[string]$VisualFile='',[string]$EffectFilter='',[string[]]$EdgeModes=@('move','dash'),[int[]]$EdgeMaps=@(),[switch]$SwingOnly,[switch]$SwingCutOnly,[int[]]$SwingMaps=@(11,12,14,15,16),[string]$SwingJob='Gunner',[switch]$CombatOnly,[string[]]$CombatJobs=@('Gunner','Gambler','Magician','Witch','Swordsman','Assassin','Knife'))
+param([string]$Run=('Run'+(Get-Date -Format 'yyyyMMddHHmmss')),[string]$Project=(Get-Location).Path,[string]$Build='Builds/Boundary/Game.exe',[switch]$SkipEdges,[switch]$SkipLogin,[switch]$LavaOnly,[switch]$HealOnly,[switch]$EdgeMotion,[switch]$EdgeRound,[ValidateRange(0,3)][int]$EdgeFrom=0,[switch]$WitchOnly,[switch]$StatsOnly,[switch]$StatsProfiles,[switch]$MaterialsOnly,[switch]$MapPatchOnly,[switch]$MapRefreshOnly,[switch]$MapResume,[switch]$MapCycle,[switch]$MapAreas,[ValidateRange(0,5)][int]$MapFrom=0,[switch]$EffectsOnly,[switch]$EffectNet,[switch]$EffectRange,[string]$EffectFile='',[string]$VisualFile='',[string]$EffectFilter='',[string[]]$EdgeModes=@('move','dash'),[int[]]$EdgeMaps=@(),[switch]$SwingOnly,[switch]$SwingCutOnly,[int[]]$SwingMaps=@(11,12,14,15,16),[string]$SwingJob='Gunner',[switch]$CombatOnly,[string[]]$CombatJobs=@('Gunner','Gambler','Magician','Witch','Swordsman','Assassin','Knife'))
 $ErrorActionPreference='Stop'
 $Project=[IO.Path]::GetFullPath($Project).Replace('\','/')
 $root="$Project/Logs/Boundary/$Run"
@@ -66,6 +66,7 @@ try{
     Eval ('var g=SSW.NetGame.GetOrCreate();g.StartLocal(true,"127.0.0.1",SSW.PlayerJob.'+$job+',30716);g.gameObject.AddComponent<SSW.NetProbe>().Init("'+$root+'/host");return true;')|Out-Null
     $clientProcess=Start-Process -FilePath (Join-Path $Project $Build) -WorkingDirectory $Project -ArgumentList @('--net-mode','client','--net-address','127.0.0.1','--net-port','30716','--net-job',$job,'--net-probe',"$root/client",'-logFile',"$root/client.log",'-screen-fullscreen','0','-screen-width','800','-screen-height','450') -WindowStyle Hidden -PassThru
     @{pid=$clientProcess.Id;path=(Join-Path $Project $Build)}|ConvertTo-Json|Set-Content "$root/ClientProcess.json"
+    if($MapPatchOnly){. "$PSScriptRoot/../MenuFlow~/Intro.ps1"}
     Await 'both drafts' {$h.phase -eq 'Draft' -and $c.phase -eq 'Draft'} 90
     Eval 'foreach(var p in SSW.NetGame.Current.Players)p.Draft.Restore(System.Array.Empty<int>());SSW.NetGame.Current.Match.Picked();return true;'|Out-Null
     Await 'playing' {$h.phase -eq 'Playing' -and $c.phase -eq 'Playing'}
@@ -76,6 +77,7 @@ try{
     Eval 'foreach(var p in SSW.NetGame.Current.Players){typeof(SSW.Health).GetMethod("SetMax",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).Invoke(p.Health,new object[]{10000f});p.Health.Heal(10000f);}return true;'|Out-Null
     if($HealOnly){. "$PSScriptRoot/../Common~/Healing.ps1";return}
     if($WitchOnly){. "$PSScriptRoot/../Augments~/Witch.ps1";return}
+    if($MapPatchOnly){. "$PSScriptRoot/../MapPatch~/Runtime.ps1";. "$PSScriptRoot/../MenuFlow~/Network.ps1";return}
     if($MapRefreshOnly){. "$PSScriptRoot/RefreshRun.ps1" -SkipLoads:$MapResume -OnlyCycle:$MapCycle -AreasOnly:$MapAreas -From $MapFrom;return}
     if($EffectNet){. "$PSScriptRoot/../Augments~/NetEffects.ps1";return}
     if($EffectFile){. "$PSScriptRoot/../Augments~/Trial.ps1";return}
