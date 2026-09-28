@@ -340,6 +340,7 @@ namespace SSW
             NetPlayer local = game.Local;
             switch (command.op)
             {
+                case "config": SaveConfig(); break;
                 case "block": local.Block(command.value != 0); break;
                 case "sound": _audio.Execute(command.value, command.x, command.y); break;
                 case "trace": _trace.Begin(_path + ".trace." + command.value + ".json", command.x); break;
