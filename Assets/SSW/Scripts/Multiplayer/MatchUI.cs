@@ -1,4 +1,3 @@
-using RYU._01.Script.Leaderboard;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -15,7 +14,7 @@ namespace SSW
         [SerializeField] RoundUI _rounds;
         [SerializeField] RoundWipe _wipe;
         [SerializeField] DraftStatus _draft;
-        [SerializeField] MatchResultView _resultView;
+        [SerializeField] RYU._01.Script.Leaderboard.MatchResultView _resultView;
 
         [Header("sound")]
         [SerializeField] SoundCue WinSound;
@@ -84,12 +83,11 @@ namespace SSW
             _exitText.text = "메인 메뉴";
             if (_game.Local != null) _game.Local.Block(true);
 
-           
-             if (_resultView != null)
-             {
-                 _panel.SetActive(false);
-                 _resultView.Show(state, _game);
-             }
+            if (_resultView != null)
+            {
+                _panel.SetActive(false);
+                _resultView.Show(state, _game);
+            }
         }
 
         public void Exit()
