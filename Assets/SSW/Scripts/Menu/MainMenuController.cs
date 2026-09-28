@@ -93,6 +93,7 @@ namespace SSW
                 _mainPanel, _playPanel, _jobPanel, _settingsPanel, _leaderboardPanel, _customPanel, _titleboardPanel,
                 _multiplayerMenu != null ? _multiplayerMenu.Group : null,
                 _sandboxMapMenu != null ? _sandboxMapMenu.Group : null,
+                //ddf
             };
 
             foreach (CanvasGroup panel in panels)
