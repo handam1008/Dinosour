@@ -24,6 +24,11 @@ namespace SSW
         [SerializeField] NetPlayer _player;
         [SerializeField] GunCast _gun;
         [SerializeField] EffectPool _pool;
+        [SerializeField] Sprite _normalBullet;
+        [SerializeField] Sprite _chargedBullet;
+        [SerializeField] Material _bulletMaterial;
+        [SerializeField] Color _bulletColor = Color.white;
+        [SerializeField] GameObject _bulletTrail;
         [SerializeField] Entry[] _effects;
         [SerializeField] GameObject _flagPrefab;
         [SerializeField] GameObject _lightningPrefab;
@@ -42,6 +47,7 @@ namespace SSW
         public override void OnNetworkSpawn()
         {
             if (_player.Job != PlayerJob.Gunner) return;
+            _pool.Warm(_bulletTrail, 4);
             foreach (Entry entry in _effects)
             {
                 _pool.Warm(entry.Normal, 1);
@@ -56,6 +62,10 @@ namespace SSW
 
         public void Attach(SpriteRenderer source, bool charged)
         {
+            source.sprite = charged ? _chargedBullet : _normalBullet;
+            source.sharedMaterial = _bulletMaterial;
+            source.color = _bulletColor;
+            _pool.Trail(_bulletTrail, source);
             foreach (Entry entry in _effects)
                 if (_gun.Has(entry.Type)) _pool.Trail(entry.Trail, source);
         }
