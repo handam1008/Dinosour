@@ -42211,7 +42211,8 @@ MonoBehaviour:
   _phoenixScalePenalty: 0.08
   _phoenixDeathSound: {fileID: 11400000, guid: e7928bb6e7b4c4b4e9959cb11eae5643, type: 2}
   _phoenixHatchSound: {fileID: 11400000, guid: 3dd728c6c9190e04bb4009f74399943a, type: 2}
-  _vampireHeal: 0.55
+  _phoenixHatchDelay: 0.4
+  _vampireHeal: 0.3
   _confidenceSpeed: 0.3
   _confidenceDuration: 2
   _berserkerRatio: 0.75
