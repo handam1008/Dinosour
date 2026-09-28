@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -53,7 +53,8 @@ namespace SSW
         [SerializeField] Text _waitingRoomNameText;
         [SerializeField] Text _joinCodeText;
         [SerializeField] Text _waitingPlayerCountText;
-        [SerializeField] Text _playerListText;
+        [SerializeField] JobCatalog _jobs;
+        [SerializeField] RoomPlayerUI[] _players;
         [SerializeField] Text _waitingMessageText;
         [SerializeField] Button _startButton;
         [SerializeField] Button _leaveButton;
@@ -210,10 +211,12 @@ namespace SSW
             _joinCodeText.text = $"참가 코드  {_sessions.JoinCode}";
             _waitingPlayerCountText.text = $"{_sessions.PlayerCount} / 2명";
 
-            StringBuilder players = new StringBuilder();
-            for (int i = 0; i < _sessions.PlayerCount; i++)
-                players.AppendLine(i == 0 ? "● 플레이어 1  (방장)" : $"● 플레이어 {i + 1}");
-            _playerListText.text = players.ToString();
+            RoomPlayer[] players = _sessions.Players.ToArray();
+            for (int i = 0; i < _players.Length; i++)
+            {
+                if (i < players.Length) _players[i].Bind(players[i], _jobs, _sessions.CanKick, KickPlayer);
+                else _players[i].gameObject.SetActive(false);
+            }
 
             _startButton.gameObject.SetActive(_sessions.IsHost);
             _startButton.interactable = _sessions.CanStart;
@@ -240,6 +243,12 @@ namespace SSW
             catch (Exception)
             {
             }
+        }
+
+        async void KickPlayer(string playerId)
+        {
+            try { await _sessions.KickPlayerAsync(playerId); }
+            catch (Exception) { UpdateStatus(); }
         }
 
         void RefreshRooms()
@@ -338,7 +347,12 @@ namespace SSW
             }
             if (!_sessions.IsInSession)
             {
-                if (_page == Page.Waiting && !_sessions.IsBusy && !_closing) ShowBrowse();
+                if (_page == Page.Waiting && !_sessions.IsBusy && !_closing)
+                {
+                    ShowPage(Page.Browse);
+                    RebuildRoomList();
+                    _refreshAt = Time.unscaledTimeAsDouble + 5d;
+                }
                 return;
             }
             if (_page != Page.Waiting)

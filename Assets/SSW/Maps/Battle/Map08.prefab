@@ -211,6 +211,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: KDH_Map 8
       objectReference: {fileID: 0}
+    - target: {fileID: 9151814517569496557, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3644087406243410299, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}
     - {fileID: 8426916693505792744, guid: e34c1f4c69055e145ba0b98d99cccba7, type: 3}

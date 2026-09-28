@@ -24,6 +24,7 @@ namespace SSW
 
         [Serializable] sealed class PlayerState
         {
+            public HudProbe hud;
             public CoinState coin;
             public ulong id;
             public string job;
@@ -339,6 +340,7 @@ namespace SSW
             NetPlayer local = game.Local;
             switch (command.op)
             {
+                case "config": SaveConfig(); break;
                 case "block": local.Block(command.value != 0); break;
                 case "sound": _audio.Execute(command.value, command.x, command.y); break;
                 case "trace": _trace.Begin(_path + ".trace." + command.value + ".json", command.x); break;
@@ -528,6 +530,7 @@ namespace SSW
                 Animator animator = player.GetComponentInChildren<Animator>();
                 players.Add(new PlayerState
                 {
+                    hud = HudProbe.Read(player),
                     coin = player.Cast.Weapon is CoinCast coin ? new CoinState
                     {
                         rolls = coin.Effects.Rolls, results = coin.Effects.Results, pending = coin.PendingRolls,
