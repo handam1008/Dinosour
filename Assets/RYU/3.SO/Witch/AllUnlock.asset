@@ -16,6 +16,9 @@ MonoBehaviour:
   description: "\uC544\uC9C1 \uC548 \uB098\uC628 \uB098\uBA38\uC9C0 \uD3EC\uC158\uC744
     \uD574\uAE08\uD558\uACE0, \uAD50\uCCB4 \uC8FC\uAE30\uAC00 \uBE68\uB77C\uC9D1\uB2C8\uB2E4."
   icon: {fileID: 4639962972407640844, guid: 7fc16e3188fdc8d4fa18553435a642db, type: 3}
+  excludes:
+  - {fileID: 11400000, guid: 5fe07bc5a8e7ec5468b1971e2659180e, type: 2}
+  - {fileID: 11400000, guid: bb05334c07b88624c87973373b7d154d, type: 2}
   type: 8
   unlockPotions:
   - {fileID: 11400000, guid: ddc2279767a763b4ba8315bb0759968a, type: 2}
