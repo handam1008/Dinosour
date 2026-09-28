@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ namespace SSW
         [SerializeField] RoundUI _rounds;
         [SerializeField] RoundWipe _wipe;
         [SerializeField] DraftStatus _draft;
+        [SerializeField] VolumePanel _volume;
        // [SerializeField] MatchResultView _resultView;
 
         [Header("sound")]
@@ -21,6 +23,7 @@ namespace SSW
         [SerializeField] SoundCue LoseSound;
         NetGame _game;
         bool _result;
+        bool _exiting;
 
         internal bool IsOpen => _panel.activeSelf;
         internal string Title => _title.gameObject.activeSelf ? _title.text : string.Empty;
@@ -33,7 +36,7 @@ namespace SSW
             _game = game;
             _resume.onClick.AddListener(Resume);
             _exit.onClick.AddListener(Exit);
-            _exitText.text = "항복";
+            _exitText.text = "나가기";
             _panel.SetActive(false);
             _rounds.Show(default, game.LocalId);
             _draft.Bind(game);
@@ -56,14 +59,18 @@ namespace SSW
 
         void Update()
         {
-            if (_result || Keyboard.current == null || !Keyboard.current.escapeKey.wasPressedThisFrame) return;
+            if (_result || _exiting || Keyboard.current == null || !Keyboard.current.escapeKey.wasPressedThisFrame) return;
             if (_panel.activeSelf) Resume();
-            else
-            {
-                _title.gameObject.SetActive(false);
-                _panel.SetActive(true);
-                if (_game.Local != null) _game.Local.Block(true);
-            }
+            else Open();
+        }
+
+        public void Open()
+        {
+            if (_result || _exiting) return;
+            _title.gameObject.SetActive(false);
+            _volume.gameObject.SetActive(true);
+            _panel.SetActive(true);
+            if (_game.Local != null) _game.Local.Block(true);
         }
 
         public void ShowResult(MatchState state)
@@ -71,6 +78,7 @@ namespace SSW
             _result = true;
             _panel.SetActive(true);
             _resume.gameObject.SetActive(false);
+            _volume.gameObject.SetActive(false);
             _title.gameObject.SetActive(true);
             
             bool won = state.Winner == _game.LocalId;
@@ -93,13 +101,28 @@ namespace SSW
 
         public void Exit()
         {
-            if (_result) _game.Exit();
-            else if (_game.Match != null) _game.Match.Surrender();
+            if (_exiting) return;
+            _exiting = true;
+            _resume.interactable = false;
+            _exit.interactable = false;
+            StartCoroutine(Leave());
+        }
+
+        IEnumerator Leave()
+        {
+            if (!_result && _game.Match != null)
+            {
+                _game.Match.Surrender();
+                float until = Time.realtimeSinceStartup + 2f;
+                while (!_result && _game.Connected && Time.realtimeSinceStartup < until) yield return null;
+            }
+            yield return null;
+            _game.Exit();
         }
 
         public void Resume()
         {
-            if (_result) return;
+            if (_result || _exiting) return;
             _panel.SetActive(false);
             if (_game.Local != null) _game.Local.Block(false);
         }

@@ -16,7 +16,7 @@ namespace SSW
         [SerializeField] VsCard _right;
         [SerializeField] AudioClip _slide;
         [SerializeField] AudioClip _hit;
-        [SerializeField, Min(0.3f)] float _hold = 0.65f;
+        [SerializeField, Min(0.3f)] float _hold = 3f;
         Sequence _motion;
         Vector2 _leftHome;
         Vector2 _rightHome;
