@@ -42426,6 +42426,11 @@ MonoBehaviour:
   _player: {fileID: 3278762098247593300}
   _gun: {fileID: 3167200579317346795}
   _pool: {fileID: 3386755608408754270}
+  _normalBullet: {fileID: 56154110734594701, guid: 25a749d7b1aee4d47b31c5375469d61c, type: 3}
+  _chargedBullet: {fileID: -8890855176392135699, guid: 188e29179ddd1cc43ac32a455e937446, type: 3}
+  _bulletMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  _bulletColor: {r: 1, g: 1, b: 1, a: 1}
+  _bulletTrail: {fileID: 3298820894688881387, guid: 3401a5d9a0508b5419a45532b2c439be, type: 3}
   _effects:
   - Type: 0
     Normal: {fileID: 5449518893915205583, guid: 8018bc9f244fede479cd829b531b4eca, type: 3}
