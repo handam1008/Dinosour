@@ -21,7 +21,7 @@ namespace SSW
         [SerializeField] SoundCue _phoenixDeathSound;
         [SerializeField] SoundCue _phoenixHatchSound;
         [SerializeField] float _phoenixHatchDelay = 0.4f;
-        [SerializeField] float _vampireHeal = 0.55f;
+        [SerializeField] float _vampireHeal = 0.30f;
         [SerializeField] float _confidenceSpeed = 0.3f;
         [SerializeField] float _confidenceDuration = 2f;
         [SerializeField] float _berserkerRatio = 0.75f;
