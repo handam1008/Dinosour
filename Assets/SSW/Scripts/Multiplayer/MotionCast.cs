@@ -199,6 +199,12 @@ namespace SSW
             if (_lastHit != null && allowed - Margin(direction) < travel)
             {
                 float permitted = Mathf.Max(0f, allowed - Margin(direction));
+                if (direction.y < 0f && _lastNormal.y > 0f && _lastNormal.y < GroundProbe.MinNormal)
+                {
+                    position += direction * permitted;
+                    Slide(ref position, ref velocity, direction * (travel - permitted), _lastNormal, dropping, dropTop);
+                    return;
+                }
                 if (travel - permitted > 0.001f)
                 {
                     if (axis.x != 0f) velocity.x = 0f;
@@ -207,6 +213,29 @@ namespace SSW
                 travel = permitted;
             }
             position += direction * travel;
+        }
+
+        void Slide(ref Vector2 position, ref Vector2 velocity, Vector2 remaining, Vector2 normal, bool dropping, float dropTop)
+        {
+            for (int pass = 0; pass < 3; pass++)
+            {
+                remaining -= normal * Mathf.Min(0f, Vector2.Dot(remaining, normal));
+                velocity -= normal * Mathf.Min(0f, Vector2.Dot(velocity, normal));
+                float travel = remaining.magnitude;
+                if (travel < 0.00001f || remaining.y >= 0f) return;
+                Vector2 direction = remaining / travel;
+                float allowed = Distance(position, direction, travel + Skin * 10f, dropping, dropTop);
+                float permitted = _lastHit == null ? travel : Mathf.Clamp(allowed - Margin(direction), 0f, travel);
+                position += direction * permitted;
+                if (permitted >= travel) return;
+                normal = _lastNormal;
+                remaining = direction * (travel - permitted);
+                if (normal.y >= GroundProbe.MinNormal)
+                {
+                    velocity.y = 0f;
+                    return;
+                }
+            }
         }
 
         float Margin(Vector2 direction) => Skin / Mathf.Max(0.1f, -Vector2.Dot(_lastNormal, direction)) + 0.001f;
@@ -236,7 +265,7 @@ namespace SSW
                 {
                     ColliderDistance2D contact = Contact(position, hit.collider);
                     if (!contact.isValid) continue;
-                    normal = -contact.normal;
+                    normal = GroundProbe.Normal(contact);
                     point = contact.pointB;
                 }
                 if (groundOnly && normal.y < GroundProbe.MinNormal) continue;

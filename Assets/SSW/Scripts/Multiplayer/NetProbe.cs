@@ -24,6 +24,7 @@ namespace SSW
 
         [Serializable] sealed class PlayerState
         {
+            public HudProbe hud;
             public CoinState coin;
             public ulong id;
             public string job;
@@ -528,6 +529,7 @@ namespace SSW
                 Animator animator = player.GetComponentInChildren<Animator>();
                 players.Add(new PlayerState
                 {
+                    hud = HudProbe.Read(player),
                     coin = player.Cast.Weapon is CoinCast coin ? new CoinState
                     {
                         rolls = coin.Effects.Rolls, results = coin.Effects.Results, pending = coin.PendingRolls,

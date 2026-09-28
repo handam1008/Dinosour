@@ -12585,13 +12585,13 @@ MonoBehaviour:
   normalHealChance: 8
   normalInvincibleChance: 8
   normalSpeedChance: 8
-  normalInstantKillChance: 1
+  normalInstantKillChance: 0.5
   normal777Chance: 5
   moreDamageChance: 7
   moreHealChance: 7
   moreInvincibleChance: 7
   moreSpeedChance: 7
-  moreInstantKillChance: 1
+  moreInstantKillChance: 0.5
   more777Chance: 7
   luckChanceBonus: 0.5
   probabilityIncrease: 1
@@ -41446,7 +41446,7 @@ MonoBehaviour:
   owner: {fileID: 337175680}
   fireCooldown: 0.2
   spawnOffset: 0.15
-  coinDamage: 10
+  coinDamage: 20
   damageMultiplier: 1
 --- !u!114 &2016847339
 MonoBehaviour:

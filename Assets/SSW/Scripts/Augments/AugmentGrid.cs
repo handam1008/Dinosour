@@ -41,16 +41,18 @@ namespace SSW
             _scroll.onValueChanged.AddListener(_ => scrolled());
         }
 
-        public void Resize(int count, Vector2 size)
+        public void Resize(int count, Vector2 size, float top = 24f)
         {
-            float width = Mathf.Min(900f, size.x - 48f);
+            float width = Mathf.Max(IconSize + Padding * 2, Mathf.Min(900f, size.x * 0.5f - 144f));
             int columns = Mathf.Max(1, Mathf.Min(count, Mathf.FloorToInt((width - Padding * 2 + Spacing) / (IconSize + Spacing))));
             int rows = Mathf.Max(1, Mathf.CeilToInt((float)count / columns));
-            int visibleRows = Mathf.Clamp(Mathf.FloorToInt((size.y * 0.35f - Padding * 2 + Spacing) / (IconSize + Spacing)), 1, 3);
+            float available = Mathf.Min(size.y * 0.3f, size.y - top - 24f);
+            int visibleRows = Mathf.Clamp(Mathf.FloorToInt((available - Padding * 2 + Spacing) / (IconSize + Spacing)), 1, 3);
             float height = rows * (IconSize + Spacing) - Spacing + Padding * 2;
             float visibleHeight = Mathf.Min(rows, visibleRows) * (IconSize + Spacing) - Spacing + Padding * 2;
             width = columns * (IconSize + Spacing) - Spacing + Padding * 2;
             _viewport.sizeDelta = new Vector2(width, visibleHeight);
+            _viewport.anchoredPosition = new Vector2(-24f, -top);
             Content.sizeDelta = new Vector2(width, height);
             _layout.constraintCount = columns;
             _scroll.vertical = height > visibleHeight;
