@@ -38,7 +38,7 @@ namespace JJW.Script.Jackpot
         [SerializeField] private float maximum777Chance = 10f;
 
         [Header("Guaranteed Jackpot Augment")]
-        [SerializeField] private int requiredWinningCount = 20;
+        [SerializeField] private int requiredWinningCount = 30;
 
         [Header("Old Coin Augment")]
         [SerializeField] private float oldCoinChance = 1f;

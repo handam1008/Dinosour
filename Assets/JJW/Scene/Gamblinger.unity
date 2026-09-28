@@ -12596,7 +12596,7 @@ MonoBehaviour:
   luckChanceBonus: 0.5
   probabilityIncrease: 1
   maximum777Chance: 10
-  requiredWinningCount: 20
+  requiredWinningCount: 30
   oldCoinChance: 1
   damageMultiplier: 1.3
   healAmount: 50
@@ -41446,7 +41446,7 @@ MonoBehaviour:
   owner: {fileID: 337175680}
   fireCooldown: 0.2
   spawnOffset: 0.15
-  coinDamage: 20
+  coinDamage: 15
   damageMultiplier: 1
 --- !u!114 &2016847339
 MonoBehaviour:
