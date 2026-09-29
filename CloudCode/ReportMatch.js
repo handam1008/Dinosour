@@ -29,11 +29,13 @@ module.exports = async ({ params, context, logger }) => {
   const amount = Math.max(1, Math.round(base * multiplier));
 
   const newScore = isWin ? me.score + amount : Math.max(0, me.score - amount);
-  await api.addLeaderboardPlayerScore(projectId, LEADERBOARD_ID, playerId, { score: newScore });
+  const saved = await api.addLeaderboardPlayerScore(projectId, LEADERBOARD_ID, playerId, { score: newScore });
+  // 저장 응답에 새 순위가 들어있어서, 게임이 순위표를 다시 읽지 않아도 된다 (없으면 -1 → 게임이 직접 읽음)
+  const rank = saved && saved.data && typeof saved.data.rank === "number" ? saved.data.rank : -1;
 
   const delta = newScore - me.score;
-  logger.info("ReportMatch", { playerId, isWin, mySets, opponentSets, myTier, opponentTier, base, multiplier, delta, newScore });
-  return { delta: delta, score: newScore };
+  logger.info("ReportMatch", { playerId, isWin, mySets, opponentSets, myTier, opponentTier, base, multiplier, delta, newScore, rank });
+  return { delta: delta, score: newScore, rank: rank };
 };
 
 function validate(playerId, isWin, mySets, opponentSets, opponentId) {

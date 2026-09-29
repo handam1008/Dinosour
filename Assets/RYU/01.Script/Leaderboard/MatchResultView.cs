@@ -135,7 +135,7 @@ namespace RYU._01.Script.Leaderboard
         {
             StopListening();
             _waiting = false;
-            _ = AnimateAsync(result.delta);
+            _ = AnimateAsync(result);
         }
 
     
@@ -160,10 +160,14 @@ namespace RYU._01.Script.Leaderboard
             ShowMessage("점수를 불러오지 못했습니다");
         }
 
-        private async Task AnimateAsync(int delta)
+        private async Task AnimateAsync(MatchReportResult result)
         {
+            int delta = result.delta;
             Record? before = await _before;
-            Record? after = await LoadRecordAsync();
+            // 서버가 새 순위를 같이 보내주면 순위표를 다시 읽지 않는다 (한 번 덜 기다림)
+            Record? after = result.rank >= 0
+                ? new Record { Ranked = true, Score = result.score, Tier = RankTier.FromRank(result.rank) }
+                : await LoadRecordAsync();
             if (this == null) return;
 
             if (!after.HasValue || !after.Value.Ranked)

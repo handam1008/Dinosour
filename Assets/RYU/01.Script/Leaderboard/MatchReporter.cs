@@ -10,6 +10,7 @@ namespace RYU._01.Script.Leaderboard
     {
         public int delta;
         public double score;
+        public int rank = -1;   // 서버가 새 순위를 안 보내면 -1 (옛 Cloud Code)
     }
 
     public static class MatchReporter
