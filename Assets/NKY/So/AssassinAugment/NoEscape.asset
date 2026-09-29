@@ -13,8 +13,15 @@ MonoBehaviour:
   m_Name: NoEscape
   m_EditorClassIdentifier: Assembly-CSharp::NKY.Scripts.Job.AugmentSO.NoEscapeSO
   displayName: "\uD0C8\uCD9C \uBD88\uAC00"
+<<<<<<< HEAD
+  description: "\uAE30\uBCF8\uACF5\uACA9 \uC801\uC911\uC2DC \uC774\uB3D9\uC18D\uB3C4
+    70%\uAC10\uC18C\uD6A8\uACFC\uB97C 0.5\uCD08\uB3D9\uC548 \uBD80\uC5EC\uD569\uB2C8\uB2E4
+    (\uCFE8\uD0C0\uC784 4\uCD08)"
+  icon: {fileID: -4531485152520469040, guid: 83ae06009b7efbd4a9dfdb04a822dfd2, type: 3}
+=======
   description: "\uAE30\uBCF8\uACF5\uACA9 \uC801\uC911\uC2DC \uC774\uB3D9\uC18D\uB3C4 <color=#3D7BFF>70%</color>\uAC10\uC18C\uD6A8\uACFC\uB97C <color=#3D7BFF>0.5\uCD08</color>\uB3D9\uC548 \uBD80\uC5EC\uD569\uB2C8\uB2E4 (\uCFE8\uD0C0\uC784 <color=#3D7BFF>4\uCD08</color>)"
   icon: {fileID: 21300000, guid: bebb0b2a849e89c4eb133f4e13f63caf, type: 3}
+>>>>>>> 7d811d016407f1a457bdbce5d0ca9cf32e2f6fe0
   type: 4
   slowedMultiplier: 0.7
   duration: 0.5

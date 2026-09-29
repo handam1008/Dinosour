@@ -205,9 +205,17 @@ namespace SSW
 
         void Waterfalls()
         {
+            foreach (MonoBehaviour raw in _read.Of("KDH_SmallWaterfall"))
+                Waterfall(raw, new SerializedObject(raw).FindProperty("addForceAmount").floatValue, 0f, 0f);
             foreach (MonoBehaviour raw in _read.Of("KDH_Waterfall"))
             {
                 var source = new SerializedObject(raw);
+                if (MapBake.Patched(_number))
+                {
+                    Waterfall(raw, source.FindProperty("force").floatValue,
+                        source.FindProperty("relationTime").floatValue, source.FindProperty("duration").floatValue);
+                    continue;
+                }
                 LiftZone lift = _read.Get<LiftZone>(raw);
                 if (lift == null)
                 {
@@ -223,6 +231,32 @@ namespace SSW
                     throw new InvalidOperationException("폭포 원본에 새 주기 설정이 있습니다. 기존 상시 상승과 구분해 연결해야 합니다.");
                 _read.Replace(raw, lift);
             }
+        }
+
+        void Waterfall(MonoBehaviour raw, float force, float delay, float duration)
+        {
+            var effects = new List<ParticleSystem>();
+            foreach (MonoBehaviour source in _read.Of("KDH_WaterfallEffect"))
+            {
+                if (new SerializedObject(source).FindProperty("waterfall").objectReferenceValue != raw) continue;
+                ParticleSystem effect = _read.Get<ParticleSystem>(source);
+                var main = effect.main;
+                main.playOnAwake = false;
+                PrefabUtility.RecordPrefabInstancePropertyModifications(effect);
+                effects.Add(effect);
+                _read.Remove(source);
+            }
+            LiftZone previous = _read.Get<LiftZone>(raw);
+            if (previous != null) Object.DestroyImmediate(previous);
+            WaterLift lift = _read.Add<WaterLift>(raw);
+            MapRead.Edit(lift, target =>
+            {
+                target.FindProperty("_force").floatValue = force;
+                target.FindProperty("_delay").floatValue = delay;
+                target.FindProperty("_duration").floatValue = duration;
+                MapRead.Array(target, "_effects", effects);
+            });
+            _read.Replace(raw, lift);
         }
 
         void Sakura()
