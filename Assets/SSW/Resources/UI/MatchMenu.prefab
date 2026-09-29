@@ -3866,10 +3866,10 @@ MonoBehaviour:
   content: {fileID: 6209699366928963579}
   loading: {fileID: 5565982584585094864}
   holdBeforeCount: 0.8
-  countDuration: 1
-  countSound: {fileID: 0}
-  tierUpSound: {fileID: 0}
-  tierDownSound: {fileID: 0}
+  countDuration: 2.8
+  countSound: {fileID: 11400000, guid: 74d6e5b446ffe2a469cdb8a842979f89, type: 2}
+  tierUpSound: {fileID: 11400000, guid: 83baf9170f2840f42ad249b5078a201f, type: 2}
+  tierDownSound: {fileID: 11400000, guid: 812b744fa27dbb64a9550bc6d7d18cca, type: 2}
 --- !u!1 &6645665197922787193
 GameObject:
   m_ObjectHideFlags: 0
