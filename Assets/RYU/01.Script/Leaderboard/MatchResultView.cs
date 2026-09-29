@@ -35,8 +35,12 @@ namespace RYU._01.Script.Leaderboard
         [SerializeField] private Sprite unrankedSprite;
         [SerializeField] private float timeout = 8f;
 
+        [Header("로딩 (점수가 올 때까지 결과 대신 보여줌)")]
+        [SerializeField] private GameObject content;   // 승패·스코어·티어·점수를 묶은 부모
+        [SerializeField] private GameObject loading;   // "점수 계산 중..." 표시
+
         [Header("연출")]
-        [SerializeField] private float holdBeforeCount = 0.8f;   // 경기 전 점수를 보여주는 시간
+        [SerializeField] private float holdBeforeCount = 0.5f;   // 경기 전 점수를 보여주는 시간
         [SerializeField] private float countDuration = 1f;
         [SerializeField] private SoundCue countSound;
         [SerializeField] private SoundCue tierUpSound;
@@ -89,15 +93,31 @@ namespace RYU._01.Script.Leaderboard
             });
             roundScoreText.SetText($"{mine} : {theirs}");
 
-            // 무승부·탈주·항복은 점수가 저장되지 않으므로 경기 전 기록만 보여준다
+            // 점수가 저장되는 경기(녹아웃)는 점수가 올 때까지 로딩만 보여준다.
+            // 무승부·탈주·항복은 저장되지 않으므로 바로 결과를 보여준다
             if (state.Reason == MatchEnd.Knockout)
             {
+                SetLoading(true);
                 _waiting = true;
                 MatchReporter.Reported += OnReported;
                 StartCoroutine(Timeout());
             }
+            else Reveal();
 
             _ = ShowBeforeAsync();
+        }
+
+        private void SetLoading(bool value)
+        {
+            if (loading != null) loading.SetActive(value);
+            if (content != null) content.SetActive(!value);
+        }
+
+        // 로딩을 끄고 결과를 보여준다. 연출 대기 시간은 이때부터 잰다
+        private void Reveal()
+        {
+            SetLoading(false);
+            _shownAt = Time.unscaledTime;
         }
 
         private async Task ShowBeforeAsync()
@@ -123,6 +143,7 @@ namespace RYU._01.Script.Leaderboard
 
             MatchReporter.Reported -= OnReported;
             _waiting = false;
+            Reveal();
             scoreText.SetText("점수를 불러오지 못했습니다");
         }
 
@@ -134,6 +155,7 @@ namespace RYU._01.Script.Leaderboard
 
             if (!after.HasValue || !after.Value.Ranked)
             {
+                Reveal();
                 scoreText.SetText("점수를 불러오지 못했습니다");
                 return;
             }
@@ -141,6 +163,7 @@ namespace RYU._01.Script.Leaderboard
             // 경기 전 기록을 못 받았으면 변화량으로 거꾸로 계산 (이 경우 티어 연출은 생략)
             Record start = before ?? new Record { Ranked = true, Score = after.Value.Score - delta, Tier = after.Value.Tier };
             _animating = true;
+            Reveal();
             StartCoroutine(Play(start, after.Value, delta));
         }
 
@@ -257,7 +280,7 @@ namespace RYU._01.Script.Leaderboard
             if (tierIcon != null) tierIcon.transform.localScale = _iconScale;
 
             _animating = true;
-            _shownAt = Time.unscaledTime;
+            Reveal();
             resultText.SetText(won ? "승리!" : "패배");
             roundScoreText.SetText(won ? "4 : 1" : "1 : 4");
             StartCoroutine(Play(from, to, delta));
