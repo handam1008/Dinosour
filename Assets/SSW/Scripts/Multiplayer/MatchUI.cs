@@ -85,11 +85,11 @@ namespace SSW
             if (_game.Local != null) _game.Local.Block(true);
 
             // 결과 화면이 연결돼 있으면 기존 패널 대신 그걸 띄운다
-            // if (_resultView != null)
-            // {
-            //     _panel.SetActive(false);
-            //     _resultView.Show(state, _game);
-            // }
+            if (_resultView != null)
+            {
+                _panel.SetActive(false);
+                _resultView.Show(state, _game);
+            }
         }
 
         public void Exit()
