@@ -164,7 +164,6 @@ namespace RYU._01.Script.Leaderboard
         {
             int delta = result.delta;
             Record? before = await _before;
-            // 서버가 새 순위를 같이 보내주면 순위표를 다시 읽지 않는다 (한 번 덜 기다림)
             Record? after = result.rank >= 0
                 ? new Record { Ranked = true, Score = result.score, Tier = RankTier.FromRank(result.rank) }
                 : await LoadRecordAsync();
@@ -282,74 +281,6 @@ namespace RYU._01.Script.Leaderboard
             tierIcon.sprite = sprite;
             tierIcon.enabled = sprite != null;
         }
-
-      
-
-#if UNITY_EDITOR
-        // ─── 인스펙터 테스트 버튼용 (가짜 데이터, 서버·점수 저장 안 함) ───
-        public void TestPromote() => RunTest(true, Ranked(289, 3), Ranked(312, 4), 23);
-        public void TestFirstMatch() => RunTest(true, new Record { Ranked = false }, Ranked(15, 0), 15);
-        public void TestSameTier() => RunTest(true, Ranked(100, 1), Ranked(118, 1), 18);
-        public void TestDemote() => RunTest(false, Ranked(205, 3), Ranked(190, 2), -15);
-
-        // 로딩 화면 → 1.5초 뒤 성공(승급 연출) 또는 실패 문구
-        public void TestLoading(bool success)
-        {
-            if (!PrepareTest(true)) return;
-
-            SetLoading(true);
-            StartCoroutine(FakeReport(success));
-        }
-
-        private IEnumerator FakeReport(bool success)
-        {
-            yield return new WaitForSecondsRealtime(1.5f);
-
-            if (!success)
-            {
-                Reveal();
-                ShowRecord(Ranked(289, 3), null);
-                ShowMessage("점수를 불러오지 못했습니다");
-                yield break;
-            }
-
-            _animating = true;
-            Reveal();
-            yield return Play(Ranked(289, 3), Ranked(312, 4), 23);
-        }
-
-        private static Record Ranked(double score, int tier) => new Record { Ranked = true, Score = score, Tier = tier };
-
-        private void RunTest(bool won, Record from, Record to, int delta)
-        {
-            if (!PrepareTest(won)) return;
-
-            _animating = true;
-            Reveal();
-            StartCoroutine(Play(from, to, delta));
-        }
-
-        private bool PrepareTest(bool won)
-        {
-            if (!Application.isPlaying)
-            {
-                Debug.LogWarning("[MatchResultView] 플레이 모드에서만 테스트할 수 있습니다.");
-                return false;
-            }
-
-            _shown = true;
-            if (root == null) root = gameObject;
-            root.SetActive(true);
-            StopAllCoroutines();
-            StopListening();
-            _waiting = false;
-            if (tierIcon != null) tierIcon.transform.localScale = _iconScale;
-
-            resultText.SetText(won ? "승리!" : "패배");
-            roundScoreText.SetText(won ? "4 : 1" : "1 : 4");
-            return true;
-        }
-#endif
 
         private static string TierName(Record record) => record.Ranked ? RankTier.Names[record.Tier] : RankTier.Unranked;
 
