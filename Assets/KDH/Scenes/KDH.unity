@@ -1685,6 +1685,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _visual: {fileID: 978401332}
+  jumpSoundCue: {fileID: 0}
+  speedUpSoundCue: {fileID: 0}
 --- !u!1 &1455394507
 GameObject:
   m_ObjectHideFlags: 0
@@ -2458,7 +2460,7 @@ Transform:
   m_GameObject: {fileID: 7686893400146233274}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: -2.74, z: 0}
+  m_LocalPosition: {x: 3, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2835,6 +2837,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _visual: {fileID: 5450423498755123269}
+  jumpSoundCue: {fileID: 0}
+  speedUpSoundCue: {fileID: 0}
 --- !u!114 &6268266984548465651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2967,8 +2971,12 @@ MonoBehaviour:
   _healthBarResourceName: HealthBarUI
   _damageNumberResourceName: DamageNumberUI
   _healthBarPadding: 0.15
+  _numberAnchor: {fileID: 0}
   healthChangeEvent: {fileID: 11400000, guid: 4bffae8994c8b2440973b7b481cec1f3, type: 2}
   hitEvent: {fileID: 11400000, guid: ba1b79262c399f14ca5594cd639dfcfd, type: 2}
+  healingSoundCue: {fileID: 0}
+  hitSoundCue: {fileID: 0}
+  deadSoundCue: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

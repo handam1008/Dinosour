@@ -1213,7 +1213,6 @@ namespace _02.Script
             }
           
         }
-        
 
         public override void BindingUGSEvents()
         {
