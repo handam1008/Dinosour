@@ -14,6 +14,9 @@ namespace SSW
         {
             _rect = AugmentUI.Create("JobAugmentTooltip", parent);
             AugmentUI.TopRight(_rect);
+            Canvas canvas = _rect.gameObject.AddComponent<Canvas>();   
+            canvas.overrideSorting = true;                            
+            canvas.sortingOrder = 60;     
             Image background = _rect.gameObject.AddComponent<Image>();
             background.color = new Color(0.025f, 0.027f, 0.032f, 0.98f);
             background.raycastTarget = false;

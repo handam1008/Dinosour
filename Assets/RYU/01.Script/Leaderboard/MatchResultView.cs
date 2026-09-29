@@ -30,13 +30,16 @@ namespace RYU._01.Script.Leaderboard
         [SerializeField] private TMP_Text scoreText;
         [SerializeField] private Button mainMenuButton;
 
-        [Tooltip("0 원숭이, 1 공룡, 2 마그마, 3 메테오, 4 빙하기, 5 멸종")]
         [SerializeField] private Sprite[] tierSprites = new Sprite[6];
         [SerializeField] private Sprite unrankedSprite;
         [SerializeField] private float timeout = 8f;
 
+        [Header("로딩 (점수가 올 때까지 결과 대신 보여줌)")]
+        [SerializeField] private GameObject content;   
+        [SerializeField] private GameObject loading;  
+
         [Header("연출")]
-        [SerializeField] private float holdBeforeCount = 0.8f;   // 경기 전 점수를 보여주는 시간
+        [SerializeField] private float holdBeforeCount = 0.5f;   
         [SerializeField] private float countDuration = 1f;
         [SerializeField] private SoundCue countSound;
         [SerializeField] private SoundCue tierUpSound;
@@ -55,16 +58,20 @@ namespace RYU._01.Script.Leaderboard
             if (mainMenuButton != null) mainMenuButton.onClick.AddListener(() => NetGame.Current?.Exit());
             if (tierIcon != null) _iconScale = tierIcon.transform.localScale;
 
-            // 결과 화면은 경기 시작 때 만들어지므로, 이때 경기 전 기록을 미리 받아둔다
             if (_before == null) _before = LoadRecordAsync();
 
-            // 프리팹에서 꺼진 채로 저장돼 있다가 Show에서 처음 켜질 때도 Awake가 불리므로, 그때는 다시 끄지 않는다
             if (!_shown) root.SetActive(false);
         }
 
         private void OnDestroy()
         {
+            StopListening();
+        }
+
+        private void StopListening()
+        {
             MatchReporter.Reported -= OnReported;
+            MatchReporter.Failed -= OnFailed;
         }
 
         public void Show(MatchState state, NetGame game)
@@ -89,15 +96,30 @@ namespace RYU._01.Script.Leaderboard
             });
             roundScoreText.SetText($"{mine} : {theirs}");
 
-            // 무승부·탈주·항복은 점수가 저장되지 않으므로 경기 전 기록만 보여준다
+          
             if (state.Reason == MatchEnd.Knockout)
             {
+                SetLoading(true);
                 _waiting = true;
                 MatchReporter.Reported += OnReported;
+                MatchReporter.Failed += OnFailed;
                 StartCoroutine(Timeout());
             }
+            else Reveal();
 
             _ = ShowBeforeAsync();
+        }
+
+        private void SetLoading(bool value)
+        {
+            if (loading != null) loading.SetActive(value);
+            if (content != null) content.SetActive(!value);
+        }
+
+        private void Reveal()
+        {
+            SetLoading(false);
+            _shownAt = Time.unscaledTime;
         }
 
         private async Task ShowBeforeAsync()
@@ -106,14 +128,25 @@ namespace RYU._01.Script.Leaderboard
             if (this == null || _animating) return;
 
             if (before.HasValue) ShowRecord(before.Value, null);
-            else scoreText.SetText(_waiting ? "점수 계산 중..." : "점수를 불러오지 못했습니다");
+            else ShowMessage(_waiting ? "점수 계산 중..." : "점수를 불러오지 못했습니다");
         }
 
         private void OnReported(MatchReportResult result)
         {
-            MatchReporter.Reported -= OnReported;
+            StopListening();
             _waiting = false;
             _ = AnimateAsync(result.delta);
+        }
+
+    
+        private void OnFailed(Exception error)
+        {
+            StopListening();
+            if (!_waiting || this == null) return;
+
+            _waiting = false;
+            Reveal();
+            ShowMessage("점수를 불러오지 못했습니다");
         }
 
         private IEnumerator Timeout()
@@ -121,9 +154,10 @@ namespace RYU._01.Script.Leaderboard
             yield return new WaitForSecondsRealtime(timeout);
             if (!_waiting) yield break;
 
-            MatchReporter.Reported -= OnReported;
+            StopListening();
             _waiting = false;
-            scoreText.SetText("점수를 불러오지 못했습니다");
+            Reveal();
+            ShowMessage("점수를 불러오지 못했습니다");
         }
 
         private async Task AnimateAsync(int delta)
@@ -134,19 +168,24 @@ namespace RYU._01.Script.Leaderboard
 
             if (!after.HasValue || !after.Value.Ranked)
             {
-                scoreText.SetText("점수를 불러오지 못했습니다");
+                Reveal();
+                ShowMessage("점수를 불러오지 못했습니다");
                 return;
             }
 
-            // 경기 전 기록을 못 받았으면 변화량으로 거꾸로 계산 (이 경우 티어 연출은 생략)
+           
+            if (before.HasValue && before.Value.Ranked && Math.Abs(before.Value.Score + delta - after.Value.Score) > 0.5)
+                before = null;
+
+           
             Record start = before ?? new Record { Ranked = true, Score = after.Value.Score - delta, Tier = after.Value.Tier };
             _animating = true;
+            Reveal();
             StartCoroutine(Play(start, after.Value, delta));
         }
 
         private IEnumerator Play(Record from, Record to, int delta)
         {
-            // 경기 전 점수를 잠깐 보여준 뒤 시작
             ShowRecord(from, null);
             float wait = holdBeforeCount - (Time.unscaledTime - _shownAt);
             if (wait > 0f) yield return new WaitForSecondsRealtime(wait);
@@ -176,13 +215,11 @@ namespace RYU._01.Script.Leaderboard
             Transform icon = tierIcon != null ? tierIcon.transform : tierText.transform;
             Vector3 baseScale = tierIcon != null ? _iconScale : Vector3.one;
 
-            // 작아지면서 사라졌다가
             yield return Scale(icon, baseScale, Vector3.zero, 0.15f);
 
             SetTierVisual(to);
             tierText.SetText($"{TierName(to)} {(up ? "승급!" : "강등")}");
 
-            // 크게 튀어나온 뒤 원래 크기로
             yield return Scale(icon, Vector3.zero, baseScale * 1.35f, 0.18f);
             yield return Scale(icon, baseScale * 1.35f, baseScale, 0.12f);
 
@@ -202,7 +239,6 @@ namespace RYU._01.Script.Leaderboard
             target.localScale = to;
         }
 
-        // 순위표에서 내 기록 조회. 순위표에 없으면 Ranked=false, 조회 실패면 null
         private static async Task<Record?> LoadRecordAsync()
         {
             try
@@ -218,6 +254,11 @@ namespace RYU._01.Script.Leaderboard
                 bool unranked = e.Message.Contains("404") || e.Message.Contains("not found", StringComparison.OrdinalIgnoreCase);
                 return unranked ? new Record { Ranked = false } : (Record?)null;
             }
+        }
+        
+        private void ShowMessage(string message)
+        {
+            scoreText.SetText($"<size={35}%>{message}</size>");
         }
 
         private void ShowRecord(Record record, int? delta)
@@ -240,28 +281,71 @@ namespace RYU._01.Script.Leaderboard
 
       
 
+#if UNITY_EDITOR
+        // ─── 인스펙터 테스트 버튼용 (가짜 데이터, 서버·점수 저장 안 함) ───
+        public void TestPromote() => RunTest(true, Ranked(289, 3), Ranked(312, 4), 23);
+        public void TestFirstMatch() => RunTest(true, new Record { Ranked = false }, Ranked(15, 0), 15);
+        public void TestSameTier() => RunTest(true, Ranked(100, 1), Ranked(118, 1), 18);
+        public void TestDemote() => RunTest(false, Ranked(205, 3), Ranked(190, 2), -15);
+
+        // 로딩 화면 → 1.5초 뒤 성공(승급 연출) 또는 실패 문구
+        public void TestLoading(bool success)
+        {
+            if (!PrepareTest(true)) return;
+
+            SetLoading(true);
+            StartCoroutine(FakeReport(success));
+        }
+
+        private IEnumerator FakeReport(bool success)
+        {
+            yield return new WaitForSecondsRealtime(1.5f);
+
+            if (!success)
+            {
+                Reveal();
+                ShowRecord(Ranked(289, 3), null);
+                ShowMessage("점수를 불러오지 못했습니다");
+                yield break;
+            }
+
+            _animating = true;
+            Reveal();
+            yield return Play(Ranked(289, 3), Ranked(312, 4), 23);
+        }
+
         private static Record Ranked(double score, int tier) => new Record { Ranked = true, Score = score, Tier = tier };
 
         private void RunTest(bool won, Record from, Record to, int delta)
         {
+            if (!PrepareTest(won)) return;
+
+            _animating = true;
+            Reveal();
+            StartCoroutine(Play(from, to, delta));
+        }
+
+        private bool PrepareTest(bool won)
+        {
             if (!Application.isPlaying)
             {
                 Debug.LogWarning("[MatchResultView] 플레이 모드에서만 테스트할 수 있습니다.");
-                return;
+                return false;
             }
 
             _shown = true;
             if (root == null) root = gameObject;
             root.SetActive(true);
             StopAllCoroutines();
+            StopListening();
+            _waiting = false;
             if (tierIcon != null) tierIcon.transform.localScale = _iconScale;
 
-            _animating = true;
-            _shownAt = Time.unscaledTime;
             resultText.SetText(won ? "승리!" : "패배");
             roundScoreText.SetText(won ? "4 : 1" : "1 : 4");
-            StartCoroutine(Play(from, to, delta));
+            return true;
         }
+#endif
 
         private static string TierName(Record record) => record.Ranked ? RankTier.Names[record.Tier] : RankTier.Unranked;
 
