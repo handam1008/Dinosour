@@ -59,10 +59,8 @@ namespace RYU._01.Script.Leaderboard
             if (mainMenuButton != null) mainMenuButton.onClick.AddListener(() => NetGame.Current?.Exit());
             if (tierIcon != null) _iconScale = tierIcon.transform.localScale;
 
-            // 결과 화면은 경기 시작 때 만들어지므로, 이때 경기 전 기록을 미리 받아둔다
             if (_before == null) _before = LoadRecordAsync();
 
-            // 프리팹에서 꺼진 채로 저장돼 있다가 Show에서 처음 켜질 때도 Awake가 불리므로, 그때는 다시 끄지 않는다
             if (!_shown) root.SetActive(false);
         }
 
@@ -93,8 +91,7 @@ namespace RYU._01.Script.Leaderboard
             });
             roundScoreText.SetText($"{mine} : {theirs}");
 
-            // 점수가 저장되는 경기(녹아웃)는 점수가 올 때까지 로딩만 보여준다.
-            // 무승부·탈주·항복은 저장되지 않으므로 바로 결과를 보여준다
+          
             if (state.Reason == MatchEnd.Knockout)
             {
                 SetLoading(true);
@@ -113,7 +110,6 @@ namespace RYU._01.Script.Leaderboard
             if (content != null) content.SetActive(!value);
         }
 
-        // 로딩을 끄고 결과를 보여준다. 연출 대기 시간은 이때부터 잰다
         private void Reveal()
         {
             SetLoading(false);
@@ -160,7 +156,6 @@ namespace RYU._01.Script.Leaderboard
                 return;
             }
 
-            // 경기 전 기록을 못 받았으면 변화량으로 거꾸로 계산 (이 경우 티어 연출은 생략)
             Record start = before ?? new Record { Ranked = true, Score = after.Value.Score - delta, Tier = after.Value.Tier };
             _animating = true;
             Reveal();
@@ -169,7 +164,6 @@ namespace RYU._01.Script.Leaderboard
 
         private IEnumerator Play(Record from, Record to, int delta)
         {
-            // 경기 전 점수를 잠깐 보여준 뒤 시작
             ShowRecord(from, null);
             float wait = holdBeforeCount - (Time.unscaledTime - _shownAt);
             if (wait > 0f) yield return new WaitForSecondsRealtime(wait);
@@ -199,13 +193,11 @@ namespace RYU._01.Script.Leaderboard
             Transform icon = tierIcon != null ? tierIcon.transform : tierText.transform;
             Vector3 baseScale = tierIcon != null ? _iconScale : Vector3.one;
 
-            // 작아지면서 사라졌다가
             yield return Scale(icon, baseScale, Vector3.zero, 0.15f);
 
             SetTierVisual(to);
             tierText.SetText($"{TierName(to)} {(up ? "승급!" : "강등")}");
 
-            // 크게 튀어나온 뒤 원래 크기로
             yield return Scale(icon, Vector3.zero, baseScale * 1.35f, 0.18f);
             yield return Scale(icon, baseScale * 1.35f, baseScale, 0.12f);
 
@@ -225,7 +217,6 @@ namespace RYU._01.Script.Leaderboard
             target.localScale = to;
         }
 
-        // 순위표에서 내 기록 조회. 순위표에 없으면 Ranked=false, 조회 실패면 null
         private static async Task<Record?> LoadRecordAsync()
         {
             try
