@@ -3867,9 +3867,9 @@ MonoBehaviour:
   loading: {fileID: 5565982584585094864}
   holdBeforeCount: 0.8
   countDuration: 1
-  countSound: {fileID: 0}
-  tierUpSound: {fileID: 0}
-  tierDownSound: {fileID: 0}
+  countSound: {fileID: 11400000, guid: ebe4b4a2727ba724f9223eba53f7bd99, type: 2}
+  tierUpSound: {fileID: 11400000, guid: 27f7dd78f477c2940934fa091ca46359, type: 2}
+  tierDownSound: {fileID: 11400000, guid: 055a3b22389400143987a5b96510f880, type: 2}
 --- !u!1 &6645665197922787193
 GameObject:
   m_ObjectHideFlags: 0
